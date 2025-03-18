@@ -71,7 +71,7 @@ Python 3.9 - 3.11 VSCode
    
 
 ## License
-The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](License.md) file.
+The source code for the project is licensed under the MIT license, which you can find in the [LICENSE](License.md) file.
 
 ## Contact
 If you have more questions or need further insights please feel free to connect with us @
