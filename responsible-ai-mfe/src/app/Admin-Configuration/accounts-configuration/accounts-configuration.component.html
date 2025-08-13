@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <!--  -->
 
@@ -32,7 +33,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
 
         <div (click)="toggleTabs('Template')" *ngIf="Accountselected" hidden>
-            <label class="Sub-HeadingLable" [ngClass]="{
+            <label class="Sub-HeadingLable"    [ngClass]="{
                 'activeTab': tab =='Template',
               }">Template Mapping</label>
         </div>
@@ -44,61 +45,72 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div class="d-flex justify-content-between" style="width: 100%;">
 
 
-                    <div style="width: 100%;">
+                        <div style="width: 100%;">
 
-                        <form [formGroup]="AccountForm" (ngSubmit)="save()" style="width: 100%; display: flex;">
-                            <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                            <form [formGroup]="AccountForm" (ngSubmit)="save()" style="width: 100%; display: flex;">
+                                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
 
-                            <select id="select1" (change)="this.accountDropDown()" class="form-select col-4 me-3" formControlName="portfolio" hint="hi">
+                                <select id="select1" (change)="this.accountDropDown()" class="form-select col-4 me-3"
+                                    formControlName="portfolio" hint="hi">
                                     <option selected disabled value="Portfolio Name">Portfolio Name</option>
                                     <option *ngFor="let option of Portfolio_options" [value]="option">{{option}}
                                     </option>
                                 </select>
-                            <select id="select2" class="form-select col-4" (change)="activateSubcommands()" formControlName="account" *ngIf="portfolioSelected">
+                                <select id="select2" class="form-select col-4" (change)="activateSubcommands()"
+                                    formControlName="account" *ngIf="portfolioSelected">
                                     <option selected disabled value="Account Name">Account Name</option>
                                     <option *ngFor="let option of Account_options" [value]="option">{{option}}</option>
                                 </select>
-                        </form>
-                    </div>
-                    <!-- <div>
+                            </form>
+                        </div>
+                        <!-- <div>
                             <span class="btnRound addBtn" [ngbPopover]="popoverContent" [autoClose]="false"
                                 triggers="manual" #p="ngbPopover" (click)="test(p)" [popoverTitle]="Poptitle">+</span>
                         </div> -->
 
+                    </div>
                 </div>
-            </div>
-            <!--  -->
-            <div *ngIf="tab =='Privacy'&& Accountselected" hidden>
-                <div id="accordionPri" class="mt-3">
-                    <div class="card">
-                        <div class="card-header cursor" id="headingOne" data-toggle="collapse" data-target="#PRICollapse" aria-expanded="true" aria-controls="PRICollapse">
-                            <h5 class="mb-0 mt-n2">
-                                <label class="mainLabel2 cursor">
+                <!--  -->
+                <div *ngIf="tab =='Privacy'&& Accountselected" hidden>
+                    <div id="accordionPri" class="mt-3">
+                        <div class="card">
+                            <div class="card-header cursor" id="headingOne" data-toggle="collapse"
+                                data-target="#PRICollapse" aria-expanded="true" aria-controls="PRICollapse">
+                                <h5 class="mb-0 mt-n2">
+                                    <label class="mainLabel2 cursor">
                                         Privacy Parameters
                                     </label>
-                            </h5>
-                        </div>
-                        <div id="PRICollapse" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionPri">
-                            <div class="card-body">
-                                <div style="max-width: 100%;">
-                                    <div class="d-flex" style="max-width: 100%;">
+                                </h5>
+                            </div>
+                            <div id="PRICollapse" class="collapse show" aria-labelledby="headingOne"
+                                data-parent="#accordionPri">
+                                <div class="card-body">
+                                    <div style="max-width: 100%;">
+                                        <div class="d-flex" style="max-width: 100%;">
 
 
-                                        <div class="d-flex justify-content-center align-items-center">
-                                            <label class="mainLabel" style="margin-bottom: 0%;">Recognizer type :
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                <label class="mainLabel" style="margin-bottom: 0%;">Recognizer type :
                                                 </label>
-                                            <mat-select #select1 multiple id="selectApplicableAttacks" class="dropdown" [(ngModel)]="selectedReclist" placeholder="Select Recognizer type :">
-                                                <div class="select-all">
-                                                    <mat-checkbox (change)="toggleAllSelection1($event)" color="primary">Select All
-                                                    </mat-checkbox>
-                                                </div>
-                                                <mat-option (click)="selectRecognizertype()" class="dropdownOptions" *ngFor="let attack of listReconList" [value]="attack.RecogId">
-                                                    {{attack.RecogName}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </div>
-                                        <div class="d-flex justify-content-center align-items-center ps-3">
-                                            <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 0px;" color="black" (click)="submit()">Submit</button>
+                                                <mat-select #select1 multiple id="selectApplicableAttacks"
+                                                    class="dropdown" [(ngModel)]="selectedReclist"
+                                                    placeholder="Select Recognizer type :">
+                                                    <div class="select-all">
+                                                        <mat-checkbox (change)="toggleAllSelection1($event)"
+                                                            color="primary">Select
+                                                            All</mat-checkbox>
+                                                    </div>
+                                                    <mat-option (click)="selectRecognizertype()" class="dropdownOptions"
+                                                        *ngFor="let attack of listReconList" [value]="attack.RecogId">
+                                                        {{attack.RecogName}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </div>
+                                            <div class="d-flex justify-content-center align-items-center ps-3">
+                                                <button mat-raised-button class="buttonMain align-bottom"
+                                                    style="margin-top: 0px;" color="black"
+                                                    (click)="submit()">Submit</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -106,125 +118,136 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         </div>
                     </div>
                 </div>
-            </div>
-            <div *ngIf="tab =='Safety'&& Accountselected " hidden>
-                <app-safety-parameters [parPortfolio]="AccountForm.value.portfolio" [parAccount]="AccountForm.value.account"></app-safety-parameters>
-            </div>
-            <div *ngIf="tab =='FM'&& Accountselected " hidden>
-                <app-fm-parameters [parPortfolio]="AccountForm.value.portfolio" [parAccount]="AccountForm.value.account"></app-fm-parameters>
-            </div>
-            <div *ngIf="tab =='Template'&& Accountselected " hidden>
+                <div *ngIf="tab =='Safety'&& Accountselected "hidden>
+                    <app-safety-parameters [parPortfolio]="AccountForm.value.portfolio"
+                        [parAccount]="AccountForm.value.account"></app-safety-parameters>
+                </div>
+                <div *ngIf="tab =='FM'&& Accountselected "hidden>
+                    <app-fm-parameters [parPortfolio]="AccountForm.value.portfolio"
+                        [parAccount]="AccountForm.value.account"></app-fm-parameters>
+                </div>
+                 <div *ngIf="tab =='Template'&& Accountselected " hidden>
                 <app-template-mapping [parPortfolio]="AccountForm.value.portfolio" [parAccount]="AccountForm.value.account"></app-template-mapping>
             </div>
 
 
 
+            </div>
+
+
+            <!-- Content for the right column -->
         </div>
+        <!--  -->
 
 
-        <!-- Content for the right column -->
+
     </div>
-    <!--  -->
-
-
-
-</div>
-<!-- div for buttons -->
-<!-- <div style="text-align: right; padding-right: 5rem;">
+    <!-- div for buttons -->
+    <!-- <div style="text-align: right; padding-right: 5rem;">
         <button style="margin-right: 5px;">Button 1</button>
         <button>Button 2</button>
     </div> -->
-<div class="d-flex justify-content-end" style="padding-right: 5rem; margin-bottom: 2rem;">
-    <button mat-raised-button [class.disabled]="!Accountselected" [disabled]="!Accountselected" class="buttonMain" color="black" style="margin-right: 5px;" (click)="openRightSideModal4(AccountForm.value)">Manage Mapping</button>
-    <button mat-raised-button class="buttonMain" color="black" [ngbPopover]="popoverContent" [autoClose]="false" triggers="manual" #p="ngbPopover" (click)="test(p)" [popoverTitle]="Poptitle"> Create Account </button>
-</div>
-
-<!-- start of table div  -->
-<div>
-    <div class="button-container2">
-        <!-- <label class="HeadingLabel2">Account </label> -->
-        <!-- <button mat-icon-button color="primary2" (click)="getLotDetails('admin')" style="margin-right: 2.5rem">
-                <mat-icon>refresh</mat-icon>
-            </button> -->
+    <div class="d-flex justify-content-end" style="padding-right: 5rem; margin-bottom: 2rem;">
+        <button mat-raised-button [class.disabled]="!Accountselected" [disabled]="!Accountselected" class="buttonMain" color="black" style="margin-right: 5px;" (click)="openRightSideModal4(AccountForm.value)">Create Mapping</button>
+        <button mat-raised-button class="buttonMain" color="black"
+        [ngbPopover]="popoverContent" [autoClose]="false"
+        triggers="manual" #p="ngbPopover" (click)="test(p)" [popoverTitle]="Poptitle"
+        > Create Account </button>
     </div>
-    <table class="styled-table">
-        <tr>
-            <!-- <th class="header">Account Master ID</th> -->
-            <th class="header">Portfolio Name</th>
-            <th class="header">account Name</th>
-            <!-- <th class="header">Activity</th> -->
-            <!-- <th class="header">Creation</th> -->
-            <!-- <th class="header">Status</th> -->
-            <th class="header align-content-center text-center">Privacy Map</th>
-            <th class="header align-content-center text-center">Safety Map</th>
-            <th class="header align-content-center text-center">FM Map</th>
-            <th class="header align-content-center text-center">Template Map</th>
-            <th class="header align-content-center text-center">Action</th>
-        </tr>
-        <tr *ngFor="let element of dataSource| paginate : pagingConfig; let i = index">
-            <!-- <td> {{element.lotNumber}}</td> -->
-            <!-- <td class="upper-case" [ngClass]="{'gereen-text': isCompleted(element.status)}"> {{element.status}}</td> -->
-            <!-- <td class="upper-case"> {{element.accMasterId}}</td> -->
-            <td class="upper-case"> {{element.portfolio}}</td>
-            <td class="upper-case"> {{element.account}}</td>
-            <!-- <td class="upper-case"> {{element.isActive}}</td> -->
-            <!-- <td class="upper-case"> {{element.isCreated}}</td> -->
-            <!-- <td class="upper-case"> {{element.isCreated}}</td> -->
-            <!-- <td class="upper-case align-content-center text-center">
+
+    <!-- start of table div  -->
+    <div>
+        <div class="search-container">
+            <div class="search-bar" [class.active]="isSearchOpen">
+              <mat-icon class="search-icon" (click)="toggleSearch()">search</mat-icon>
+              <input type="text" placeholder="Search Users" [(ngModel)]="searchQuery" (input)="search()" />
+              <button class="close-button" *ngIf="isSearchOpen" (click)="closeSearch()">
+                <mat-icon class="close-icon">close</mat-icon>
+              </button>
+            </div>
+          </div>
+        <table class="styled-table">
+            <tr>
+                <!-- <th class="header">Account Master ID</th> -->
+                <th class="header">Portfolio Name</th>
+                <th class="header">account Name</th>
+                <!-- <th class="header">Activity</th> -->
+                <!-- <th class="header">Creation</th> -->
+                <!-- <th class="header">Status</th> -->
+                <th class="header align-content-center text-center">Privacy Map</th>
+                <th class="header align-content-center text-center">Safety Map</th>
+                <th class="header align-content-center text-center">FM Map</th>
+                <th class="header align-content-center text-center">Template Map</th>
+                <th class="header align-content-center text-center">Action</th>
+            </tr>
+            <tr *ngFor="let element of filteredDataSource | paginate : pagingConfig; let i = index">
+                <!-- <td> {{element.lotNumber}}</td> -->
+                <!-- <td class="upper-case" [ngClass]="{'gereen-text': isCompleted(element.status)}"> {{element.status}}</td> -->
+                <!-- <td class="upper-case"> {{element.accMasterId}}</td> -->
+                <td class="upper-case"> {{element.portfolio}}</td>
+                <td class="upper-case"> {{element.account}}</td>
+                <!-- <td class="upper-case"> {{element.isActive}}</td> -->
+                <!-- <td class="upper-case"> {{element.isCreated}}</td> -->
+                <!-- <td class="upper-case"> {{element.isCreated}}</td> -->
+                <!-- <td class="upper-case align-content-center text-center">
                 </td> -->
-            <!--  -->
-            <!-- the modal trs start here  -->
-            <td class="upper-case align-content-center text-center">
-                <button mat-icon-button color="primary2" (click)="openRightSideModal1(element.accMasterId,element.ThresholdScore)"><mat-icon>
+                <!--  -->
+                <!-- the modal trs start here  -->
+                <td class="upper-case align-content-center text-center" >
+                    <button mat-icon-button color="primary2"
+                        (click)="openRightSideModal1(element.accMasterId,element.ThresholdScore)"><mat-icon>
                             remove_red_eye
                         </mat-icon>
                     </button>
-            </td>
-            <td class="upper-case align-content-center text-center">
-                <button mat-icon-button color="primary2" (click)="openRightSideModal2(element.accMasterId)"><mat-icon>
+                </td>
+                <td class="upper-case align-content-center text-center" >
+                    <button mat-icon-button color="primary2"
+                        (click)="openRightSideModal2(element.accMasterId)"><mat-icon>
                             remove_red_eye
                         </mat-icon>
                     </button>
-            </td>
-            <td class="upper-case align-content-center text-center">
-                <button mat-icon-button color="primary2" (click)="openRightSideModal3(element.accMasterId)"><mat-icon>
+                </td>
+                <td class="upper-case align-content-center text-center" >
+                    <button mat-icon-button color="primary2" (click)="openRightSideModal3(element.accMasterId)"><mat-icon>
                             remove_red_eye
                         </mat-icon>
                     </button>
-            </td>
-            <td class="upper-case align-content-center text-center">
-                <button mat-icon-button color="primary2" (click)="openRightSideModal5(element.accMasterId)"><mat-icon>
+                </td>
+                <td class="upper-case align-content-center text-center" >
+                    <button mat-icon-button color="primary2" (click)="openRightSideModal5(element.accMasterId,element.account,element.portfolio)"><mat-icon>
                             remove_red_eye
                         </mat-icon>
                     </button>
-            </td>
-            <!-- the modal tds end here  -->
-            <!--  -->
-            <td class="upper-case align-content-center text-center ">
-                <!-- <button class="mr-2" mat-icon-button color="primary4"><mat-icon>
+                </td>
+                <!-- the modal tds end here  -->
+                <!--  -->
+                <td class="upper-case align-content-center text-center ">
+                    <!-- <button class="me-2" mat-icon-button color="primary4"><mat-icon>
                             edit
                         </mat-icon></button> -->
-                <button mat-icon-button color="primary3" (click)="deleteAccounttGroup(element.accMasterId)"><mat-icon>
+                    <button mat-icon-button color="primary3"
+                        (click)="deleteAccounttGroup(element.accMasterId)"><mat-icon>
                             delete
                         </mat-icon>
                     </button>
-            </td>
-            <!-- <i class="material-icons">remove_red_eye</i> -->
+                </td>
+                <!-- <i class="material-icons">remove_red_eye</i> -->
 
-        </tr>
-    </table>
-    <!-- pagination -->
-    <div class="d-flex justify-content-between mt-3">
-        <div class="pagination-info">
-            Showing {{ pagingConfig.totalItems
-            < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }} </div>
-                <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
-                </pagination-controls>
+            </tr>
+        </table>
+        <!-- pagination -->
+        <div class="d-flex justify-content-between mt-3">
+            <div class="pagination-info">
+                Showing {{ pagingConfig.totalItems < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }}
+            </div>
+            <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next"
+                (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
         </div>
         <!--  -->
     </div>
 
-    <!-- </div> -->
+<!-- </div> -->
 
 
 
@@ -234,35 +257,37 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 
 
-    <ng-template #popoverContent>
-        <form [formGroup]="NewAccPort">
-            <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-            <div class='form-group'>
-                <label for='input1' class="mainLabel">Portfolio Name</label>
-                <input type='text' class='form-control InputPop' formControlName="portfolio" id='input1'>
-                <span *ngIf="NewAccPort.get('portfolio')?.invalid && NewAccPort.get('portfolio')?.touched" class="text-danger">
+<ng-template #popoverContent>
+    <form [formGroup]="NewAccPort">
+        <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+        <div class='form-group'>
+            <label for='input1' class="mainLabel">Portfolio Name</label>
+            <input type='text' class='form-control InputPop' formControlName="portfolio" id='input1'>
+            <span *ngIf="NewAccPort.get('portfolio')?.invalid && NewAccPort.get('portfolio')?.touched"
+                class="text-danger">
                 Portfolio Name is required and should be at least 3 characters long.
             </span>
-            </div>
-            <div class='form-group'>
-                <label for='input2 ' class="mainLabel">Account Name</label>
-                <input type='text' class='form-control InputPop' formControlName="account" id='input2'>
-                <span *ngIf="NewAccPort.get('account')?.invalid && NewAccPort.get('account')?.touched" class="text-danger">
+        </div>
+        <div class='form-group'>
+            <label for='input2 ' class="mainLabel">Account Name</label>
+            <input type='text' class='form-control InputPop' formControlName="account" id='input2'>
+            <span *ngIf="NewAccPort.get('account')?.invalid && NewAccPort.get('account')?.touched" class="text-danger">
                 Account Name is required.
             </span>
-            </div>
-            <button mat-raised-button type='submit' class='buttonMain' color="black" (click)="p.close()" [disabled]="NewAccPort.invalid" (click)="createNewAccPot()">Create</button>
-        </form>
-    </ng-template>
-    <ng-template #Poptitle>
-        <div class="d-flex">
+        </div>
+        <button mat-raised-button type='submit' class='buttonMain' color="black" (click)="p.close()"
+            [disabled]="NewAccPort.invalid" (click)="createNewAccPot()">Create</button>
+    </form>
+</ng-template>
+<ng-template #Poptitle>
+    <div class="d-flex">
 
 
-            <label class="HeadingLabel"> Create Account & Portfolio Name</label>
-            <button (click)="p.close()" style="border: none; background: none; cursor: pointer;">
+    <label class="HeadingLabel"> Create Account & Portfolio Name</label>
+    <button (click)="p.close()" style="border: none; background: none; cursor: pointer;">
         <span class="material-icons" style="font-size: 20px;">close</span>
     </button>
-        </div>
-    </ng-template>
+</div>
+</ng-template>
 
-    <!--  -->
+<!--  -->

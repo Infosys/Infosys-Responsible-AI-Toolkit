@@ -1,6 +1,6 @@
 '''
 MIT license https://opensource.org/licenses/MIT
-Copyright 2024-2025 Infosys Ltd
+Copyright 2024 Infosys Ltd
  
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
@@ -33,51 +33,54 @@ async def moderationTelemetryProcessing(data: ModerationResults):
     moderationElasticDataPush(data)
     return response_data
 
-# ## FOR Moderation Request Telemetry API
-# @moderationRouter.post('/moderationrequesttelemetryapi')
-# async def moderationRequestTelemetryProcessing(data: ModerationRequestData):
-#     now = datetime.now()
-#     today= now.isoformat()
-#     # print(data.uniqueid)
-#     # Generate a response
-#     response_data = {
-#         # 'message': response_message,
-#         'data': data
-#     }
-#     # print("DATA SENT", data)
-#     # print(data.uniqueid)
-#     moderationRequestElasticDataPush(data)
-#     return response_data
+## FOR Moderation Request Telemetry API
+@moderationRouter.post('/moderationrequesttelemetryapi')
+async def moderationRequestTelemetryProcessing(data: ModerationRequestData):
+    print("ELASTIC URL in API===",os.getenv("ELASTIC_URL"))
+    now = datetime.now()
+    today= now.isoformat()
+    # print(data.uniqueid)
+    # Generate a response
+    response_data = {
+        # 'message': response_message,
+        'data': data
+    }
+    # print("DATA SENT", data)
+    # print(data.uniqueid)
+    moderationRequestElasticDataPush(data)
+    return response_data
 
-# ## FOR Coupled Moderation Request Telemetry API
-# @moderationRouter.post('/coupledmoderationrequesttelemetryapi')
-# async def coupledModerationRequestTelemetryProcessing(data: CoupledModerationRequestData):
-#     now = datetime.now()
-#     today= now.isoformat()
+## FOR Coupled Moderation Request Telemetry API
+@moderationRouter.post('/coupledmoderationrequesttelemetryapi')
+async def coupledModerationRequestTelemetryProcessing(data: CoupledModerationRequestData):
+    print("ELASTIC URL in API===",os.getenv("ELASTIC_URL"))
+    now = datetime.now()
+    today= now.isoformat()
 
-#     # Generate a response
-#     response_data = {
-#         # 'message': response_message,
-#         'data': data
-#     }
-#     # print("DATA SENT", data)
-#     # print(data.uniqueid)
-#     coupledRequestModerationElasticDataPush(data)
-#     return response_data
+    # Generate a response
+    response_data = {
+        # 'message': response_message,
+        'data': data
+    }
+    # print("DATA SENT", data)
+    # print(data.uniqueid)
+    coupledRequestModerationElasticDataPush(data)
+    return response_data
 
-# ## FOR TESTING THE MODERATION API
-# @moderationRouter.post('/moderationtelemetryapitest')
-# async def moderationTelemetryProcessing(data: ModerationResults):
-#     now = datetime.now()
-#     today= now.isoformat()
-#     print(data.uniqueid)
-#     # Generate a response
-#     response_data = {
-#         # 'message': response_message,
-#         'data': data
-#     }
-#     print("DATA SENT", data)
-#     print(data.uniqueid)
-#     moderationElasticDataPushTest(data)
-#     return response_data
+## FOR TESTING THE MODERATION API
+@moderationRouter.post('/moderationtelemetryapitest')
+async def moderationTelemetryProcessing(data: ModerationResults):
+    print("ELASTIC URL in API===",os.getenv("ELASTIC_URL"))
+    now = datetime.now()
+    today= now.isoformat()
+    print(data.uniqueid)
+    # Generate a response
+    response_data = {
+        # 'message': response_message,
+        'data': data
+    }
+    print("DATA SENT", data)
+    print(data.uniqueid)
+    moderationElasticDataPushTest(data)
+    return response_data
 

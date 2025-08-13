@@ -1,4 +1,6 @@
 """
+SPDX-License-Identifier: MIT
+
 Copyright 2024 - 2025 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -14,6 +16,7 @@ from langchain.schema import HumanMessage,ChatMessage
 import time
 import os
 from RAG.config.logger import CustomLogger,request_id_var
+
 log = CustomLogger()
 import traceback
 try:
@@ -228,55 +231,64 @@ The response should only contain the reasoning and the score in number seperated
 For example: "This is the reason, 0.1."
 DO not deviate from the format."""
 
-def call_openai_model(prompt):
-    response = None
-    strt_time = time.perf_counter()
-    # deployment_name = os.getenv("OPENAI_MODEL")
-    # openai.api_base = os.environ.get("OPENAI_API_BASE")
-    # openai.api_key = os.environ.get("OPENAI_API_KEY")
-    # openai.api_version = os.environ.get("OPENAI_API_VERSION")
-
-    while response is None:
-        try:
-            # messages=[
-            #         {"role": "system", "content": "You are a helpful assistant. The response should contain only score. Nothing Else."},
-            #         {"role": "user", "content": prompt},
-            #     ]
-            # client = AzureOpenAI(api_key=openai.api_key, 
-            #                      azure_endpoint=openai.api_base,
-            #                      api_version=openai.api_version)
-            # response = client.chat.completions.create(
-            #     model=deployment_name,
-            #     messages = messages,
-            #     temperature=temperature
-            #     )
-            # response = openai.ChatCompletion.create(
-            #     engine=deployment_name,
-            #     messages=messages,
-            #     temperature = temperature
-            #     )
+def call_openai_model(prompt,llmtype):
+    """
+    Calls the OpenAI model with the given prompt and returns the response.
+    """
+    print("inside model selection")
+    print(f"llmtype: {llmtype}")
+    try:
+        if llmtype == "openai":
             llm = AzureChatOpenAI(deployment_name=os.getenv("OPENAI_MODEL"), openai_api_version=os.environ.get("OPENAI_API_VERSION"), openai_api_key=os.environ.get("OPENAI_API_KEY"), openai_api_base=os.environ.get("OPENAI_API_BASE"))
             msg = ChatMessage(role='user',content=prompt)
             response=llm(messages=[msg])
-        except Exception as e:
-            log.info("Failed at call_openai_model")
-            log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-            log.info('Retrying...')
-            time.sleep(2)
-        end_time = time.perf_counter()
-        if(end_time-strt_time>10):
-            raise Exception("Error")
-    try:
-        # output = response.choices[0].message.content
+        elif llmtype=="gemini":
+            try:
+                log.info("Using Gemini LLM")
+                from langchain_google_genai import ChatGoogleGenerativeAI
+                llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"), temperature=0, transport='rest')
+                log.info("Using Gemini LLM")
+                # msg = HumanMessage(content=prompt)
+                response=llm.invoke(prompt)
+                print("Response from Gemini:", response)
+            except Exception as e:
+                log.error("Failed to call Gemini model")
+                log.error(f"Exception: {e,str(traceback.extract_tb(e.__traceback__)[0].lineno)}")
+                response=None
+        elif llmtype=="aws":
+            from langchain_aws import ChatBedrock
+            import boto3
+            sslverify=os.getenv('SSL_VERIFY').lower() == 'true'
+            print("SSL Verification is set to:", sslverify)
+            bedrock_client = boto3.client(
+                service_name=os.getenv("AWS_SERVICE_NAME"),
+                aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+                aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+                aws_session_token=os.getenv("AWS_SESSION_TOKEN"),
+                region_name= os.getenv("AWS_REGION"),
+                verify=sslverify  # Disable SSL verification
+            )
+            llm = ChatBedrock(
+                name=os.getenv("AWS_SERVICE_NAME"),
+                model_id=os.getenv("AWS_MODEL_ID"),
+                model_kwargs={"max_tokens": 512, "temperature": 0.1},
+                client=bedrock_client  # Use the custom client
+            )
+            log.info("AWS Bedrock model initialized successfully")
+            response = llm.invoke(prompt)
         output=response.content
         print(output)
     except Exception as e:
-        output = 'do not have reponse from chatgpt'
+        output = 'do not have reponse from model'
         log.error(f"Exception: {e,str(traceback.extract_tb(e.__traceback__)[0].lineno)}")
     return output 
 
-def gEval(text,response,sourcetext):
+def gEval(text,response,sourcetext,llmtype):
+    """
+    Evaluates the faithfulness, relevance, adherence, and correctness of a response to a given text and source document.
+    """
     try:
+        print("Inside geval")
         st=time.time()
         curr_faith_prompt = faith_prompt.replace('{{prompt}}', text).replace('{{document}}', sourcetext).replace('{{response}}', response)
         curr_rel_prompt = rel_prompt.replace('{{prompt}}', text).replace('{{document}}', sourcetext).replace('{{response}}', response)
@@ -286,12 +298,20 @@ def gEval(text,response,sourcetext):
         prompts = [curr_faith_prompt, curr_rel_prompt, curr_adh_prompt, curr_corr_prompt]
         scoresDict = {'faithfulness': 0, 'relevance': 0, 'adherance': 0, 'correctness': 0, 'AverageScore': 0}
         resDict = {'faithfulness': '', 'relevance': '', 'adherance': '', 'correctness': ''}
-
+        
+        
         scores, reasonings, fin_score,pindx = [],[],0,0
         breakpt = 0
         while(pindx<len(prompts)):
             try:
-                res = call_openai_model(prompts[pindx])   
+                res = call_openai_model(prompts[pindx],llmtype) 
+                # Calculate token counts
+                # input_token = calculate_token_count(text)
+                # output_token = calculate_token_count(res)
+
+                # # Get token cost
+                # token_cost = get_token_cost(input_token, output_token, "gpt-4")
+                
                 last_comma_index = res.rfind(',')
                 halres=res[:last_comma_index]  
                 halscore=float(res[last_comma_index+1:])

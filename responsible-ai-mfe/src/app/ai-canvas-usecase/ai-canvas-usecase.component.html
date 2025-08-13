@@ -1,104 +1,109 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="le-u-pad-t-32 le-u-pad-lr-24">
-
+    
     <form [formGroup]="aiCanvasForm">
         <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-        <div style="display: flex;">
-
-            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+        <div  style="display: flex;">
+        
+            <div class="col-lg-4 col-md-4 le-u-mar-b-16" >
                 <span class="textFontCss">Business Problem</span>
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="BusinessProblem" (keyup)="countWords($event,0)">{{aiCanvasForm.controls['BusinessProblem'].value}}</textarea><br>
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" 
+                    formControlName="BusinessProblem"
+                    (keyup)="countWords($event,0)">{{aiCanvasForm.controls['BusinessProblem'].value}}</textarea><br>
             </div>
-
-            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;">
-
+            
+            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;" >
+    
                 <span class="textFontCss">Data Strategy
                 </span>
-
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="DataStrategy" (keyup)="countWords($event,3)">{{aiCanvasForm.controls['DataStrategy'].value}}</textarea><br>
-
+    
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="DataStrategy" (keyup)="countWords($event,3)">{{aiCanvasForm.controls['DataStrategy'].value}}</textarea><br>
+    
             </div>
         </div>
 
-        <div style="display: flex;">
+        <div  style="display: flex;">
             <!-- <div class="le-u-pad-t-32 le-u-pad-lr-24"> -->
-            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
-
-                <span class="textFontCss">Business Value</span>
-
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="BusinessValue" (keyup)="countWords($event,1)">{{aiCanvasForm.controls['BusinessValue'].value}}</textarea><br>
-
-            </div>
-            <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
-            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;">
-
+                <div class="col-lg-4 col-md-4 le-u-mar-b-16" >
+    
+                    <span class="textFontCss">Business Value</span>
+        
+        
+                    <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" 
+                        formControlName="BusinessValue"
+                        (keyup)="countWords($event,1)">{{aiCanvasForm.controls['BusinessValue'].value}}</textarea><br>
+        
+                </div>
+                <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
+            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;" >
+    
                 <span class="textFontCss">Modelling Approach
                 </span>
-
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="ModellingApproach" (keyup)="countWords($event,4)">{{aiCanvasForm.controls['ModellingApproach'].value}}</textarea><br>
-
+    
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="ModellingApproach" (keyup)="countWords($event,4)">{{aiCanvasForm.controls['ModellingApproach'].value}}</textarea><br>
+    
             </div>
         </div>
 
 
-        <div style="display: flex;">
+        <div  style="display: flex;">
             <!-- <div class="le-u-pad-t-32 le-u-pad-lr-24"> -->
-
-            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                
+            <div class="col-lg-4 col-md-4 le-u-mar-b-16" >
                 <span class="textFontCss">End User Value</span>
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="EndUserValue" (keyup)="countWords($event,2)">{{aiCanvasForm.controls['EndUserValue'].value}}</textarea><br>
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="EndUserValue" (keyup)="countWords($event,2)">{{aiCanvasForm.controls['EndUserValue'].value}}</textarea><br>
             </div>
             <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;">
-
+    
                 <span class="textFontCss">Model Training
                 </span>
-
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="ModelTraining" (keyup)="countWords($event,5)">{{aiCanvasForm.controls['ModelTraining'].value}}</textarea><br>
-
+    
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="ModelTraining" (keyup)="countWords($event,5)">{{aiCanvasForm.controls['ModelTraining'].value}}</textarea><br>
+    
             </div>
         </div>
 
-        <div style="display: flex;">
+        <div  style="display: flex;">
             <!-- <div class="le-u-pad-t-32 le-u-pad-lr-24"> -->
             <div class="col-lg-4 col-md-4 le-u-mar-b-16">
                 <span class="textFontCss">Objective Function</span>
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="ObjectiveFunction" (keyup)="countWords($event,6)">{{aiCanvasForm.controls['ObjectiveFunction'].value}}</textarea><br>
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="ObjectiveFunction" (keyup)="countWords($event,6)">{{aiCanvasForm.controls['ObjectiveFunction'].value}}</textarea><br>
             </div>
             <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;">
-
+    
                 <span class="textFontCss">AI Cloud & Engineering Services
                 </span>
-
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="AICloudEngineeringServices" (change)="emitDataToParent()" (keyup)="countWords($event,7)">{{aiCanvasForm.controls['AICloudEngineeringServices'].value}}</textarea><br>
-
+    
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="AICloudEngineeringServices" (change)="emitDataToParent()" (keyup)="countWords($event,7)">{{aiCanvasForm.controls['AICloudEngineeringServices'].value}}</textarea><br>
+    
             </div>
         </div>
 
-        <div style="display: flex;">
+        <div  style="display: flex;">
             <!-- <div class="le-u-pad-t-32 le-u-pad-lr-24"> -->
-            <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
+                <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
             <div class="col-lg-4 col-md-4 le-u-mar-b-16">
                 <span class="textFontCss">Responsible AI Approach</span>
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="ResponsibleAIApproach" (keyup)="countWords($event,8)" (change)="emitDataToParent()">{{aiCanvasForm.controls['ResponsibleAIApproach'].value}}</textarea><br>
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="ResponsibleAIApproach" (keyup)="countWords($event,8)" (change)="emitDataToParent()">{{aiCanvasForm.controls['ResponsibleAIApproach'].value}}</textarea><br>
             </div>
             <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
-            <div>
-
-
-
+            <div >
+    
+                
+    
             </div>
         </div>
 

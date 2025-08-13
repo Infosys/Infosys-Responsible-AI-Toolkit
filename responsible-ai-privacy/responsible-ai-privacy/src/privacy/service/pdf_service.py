@@ -40,21 +40,18 @@ class PDFService:
         try:
             request_id_var.set(uid)
             img=pdf_file.extract_image(imgs[0])
-            # print("img================",img)
+
             if  len(img["image"])<700:
                 return None
             bb=page.get_image_bbox(imgs)
-            # print("r=====",bb)
+
             imgd=io.BytesIO(img["image"])
             # payload={"easyocr":None,"mag_ratio":False,"rotationFlag":False,"image":AttributeDict({"file":imgd}),"portfolio":None,"account":None,"exclusion":None}
             payload["image"]=AttributeDict({"file":imgd})
-            payload["piiEntitiesToBeRedacted"]=None
+            # payload["piiEntitiesToBeRedacted"]=None
             resImage=ImagePrivacy.image_anonymize(AttributeDict(payload))
             resImg =base64.b64decode(resImage)
-            # print(img)
-            # print("pg=",page)
-            # imageList.append((fitz.Rect(bb[0],bb[1],bb[2],bb[3]),resImg))
-            # print("list1",len(imageList))
+
             page.insert_image(fitz.Rect(bb[0],bb[1],bb[2],bb[3]),stream=resImg)
         except Exception as e:
                 log.error(str(e))
@@ -65,40 +62,32 @@ class PDFService:
                 raise Exception(e)
     def editText(text,i,page):
         request_id_var.set("editText")
-        log.debug(str(text[i.start:i.end])+":"+str(i.entity_type))
+        log.debug(unidecode(str(text[i.start:i.end]))+":"+str(i.entity_type))
         x=page.search_for(text[i.start:i.end])
-        # print(x)
+
         for inst in x:
             # Create a redaction annotation to replace the text
-            # print(inst)
+
             page.add_redact_annot(inst, "<"+i.entity_type+">",fontname="helv", fontsize=15) 
             # page.insert_text((inst[0],inst[1]), i.entity_type,fontname="helv", fontsize=5) 
             # page.write_text((inst[0],inst[1]), (i.entity_type),overlay=True)
     def processText(page,payload,uid):
         try:
             request_id_var.set(uid)
-            text=unidecode(page.get_text())
-
-            # print(text)
-            # print("==",payload)
+            text=page.get_text()
+             
             accDetails=None
             if(payload.portfolio!=None):
-                accDetails=AttributeDict({"portfolio":payload.portfolio,"account":payload.account})
+                accDetails=AttributeDict({"portfolio":payload.portfolio,"account":payload.account})             
             
-            # res=TextPrivacy.analyze()
-            
-            # print("==",accDetails)
-            res=TextPrivacy.textAnalyze(text=text,accName=accDetails,exclusion=payload.exclusion.split(',') if payload.exclusion != None else [])
-            # if(len(res)==0):
-                # return
-            # print("==",res)
-            # print(len(res))
+            res=TextPrivacy.textAnalyze(text=text,accName=accDetails,exclusion=payload.exclusion.split(',') if payload.exclusion != None else [],piiEntitiesToBeRedacted=payload.piiEntitiesToBeRedacted.split(',') if payload.piiEntitiesToBeRedacted != None else [],nlp=payload.nlp)
+
             res=anonymizer._remove_conflicts_and_get_text_manipulation_data(res,(
                 ConflictResolutionStrategy.MERGE_SIMILAR_OR_CONTAINED
             ))
-            # print(len(res))
+
             res=anonymizer._merge_entities_with_whitespace_between(text,res)
-            # print(res)
+
             resThreds=[]
             for i in res:
 
@@ -109,15 +98,7 @@ class PDFService:
                     thread.join()  
             page.apply_redactions(images=fitz.PDF_REDACT_IMAGE_NONE)
 
-                # print(text[i.start:i.end],i.entity_type)
-                # x=page.search_for(text[i.start:i.end])
-                # print(x)
-                # for inst in x:
-                #     # Create a redaction annotation to replace the text
-                #     print(inst)
-                #     page.add_redact_annot(inst, "<"+i.entity_type+">",fontname="helv", fontsize=15) 
-                    # page.insert_text((inst[0],inst[1]), i.entity_type,fontname="helv", fontsize=5) 
-                    # page.write_text((inst[0],inst[1]), (i.entity_type),overlay=True) 
+ 
         except Exception as e:
                 log.error(str(e))
                 log.error("Line No:"+str(e.__traceback__.tb_lineno))
@@ -130,20 +111,20 @@ class PDFService:
             log.debug("payload:-"+str(payload))
             id = uuid.uuid4().hex
             request_id_var.set(id)
-
+            payload = AttributeDict(payload)
+           
             if(payload.portfolio!=None or payload.account!=None):
                 response_value=ApiCall.request(AttributeDict({"portfolio":payload.portfolio,"account":payload.account}))
                 if(response_value==None):
                         return None
             fitz.TOOLS.set_small_glyph_heights(True)
             pdf_file=fitz.open(stream=payload.file.file.read(), filetype="pdf")
-            # print(f)
-            # print(len(f))
+
             # new_pdf = fitz.open(filetype="pdf")
       
             for page_index in range(len(pdf_file)): 
                     page = pdf_file[page_index] 
-                #   print(page)
+
                     threads=[]
                     thread = threading.Thread(target=PDFService.processText, args=(page,payload,id))
                     thread.start()
@@ -157,7 +138,7 @@ class PDFService:
                         threads.append(thread)
                     for thread in threads:
                           thread.join()
-            # print(new_pdf) 
+ 
             # new_pdf.save("masked.pdf")  
               
             # pdf_file.save("masked.pdf")

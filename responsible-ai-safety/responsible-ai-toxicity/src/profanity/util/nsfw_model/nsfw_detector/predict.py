@@ -48,13 +48,15 @@ def load_images(image_paths, image_size, verbose=True):
 
     for img_path in image_paths:
         try:
+            if verbose:
+                print(img_path, "size:", image_size)
             image = keras.preprocessing.image.load_img(img_path, target_size=image_size)
             image = keras.preprocessing.image.img_to_array(image)
             image /= 255
             loaded_images.append(image)
             loaded_image_paths.append(img_path)
         except Exception as ex:
-            print("Image Load Failure")
+            print("Image Load Failure: ", img_path, ex)
     
     return np.asarray(loaded_images), loaded_image_paths
 
@@ -98,40 +100,59 @@ def classify_nd(model, nd_images, predict_args={}):
         probs.append(single_probs)
     return probs
 
-model = Model.load_model('../models/nsfw.299x299.h5') 
+
 
 
 class Detector:
-    def detector( image_obj):
-        
+    def detector(image_obj, accuracy):
         id = uuid.uuid4().hex
         output_folder = id
         os.makedirs(output_folder, exist_ok=True)
         output_image_path = os.path.join(output_folder, "received.png")
         image_obj.save(output_image_path, format="PNG")
 
-        # model = load_model('profanity/util/nsfw_model/nsfw.299x299.h5') 
+        source = os.path.join(id, 'received.png')
+        img_dim = 224
+        img_dim_high = 299
 
-        source = id+'/received.png'
+        if accuracy == "high":
+            modelInception = Model.load_model('../models/nsfw.299x299.h5')
+            modelMobilenet = Model.load_model('../models/nsfw_mobilenet2.224x224.h5')
+            
+            # High accuracy specific code
+            startTime = time.time()
+            image_preds_inception = classify(modelInception, source, img_dim_high)
+            image_preds_mobilenet = classify(modelMobilenet, source, img_dim)
+            # print(json.dumps(image_preds_inception, indent=2), '\n')
+            # print(json.dumps(image_preds_mobilenet, indent=2), '\n')
+            endTime = time.time()
+            log.debug("Total Time Taken for high accuracy=====" + str(endTime - startTime))
+            
+            # Check if "hentai" is the highest parameter in Inception model's predictions
+            if max(image_preds_inception[source], key=image_preds_inception[source].get) == "hentai":
+                combined_preds = image_preds_mobilenet[source]
+            else:
+                # Combine results using weighted average
+                combined_preds = {}
+                for key in image_preds_inception[source]:
+                    combined_preds[key] = (0.7 * image_preds_mobilenet[source][key] + 0.2 * image_preds_inception[source][key])
 
-        # opt = argparse.Namespace(image_source=source, saved_model_path='nsfw_mobilenet2.224x224.h5', image_dim=IMAGE_DIM)
-        img_dim = 299
-        startTime = time.time()
-        image_preds = classify(model, source, img_dim)
-        endTime = time.time()
+            image_preds = {source: combined_preds}
+        elif accuracy == "low":
+            modelMobilenet = Model.load_model('../models/nsfw_mobilenet2.224x224.h5')
+            
+            # Low accuracy specific code
+            startTime = time.time()
+            image_preds = classify(modelMobilenet, source, img_dim)
+            endTime = time.time()
+            log.debug("Total Time Taken for low accuracy=====" + str(endTime - startTime))
+        else:
+            raise ValueError("Invalid accuracy value. Choose 'high' or 'low'.")
 
-        log.debug("Total Time Taken====="+str(endTime - startTime))
-        # image_preds = classify(model, 'image_source', 'image_dim')
-    # model = load_model('saved_model.h5')    
-    # image_preds = classify(model, 'KARAN.png', (224, 224))
-        
-        # shutil.rmtree("temp")
-        # print("Temp Folder Deleted")
-        # print("imageprediction======",image_preds['temp/received.png'],'\n')
-        res = id+'/received.png'
+        res = source
         print(json.dumps(image_preds, indent=2), '\n')
         shutil.rmtree(id)
-        log.debug(str(id)+" Folder Deleted")
+        log.debug(str(id) + " Folder Deleted")
         return image_preds[res]
 
 # def main(args=None):

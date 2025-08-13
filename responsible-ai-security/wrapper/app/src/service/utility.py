@@ -15,7 +15,7 @@ import io
 import os
 import numpy as np
 import pickle
-from keras.models import load_model
+#from keras.models import load_model
 import tempfile
 import datetime,time
 import pytz
@@ -52,7 +52,7 @@ from src.dao.SaveFileDB import FileStoreDb
 
 from src.dao.Security.SecReportDb import SecReport
 
-from tensorflow.keras.preprocessing import image
+#from tensorflow.keras.preprocessing import image
 from art.estimators.classification import SklearnClassifier
 from art.attacks.poisoning.poisoning_attack_svm import PoisoningAttackSVM
 from art.estimators.classification.scikitlearn import SklearnAPIClassifier

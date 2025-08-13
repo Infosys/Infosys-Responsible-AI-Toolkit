@@ -1,13 +1,14 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div style="display: flex;" class="pt-4">
     <div>
         <label class="HeadingLabel">Upload File(s)</label>
         <div class="d-flex">
-            <div class="mr-3">
+            <div class="me-3">
                 <div class="drop-zone">
                     <mat-icon class="material-icons browse-logo ">cloud_upload</mat-icon>
                     <p class="dnd-lable">Drag & drop files here <br>or<span class="high-light"> browse</span></p>
@@ -16,17 +17,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <input type="file" (change)="fileBrowseHandler($event)" multiple>
                 </div>
                 <div class="button-container">
-                    <button mat-raised-button class="buttonMain mr-1" color="reset" (click)="reset()">Reset</button>
-                    <button mat-raised-button class="buttonMain" color="black" (click)="submit()">Submit</button>
+                    <button mat-raised-button class="buttonMain me-1" color="reset"  (click)="reset()">Reset</button>
+                    <button mat-raised-button class="buttonMain"  color="black"
+                        (click)="submit()">Submit</button>
                 </div>
             </div>
-            <div class="mr-3 fileContainer">
+            <div class="me-3 fileContainer">
                 <p class="HeadingLabelSM" *ngIf="files[0]">File</p>
                 <div class="file-upload" *ngIf="files[0]">
                     <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
                     <div class="d-flex align-items-center mt-1">
-                        <mat-progress-bar class="mr-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
-                        <button class="cancel-button mr-2" (click)="deleteFile()">
+                        <mat-progress-bar class="me-1" mode="determinate"
+                            [value]="files[0]?.progress"></mat-progress-bar>
+                        <button class="cancel-button me-2" (click)="deleteFile()">
                             <mat-icon>close</mat-icon>
                         </button>
                     </div>
@@ -37,20 +40,24 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <div style="flex: 1; margin-right: 2rem;">
         <!-- right side of the screen -->
         <div class="d-flex justify-content-between align-items-center" style="width: 100%;">
-            <form [formGroup]="createNewEmbeddingsform" class="d-flex" style="width: 100%;">
+            <form  [formGroup]="createNewEmbeddingsform" class="d-flex" style="width: 100%;">
                 <!-- <input type="text" class="form-control form-InputText" formControlName="embeddingName" placeholder="Embeding Name" > -->
-                <input type="text" class="form-control form-InputText" placeholder="Embeding Name" formControlName="embeddingName">
-                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-                <mat-select #select1 multiple id="selectApplicableitems" class="dropdown" formControlName="selectedEmbeddings" placeholder="Select Document :">
+                <input type="text" class="form-control form-InputText" placeholder="Embeding Name"
+                 formControlName="embeddingName">
+                 <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                <mat-select #select1 multiple id="selectApplicableitems" class="dropdown"
+                formControlName="selectedEmbeddings"placeholder="Select Document :">
                     <div class="select-all">
-                        <mat-checkbox (change)="toggleAllSelection1($event)" color="primary">Select All
-                        </mat-checkbox>
+                        <mat-checkbox (change)="toggleAllSelection1($event)" color="primary">Select
+                            All</mat-checkbox>
                     </div>
-                    <mat-option (click)="selectRecognizertype()" class="dropdownOptions" *ngFor="let item of listofDoccuments" [value]="item.fileId">
-                        {{item.fileName}}
-                    </mat-option>
+                    <mat-option (click)="selectRecognizertype()" class="dropdownOptions"
+                    *ngFor="let item of listofDoccuments" [value]="item.fileId">
+                    {{item.fileName}}
+                </mat-option>
                 </mat-select>
-                <button mat-raised-button class="buttonMain" color="black" (click)="submit2()">Submit</button>
+                <button mat-raised-button class="buttonMain"  color="black"
+                        (click)="submit2()">Submit</button>
             </form>
         </div>
         <div class="card" style="margin-top: 10px; padding: 10px;">
@@ -67,7 +74,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </tr>
                     <tr *ngFor="let element of dataSource1| paginate : pagingConfig; let i = index">
                         <td class="upper-case"> {{element.embedingName}}</td>
-                        <td>
+                        <td >
                             <table>
                                 <tr *ngFor="let item of element.Files">
                                     <td>{{item.fileName}}</td>
@@ -75,54 +82,56 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </table>
                         </td>
                         <td class="upper-case"> {{element.CreatedDateTime}}</td>
-
+    
                     </tr>
                 </table>
                 <!--  -->
             </div>
         </div>
         <!-- 2nd table -->
-        <div class="card" style="margin-top: 10px; padding: 10px;">
-            <div class=" justify-content-between align-items-center" style="width: 100%;">
-                <div class="batchTable-container mt-2">
-                    <label class="HeadingLabel">List of Files</label>
-                    <br>
-                </div>
-                <table class="styled-table">
-                    <tr>
-                        <th class="header">File Name </th>
-                        <th class="header">Cache Status</th>
-                        <th class="header">File Type</th>
-                        <th class="header">File Creation Time</th>
-                        <th class="header">Action</th>
-                    </tr>
-                    <tr *ngFor="let element of dataSource| paginate : pagingConfig; let i = index">
-                        <td class="upper-case"> {{element.fileName}}</td>
-                        <td class="upper-case"> {{element.isCache}}</td>
-                        <td class="upper-case">{{element.type}}</td>
-                        <td>{{element.CreatedDateTime}}</td>
-                        <td> <button mat-icon-button (click)="deleteFileFromDB(element.isCache,element.fileId)" color="primary3"><mat-icon>
+         <div class="card" style="margin-top: 10px; padding: 10px;">
+             <div class=" justify-content-between align-items-center" style="width: 100%;">
+                 <div class="batchTable-container mt-2">
+                     <label class="HeadingLabel">List of Files</label>
+                     <br>
+                 </div>
+                 <table class="styled-table">
+                     <tr>
+                         <th class="header">File Name </th>
+                         <th class="header">Cache Status</th>
+                         <th class="header">File Type</th>
+                         <th class="header">File Creation Time</th>
+                         <th class="header">Action</th>
+                     </tr>
+                     <tr *ngFor="let element of dataSource| paginate : pagingConfig; let i = index">
+                         <td class="upper-case"> {{element.fileName}}</td>
+                         <td class="upper-case"> {{element.isCache}}</td>
+                         <td class="upper-case">{{element.type}}</td>
+                         <td >{{element.CreatedDateTime}}</td>
+                        <td> <button mat-icon-button (click)="deleteFileFromDB(element.isCache,element.fileId)"
+                                color="primary3"><mat-icon>
                                     delete
                                 </mat-icon>
                             </button></td>
-
-                    </tr>
-                </table>
-                <!--  -->
-                <div class="d-flex justify-content-between mt-3">
+     
+                     </tr>
+                 </table>
+                 <!--  -->
+                 <div class="d-flex justify-content-between mt-3">
                     <div class="pagination-info">
-                        Showing {{ pagingConfig.totalItems
-                        < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }} </div>
-                            <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
-                            </pagination-controls>
+                        Showing {{ pagingConfig.totalItems < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }}
                     </div>
-                </div>
-            </div>
-            <!--  -->
-        </div>
+                     <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next"
+                         (pageChange)="onTableDataChange($event)">
+                     </pagination-controls>
+                 </div>
+             </div>
+         </div>
+        <!--  -->
     </div>
+</div>
 
-    <!-- <form [formGroup]="createNewEmbeddingsform" class="d-flex" style="width: 100%;">
+<!-- <form [formGroup]="createNewEmbeddingsform" class="d-flex" style="width: 100%;">
     <input formControlName="embeddingName" type="text" class="form-control form-InputText" placeholder="Embeding Name" aria-label="Embeding Name">
     <mat-select formControlName="selectedEmbeddings" multiple id="selectApplicableitems" class="dropdown">
       <div class="select-all">
@@ -134,16 +143,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </mat-select>
     <button mat-raised-button class="buttonMain" color="black" (click)="submit2()">Submit</button>
   </form> -->
-    <div class="modal-body" *ngIf="formBased" style="width: 100%;">
-        <div class="row justify-content-center">
-            <div class="w-100 h-100 position-fixed top-0 d-flex justify-content-center align-items-center" style="background: rgba(51,60,60,0.8);">
-
-                <!-- <leds-spinner bdColor="rgba(51,60,60,0.8)" [fullScreen]="true" [showSpinner]=true> -->
+<div class="modal-body" *ngIf="formBased" style="width: 100%;">
+    <div class="row justify-content-center">
+        <div class="w-100 h-100 position-fixed top-0 d-flex justify-content-center align-items-center" style="background: rgba(51,60,60,0.8);">
+ 
+            <!-- <leds-spinner bdColor="rgba(51,60,60,0.8)" [fullScreen]="true" [showSpinner]=true> -->
                 <div spinnerImg>
                     <img alt="Loading" src="https://surveys.infosysapps.com/assets/gifs/loading.svg" />
                     <span loadingText>Loading ...</span>
                 </div>
-                <!-- </leds-spinner> -->
-            </div>
+            <!-- </leds-spinner> -->
         </div>
     </div>
+</div>
+ 

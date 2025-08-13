@@ -1,65 +1,65 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <!-- <p>questionnaire-usecase works!</p> -->
 <!-- PEOPLE & PLANET ECONOMIC CONTEXT DATA & INPUT AI MODEL TASK & OUTPUT -->
-<div class="wrapper" *ngIf="useCaseMainPage===false">
-    <div class="tabs-container">
-        <div *ngIf="parameterTab === true" class="tabs">
-            <div (click)="selectTab(1)" [class.active]="selectedTab === 1">
-                PEOPLE & PLANET
-            </div>
-            <div (click)="selectTab(2)" [class.active]="selectedTab === 2">
-                ECONOMIC CONTEXT
-            </div>
-            <div (click)="selectTab(3)" [class.active]="selectedTab === 3">
-                DATA & INPUT
-            </div>
-            <div (click)="selectTab(4)" [class.active]="selectedTab === 4">
-                AI MODEL
-            </div>
-            <div (click)="selectTab(5)" [class.active]="selectedTab === 5">
-                TASK & OUTPUT
-            </div>
-        </div>
+<div class="wrapper" *ngIf="useCaseMainPage===false" >
+<div class="tabs-container">
+    <div *ngIf="parameterTab === true" class="tabs">
+      <div (click)="selectTab(1)" [class.active]="selectedTab === 1">
+        PEOPLE & PLANET
+      </div>
+      <div (click)="selectTab(2)" [class.active]="selectedTab === 2">
+         ECONOMIC CONTEXT
+      </div>
+      <div (click)="selectTab(3)" [class.active]="selectedTab === 3">
+        DATA & INPUT
+      </div>
+      <div (click)="selectTab(4)" [class.active]="selectedTab === 4">
+        AI MODEL
+      </div>
+      <div (click)="selectTab(5)" [class.active]="selectedTab === 5">
+        TASK & OUTPUT
+      </div>
     </div>
+  </div>
+  
+  <div  class="row" style="display: flex;">
+    <div  class="card1" >
+        <div class="card-body">
+  <div class="content-container" style="margin-left: 10px;">
+    <div class="content">
+      <div [hidden]="selectedTab!=1" class="tab-content"> 
+        <!--  -->
+        <form [formGroup]="firstFormGroup">
+          <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+            <div class="mb-2">
+                <div *ngFor="let data of result[0].SubDimesnion; let i=index" >
+                    <label class="headLabel labelSM" style="margin: 1.2rem;">{{data.SubDimensionName}}</label>
+                    <div *ngFor="let subdata of data.QuestionDetails; let j=index ">
+                        <!-- <p>{{subdata}}</p> -->
+                        <label class="mainLabelQuestion labelSM" >{{ "Q"+ (j+1) +". " + subdata.QuestionDesc}}</label>
 
-    <div class="row" style="display: flex;">
-        <div class="card1">
-            <div class="card-body">
-                <div class="content-container" style="margin-left: 10px;">
-                    <div class="content">
-                        <div [hidden]="selectedTab!=1" class="tab-content">
-                            <!--  -->
-                            <form [formGroup]="firstFormGroup">
-                                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-                                <div class="mb-2">
-                                    <div *ngFor="let data of result[0].SubDimesnion; let i=index">
-                                        <label class="headLabel labelSM" style="margin: 1.2rem;">{{data.SubDimensionName}}</label>
-                                        <div *ngFor="let subdata of data.QuestionDetails; let j=index ">
-                                            <!-- <p>{{subdata}}</p> -->
-                                            <label class="mainLabelQuestion labelSM">{{ "Q"+ (j+1) +". " + subdata.QuestionDesc}}</label>
-
-
-                                            <div *ngFor="let season of subdata.OptionsDetail; let k=index ">
-                                                <!-- formControlName="secondCtrl" -->
-                                                <div *ngIf="editValue== false">
-
-                                                    <input type="radio" [id]="season.QuestionId" [value]="season.Id" [name]="season.QuestionId" (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required>
-                                                    <label [for]="season.QuestionId" class="mainLabelOption labelXS">{{season.OptionsValue}}</label><br>
-                                                </div>
-                                                <div *ngIf="editValue== true">
-                                                    <input type="radio" [checked]="editValue== true && subdata.Selected_Option === season.Id " [id]="season.QuestionId" [value]="season.Id" [name]="season.QuestionId" (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)"
-                                                        required>
-                                                    <label [for]="season.QuestionId" class="mainLabelOption labelXS">{{season.OptionsValue}}</label><br>
-                                                </div>
-
-                                                <!-- <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br> -->
-                                            </div>
-                                            <!-- <div *ngFor="let season of subdata.OptionsDetail; index as k"> -->
-                                            <!-- <mat-radio-group
+                       
+                        <div *ngFor="let season of subdata.OptionsDetail; let k=index ">
+                          <!-- formControlName="secondCtrl" -->
+                          <div *ngIf="editValue== false">
+                            
+                            <input type="radio"  [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"   (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                            <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br>
+                          </div>
+                          <div *ngIf="editValue== true">
+                            <input type="radio" [checked]="editValue== true && subdata.Selected_Option === season.Id " [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"   (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                            <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br>
+                          </div>
+                        
+                        <!-- <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br> -->
+                        </div> 
+                        <!-- <div *ngFor="let season of subdata.OptionsDetail; index as k"> -->
+                          <!-- <mat-radio-group
                           aria-labelledby="example-radio-group-label"
                           class="example-radio-group"
                           formControlName="firstCtrl"
@@ -75,241 +75,241 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             
                             </div> 
                         </mat-radio-group> -->
-
-                                        </div>
-
-
-
-
-
-                                    </div>
-
-                                </div>
-
-                                <!-- </div> -->
-                            </form>
-
-                            <div class="text-center">
-
-                            </div>
-                            <br><br><br>
-
-                        </div>
-
-                        <div [hidden]="selectedTab!=2" class="tab-content">
-                            <form [formGroup]="secondFormGroup">
-                                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-                                <div class="mb-2">
-                                    <div *ngFor="let data of result[1].SubDimesnion; index as i">
-                                        <label class="headLabel labelSM" style="margin: 1.2rem;">{{data.SubDimensionName}}</label>
-                                        <div *ngFor="let subdata of data.QuestionDetails; index as j">
-                                            <!-- <p>{{subdata}}</p> -->
-                                            <label class="mainLabelQuestion labelSM">{{ "Q"+ (j+1) +". " + subdata.QuestionDesc}}</label>
-
-
-
-
-
-                                            <div *ngFor="let season of subdata.OptionsDetail; index as k">
-                                                <!-- formControlName="secondCtrl" -->
-                                                <div *ngIf="editValue== false">
-
-                                                    <input type="radio" [id]="season.QuestionId" [value]="season.Id" [name]="season.QuestionId" (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required>
-                                                    <label [for]="season.QuestionId" class="mainLabelOption labelXS">{{season.OptionsValue}}</label><br>
-                                                </div>
-                                                <div *ngIf="editValue== true">
-                                                    <input type="radio" [checked]="editValue== true && subdata.Selected_Option === season.Id " [id]="season.QuestionId" [value]="season.Id" [name]="season.QuestionId" (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)"
-                                                        required>
-                                                    <label [for]="season.QuestionId" class="mainLabelOption labelXS">{{season.OptionsValue}}</label><br>
-                                                </div>
-                                                <!-- <input type="radio" [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"  (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
-                        <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br> -->
-                                            </div>
-
-
-                                        </div>
-
-
-
-
-                                    </div>
-
-                                </div>
-                            </form>
-
-                            <div class="text-center">
-
-                            </div>
-                            <br><br><br>
-
-                        </div>
-
-                        <div [hidden]="selectedTab!=3" class="tab-content">
-                            <form [formGroup]="thirdFormGroup">
-                                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-                                <div class="mb-2">
-                                    <div *ngFor="let data of result[2].SubDimesnion; index as i">
-                                        <label class="headLabel labelSM" style="margin: 1.2rem;">{{data.SubDimensionName}}</label>
-                                        <div *ngFor="let subdata of data.QuestionDetails; index as j">
-                                            <!-- <p>{{subdata}}</p> -->
-                                            <label class="mainLabelQuestion labelSM">{{ "Q"+ (j+1) +". " + subdata.QuestionDesc}}</label>
-
-
-
-
-
-
-                                            <div *ngFor="let season of subdata.OptionsDetail; index as k">
-                                                <!-- formControlName="thirdCtrl" -->
-                                                <div *ngIf="editValue== false">
-
-                                                    <input type="radio" [id]="season.QuestionId" [value]="season.Id" [name]="season.QuestionId" (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required>
-                                                    <label [for]="season.QuestionId" class="mainLabelOption labelXS">{{season.OptionsValue}}</label><br>
-                                                </div>
-                                                <div *ngIf="editValue== true">
-                                                    <input type="radio" [checked]="editValue== true && subdata.Selected_Option === season.Id " [id]="season.QuestionId" [value]="season.Id" [name]="season.QuestionId" (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)"
-                                                        required>
-                                                    <label [for]="season.QuestionId" class="mainLabelOption labelXS">{{season.OptionsValue}}</label><br>
-                                                </div>
-                                                <!-- <input type="radio" [id]="season.QuestionId"[value]="season.Id"[name]="season.QuestionId"  (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
-                        <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br> -->
-                                            </div>
-
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </form>
-
-                            <div class="text-center">
-
-                            </div>
-                            <br><br><br>
-
-                        </div>
-
-                        <div [hidden]="selectedTab!=4" class="tab-content">
-                            <form [formGroup]="fourthFormGroup">
-                                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-                                <div class="mb-2">
-                                    <div *ngFor="let data of result[3].SubDimesnion; index as i">
-                                        <label class="headLabel labelSM" style="margin: 1.2rem;">{{data.SubDimensionName}}</label>
-                                        <div *ngFor="let subdata of data.QuestionDetails; index as j">
-                                            <!-- <p>{{subdata}}</p> -->
-                                            <label class="mainLabelQuestion labelSM">{{ "Q"+ (j+1) +". " + subdata.QuestionDesc}}</label>
-
-
-
-
-
-                                            <div *ngFor="let season of subdata.OptionsDetail; index as k">
-                                                <!-- formControlName="fourthCtrl" -->
-                                                <div *ngIf="editValue== false">
-
-                                                    <input type="radio" [id]="season.QuestionId" [value]="season.Id" [name]="season.QuestionId" (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required>
-                                                    <label [for]="season.QuestionId" class="mainLabelOption labelXS">{{season.OptionsValue}}</label><br>
-                                                </div>
-                                                <div *ngIf="editValue== true">
-                                                    <input type="radio" [checked]="editValue== true && subdata.Selected_Option === season.Id " [id]="season.QuestionId" [value]="season.Id" [name]="season.QuestionId" (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)"
-                                                        required>
-                                                    <label [for]="season.QuestionId" class="mainLabelOption labelXS">{{season.OptionsValue}}</label><br>
-                                                </div>
-                                                <!-- <input type="radio" [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"  (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
-                        <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br> -->
-                                            </div>
-
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </form>
-
-                            <div class="text-center">
-
-                            </div>
-                            <br><br><br>
-
-                        </div>
-
-                        <div [hidden]="selectedTab!=5" class="tab-content">
-                            <form [formGroup]="fifthFormGroup">
-                                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-                                <div class="mb-2">
-                                    <div *ngFor="let data of result[4].SubDimesnion; index as i">
-                                        <label class="headLabel labelSM" style="margin: 1.2rem;">{{data.SubDimensionName}}</label>
-                                        <div *ngFor="let subdata of data.QuestionDetails; index as j">
-                                            <!-- <p>{{subdata}}</p> -->
-                                            <label class="mainLabelQuestion labelSM">{{ "Q"+ (j+1) +". " + subdata.QuestionDesc}}</label>
-
-
-
-
-
-                                            <div *ngFor="let season of subdata.OptionsDetail; index as k">
-                                                <!-- ormControlName="fifthCtrl" -->
-                                                <div *ngIf="editValue== false">
-
-                                                    <input type="radio" [id]="season.QuestionId" [value]="season.Id" [name]="season.QuestionId" (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required>
-                                                    <label [for]="season.QuestionId" class="mainLabelOption labelXS">{{season.OptionsValue}}</label><br>
-                                                </div>
-                                                <div *ngIf="editValue== true">
-                                                    <input type="radio" [checked]="editValue== true && subdata.Selected_Option === season.Id " [id]="season.QuestionId" [value]="season.Id" [name]="season.QuestionId" (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)"
-                                                        required>
-                                                    <label [for]="season.QuestionId" class="mainLabelOption labelXS">{{season.OptionsValue}}</label><br>
-                                                </div>
-                                                <!-- <input type="radio" [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"  (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
-                        <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br> -->
-                                            </div>
-
-
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </form>
-
-                            <div class="text-center">
-
-                            </div>
-                            <br><br><br>
-
-                        </div>
-
-
-                    </div>
-                </div>
-
-
-
-
-
-
+                          
+                      </div> 
+                    
+
+                         
+                    
+                
+            </div>
+          
             </div>
 
-            <div class="d-flex justify-content-end pb-3 mr-4">
-                <div class="btnRound" (click)="previousScreen()" (click)="onChildValueChange()" *ngIf="currentScreenPage !== 1">
-                    <i class="material-icons">arrow_back</i>
-                </div>
-                <div *ngIf="currentScreenPage ==5" class="d-flex align-items-center pb-1 buttonMain">
-                    <button mat-raised-button style="color:black;" class="buttonMain" (click)="submit()">Submit</button>
-                </div>
-                <!-- <div class="buttonMain" style="padding-left: 20px;">
+            <!-- </div> -->
+          </form>
+              
+          <div class="text-center">
+          
+          </div>
+          <br><br><br>
+          
+      </div>
+
+      <div [hidden]="selectedTab!=2" class="tab-content"> 
+        <form [formGroup]="secondFormGroup">
+          <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+            <div class="mb-2">
+                <div *ngFor="let data of result[1].SubDimesnion; index as i" >
+                    <label class="headLabel labelSM" style="margin: 1.2rem;">{{data.SubDimensionName}}</label>
+                    <div *ngFor="let subdata of data.QuestionDetails; index as j">
+                        <!-- <p>{{subdata}}</p> -->
+                        <label class="mainLabelQuestion labelSM" >{{ "Q"+ (j+1) +". " + subdata.QuestionDesc}}</label>
+
+                     
+                     
+
+
+                        <div *ngFor="let season of subdata.OptionsDetail; index as k">
+                          <!-- formControlName="secondCtrl" -->
+                          <div *ngIf="editValue== false">
+                            
+                            <input type="radio"  [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"   (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                            <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br>
+                          </div>
+                          <div *ngIf="editValue== true">
+                            <input type="radio" [checked]="editValue== true && subdata.Selected_Option === season.Id " [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"   (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                            <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br>
+                          </div>
+                        <!-- <input type="radio" [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"  (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                        <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br> -->
+                        </div> 
+                    
+                       
+            </div>
+           
+            
+            
+            
+            </div>
+
+            </div>
+          </form>
+              
+          <div class="text-center">
+          
+          </div>
+          <br><br><br>
+          
+      </div>
+
+      <div [hidden]="selectedTab!=3" class="tab-content"> 
+        <form [formGroup]="thirdFormGroup">
+          <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+            <div class="mb-2">
+                <div *ngFor="let data of result[2].SubDimesnion; index as i" >
+                    <label class="headLabel labelSM" style="margin: 1.2rem;">{{data.SubDimensionName}}</label>
+                    <div *ngFor="let subdata of data.QuestionDetails; index as j">
+                        <!-- <p>{{subdata}}</p> -->
+                        <label class="mainLabelQuestion labelSM" >{{ "Q"+ (j+1) +". " + subdata.QuestionDesc}}</label>
+
+                       
+                    
+                      
+
+
+                        <div *ngFor="let season of subdata.OptionsDetail; index as k">
+                          <!-- formControlName="thirdCtrl" -->
+                          <div *ngIf="editValue== false">
+                            
+                            <input type="radio"  [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"   (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                            <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br>
+                          </div>
+                          <div *ngIf="editValue== true">
+                            <input type="radio" [checked]="editValue== true && subdata.Selected_Option === season.Id " [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"   (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                            <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br>
+                          </div>
+                        <!-- <input type="radio" [id]="season.QuestionId"[value]="season.Id"[name]="season.QuestionId"  (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                        <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br> -->
+                        </div> 
+                    
+                       
+            </div>
+            
+            </div>
+
+            </div>
+          </form>
+              
+          <div class="text-center">
+          
+          </div>
+          <br><br><br>
+          
+      </div>
+
+      <div [hidden]="selectedTab!=4" class="tab-content"> 
+        <form [formGroup]="fourthFormGroup">
+          <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+            <div class="mb-2">
+                <div *ngFor="let data of result[3].SubDimesnion; index as i" >
+                    <label class="headLabel labelSM" style="margin: 1.2rem;">{{data.SubDimensionName}}</label>
+                    <div *ngFor="let subdata of data.QuestionDetails; index as j">
+                        <!-- <p>{{subdata}}</p> -->
+                        <label class="mainLabelQuestion labelSM" >{{ "Q"+ (j+1) +". " + subdata.QuestionDesc}}</label>
+
+                       
+                    
+                     
+
+                        <div *ngFor="let season of subdata.OptionsDetail; index as k">
+                          <!-- formControlName="fourthCtrl" -->
+                          <div *ngIf="editValue== false">
+                            
+                            <input type="radio"  [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"   (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                            <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br>
+                          </div>
+                          <div *ngIf="editValue== true">
+                            <input type="radio" [checked]="editValue== true && subdata.Selected_Option === season.Id " [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"   (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                            <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br>
+                          </div>
+                        <!-- <input type="radio" [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"  (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                        <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br> -->
+                        </div> 
+                    
+                       
+            </div>
+           
+            </div>
+
+            </div>
+          </form>
+              
+          <div class="text-center">
+          
+          </div>
+          <br><br><br>
+          
+      </div>
+
+      <div [hidden]="selectedTab!=5" class="tab-content"> 
+        <form [formGroup]="fifthFormGroup">
+          <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+            <div class="mb-2">
+                <div *ngFor="let data of result[4].SubDimesnion; index as i" >
+                    <label class="headLabel labelSM" style="margin: 1.2rem;">{{data.SubDimensionName}}</label>
+                    <div *ngFor="let subdata of data.QuestionDetails; index as j">
+                        <!-- <p>{{subdata}}</p> -->
+                        <label class="mainLabelQuestion labelSM" >{{ "Q"+ (j+1) +". " + subdata.QuestionDesc}}</label>
+
+                       
+               
+
+
+                        <div *ngFor="let season of subdata.OptionsDetail; index as k">
+                          <!-- ormControlName="fifthCtrl" -->
+                          <div *ngIf="editValue== false">
+                            
+                            <input type="radio"  [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"   (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                            <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br>
+                          </div>
+                          <div *ngIf="editValue== true">
+                            <input type="radio" [checked]="editValue== true && subdata.Selected_Option === season.Id " [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"   (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                            <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br>
+                          </div>
+                        <!-- <input type="radio" [id]="season.QuestionId"[value]="season.Id" [name]="season.QuestionId"  (change)="responseData(season.Id,season.QuestionId,season.OptionsValue,subdata.Question_Weightage,season.ImpactIndexScore)" required >
+                        <label [for]="season.QuestionId" class="mainLabelOption labelXS" >{{season.OptionsValue}}</label><br> -->
+                        </div> 
+                    
+                        
+            </div>
+           
+            </div>
+
+            </div>
+          </form>
+              
+          <div class="text-center">
+          
+          </div>
+          <br><br><br>
+          
+      </div>
+      
+      
+    </div>
+  </div>
+       
+
+
+
+  
+
+</div>
+
+<div class="d-flex justify-content-end pb-3 me-4">
+  <div class="btnRound" (click)="previousScreen()" (click)="onChildValueChange()" *ngIf="currentScreenPage !== 1">
+      <i class="material-icons">arrow_back</i>
+  </div>
+  <div *ngIf="currentScreenPage ==5" class="d-flex align-items-center pb-1 buttonMain" >
+      <button  mat-raised-button style="color:black;" class="buttonMain" (click)="submit()">Submit</button>
+  </div>
+  <!-- <div class="buttonMain" style="padding-left: 20px;">
     <button mat-raised-button color="black" (click)="submit()">Submit</button>
 </div> -->
-                <div class="btnRound" (click)="nextScreen()" (click)="onChildValueChange()" [class.disabled]="(currentScreenPage === 5 ) " *ngIf="currentScreenPage !== 5">
-                    <i class="material-icons">arrow_forward</i>
-                </div>
-            </div>
-
-        </div>
-    </div>
+  <div class="btnRound" (click)="nextScreen()" (click)="onChildValueChange()" [class.disabled]="(currentScreenPage === 5 ) " *ngIf="currentScreenPage !== 5" >
+      <i class="material-icons">arrow_forward</i>
+  </div>
 </div>
 
-<div *ngIf="useCaseMainPage===true">
-    <app-home></app-home>
 </div>
+</div>
+</div>
+
+<!-- <div *ngIf="useCaseMainPage===true">
+  <app-home></app-home>
+</div> -->
+
+
+
+

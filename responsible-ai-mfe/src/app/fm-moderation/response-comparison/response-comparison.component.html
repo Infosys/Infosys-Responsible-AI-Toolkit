@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="d-flex" *ngIf="hallucinationSwitchCheck">
     <p class="HeadingLabel" role="button" [ngClass]="{
@@ -10,110 +11,249 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </p>
     <p class="HeadingLabel" role="button" [ngClass]="{
         'activeTab': activeTab === 'Factual Check'
-      }" (click)="changeTab('Factual Check')" *ngIf="!(RagMultiModalResponse.multiModal)">Factual Check</p>
+      }" (click)="changeTab('Factual Check')">Factual Check</p>
 </div>
 
 <div *ngIf="(activeTab == 'Faithfulness Check') && hallucinationSwitchCheck">
     <div class="row mt-2">
         <div class="col-md-12">
             <label class="mainLabel d-flex">Response </label>
-            <div class="card" *ngIf="!(RagMultiModalResponse.multiModal)">
-                <div class="card-body" *ngIf="isEmptyObject(hallucinateRetrievalKeplerRes.response)">
-                    <div *ngIf="hallucinateRetrievalKeplerRes.status" class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
+            <div *ngIf="!isMultimodal">
+                <div class="card">
+                    <div class="card-body" *ngIf="isEmptyObject(hallucinateRetrievalKeplerRes.response)">
+                        <div *ngIf="hallucinateRetrievalKeplerRes.status" class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div *ngIf="!hallucinateRetrievalKeplerRes.status" class=" d-flex" style="color: #8626C3;">
+                            <p class="mainLabel mainLabelSM mainLabelLight">{{hallucinateRetrievalKeplerRes.errorMesssage ? hallucinateRetrievalKeplerRes.errorMesssage : "API got failed"}}</p>
                         </div>
                     </div>
-                    <div *ngIf="!hallucinateRetrievalKeplerRes.status" class=" d-flex" style="color: #8626C3;">
-                        <p class="mainLabel mainLabelSM mainLabelLight">{{hallucinateRetrievalKeplerRes.errorMesssage ? hallucinateRetrievalKeplerRes.errorMesssage : "API got failed"}}</p>
+                    <div class="card-body" *ngIf="!isEmptyObject(hallucinateRetrievalKeplerRes.response)">
+                        <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="hallucinateRetrievalKeplerRes.response.text"></p>
+                        <p class="mainLabel mainLabelSM mainLabelLight hyperLink" *ngIf="hallucinateRetrievalKeplerRes.response.base64" (click)="openSource(hallucinateRetrievalKeplerRes.response.base64)">
+                            {{hallucinateRetrievalKeplerRes.response.source}}
+                        </p>
+                        <div class="d-flex mt-2">
+                            <p class="mainLabel mainLabelSM me-3">Hallucination Score
+                                <mat-icon class="ms-2 cursor-pointer custom-icon" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Hallucination',type:'hallucination'});">info</mat-icon>
+                                : {{hallucinateRetrievalKeplerRes.response.hallScore}}
+                            </p>
+                            <!-- <p class="mainLabel mainLabelSM me-3">Hallucination Score(GPT): {{hallucinateRetrievalKeplerRes.response.openAiScore}}
+                        </p> -->
+                        </div>
+                        <div class="mt-2">
+                            <p class="mainLabel mainLabelSM me-3">Source</p>
+                            <p class="mainLabel mainLabelSM">
+                                {{hallucinateRetrievalKeplerRes.response.source}} <br />
+                            </p>
+                            <div class="mt-2">
+                                <p class="mainLabel mainLabelSM me-3">Matching Section From Document</p>
+                                <p class="mainLabel mainLabelSM">
+                                    {{hallucinateRetrievalKeplerRes.response.section}} <br />
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card-body" *ngIf="!isEmptyObject(hallucinateRetrievalKeplerRes.response)">
-                    <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="hallucinateRetrievalKeplerRes.response.text"></p>
-                    <p class="mainLabel mainLabelSM mainLabelLight hyperLink" *ngIf="hallucinateRetrievalKeplerRes.response.base64" (click)="openSource(hallucinateRetrievalKeplerRes.response.base64)">
-                        {{hallucinateRetrievalKeplerRes.response.source}}
-                    </p>
-                    <div class="d-flex mt-2">
-                        <p class="mainLabel mainLabelSM mr-3">Hallucination Score
-                            <mat-icon class="ml-2 cursor-pointer custom-icon" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Hallucination',type:'hallucination'});">info</mat-icon>
-                            : {{hallucinateRetrievalKeplerRes.response.hallScore}}
-                        </p>
-                        <!-- <p class="mainLabel mainLabelSM mr-3">Hallucination Score(GPT): {{hallucinateRetrievalKeplerRes.response.openAiScore}}
-                        </p> -->
+                <!-- <div class="card" *ngIf="RagMultiModalResponse.multiModal">
+                    <div class="card-body" *ngIf="isEmptyObject(RagMultiModalResponse.response)">
+                        <div *ngIf=" RagMultiModalResponse.status " class=" d-flex justify-content-center align-items-center " style="color: #8626C3; ">
+                            <div class="spinner-border " role="status ">
+                                <span class="sr-only ">Loading...</span>
+                            </div>
+                        </div>
+                        <div *ngIf="!RagMultiModalResponse.status " class=" d-flex " style="color: #8626C3; ">
+                            <p class="mainLabel mainLabelSM mainLabelLight ">{{RagMultiModalResponse.errorMessage ? RagMultiModalResponse.errorMessage : "API got failed "}}</p>
+                        </div>
                     </div>
-                    <div class="mt-2">
-                        <p class="mainLabel mainLabelSM mr-3">Source</p>
-                        <p class="mainLabel mainLabelSM" *ngFor="let file of hallucinateRetrievalKeplerRes?.response?.sourceFile">
-                            {{file}} <br />
+                    <div class="card-body " *ngIf="!isEmptyObject(RagMultiModalResponse.response) ">
+                        <p class="mainLabel mainLabelSM mainLabelLight m-0 " [innerHTML]="RagMultiModalResponse.response.text "></p>
+                    </div>
+                </div> -->
+            </div>
+            <div class="card" *ngIf="isMultimodal && isEmptyObject(lightRag.response)">
+                <div *ngIf="isLoadingMMImage" class="spinner-container">
+                    <div class="spinner"></div>
+                </div>
+                <div class="card-body mt-0">
+                    <div class="col-md-10 text-end " *ngIf="MMTimeTaken">
+                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{MMTimeTaken | number:'1.0-3'}}s</span>
+                        </p>
+                    </div>
+                    <div class="mt-0">
+                        <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="MMImageResponse">
+                        </p><br/>
+                    </div>
+                    <div class="mt-0" *ngIf="MMPdfReference">
+                        <p class="mainLabel mainLabelSM me-3">Reference</p>
+                        <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="MMPdfReference">
+                        </p>
+                    </div>
+
+                    <div class="d-flex mt-2" *ngIf="!isLoadingMMImage">
+                        <p class="mainLabel mainLabelSM me-3">Hallucination Score
+                            <mat-icon class="ms-2 cursor-pointer custom-icon" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Hallucination',type:'hallucination'});">info</mat-icon>
+                            : {{MMImageHallucinationScore}}
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="card" *ngIf="RagMultiModalResponse.multiModal">
-                <div class="card-body" *ngIf="isEmptyObject(RagMultiModalResponse.response)">
-                    <div *ngIf=" RagMultiModalResponse.status " class=" d-flex justify-content-center align-items-center " style="color: #8626C3; ">
-                        <div class="spinner-border " role="status ">
-                            <span class="sr-only ">Loading...</span>
+
+            <div class="card">
+                <div class="card-body" *ngIf="!isEmptyObject(lightRag.response)">
+                    <!-- <div *ngIf="lightRag.status" class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
                         </div>
-                    </div>
-                    <div *ngIf="!RagMultiModalResponse.status " class=" d-flex " style="color: #8626C3; ">
-                        <p class="mainLabel mainLabelSM mainLabelLight ">{{RagMultiModalResponse.errorMessage ? RagMultiModalResponse.errorMessage : "API got failed "}}</p>
+                    </div> -->
+                    <div *ngIf="!lightRag.status" class=" d-flex" style="color: #8626C3;">
+                        <p class="mainLabel mainLabelSM mainLabelLight">{{lightRag.errorMesssage ? lightRag.errorMesssage : "API got failed"}}</p>
                     </div>
                 </div>
-                <div class="card-body " *ngIf="!isEmptyObject(RagMultiModalResponse.response) ">
-                    <p class="mainLabel mainLabelSM mainLabelLight m-0 " [innerHTML]="RagMultiModalResponse.response.text "></p>
+
+                <div class="card-body mt-0" *ngIf="!isEmptyObject(lightRag.response)">
+                    <div class="col-md-10 text-end " *ngIf="lightRag.response.timeTaken">
+                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{lightRag.response.timeTaken | number:'1.0-3'}}s</span>
+                        </p>
+                    </div>
+                    <div class="mt-0">
+                        <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="lightRag.response.text"></p>
+                    </div>
+                    <div class="d-flex mt-2">
+                        <p class="mainLabel mainLabelSM me-3">Hallucination Score
+                            <mat-icon class="ms-2 cursor-pointer custom-icon" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Hallucination',type:'hallucination'});">info</mat-icon>
+                            : {{lightRag.response.hallScore}}
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row mt-2 " *ngIf="!(RagMultiModalResponse.multiModal)">
+    <div class="row mt-2">
         <div class="col-md-12 ">
-            <label class="mainLabel d-flex ">Evaluation Metrics <mat-icon class="ml-2 cursor-pointer "
+            <label class="mainLabel d-flex ">Evaluation Metrics <mat-icon class="ms-2 cursor-pointer "
                     style="color: #727272; " [inline]="true "
                     (click)="openRightSideModal({title: 'Evaluation Metrics',type: 'evalMetrics'}); ">info</mat-icon></label>
             <div class="card ">
-                <div class="card-body " *ngIf="isEmptyObject(gEvalres) ">
-                    <div *ngIf="hallucinateRetrievalKeplerRes.status " class=" d-flex justify-content-center align-items-center " style="color: #8626C3; ">
-                        <div class="spinner-border " role="status ">
-                            <span class="sr-only ">Loading...</span>
+                <div *ngIf="!isMultimodal">
+                    <div class="card-body " *ngIf="isEmptyObject(gEvalres) ">
+                        <div *ngIf="hallucinateRetrievalKeplerRes.status " class=" d-flex justify-content-center align-items-center " style="color: #8626C3; ">
+                            <div class="spinner-border " role="status ">
+                                <span class="sr-only ">Loading...</span>
+                            </div>
+                        </div>
+                        <div *ngIf="!hallucinateRetrievalKeplerRes.status " class=" d-flex " style="color: #8626C3; ">
+                            <p class="mainLabel mainLabelSM mainLabelLight ">{{hallucinateRetrievalKeplerRes.errorMesssage ? hallucinateRetrievalKeplerRes.errorMesssage : "API got failed "}}</p>
                         </div>
                     </div>
-                    <div *ngIf="!hallucinateRetrievalKeplerRes.status " class=" d-flex " style="color: #8626C3; ">
-                        <p class="mainLabel mainLabelSM mainLabelLight ">{{hallucinateRetrievalKeplerRes.errorMesssage ? hallucinateRetrievalKeplerRes.errorMesssage : "API got failed "}}</p>
+                    <div class="card-body " *ngIf="!isEmptyObject(gEvalres) ">
+                        <table>
+                            <tr>
+                                <th>Faithfulness</th>
+                                <th>Relevance</th>
+                                <th>Adherance</th>
+                                <th>Correctness</th>
+                                <th>Average Score</th>
+                                <th>Time Taken</th>
+                            </tr>
+                            <tr>
+                                <td>{{gEvalres[0].faithfulness}}</td>
+                                <td>{{gEvalres[0].relevance}}</td>
+                                <td>{{gEvalres[0].adherance}}</td>
+                                <td>{{gEvalres[0].correctness}}</td>
+                                <td>{{gEvalres[0].AverageScore}}</td>
+                                <td>{{gEvalres[0].timetaken}}</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
-                <div class="card-body " *ngIf="!isEmptyObject(gEvalres) ">
-                    <table>
-                        <tr>
-                            <th>Faithfulness</th>
-                            <th>Relevance</th>
-                            <th>Adherance</th>
-                            <th>Correctness</th>
-                            <th>Average Score</th>
-                            <th>Time Taken</th>
-                        </tr>
-                        <tr>
-                            <td>{{gEvalres[0].faithfulness}}</td>
-                            <td>{{gEvalres[0].relevance}}</td>
-                            <td>{{gEvalres[0].adherance}}</td>
-                            <td>{{gEvalres[0].correctness}}</td>
-                            <td>{{gEvalres[0].AverageScore}}</td>
-                            <td>{{gEvalres[0].timetaken}}</td>
-                        </tr>
-                    </table>
+                <div *ngIf="isMultimodal">
+                    <div *ngIf="isLoadingMMImage" class="spinner-container">
+                        <div class="spinner"></div>
+                    </div>
+                    <div class="card-body " *ngIf="MMImageResponse">
+                        <table>
+                            <tr>
+                                <th>Faithfulness</th>
+                                <th>Relevance</th>
+                                <th>Adherance</th>
+                                <th>Correctness</th>
+                                <th>Average Score</th>
+                            </tr>
+                            <tr>
+                                <td>{{faithfulnessScore}}</td>
+                                <td>{{relevanceScore}}</td>
+                                <td>{{adhernceScore}}</td>
+                                <td>{{correctnessScore}}</td>
+                                <td>{{averageScore}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div *ngIf="!isEmptyObject(lightRag.response)">
+                    <!-- <div *ngIf="lightRag.status" class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
+                        <div class="spinner-border" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div> -->
+                    <div class="card-body" *ngIf="!isEmptyObject(lightRag.response.GEval)">
+                        <table>
+                            <tr>
+                                <th>Faithfulness</th>
+                                <th>Relevance</th>
+                                <th>Adherance</th>
+                                <th>Correctness</th>
+                                <th>Average Score</th>
+                                <th>Time Taken</th>
+                            </tr>
+                            <tr>
+                                <td>{{lightRag.response.GEval[0].faithfulness}}</td>
+                                <td>{{lightRag.response.GEval[0].relevance}}</td>
+                                <td>{{lightRag.response.GEval[0].adherance}}</td>
+                                <td>{{lightRag.response.GEval[0].correctness}}</td>
+                                <td>{{lightRag.response.GEval[0].AverageScore}}</td>
+                                <td>{{lightRag.response.GEval[0].timetaken}}</td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
             </div>
-            <div id="accordionEval" class="mt-3" *ngIf="!isEmptyObject(gEvalres)">
+            <div id="accordionEval" class="mt-3">
                 <div class="card">
-                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne " data-toggle="collapse" data-target="#EvalCollapse" aria-expanded="true" aria-controls="EvalCollapse">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne " data-bs-toggle="collapse" data-bs-target="#EvalCollapse" aria-expanded="true" aria-controls="EvalCollapse">
                         <div>
                             <label class="mainLabel cursor">
                                 Evaluation Reasoning
                             </label>
                         </div>
                     </div>
-                    <div id="EvalCollapse" class="collapse" aria-labelledby="headingOne" data-parent="#accordionEval">
-                        <div class="card-body">
+                    <div *ngIf="!isMultimodal">
+                        <div id="EvalCollapse" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordionEval">
+                            <div class="card-body">
+                                <table>
+                                    <tr>
+                                        <th>Faithfulness</th>
+                                        <th>Relevance</th>
+                                        <th>Adherance</th>
+                                        <th>Correctness</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{gEvalres[1]?.['faithfulness']}}</td>
+                                        <td>{{gEvalres[1]?.['relevance']}}</td>
+                                        <td>{{gEvalres[1]?.['adherance']}}</td>
+                                        <td>{{gEvalres[1]?.['correctness']}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isMultimodal">
+                        <div *ngIf="isLoadingMMImage" class="spinner-container">
+                            <div class="spinner"></div>
+                        </div>
+                        <div class="card-body" *ngIf="MMImageResponse">
                             <table>
                                 <tr>
                                     <th>Faithfulness</th>
@@ -122,12 +262,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                     <th>Correctness</th>
                                 </tr>
                                 <tr>
-                                    <td>{{gEvalres[1].faithfulness}}</td>
-                                    <td>{{gEvalres[1].relevance}}</td>
-                                    <td>{{gEvalres[1].adherance}}</td>
-                                    <td>{{gEvalres[1].correctness}}</td>
+                                    <td>{{faithfulness}}</td>
+                                    <td>{{relevance}}</td>
+                                    <td>{{adhernce}}</td>
+                                    <td>{{correctness}}</td>
                                 </tr>
                             </table>
+                        </div>
+                    </div>
+                    <div *ngIf="!isEmptyObject(lightRag.response)">
+                        <div id="EvalCollapse" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordionEval">
+                            <div class="card-body">
+                                <table>
+                                    <tr>
+                                        <th>Faithfulness</th>
+                                        <th>Relevance</th>
+                                        <th>Adherance</th>
+                                        <th>Correctness</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{lightRag.response.GEval[1]?.['faithfulness']}}</td>
+                                        <td>{{lightRag.response.GEval[1]?.['relevance']}}</td>
+                                        <td>{{lightRag.response.GEval[1]?.['adherance']}}</td>
+                                        <td>{{lightRag.response.GEval[1]?.['correctness']}}</td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -188,7 +348,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </ul>
                 </div>
                 <!-- <div *ngIf="objectKeys(templateBasedResponse).length != 0">
-                    <label class="mainLabel mainLabelSM mb-1 pl-2">Template Based</label>
+                    <label class="mainLabel mainLabelSM mb-1 ps-2">Template Based</label>
                     <div class="card-body mainLabel mainLabelSM mainLabelLight mb-2 p-2"
                         *ngFor="let key of objectKeys(templateBasedResponse)">
                         <label class="mainLabel labelSM">{{ key.replace('_',
@@ -255,13 +415,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
         </div>
     </div>
-    <div class="d-flex mt-3 ml-1 mb-0" *ngIf="fmRes?.moderationResults?.requestModeration?.summary?.status == 'PASSED' && fmRes?.moderationResults?.responseModeration?.summary?.status == 'PASSED' && objectKeys(templateBasedResponse).length == 0  && !hallucinationSwitchCheck">
-        <p class="mainLabel mainLabelSM mr-3">Hallucination Score: {{fmRes?.moderationResults?.responseModeration?.hallucinationScore}}
+    <div class="d-flex mt-3 ms-1 mb-0" *ngIf="fmRes?.moderationResults?.requestModeration?.summary?.status == 'PASSED' && fmRes?.moderationResults?.responseModeration?.summary?.status == 'PASSED' && objectKeys(templateBasedResponse).length == 0  && !hallucinationSwitchCheck">
+        <p class="mainLabel mainLabelSM me-3">Hallucination Score: {{fmRes?.moderationResults?.responseModeration?.hallucinationScore}}
         </p>
     </div>
-    <div class="d-flex mt-3 ml-1 mb-0" *ngIf="!hallucinationSwitchCheck && fmRes?.moderationResults?.requestModeration?.summary?.status == 'PASSED' && fmRes?.moderationResults?.responseModeration?.summary?.status == 'PASSED' && objectKeys(templateBasedResponse).length == 0 && enableSearch">
+    <div class="d-flex mt-3 ms-1 mb-0" *ngIf="!hallucinationSwitchCheck && fmRes?.moderationResults?.requestModeration?.summary?.status == 'PASSED' && fmRes?.moderationResults?.responseModeration?.summary?.status == 'PASSED' && objectKeys(templateBasedResponse).length == 0">
         <label class="mainLabel labelSM">Internet Search</label>
-        <span class="switch ml-1" style="margin-top:2px;">
+        <span class="switch ms-1" style="margin-top:2px;">
             <input id="serperOption" type="checkbox" name="serperOption" [checked]="isSerperSelected"
                 (change)="toggleSearch($event)" />
             <label for="serperOption"></label>
@@ -291,12 +451,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div class="card-body" *ngIf="!isEmptyObject(responseSerper)">
                 <p class="mainLabel mainLabelSM mainLabelLight mb-2" *ngFor="let res of responseSerper?.internetResponse" [innerHTML]="res"></p>
                 <!-- <div class="row">
-                    <p class="mainLabel mainLabelSM mainLabelLight ml-3">Metric Name: {{responseSerper.metricName}}</p>
-                    <p class="mainLabel mainLabelSM mainLabelLight ml-3">Score: {{responseSerper.score}}</p>
+                    <p class="mainLabel mainLabelSM mainLabelLight ms-3">Metric Name: {{responseSerper.metricName}}</p>
+                    <p class="mainLabel mainLabelSM mainLabelLight ms-3">Score: {{responseSerper.score}}</p>
                     <div *ngIf="responseSerper.explanation && responseSerper.explanation.length">
-                        <p class="mainLabel mainLabelSM mainLabelLight ml-1">Explanation:</p>
+                        <p class="mainLabel mainLabelSM mainLabelLight ms-1">Explanation:</p>
                         <ul>
-                            <li *ngFor="let item of responseSerper.explanation" class="mainLabel mainLabelSM mainLabelLight ml-2">
+                            <li *ngFor="let item of responseSerper.explanation" class="mainLabel mainLabelSM mainLabelLight ms-2">
                                 {{item | json}}
                             </li>
                         </ul>
@@ -324,27 +484,24 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     <ng-container *ngIf="isEmptyObject(imageFailedCases?.modelBased) && isEmptyObject(imageFailedCases?.templateBased) && objectKeys(templateBasedResponse).length == 0">
         <div *ngIf="fmRes?.moderationResults?.requestModeration?.summary?.status == 'PASSED' && fmRes?.moderationResults?.responseModeration?.summary?.status == 'PASSED' || hallucinationSwitchCheck">
 
-            <div id="accordionTHOT" class="mt-3" *ngIf="thotState.active">
+            <div id="accordionTHOT" class="mt-3" *ngIf="!isMultimodal">
                 <div class="card">
-                    <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne" (click)="toggleTHOTCollapse();callTHOT()">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" (click)="toggleTHOTCollapse(); callTHOT()">
                         <div>
                             <label class="mainLabel cursor" style="display: flex;">
-                                REASONING <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
-                                    [inline]="true"
-                                    (click)="openRightSideModal({title:'Thread of Thoughts',type:'thotdescription'}); $event.stopPropagation()">info</mat-icon>
+                                REASONING <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Thread of Thoughts',type:'thotdescription'}); $event.stopPropagation()">info</mat-icon>
                             </label>
                         </div>
                         <div class="col-md-10 text-end" *ngIf="!isEmptyObject(thotResponse)">
                             <p class="mainLabel mainLabelSM">Time Taken: <span>{{thotResponse.timetaken}}s</span></p>
-                            <p class="mainLabel mainLabelSM " *ngIf="hallucinationSwitchCheck">Token Cost: <span>{{thotResponse.token_cost}}</span>
+                            <p class="mainLabel mainLabelSM" *ngIf="hallucinationSwitchCheck">Token Cost: <span>{{thotResponse.token_cost}}</span></p>
                         </div>
                     </div>
                     <div *ngIf="isTHOTCollapsed">
                         <div class="card-body" *ngIf="isEmptyObject(thotResponse)">
-                            <p class="mainLabel mainLabelSM" *ngIf="thotState.status == 'FAILED'; else loaderTHOT">API got failed. Please try again later. <a class="text-decoration-underline" (click)="callTHOT()">Click
-                                    here to retry</a></p>
+                            <p class="mainLabel mainLabelSM" *ngIf="thotState.status == 'FAILED'; else loaderTHOT">API got failed. Please try again later. <a class="text-decoration-underline" (click)="callTHOT()">Click here to retry</a></p>
                             <ng-template #loaderTHOT>
-                                <div class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
+                                <div class="d-flex justify-content-center align-items-center" style="color: #8626C3;">
                                     <div class="spinner-border" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
@@ -352,8 +509,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </ng-template>
                         </div>
                         <div class="card-body" *ngIf="!isEmptyObject(thotResponse)">
-                            <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="thotResponse.thot_response">
-                            </p>
+                            <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="thotResponse.thot_response"></p>
                             <p class="mainLabel mainLabelSM mainLabelLight m-0" *ngIf="isNonEmptyArray(thotResponse.sourceText)">Source: {{thotResponse.sourceText.join(', ')}}</p>
                             <div class="mt-1" id="metricsTable" *ngIf="UncertaintyAIMetric!">
                                 <table style="border-collapse: collapse; width: 100%;">
@@ -377,13 +533,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </div>
                 </div>
             </div>
-            <div id="accordionCOV" class="mt-3" *ngIf="covState.active">
+            <div id="accordionCOV" class="mt-3" *ngIf="!isMultimodal">
                 <div class="card">
                     <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" (click)="toggleCollapse(); covgetApi()">
                         <div>
                             <label role='button' class="mainLabel cursor" style="display: flex;">
-                                    VERIFICATION <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Chain of Verifications',type:'covdescription'}); $event.stopPropagation()">info</mat-icon>
-                </label>
+                                VERIFICATION <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Chain of Verifications',type:'covdescription'}); $event.stopPropagation()">info</mat-icon>
+                            </label>
                         </div>
                         <div class="col-md-10 text-end" *ngIf="!isEmptyObject(covResponse)">
                             <p class="mainLabel mainLabelSM">Time Taken: <span>{{covResponse.timetaken}}s</span></p>
@@ -408,12 +564,102 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </div>
                 </div>
             </div>
+            <div id="accordion" class="mt-3" *ngIf="isMultimodal">
+                <div class="card">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" data-bs-toggle="collapse" data-bs-target="#RCollapse" aria-expanded="true" aria-controls="RCollapse">
+                        <div>
+                            <label role='button' class="mainLabel cursor" style="display: flex;">
+                                REASONING <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true">info</mat-icon>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="RCollapse" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                        <div class="card-body mt-0">
+                            <div *ngIf="isLoadingMMImage" class="spinner-container">
+                                <div class="spinner"></div>
+                            </div>
+                            <div class="mt-0">
+                                <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="MMImageTHOT">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="accordion" class="mt-3" *ngIf="isMultimodal">
+                <div class="card">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" data-bs-toggle="collapse" data-bs-target="#VCollapse" aria-expanded="true" aria-controls="VCollapse">
+                        <div>
+                            <label role='button' class="mainLabel cursor" style="display: flex;">
+                                VERIFICATION <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true">info</mat-icon>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="VCollapse" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                        <div class="card-body mt-0">
+                            <div *ngIf="isLoadingMMImage" class="spinner-container">
+                                <div class="spinner"></div>
+                            </div>
+                            <div class="mt-0">
+                                <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="MMImageCOV">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div id="accordion" class="mt-3" *ngIf="isMultimodal">
+                <div class="card">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" data-toggle="collapse" data-target="#MICollapse" aria-expanded="true" aria-controls="MICollapse" (click)="MMImage()">
+                        <div>
+                            <label role='button' class="mainLabel cursor" style="display: flex;">
+                                MULTIMODEL IMAGE <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true">info</mat-icon>
+                            </label>
+                        </div>
+                    </div>
+                    <div *ngIf="isLoadingMMImage" class="spinner-container">
+                        <div class="spinner"></div>
+                    </div>
+                    <div id="MICollapse" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body mt-0">
+                            <div class="mt-0">
+                                <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="MMImageResponse">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <!-- <div id="accordion" class="mt-3" *ngIf="UploadedFile?.type?.startsWith('video/')">
+                <div class="card">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" data-toggle="collapse" data-target="#MVCollapse" aria-expanded="true" aria-controls="MVCollapse" (click)="MMVideo()">
+                        <div>
+                            <label role='button' class="mainLabel cursor" style="display: flex;">
+                                MULTIMODEL VIDEO <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true">info</mat-icon>
+                            </label>
+                        </div>
+                    </div>
+                    <div *ngIf="isLoadingMMVideo" class="spinner-container">
+                        <div class="spinner"></div>
+                    </div>
+                    <div id="MVCollapse" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body mt-0">
+                            <div class="mt-0">
+                                <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="MMVideoResponse">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
             <!-- <div id="accordionExplain" class="mt-3" *ngIf="llmExplainState.active">
                 <div class="card">
                     <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne" data-toggle="collapse" data-target="#EXPLAINCollapse" aria-expanded="true" aria-controls="#EXPLAINCollapse" (click)="llmExplanation()">
                         <div>
                             <label class="mainLabel cursor d-flex">
-                                LLM Explanation <mat-icon class="ml-2 cursor-pointer" style="color: #727272;"
+                                LLM Explanation <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
                                     [inline]="true"
                                     (click)="openRightSideModal({title:'LLM Explanation',type:'llmExplain'}); $event.stopPropagation()">info</mat-icon>
                             </label>
@@ -452,30 +698,50 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </div>
             </div> -->
             <a mat-raised-button type="btn" class="mainBtn DecryptButton mt-3" color="DecryptBtnClr" (click)="toggleArrow()">Additional Explanation <span [innerHTML]="isArrowDown ? '&#9660;' : '&#9650;'"></span></a>
-            <div id="accordionCOT" class="mt-3" *ngIf="cotState.active && !isArrowDown">
+
+            <div id="accordion" class="mt-3" *ngIf="isMultimodal && !isArrowDown">
                 <div class="card">
-                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" (click)="toggleCOTCollapse();callCOT()">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" data-bs-toggle="collapse" data-bs-target="#TCollapse" aria-expanded="true" aria-controls="TCollapse">
+                        <div>
+                            <label role='button' class="mainLabel cursor" style="display: flex;">
+                                CHAIN OF THOUGHTS <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true">info</mat-icon>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="TCollapse" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion">
+                        <div class="card-body mt-0">
+                            <div *ngIf="isLoadingMMImage" class="spinner-container">
+                                <div class="spinner"></div>
+                            </div>
+                            <div class="mt-0">
+                                <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="MMImageCOT">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="accordionCOT" class="mt-3" *ngIf="!isMultimodal && !isArrowDown">
+                <div class="card">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" (click)="toggleCOTCollapse(); callCOT()">
                         <div>
                             <label class="mainLabel cursor" style="display: flex;">
-                                Chain of Thoughts <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
+                                CHAIN OF THOUGHTS <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
                                 [inline]="true"
                                 (click)="openRightSideModal({title:'Chain of Thoughts',type:'cotdescription'}); $event.stopPropagation()">info</mat-icon>
                             </label>
                         </div>
                         <div class="col-md-10 text-end" *ngIf="!isEmptyObject(cotResponse)">
-                            <p class="mainLabel mainLabelSM ">Time Taken: <span>{{cotResponse.timetaken}}s</span>
-                            </p>
-                            <p class="mainLabel mainLabelSM " *ngIf="hallucinationSwitchCheck">Token Cost: <span>{{cotResponse.token_cost}}</span>
-                            </p>
+                            <p class="mainLabel mainLabelSM ">Time Taken: <span>{{cotResponse.timetaken}}s</span></p>
+                            <p class="mainLabel mainLabelSM " *ngIf="hallucinationSwitchCheck">Token Cost: <span>{{cotResponse.token_cost}}</span></p>
                         </div>
                     </div>
                     <div *ngIf="isCOTCollapsed">
                         <div class="card-body" *ngIf="isEmptyObject(cotResponse)">
-                            <p class="mainLabel mainLabelSM" *ngIf="cotState.status == 'FAILED'; else loaderCOT">API got failed. Please try again later. <a class="text-decoration-underline" (click)="callCOT()">Click here
-                                    to
-                                    retry</a></p>
+                            <p class="mainLabel mainLabelSM" *ngIf="cotState.status == 'FAILED'; else loaderCOT">API got failed. Please try again later. <a class="text-decoration-underline" (click)="callCOT()">Click here to retry</a></p>
                             <ng-template #loaderCOT>
-                                <div class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
+                                <div class="d-flex justify-content-center align-items-center" style="color: #8626C3;">
                                     <div class="spinner-border" role="status">
                                         <span class="sr-only">Loading...</span>
                                     </div>
@@ -483,30 +749,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </ng-template>
                         </div>
                         <div class="card-body" *ngIf="!isEmptyObject(cotResponse)">
-                            <!-- <div class=" row ">
-                                <div class="col-md-12 text-right ">
-                                    <p class="mainLabel mainLabelSM ">Time Taken: <span>{{cotResponse.timetaken}}s</span>
-                                    </p>
-                                    <p class="mainLabel mainLabelSM " *ngIf="hallucinationSwitchCheck">Token Cost: <span>{{cotResponse.token_cost}}</span>
-                                    </p>
-                                </div>
-                            </div> -->
-                            <p class="mainLabel mainLabelSM mainLabelLight m-0 " [innerHTML]="cotResponse.text "></p>
-                            <p class="mainLabel mainLabelSM mainLabelLight m-0 " *ngIf="isNonEmptyArray(cotResponse.sourceText) ">Source: {{cotResponse.sourceText.join(', ')}}
-                            </p>
-                            <div class="mt-1 " id="metricsTable " *ngIf="UncertaintyCotMetric!">
-                                <table style="border-collapse: collapse; width: 100%; ">
+                            <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="cotResponse.text"></p>
+                            <p class="mainLabel mainLabelSM mainLabelLight m-0" *ngIf="isNonEmptyArray(cotResponse.sourceText)">Source: {{cotResponse.sourceText.join(', ')}}</p>
+                            <div class="mt-1" id="metricsTable" *ngIf="UncertaintyCotMetric!">
+                                <table style="border-collapse: collapse; width: 100%;">
                                     <tr>
-                                        <th style="padding: 8px; ">Metric</th>
+                                        <th style="padding: 8px;">Metric</th>
                                         <th style="padding: 8px;">Level</th>
                                         <th>Score</th>
-                                        <th style="padding: 8px; ">Explanation</th>
-                                        <th style="padding: 8px; ">Recommendation</th>
+                                        <th style="padding: 8px;">Explanation</th>
+                                        <th style="padding: 8px;">Recommendation</th>
                                     </tr>
-                                    <tr *ngFor="let metric of metrics ">
-                                        <td style="padding: 8px; ">{{metric.charAt(0).toUpperCase() + metric.slice(1)}}</td>
+                                    <tr *ngFor="let metric of metrics">
+                                        <td style="padding: 8px;">{{metric.charAt(0).toUpperCase() + metric.slice(1)}}</td>
                                         <td style="padding: 8px;">{{metric === 'uncertainty' ? UncertaintyCotMetric[metric].uncertainty_level : UncertaintyCotMetric[metric].coherence_level}}</td>
-                                        <td style="padding: 8px; ">{{UncertaintyCotMetric[metric].score}}</td>
+                                        <td style="padding: 8px;">{{UncertaintyCotMetric[metric].score}}</td>
                                         <td style="padding: 8px; vertical-align: top;">{{UncertaintyCotMetric[metric].explanation}}</td>
                                         <td style="padding: 8px; vertical-align: top;">{{UncertaintyCotMetric[metric].recommendation}}</td>
                                     </tr>
@@ -516,28 +773,120 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </div>
                 </div>
             </div>
-            <div id="accordionGOT" class="mt-3 " *ngIf="gotState.active && !isArrowDown && !hallucinationSwitchCheck">
+            <div id="reread" class="mt-3" *ngIf="!isArrowDown && !hallucinationSwitchCheck">
                 <div class="card">
-                    <div class="card-header cursor border-bottom-0" style="background: none; " id="headingOne " (click)="toggleGOTCollapse();getGOT()">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" (click)="toggleRereadCollapse(); reread()">
                         <div>
                             <label class="mainLabel cursor d-flex">
-                                Graph of Thoughts <mat-icon class="ms-2 cursor-pointer " style="color: #727272; "
+                                REREAD REASONING
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title: 'ReRead Reasoning',type: 'rereadDescription'}); $event.stopPropagation()">info</mat-icon>
+                            </label>
+                        </div>
+                        <div class="col-md-10 text-end" *ngIf="!isEmptyObject(rereadResponse)">
+                            <p class="mainLabel mainLabelSM">Time Taken: <span>{{rereadResponse.rereadTimeTaken}}s</span></p>
+                        </div>
+                    </div>
+                    <div *ngIf="isRereadCollapsed">
+                        <!-- <div *ngIf="rereadloading" class="spinner-container">
+                            <div class="spinner"></div>
+                        </div> -->
+                        <div class="card-body" *ngIf="isEmptyObject(rereadResponse)">
+                            <p class="mainLabel mainLabelSM" *ngIf="rereadState.status=='FAILED'; else loaderReread">
+                                API got failed. Please try again later. <a class="text-decoration-underline" (click)="reread()">Click here to retry</a>
+                            </p>
+                            <ng-template #loaderReread>
+                                <div class="d-flex justify-content-center align-items-center" style="color: #8626C3;">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                        <div class="card-body" *ngIf="!isEmptyObject(rereadResponse)">
+                            <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="rereadResponse.rereadResult"></p>
+                            <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="rereadResponse.rereadExplanation"></p>
+                        </div>
+                        <div class="mt-1 ms-2" id="metricsTable" *ngIf="uncertaintyResult!">
+                            <table style="border-collapse: collapse; width: 100%;">
+                                <tr>
+                                    <th style="padding: 8px;">Metric</th>
+                                    <th style="padding: 8px;">Level</th>
+                                    <th>Score</th>
+                                    <th style="padding: 8px;">Explanation</th>
+                                    <th style="padding: 8px;">Recommendation</th>
+                                </tr>
+                                <tr *ngFor="let metric of metrics">
+                                    <td style="padding: 8px;">{{metric.charAt(0).toUpperCase() + metric.slice(1)}}</td>
+                                    <td style="padding: 8px;">{{metric === 'uncertainty' ? uncertaintyResult[metric].uncertainty_level : uncertaintyResult[metric].coherence_level}}</td>
+                                    <td style="padding: 8px;">{{uncertaintyResult[metric].score}}</td>
+                                    <td style="padding: 8px; vertical-align: top;">{{uncertaintyResult[metric].explanation}}</td>
+                                    <td style="padding: 8px; vertical-align: top;">{{uncertaintyResult[metric].recommendation}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="lot" class="mt-3" *ngIf="!isArrowDown && !hallucinationSwitchCheck">
+                <div class="card">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" (click)="toggleLotCollapse(); logicOfThoughts()">
+                        <div>
+                            <label class="mainLabel cursor d-flex">
+                               LOGIC OF THOUGHT
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title: 'Logic Of Thought',type: 'lotDescription'}); $event.stopPropagation()">info</mat-icon>
+                            </label>
+                        </div>
+                        <div class="col-md-10 text-end" *ngIf="!isEmptyObject(lotResponse)">
+                            <p class="mainLabel mainLabelSM">Time Taken: <span>{{lotResponse?.lotTimeTaken}}s</span></p>
+                        </div>
+                    </div>
+                    <div *ngIf="isLotCollapsed">
+                        <div class="card-body" *ngIf="isEmptyObject(lotResponse)">
+                            <p class="mainLabel mainLabelSM" *ngIf="lotState.status=='FAILED'; else loaderLot">
+                                API got failed. Please try again later. <a class="text-decoration-underline" (click)="logicOfThoughts()">Click here to retry</a>
+                            </p>
+                            <ng-template #loaderLot>
+                                <div class="d-flex justify-content-center align-items-center" style="color: #8626C3;">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                        <div class="card-body" *ngIf="!isEmptyObject(lotResponse)">
+                            <p class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Explanation: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExplanation"></span></p>
+                            <p *ngIf="lotResponse?.lotPropositions" class="mainLabel mainLabelSM ms-0 mb-2 me-2 mt-3">Propositions:</p>
+                            <ul>
+                                <li *ngFor="let key of objectKeys(lotResponse.lotPropositions)" class="mainLabel mainLabelSM ms-0 mb-2 me-2 mt-2">
+                                    <strong class="mainLabelLight ms-1">{{ key }}:</strong> <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotPropositions[key]"></span>
+                                </li>
+                            </ul>
+                            <p *ngIf="lotResponse?.lotExpression" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Logical Expression: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExpression"></span></p>
+                            <p *ngIf="lotResponse?.lotExtendExplanation" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Extended Logical Expression: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExtendExplanation"></span></p>
+                            <p *ngIf="lotResponse?.lotLaw" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Law used to extend the logical expression: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotLaw"></span></p>
+                            <p *ngIf="lotResponse?.lotExtendInfo" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Extended Logical Information: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExtendInfo"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="accordionGOT" class="mt-3" *ngIf="gotState.active && !isArrowDown && !hallucinationSwitchCheck">
+                <div class="card">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" (click)="toggleGOTCollapse(); getGOT()">
+                        <div>
+                            <label class="mainLabel cursor d-flex">
+                                GRAPH OF THOUGHTS <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
                                     [inline]="true"
                                     (click)="openRightSideModal({title: 'Graph of Thoughts',type: 'gotdescription'}); $event.stopPropagation()">info</mat-icon>
                             </label>
                         </div>
-                    </div>
-                    <div *ngIf="isGOTCollapsed">
-                        <!-- <div class=" d-flex justify-content-center align-items-center " *ngIf="isLoading " style="color: #8626C3; padding: 15px; ">
-                        <div class="spinner-border " role="status ">
-                            <span class="sr-only ">Loading...</span>
+                        <div class="col-md-10 text-end" *ngIf="!isEmptyObject(apiResult)">
+                            <p class="mainLabel mainLabelSM">Time Taken: <span>{{apiResult?.time_taken}}s</span></p>
                         </div>
                     </div>
-                    <div *ngIf="responseBlocked ">
-                        Response Blocked by RAI Guardrail
-                    </div> -->
+                    <div *ngIf="isGOTCollapsed">
                         <div class="card-body" *ngIf="isEmptyObject(apiResult)">
-                            <p class="mainLabel mainLabelSM" *ngIf="gotState.status=='FAILED' ; else loaderGot">
+                            <p class="mainLabel mainLabelSM" *ngIf="gotState.status=='FAILED'; else loaderGot">
                                 API got failed. Please try again later. <a class="text-decoration-underline" (click)="getGOT()">Click here to retry</a>
                             </p>
                             <ng-template #loaderGot>
@@ -549,17 +898,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </ng-template>
                         </div>
                         <div *ngIf="!isEmptyObject(apiResult)" style="display:flex">
-                            <p class="mainLabel mainLabelSM ml-3 mb-2 mr-5 mt-3"> Cost Incurred: <span class="mainLabelLight ml-1" [innerHTML]="apiResult.cost_incurred"></span></p>
-                            <p class="mainLabel mainLabelSM ml-3 mb-2 mr-5 mt-3"> Consistency Level: <span class="mainLabelLight ml-1" [innerHTML]="apiResult.consistency_level"></span></p>
-                            <p class="mainLabel mainLabelSM ml-3 mb-2 mt-3"> Consistency Score:</p>
+                            <p class="mainLabel mainLabelSM ms-3 mb-2 me-5 mt-3">Cost Incurred: <span class="mainLabelLight ms-1" [innerHTML]="apiResult.token_cost"></span></p>
+                            <p class="mainLabel mainLabelSM ms-3 mb-2 me-5 mt-3">Consistency Level: <span class="mainLabelLight ms-1" [innerHTML]="apiResult.consistency_level"></span></p>
+                            <p class="mainLabel mainLabelSM ms-3 mb-2 mt-3">Consistency Score:</p>
                             <div class="score-meter-container mt-3">
-                                <div class="score-meter mb-4 ml-4">
+                                <div class="score-meter mb-4 ms-4">
                                     <div class="score-pointer" [style.left.%]="apiResult.score">
                                         <span class="score-text">{{ apiResult.score | number:'1.2-2' }}</span>
                                     </div>
                                     <div class="score-meter-fill" [style.width.%]="apiResult.score"></div>
                                     <div class="score-markings">
-                                        <div class="score-marking" *ngFor="let i of [ 0, 20, 40, 60, 80, 100] " [style.--marking-position.%]="i">
+                                        <div class="score-marking" *ngFor="let i of [0, 20, 40, 60, 80, 100]" [style.--marking-position.%]="i">
                                             <span class="score-marking-number">{{ i }}</span>
                                         </div>
                                     </div>
@@ -567,40 +916,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </div>
                         </div>
                         <div class="card-body" *ngIf="!isEmptyObject(apiResult)">
-                            <!-- <div class="row">
-                                <div class="col-md-6">
-                                    <p class="mainLabel mainLabelSM">Response Text</p>
-                                </div>
-                            </div> -->
                             <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="GOTAnswer"></p>
-                            <!-- <div class="graph-container " style="height: 1400px; ">
-                            <ngx-graph [nodes]="nodes " [links]="links ">
-                                <ng-template #nodeTemplate let-node>
-                                    <svg:g class="node ">
-                                        <svg:rect [attr.width]="node.dimension.width "
-                                            [attr.height]="node.dimension.height " [attr.fill]=" '#93aedd' " />
-                                        <svg:text alignment-baseline="central " [attr.x]="10 "
-                                            [attr.y]="node.dimension.height / 2 ">{{ node.label }}</svg:text>
-                                    </svg:g>
-                                </ng-template>
- 
-                                <ng-template #linkTemplate let-link>
-                                    <svg:g class="edge ">
-                                        <svg:path class="line " stroke-width="2 " marker-end="url(#arrow) ">
-                                        </svg:path>
-                                        <svg:text class="edge-label " text-anchor="middle ">
-                                            <textPath class="text-path " [attr.href]=" '#' + link.id "
-                                                [style.dominant-baseline]="link.dominantBaseline " startOffset="50% ">
-                                                {{ link.label }}
-                                            </textPath>
-                                        </svg:text>
-                                    </svg:g>
-                                </ng-template>
-                            </ngx-graph>
-                        </div> -->
                         </div>
-                        <div class="mt-1 ml-2" id="metricsTable" *ngIf="UncertaintyGotMetric!">
-                            <table style="border-collapse: collapse; width: 100%; ">
+                        <div class="mt-1 ms-2" id="metricsTable" *ngIf="UncertaintyGotMetric!">
+                            <table style="border-collapse: collapse; width: 100%;">
                                 <tr>
                                     <th style="padding: 8px;">Metric</th>
                                     <th style="padding: 8px;">Level</th>
@@ -620,7 +939,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </div>
                 </div>
             </div>
-
             <div id="accordionTOKEN" class="mt-3" *ngIf="tokenImpState.active && !isArrowDown">
                 <div class="card">
                     <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" (click)="toggleTokenCollapse(); tokenImportance()">
@@ -656,7 +974,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <tr *ngFor="let item of topTokens">
                                     <td class="text-center">{{item.token}}</td>
                                     <td class="text-center">{{item.importance_value | number:'1.0-2'}}</td>
-                                    <td class="text-center">{{item.position}}</td>
+                                    <td class="text-center">{{item.Position}}</td>
                                 </tr>
                             </table>
                         </div>
@@ -669,6 +987,39 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <h3 class="mainLabel" style="text-align: center;">Distribution of Importance Score</h3>
                                 <canvas id="myDistributionBarChart1" width="300" height="255" style="display: block; box-sizing: border-box; height: 100%; width: 100%;"></canvas>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="accordionLogicOfThoughts" class="mt-3" *ngIf="!isMultimodal && !isArrowDown && hallucinationSwitchCheck">
+                <div class="card">
+                    <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne" (click)="toggleLogicOfThoughtsCollapse(); callLOT()">
+                        <div>
+                            <label class="mainLabel cursor" style="display: flex;">
+                                LOGIC OF THOUGHTS <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
+                                [inline]="true"
+                                (click)="openRightSideModal({title:'Logic of Thoughts',type:'lotDescription'}); $event.stopPropagation()">info</mat-icon>
+                            </label>
+                        </div>
+                        <div class="col-md-10 text-end" *ngIf="!isEmptyObject(logicOfThoughtsResponse)">
+                            <p class="mainLabel mainLabelSM ">Time Taken: <span>{{logicOfThoughtsResponse.timetaken}}s</span></p>
+                            <p class="mainLabel mainLabelSM ">Token Cost: <span>{{logicOfThoughtsResponse.token_cost}}</span></p>
+                        </div>
+                    </div>
+                    <div *ngIf="isLogicOfThoughtsCollapsed">
+                        <div class="card-body" *ngIf="isEmptyObject(logicOfThoughtsResponse)">
+                            <p class="mainLabel mainLabelSM" *ngIf="logicOfThoughtsState.status == 'FAILED'; else loaderLogicOfThoughts">API got failed. Please try again later. <a class="text-decoration-underline" (click)="callLOT()">Click here to retry</a></p>
+                            <ng-template #loaderLogicOfThoughts>
+                                <div class="d-flex justify-content-center align-items-center" style="color: #8626C3;">
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </div>
+                        <div class="card-body" *ngIf="!isEmptyObject(logicOfThoughtsResponse)">
+                            <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="logicOfThoughtsResponse.text"></p>
+                            <p class="mainLabel mainLabelSM mainLabelLight m-0" *ngIf="isNonEmptyArray(logicOfThoughtsResponse.source_name)">Source: {{logicOfThoughtsResponse.source_name.join(', ')}}</p>
                         </div>
                     </div>
                 </div>

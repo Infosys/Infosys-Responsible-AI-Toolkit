@@ -1,199 +1,198 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
 // .mainContainerReqMod{
 //   height: 350px;
 //   overflow-y: auto;
 // }
+
+
+.cardContainerModelBased-model {
+  display: grid;
+  gap: 8px;
+}
+
+
 .first-column {
-    width: 45%;
-    text-align: left !important;
+  width: 45%;
+  text-align: left !important;
 }
 
 .cardA {
-    color: black;
-    padding: 10px;
-    /* border-radius: 8px; */
-    // border-left: 8px solid #8626C3;
-    background-color: #ececec;
-    border-radius: 8px;
+  color: black;
+  padding: 10px;
+  /* border-radius: 8px; */
+  // border-left: 8px solid #8626C3;
+  background-color: #ececec;
+  border-radius: 8px;
 }
-
 .cardB {
-    // flex: 1 0 23%;
-    flex: 1;
+  // flex: 1 0 23%;
+  flex: 1;
 }
 
 .flex-1 {
-    flex: 1;
+  flex: 1;
 }
-
-.custom-badge {
-    color: rgb(31, 31, 31);
-    font-size: 0.68rem;
-    background-color: rgb(219, 219, 219);
-    display: flex;
-    align-items: center;
-    padding: 0px 7px;
-    border-radius: 4px;
-    height: 20px;
+.custom-badge{
+  color: rgb(31, 31, 31);
+  font-size: 0.68rem;
+  background-color: rgb(219, 219, 219);
+  display: flex;
+  align-items: center;
+  padding: 0px 7px;
+  border-radius: 4px;
+  height: 20px;
 }
-
 .custom-badge-passed {
-    color: rgb(20 83 45);
-    background-color: rgb(220 252 231);
+  color: rgb(20 83 45);
+  background-color: rgb(220 252 231);
 }
-
-.custom-badge-failed {
-    color: rgb(255 0 78);
-    background-color: rgb(255 228 230);
+.custom-badge-failed{
+  color: rgb(255 0 78);
+  background-color: rgb(255 228 230);
 }
-
 .custom-badge-yellow {
-    background-color: #fff3d6;
-    color: #f9a701;
+  background-color: #fff3d6;
+  color: #f9a701;
+
 }
 
 .HeadingLabel {
-    color: #7E7E7E;
-    padding: 5px 0px;
-    margin-bottom: 0px;
-    font-weight: 600;
-    font-size: 11px;
-    margin-right: 1.7rem;
-    font-family: 'Segoe UI';
-    text-transform: uppercase;
-    transition: color 0.3s ease;
+  color: #7E7E7E;
+  padding: 5px 0px;
+  margin-bottom: 0px;
+  font-weight: 600;
+  font-size: 11px;
+  margin-right: 1.7rem;
+  font-family: 'Segoe UI';
+  text-transform: uppercase;
+  transition: color 0.3s ease;
 }
 
 .activeTab {
-    color: #8626C3;
-    position: relative;
+  color: #8626C3;
+  position: relative;
 }
 
 .activeTab::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    /* width: 35%; */
-    border-bottom: 2px solid #8626C3;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  /* width: 35%; */
+  border-bottom: 2px solid #8626C3;
 }
 
 .tableReqMod {
-    width: 100%;
-    color: #7E7E7E;
-    font-size: 12px;
-    font-family: 'Segoe UI';
-    font-weight: 400;
-    tr {
-        padding: 5px 0px;
-        td {
-            padding-right: 8px;
-            text-align: center;
-        }
+  width: 100%;
+  color: #7E7E7E;
+  font-size: 12px;
+  font-family: 'Segoe UI';
+  font-weight: 400;
+
+  tr {
+    padding: 5px 0px;
+
+    td {
+      padding-right: 8px;
+      text-align: center;
     }
+  }
 }
 
 .styled-table {
-    /* margin-left: 1rem; */
-    width: 100%;
-    border-collapse: collapse;
+  /* margin-left: 1rem; */
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .styled-table th.header {
-    /* Segoe UI, Semibold .75rem */
-    font-size: 0.70rem;
-    font-family: 'Segoe UI';
-    font-weight: 600;
-    /* padding-top: 10px; */
-    padding-bottom: 10px;
-    padding-right: 10px;
-    /* background-color: #4CAF50; */
-    color: #382261;
-    opacity: 70%;
-    text-transform: uppercase;
+  /* Segoe UI, Semibold .75rem */
+  font-size: 0.70rem;
+  font-family: 'Segoe UI';
+  font-weight: 600;
+  /* padding-top: 10px; */
+  padding-bottom: 10px;
+  padding-right: 10px;
+  /* background-color: #4CAF50; */
+  color: #382261;
+  opacity: 70%;
+  text-transform: uppercase;
+
 }
 
+
 .styled-table td {
-    /* Segoe UI, regular */
-    font-size: 0.70rem;
-    font-family: 'Segoe UI';
-    font-weight: 500;
-    color: #061838;
+  /* Segoe UI, regular */
+  font-size: 0.70rem;
+  font-family: 'Segoe UI';
+  font-weight: 500;
+  color: #061838;
 }
 
 .styled-table th {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .mainLabel {
-    color: #7E7E7E;
-    padding: 0px;
-    font-weight: 500;
-    font-size: 13px;
-    font-family: 'Segoe UI';
+  color: #7E7E7E;
+  padding: 0px;
+  font-weight: 500;
+  font-size: 13px;
+  font-family: 'Segoe UI';
 }
 
 .mainLabelSM {
-    font-size: 12px;
+  font-size: 12px;
 }
 
 .mainLabelLight {
-    font-weight: 400;
+  font-weight: 400;
 }
 
 .cursor-pointer {
-    cursor: pointer;
+  cursor: pointer;
 }
-
-
 /* PANEL BACKGOUND */
-
 .cdk-overlay-backdrop.custom-backdrop {
-    background: rgba(0, 0, 0, 0.6);
-    top: 0px;
-    width: 100%;
-    height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  top: 0px;
+  width: 100%;
+  height: 100%;
 }
 
 .popupLink {
-    color: #8626C3;
-    text-decoration: underline;
-    cursor: pointer;
+  color: #8626C3;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
-.outerResultCard {
-    box-shadow: 0 2px 4px #00000029 !important;
-    border: none;
-    margin-left: 1px;
-    background: #efefef;
-    border-radius: 14px;
-    // .card-header{
-    //   background: none;
-    //   border: none;
-    //   padding-bottom: 0px;
-    //   h5{
-    //     color: #000000;
-    //     font-size: 1rem;
-    //     font-weight: 600;
-    //     font-family: myriad-pro, Arial !important;
-    //   }
-    // }
+
+.outerResultCard{
+  box-shadow: 0 2px 4px #00000029 !important;
+  border: none;
+  margin-left: 1px;
+  background: #efefef;
+  border-radius: 14px;
+  // .card-header{
+  //   background: none;
+  //   border: none;
+  //   padding-bottom: 0px;
+  //   h5{
+  //     color: #000000;
+  //     font-size: 1rem;
+  //     font-weight: 600;
+  //     font-family: myriad-pro, Arial !important;
+  //   }
+  // }
+}
+.card-header-outerResultCard{
+  background: none;
+  border: none;
+  padding-bottom: 0px;
 }
 
-.card-header-outerResultCard {
-    background: none;
-    border: none;
-    padding-bottom: 0px;
-}
-
-.innerResultCard {
-    border-radius: 14px;
-    box-shadow: 0 1px 4px #00000016 !important;
-    background: #ffffff;
-    border: none;
+.innerResultCard{
+  border-radius: 14px;
+  box-shadow: 0 1px 4px #00000016 !important;
+  background: #ffffff;
+  border: none;
 }

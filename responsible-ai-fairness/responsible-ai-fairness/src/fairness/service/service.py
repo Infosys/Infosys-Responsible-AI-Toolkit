@@ -1,15 +1,12 @@
 """
-Copyright 2024 Infosys Ltd.”
-
-Use of this source code is governed by MIT license that can be found in the LICENSE file or at
-MIT license https://opensource.org/licenses/MIT
+# SPDX-License-Identifier: MIT
+# Copyright 2024 - 2025 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
+ 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 """
 
 import pathlib
@@ -74,14 +71,14 @@ from fairness.constants.llm_constants import (
     MIXTRAL,
     GPT_4O_IMAGE_PROMPT_TEMPLATE,
     GPT_4O_TEXT_PROMPT_TEMPLATE,
+    LLAMA_TEXT_TEMPLATE,AWS_IMAGE_TEMPLATE, AWS_TEXT_TEMPLATE
 )
 from fairness.config.logger import CustomLogger
 import pandas
 from fastapi import HTTPException
 from fairness.exception.custom_exception import CustomHTTPException
 import tempfile
-from openai import AzureOpenAI
-from openai import AuthenticationError
+import re
 
 log = CustomLogger()
 
@@ -137,10 +134,8 @@ from fairness.Telemetry.Telemetry_call import (
 )
 from bson import ObjectId
 import numpy as np
-from openai import AzureOpenAI
-import traceback
-import google.generativeai as genai
-from google.generativeai.types import HarmCategory, HarmBlockThreshold
+
+from fairness.dao.LlmConnection import create_llm_connection, Azureopenai, GeminiFlash, GeminiPro, AWS
 
 from dotenv import load_dotenv
 
@@ -1010,6 +1005,7 @@ class FairnessService:
 
 class FairnessUIservice:
     def __init__(self, MockDB=None):
+        self.api_token=None
         if MockDB is not None:
             self.db = MockDB.db
             self.fileStore = FileStoreReportDb(self.db)
@@ -1038,17 +1034,6 @@ class FairnessUIservice:
             self.llm_connection_credentials_collection = self.db[
                 "llm_connection_credentials"
             ]
-            api_type = os.getenv("OPENAI_API_TYPE")
-            api_base = os.getenv("OPENAI_API_BASE")
-            api_version = os.getenv("OPENAI_API_VERSION")
-            api_key = os.getenv("OPENAI_API_KEY")
-            self.client=AzureOpenAI(
-                api_version=api_version,
-                azure_endpoint=api_base,
-                api_key=api_key
-            )
-
-            genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
     request_payload = ""
     mitigation_payload = ""
@@ -2236,36 +2221,36 @@ class FairnessUIservice:
 
     #     return local_path
 
-    def chat_interaction_image(self,prompt_template, data_url):
-        engine_name = os.getenv("OPENAI_ENGINE_NAME")
-        engine_name = engine_name.strip()
-        if engine_name == "" or engine_name is None:
-            raise HTTPException(status_code=500, detail="OpenAI Engine Name not found")
-        try:
-            completion = self.client.chat.completions.create(
-                model=engine_name,
-                messages=[
-                    {"role": "system", "content": "You are a helpful assistant."},
-                    {
-                        "role": "user",
-                        "content": [
-                            {"type": "text", "text": prompt_template},
-                            {"type": "image_url", "image_url": {"url": data_url}},
-                        ],
-                    },
-                ],
-                temperature=0.3,
-                max_tokens=800,
-                top_p=0.95,
-                frequency_penalty=0,
-                presence_penalty=0,
-            )
+    # def chat_interaction_image(self,prompt_template, data_url):
+    #     engine_name = os.getenv("OPENAI_ENGINE_NAME")
+    #     engine_name = engine_name.strip()
+    #     if engine_name == "" or engine_name is None:
+    #         raise HTTPException(status_code=500, detail="OpenAI Engine Name not found")
+    #     try:
+    #         completion = self.client.chat.completions.create(
+    #             model=engine_name,
+    #             messages=[
+    #                 {"role": "system", "content": "You are a helpful assistant."},
+    #                 {
+    #                     "role": "user",
+    #                     "content": [
+    #                         {"type": "text", "text": prompt_template},
+    #                         {"type": "image_url", "image_url": {"url": data_url}},
+    #                     ],
+    #                 },
+    #             ],
+    #             temperature=0.3,
+    #             max_tokens=800,
+    #             top_p=0.95,
+    #             frequency_penalty=0,
+    #             presence_penalty=0,
+    #         )
 
-            response = completion.choices[0].message.content
-        except Exception as e:
-            raise e
+    #         response = completion.choices[0].message.content
+    #     except Exception as e:
+    #         raise e
 
-        return response
+    #     return response
 
     def image_to_data_url(image_name, image_content):
         mime_type, _ = guess_type(image_name)
@@ -2294,80 +2279,220 @@ class FairnessUIservice:
 
         evaluator = payload["evaluator"]
 
-        evaluator = evaluator.upper()
+        if evaluator is None or evaluator=="":
+             # Create LLM connection using the factory method
+            llm_connection = create_llm_connection()
 
-        result = {}
-   
-        if evaluator == GPT_4O:
-            prompt_template = GPT_4O_IMAGE_PROMPT_TEMPLATE
+            # Get the active LLM name and instance
+            active_llm_name = llm_connection.get_active_llm()
+            llm_instance = llm_connection.llm_instance  # Access the actual LLM instance
 
-            data_url = FairnessUIservice.image_to_data_url(image_name, image_content)
+            # Your existing prompt template logic
+            if isinstance(llm_instance, Azureopenai):
+                prompt_template = GPT_4O_IMAGE_PROMPT_TEMPLATE
+                data_url=FairnessUIservice.image_to_data_url(image_name, image_content)
+                # Use the LLM connection
+                result = llm_connection.get_image_completion(prompt_template, data_url)
 
-            result = self.chat_interaction_image(
-                prompt_template.format(input_placeholder=prompt), data_url
-            )
+            elif isinstance(llm_instance, GeminiFlash) or isinstance(llm_instance, GeminiPro):
+                prompt_template = GEMINI_IMAGE_PROMPT_TEMPLATE
+                # Use the LLM connection
+                result = llm_connection.get_image_completion(
+                    prompt_template.format(input_placeholder=prompt) if hasattr(prompt_template, 'format') else prompt_template, image_content)
+            
+            elif isinstance(llm_instance, AWS):
+                prompt_template = AWS_IMAGE_TEMPLATE
+                data_url=FairnessUIservice.image_to_data_url(image_name, image_content)
+                # Use the LLM connection
+                result = llm_connection.get_image_completion(prompt_template, data_url)
+                # Handle AWS response parsing
+                if '{{' in result:
+                    start_idx = result.find('{{') + 1
+                    end_idx = result.rfind('}}')
+                    json_str = result[start_idx:end_idx+1]
+                else:
+                    start_idx = result.find('{')
+                    end_idx = result.rfind('}')
+                    json_str = result[start_idx:end_idx+1]
 
-            result = json.loads(result[result.find("{") : result.find("}") + 1])
+                result = json.loads(json_str)
 
-        elif evaluator == GEMINI_PRO_VISION:
-            model = genai.GenerativeModel("gemini-pro-vision")
+                return result  # Return the dictionary directly
+            else:
+                    return {"error": "Unsupported LLM type for image analysis"}
 
-            prompt_template = GEMINI_IMAGE_PROMPT_TEMPLATE
-
-            response = model.generate_content(
-                [prompt_template.format(input_placeholder=prompt), image_content],
-                stream=True,
-                safety_settings={
-                    HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-                },
-            )
-
-            response.resolve()
-
-            result = response.text
-
-            result = json.loads(result[result.find("{") : result.find("}") + 1])
+            return json.loads(result[result.find('{'): result.find('}')+1])
 
         else:
-            result = "Please select a valid evaluator"
 
-        return result
+            evaluator = evaluator.upper()
 
-    def chat_interaction_text(self,prompt_template, text):
+            if(evaluator==GPT_4O):
+                openai_instance = Azureopenai()
+                prompt_template=GPT_4O_IMAGE_PROMPT_TEMPLATE
+
+                data_url=FairnessUIservice.image_to_data_url(image_name, image_content)
+                # Use the instance of Azureopenai to get image completion
+                result = openai_instance.get_image_completion(prompt_template, data_url)
+                result = json.loads(result[result.find('{'): result.find('}')+1])
+
+            elif(evaluator=="GEMINI_2.5_FLASH"):
+                gemini_instance = GeminiFlash()
+                prompt_template = GEMINI_IMAGE_PROMPT_TEMPLATE
+                # Use the instance of Gemini to get image completion
+                result = gemini_instance.get_image_completion(
+                    prompt_template.format(input_placeholder=prompt) if hasattr(prompt_template, 'format') else prompt_template,
+                    image_content
+                    )
+                result = json.loads(result[result.find('{'): result.find('}')+1])
+            
+            elif(evaluator=="GEMINI_2.5_PRO"):
+                gemini_instance = GeminiPro()
+                prompt_template = GEMINI_IMAGE_PROMPT_TEMPLATE
+                # Use the instance of Gemini to get image completion
+                result = gemini_instance.get_image_completion(
+                    prompt_template.format(input_placeholder=prompt) if hasattr(prompt_template, 'format') else prompt_template,
+                    image_content
+                    )
+                result = json.loads(result[result.find('{'): result.find('}')+1])
+            
+            elif(evaluator=='AWS_CLAUDE_V3_5'):
+                aws_instance = AWS()
+                prompt_template = AWS_IMAGE_TEMPLATE
+                data_url=FairnessUIservice.image_to_data_url(image_name, image_content)
+                # Use the LLM connection
+                result = aws_instance.get_image_completion(prompt_template, data_url)
+                # Handle AWS response parsing
+                if '{{' in result:
+                    start_idx = result.find('{{') + 1
+                    end_idx = result.rfind('}}')
+                    json_str = result[start_idx:end_idx+1]
+                else:
+                    start_idx = result.find('{')
+                    end_idx = result.rfind('}')
+                    json_str = result[start_idx:end_idx+1]
+
+                result = json.loads(json_str)
+
+            else:
+                result="Please select a valid evaluator"
+
+            return result
+
+    # def chat_interaction_text(self,prompt_template, text):
+    #     try:
+    #         engine_name = os.getenv("OPENAI_ENGINE_NAME")
+    #         engine_name = engine_name.strip()
+    #         if engine_name == "" or engine_name is None:
+    #             raise HTTPException(
+    #                 status_code=500, detail="OpenAI Engine Name not found"
+    #             )
+    #         prompt = prompt_template.format(input_placeholder=text)
+
+    #         message_text = [
+    #             {"role": "system", "content": prompt},
+    #             {"role": "user", "content": text},
+    #         ]
+
+    #         completion = self.client.chat.completions.create(
+    #             model=engine_name,
+    #             messages=message_text,
+    #             temperature=0.3,
+    #             max_tokens=800,
+    #             top_p=0.95,
+    #             frequency_penalty=0,
+    #             presence_penalty=0,
+    #             stop=None,
+    #         )
+
+    #         output = completion.choices[0].message.content
+
+    #     except Exception as e:
+    #         raise e
+
+    #     return output
+    
+    def get_new_token(self):
+        url = os.getenv("API_TOKEN_URL")
+        headers = {
+            "Content-Type": "application/json"
+        }
+        ssl_verify=os.getenv("VERIFY_SSL").strip()
+        verify = False if ssl_verify == "False" else True
+        response = requests.request("GET",url,  headers=headers, verify=verify)
+        if response.status_code == 200:
+            token = response.json().get("access_token")
+            self.api_token=token #storing the token
+            return token
+        else:
+            raise Exception("Failed to fetch new token. Status Code: {}".format(response.status_code))
+    
+    def call_api(self,prompt,recur_count=0):
+        """Call the API, refreshing the token if it's expired."""
+        # If there's no token, get a new one
+        if not self.api_token:
+            log.info("No valid token found. Getting a new one...")
+            self.api_token = self.get_new_token()
+        
+        url = os.getenv("LLAMA_API_URL")
+        payload = json.dumps({
+        "model": os.getenv("LLAMA_AI_CLOUD_MODEL"),
+        "messages": [
+            {
+            "role": "user",
+            "content": prompt
+            }
+        ],
+        "temperature": os.getenv("LLAMA_AI_CLOUD_TEMPRATURE"),
+        "top_p": os.getenv("LLAMA_AI_CLOUD_TOP_P"),
+        "frequency_penalty": 0,
+        "presence_penalty": 0,
+        "max_tokens": 800,
+        "stop": None
+        })
+        headers = {
+        'Content-Type': 'application/json',
+        'Accept': '*',
+        'X-Cluster': 'H100',
+        'Authorization': f'Bearer {self.api_token}'
+        }
+        
+        response = requests.request("POST", url, headers=headers, data=payload)
+        # if the token is expired, get a new one
+        if response.status_code==401:
+            if recur_count>3:
+                log.info("Unable to generate token")
+                raise HTTPException(500,"Internal Server error")
+            
+            log.info("Token expired. Getting a new one...")
+            self.api_token = self.get_new_token()
+            return self.call_api(prompt,recur_count+1)
+    
+        
+        recur_count=0
+    
+        response=json.loads(response.content)
+        print(f"response {response}")
+        return response
+    
+    # Function to extract JSON from response
+    def extract_json(self,response_text):
         try:
-            engine_name = os.getenv("OPENAI_ENGINE_NAME")
-            engine_name = engine_name.strip()
-            if engine_name == "" or engine_name is None:
-                raise HTTPException(
-                    status_code=500, detail="OpenAI Engine Name not found"
-                )
-            prompt = prompt_template.format(input_placeholder=text)
-
-            message_text = [
-                {"role": "system", "content": prompt},
-                {"role": "user", "content": text},
+            extraction_methods = [
+                lambda x: json.loads(re.search(r'```json(.*?)```', x, re.DOTALL).group(1).strip()) if re.search(r'```json(.*?)```', x, re.DOTALL) else None,
+                lambda x: json.loads(re.search(r'\{.*\}', x, re.DOTALL).group(0)) if re.search(r'\{.*\}', x, re.DOTALL) else None,
+                lambda x: json.loads(re.findall(r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}', x)[-1]) if re.findall(r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}', x) else None
             ]
-
-            completion = self.client.chat.completions.create(
-                model=engine_name,
-                messages=message_text,
-                temperature=0.3,
-                max_tokens=800,
-                top_p=0.95,
-                frequency_penalty=0,
-                presence_penalty=0,
-                stop=None,
-            )
-
-            output = completion.choices[0].message.content
-
+            for method in extraction_methods:
+                try:
+                    extracted_json = method(response_text)
+                    if extracted_json:
+                        return extracted_json
+                except Exception as e:
+                    continue
+            return None
         except Exception as e:
-            raise e
-
-        return output
+            return None
 
     def mixtral(self, prompt):
         try:
@@ -2421,44 +2546,89 @@ class FairnessUIservice:
         response = payload["response"]
         evaluator = payload["evaluator"]
 
-        evaluator = evaluator.upper()
+        if evaluator is None or evaluator == '':
+        # Create LLM connection using the factory method
+            llm_connection = create_llm_connection()
+            # Get the active LLM name and instance
+            active_llm_name = llm_connection.get_active_llm()
+            llm_instance = llm_connection.llm_instance  # Access the actual LLM instance
 
-        result = {}
+            # Your existing prompt template logic
+            if isinstance(llm_instance, Azureopenai):
+                prompt_template = GPT_4O_TEXT_PROMPT_TEMPLATE
+            elif isinstance(llm_instance, GeminiFlash) or isinstance(llm_instance, GeminiPro):
+                prompt_template = GEMINI_PROMPT_TEMPLATE
+            elif isinstance(llm_instance, AWS):
+                prompt_template = AWS_TEXT_TEMPLATE
+            prompt = prompt_template.format(input_placeholder=response)
 
-        if evaluator == GPT_4O or evaluator == GPT_4:
-            prompt_template = GPT_4O_TEXT_PROMPT_TEMPLATE
+            # # Choose prompt template based on LLM name
+            # if active_llm_name == 'openai':
+            #     prompt_template = GPT_4O_TEXT_TEMPLATE
+            # # elif active_llm_name == 'gemini':
+            # #     prompt_template = GEMINI_TEXT_TEMPLATE
 
-            result = self.chat_interaction_text(prompt_template, response)
+            # Use the LLM connection
+            result = llm_connection.get_chat_completion(prompt, response)
 
-            result = json.loads(result[result.find("{") : result.find("}") + 1])
+            return json.loads(result[result.find('{'): result.find('}')+1])
 
-        elif evaluator == GEMINI:
-            model = genai.GenerativeModel(model_name="gemini-pro")
-
-            prompt_template = GEMINI_PROMPT_TEMPLATE
-
-            result = model.generate_content(
-                prompt_template.format(input_placeholder=response),
-                safety_settings={
-                    HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-                    HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
-                },
-            )
-
-            result = result.text
-
-            result = json.loads(result[result.find("{") : result.find("}") + 1])
-        elif evaluator == MIXTRAL:
-            prompt_template = MIXTRAL_PROMPT_TEMPLATE
-
-            result = FairnessUIservice().mixtral(
-                prompt_template.format(input_placeholder=response)
-            )
-            result = json.loads(result[result.find("{") : result.find("}") + 1])
         else:
-            result = "Please select a valid evaluator"
+            evaluator = evaluator.upper()
+            result = {}
+
+            if(evaluator==GPT_4O or evaluator==GPT_4) :
+                openai_instance = Azureopenai()
+                prompt_template=GPT_4O_TEXT_PROMPT_TEMPLATE
+                prompt = prompt_template.format(input_placeholder=response)
+                 # Use the instance of Azureopenai to get chat completion
+                result = openai_instance.get_chat_completion(prompt, response)
+                return json.loads(result[result.find('{'): result.find('}')+1])
+
+            elif(evaluator=="GEMINI_2.5_FLASH"):
+                gemini_instance = GeminiFlash()
+                prompt_template=GEMINI_PROMPT_TEMPLATE
+                prompt = prompt_template.format(input_placeholder=response)
+                # Use the instance of Gemini to get chat completion
+                result = gemini_instance.get_chat_completion(prompt, response)
+                return json.loads(result[result.find('{'): result.find('}')+1])
+            
+            elif(evaluator=="GEMINI_2.5_PRO"):
+                gemini_instance = GeminiPro()
+                prompt_template=GEMINI_PROMPT_TEMPLATE
+                prompt = prompt_template.format(input_placeholder=response)
+                # Use the instance of Gemini to get chat completion
+                result = gemini_instance.get_chat_completion(prompt, response)
+                return json.loads(result[result.find('{'): result.find('}')+1])
+            
+            elif evaluator == 'AWS_CLAUDE_V3_5':
+                aws_instance = AWS()
+                prompt_template=AWS_TEXT_TEMPLATE
+                prompt_template= prompt_template.format(input_placeholder=response)
+                # Use the instance of AWS to get chat completion
+                result = aws_instance.get_chat_completion(prompt_template, response)
+                return json.loads(result[result.find('{'): result.find('}')+1])
+
+            elif evaluator == 'LLAMA':
+ 
+                prompt_template=LLAMA_TEXT_TEMPLATE
+                prompt=prompt_template.format(
+                    input_placeholder=response
+                )
+                
+                llama_response=self.call_api(prompt)
+                llama_response = llama_response['choices'][0]['message']['content']
+                # Extract and process the JSON from Llama response
+                result = self.extract_json(llama_response)
+            elif evaluator == MIXTRAL:
+                prompt_template = MIXTRAL_PROMPT_TEMPLATE
+
+                result = FairnessUIservice().mixtral(
+                    prompt_template.format(input_placeholder=response)
+                )
+                result = json.loads(result[result.find("{") : result.find("}") + 1])
+            else:
+                result = "Please select a valid evaluator"
 
         return result
 

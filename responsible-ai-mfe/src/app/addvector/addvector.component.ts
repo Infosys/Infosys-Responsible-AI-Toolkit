@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
@@ -41,16 +42,17 @@ export class AddvectorComponent {
   ){
     this.VectorForm = this.fb.group({
       vectorFileName : new FormControl('', [Validators.required]),
-      fileDropRef: new FormControl('', [Validators.required]),
+      dataFileDropRef: new FormControl('', [Validators.required]),
     })
     this.VectorUpdateForm =this.fb.group({
       userId: new FormControl(this.data.user, [Validators.required]),
       vectorFileId: new FormControl(this.data.vectorValue, [Validators.required]),
       vectorFileName : new FormControl(this.data.vectorName, [Validators.required]),
-      fileDropRef: new FormControl('', [Validators.required]),
+      dataFileDropRef: new FormControl('', [Validators.required]),
     })
   }
 
+    // Initializes the component and sets up the API list
   ngOnInit(): void {
     if(this.data.vectorValue == 0){
       this.isCreateVector = true;
@@ -65,6 +67,8 @@ export class AddvectorComponent {
   // seting up api list 
   this.setApilist(ip_port);
 }
+
+  // Retrieves API configuration from local storage
 getLocalStoreApi() {
   let ip_port
   if (localStorage.getItem("res") != null) {
@@ -80,28 +84,26 @@ setApilist(ip_port: any) {
   this.updateVector = ip_port.result.Workbench + ip_port.result.Workbench_UpdateVector;
 }
   
+  // Closes the dialog
   closeDialog(){
     this.dialogRef.close();
   }
+
+    // Handles file selection and validates the file type
   fileBrowseHandler(imgFile: any): void {
     // Prepare the files list
     this.prepareFilesList(imgFile.target.files);
     this.demoFile = this.files;
     this.file = this.files[0];
-
     console.log("File type:", this.file.type);
-
     // Validate file extension and type
     const allowedTypes = ['application/octet-stream', 'application/x-python-code']; // Add more if needed
     const allowedExtensions = ['.pkl'];
-
     // Check the file extension (for .pkl)
     const fileExtension = this.file.name.split('.').pop()?.toLowerCase();
-
     if (this.files.length > 0) {
       for (let i = 0; i < this.files.length; i++) {
         const currentFile = this.files[i];
-
         // Check MIME type and file extension
         if (!allowedTypes.includes(currentFile.type) && !allowedExtensions.includes(`.${fileExtension}`)) {
           alert('Please upload a valid .pkl file');
@@ -111,13 +113,14 @@ setApilist(ip_port: any) {
           return;
         }
       }
-
       // If file is valid, patch the form
       this.VectorForm.patchValue({
         fileDropRef: this.files[0]
       });
     }
   }
+
+    // Reads and uploads the selected document
   uploadDocument(file:any) {
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
@@ -126,6 +129,7 @@ setApilist(ip_port: any) {
     fileReader.readAsText(file);
   }
 
+    // Prepares the list of files for upload
   prepareFilesList(files: Array<any>) {
     this.files=[]
     for (const item of files) {
@@ -133,6 +137,8 @@ setApilist(ip_port: any) {
     }
     this.uploadFilesSimulator(0)
   }
+
+    // Simulates file upload progress
   uploadFilesSimulator(index: number) {
     setTimeout(() => {
       if (index === this.files.length) {
@@ -150,6 +156,8 @@ setApilist(ip_port: any) {
       }
     }, 1000);
   }
+
+    // Deletes a file from the list
   deleteFile(index: number) {
     if (this.files[index].progress < 100) {
       console.log("if of deltefile 1.");
@@ -181,6 +189,8 @@ setApilist(ip_port: any) {
   //     }
   //   }, 1000);
   // }
+
+    // Creates a new vector by submitting the form data to the server
   createNew(){
     if (this.VectorForm.invalid) {
       this._snackBar.open('Please fill all fields before submitting', '✖', {
@@ -218,6 +228,8 @@ setApilist(ip_port: any) {
         this.closeDialog();
       })
   }
+
+    // Updates an existing vector by submitting the updated form data to the server
   updateVectorFile(){
     if (this.VectorUpdateForm.invalid) {
       this._snackBar.open('Please fill all fields before submitting', '✖', {
@@ -255,6 +267,8 @@ setApilist(ip_port: any) {
       this.closeDialog();
     })
   }
+
+    // Resets the form and clears file uploads
   resetForm(){
     this.VectorForm.reset();
   }

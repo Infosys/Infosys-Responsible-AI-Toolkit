@@ -15,7 +15,7 @@ import datetime,time
 import requests
 from src.mappers.mappers import GetAttackDataRequest
 from src.service.art import Art
-from src.service.augly import Augly
+#from src.service.augly import Augly
 from src.service.artendpoint import ArtEndPoint
 from src.config.urls import UrlLinks
 import shutil

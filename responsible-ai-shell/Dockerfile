@@ -1,8 +1,6 @@
-FROM PROVIDE LATEST NODEJS BASE IMAGE
- 
+FROM infyartifactory.jfrog.io/responsibleai-mms-kubeflow/node:v20.11.1
 
 RUN apt-get update && apt-get install -y nodejs npm
- 
 
 RUN node -v
 RUN npm -v

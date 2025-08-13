@@ -45,6 +45,12 @@ class ProfanityAnalyzeRequest(BaseModel):
     user: Optional[str] = Field(None)
     lotNumber: Optional[str] = Field(None)
 
+class MaliciousURLAnalyzeRequest(BaseModel):
+    inputText: str = Field(example="You are a dummy")
+    maliciousThreshold : float = Field(example=0.5)
+    user: Optional[str] = Field(None)
+    lotNumber: Optional[str] = Field(None)
+
 
 class ProfanityAnalyzeResponse(BaseModel):
     profanity: List[profanity]

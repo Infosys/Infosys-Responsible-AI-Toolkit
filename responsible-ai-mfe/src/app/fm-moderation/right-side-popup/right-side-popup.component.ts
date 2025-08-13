@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
@@ -24,10 +25,12 @@ export class RightSidePopupComponent {
     this.data = dialogData;
   }
 
+  // Closes the dialog
   closeDialog() {
     this.dialogRef.close();
   }
 
+  // Initializes the component and sets up API calls based on dialog type
   ngOnInit() {
     let { ip_port } = this.retrieveLocalStorageData();
     this.setApiList(ip_port);
@@ -44,12 +47,15 @@ export class RightSidePopupComponent {
     }
   }
 
+  // Sets the API list URLs
   setApiList(ip_port: any) {
     this.apiUrlList.privacyPopup = ip_port.result.FM_Moderation + ip_port.result.Moderationlayer_PrivacyPopup; //+ environment.fm_api_privacyShield
     this.apiUrlList.fm_api_inf_ToxicityPopup = ip_port.result.FM_Moderation + ip_port.result.Moderationlayer_ToxicityPopup; // + environment.fm_api_inf_ToxicityPopup
     this.apiUrlList.fm_api_inf_ProfanityPopup = ip_port.result.FM_Moderation + ip_port.result.Moderationlayer_ProfanityPopup; // + environment.fm_api_inf_ProfanityPopup
 
   }
+
+  // Retrieves API configuration from local storage
   retrieveLocalStorageData() {
     let ip_port;
     if (localStorage.getItem('res') != null) {
@@ -61,6 +67,7 @@ export class RightSidePopupComponent {
     return { ip_port };
   }
 
+  // Handles API errors and displays a snackbar message
   handleError(error: any) {
     console.log(error.status);
     const action = 'Close';
@@ -77,6 +84,8 @@ export class RightSidePopupComponent {
     });
     this.closeDialog()
   }
+
+  // Calls the Privacy Check API
   callPrivacyPopupAPI(prompt:any) {
     const payload = {
       text: prompt,
@@ -127,6 +136,8 @@ export class RightSidePopupComponent {
       }
     );
   }
+
+  // Calls the Toxicity Info API for response text
   callResToxicityInfoAPI(summaryStatus:any,openai_result:any) {
     // if (((this.summaryStatus == "FAILED") || (this.reSstatus == 'FAILED')) || ((this.summaryStatus == 'FAILED') && (this.reSstatus == 'FAILED'))) {
     if (summaryStatus == 'PASSED') {
@@ -160,6 +171,8 @@ export class RightSidePopupComponent {
       });
     }
   }
+
+  // Calls the Toxicity Info API for request text
   callReqToxicityInfoAPI(prompt:any) {
     const options = {
       text: prompt,
@@ -185,6 +198,8 @@ export class RightSidePopupComponent {
     );
     // }
   }
+
+  // Calls the Profanity Check API
   callReqProfanityAPI(inputText:any) {
     const options = {
       text: inputText,

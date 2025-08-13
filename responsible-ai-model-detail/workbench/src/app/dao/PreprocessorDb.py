@@ -11,11 +11,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 from gridfs import GridFS
 import pymongo
 import datetime,time
-# from batch_processing.dao.DatabaseConnection import DB
-# from batch_processing.dao.DocPageDtl import *
-# from batch_processing.dao.DocProcDtlDb import DocProcDtl
 from dotenv import load_dotenv
-# from batch_processing.config.logger import CustomLogger
 from app.config.logger import CustomLogger
 from app.dao.DatabaseConnection import DB
 

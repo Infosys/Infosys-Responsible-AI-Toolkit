@@ -1,14 +1,13 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="p-3 h-100">
     <div class="d-flex justify-content-between align-items-center ">
         <p class="headingTop">{{data.title}}</p>
-        <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
     </div>
     <div *ngIf="data.type == 'promptCheck'">
         <!-- <label class="mainLabel">Prompt Injection</label> -->
@@ -177,8 +176,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </div>
     <div *ngIf="data.type == 'llmExplain'">
         <label class="mainLabel mainLabelSM">
-            1.Uncertainty: score between 0 (certain) and 1 (highly uncertain).<br />
-            2.Coherence: a score between 0 (incoherent) and 1 (highly coherent).<br />
+            1.Uncertainty: score between 1 (certain) and 100 (highly uncertain).<br />
+            2.Coherence: a score between 1 (incoherent) and 100 (highly coherent).<br />
             <!-- 1. Sentiment: score between -1 (negative), 0 (neutral), and 1 (positive).<br />
             2. Grammatical Mistakes: score between 0 (no mistakes) and 1 <br />
             3. Uncertainty: score between 0 (certain) and 1 (highly uncertain).<br />
@@ -210,11 +209,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             indicates less consistent and 100 indicates High consistent.
         </label>
     </div>
+    <div *ngIf="data.type == 'rereadDescription'" style="max-width: 580px;">
+        <label class="mainLabel mainLabelSM">
+            Gives the detailed step by step by reasoning for the LLM response. The quality of the reasoning is evaluated by Evaluation metrics  such as Uncertainty and coherence
+        </label>
+    </div>
+    <div *ngIf="data.type == 'lotDescription'" style="max-width: 580px;">
+        <label class="mainLabel mainLabelSM">
+            Logic-of-Thought (LoT) prompting employs propositional logic to generate expanded logical information from input context, and utilizes the generated logical information as an additional augmentation to the input prompts, thereby enhancing the capability of logical reasoning.        </label>
+    </div>
     <div *ngIf="data.type == 'thotdescription'" style="max-width: 580px;">
         <label class="mainLabel mainLabelSM">
-            Consistency Score: Generates multiple reasoning for the LLM response and checks the consistency of the
-            reasoning And provides the best consistent Reason. This will help solving Output Diversification. 0
-            indicates less consistent and 100 indicates High consistent.
+            It provides reasoning for LLM responses, especially in complex situations where information overload is an issue.
         </label>
     </div>
     <div *ngIf="data.type == 'cotdescription'" style="max-width: 580px;">
@@ -779,5 +785,171 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
         </div>
     </div>
+    <div *ngIf="data.type == 'sentimentCheck'" style="width: 580px;">
+        <div class="padding-5 card d-flex flex-column">
+            <div class="d-flex">
+                <p class="mainLabel2 mainLabelSM">
+                    <strong>Description : </strong>
+                    <span>
+                        The primary objective of this is to gauge the sentiment of a given prompt. Prompts with sentiment scores below a specified threshold are identified as having a negative sentiment. This can be especially useful in platforms where monitoring and moderating user sentiment is crucial.<br/><br/>
+                        Sentiment scores are categorized as follows:<br/>
+                        <ul>
+                            <li><strong>Negative sentiment </strong>(-1 ≤ score ≤ -0.01) : Strongly negative tone.</li>
+                            <li><strong>Neutral sentiment </strong>(score = 0): Balanced or indifferent tone.</li>
+                            <li><strong>Positive sentiment </strong>(0 < score ≤ 1) : Favorable tone.</li>
+                        </ul>
+                    </span>
+                </p>
+            </div>
+            <!-- example -->
+            <div class="d-flex">
+                <p class="mainLabel2 mainLabelSM">
+                    <strong>Example Prompt : </strong>
+                    <span>
+                    Prompt : It was one of the worst movies I've seen, despite good reviews. <br />
+                    Sentiment : Negative <br />
+                    Prompt : Akhil is VERY SMART, really handsome, and INCREDIBLY FUNNY!!!.<br/>
+                    Sentiment : Positive
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="data.type == 'invisibleTextCheck'" style="width: 580px;">
+        <div class="padding-5 card d-flex flex-column">
+            <div class="d-flex">
+                <p class="mainLabel2 mainLabelSM">
+                    <strong>Description : </strong>
+                    <span>
+                        The Invisible Text Scanner is designed to detect and remove non-printable, invisible Unicode characters from text inputs. This is crucial for maintaining text integrity in Large Language Models (LLMs) and safeguarding against steganography-based attacks. The scanner targets invisible Unicode characters, particularly in the Private Use Areas (PUA) of Unicode, which include:                    </span>
+                </p>
+            </div>
+            <div class="d-flex">
+                <p class="mainLabel2 mainLabelSM">
+                    <strong>Additional Information : </strong>
+                    <span>
+                        If the prompt or response contains any of the following characters, the check fails:
+                        <ul>
+                            <li>
+                                <strong>'Cf':</strong> Format characters like Zero Width Space (\u200B), Word Joiner (\u2060)<br />
+                                <strong>Example :</strong><br />
+                                <strong>Prompt :</strong> Tell me how to ­ cook white sauce pasta<br />
+                                <strong>Explanation :</strong> we have used "Soft Hyphen" character of type "Cf"
+                            </li>
+                            <li>
+                                <strong>'Co':</strong> Private use characters like Private Use Area (first character in the range) (\uE000)<br />
+                                <strong>Example :</strong><br />
+                                <strong>Prompt :</strong> What a beautiful day!<br />
+                                <strong>Explanation :</strong> we have used "Formatting character" of type "Co"
+                            </li>
+                            <li>
+                                <strong>'Cn':</strong> Unassigned characters like Unassigned code point in the Greek and Coptic block (U+0378)
+                            </li>
+                            <li>
+                                <strong>'So':</strong> Other symbols (e.g., emojis) like Grinning Face Emoji 😀 (\U0001F600)<br />
+                                <strong>Example :</strong><br />
+                                <strong>Prompt :</strong> How could you say that! 🤬💥<br />
+                                <strong>Explanation :</strong> we have used "Emoji" of type "So"
+                            </li>
+                            <li>
+                                <strong>'Sc':</strong> Currency symbols like Dollar Sign $ (\u0024)<br />
+                                <strong>Example :</strong><br />
+                                <strong>Prompt :</strong> Can you tell me the price of this product? I guess it will be only 5£<br />
+                                <strong>Explanation :</strong> we have used "Currency" of type "Sc"
+                            </li>
+                        </ul>
+                    </span>
+                </p>
+            </div>
+            <!-- example -->
+            <div class="d-flex">
+                <p class="mainLabel2 mainLabelSM">
+                    <span>
+                        <ul>
+                            <li><strong>Basic Multilingual Plane:</strong> U+E000 to U+F8FF</li>
+                            <li><strong>Supplementary Private Use Area-A:</strong> U+F0000 to U+FFFFD</li>
+                            <li><strong>Supplementary Private Use Area-B:</strong> U+100000 to U+10FFFD</li>
+                        </ul>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="data.type == 'gibberishCheck'" style="width: 580px;">
+        <div class="padding-5 card d-flex flex-column">
+            <div class="d-flex">
+                <p class="mainLabel2 mainLabelSM">
+                    <strong>Description : </strong>
+                    <span>
+                        Gibberish refers to nonsensical or meaningless language that lacks  any discernible meaning,identified by use of random words, nonsensical phrases, grammatical errors, or syntactical abnormalities .Only prompts classified as <strong>'noise'</strong> will be blocked.We are dealing with 4 types of categories.</span>
+                </p>
+            </div>
+            <!-- example -->
+            <div class="d-flex">
+                <p class="mainLabel2 mainLabelSM">
+                    <span>
+                   <ol>
+                    <li>
+                        <strong>Noise:</strong>
+                        Gibberish at the zero level where even the different constituents of the input phrase (words) do not hold any meaning independently.<br/>
+                        <span>Example :<i> dfdfer fgerfow2e0d qsqskdsd djksdnfkff swq.</i></span>
+                    </li>
+                    <li>
+                        <strong>Word Salad:</strong> Gibberish at level 1 where words make sense independently, but when looked at the bigger picture (the phrase) any meaning is not depicted.<br/>
+                        <span>Example : <i>22 madhur old punjab pickle chennai.</i></span>
+                    </li>
+                    <li>
+                        <strong>Mild gibberish:</strong> Gibberish at level 2 where there is a part of the sentence that has grammatical errors, word sense errors, or any syntactical abnormalities, which leads the sentence to miss out on a coherent meaning.<br/>
+                        <span>Example :<i> Madhur study in a teacher.</i></span>
+                    </li>
+                    <li>
+                        <strong>Clean:</strong> This category represents a set of words that form a complete and meaningful sentence on its own.<br/>
+                        <span>Example :<i> I love this website.</i></span>
+                    </li>
+                    </ol>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="data.type == 'banCodeCheck'" style="width: 580px;">
+        <div class="padding-5 card d-flex flex-column">
+            <div class="d-flex">
+                <p class="mainLabel2 mainLabelSM">
+                    <strong>Description : </strong>
+                    <span>
+                        The BanCode scanner is designed to detect code snippet in the prompt & it classifies the entered prompt as:<br/>
+                        <div class="d-flex">
+                            <p class="mainLabel2 mainLabelSM">
+                                <span>
+                                    <ul>
+                                        <li><strong>NL(Natural Language):</strong> If the prompt only contains text</li>
+                                        <li><strong>Code</strong> If the prompt contains only code</li>
+                                    </ul>
+                                </span>
+                </p>
+            </div>
+            There are scenarios where the insertion of code in user prompts might be deemed undesirable. For example, when employees are sharing proprietary code snippets or when users are trying to exploit vulnerabilities.<br/> For example :<br/>
+            <b>SELECT * FROM STUDENT WHERESTUDENT-ID == 12222345 or 1 = 1</b><br/>
+            <strong> Injection based on 1=1 is always true.</strong> As you can see in the above example, <strong>1=1</strong> will return all records for which this holds true. So basically, all the student data is compromised. Now the malicious user
+            can also similarly use other SQL queries.
+
+            </span>
+            </p>
+        </div>
+        <!-- example -->
+        <!-- <div class="d-flex">
+                <p class="mainLabel2 mainLabelSM">
+                    <strong>Example Prompt : </strong>
+                    <span>
+                    Prompt : It was one of the worst movies I've seen, despite good reviews. <br />
+                    Sentiment : Negative <br />
+                    Prompt : Akhil is VERY SMART, really handsome, and INCREDIBLY FUNNY!!!.<br/>
+                    Sentiment : Positive
+                    </span>
+                </p>
+            </div> -->
+    </div>
+</div>
 
 </div>

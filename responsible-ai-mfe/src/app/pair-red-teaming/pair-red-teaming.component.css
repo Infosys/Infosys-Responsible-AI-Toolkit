@@ -1,0 +1,424 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.topHeading {
+    color: #4D4D4D;
+    font-weight: 400;
+    font-size: 24px;
+    font-family: 'Segoe UI';
+}
+
+.txtArea1 {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 100px;
+    padding-right: 15px;
+}
+
+.txtArea2 {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 70px;
+    padding-right: 15px;
+}
+
+.switch {
+    display: inline-block;
+}
+
+.switch input {
+    display: none;
+}
+
+.switch label {
+    display: block;
+    width: 40px;
+    height: 18px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 3px;
+    background-color: #E0DCEC;
+    margin: 0px 5px;
+}
+
+.switch label::after {
+    content: "";
+    display: inherit;
+    width: 13px;
+    height: 13px;
+    border-radius: 12px;
+    transition: 0.3s;
+    background-color: #8626C3;
+    border: 1.5px solid white;
+}
+
+.switch input:checked~label {
+    border-color: #ffffff;
+    background-color: #8626C3;
+}
+
+.switch input:checked~label::after {
+    translate: 20px 0;
+    background: #8626C3;
+    background-color: #E0DCEC;
+}
+
+.switch input:disabled~label {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.switch input:disabled:checked~label {
+    background-color: #aaaaaa;
+}
+
+.switch input:disabled~label::after {
+    background-color: #bbbbbb;
+}
+
+
+.resetIcon {
+    background: none;
+    color: #7E7E7E;
+
+    i {
+        font-size: 20px;
+    }
+}
+
+.icon-pointer {
+    cursor: pointer;
+}
+
+.mainLabel {
+    color: #7E7E7E;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+    /* margin-left: 18px;
+    margin-top: 10px; */
+}
+
+.black-button {
+    height: 28px;
+    width: 70px;
+}
+
+input[type='range'] {
+    -webkit-appearance: none !important;
+    background: #D8D8D8;
+    height: 3px;
+    width: 50%;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    background: #8626C3;
+    height: 13px;
+    width: 13px;
+    border-radius: 50%;
+}
+
+.tempInputBox {
+    width: 60px;
+    font-size: 12px;
+    text-align: center;
+}
+
+.pill-button {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 4px 8px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    transition: color 0.3s ease;
+}
+
+.pill-button.active {
+    background-color: #8626c34a;
+    color: black;
+    font-weight: 600;
+}
+
+mat-label {
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #382261;
+}
+
+.toggleLableOn {
+    color: #8626C3;
+}
+
+.text-container {
+    width: 100%;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: 10px;
+    margin-bottom: 30px;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.text-content {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #333;
+    margin: 0;
+    white-space: pre-line;
+}
+
+.text-container p {
+    margin-bottom: 10px;
+}
+
+.recommendationContainer {
+    width: 100%;
+    max-width: 60%;
+    margin-top: 5px;
+    margin-left: 5px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    height: auto;
+    /* Dynamic height based on content */
+    overflow-x: hidden;
+    /* Prevent horizontal scrollbar */
+    overflow-y: auto;
+    /* Enable vertical scrolling if content exceeds height */
+}
+
+.uploadButton {
+    display: none;
+}
+
+.uploadButton+label {
+    width: 73px;
+    height: 27px;
+    background-color: #8626C3;
+    color: #FFFFFF;
+    letter-spacing: 0px;
+    border-radius: 3px;
+    border: none;
+    font-family: 'Segoe UI';
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    align-content: center;
+    font-weight: 400;
+}
+
+.uploadButton:active+label {
+    background-color: #8626C3;
+}
+
+.cancel-button {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.cancel-button mat-icon {
+    color: white;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+
+.custom_image {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    transition: opacity 0.3s;
+}
+
+.tab-container {
+    overflow-y: auto;
+    max-height: 150vh;
+}
+
+.HeadingLabel2 {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-size: 8px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.buttonMain {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: .75rem;
+    height: 28px;
+    width: 3.313rem;
+}
+
+.blackButton {
+    background-color: black;
+    color: white;
+}
+
+
+/* new screen css */
+.mat-mdc-form-field+.mat-mdc-form-field {
+    margin-left: 8px;
+}
+
+::ng-deep .mat-mdc-checkbox .mdc-form-field {
+    color: #382261;
+}
+
+::ng-deep .expandInput .mat-expansion-panel-header.mat-expanded {
+    height: 2.75rem;
+}
+
+::ng-deep .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background {
+    border-color: #8626C3;
+    background-color: #8626C3;
+}
+
+::ng-deep .expandInput .mat-expansion-panel-body {
+    padding: 0 24px 16px;
+}
+
+.w-125 {
+    width: 12.5%;
+}
+
+.w-875 {
+    width: 87.5%;
+}
+
+textarea {
+    font-size: 12px;
+}
+
+.panelBorder {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-color: #c3c2c2;
+}
+
+.tabs {
+    font-size: 14px;
+    font-family: 'Segoe UI';
+    letter-spacing: 0px;
+    text-transform: uppercase;
+}
+
+.tabs div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.tabs div.active {
+    color: #8626C3;
+    font-weight: 600;
+    background: linear-gradient(to right, #e2e2e2, #ffffff);
+    border-radius: 6px;
+}
+
+.mainContainer {
+    box-shadow: 1px 0px 1px 0px grey;
+    border: 1px solid #e4e4e4;
+    border-radius: 6px;
+}
+
+.card-header {
+    font-size: 14px;
+}
+
+.card>.card-body {
+    font-size: 13px;
+    min-height: 5rem;
+    max-height: 12rem;
+    overflow-y: auto;
+}
+
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 5px 0px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    font-size: 13px;
+    margin-right: 1.7rem;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.activeTab {
+    color: #8626C3;
+    position: relative;
+}
+
+.activeTab::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 35%;
+    border-bottom: 2px solid #8626C3;
+}
+
+.tabs-carousel {
+    height: 200px;
+    /* Adjust height as needed */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    /* For Firefox */
+}
+
+.carousel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.carousel-item {
+    padding-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.carousel-item.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}

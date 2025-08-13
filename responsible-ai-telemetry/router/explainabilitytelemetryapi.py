@@ -1,6 +1,6 @@
 '''
 MIT license https://opensource.org/licenses/MIT
-Copyright 2024-2025 Infosys Ltd
+Copyright 2024 Infosys Ltd
  
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
@@ -12,8 +12,8 @@ import pymongo
 explainabilityRouter = APIRouter()
 from datetime import datetime, date,timedelta
 from dotenv import load_dotenv
-from mapper.explainabilitytelemetrydata import TelemetryData
-from service.explainabilityservice import explainabilityElasticDataPush
+from mapper.explainabilitytelemetrydata import ExplainBulkProcessTelemetryData, TelemetryData
+from service.explainabilityservice import explainabilityBulkElasticDataPush, explainabilityElasticDataPush
 
 
 load_dotenv()
@@ -40,5 +40,24 @@ async def explainabilityTelemetryProcessing(data: TelemetryData):
     print("DATA INSERTED/UPDATED", data)
     # print("ELASTIC URL AFTER Calling CODE===",os.getenv("ELASTIC_URL"))
     explainabilityElasticDataPush(data)
+    return response_data
+
+@explainabilityRouter.post('/explainabilitybulktelemetryapi')
+async def explainabilityBulkTelemetryProcessing(data: ExplainBulkProcessTelemetryData):
+    # print("ELASTIC URL AFTER Calling CODE===",os.getenv("ELASTIC_URL"))
+    print("ELASTIC URL AFTER Calling CODE===To be printed")
+    now = datetime.now()
+    today= now.isoformat()
+    #print(today)
+    data.date = today
+    #result = collection.insert_one(data.dict())
+    # Generate a response
+    response_data = {
+        # 'message': response_message,
+        'data': data
+    }
+    print("DATA INSERTED/UPDATED", data)
+    # print("ELASTIC URL AFTER Calling CODE===",os.getenv("ELASTIC_URL"))
+    explainabilityBulkElasticDataPush(data)
     return response_data
 

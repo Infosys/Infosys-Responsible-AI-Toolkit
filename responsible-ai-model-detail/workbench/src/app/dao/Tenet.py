@@ -54,7 +54,6 @@ class Tenet:
         for v in values:
             v = AttributeDict(v)
             value_list.append(v)
-
         return value_list
     
 

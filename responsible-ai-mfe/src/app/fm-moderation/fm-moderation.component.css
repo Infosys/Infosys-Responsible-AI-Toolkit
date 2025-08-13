@@ -1,9 +1,22 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.position-relative {
+    position: relative;
+}
 
+.optional-label {
+    /* padding-bottom: 7px; */
+    position: absolute;
+    top: -17px;
+    right: 0;
+    font-size: 10px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+}
 .mat-primary {
     color: #8626C3;
 }
@@ -397,4 +410,149 @@ input[type='radio'] {
     gap: 5px;
     /* Add this */
     margin-right: 20px;
+}
+
+.option-container {
+    width: 200px;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.dropdown-menu {
+    width: 200px;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.dropdown-menu li {
+    padding: 8px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f1f1f1;
+}
+
+.pill-button {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 4px 8px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    /* text-transform: uppercase; */
+    transition: color 0.3s ease;
+}
+
+.pill-button.active {
+    background-color: #8626c34a;
+    color: black;
+    font-weight: 600;
+}
+
+.item-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1.33px solid #ccc;
+}
+
+.item-list li:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* height: 1px; */
+    background-color: #ddd;
+}
+
+.list-item {
+    padding: 4px;
+    /* background-color: #f0f0f0; */
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'Segoe UI';
+    /* text-transform: uppercase; */
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /* border-bottom: 1.33px solid #ccc; */
+    font-weight: 500;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #7e7e7e2e;
+}
+
+.list-item hr {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin-top: 2px;
+}
+
+.list-item:hover {
+    background-color: #8626c34a;
+    border-color: #8626c34a;
+}
+
+::ng-deep.dropdown {
+    /* max-width: 13.2rem; */
+    width: 100%;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    padding: 0px 10px;
+    font-size: smaller;
+    /* margin-bottom: 1rem; */
+}
+
+::ng-deep.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+    background: #8626C3;
+}
+
+::ng-deep.mat-form-field {
+    width: 100%;
+}
+
+.smallIcon {
+    -webkit-user-select: none;
+    user-select: none;
+    background-repeat: no-repeat;
+    display: inline-block;
+    fill: currentColor;
+    overflow: hidden;
+    margin-top: 2px;
+    /* Optional: Adds space between the icon and the dropdown */
+}
+
+.icon-dropdown-container {
+    display: flex;
+    flex-direction: column;
+    /* Align elements vertically */
+    align-items: flex-end;
+    /* Align items to the right */
+    width: 100%;
+    /* Ensure the container spans the full width */
+}
+
+.optional-label2 {
+    font-size: 10px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+    margin-right: 5px; /* Adjust the spacing as needed */
 }

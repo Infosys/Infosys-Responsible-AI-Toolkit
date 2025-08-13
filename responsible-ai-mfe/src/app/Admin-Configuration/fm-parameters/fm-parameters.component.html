@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div id="accordionFM" class="mt-3">
     <div class="card">
@@ -49,19 +50,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                         </mat-option>
                                     </mat-select>
                                 </div>
-                                <!-- <div class="marginDiv">
-                                    <mat-select #select3 multiple id="selectApplicableAttacks" class="dropdown"
-                                    formControlName="recognizerNamesToDetect"placeholder="Recognizers To Detect">
+                                <div class="marginDiv">
+                                    <mat-select #select3 multiple id="selectApplicableAttacks" class="dropdown" formControlName="recognizerNamesToDetect" placeholder="Recognizers To Detect">
                                         <div class="select-all">
-                                            <mat-checkbox (change)="toggleAllSelection3($event)" color="primary">Select
-                                                All</mat-checkbox>
+                                            <mat-checkbox (change)="toggleAllSelection3($event)" color="primary">Select All
+                                            </mat-checkbox>
                                         </div>
-                                        <mat-option (click)="selectrecognizerList()" class="dropdownOptions"
-                                            *ngFor="let attack of recognizerList" [value]="attack">
+                                        <mat-option (click)="selectrecognizerList()" class="dropdownOptions" *ngFor="let attack of recognizerList" [value]="attack">
                                             {{attack}}
                                         </mat-option>
                                     </mat-select>
-                                </div> -->
+                                </div>
                                 <div class="marginDiv">
                                     <!-- <h3 class="HeadingLabelSM">Recognizers To Block</h3> -->
                                     <mat-select #select4 multiple id="selectApplicableAttacks" class="dropdown" formControlName="recognizerNamesToBlock" placeholder="Recognizers To Block">
@@ -87,6 +86,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                     </mat-select>
                                 </div>
 
+                                <div class="marginDiv">
+                                    <!-- <h3 class="HeadingLabelSM">Gibberish Labels</h3> -->
+                                    <mat-select #selectGibberishLabels multiple id="selectGibberishLabels" class="dropdown" formControlName="gibberishLabels" placeholder="Gibberish Labels">
+                                        <div class="select-all">
+                                            <mat-checkbox (change)="toggleAllSelectionGibberishLabels($event)" color="primary">Select All
+                                            </mat-checkbox>
+                                        </div>
+                                        <mat-option (click)="selectsGibberishLabels()" class="dropdownOptions" *ngFor="let label of gibberishLabels" [value]="label">
+                                            {{label}}
+                                        </mat-option>
+                                    </mat-select>
+                                </div>
+
+                                <div class="marginDiv">
+                                    <!-- <h3 class="HeadingLabelSM">Banned Categories</h3> -->
+                                    <mat-select #selectBannedCategories multiple id="selectBannedCategories" class="dropdown" formControlName="bannedCategories" placeholder="Invisible text categories">
+                                        <div class="select-all">
+                                            <mat-checkbox (change)="toggleAllSelectionBannedCategories($event)" color="primary">Select All
+                                            </mat-checkbox>
+                                        </div>
+                                        <mat-option (click)="selectsBannedCategories()" class="dropdownOptions" *ngFor="let category of bannedCategories" [value]="category">
+                                            {{category}}
+                                        </mat-option>
+                                    </mat-select>
+                                </div>
+
                                 <!-- -->
 
                                 <div class="marginDiv">
@@ -98,155 +123,145 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 </div>
                                 <!--  -->
                             </div>
-                            <div class="d-flex flex-column" style="max-width: 75%;">
-                                <!-- Right column content -->
-                                <!-- <form [formGroup]="FmConfigResponseForm" class="d-flex flex-column"> -->
-
-                                <div class="d-flex flex-grow-1">
+                            <div class="container">
+                                <div class="row">
                                     <!-- row 1 -->
-
-                                    <div class="mb-3" style="width: 100%; margin: .5rem">
+                                    <div class="col-md-4 mb-3">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <label class="sliderLabel">JailBreak Threshold  :</label>
+                                            <label class="sliderLabel">JailBreak Threshold :</label>
                                             <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('JailbreakThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
                                         <input type="range" min="0" max="10" name="JailbreakThreshold" formControlName="JailbreakThreshold" />
                                     </div>
-
-                                    <!-- </div> -->
-
-                                    <div class="mb-3" style="width: 100%;margin: .5rem">
+                                    <div class="col-md-4 mb-3">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <label class="sliderLabel">Prompt Injection Threshold :</label>
                                             <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('PromptInjectionThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
                                         <input type="range" min="0" max="10" name="PromptInjectionThreshold" formControlName="PromptInjectionThreshold" />
                                     </div>
-
-                                    <div class="mb-3" style="width: 100%; margin: .5rem">
+                                    <div class="col-md-4 mb-3">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <label class="sliderLabel">Refusal Threshold :</label>
                                             <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('RefusalThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
                                         <input type="range" min="0" max="10" name="RefusalThreshold" formControlName="RefusalThreshold" />
                                     </div>
-
-
                                 </div>
-                                <div class="d-flex flex-grow-1">
+                                <div class="row">
                                     <!-- row 2 -->
-                                    <div style="margin:1rem;">
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="sliderLabel">Toxicity Threshold  :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('ToxicityThreshold')?.value ??0) / 10).toFixed(1)" readonly />
-                                            </div>
-                                            <input type="range" min="0" max="10" name="ToxicityThreshold" formControlName="ToxicityThreshold" />
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Toxicity Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('ToxicityThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
-
+                                        <input type="range" min="0" max="10" name="ToxicityThreshold" formControlName="ToxicityThreshold" />
                                     </div>
-                                    <div style="margin:1rem;">
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="sliderLabel">Severe Toxicity Threshold :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('SevereToxicityThreshold')?.value ??0) / 10).toFixed(1)" readonly />
-                                            </div>
-                                            <input type="range" min="0" max="10" name="SevereToxicityThreshold" formControlName="SevereToxicityThreshold" />
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Severe Toxicity Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('SevereToxicityThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
-
+                                        <input type="range" min="0" max="10" name="SevereToxicityThreshold" formControlName="SevereToxicityThreshold" />
                                     </div>
-                                    <div style="margin:1rem;">
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="sliderLabel">Identity Attack Threshold :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('IdentityAttackThreshold')?.value ??0) / 10).toFixed(1)" readonly />
-                                            </div>
-                                            <input type="range" min="0" max="10" name="IdentityAttackThreshold" formControlName="IdentityAttackThreshold" />
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Identity Attack Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('IdentityAttackThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
-
+                                        <input type="range" min="0" max="10" name="IdentityAttackThreshold" formControlName="IdentityAttackThreshold" />
                                     </div>
                                 </div>
-                                <div class="d-flex flex-grow-1">
+                                <div class="row">
                                     <!-- row 3 -->
-                                    <div style="margin:1rem;">
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="sliderLabel">Threat Threshold  :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('ThreatThreshold')?.value ??0) / 10).toFixed(1)" readonly />
-                                            </div>
-                                            <input type="range" min="0" max="10" name="ThreatThreshold" formControlName="ThreatThreshold" />
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Threat Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('ThreatThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
-
+                                        <input type="range" min="0" max="10" name="ThreatThreshold" formControlName="ThreatThreshold" />
                                     </div>
-                                    <div style="margin:1rem;">
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="sliderLabel">Profanity Count Threshold :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('ProfanityCountThreshold')?.value ??0) / 10).toFixed(1)" readonly />
-                                            </div>
-                                            <input type="range" min="0" max="10" name="ProfanityCountThreshold" formControlName="ProfanityCountThreshold" />
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Profanity Count Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('ProfanityCountThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
-
+                                        <input type="range" min="0" max="10" name="ProfanityCountThreshold" formControlName="ProfanityCountThreshold" />
                                     </div>
-                                    <div style="margin:1rem;">
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="sliderLabel">Obscene Threshold :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('ObsceneThreshold')?.value ??0) / 10).toFixed(1)" readonly />
-                                            </div>
-                                            <input type="range" min="0" max="10" name="ObsceneThreshold" formControlName="ObsceneThreshold" />
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Obscene Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('ObsceneThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
-
+                                        <input type="range" min="0" max="10" name="ObsceneThreshold" formControlName="ObsceneThreshold" />
                                     </div>
                                 </div>
-                                <div class="d-flex flex-grow-1">
+                                <div class="row">
                                     <!-- row 4 -->
-                                    <div style="margin:1rem;">
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="sliderLabel">Insult Threshold  :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('InsultThreshold')?.value ??0) / 10).toFixed(1)" readonly />
-                                            </div>
-                                            <input type="range" min="0" max="10" name="InsultThreshold" formControlName="InsultThreshold" />
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Insult Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('InsultThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
-
+                                        <input type="range" min="0" max="10" name="InsultThreshold" formControlName="InsultThreshold" />
                                     </div>
-                                    <div style="margin:1rem;">
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="sliderLabel">Restrictedtopic Threshold :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('RestrictedtopicThreshold')?.value ??0) / 10).toFixed(1)" readonly />
-                                            </div>
-                                            <input type="range" min="0" max="10" name="RestrictedtopicThreshold" formControlName="RestrictedtopicThreshold" />
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Restrictedtopic Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('RestrictedtopicThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
-
+                                        <input type="range" min="0" max="10" name="RestrictedtopicThreshold" formControlName="RestrictedtopicThreshold" />
                                     </div>
-                                    <div style="margin:1rem;">
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="sliderLabel">SexualExplicit Threshold :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('SexualExplicitThreshold')?.value ??0) / 10).toFixed(1)" readonly />
-                                            </div>
-                                            <input type="range" min="0" max="10" name="SexualExplicitThreshold" formControlName="SexualExplicitThreshold" />
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">SexualExplicit Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('SexualExplicitThreshold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
-
+                                        <input type="range" min="0" max="10" name="SexualExplicitThreshold" formControlName="SexualExplicitThreshold" />
                                     </div>
                                 </div>
-                                <div class="d-flex flex-grow-1">
+                                <div class="row">
                                     <!-- row 5 -->
-                                    <div style="margin:1rem;">
-                                        <div class="mb-3">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <label class="sliderLabel">Theme thresold  :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('Themethresold')?.value ??0) / 10).toFixed(1)" readonly />
-                                            </div>
-                                            <input type="range" min="0" max="10" name="Themethresold" formControlName="Themethresold" />
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Theme thresold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('Themethresold')?.value ??0) / 10).toFixed(1)" readonly />
                                         </div>
-
+                                        <input type="range" min="0" max="10" name="Themethresold" formControlName="Themethresold" />
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Sentiment Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox2" [value]="(FmConfigResponseForm.get('SentimentThreshold')?.value ?? 0).toFixed(2)" readonly />
+                                        </div>
+                                        <input type="range" min="-1" max="1" step="0.01" name="SentimentThreshold" formControlName="SentimentThreshold" />
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Gibberish Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('GibberishThreshold')?.value ??0) / 10).toFixed(1)" readonly />
+                                        </div>
+                                        <input type="range" min="0" max="10" name="GibberishThreshold" formControlName="GibberishThreshold" />
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Ban Code Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('BanCodeThreshold')?.value ??0) / 10).toFixed(1)" readonly />
+                                        </div>
+                                        <input type="range" min="0" max="10" name="BanCodeThreshold" formControlName="BanCodeThreshold" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <!-- row 6 -->
+                                    <div class="col-md-4 mb-3">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <label class="sliderLabel">Invisible Text Count Threshold :</label>
+                                            <input type="text" class="form-control shadow-none tempInputBox" [value]="((FmConfigResponseForm.get('InvisibleTextCountThreshold')?.value ??0) / 10).toFixed(1)" readonly />
+                                        </div>
+                                        <input type="range" min="0" max="10" name="InvisibleTextCountThreshold" formControlName="InvisibleTextCountThreshold" />
                                     </div>
 
                                 </div>
-                                <!-- </form> -->
                             </div>
 
                         </div>

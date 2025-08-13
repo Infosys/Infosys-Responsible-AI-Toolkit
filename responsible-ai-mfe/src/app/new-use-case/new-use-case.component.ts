@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { HomeService } from '../home/home.service';
 import { UseCaseServiceService } from '../use-case-parent/use-case-service.service';
+import { UserValidationService } from '../services/user-validation.service';
 
 
 @Component({
@@ -35,38 +37,39 @@ export class NewUseCaseComponent {
   edit=false
   getRaiICanvasEndPoint: any;
   activeTab = "Available Use cases";
-  constructor(private _snackBar: MatSnackBar,private useCaseService:UseCaseServiceService,private _formBuilder: FormBuilder,private cdr: ChangeDetectorRef,public https: HttpClient,private modalservice: NgbModal,private router:Router) {
+  constructor(private _snackBar: MatSnackBar,private useCaseService:UseCaseServiceService,private _formBuilder: FormBuilder,private cdr: ChangeDetectorRef,public https: HttpClient,private modalservice: NgbModal,private router:Router,private validationService:UserValidationService) {
     this.edit=false
     console.log("From constructor edit value====",this.edit)
   }
 
-
-
-  getLogedInUser() {
-    if (localStorage.getItem("userid") != null) {
-      const x = localStorage.getItem("userid")
-      if (x != null) {
-
-        this.userId = JSON.parse(x)
-        console.log(" userId", this.userId)
-        return JSON.parse(x)
+// Retrieves the logged-in user ID
+  getLogedInUser(): any {  
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
+      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
+        this.userId = x ;
       }
-
       console.log("userId", this.userId)
+      return this.userId
     }
+  
   }
+
+  // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
-    if (localStorage.getItem("res") != null) {
-      const x = localStorage.getItem("res")
-      if (x != null) {
-        return ip_port = JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+      if(res != null){
+        return ip_port = JSON.parse(res)
       }
     }
   }
+
+  // Fetches use case details for the given user ID
   getUseCaseDetail(userId:any){
     console.log("Userid============",userId)
-    // this.https.get(this.getUrl+userId).subscribe
+    // this.http.get(this.getUrl+userId).subscribe
     this.https.get(this.getUseCase+'"'+userId+'"').subscribe
     ((res: any) => {
 
@@ -122,7 +125,8 @@ export class NewUseCaseComponent {
     this.cdr.detectChanges();
   }
 
-setApilist(ip_port: any) {
+     // Sets the API endpoints
+     setApilist(ip_port: any) {
       // this.getFile = ip_port.result.DocProcess + ip_port.result.DocProcess_getFiles  // + environment.getFile
       // this.uploadFile = ip_port.result.DocProcess + ip_port.result.DocProcess_uploadFile   //+ environment.uploadFile
       // this.DocProcessing_getFileContent = ip_port.result.DocProcess + ip_port.result.DocProcessing_getFileContent   //+ environment.uploadFile
@@ -134,9 +138,7 @@ setApilist(ip_port: any) {
       // this.getUseCaseDetail(this.userId)
     }
 
-
-
-
+    // Sets the API endpoints
     editForm (usecaseName:any){
 
       this.useCaseService.setEditParameter(true)
@@ -199,9 +201,9 @@ setApilist(ip_port: any) {
             console.log(error);
           }
         );
-      
-
     }
+
+   // Initializes the component and sets up API calls
   ngOnInit(){
 
     let ip_port: any
@@ -219,7 +221,7 @@ setApilist(ip_port: any) {
   // this.getDetails()
   }
 
-
+// Generates a report for the given use case name
   generateReport(useCaseName:any){
     this.useCaseName=useCaseName
     this.record=true
@@ -228,10 +230,19 @@ setApilist(ip_port: any) {
     console.log("Generate Report",useCaseName)
   }
 
+  // Opens the right-side modal for creating a new use case
   openRightSideModal(){
     this.newUseCaseCreation=true
     this.useCaseScreen=false
   }
+
+  // Closes the use case parent view
+  onCloseUseCaseParent() {
+    this.newUseCaseCreation = false;
+    this.useCaseScreen = true;
+  }
+
+  // Handles tab selection changes
   selectedTabValue(event: any) {
     this.activeTab = event.tab.textLabel;
     console.log('tab', this.activeTab);

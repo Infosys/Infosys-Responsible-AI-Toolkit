@@ -1,0 +1,68 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<div mat-dialog-content>
+  <div class="tittle d-flex justify-content-between align-items-center">
+    <span>TERMS & CONDITIONS</span>
+    <button class="btn-close pb-2" aria-label="Close"   (click)="getUserConsent()" style="color:#8626C3"></button>
+    <!-- [disabled]="isCloseDisabled" -->
+</div>
+    <p>
+      These terms and conditions outline the rules and regulations for the use
+      of Responsible AI Toolkit Application.
+    </p>
+    <p>
+      By accessing this website we assume you accept these terms and conditions.
+      Do not continue to use Responsible AI Toolkit if you do not agree to take
+      all of the terms and conditions stated on this page.
+    </p>
+    <ol>
+      <li>
+        The User agrees to use this Application in accordance with the
+        applicable rules, regulations, laws and policies of the Company.
+      </li>
+      <li>
+        The User accessing the application shall not reveal any personally
+        identifiable data or sensitive personal information of his/her self or
+        any other person.
+      </li>
+      <li>
+        The User accessing the Application shall not in any manner reveal
+        confidential or proprietary information of any third party.
+      </li>
+      <li>
+        As part of the registration process, we collect your email address to
+        facilitate future logins and authentication on our platform. Your email
+        will be used solely for the purpose of verifying your identity and
+        securing your account.
+      </li>
+      <li>
+        AI is being used to generate the output and that any input provided will be fed to the AI model.
+      </li>
+    </ol>
+  
+  <div>
+    <div class="tittle">Disclaimer</div>
+    <p>
+      The Responsible AI Toolkit Application is provided "as is," without any
+      warranties of any kind, either express or implied, including but not
+      limited to the warranties of merchantability, fitness for a particular
+      purpose, or non-infringement. The Company does not warrant that the
+      Application will meet the User's requirements or that the operation of the
+      Application will be uninterrupted or error-free.
+    </p>
+  </div>
+  <div>
+    <input type="checkbox" id="agreeCheckbox" [(ngModel)]="isChecked" />
+    <label for="agreeCheckbox"
+      >I have read and fully understand the contents of this document. I agree
+      to the terms and conditions stated above.</label
+    >
+  </div>
+</div>
+<div mat-dialog-actions class="actions">
+  <button type="button" class="btn" (click)="onClickAcceptUserConsent()">Accept</button>
+</div>

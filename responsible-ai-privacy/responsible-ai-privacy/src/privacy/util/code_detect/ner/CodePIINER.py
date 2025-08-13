@@ -173,7 +173,7 @@ class codeNer:
             return redacted_response
 
         except Exception as e:
-            print("An error occurred during processing")
+            print(f"An error occurred during processing: {e}")
             return None
 # if __name__ == "__main__":
 #     main()

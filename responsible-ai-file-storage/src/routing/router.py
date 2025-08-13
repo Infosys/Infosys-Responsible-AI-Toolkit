@@ -1,21 +1,22 @@
 """
-Copyright 2024-2025 Infosys Ltd.
+# SPDX-License-Identifier: MIT
+# Copyright 2024 - 2025 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
+ 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 """
 
-from typing import Annotated
+from typing import Annotated, List,  Optional
 from config.logger import CustomLogger
 from exception.exception import AzureBlobException
 from service.service import FairnessUIservice
-from fastapi import APIRouter, HTTPException, UploadFile, Form
+from fastapi import APIRouter, HTTPException, UploadFile, Form, Query
 from fastapi.responses import  Response,StreamingResponse
 import io
+from mappers.mappers import BlobInfo
 router = APIRouter()
 
 log=CustomLogger()
@@ -35,6 +36,22 @@ def azure_add_dataset(file: UploadFile,container_name: Annotated[str, Form()]):
         log.info('exit azure add blob service')
 
         raise HTTPException(status_code=500, detail=f"Error in adding blob: {str(e)}")
+
+@router.get("/azureBlob/{container_name}/listBlobs", response_model=List[BlobInfo])
+def list_blobs(
+    container_name:str=...,
+    name_starts_with: Optional[str] = Query(None, description="Filter blobs that start with this prefix"),
+    content_type: Optional[str] = Query(None, description="Filter blobs by content type"),
+    max_results: Optional[int] = Query(100, description="Maximum number of results to return")
+):
+    try:
+        log.info('before invoking azure list blob service')
+        response = uiService.list_blobs(container_name,name_starts_with, content_type, max_results)
+        log.debug(response)
+        return response
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
     
 @router.get('/azureBlob/getBlob')
 def azure_get_blob(blob_name: str,container_name: str):

@@ -1,10 +1,9 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 /* .custom-dialog-container {
   height: 400px;
   width: 700px;
@@ -14,106 +13,107 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   text-align: center;
 } */
 
+
 .manage-access-container {
-    background-color: #fff;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    /* width: 1000px; */
-    max-height: 80vh;
-    overflow: auto;
-    height: 900px;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  /* width: 1000px; */
+  max-height: 80vh;
+  overflow: auto;
+  height: 900px;
 }
 
 .manage-access-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .manage-access-header h2 {
-    font-size: 18px;
-    font-weight: bold;
+  font-size: 18px;
+  font-weight: bold;
 }
 
 .close-btn {
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    color: #666;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  color: #666;
 }
 
 .access-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .access-item-title {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .access-item-options {
-    display: flex;
+  display: flex;
 }
 
 .access-item-option {
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    padding: 4px 8px;
-    margin-left: 8px;
-    cursor: pointer;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  padding: 4px 8px;
+  margin-left: 8px;
+  cursor: pointer;
 }
 
 .access-item-option.active {
-    background-color: #6c5ce7;
-    color: #fff;
+  background-color: #6c5ce7;
+  color: #fff;
 }
 
 .manage-access-actions {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    margin-right: 10px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
 }
 
 .reset-btn,
 .submit-btn {
-    background-color: #f5f5f5;
-    border: none;
-    border-radius: 4px;
-    padding: 8px 16px;
-    margin-left: 8px;
-    cursor: pointer;
+  background-color: #f5f5f5;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  margin-left: 8px;
+  cursor: pointer;
 }
 
 .submit-btn {
-    background-color: rgb(0, 0, 1);
-    color: #fff;
+  background-color: rgb(0, 0, 1);
+  color: #fff;
 }
 
-.manage-access-header {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin-left: 850px;
-    width: 100px;
-    margin-top: -35px;
-}
-
-.roledropdown {
-    width: 200px;
-}
-
-.subtabsunstructured {
-    display: table-cell;
+.manage-access-header{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-left: 850px;
+  width: 100px;
+  margin-top: -35px;
 }
 
 
+.roledropdown{
+  width: 200px;
+}
+
+
+.subtabsunstructured{
+  display: table-cell;
+}
 /*
 .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
   opacity: 0.03 !important;
@@ -124,72 +124,69 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   background-color: #005691;
 } */
 
+
 .mat-mdc-checkbox.mat-accent {
-    --mdc-checkbox-selected-checkmark-color: #fff;
-    --mdc-checkbox-selected-focus-icon-color: #8626C3;
-    --mdc-checkbox-selected-hover-icon-color: #8626C3;
-    --mdc-checkbox-selected-icon-color: #8626C3;
-    --mdc-checkbox-selected-pressed-icon-color: #8626C3;
-    --mdc-checkbox-unselected-focus-icon-color: #212121;
-    --mdc-checkbox-unselected-hover-icon-color: #212121;
-    --mdc-checkbox-disabled-selected-icon-color: rgba(0, 0, 0, 0.38);
-    --mdc-checkbox-disabled-unselected-icon-color: rgba(0, 0, 0, 0.38);
-    --mdc-checkbox-unselected-icon-color: rgba(0, 0, 0, 0.54);
-    --mdc-checkbox-unselected-pressed-icon-color: rgba(0, 0, 0, 0.54);
+  --mdc-checkbox-selected-checkmark-color: #fff;
+  --mdc-checkbox-selected-focus-icon-color: #8626C3;
+  --mdc-checkbox-selected-hover-icon-color: #8626C3;
+  --mdc-checkbox-selected-icon-color: #8626C3;
+  --mdc-checkbox-selected-pressed-icon-color: #8626C3;
+  --mdc-checkbox-unselected-focus-icon-color: #212121;
+  --mdc-checkbox-unselected-hover-icon-color: #212121;
+  --mdc-checkbox-disabled-selected-icon-color: rgba(0, 0, 0, 0.38);
+  --mdc-checkbox-disabled-unselected-icon-color: rgba(0, 0, 0, 0.38);
+  --mdc-checkbox-unselected-icon-color: rgba(0, 0, 0, 0.54);
+  --mdc-checkbox-unselected-pressed-icon-color: rgba(0, 0, 0, 0.54);
 }
+
 
 .btnRound {
-    cursor: pointer;
-    border: 1px solid;
-    border-radius: 50%;
-    color: #8626C3;
-    margin: 0.5rem;
+  cursor: pointer;
+  border: 1px solid;
+  border-radius: 50%;
+  color: #8626C3;
+  margin: 0.5rem;
 }
-
 .btnRound i {
-    font-size: medium;
-    padding: 4px;
+  font-size: medium;
+  padding: 4px;
 }
 
-.plusIcon {
-    margin-left: 850px;
-    margin-bottom: -20px;
+.plusIcon{
+  margin-left: 850px;
+  margin-bottom: -20px;
 }
 
-.addBtn {
-    padding: 0px 8px 4px 7px;
-    font-weight: 500;
+.addBtn{
+  padding: 0px 8px 4px 7px;
+  font-weight: 500;
 }
 
-.InputPop {
-    /* height: 1.2rem !important;
+.InputPop{
+  /* height: 1.2rem !important;
   font-size: 0.75rem!important; */
-    height: 1.8rem !important;
-    font-size: 0.87rem !important;
-    font-family: 'Segoe UI' !important;
-    color: #7E7E7E !important;
+  height: 1.8rem !important;
+  font-size: 0.87rem !important;
+  font-family: 'Segoe UI' !important;
+  color: #7E7E7E !important;
 }
 
 .rolepopup {
-    width: 200px;
-    /* Adjust the width as per your requirement */
-    height: 200px;
-    /* Adjust the height as per your requirement */
-    margin-top: 20px !important;
+  width: 200px; /* Adjust the width as per your requirement */
+  height: 200px; /* Adjust the height as per your requirement */
+  margin-top: 20px !important;
 }
-
 ngb-popover-window.popover {
-    margin-top: 30px;
+  margin-top: 30px;
 }
-
 .HeadingLabel {
-    color: #7E7E7E;
-    padding: 5px 0px;
-    margin-bottom: 0px;
-    font-weight: 600;
-    font-size: 11px;
-    margin-right: 1.7rem;
-    font-family: 'Segoe UI';
-    text-transform: uppercase;
-    transition: color 0.3s ease;
+  color: #7E7E7E;
+  padding: 5px 0px;
+  margin-bottom: 0px;
+  font-weight: 600;
+  font-size: 11px;
+  margin-right: 1.7rem;
+  font-family: 'Segoe UI';
+  text-transform: uppercase;
+  transition: color 0.3s ease;
 }

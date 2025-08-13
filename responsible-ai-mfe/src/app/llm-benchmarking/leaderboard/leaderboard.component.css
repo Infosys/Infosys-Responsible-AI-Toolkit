@@ -1,9 +1,9 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 
 /* TABLE */
 
@@ -15,7 +15,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     overflow-x: auto;
     display: block;
 }
-
 .center-align {
     text-align: center;
 }
@@ -36,6 +35,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     width: 30px;
 }
 
+
 .styled-table td {
     /* Segoe UI, regular */
     font-size: 0.70rem;
@@ -52,69 +52,59 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 .centered-table td {
     text-align: center;
-    vertical-align: middle;
-    /* Optional: to vertically center the content */
-}
-
-.sort-icons {
-    margin-left: .1rem;
-    /* Adjust the margin as needed */
+    vertical-align: middle; /* Optional: to vertically center the content */
+  }
+  .sort-icons {
+    margin-left: .1rem; /* Adjust the margin as needed */
     display: flex;
     align-items: center;
     justify-content: center;
     /* gap: 0.1rem; Adjust the gap as needed */
-}
-
-.sort-icons span {
+  }
+  .sort-icons span {
     font-size: 0.70rem;
     font-family: 'Segoe UI';
-    font-weight: 600;
-    /* Adjust the size as needed */
+    font-weight: 600; /* Adjust the size as needed */
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 1.5em;
-    /* Ensure equal width and height */
-    height: 1.5em;
-    /* Ensure equal width and height */
-    border-radius: 50%;
-    /* Make the border round */
-    transition: all 0.3s ease;
-    /* Smooth transition for the pop effect */
-    line-height: 1.5em;
-    /* Center the text vertically */
-}
-
-.sort-icons span.active {
-    color: #382261;
-    /* Active color */
-    border: 1px solid #382261;
-    /* Border color */
-    background-color: rgba(56, 34, 97, 0.1);
-    /* Light background glow */
-    box-shadow: 0 4px 6px rgba(56, 34, 97, 0.3), 0 0 5px rgba(56, 34, 97, 0.5);
-    /* Raised effect and background glow */
-    transform: scale(1.1);
-    /* Pop effect */
-    padding: 0;
-    /* Ensure no extra padding */
-}
-
-
+    width: 1.5em; /* Ensure equal width and height */
+    height: 1.5em; /* Ensure equal width and height */
+    border-radius: 50%; /* Make the border round */
+    transition: all 0.3s ease; /* Smooth transition for the pop effect */
+    line-height: 1.5em; /* Center the text vertically */
+  }
+  
+  .sort-icons span.active {
+    color: #382261; /* Active color */
+    border: 1px solid #382261; /* Border color */
+    background-color: rgba(56, 34, 97, 0.1); /* Light background glow */
+    box-shadow: 0 4px 6px rgba(56, 34, 97, 0.3), 0 0 5px rgba(56, 34, 97, 0.5); /* Raised effect and background glow */
+    transform: scale(1.1); /* Pop effect */
+    padding: 0; /* Ensure no extra padding */
+  }
 /* Highlighted column style */
-
 .highlighted-column {
-    background-color: rgba(56, 34, 97, 0.1);
-    /* Light background shade */
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-    /* Smooth transition */
-    border-top: none;
-    /* Remove top border */
-    border-bottom: none;
-    /* Remove bottom border */
-}
+    background-color: rgba(56, 34, 97, 0.1); /* Light background shade */
+    transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+    border-top: none; /* Remove top border */
+    border-bottom: none; /* Remove bottom border */
+  }
 
-.pointer-cursor {
-    cursor: pointer;
-    /* Changes the mouse pointer to a hand */
+  .pointer-cursor {
+    cursor: pointer; /* Changes the mouse pointer to a hand */
+  }
+
+  .error-message {
+    width: 400px;
+    max-width: 400px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 14px;
 }

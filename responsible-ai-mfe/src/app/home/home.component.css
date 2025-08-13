@@ -1,19 +1,17 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 /* home.component.css */
-
 mat-sidenav-container {
     height: 100%;
 }
 
 mat-sidenav {
     width: 250px;
-    box-shadow: 3px 0px 7px rgba(0, 0, 0, 0.3);
+    box-shadow: 3px 0px 7px rgba(0,0,0,0.3);
     background-color: #ffffff;
     color: #000000;
 }
@@ -39,44 +37,35 @@ mat-sidenav-content {
     margin: 0 auto;
 }
 
-.main h1,
-.main p {
+.main h1, .main p {
     margin-bottom: 20px;
 }
-
-
 /* RAI-Frontend */
-
-
 /* app-workbench, app-bulk-processing {
     color: #8626C3;
 } */
-
 :host ::ng-deep.custom-button {
     color: #8626C3;
 }
-
 :host ::ng-deep.mat-mdc-button:not(:disabled) {
     color: #8626C3;
 }
 
 html {
-    zoom: 0.8;
-    /* Old IE only */
+    zoom: 0.8; /* Old IE only */
     -moz-transform: scale(0.8);
     -webkit-transform: scale(0.8);
     transform: scale(0.8);
 }
 
-.iconButton {
+.iconButton{
     border: 1px solid #8626C3;
     border-radius: 5px;
     margin: 0px 5px;
     display: flex;
     align-items: center;
 }
-
-.iconButton>.mat-icon {
+.iconButton>.mat-icon{
     position: relative;
     vertical-align: top;
     font-size: 1.125rem;
@@ -84,39 +73,36 @@ html {
     width: 1.125rem;
     color: #8626C3;
 }
-
 .sidebar {
-    width: 0;
-    height: 100%;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    box-shadow: 2px 1px 7px 0px rgba(0, 0, 0, 0.2), 0 6px 20px -4px rgba(0, 0, 0, 0.19);
-    left: 0;
-    background-color: white;
-    overflow-x: hidden;
-    transition: width 0.3s;
-    padding-top: 0px;
+  width: 0;
+  height: 100%;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  box-shadow: 2px 1px 7px 0px rgba(0, 0, 0, 0.2), 0 6px 20px -4px rgba(0, 0, 0, 0.19);
+  left: 0;
+  background-color: white; 
+  overflow-x: hidden;
+  transition: width 0.3s;
+  padding-top: 0px;
 }
 
 .sidebar-open {
-    width: 270px;
-    height: 100%;
+  width: 270px;
+  height: 100%;
 }
 
-.custom-button {
+  .custom-button {
     display: block;
-}
-
-.sidebar-header {
+  }
+  .sidebar-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     /* margin-bottom: 25px; */
-}
-
-.sidebar-header h2 {
+  }
+  .sidebar-header h2 {
     font-size: 14px;
     font-family: Segoe UI, Semibold;
     font-weight: 500;
@@ -124,24 +110,21 @@ html {
     color: #636363;
     margin-top: 10px;
     margin-right: 90px;
-}
-
-.sidebar-toggle mat-icon {
+  }
+  .sidebar-toggle mat-icon {
     color: #8626C3;
     width: 24.5px;
     height: 18px;
-}
-
-.sidebar-close mat-icon {
+  }
+  .sidebar-close mat-icon {
     /* color: #000000; */
     color: #8626C3;
     width: 18px;
     height: 18px;
     /* opacity:30%; */
-    margin-right: 20px;
-}
-
-#sidebar .custom-button {
+    margin-right:20px;
+  }
+  #sidebar .custom-button { 
     /* font-family: Segoe UI, Regular; */
     /* font-size: 14px; */
     /* font-weight: 400; */
@@ -153,48 +136,49 @@ html {
     font-family: Roboto, Arial !important;
     font-size: 14px;
     cursor: pointer;
-}
-
-.homeNavOptions:hover {
+  }
+  .homeNavOptions:hover{
     border-radius: 10px;
     background-color: #f5f5f5;
     padding-left: 10px;
-}
-
-.divider {
+  }
+  .divider {
     border-bottom: 1px solid #7e7e7e70;
     width: 100%;
-}
-
-.mdc-icon-button {
+  }
+  
+  .mdc-icon-button{
     font-size: 12px;
-}
+  }
 
-
-/*  */
-
-.footer-container {
+  /*  */
+  .footer-container {
     position: fixed;
     bottom: 0;
     width: 100%;
     text-align: center;
-    z-index: 1000;
-    /* Ensure it stays above other content */
-}
-
-.card-body {
+    z-index: 1000; /* Ensure it stays above other content */
+  }
+  
+  .card-body {
     padding: 20px;
-}
+  }
 
-.footerDiv {
+  .footerDiv {
     width: 100%;
     background-color: #f8f9fa;
     padding: .2rem;
     color: #000000;
     font-size: 12px;
     font-family: Segoe UI, Regular;
-    border-top-left-radius: 5px;
-    /* Adjust the value as needed */
-    border-top-right-radius: 5px;
-    /* Adjust the value as needed */
-}
+    border-top-left-radius: 5px; /* Adjust the value as needed */
+    border-top-right-radius: 5px; /* Adjust the value as needed */
+  }
+
+  .containerHome {
+    width: 100%;
+    padding: 0.4rem 1rem;
+    position: relative;
+    height: 89vh;
+    overflow-y: auto;
+  }

@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, from } from 'rxjs';
@@ -35,10 +36,13 @@ export class FmModerationService {
 
   constructor(private https: HttpClient,public nonceService:NonceService) { }
 
+  // Fetches API URLs from local storage and sets them
   fetchApiUrl() {
     let { ip_port } = this.retrieveLocalStorageData();
     this.setApiList(ip_port);
   }
+
+   // Retrieves data from local storage
   retrieveLocalStorageData() {
     let ip_port;
     let Account_Role;
@@ -69,6 +73,8 @@ export class FmModerationService {
     }
     return { ip_port, Account_Role };
   }
+
+  // Sets the API endpoints for the service
   setApiList(ip_port: any) {
     console.log('API LIST FUNCTION');
     this.apiEndpoints.fm_api = ip_port.result.FM_Moderation + ip_port.result.Moderationlayer_completions;
@@ -116,14 +122,17 @@ export class FmModerationService {
     this.apiEndpoints.GetTemplates = ip_port.result.Admin + ip_port.result.GETACCTEMPMAP;
   }
 
+  // Updates the data source with new data
   updateData(data: any) {
     this.dataSource.next(data);
   }
 
+  // Updates the Nemo Guardrail response
   updateNemoGaurrailResponse(data: any) {
     this.nemoGaurrailResponse.next(data);
   }
 
+  // Updates the MultiModal object with new values
   updateMultiModal(show:boolean, userId:string, templateList:any, prompt:string,file:any) {
     this._MultiModal.show = show;
     this._MultiModal.userId = userId;
@@ -133,14 +142,17 @@ export class FmModerationService {
     this._MultiModal.fairnessRes = null;
   }
 
+  // Updates a specific key-value pair in the MultiModal object
   updateMultiModalKeyVal(key:string, value:any) {
     this._MultiModal[key] = value;
   }
 
+  // Retrieves the current MultiModal object
   getMultiModal() {
     return this._MultiModal;
   }
 
+  // Resets the MultiModal object to its default state
   resetMultiModal() {
     this._MultiModal = {
       show : false,
@@ -152,18 +164,20 @@ export class FmModerationService {
     };
   }
 
-  // APIS
+  // APIS- Fetches templates for the logged-in user
   getTemplates() {
     return this.https.get(this.apiEndpoints.GetTemplates+this.loggedINuserId);
     // return this.https.get("http://10.66.155.13:30016/api/v1/rai/admin/getAccTemplate"+'/'+this.loggedINuserId);
   }
 
+  // Fetches moderation templates for the logged-in user
   moderationGetTemplates() {
     console.log(this.apiEndpoints.Moderationlayer_getTemplates+'/'+this.loggedINuserId);
     return this.https.get(this.apiEndpoints.Moderationlayer_getTemplates+'/'+this.loggedINuserId);
     // return this.https.get("http://10.66.155.13:30016/api/v1/rai/admin/getAccTemplate"+'/'+this.loggedINuserId);
   }
 
+  // Calls the FM service API based on the selected mode
   getFMService(endpoint: string, data: any, fmlocalselected: any, p0?: unknown) {
     console.log(endpoint,"endpoint","DATA:", data,)
     const value = urlList.authToken
@@ -175,7 +189,7 @@ export class FmModerationService {
       return this.https.post(endpoint, data,{ headers: headers});
     } else if (fmlocalselected == true) {
       console.log("LOCAL API TRIGGERED");
-
+ 
       return this.getModerationData(endpoint,data);
     } else {
       // Default return statement
@@ -184,6 +198,7 @@ export class FmModerationService {
     }
   }
 
+  // Sends a moderation API request with CSRF token
   public getModerationData(endpoint: string, data: any): Observable<any> {
     // Get the CSRF token from a secure place (e.g., a meta tag or cookie)
   const csrfToken = this.nonceService.getNonce();
@@ -228,5 +243,17 @@ export class FmModerationService {
       });
     });
   }
+
+  // Checks if required keys exist in local storage
+  checkLocalStorageForKeys(): boolean {
+    let selectedPortfolio = localStorage.getItem('selectedPortfolio');
+    let selectedAccount = localStorage.getItem('selectedAccount');
+
+    let state = selectedPortfolio !== null && selectedAccount !== null;
+
+    return state;
+  }
+
+
 
 }

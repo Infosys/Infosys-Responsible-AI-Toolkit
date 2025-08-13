@@ -264,7 +264,7 @@ def process_video(payload, safetyConfig):
     Q = deque(maxlen=size)
     filename = input_vid.filename
     safetyConfig = json.loads(safetyConfig)
-    # print(safetyConfig, "safetyConfig")
+    print(safetyConfig, "safetyConfig")
     
     # Create a temporary file to store the input video
     with tempfile.NamedTemporaryFile(delete=False) as temp_file:

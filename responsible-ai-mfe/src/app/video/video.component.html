@@ -1,38 +1,53 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
+<div>
+  <!-- <label class="HeadingLabel">Video Player</label> -->
+  <div class="d-flex mt-4 mb-3">
+    <p class="HeadingLabel1 me-5" role="button" [ngClass]="{ 'activeTab': uploadedVideoMode }" (click)="toggleVideoMode('uploaded')">Upload Video</p>
+    <p class="HeadingLabel1" role="button" [ngClass]="{ 'activeTab': liveStreamMode }" (click)="toggleVideoMode('live')">Live Stream</p>
+  </div>
+  <ng-container *ngIf="liveStreamMode">
+    <app-live-stream></app-live-stream>
+  </ng-container>
+  <ng-container *ngIf="uploadedVideoMode">
+    <!-- <app-video></app-video> -->
+ 
 <div style="display: flex;" class="pt-4">
-    <ng-container class="selectTypeShimmer" *ngIf="isLoadingUpload">
-        <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '200px', width: '230px'}">
-        </ngx-skeleton-loader>
-    </ng-container>
+  <ng-container class="selectTypeShimmer" *ngIf="isLoadingUpload">
+    <ngx-skeleton-loader count="1" appearance="circle"
+      [theme]="{ 'border-radius': '10px', height: '200px', width: '230px'}">
+    </ngx-skeleton-loader>
+  </ng-container>
     <div *ngIf="!isLoadingUpload">
         <label class="HeadingLabel">Upload File(s)</label>
         <div class="d-flex">
-            <div class="mr-3">
+            <div class="me-3">
                 <div class="drop-zone">
                     <mat-icon class="material-icons browse-logo ">cloud_upload</mat-icon>
                     <p class="dnd-lable">Drag & drop files here <br>or<span class="high-light"> browse</span></p>
                     <input #fileInput type="file" (change)="onFileChange($event)" (change)="fileBrowseHandler($event)" multiple>
                     <p class="dnd-lable">
-                        Max Video file size 4GB</p>
+                    Max Video file size 4GB</p>
                 </div>
-                <div class="mr-3 fileContainer">
-                    <p class="HeadingLabelSM" *ngIf="files[0]">File</p>
-                    <div class="file-upload" *ngIf="files[0]">
-                        <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
-                        <div class="d-flex align-items-center mt-1">
-                            <mat-progress-bar class="mr-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
-                            <button class="cancel-button mr-2" (click)="deleteFile()">
+                <div class="me-3 fileContainer">
+                  <p class="HeadingLabelSM" *ngIf="files[0]">File</p>
+                  <div class="file-upload" *ngIf="files[0]">
+                      <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
+                      <div class="d-flex align-items-center mt-1">
+                          <mat-progress-bar class="me-1" mode="determinate"
+                              [value]="files[0]?.progress"></mat-progress-bar>
+                          <button class="cancel-button me-2" (click)="deleteFile()">
                               <mat-icon>close</mat-icon>
                           </button>
-                        </div>
-                    </div>
+                      </div>
+                  </div>
                 </div>
                 <div class="button-container">
-                    <button mat-raised-button class="buttonMain mr-1" color="reset" (click)="reset()">Reset</button>
+                    <button mat-raised-button class="buttonMain me-1" color="reset" (click)="reset()">Reset</button>
                     <button mat-raised-button class="buttonMain" color="black" (click)="submit()" [disabled]="showSpinner1">
                       <div class="spinner-border text-light" style="font-size: 10px;width: 15px;height: 15px;"
                               role="status" *ngIf="showSpinner1">
@@ -44,28 +59,28 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
         </div>
     </div>
-    <div class="ml-4 mr-5">
-        <label class="HeadingLabel mb-3">Select Options</label>
-        <div class="custom-select-wrapper">
-            <mat-select #select1 multiple id="selectApplicableMethods" [(ngModel)]="selectedOptions" [formControl]="form2" placeholder="Category">
-                <div class="select-all">
-                    <mat-checkbox (change)="toggleAllSelection($event)" color="primary">Select All
-                    </mat-checkbox>
-                </div>
-                <mat-option *ngFor="let option of options" [value]="option.value">
-                    {{option.viewValue}}
-                </mat-option>
-            </mat-select>
-        </div>
-        <!-- <div *ngFor="let option of options" class="form-check">
+    <div class="ms-4 me-5">
+      <label class="HeadingLabel mb-3">Select Options</label>
+      <div class="custom-select-wrapper">
+        <mat-select #select1 multiple id="selectApplicableMethods" class="dropdown" [(ngModel)]="selectedOptions" [formControl]="form2" placeholder="Category">
+          <div class="select-all">
+            <mat-checkbox (change)="toggleAllSelection($event)" color="primary">Select All
+            </mat-checkbox>
+          </div>
+            <mat-option *ngFor="let option of options" [value]="option.value">
+                {{option.viewValue}}
+            </mat-option>
+        </mat-select>
+      </div>
+      <!-- <div *ngFor="let option of options" class="form-check">
         <input class="form-check-input" type="checkbox" [value]="option.value" (change)="toggleOption($event, option.value)">
         <label class="form-check-label">{{option.viewValue}}</label>
       </div> -->
-        <!-- <select (change)="selectOption($event)" aria-label="Default select example" class="form-select">
+      <!-- <select (change)="selectOption($event)" aria-label="Default select example" class="form-select">
         <option value="" disabled selected>Category</option>
         <option *ngFor="let option of options" [value]="option.value">{{option.viewValue}}</option>
       </select> -->
-        <!-- <div *ngIf="showFileInput" class="mt-3">
+      <!-- <div *ngIf="showFileInput" class="mt-3">
         <label class="HeadingLabel mb-3">Select Custom Mask Image</label>
         <input type="file" class="form-control">
       </div> -->
@@ -79,62 +94,66 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </button>
         </div>
         <div *ngIf="isLoadingTable">
-            <ngx-skeleton-loader count="5" appearance="line" [theme]="{ 'border-radius': '20px', height: '30px'}">
-            </ngx-skeleton-loader>
+          <ngx-skeleton-loader count="5" appearance="line"
+            [theme]="{ 'border-radius': '20px', height: '30px'}">
+          </ngx-skeleton-loader>
         </div>
-        <div *ngIf="!isLoadingTable">
-            <table class="styled-table">
-                <tr>
-                    <th class="header">FILE NAME</th>
-                    <th class="header">STATUS</th>
-                    <!-- <th class="header">PREVIEW</th> -->
-                    <th class="header">DOWNLOAD</th>
-                </tr>
-                <tr *ngFor="let element of result| paginate : pagingConfig; let i = index">
-                    <td> {{element.fileName}}</td>
-                    <td class="upper-case" [ngClass]="{'gereen-text': isCompleted(element.status)}"> {{element.status}}</td>
-                    <!-- <td>
+        <div *ngIf="!isLoadingTable" >
+        <table class="styled-table">
+            <tr>
+                <th class="header">FILE NAME</th>
+                <th class="header">STATUS</th>
+                <!-- <th class="header">PREVIEW</th> -->
+                <th class="header">DOWNLOAD</th>
+            </tr>
+            <tr *ngFor="let element of result| paginate : pagingConfig; let i = index">
+                <td> {{element.fileName}}</td>
+                <td class="upper-case" [ngClass]="{'gereen-text': isCompleted(element.status)}"> {{element.status}}</td>
+                <!-- <td>
                   <button mat-icon-button color="primary2" *ngIf="element.status ==='Completed'" (click)="openDialog('https://res.cloudinary.com/demo/video/upload/v1510668637/elephants.mp4')">
                     <mat-icon>play_circle_outline</mat-icon>
                   </button>
                 </td> -->
 
-                    <ng-template class="video-dialog" #videoDialog let-dialogRef="dialogRef" let-data>
-                        <h1 mat-dialog-title>PREVIEW
-                            <button mat-icon-button class="close-button" (click)="dialogRef.close()">
+                <ng-template class= "video-dialog" #videoDialog let-dialogRef="dialogRef" let-data>
+                    <h1 mat-dialog-title >PREVIEW
+                      <button mat-icon-button class="close-button" (click)="dialogRef.close()">
                         <mat-icon>✖</mat-icon>
                       </button>
-                        </h1>
-                        <h2 class="file-name-preview">
-                            {{element.fileName}}
-                            <button mat-icon-button color="primary2" *ngIf="element.status =='Completed'" [disabled]="false" (click)="getfileContent(element.documentLink)">
+                    </h1>
+                    <h2 class="file-name-preview">
+                        {{element.fileName}}
+                        <button mat-icon-button color="primary2" *ngIf="element.status =='Completed'" [disabled]="false" (click)="getfileContent(element.documentLink)">
                           <mat-icon>download</mat-icon>
                         </button>
-                        </h2>
-                        <div mat-dialog-content>
-                            <video controls="controls" preload="auto" width="700" height="350">
+                      </h2>
+                    <div mat-dialog-content>
+                        <video controls="controls" preload="auto" width="700" height="350">
                             <source *ngIf="data?.safeUrl" [src]="data.safeUrl"   type="video/mp4">
                             Your browser does not support the video tag.
                         </video>
-                        </div>
-                        <!-- <iframe *ngIf="data?.safeUrl" [src]="data.safeUrl" width="700" height="350" frameborder="0" allowfullscreen></iframe> -->
-                    </ng-template>
-                    <td (click)="getfileContent(element.documentLink)">
-                        <button mat-icon-button color="primary2" *ngIf="element.status =='Completed'" [disabled]="false">
+                    </div>
+                    <!-- <iframe *ngIf="data?.safeUrl" [src]="data.safeUrl" width="700" height="350" frameborder="0" allowfullscreen></iframe> -->
+        </ng-template>
+                <td (click)="getfileContent(element.documentLink)">
+                    <button mat-icon-button color="primary2" *ngIf="element.status =='Completed'" [disabled]="false">
                         <mat-icon>download</mat-icon>
                     </button>
-                    </td>
-                </tr>
-            </table>
-        </div>
+                </td>
+            </tr>
+        </table>
+      </div>
         <!--  -->
         <div class="d-flex justify-content-between mt-3">
-            <div class="pagination-info">
-                Showing {{ pagingConfig.totalItems
-                < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }} </div>
-                    <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
-                    </pagination-controls>
-            </div>
-            <!--  -->
+          <div class="pagination-info">
+            Showing {{ pagingConfig.totalItems < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }}
+          </div>
+            <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next"
+                (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
         </div>
-    </div>
+        <!--  -->
+      </div>
+</div>
+</ng-container>
+</div>

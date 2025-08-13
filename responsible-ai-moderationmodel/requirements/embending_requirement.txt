@@ -1,0 +1,29 @@
+# fastapi
+# uvicorn
+# pyyaml
+protobuf
+# transformers==4.41.0
+numpy==1.26.4
+tldextract==5.1.2
+sentence-transformers==3.0.1
+# detoxify==0.5.0
+# pandas
+python-dotenv==1.0.1
+django-phonenumbers
+# pymongo
+python-multipart==0.0.9
+# psutil
+# # memory_profiler
+#cuda-python==12.3.0
+flask==3.0.3
+waitress
+flask_swagger_ui==4.11.1
+# diffusers==0.27.2
+accelerate==0.28.0
+setuptools
+lib/aicloudlibs-0.1.0-py3-none-any.whl
+# lib/en_core_web_lg-3.5.0-py3-none-any.whl
+#lib/presidio_analyzer-4.0.6-py3-none-any.whl
+#lib/torch-2.2.0+cu118-cp39-cp39-linux_x86_64.whl
+lib/torch-2.2.0+cu118-cp311-cp311-linux_x86_64.whl
+# lib/privacy-1.0.9-py3-none-any.whl

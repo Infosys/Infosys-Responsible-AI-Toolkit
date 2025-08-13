@@ -22,7 +22,6 @@ Requires-Dist: python-multipart
 Requires-Dist: pyyaml
 Requires-Dist: regex
 Requires-Dist: opencv-python-headless
-Requires-Dist: ultralytics
 Requires-Dist: omegaconf
 Requires-Dist: anyio
 Requires-Dist: blis

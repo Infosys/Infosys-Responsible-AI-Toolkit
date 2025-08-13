@@ -187,25 +187,6 @@
 <div class="expand-control" id="expander-control-1322189714" onclick="expandContent('expander-content-1322189714', 'expander-control-1322189714')">
 <span class="expand-control-icon icon"> </span><span class="expand-control-text">Insurance policy document review</span>
 </div>
-<div class="expand-content expand-hidden" id="expander-content-1322189714">
-<h3 id="ReviewofInsurancepolicydocumentsusingAgenticFrameworkUsecasebased"><span data-colorid="e0f2e38xvn"><u>Review of Insurance policy documents using Agentic Framework [Use-case based]</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
-<p> </p>
-<p>Disclaimer:</p>
-<p>The below POC is done on experimental basis. The tool is designed with a perspective to help the Legal team of the client [The Insurance company], who can cross check the identified possible bias and its closely associated Local Law and they should call out for the action item on need basis. The model has generated the list of suspects from the policy document based on contextual overlap with the Government’s Law which needs more fine-tuning and advanced techniques to be accurate.</p>
-<p> </p>
-<p>This research is for reviewing a document like an insurance policy and perform a bias evaluation. We are planning to implement the solution using an Agentic framework as this involves several components and decision making. Below are the steps planned to be included the solution. The flow is planned to be sequential, will be enhanced on need basis. </p>
-<p>Current Implementation of Insurance Policy Fairness Analysis</p>
-<ol start="1">
-<li><p><strong><span style="background-color: rgb(220,223,228);">Convert PDF to Markdown</span></strong><span style="background-color: rgb(220,223,228);">: We convert the PDF documents into Markdown format to better analyze the content while preserving the structure of the text and tables.</span></p></li>
-<li><p><strong><span style="background-color: rgb(220,223,228);">Chunking by Chapter</span></strong><span style="background-color: rgb(220,223,228);">: We create chunks of Markdown based on chapter names for comprehensive analysis.</span></p></li>
-<li><p><strong><span style="background-color: rgb(220,223,228);">PII Entity Detection</span></strong><span style="background-color: rgb(220,223,228);">: Each chunk is checked for any personally identifiable information (PII) entities.</span></p></li>
-<li><p><strong><span style="background-color: rgb(220,223,228);">LLM Processing</span></strong><span style="background-color: rgb(220,223,228);">: Each chunk, along with a detailed prompt template, is passed to the language model (LLM) for analysis.</span></p></li>
-<li><p><strong><span style="background-color: rgb(220,223,228);">Generate Bias Report</span></strong><span style="background-color: rgb(220,223,228);">: A detailed report is generated, summarizing any biases detected.</span></p></li>
-</ol>
-
-</div>
-</div>
-
 <div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="6a59f658-dcdd-427a-ae2f-71bcaefde4e1" data-macro-name="expand" id="expander-103016322">
 <div class="expand-control" id="expander-control-103016322" onclick="expandContent('expander-content-103016322', 'expander-control-103016322')">
 <span class="expand-control-icon icon"> </span><span class="expand-control-text">Zero-shot text classifier</span>

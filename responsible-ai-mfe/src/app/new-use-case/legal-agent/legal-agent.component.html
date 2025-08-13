@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <form [formGroup]="useCase">
     <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
@@ -14,32 +15,48 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
     <div style="display: flex;" class="pt-4">
         <div style="margin-right: 100px;" class="class='form-group'">
-            <h3 class="HeadingLabel">Upload File(s)</h3>
-            <div class="d-flex">
-                <div class="mr-3">
-                    <div class="drop-zone">
+            <h3 style="display:flex;">
+                <mat-label [ngStyle]="{'color': !switch ? '#8626C3' : 'inherit'}">Upload File(s)</mat-label>
+                <span class="switch">
+                    <input id="switch-rounded" type="checkbox" (change)="onToggleSwitch($event)"/>
+                    <label for="switch-rounded"></label>
+                </span>
+                <mat-label [ngStyle]="{'color': switch ? '#8626C3' : 'inherit'}">Use Case</mat-label>
+            </h3>
+            <div class="d-flex mt-4">
+                <div class="me-3">
+                    <div class="drop-zone" *ngIf="!switch">
                         <mat-icon class="material-icons browse-logo ">cloud_upload</mat-icon>
                         <p class="dnd-lable">Drag & drop files here <br>or<span class="high-light"> browse</span></p>
+                        <p class="m-0" style="font-size: 10px; font-weight: 400;color: #989898;">
+                            .pdf & .txt files are supported</p>
                         <input type="file" (change)="onFileChange($event)" (change)="fileBrowseHandler($event)" formControlName="fileData">
                     </div>
                     <span *ngIf="useCase.get('fileData')?.invalid && useCase.get('fileData')?.touched" class="text-danger">
                         {{ getErrorMessage(useCase.get('fileData')!) }}
                       </span>
-                    <div class="mr-3 fileContainer">
+                    <div class="me-3 fileContainer" *ngIf="!switch">
                         <p class="HeadingLabelSM" *ngIf="files[0]">File</p>
                         <div class="file-upload" *ngIf="files[0]">
                             <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
                             <div class="d-flex align-items-center mt-1">
-                                <mat-progress-bar class="mr-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
-                                <button class="cancel-button mr-2" (click)="deleteFile()">
+                                <mat-progress-bar class="me-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
+                                <button class="cancel-button me-2" (click)="deleteFile()">
                                   <mat-icon>close</mat-icon>
                               </button>
                             </div>
                         </div>
                     </div>
+                    <div class="mt-0" *ngIf="switch">
+                        <label class="HeadingLabel mb-2">Select Usecase</label>
+                        <select formControlName="option" (change)="selectOption($event.target)" class="form-select shadow-none" aria-label="Default select example">
+                        <option value="" disabled selected>Use Cases</option>
+                        <option *ngFor="let option of useCaseNameDetail" [value]="option.UseCaseName">{{option.UseCaseName}}</option>
+                        </select>
+                    </div>
                     <div class="button-container">
-                        <button mat-raised-button class="buttonMain mr-1" color="reset" (click)="reset()">Reset</button>
-                        <button mat-raised-button class="buttonMain" color="black" (click)="submit()" [disabled]="useCase.invalid">
+                        <button mat-raised-button class="buttonMain me-1" color="reset" (click)="reset()">Reset</button>
+                        <button mat-raised-button class="buttonMain" color="black" (click)="submit()">
                           <div class="spinner-border text-light" style="font-size: 10px;width: 15px;height: 15px;"
                                   role="status" *ngIf="showSpinner1">
                                   <span class="sr-only">Loading...</span>

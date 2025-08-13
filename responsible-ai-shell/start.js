@@ -1,11 +1,12 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
+const { exec } = require('shelljs');
 const fs = require('fs');
 const path = require('path');
-const { exec } = require('shelljs');
 
 const proxyConfigPath = 'proxy.config.json';
 const angularPath = 'angular.json';
@@ -30,7 +31,8 @@ const URLDATA = {
     AZURE_CLIENTID: null,
     AZURE_AUTHORITY: null,
     AZURE_REDIRECTURI: null,
-    SSO_BASED_LOGIN: null
+    SSO_BASED_LOGIN: null,
+    TELEMETRY_DASHBOARD: null
 
 };
 
@@ -61,10 +63,9 @@ const writeFile = (filePath, data) => {
 
 // const NgServeProxyConfig = function(err) {
 //     if (err) return console.log(err);
-//     console.log("EXECUTING ::  ng serve --host 0.0.0.0 --port 8080  --disable-host-check --proxy-config proxy.config.json");
-//     const sanitizedUrlData = URLDATA.NG_SERVE_CMD.replace(/(<script|<\s*script>)/g, '');
-//     exec(sanitizedUrlData, { stdio: 'inherit' });
-// }
+//     console.log('EXECUTING ::  ng serve --host 0.0.0.0 --port 30010  --disable-host-check');
+//     exec.execSync(URLDATA.NG_SERVE_CMD, { stdio: 'inherit' });
+// };
 const NgServeProxyConfig = () => {
     if (!URLDATA.NG_SERVE_CMD) {
         console.error('NG_SERVE_CMD is not set in URLDATA');
@@ -91,6 +92,18 @@ const NgServeProxyConfig = () => {
         console.log(`stdout: ${stdout}`);
     });
 };
+const sanitizeCommandInput = (input) => {
+    console.log("sanitize")
+        // This allows alphanumeric characters, spaces, hyphens, and equals signs
+    const sanitized = input.replace(/[^a-zA-Z0-9\s\-=\.:/]/g, '');
+    return sanitized;
+};
+const validateCommand = (command) => {
+    console.log("validate")
+        // Check if the command starts with 'ng' and contains only safe arguments
+    return /^ng\s/.test(command); // 'ng' followed by any valid arguments
+};
+
 const updateProxyConfig = async() => {
     return new Promise(async(resolve, reject) => {
         console.log('updating proxy config data');
@@ -192,7 +205,7 @@ const updateURLlistTs = async() => {
             .replace(/AZURE_AUTHORITY/g, URLDATA.AZURE_AUTHORITY)
             .replace(/AZURE_REDIRECTURI/g, URLDATA.AZURE_REDIRECTURI)
             .replace(/SSO_BASED_LOGIN/g, URLDATA.SSO_BASED_LOGIN)
-
+            .replace(/TELEMETRY_DASHBOARD/g, URLDATA.TELEMETRY_DASHBOARD)
 
         const writeRes = await writeFile(urlListFilePath, updatedData);
         resolve(writeRes);
@@ -214,6 +227,7 @@ const setDataFromENV = () => {
     (URLDATA['AZURE_AUTHORITY'] = process.env['AZURE_AUTHORITY']),
     (URLDATA['AZURE_REDIRECTURI'] = process.env['AZURE_REDIRECTURI']);
     (URLDATA['SSO_BASED_LOGIN'] = process.env['SSO_BASED_LOGIN']);
+    (URLDATA['TELEMETRY_DASHBOARD'] = process.env['TELEMETRY_DASHBOARD']);
 };
 
 const runLocally = async() => {
@@ -230,7 +244,8 @@ const runLocally = async() => {
     (URLDATA['AZURE_AUTHORITY'] = '<AUTHORITY>'),
     (URLDATA['AZURE_REDIRECTURI'] = '<REDIRECT_URI>'),
     (URLDATA['AZURE_CLIENTID'] = '<CLIENT_ID>');
-    (URLDATA['SSO_BASED_LOGIN'] = false)
+    (URLDATA['SSO_BASED_LOGIN'] = false);
+    (URLDATA['TELEMETRY_DASHBOARD'] = '<TELEMETRY_DASHBOARD>');
 };
 
 const runApplication = async function() {
@@ -244,20 +259,8 @@ const runApplication = async function() {
     const AngularFile = await updateAngular();
     // const StyleFile = await updateStyle();
     const AppConstantFile = await updateAppConstant();
-    const AppModuleConstantFile = await updateAppModuleConstant();
+    // const AppModuleConstantFile = await updateAppModuleConstant();
     NgServeProxyConfig();
-};
-const sanitizeCommandInput = (input) => {
-    console.log("sanitize")
-        // This allows alphanumeric characters, spaces, hyphens, and equals signs
-    const sanitized = input.replace(/[^a-zA-Z0-9\s\-=\.:/]/g, '');
-    return sanitized;
-};
-
-const validateCommand = (command) => {
-    console.log("validate")
-        // Check if the command starts with 'ng' and contains only safe arguments
-    return /^ng\s/.test(command); // 'ng' followed by any valid arguments
 };
 
 runApplication();

@@ -1,14 +1,16 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { Component, Input, ViewEncapsulation } from '@angular/core';
 import { TemplateBasedGuardrailService } from './template-based-guardrail.service';
 import { SharedDataService } from 'src/app/services/shared-data.service';
 import { RightSidePopupComponent } from '../../right-side-popup/right-side-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FmModerationService } from 'src/app/services/fm-moderation.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-template-based-guardrail',
@@ -36,7 +38,9 @@ export class TemplateBasedGuardrailComponent {
   ApiCallHappened = new Set<string>();
   requestModerationResult: any = {};
 
-  constructor(private templateBasedService: TemplateBasedGuardrailService, public fmService: FmModerationService, private sharedDataService: SharedDataService, private dialog: MatDialog) { }
+  constructor(public snackBar: MatSnackBar, private templateBasedService: TemplateBasedGuardrailService, public fmService: FmModerationService, private sharedDataService: SharedDataService, private dialog: MatDialog) { }
+  
+  // Initializes the component and subscribes to data updates
   ngOnInit() {
     this.templateBasedService.fetchApiUrl()
     this.fmService.currentData.subscribe(data => {
@@ -56,6 +60,8 @@ export class TemplateBasedGuardrailComponent {
 
   counter = 0;
   i = 0;
+
+  // Processes moderation templates in batches
   async callBatch() {
     // let requestModerationResultTemp = data.moderationResults.requestModeration
         // console.log(requestModerationResultTemp,"---------------+++++++++++++++++")
@@ -80,6 +86,8 @@ export class TemplateBasedGuardrailComponent {
         // Handle results if needed
         console.log('Batch completed', results);
       }).catch(error => {
+        // Handle error
+        console.error('Error in batch');
       });
     }
     console.log('All requests processed');
@@ -100,6 +108,7 @@ export class TemplateBasedGuardrailComponent {
     // this.callEvalLLM("VALID_PROMPT")
   }
 
+  // Calculates the total time taken for moderation checks
   getTotalTime(): string {
     let smoothLlmCheckTime = parseFloat(this.requestTime.smoothLlmCheck);
     let bergeronCheckTime = parseFloat(this.requestTime.bergeronCheck);
@@ -107,6 +116,7 @@ export class TemplateBasedGuardrailComponent {
     return totalTime + 's';
   }
 
+  // Checks if an object is empty
   isEmptyObject(obj: any): boolean {
     return obj != null && typeof obj === 'object' && Object.keys(obj).length === 0;
   }
@@ -121,7 +131,7 @@ export class TemplateBasedGuardrailComponent {
     { title: 'LANGUAGE CRITIQUE POLITENESS', value: 'LANGUAGE_CRITIQUE_POLITENESS', parentId: 'accordianLCP', dataTarget: 'collapseLCP' },
   ]
 
- 
+ // Opens a right-side modal with the provided data
   openRightSideModal(data: any) {
     const dialogRef = this.dialog.open(RightSidePopupComponent, {
       width: '52vw',
@@ -140,6 +150,7 @@ export class TemplateBasedGuardrailComponent {
     });
   }
 
+  // Calls the LLM evaluation API for a specific template
   callEvalLLM(templateName: any, Context?: any, ConciseContext?: any, RerankedContext?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       const templatesToIgnore = ['CONTEXT_RELEVANCE', 'CONTEXT_CONCISENESS', 'CONTEXT_RERANKING'];
@@ -195,13 +206,18 @@ export class TemplateBasedGuardrailComponent {
         },
         error => {
           this.status[templateName] = 'failed';
-          console.log(error);
           reject(error); // Reject with the error
+          this.snackBar.open('Moderation Request Failed', 'Close', {
+            duration: 8000,
+            horizontalPosition: 'left',
+            panelClass: ['le-u-bg-black'],
+          });
         }
       );
     });
   }
 
+  // Calls the content detector API
   callContentDetector() {
     if (this.ApiCallHappened.has('contentDetector')) {
       console.log("--REQUEST-MODERATION-|||-contentDetector-already-called");
@@ -236,6 +252,7 @@ export class TemplateBasedGuardrailComponent {
   showFullAnalysis: { [key: string]: boolean } = {
   };
 
+  // Toggles the visibility of the full analysis for a template
   toggleAnalysis(template: string): void {
     this.showFullAnalysis[template] = !this.showFullAnalysis[template];
   }

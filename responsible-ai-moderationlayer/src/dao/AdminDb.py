@@ -51,20 +51,20 @@ try:
             data = r.json()
             
             token=data["auth"]["client_token"]
-            print("Vault token generator")
+            log.info("Vault token generator")
             
             client = hvac.Client(url=os.getenv("APP_VAULT_URL"),token=token)
             secret = client.secrets.kv.v2.read_secret_version(
                 path=os.getenv("APP_VAULT_PATH"), 
                 mount_point=os.getenv("APP_VAULT_BACKEND"),
             )["data"]["data"]
-
+            print("secret is here -> ",secret)
             dbname = os.getenv("APP_MONGO_DBNAME")
             encoded_password = urllib.parse.quote(secret[os.getenv("APP_VAULT_KEY_MONGOPASS")], safe='')
             
             if os.getenv("DBTYPE")=="mongo":
                 myclient=pymongo.MongoClient("mongodb://"+secret[os.getenv("APP_VAULT_KEY_MONGOUSER")]+":"+encoded_password+"@"+os.getenv("APP_MONGO_HOST")+"/"+"?authMechanism=SCRAM-SHA-256&authSource="+dbname)
-                print("myclient is here -> ",myclient)
+                log.info(f"myclient is here -> {myclient}")
             
             elif os.getenv("DBTYPE")=="psql": 
                 #-------- Migrating to SQLAlchemy from Psycopg2 due to IP Check issue  -----#
@@ -82,18 +82,16 @@ try:
                         error JSONB
                     )
                 '''
-                with engine.connect() as conn:
-                    conn.execute(text(create_table_query))
-                    conn.execute(text(create_log_table_query))
-                    conn.commit()
+                with engine.connect() as con:
+                    con.execute(text(create_table_query))
+                    con.execute(text(create_log_table_query))
+                    con.commit()
             
             else:
                 myclient=pymongo.MongoClient("mongodb://"+secret[os.getenv("APP_VAULT_KEY_MONGOUSER")]+":"+encoded_password+"@"+os.getenv("APP_MONGO_HOST")+"/"+"?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName="+"@"+secret[os.getenv("APP_VAULT_KEY_MONGOUSER")])
                          
         elif vaultname=="AZURE":
-            
-            print("AZURE VaultIntegration Starts")
-            
+            log.info("AZURE VaultIntegration Starts")
             credential = ClientSecretCredential(
                 tenant_id = os.getenv("AZURE_VAULT_TENANT_ID"),
                 client_id = os.getenv("AZURE_VAULT_CLIENT_ID"),
@@ -105,7 +103,7 @@ try:
             try:
                 DB_USERNAME = sc.get_secret(os.getenv("APP_VAULT_KEY_MONGOUSER")).value
                 DB_PWD = sc.get_secret(os.getenv("APP_VAULT_KEY_MONGOPASS")).value
-                print("Retrived username and password")
+                log.info("Retrived username and password")
 
             except Exception as e:
                 log.error("error in Azure vault")
@@ -132,10 +130,10 @@ try:
                         error JSONB
                     )
                 '''
-                with engine.connect() as conn:
-                    conn.execute(text(create_table_query))
-                    conn.execute(text(create_log_table_query))
-                    conn.commit()
+                with engine.connect() as con:
+                    con.execute(text(create_table_query))
+                    con.execute(text(create_log_table_query))
+                    con.commit()
 
             else:
                 myclient=pymongo.MongoClient("mongodb://"+DB_USERNAME+":"+encoded_password+"@"+os.getenv("APP_MONGO_HOST")+"/"+"?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName="+"@"+DB_USERNAME)
@@ -161,10 +159,10 @@ try:
                         error JSONB
                     )
                 '''
-            with engine.connect() as conn:
-                conn.execute(text(create_table_query))
-                conn.execute(text(create_log_table_query))
-                conn.commit()
+            with engine.connect() as con:
+                con.execute(text(create_table_query))
+                con.execute(text(create_log_table_query))
+                con.commit()
 
         elif os.getenv("DBTYPE")=="cosmos":  
             cosmos_path = os.getenv("COSMOS_PATH")
@@ -178,17 +176,20 @@ except Exception as e:
 class DB:
     def connect():
         try:
-            myclient = pymongo.MongoClient(os.getenv("MONGO_PATH")) 
-            mydb = myclient[os.getenv("APP_MONGO_DBNAME")]
+            # myclient = pymongo.MongoClient(os.getenv("MONGO_PATH")) 
+            # mydb = myclient[os.getenv("APP_MONGO_DBNAME")]
             mydb = myclient[dbname]
+            log.info(f"IS myclient from localDB : {myclient}")
+            log.info(f"dbname : {dbname}")
             return mydb
         except Exception as e:
             log.error("error in DB connection")
             log.error(str(traceback.extract_tb(e.__traceback__)[0].lineno),e)
             
 
-if conn == None:
+if conn == None and os.getenv("DBTYPE")!="False":
     mydb=DB.connect()
+
 class ProfaneWords:
     def findOne(id):
         try:
@@ -263,12 +264,12 @@ class Results:
                 # json_col =json.dumps(mydoc)
                 # query = "INSERT INTO ModerationResult(id, payload) VALUES (%s, %s)"
                 # data = (id, json_col)
-                with engine.connect() as conn:
-                    conn.execute(
+                with engine.connect() as con:
+                    con.execute(
                         text("INSERT INTO ModerationResult(id, payload) VALUES (:id, :payload)"),
                         [{"id": id, "payload": json.dumps(mydoc)}],
                     )
-                    conn.commit()
+                    con.commit()
                 # cursor.execute(query, data)
                 # conn.commit()
                 return "PtrnRecogCreatedData"
@@ -301,12 +302,12 @@ class Results:
                 # json_col =json.dumps(mydoc)
                 # query = "INSERT INTO ModerationResult(id, payload) VALUES (%s, %s)"
                 # data = (id, json_col)
-                with engine.connect() as conn:
-                    conn.execute(
+                with engine.connect() as con:
+                    con.execute(
                         text("INSERT INTO ModerationResult(id, payload) VALUES (:id, :payload)"),
                         [{"id": id, "payload": json.dumps(mydoc)}],
                     )
-                    conn.commit()
+                    con.commit()
                 # cursor.execute(query, data)
                 # conn.commit()
                 return "PtrnRecogCreatedData"
@@ -328,12 +329,12 @@ class Results:
                 # json_col =json.dumps(value)
                 # query = "INSERT INTO log_db(id, error) VALUES (%s, %s)"
                 # data = (value["_id"], json_col)
-                with engine.connect() as conn:
-                    conn.execute(
+                with engine.connect() as con:
+                    con.execute(
                         text("INSERT INTO log_db(id, error) VALUES (:id, :error)"),
                         [{"id": value["_id"], "error": json.dumps(value)}],
                     )
-                    conn.commit()
+                    con.commit()
                 # cursor.execute(query, data)
                 # conn.commit()
                 return "PtrnRecogCreatedData"

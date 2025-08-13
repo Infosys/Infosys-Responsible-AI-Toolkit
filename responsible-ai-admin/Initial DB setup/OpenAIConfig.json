@@ -1,115 +1,4323 @@
 [{
-  "_id": 1698899197.8078823,
+  "_id": 1692167145.1518757,
+  "ApiIp": "http://localhost",
+  "ApiName": "Profanity",
+  "ApiPort": "8011",
   "CreatedDateTime": {
-    "$date": {
-      "$numberLong": "1698899197807"
-    }
+    "$date": "2023-08-16T11:55:45.151Z"
   },
   "LastUpdatedDateTime": {
-    "$date": {
-      "$numberLong": "1698899197807"
-    }
-  },
-  "goalPriority": true,
-  "isNemo": false,
-  "isOpenAI": true,
-  "role": "ROLE_ADMIN",
-  "selfReminder": true
-},{
-  "_id": 1698899197.8114643,
+    "$date": "2023-08-16T11:55:45.151Z"
+  }
+},
+{
+  "_id": 1692167515.3674867,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "Bloom",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": {
-      "$numberLong": "1698899197811"
-    }
+    "$date": "2023-08-16T12:01:55.367Z"
   },
   "LastUpdatedDateTime": {
-    "$date": {
-      "$numberLong": "1698899197811"
-    }
-  },
-  "goalPriority": true,
-  "isNemo": false,
-  "isOpenAI": true,
-  "role": "ROLE_USER",
-  "selfReminder": true
-},{
-  "_id": 1701844510.7532637,
+    "$date": "2023-08-16T12:01:55.367Z"
+  }
+},
+{
+  "_id": 1692167566.8734314,
+  "ApiIp": "http://localhost",
+  "ApiName": "Fairness",
+  "ApiPort": "8000",
   "CreatedDateTime": {
-    "$date": {
-      "$numberLong": "1701844510753"
-    }
+    "$date": "2023-08-16T12:02:46.873Z"
   },
   "LastUpdatedDateTime": {
-    "$date": {
-      "$numberLong": "1701844510753"
-    }
-  },
-  "goalPriority": true,
-  "isOpenAI": false,
-  "role": "ROLE_ML",
-  "selfReminder": true
-},{
-  "_id": 1717603655.7750728,
+    "$date": "2023-08-16T12:02:46.873Z"
+  }
+},
+{
+  "_id": 1692167831.3914711,
+  "ApiIp": "http://localhost",
+  "ApiName": "FM_Moderation",
+  "ApiPort": "5250",
   "CreatedDateTime": {
-    "$date": {
-      "$numberLong": "1717603655775"
-    }
+    "$date": "2023-08-16T12:07:11.391Z"
   },
   "LastUpdatedDateTime": {
-    "$date": {
-      "$numberLong": "1717603655775"
-    }
-  },
-  "goalPriority": false,
-  "isOpenAI": false,
-  "role": "ROLE_EXCEL",
-  "selfReminder": false
-},{
-  "_id": 1719384972.206866,
+    "$date": "2023-08-16T12:07:11.391Z"
+  }
+},
+{
+  "_id": 1692167899.4651885,
+  "ApiIp": "http://localhost",
+  "ApiName": "Admin",
+  "ApiPort": "30017",
   "CreatedDateTime": {
-    "$date": {
-      "$numberLong": "1719384972206"
-    }
+    "$date": "2023-08-16T12:08:19.465Z"
   },
   "LastUpdatedDateTime": {
-    "$date": {
-      "$numberLong": "1719384972206"
-    }
-  },
-  "goalPriority": false,
-  "isOpenAI": false,
-  "role": "ROLE_EMPTY",
-  "selfReminder": false
-},{
-  "_id": 1722251159.6457949,
+    "$date": "2023-08-16T12:08:19.465Z"
+  }
+},
+{
+  "_id": 1692167979.7121031,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "Security",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": {
-      "$numberLong": "1722251159645"
-    }
+    "$date": "2023-08-16T12:09:39.712Z"
   },
   "LastUpdatedDateTime": {
-    "$date": {
-      "$numberLong": "1722251159645"
-    }
-  },
-  "goalPriority": false,
-  "isOpenAI": false,
-  "role": "ROLE_TEST_1",
-  "selfReminder": false
-},{
-  "_id": 1723012532.3861814,
+    "$date": "2023-08-16T12:09:39.712Z"
+  }
+},
+{
+  "_id": 1692353106.6682105,
+  "ApiIp": "http://localhost",
+  "ApiName": "docProcessing",
+  "ApiPort": "30030",
   "CreatedDateTime": {
-    "$date": {
-      "$numberLong": "1723012532386"
-    }
+    "$date": "2023-08-18T15:35:06.668Z"
   },
   "LastUpdatedDateTime": {
-    "$date": {
-      "$numberLong": "1723012532386"
-    }
+    "$date": "2023-08-18T15:35:06.668Z"
+  }
+},
+{
+  "_id": 1692768276.6862698,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "SecurityDefence",
+  "ApiPort": "",
+  "CreatedDateTime": {
+    "$date": "2023-08-23T05:24:36.686Z"
   },
-  "goalPriority": false,
-  "isOpenAI": false,
-  "role": "ROLETEST2",
-  "selfReminder": false
+  "LastUpdatedDateTime": {
+    "$date": "2023-08-23T05:24:36.686Z"
+  }
+},
+{
+  "_id": 1692768323.0455914,
+  "ApiIp": "http://localhost",
+  "ApiName": "SecurityWrapper",
+  "ApiPort": "82",
+  "CreatedDateTime": {
+    "$date": "2023-08-23T05:25:23.045Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-08-23T05:25:23.045Z"
+  }
+},
+{
+  "_id": 1693217040.98972,
+  "ApiIp": "http://localhost",
+  "ApiName": "DICOM",
+  "ApiPort": "30002",
+  "CreatedDateTime": {
+    "$date": "2023-08-28T10:04:00.989Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-08-28T10:04:00.989Z"
+  }
+},
+{
+  "_id": 1694605488.2848084,
+  "ApiIp": "http://localhost",
+  "ApiName": "DocProcess",
+  "ApiPort": "30030",
+  "CreatedDateTime": {
+    "$date": "2023-09-13T11:44:48.284Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-09-13T11:44:48.284Z"
+  }
+},
+{
+  "_id": 1697016833.144161,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "Nemo",
+  "ApiPort": "",
+  "CreatedDateTime": {
+    "$date": "2023-10-11T09:33:53.159Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-10-11T09:33:53.159Z"
+  }
+},
+{
+  "_id": 1697100821.5389833,
+  "ApiIp": "http://localhost",
+  "ApiName": "Rag",
+  "ApiPort": "8005",
+  "CreatedDateTime": {
+    "$date": "2023-10-12T08:53:41.538Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-10-12T08:53:41.538Z"
+  }
+},
+{
+  "_id": 1697625171.7389114,
+  "ApiIp": "http://10.224.233.74:5601/app/dashboards#/view/0afb0620-bf56-11ee-ad0b-1f26a9536662?_g=(filters:!(),refreshInterval:(pause:!t,value:60000),time:(from:now-15m,to:now))",
+  "ApiName": "kiaban_dashboard",
+  "ApiPort": "",
+  "CreatedDateTime": {
+    "$date": "2023-10-18T10:32:51.738Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-10-18T10:32:51.738Z"
+  }
+},
+{
+  "_id": 1698648274.8108883,
+  "ApiIp": "http://localhost",
+  "ApiName": "Explainability_Demo",
+  "ApiPort": "8002",
+  "CreatedDateTime": {
+    "$date": "2023-10-30T06:44:34.810Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-10-30T06:44:34.810Z"
+  }
+},
+{
+  "_id": 1699870474.4915476,
+  "ApiIp": "/v1/privacy/text/analyze",
+  "ApiName": "Privacy_text_analyze",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:14:34.491Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:14:34.491Z"
+  }
+},
+{
+  "_id": 1699870542.8353448,
+  "ApiIp": "/v1/privacy/text/anonymize",
+  "ApiName": "Privacy_text_anonymize",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:15:42.835Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:15:42.835Z"
+  }
+},
+{
+  "_id": 1699870783.7878282,
+  "ApiIp": "/api/v1/safety/profanity/analyze",
+  "ApiName": "Profanity_text_analyze",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:19:43.787Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:19:43.787Z"
+  }
+},
+{
+  "_id": 1699870886.9740124,
+  "ApiIp": "/api/v1/safety/profanity/censor",
+  "ApiName": "Profanity_text_censor",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:21:26.974Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:21:26.974Z"
+  }
+},
+{
+  "_id": 1699870988.0025654,
+  "ApiIp": "/api/v1/text_generator/bloom",
+  "ApiName": "Bloom_text",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:23:08.002Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:23:08.002Z"
+  }
+},
+{
+  "_id": 1699871053.943373,
+  "ApiIp": "/v1/privacy/image/anonymize",
+  "ApiName": "Privacy_image_anonymize",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:24:13.943Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:24:13.943Z"
+  }
+},
+{
+  "_id": 1699871123.5386324,
+  "ApiIp": "/v1/privacy/image/analyze",
+  "ApiName": "Privacy_image_analyze",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:25:23.538Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:25:23.538Z"
+  }
+},
+{
+  "_id": 1699871172.214852,
+  "ApiIp": "/v1/privacy/image/verify",
+  "ApiName": "Privacy_image_verify",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:26:12.214Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:26:12.214Z"
+  }
+},
+{
+  "_id": 1699871221.4420035,
+  "ApiIp": "/v1/privacy/image/hashify",
+  "ApiName": "Privacy_image_hashify",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:27:01.442Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:27:01.442Z"
+  }
+},
+{
+  "_id": 1699871316.6285255,
+  "ApiIp": "/v1/privacy/dicom/anonymize",
+  "ApiName": "Privacy_dicom_anonymize",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:28:36.628Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:28:36.628Z"
+  }
+},
+{
+  "_id": 1699871375.5052276,
+  "ApiIp": "/api/v1/fairness/bias/analyze",
+  "ApiName": "Fairness_analyze",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:29:35.505Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:29:35.505Z"
+  }
+},
+{
+  "_id": 1699871424.7094066,
+  "ApiIp": "/api/v1/fairness/bias/getDataset",
+  "ApiName": "Fairness_getDataset",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:30:24.709Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:30:24.709Z"
+  }
+},
+{
+  "_id": 1699871483.5938888,
+  "ApiIp": "/api/v1/fairness/bias/getAttributes",
+  "ApiName": "Fairness_getAttributes",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:31:23.593Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:31:23.593Z"
+  }
+},
+{
+  "_id": 1699871568.1539404,
+  "ApiIp": "/bulkprocessing/docDtl",
+  "ApiName": "Bulkprocessing_docDtl",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:32:48.153Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:32:48.153Z"
+  }
+},
+{
+  "_id": 1699871600.9084098,
+  "ApiIp": "/bulkprocessing/docProcDtl",
+  "ApiName": "Bulkprocessing_docProcDtl",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:33:20.908Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:33:20.908Z"
+  }
+},
+{
+  "_id": 1699871685.8740559,
+  "ApiIp": "/bulkprocessing/pageDtl",
+  "ApiName": "Bulkprocessing_pageDtl",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:34:45.874Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:34:45.874Z"
+  }
+},
+{
+  "_id": 1699871940.5626023,
+  "ApiIp": "/bulkprocessing/data",
+  "ApiName": "Bulkprocessing_data",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:39:00.562Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:39:00.562Z"
+  }
+},
+{
+  "_id": 1699872495.560266,
+  "ApiIp": "/bulkprocessing/documentReport",
+  "ApiName": "Bulkprocessing_documentReport",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:48:15.560Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:48:15.560Z"
+  }
+},
+{
+  "_id": 1699872565.4661705,
+  "ApiIp": "/docProcessing/process",
+  "ApiName": "DocProcessing_process",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T10:49:25.466Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T10:49:25.466Z"
+  }
+},
+{
+  "_id": 1699873360.4448164,
+  "ApiIp": "/rai/v1/docProcess/uploadFile",
+  "ApiName": "DocProcess_uploadFile",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T11:02:40.444Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T11:02:40.444Z"
+  }
+},
+{
+  "_id": 1699873469.0849802,
+  "ApiIp": "/rai/v1/docProcess/getFiles",
+  "ApiName": "DocProcess_getFiles",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T11:04:29.084Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T11:04:29.084Z"
+  }
+},
+{
+  "_id": 1699873569.2564962,
+  "ApiIp": "/rai/v1/moderations/coupledmoderations",
+  "ApiName": "Moderationlayer_completions",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T11:06:09.256Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T11:06:09.256Z"
+  }
+},
+{
+  "_id": 1699873636.3842635,
+  "ApiIp": "/rai/v1/moderations/openai",
+  "ApiName": "Moderationlayer_openai",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T11:07:16.384Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T11:07:16.384Z"
+  }
+},
+{
+  "_id": 1699873683.5218358,
+  "ApiIp": "/rai/v1/moderations/PrivacyPopup",
+  "ApiName": "Moderationlayer_PrivacyPopup",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T11:08:03.521Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T11:08:03.521Z"
+  }
+},
+{
+  "_id": 1699873746.980728,
+  "ApiIp": "/rai/v1/moderations/ModerationTime",
+  "ApiName": "Moderationlayer_ModerationTime",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T11:09:06.980Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T11:09:06.980Z"
+  }
+},
+{
+  "_id": 1699873822.9115734,
+  "ApiIp": "/rai/v1/moderations/ProfanityPopup",
+  "ApiName": "Moderationlayer_ProfanityPopup",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T11:10:22.911Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T11:10:22.911Z"
+  }
+},
+{
+  "_id": 1699873865.7543478,
+  "ApiIp": "/rai/v1/moderations/ToxicityPopup",
+  "ApiName": "Moderationlayer_ToxicityPopup",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T11:11:05.754Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T11:11:05.754Z"
+  }
+},
+{
+  "_id": 1699890509.5709562,
+  "ApiIp": "/api/v1/rai/admin/ptrnRecognise",
+  "ApiName": "Admin_ptrnRecognise",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T15:48:29.570Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T15:48:29.570Z"
+  }
+},
+{
+  "_id": 1699890580.8927627,
+  "ApiIp": "/api/v1/rai/admin/ptrnRecogniselist",
+  "ApiName": "Admin_ptrnRecogniselist",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T15:49:40.892Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T15:49:40.892Z"
+  }
+},
+{
+  "_id": 1699890615.886887,
+  "ApiIp": "/api/v1/rai/admin/ptrnRecogniseUpdate",
+  "ApiName": "Admin_ptrnRecogniseUpdate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T15:50:15.886Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T15:50:15.886Z"
+  }
+},
+{
+  "_id": 1699890918.229019,
+  "ApiIp": "/api/v1/rai/admin/ptrnRecogniseDelete",
+  "ApiName": "Admin_ptrnRecogniseDelete",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T15:55:18.229Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T15:55:18.229Z"
+  }
+},
+{
+  "_id": 1699891317.6822844,
+  "ApiIp": "/api/v1/rai/admin/DataRecogGrp",
+  "ApiName": "Admin_DataRecogGrp",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T16:01:57.682Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T16:01:57.682Z"
+  }
+},
+{
+  "_id": 1699891345.0855634,
+  "ApiIp": "/api/v1/rai/admin/DataRecogGrplist",
+  "ApiName": "Admin_DataRecogGrplist",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T16:02:25.085Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T16:02:25.085Z"
+  }
+},
+{
+  "_id": 1699891393.7259665,
+  "ApiIp": "/api/v1/rai/admin/DataRecogGrpEntites",
+  "ApiName": "Admin_DataRecogGrpEntites",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T16:03:13.725Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T16:03:13.725Z"
+  }
+},
+{
+  "_id": 1699892037.6586986,
+  "ApiIp": "/api/v1/rai/admin/DataEntitesUpdate",
+  "ApiName": "Admin_DataEntitesUpdate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T16:13:57.658Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T16:13:57.658Z"
+  }
+},
+{
+  "_id": 1699892148.5037882,
+  "ApiIp": "/api/v1/rai/admin/DataGrpUpdate",
+  "ApiName": "Admin_DataGrpUpdate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T16:15:48.503Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T16:15:48.503Z"
+  }
+},
+{
+  "_id": 1699892666.6197364,
+  "ApiIp": "/api/v1/rai/admin/DataEntityAdd",
+  "ApiName": "Admin_DataEntityAdd",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T16:24:26.619Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T16:24:26.619Z"
+  }
+},
+{
+  "_id": 1699893609.1387649,
+  "ApiIp": "/api/v1/rai/admin/DataRecogGrpDelete",
+  "ApiName": "Admin_DataRecogGrpDelete",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T16:40:09.138Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T16:40:09.138Z"
+  }
+},
+{
+  "_id": 1699893661.5466626,
+  "ApiIp": "/api/v1/rai/admin/DataRecogEntityDelete",
+  "ApiName": "Admin_DataRecogEntityDelete",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T16:41:01.546Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T16:41:01.546Z"
+  }
+},
+{
+  "_id": 1699894058.8110979,
+  "ApiIp": "/api/v1/rai/admin/AccMasterEntry",
+  "ApiName": "Admin_AccMasterEntry",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T16:47:38.811Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T16:47:38.811Z"
+  }
+},
+{
+  "_id": 1699894239.032783,
+  "ApiIp": "/api/v1/rai/admin/AccMasterList",
+  "ApiName": "Admin_AccMasterList",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T16:50:39.032Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T16:50:39.032Z"
+  }
+},
+{
+  "_id": 1699894355.116889,
+  "ApiIp": "/api/v1/rai/admin/AccPtrnList",
+  "ApiName": "Admin_AccPtrnList",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T16:52:35.116Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T16:52:35.116Z"
+  }
+},
+{
+  "_id": 1699896353.2384388,
+  "ApiIp": "/api/v1/rai/admin/AccDataList",
+  "ApiName": "Admin_AccDataList",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T17:25:53.238Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T17:25:53.238Z"
+  }
+},
+{
+  "_id": 1699896424.3522615,
+  "ApiIp": "/api/v1/rai/admin/AccMasterDelete",
+  "ApiName": "Admin_AccMasterDelete",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T17:27:04.352Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T17:27:04.352Z"
+  }
+},
+{
+  "_id": 1699896502.2727542,
+  "ApiIp": "/api/v1/rai/admin/AccDataDelete",
+  "ApiName": "Admin_AccDataDelete",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T17:28:22.272Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T17:28:22.272Z"
+  }
+},
+{
+  "_id": 1699896556.4256682,
+  "ApiIp": "/api/v1/rai/admin/AccEntityAdd",
+  "ApiName": "Admin_AccEntityAdd",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T17:29:16.425Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T17:29:16.425Z"
+  }
+},
+{
+  "_id": 1699896669.3207376,
+  "ApiIp": "/api/v1/rai/admin/PrivacyEncrypt",
+  "ApiName": "Admin_PrivacyEncrypt",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T17:31:09.320Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T17:31:09.320Z"
+  }
+},
+{
+  "_id": 1699896726.617661,
+  "ApiIp": "/api/v1/rai/admin/ThresholdUpdate",
+  "ApiName": "Admin_ThresholdUpdate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T17:32:06.617Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T17:32:06.617Z"
+  }
+},
+{
+  "_id": 1699896791.3293257,
+  "ApiIp": "/api/v1/rai/admin/getOpenAI",
+  "ApiName": "Admin_getOpenAI",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T17:33:11.329Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T17:33:11.329Z"
+  }
+},
+{
+  "_id": 1699896901.470353,
+  "ApiIp": "/api/v1/rai/admin/UpdateOpenAI",
+  "ApiName": "Admin_UpdateOpenAI",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T17:35:01.470Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T17:35:01.470Z"
+  }
+},
+{
+  "_id": 1699897374.99048,
+  "ApiIp": "/api/v1/rai/admin/userRole",
+  "ApiName": "Admin_userRole",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T17:42:54.990Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T17:42:54.990Z"
+  }
+},
+{
+  "_id": 1699897801.267249,
+  "ApiIp": "/v1/security/model",
+  "ApiName": "Security_model",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T17:50:01.267Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T17:50:01.267Z"
+  }
+},
+{
+  "_id": 1699898260.7091067,
+  "ApiIp": "/v1/security/addmodel",
+  "ApiName": "Security_addmodel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T17:57:40.709Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T17:57:40.709Z"
+  }
+},
+{
+  "_id": 1699898502.1945739,
+  "ApiIp": "/v1/security/attack",
+  "ApiName": "Security_attack",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T18:01:42.194Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T18:01:42.194Z"
+  }
+},
+{
+  "_id": 1699898531.4191968,
+  "ApiIp": "/v1/security/activatemodel",
+  "ApiName": "Security_activatemodel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T18:02:11.419Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T18:02:11.419Z"
+  }
+},
+{
+  "_id": 1699898749.8466828,
+  "ApiIp": "/v1/security/activateattack",
+  "ApiName": "Security_activateattack",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T18:05:49.846Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T18:05:49.846Z"
+  }
+},
+{
+  "_id": 1699898792.885807,
+  "ApiIp": "/v1/security/tools",
+  "ApiName": "Security_tools",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T18:06:32.885Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T18:06:32.885Z"
+  }
+},
+{
+  "_id": 1699898839.193052,
+  "ApiIp": "/v1/security/report",
+  "ApiName": "Security_report",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T18:07:19.193Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T18:07:19.193Z"
+  }
+},
+{
+  "_id": 1699898891.0037973,
+  "ApiIp": "/AttackIdentification",
+  "ApiName": "Security_AttackIdentification",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T18:08:11.003Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T18:08:11.003Z"
+  }
+},
+{
+  "_id": 1699898955.7519486,
+  "ApiIp": "/rag/v1/FileUpload",
+  "ApiName": "RAG_FileUpload",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T18:09:15.751Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T18:09:15.751Z"
+  }
+},
+{
+  "_id": 1699899092.3736992,
+  "ApiIp": "/rag/v1/Retrieval",
+  "ApiName": "RAG_Retrieval",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T18:11:32.373Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T18:11:32.373Z"
+  }
+},
+{
+  "_id": 1699899204.5325818,
+  "ApiIp": "/rai/v1/explainability/upload/",
+  "ApiName": "Explain_demo_upload",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T18:13:24.532Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T18:13:24.532Z"
+  }
+},
+{
+  "_id": 1699899247.8832238,
+  "ApiIp": "/rai/v1/explainability/submit/",
+  "ApiName": "Explain_demo_submit",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-13T18:14:07.883Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-13T18:14:07.883Z"
+  }
+},
+{
+  "_id": 1699940332.9707618,
+  "ApiIp": "/bulkprocessing/file",
+  "ApiName": "Bulkprocessing_file",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-14T05:38:52.970Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-14T05:38:52.970Z"
+  }
+},
+{
+  "_id": 1699942995.9375257,
+  "ApiIp": "/api/v1/guardrail/nemo/TopicalRail",
+  "ApiName": "Nemo_TopicalRail",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-14T06:23:15.937Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-14T06:23:15.937Z"
+  }
+},
+{
+  "_id": 1699943032.448778,
+  "ApiIp": "/api/v1/guardrail/nemo/JailBreakRail",
+  "ApiName": "Nemo_JailBreakRail",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-14T06:23:52.448Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-14T06:23:52.448Z"
+  }
+},
+{
+  "_id": 1699943064.1148741,
+  "ApiIp": "/api/v1/guardrail/nemo/ModerationRail",
+  "ApiName": "Nemo_ModerationRail",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-14T06:24:24.114Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-14T06:24:24.114Z"
+  }
+},
+{
+  "_id": 1699943099.4917374,
+  "ApiIp": "/api/v1/guardrail/nemo/FactCheckRail",
+  "ApiName": "Nemo_FactCheckRail",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-14T06:24:59.491Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-14T06:24:59.491Z"
+  }
+},
+{
+  "_id": 1699944485.496505,
+  "ApiIp": "/DeferentialPrivacy/",
+  "ApiName": "Security_DeferentialPrivacy",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-14T06:48:05.496Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-14T06:48:05.496Z"
+  }
+},
+{
+  "_id": 1699947341.2855532,
+  "ApiIp": "/api/v1/rai/admin/UpdateReminder",
+  "ApiName": "Admin_UpdateReminder",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-14T07:35:41.285Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-14T07:35:41.285Z"
+  }
+},
+{
+  "_id": 1699947375.477032,
+  "ApiIp": "/api/v1/rai/admin/UpdateNemo",
+  "ApiName": "Admin_UpdateNemo",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-14T07:36:15.477Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-14T07:36:15.477Z"
+  }
+},
+{
+  "_id": 1700020602.2497191,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "SecurityTraining",
+  "ApiPort": "",
+  "CreatedDateTime": {
+    "$date": "2023-11-15T03:56:42.249Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-15T03:56:42.249Z"
+  }
+},
+{
+  "_id": 1700546413.648009,
+  "ApiIp": "/rag/v1/chatbot",
+  "ApiName": "RAG_chatbot",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-21T06:00:13.648Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-21T06:00:13.648Z"
+  }
+},
+{
+  "_id": 1701323820.1589348,
+  "ApiIp": "/v1/security/getBatches/",
+  "ApiName": "Security_getBatches",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-30T05:57:00.158Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-30T05:57:00.158Z"
+  }
+},
+{
+  "_id": 1701323853.7114289,
+  "ApiIp": "/v1/security/getReports",
+  "ApiName": "Security_getReports",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-30T05:57:33.711Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-30T05:57:33.711Z"
+  }
+},
+{
+  "_id": 1701323963.273633,
+  "ApiIp": "/v1/security/getReport",
+  "ApiName": "Security_getReport",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-30T05:59:23.273Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-30T05:59:23.273Z"
+  }
+},
+{
+  "_id": 1701325044.3192594,
+  "ApiIp": "/rai/v1/moderations/feedback",
+  "ApiName": "Moderationlayer_feedback",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-11-30T06:17:24.319Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-30T06:17:24.319Z"
+  }
+},
+{
+  "_id": 1701436231.293647,
+  "ApiIp": "/security/process",
+  "ApiName": "Security_process",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-01T13:10:31.293Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-01T13:10:31.293Z"
+  }
+},
+{
+  "_id": 1701760565.2666955,
+  "ApiIp": "http://localhost",
+  "ApiName": "YOLODEMO",
+  "ApiPort": "82",
+  "CreatedDateTime": {
+    "$date": "2023-12-05T07:16:05.266Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-05T07:16:05.266Z"
+  }
+},
+{
+  "_id": 1701760854.2277455,
+  "ApiIp": "/v1/security/yoloModel/defense",
+  "ApiName": "YOLODEMO_Defense",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-05T07:20:54.227Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-05T07:20:54.227Z"
+  }
+},
+{
+  "_id": 1701760883.7595599,
+  "ApiIp": "/v1/security/yoloModel/attack",
+  "ApiName": "YOLODEMO_Attack",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-05T07:21:23.759Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-05T07:21:23.759Z"
+  }
+},
+{
+  "_id": 1702555288.8757834,
+  "ApiIp": "/v1/privacy/code/anonymize",
+  "ApiName": "Privacy_code_anonymize",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-14T12:01:28.875Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-14T12:01:28.875Z"
+  }
+},
+{
+  "_id": 1702555318.8221445,
+  "ApiIp": "/v1/privacy/codefile/anonymize",
+  "ApiName": "Privacy_codefile_anonymize",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-14T12:01:58.822Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-14T12:01:58.822Z"
+  }
+},
+{
+  "_id": 1703828415.7030578,
+  "ApiIp": "http://localhost",
+  "ApiName": "Questionnaire",
+  "ApiPort": "30080",
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:40:15.703Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:40:15.703Z"
+  }
+},
+{
+  "_id": 1703828448.0872383,
+  "ApiIp": "/v1/questionnaire/Details",
+  "ApiName": "questionnariesDetails",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:40:48.087Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:40:48.087Z"
+  }
+},
+{
+  "_id": 1703828478.6058264,
+  "ApiIp": "/v1/questionnaire/submitResponse",
+  "ApiName": "submitResponse",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:41:18.605Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:41:18.605Z"
+  }
+},
+{
+  "_id": 1703828510.6364098,
+  "ApiIp": "/v1/privacy/DifferentialPrivacy/file",
+  "ApiName": "Diff_Priv_file",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:41:50.636Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:41:50.636Z"
+  }
+},
+{
+  "_id": 1703828533.7630277,
+  "ApiIp": "/v1/privacy/DifferentialPrivacy/anonymize",
+  "ApiName": "Diff_Priv_Anonymize",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:42:13.763Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:42:13.763Z"
+  }
+},
+{
+  "_id": 1703828556.6010423,
+  "ApiIp": "/rai/v1/moderations",
+  "ApiName": "Moderationlayer_Moderations",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:42:36.601Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:42:36.601Z"
+  }
+},
+{
+  "_id": 1703828586.9386866,
+  "ApiIp": "/v1/security/downloadcombinedreport",
+  "ApiName": "security_combinedReport",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:43:06.938Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:43:06.938Z"
+  }
+},
+{
+  "_id": 1703828613.329207,
+  "ApiIp": "/rai/v1/security_workbench/runallattacks",
+  "ApiName": "Security_runAttacks",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:43:33.329Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:43:33.329Z"
+  }
+},
+{
+  "_id": 1703828638.9183273,
+  "ApiIp": "/v1/security/deletemodel",
+  "ApiName": "Security_deleteModel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:43:58.918Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:43:58.918Z"
+  }
+},
+{
+  "_id": 1703828669.7382267,
+  "ApiIp": "/v1/questionnaire/riskDashboardDetails/",
+  "ApiName": "Ques_Risk_Dashboard",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:44:29.738Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:44:29.738Z"
+  }
+},
+{
+  "_id": 1703828730.5547853,
+  "ApiIp": "/api/v1/rai/admin/FMConfigEntry",
+  "ApiName": "Fm_Config_Entry",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:45:30.554Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:45:30.554Z"
+  }
+},
+{
+  "_id": 1703828759.5929596,
+  "ApiIp": "/api/v1/rai/admin/FMConfigEntryList",
+  "ApiName": "Fm_Config_EntryList",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:45:59.592Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:45:59.592Z"
+  }
+},
+{
+  "_id": 1703828784.626615,
+  "ApiIp": "/api/v1/rai/admin/FmGrpDataList",
+  "ApiName": "Fm_Config_Data",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:46:24.626Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:46:24.626Z"
+  }
+},
+{
+  "_id": 1703828810.83289,
+  "ApiIp": "/api/v1/rai/admin/FmGrpDataUpdate",
+  "ApiName": "Fm_Config_DataUpdate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:46:50.832Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:46:50.832Z"
+  }
+},
+{
+  "_id": 1703828830.3228798,
+  "ApiIp": "/api/v1/rai/admin/FmConfigDelete",
+  "ApiName": "Fm_Config_Delete",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:47:10.322Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:47:10.322Z"
+  }
+},
+{
+  "_id": 1703828853.369091,
+  "ApiIp": "/api/v1/rai/admin/ModerationCheckLists",
+  "ApiName": "Fm_Config_ModCheck",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:47:33.369Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:47:33.369Z"
+  }
+},
+{
+  "_id": 1703828876.396341,
+  "ApiIp": "/api/v1/rai/admin/RestrictedTopicsLists",
+  "ApiName": "Fm_Config_TopicList",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:47:56.396Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:47:56.396Z"
+  }
+},
+{
+  "_id": 1703828896.252775,
+  "ApiIp": "/api/v1/rai/admin/ThemeTextsLists",
+  "ApiName": "Fm_Config_ThemeListt",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2023-12-29T05:48:16.252Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-29T05:48:16.252Z"
+  }
+},
+{
+  "_id": 1705754563.3018255,
+  "ApiIp": "/rai/v1/raimodels/restrictedtopicmodel",
+  "ApiName": "Raimoderationmodels_text_restrictedtopicmodel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-01-20T12:42:43.301Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-20T12:42:43.301Z"
+  }
+},
+{
+  "_id": 1705754603.0803678,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "Raimoderationmodels",
+  "ApiPort": "",
+  "CreatedDateTime": {
+    "$date": "2024-01-20T12:43:23.080Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-20T12:43:23.080Z"
+  }
+},
+{
+  "_id": 1705754633.1815274,
+  "ApiIp": "/v1/questionnaire/ResubmitDetails/",
+  "ApiName": "Ques_selectedResponse",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-01-20T12:43:53.181Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-20T12:43:53.181Z"
+  }
+},
+{
+  "_id": 1705754660.1925957,
+  "ApiIp": "/v1/questionnaire/canvas/getResponse/",
+  "ApiName": "Canvas_Response",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-01-20T12:44:20.192Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-20T12:44:20.192Z"
+  }
+},
+{
+  "_id": 1705754687.5107932,
+  "ApiIp": "/v1/questionnaire/canvas/submitResponse",
+  "ApiName": "Canvas_Submit",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-01-20T12:44:47.510Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-20T12:44:47.510Z"
+  }
+},
+{
+  "_id": 1705754955.998182,
+  "ApiIp": "/rai/v1/moderations/COV",
+  "ApiName": "Moderationlayer_COV",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-01-20T12:49:15.998Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-20T12:49:15.998Z"
+  }
+},
+{
+  "_id": 1705754980.8665712,
+  "ApiIp": "/rai/v1/moderations/OrgPolicy",
+  "ApiName": "Moderationlayer_OrgPolicy",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-01-20T12:49:40.866Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-20T12:49:40.866Z"
+  }
+},
+{
+  "_id": 1705755005.443805,
+  "ApiIp": "/rai/v1/moderations/openaiCOT",
+  "ApiName": "Moderationlayer_openaiCOT",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-01-20T12:50:05.443Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-20T12:50:05.443Z"
+  }
+},
+{
+  "_id": 1705755029.6945438,
+  "ApiIp": "/rag/v1/RetrievalKepler",
+  "ApiName": "RAG_RetrievalKepler",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-01-20T12:50:29.694Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-20T12:50:29.694Z"
+  }
+},
+{
+  "_id": 1705908101.8715713,
+  "ApiIp": "/rai/v1/security_workbench/attack",
+  "ApiName": "security_applicableAttack",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-01-22T07:21:41.871Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-22T07:21:41.871Z"
+  }
+},
+{
+  "_id": 1706102642.4947278,
+  "ApiIp": "/rai/v1/moderations/gEval",
+  "ApiName": "Moderationlayer_gEval",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-01-24T13:24:02.494Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-24T13:24:02.494Z"
+  }
+},
+{
+  "_id": 1706102674.887928,
+  "ApiIp": "/docProcess/getFileContent/",
+  "ApiName": "DocProcessing_getFileContent",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-01-24T13:24:34.887Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-01-24T13:24:34.887Z"
+  }
+},
+{
+  "_id": 1706879340.306166,
+  "ApiIp": "/api/v1/rai/admin/getAttributes",
+  "ApiName": "Fm_Config_GetAttributes",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:09:00.306Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:09:00.306Z"
+  }
+},
+{
+  "_id": 1706879380.8420568,
+  "ApiIp": "/api/v1/rai/admin/OutputModerationCheckLists",
+  "ApiName": "Fm_Config_OutputModCheck",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:09:40.842Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:09:40.842Z"
+  }
+},
+{
+  "_id": 1706879420.178345,
+  "ApiIp": "/v1/questionnaire/lotAssign",
+  "ApiName": "AssignLot",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:10:20.178Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:10:20.178Z"
+  }
+},
+{
+  "_id": 1706879450.7095087,
+  "ApiIp": "/v1/questionnaire/allLotDetails/",
+  "ApiName": "AllLotDetails",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:10:50.709Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:10:50.709Z"
+  }
+},
+{
+  "_id": 1706879476.9001076,
+  "ApiIp": "/api/v1/rai/admin/uploadFile",
+  "ApiName": "Admin_uploadFile",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:11:16.900Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:11:16.900Z"
+  }
+},
+{
+  "_id": 1706879502.7543921,
+  "ApiIp": "/api/v1/rai/admin/getFiles",
+  "ApiName": "Admin_getFiles",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:11:42.754Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:11:42.754Z"
+  }
+},
+{
+  "_id": 1706879530.9506445,
+  "ApiIp": "/api/v1/rai/admin/setCache",
+  "ApiName": "Admin_setCache",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:12:10.950Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:12:10.950Z"
+  }
+},
+{
+  "_id": 1706879563.6535585,
+  "ApiIp": "/api/v1/rai/admin/getEmbedings",
+  "ApiName": "Admin_getEmbedings",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:12:43.653Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:12:43.653Z"
+  }
+},
+{
+  "_id": 1706879593.1179986,
+  "ApiIp": "http://localhost",
+  "ApiName": "Admin_Rag",
+  "ApiPort": "30017",
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:13:13.118Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:13:13.118Z"
+  }
+},
+{
+  "_id": 1706879617.8102813,
+  "ApiIp": "/v1/questionnaire/aicanvas/submitResponse",
+  "ApiName": "Ai_Canvas_Submit",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:13:37.810Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:13:37.810Z"
+  }
+},
+{
+  "_id": 1706879643.5627618,
+  "ApiIp": "/v1/questionnaire/aicanvas/getResponse/",
+  "ApiName": "AI_Canvas_Response",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:14:03.562Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:14:03.562Z"
+  }
+},
+{
+  "_id": 1706879667.5139174,
+  "ApiIp": "/v1/questionnaire/createUsecase",
+  "ApiName": "Questionnaire_createUsecase",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:14:27.513Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:14:27.513Z"
+  }
+},
+{
+  "_id": 1706879697.111173,
+  "ApiIp": "/v1/questionnaire/useCaseDetails/",
+  "ApiName": "Questionnaire_getUsecaseDetail",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-02T13:14:57.111Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-02T13:14:57.111Z"
+  }
+},
+{
+  "_id": 1709203685.3708699,
+  "ApiIp": "http://localhost",
+  "ApiName": "Security_llm",
+  "ApiPort": "8030",
+  "CreatedDateTime": {
+    "$date": "2024-02-29T10:48:05.370Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-29T10:48:05.370Z"
+  }
+},
+{
+  "_id": 1709203707.819463,
+  "ApiIp": "/v1/infosys/llm/security/datasets",
+  "ApiName": "SecurityLLM_availableDataSets",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-29T10:48:27.819Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-29T10:48:27.819Z"
+  }
+},
+{
+  "_id": 1709203736.5011249,
+  "ApiIp": "/v1/infosys/llm/security/dataset/preview",
+  "ApiName": "SecurityLLM_previewDataSets",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-29T10:48:56.501Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-29T10:48:56.501Z"
+  }
+},
+{
+  "_id": 1709203755.5249367,
+  "ApiIp": "/v1/infosys/llm/security/addDataset",
+  "ApiName": "SecurityLLM_addDataSet",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-29T10:49:15.524Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-29T10:49:15.524Z"
+  }
+},
+{
+  "_id": 1709203774.9388616,
+  "ApiIp": "/v1/infosys/llm/security/models",
+  "ApiName": "SecurityLLM_availableModels",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-29T10:49:34.938Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-29T10:49:34.938Z"
+  }
+},
+{
+  "_id": 1709203796.3983262,
+  "ApiIp": "/v1/infosys/llm/security/addModel",
+  "ApiName": "SecurityLLM_addModel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-29T10:49:56.398Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-29T10:49:56.398Z"
+  }
+},
+{
+  "_id": 1709203820.5665798,
+  "ApiIp": "/v1/infosys/llm/security/robustness",
+  "ApiName": "SecurityLLM_validateModel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-29T10:50:20.566Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-29T10:50:20.566Z"
+  }
+},
+{
+  "_id": 1709203842.3143325,
+  "ApiIp": "/v1/infosys/llm/security/leaderBoard",
+  "ApiName": "SecurityLLM_getLeaderboard",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-29T10:50:42.314Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-29T10:50:42.314Z"
+  }
+},
+{
+  "_id": 1709203858.0677817,
+  "ApiIp": "/v1/infosys/llm/security/robustness/results",
+  "ApiName": "SecurityLLM_robustnessResults",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-02-29T10:50:58.067Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-02-29T10:50:58.067Z"
+  }
+},
+{
+  "_id": 1709637433.999187,
+  "ApiIp": "/v1/infosys/llm/security/deleteModel",
+  "ApiName": "SecurityLLM_deleteModel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-05T11:17:13.999Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-05T11:17:13.999Z"
+  }
+},
+{
+  "_id": 1709637450.6561406,
+  "ApiIp": "/v1/infosys/llm/security/deleteDataset",
+  "ApiName": "SecurityLLM_deleteDataSet",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-05T11:17:30.656Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-05T11:17:30.656Z"
+  }
+},
+{
+  "_id": 1709808665.3668065,
+  "ApiIp": "/api/v1/safety/profanity/imageanalyze",
+  "ApiName": "Profan_Image_Analyse",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:51:05.366Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:51:05.366Z"
+  }
+},
+{
+  "_id": 1709808699.8180697,
+  "ApiIp": "/api/v1/safety/profanity/imageGenerate",
+  "ApiName": "Profan_Image_Generate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:51:39.818Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:51:39.818Z"
+  }
+},
+{
+  "_id": 1709808784.4361339,
+  "ApiIp": "/v1/questionnaire/workbench/uploadFile",
+  "ApiName": "Workbench_UploadFile",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:53:04.436Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:53:04.436Z"
+  }
+},
+{
+  "_id": 1709808815.2562478,
+  "ApiIp": "/api/v1/fairness/mitigation/getDataset",
+  "ApiName": "MitigateDataSet",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:53:35.256Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:53:35.256Z"
+  }
+},
+{
+  "_id": 1709808834.2763226,
+  "ApiIp": "/api/v1/fairness/mitigation/getAttributes",
+  "ApiName": "MitigateAttributes",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:53:54.276Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:53:54.276Z"
+  }
+},
+{
+  "_id": 1709808855.6922145,
+  "ApiIp": "/api/v1/fairness/mitigation/getMitigatedData/",
+  "ApiName": "MitigateDownload",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:54:15.692Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:54:15.692Z"
+  }
+},
+{
+  "_id": 1709808878.36307,
+  "ApiIp": "/api/v1/fairness/pretrain/mitigation/getDataset",
+  "ApiName": "PretrainMitigateDataSet",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:54:38.363Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:54:38.363Z"
+  }
+},
+{
+  "_id": 1709808904.810803,
+  "ApiIp": "/api/v1/fairness/pretrain/mitigation/getAttributes",
+  "ApiName": "PretrainMitigateAttributes",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:55:04.810Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:55:04.810Z"
+  }
+},
+{
+  "_id": 1709808928.2945604,
+  "ApiIp": "/v1/privacy/image/masking",
+  "ApiName": "Privacy_image_masking",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:55:28.294Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:55:28.294Z"
+  }
+},
+{
+  "_id": 1709808986.3801534,
+  "ApiIp": "http://localhost:80",
+  "ApiName": "Workbench",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:56:26.380Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:56:26.380Z"
+  }
+},
+{
+  "_id": 1709809016.5467317,
+  "ApiIp": "/v1/workbench/data",
+  "ApiName": "Workbench_Data",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:56:56.546Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:56:56.546Z"
+  }
+},
+{
+  "_id": 1709809034.3498983,
+  "ApiIp": "/v1/workbench/model",
+  "ApiName": "Workbench_Model",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:57:14.349Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:57:14.349Z"
+  }
+},
+{
+  "_id": 1709809055.5838795,
+  "ApiIp": "/v1/workbench/deletemodel",
+  "ApiName": "Workbench_DeleteModel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:57:35.583Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:57:35.583Z"
+  }
+},
+{
+  "_id": 1709809073.2021337,
+  "ApiIp": "/v1/workbench/addmodel",
+  "ApiName": "Workbench_AddModel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:57:53.202Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:57:53.202Z"
+  }
+},
+{
+  "_id": 1709809097.244455,
+  "ApiIp": "/v1/workbench/updatemodel",
+  "ApiName": "Workbench_UpdateModel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:58:17.244Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:58:17.244Z"
+  }
+},
+{
+  "_id": 1709809116.0885508,
+  "ApiIp": "/v1/workbench/deletedata",
+  "ApiName": "Workbench_DeleteData",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:58:36.088Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:58:36.088Z"
+  }
+},
+{
+  "_id": 1709809135.7876327,
+  "ApiIp": "/v1/workbench/adddata",
+  "ApiName": "Workbench_AddData",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:58:55.787Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:58:55.787Z"
+  }
+},
+{
+  "_id": 1709809156.8593292,
+  "ApiIp": "/v1/workbench/updatedata",
+  "ApiName": "Workbench_UpdateData",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:59:16.859Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:59:16.859Z"
+  }
+},
+{
+  "_id": 1709809175.0221066,
+  "ApiIp": "/api/v1/rai/admin/deleteFile",
+  "ApiName": "Admin_LLmExplain_deleteFile",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-03-07T10:59:35.022Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-03-07T10:59:35.022Z"
+  }
+},
+{
+  "_id": 1712235573.8162968,
+  "ApiIp": "/api/v1/fairness/mitigation/model/uploadFiles",
+  "ApiName": "MitigateModelUpload",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-04T12:59:33.816Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-04T12:59:33.816Z"
+  }
+},
+{
+  "_id": 1712235593.8716433,
+  "ApiIp": "/api/v1/fairness/mitigation/model/getMitigatedModelNameAnalyze",
+  "ApiName": "MitigatedModelNameAnalyze",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-04T12:59:53.871Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-04T12:59:53.871Z"
+  }
+},
+{
+  "_id": 1712235608.612879,
+  "ApiIp": "/api/v1/fairness/mitigation/model/getMitigatedModel",
+  "ApiName": "MitigatedModelDwnld",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-04T13:00:08.612Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-04T13:00:08.612Z"
+  }
+},
+{
+  "_id": 1712235625.9510992,
+  "ApiIp": "/rag/v1/cov",
+  "ApiName": "RagCOV",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-04T13:00:25.951Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-04T13:00:25.951Z"
+  }
+},
+{
+  "_id": 1712235638.0931468,
+  "ApiIp": "/rag/v1/cot",
+  "ApiName": "RagCOT",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-04T13:00:38.093Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-04T13:00:38.093Z"
+  }
+},
+{
+  "_id": 1712291429.156694,
+  "ApiIp": "/api/v1/rai/admin/getAccount",
+  "ApiName": "getAccountDetail",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-05T04:30:29.156Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-05T04:30:29.156Z"
+  }
+},
+{
+  "_id": 1712291450.6384053,
+  "ApiIp": "/api/v1/rai/admin/PrivacyParameter",
+  "ApiName": "setPrivacyParameter",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-05T04:30:50.638Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-05T04:30:50.638Z"
+  }
+},
+{
+  "_id": 1712291476.4164398,
+  "ApiIp": "/api/v1/rai/admin/SafetyParameter",
+  "ApiName": "setSafetyParameter",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-05T04:31:16.416Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-05T04:31:16.416Z"
+  }
+},
+{
+  "_id": 1712291538.739218,
+  "ApiIp": "/api/v1/rai/admin/AccSafetyListAccountWise",
+  "ApiName": "Admin_AccSafetyListAccountWise",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-05T04:32:18.739Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-05T04:32:18.739Z"
+  }
+},
+{
+  "_id": 1712291556.1883044,
+  "ApiIp": "/api/v1/rai/admin/SafetyUpdate",
+  "ApiName": "Admin_SafetyUpdate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-05T04:32:36.188Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-05T04:32:36.188Z"
+  }
+},
+{
+  "_id": 1712922747.2786896,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "SecurityLLMInfo",
+  "ApiPort": "",
+  "CreatedDateTime": {
+    "$date": "2024-04-12T11:52:27.278Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-12T11:52:27.278Z"
+  }
+},
+{
+  "_id": 1712922785.6153767,
+  "ApiIp": "/v1/llm/security/datasets",
+  "ApiName": "SecurityLLMInfo_datasets",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-12T11:53:05.615Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-12T11:53:05.615Z"
+  }
+},
+{
+  "_id": 1712922817.3777297,
+  "ApiIp": "/v1/llm/security/leaderBoard",
+  "ApiName": "SecurityLLMInfo_leadeboard",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-12T11:53:37.377Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-12T11:53:37.377Z"
+  }
+},
+{
+  "_id": 1712930021.8330934,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "SecurityLLMFairness",
+  "ApiPort": "",
+  "CreatedDateTime": {
+    "$date": "2024-04-12T13:53:41.833Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-12T13:53:41.833Z"
+  }
+},
+{
+  "_id": 1712930060.8690495,
+  "ApiIp": "/api/v1/scores/getScores",
+  "ApiName": "SecurityLLMFairness_leaderboard",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-12T13:54:20.869Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-12T13:54:20.869Z"
+  }
+},
+{
+  "_id": 1712930090.8503227,
+  "ApiIp": "/api/v1/scores/inhouse/getScores",
+  "ApiName": "SecurityLLMFairnessInfo_leaderboard",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-12T13:54:50.850Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-12T13:54:50.850Z"
+  }
+},
+{
+  "_id": 1712990241.157155,
+  "ApiIp": "http://localhost",
+  "ApiName": "Llm_Explain",
+  "ApiPort": "8003",
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:37:21.157Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:37:21.157Z"
+  }
+},
+{
+  "_id": 1712990286.975736,
+  "ApiIp": "/rai/v1/llm-explainability/token-importance",
+  "ApiName": "Token_Importance",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:38:06.975Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:38:06.975Z"
+  }
+},
+{
+  "_id": 1712990315.5654223,
+  "ApiIp": "/rai/v1/llm-explainability/uncertainty",
+  "ApiName": "Uncertainty",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:38:35.565Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:38:35.565Z"
+  }
+},
+{
+  "_id": 1712990347.9825826,
+  "ApiIp": "/v1/workbench/batchgeneration",
+  "ApiName": "BatchGeneration",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:39:07.982Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:39:07.982Z"
+  }
+},
+{
+  "_id": 1712990378.1529202,
+  "ApiIp": "/v1/workbench/getbatchtable",
+  "ApiName": "BatchTable",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:39:38.152Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:39:38.152Z"
+  }
+},
+{
+  "_id": 1712990408.4927654,
+  "ApiIp": "/v1/workbench/tenet",
+  "ApiName": "AllTenant",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:40:08.492Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:40:08.492Z"
+  }
+},
+{
+  "_id": 1712990437.7203536,
+  "ApiIp": "/rai/v1/explainability/report/generate",
+  "ApiName": "ExplainGenReport",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:40:37.720Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:40:37.720Z"
+  }
+},
+{
+  "_id": 1712990468.267317,
+  "ApiIp": "/api/v1/fairness/wrapper/batchId",
+  "ApiName": "FairGenReport",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:41:08.267Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:41:08.267Z"
+  }
+},
+{
+  "_id": 1712990496.5889404,
+  "ApiIp": "/v1/report/downloadreport",
+  "ApiName": "DownloadWorkReport",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:41:36.588Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:41:36.588Z"
+  }
+},
+{
+  "_id": 1712990524.0743544,
+  "ApiIp": "/api/v1/fairness/bias/Workbench/fileid",
+  "ApiName": "FairSubmit",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:42:04.074Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:42:04.074Z"
+  }
+},
+{
+  "_id": 1712990619.2526076,
+  "ApiIp": "/rai/v1/explainability/methods/get",
+  "ApiName": "ExplainWorkMethods",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:43:39.252Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:43:39.252Z"
+  }
+},
+{
+  "_id": 1712990646.272663,
+  "ApiIp": "http://localhost",
+  "ApiName": "WorkbenchReport",
+  "ApiPort": "81",
+  "CreatedDateTime": {
+    "$date": "2024-04-13T06:44:06.272Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-13T06:44:06.272Z"
+  }
+},
+{
+  "_id": 1713246870.625191,
+  "ApiIp": "/v1/infosys/llm/security/getExternalRobustnessScore",
+  "ApiName": "SecurityLLM_ExternalRobustScore",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T05:54:30.625Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T05:54:30.625Z"
+  }
+},
+{
+  "_id": 1713246899.7957458,
+  "ApiIp": "/v1/infosys/llm/security/getExternalAttackScore",
+  "ApiName": "SecurityLLM_ExternalAttackScore",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T05:54:59.795Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T05:54:59.795Z"
+  }
+},
+{
+  "_id": 1713251116.9136307,
+  "ApiIp": "/api/v1/trustllm/scores/fairness/getScores",
+  "ApiName": "SecurityLLMF",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T07:05:16.913Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T07:05:16.913Z"
+  }
+},
+{
+  "_id": 1713251189.0154178,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "SecurityLLMFairness1",
+  "ApiPort": "",
+  "CreatedDateTime": {
+    "$date": "2024-04-16T07:06:29.015Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T07:06:29.015Z"
+  }
+},
+{
+  "_id": 1713251313.79637,
+  "ApiIp": "/api/v1/trustllm/scores/privacy/getScores",
+  "ApiName": "SecurityLLMPrivacyLScore",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T07:08:33.796Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T07:08:33.796Z"
+  }
+},
+{
+  "_id": 1713251859.1731951,
+  "ApiIp": "/api/v1/trustllm/scores/safety/getScores",
+  "ApiName": "SecurityLLMSafetyLScore",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T07:17:39.173Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T07:17:39.173Z"
+  }
+},
+{
+  "_id": 1713252358.7026126,
+  "ApiIp": "/api/v1/trustllm/scores/ethics/getScores",
+  "ApiName": "SecurityLLMEthicsLScore",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T07:25:58.702Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T07:25:58.702Z"
+  }
+},
+{
+  "_id": 1713253058.4366598,
+  "ApiIp": "/api/v1/trustllm/scores/truthfullness/getScores",
+  "ApiName": "SecurityLLMTruthfullnessLScore",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T07:37:38.436Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T07:37:38.436Z"
+  }
+},
+{
+  "_id": 1713253324.6171227,
+  "ApiIp": "/api/v1/trustllm/inhouse/scores/fairness/getScores",
+  "ApiName": "SecurityLLMInfoFairnessLScore",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T07:42:04.617Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T07:42:04.617Z"
+  }
+},
+{
+  "_id": 1713254183.4858499,
+  "ApiIp": "/api/v1/trustllm/inhouse/scores/truthfullness/getScores",
+  "ApiName": "SecurityLLMInfoTruthfullnessLScore",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T07:56:23.485Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T07:56:23.485Z"
+  }
+},
+{
+  "_id": 1713257198.820814,
+  "ApiIp": "/api/v1/trustllm/inhouse/scores/safety/getScores",
+  "ApiName": "SecurityLLMInfoSafetyLScore",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T08:46:38.820Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T08:46:38.820Z"
+  }
+},
+{
+  "_id": 1713257645.2274718,
+  "ApiIp": "/api/v1/trustllm/inhouse/scores/privacy/getScores",
+  "ApiName": "SecurityLLMInfoPrivacyLScore",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T08:54:05.227Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T08:54:05.227Z"
+  }
+},
+{
+  "_id": 1713257827.136645,
+  "ApiIp": "/api/v1/trustllm/inhouse/scores/ethics/getScores",
+  "ApiName": "SecurityLLMInfoEthicsLScore",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-16T08:57:07.136Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T08:57:07.136Z"
+  }
+},
+{
+  "_id": 1713259813.132782,
+  "ApiIp": "http://localhost",
+  "ApiName": "SecurityLLMLeaderboard",
+  "ApiPort": "8009",
+  "CreatedDateTime": {
+    "$date": "2024-04-16T09:30:13.132Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-16T09:30:13.132Z"
+  }
+},
+{
+  "_id": 1714385869.015188,
+  "ApiIp": "/v1/workbench/deletebatch",
+  "ApiName": "Workbench_deleteBatch",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-04-29T10:17:49.015Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-04-29T10:17:49.015Z"
+  }
+},
+{
+  "_id": 1715083466.368361,
+  "ApiIp": "/rag/v1/thot",
+  "ApiName": "RagTHOT",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-07T12:04:26.368Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-07T12:04:26.368Z"
+  }
+},
+{
+  "_id": 1715169585.9038815,
+  "ApiIp": "http://localhost",
+  "ApiName": "FairnessAzure",
+  "ApiPort": "8000",
+  "CreatedDateTime": {
+    "$date": "2024-05-08T11:59:45.903Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-08T11:59:45.903Z"
+  }
+},
+{
+  "_id": 1715169614.65076,
+  "ApiIp": "/api/v1/fairness/analysis/llm",
+  "ApiName": "FairUnstructure",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-08T12:00:14.650Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-08T12:00:14.650Z"
+  }
+},
+{
+  "_id": 1715244444.414612,
+  "ApiIp": "https://rai-toolkit-rai.az.ad.idemo-ppc.com",
+  "ApiName": "textDetector",
+  "ApiPort": "",
+  "CreatedDateTime": {
+    "$date": "2024-05-09T08:47:24.414Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-09T08:47:24.414Z"
+  }
+},
+{
+  "_id": 1715244471.6195266,
+  "ApiIp": "/rai/v1/models/text-detection",
+  "ApiName": "textDetectorModel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-09T08:47:51.619Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-09T08:47:51.619Z"
+  }
+},
+{
+  "_id": 1715251822.137342,
+  "ApiIp": "/rai/v1/security_workbench/runallattacks",
+  "ApiName": "SecurityReport",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-09T10:50:22.137Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-09T10:50:22.137Z"
+  }
+},
+{
+  "_id": 1715251926.954425,
+  "ApiIp": "http://localhost",
+  "ApiName": "SecurityWorkbench",
+  "ApiPort": "82",
+  "CreatedDateTime": {
+    "$date": "2024-05-09T10:52:06.954Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-09T10:52:06.954Z"
+  }
+},
+{
+  "_id": 1715856387.543722,
+  "ApiIp": "/api/v1/fairness/individual/bias/getlabels",
+  "ApiName": "IndividualLabels",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-16T10:46:27.543Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-16T10:46:27.543Z"
+  }
+},
+{
+  "_id": 1715856409.68721,
+  "ApiIp": "/api/v1/fairness/individual/bias/getscore",
+  "ApiName": "IndividualScores",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-16T10:46:49.687Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-16T10:46:49.687Z"
+  }
+},
+{
+  "_id": 1715856438.2543793,
+  "ApiIp": "/rai/v1/moderations/openaiTHOT",
+  "ApiName": "OpenAiThot",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-16T10:47:18.254Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-16T10:47:18.254Z"
+  }
+},
+{
+  "_id": 1715859161.7465658,
+  "ApiIp": "/rai/v1/explainability/localTabular/explain",
+  "ApiName": "Exp_Local_Tabular",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-16T11:32:41.746Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-16T11:32:41.746Z"
+  }
+},
+{
+  "_id": 1715859182.4425156,
+  "ApiIp": "/rai/v1/explainability/global/explain",
+  "ApiName": "Exp_Global_Tabular",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-16T11:33:02.442Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-16T11:33:02.442Z"
+  }
+},
+{
+  "_id": 1715859202.0069568,
+  "ApiIp": "/rai/v1/explainability/localText/explain",
+  "ApiName": "Exp_Local_Text",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-16T11:33:22.006Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-16T11:33:22.006Z"
+  }
+},
+{
+  "_id": 1715859230.150005,
+  "ApiIp": "/rai/v1/explainability/localImage/explain",
+  "ApiName": "Exp_Local_Image",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-16T11:33:50.150Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-16T11:33:50.150Z"
+  }
+},
+{
+  "_id": 1715859310.7189493,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "Explainability_Host",
+  "ApiPort": "",
+  "CreatedDateTime": {
+    "$date": "2024-05-16T11:35:10.718Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-16T11:35:10.718Z"
+  }
+},
+{
+  "_id": 1716478163.813337,
+  "ApiIp": "/v1/privacy/text/encrpyt",
+  "ApiName": "Privacy_encrypt",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-23T15:29:23.813Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-23T15:29:23.813Z"
+  }
+},
+{
+  "_id": 1716478197.802887,
+  "ApiIp": "/v1/privacy/text/decrpyt",
+  "ApiName": "Privacy_decrypt",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-23T15:29:57.802Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-23T15:29:57.802Z"
+  }
+},
+{
+  "_id": 1716478218.8934152,
+  "ApiIp": "/v1/workbench/preprocessor",
+  "ApiName": "Workbench_Vector",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-23T15:30:18.893Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-23T15:30:18.893Z"
+  }
+},
+{
+  "_id": 1716478238.5056462,
+  "ApiIp": "/v1/workbench/updatepreprocessor",
+  "ApiName": "Workbench_UpdateVector",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-23T15:30:38.505Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-23T15:30:38.505Z"
+  }
+},
+{
+  "_id": 1716478257.6787305,
+  "ApiIp": "/v1/workbench/deletepreprocessor",
+  "ApiName": "Workbench_DeleteVector",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-23T15:30:57.678Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-23T15:30:57.678Z"
+  }
+},
+{
+  "_id": 1716478276.8051727,
+  "ApiIp": "/v1/workbench/addpreprocessor",
+  "ApiName": "Workbench_AddVector",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-23T15:31:16.805Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-23T15:31:16.805Z"
+  }
+},
+{
+  "_id": 1716478297.1547408,
+  "ApiIp": "/rai/v1/image-explainability/generate-image",
+  "ApiName": "ImageGen_Explain",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-05-23T15:31:37.154Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-05-23T15:31:37.154Z"
+  }
+},
+{
+  "_id": 1717997366.8163605,
+  "ApiIp": "/rai/v1/moderations/evalLLMCheck",
+  "ApiName": "EvalLLMCheck",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-10T05:29:26.816Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-10T05:29:26.816Z"
+  }
+},
+{
+  "_id": 1718014475.0527017,
+  "ApiIp": "http://localhost",
+  "ApiName": "Image_Explain",
+  "ApiPort": "31016",
+  "CreatedDateTime": {
+    "$date": "2024-06-10T10:14:35.052Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-10T10:14:35.052Z"
+  }
+},
+{
+  "_id": 1718014661.3495414,
+  "ApiIp": "/rai/v1/llm-explainability/serper_response",
+  "ApiName": "SerperResponse",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-10T10:17:41.349Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-10T10:17:41.349Z"
+  }
+},
+{
+  "_id": 1718017092.6059995,
+  "ApiIp": "/rai/v1/moderations/evalLLM",
+  "ApiName": "EvalLLM",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-10T10:58:12.606Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-10T10:58:12.606Z"
+  }
+},
+{
+  "_id": 1718103504.0482972,
+  "ApiIp": "/api/v1/fairness/analysis/image",
+  "ApiName": "FairnessImage",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-11T10:58:24.048Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-11T10:58:24.048Z"
+  }
+},
+{
+  "_id": 1718366457.751755,
+  "ApiIp": "/rai/v1/image-explainability/analyze",
+  "ApiName": "ImageGen_Analyze",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-14T12:00:57.751Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-14T12:00:57.751Z"
+  }
+},
+{
+  "_id": 1719486370.9258845,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "Backend",
+  "ApiPort": "",
+  "CreatedDateTime": {
+    "$date": "2024-06-27T11:06:10.925Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-27T11:06:10.925Z"
+  }
+},
+{
+  "_id": 1719486502.02789,
+  "ApiIp": "/v1/rai/backend/users",
+  "ApiName": "Backend_Users",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-27T11:08:22.027Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-27T11:08:22.027Z"
+  }
+},
+{
+  "_id": 1719486523.0002062,
+  "ApiIp": "/v1/rai/backend/users/updateUser",
+  "ApiName": "Backend_UpdateUser",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-27T11:08:43.000Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-27T11:08:43.000Z"
+  }
+},
+{
+  "_id": 1719486552.0487978,
+  "ApiIp": "/v1/rai/backend/users",
+  "ApiName": "Backend_DeleteUser",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-27T11:09:12.048Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-27T11:09:12.048Z"
+  }
+},
+{
+  "_id": 1719486581.9211085,
+  "ApiIp": "/v1/rai/backend/users/authorities",
+  "ApiName": "Backend_authorities",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-27T11:09:41.921Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-27T11:09:41.921Z"
+  }
+},
+{
+  "_id": 1719575625.1206808,
+  "ApiIp": "/api/v1/rai/admin/createCustomeTemplate",
+  "ApiName": "TemplateCreation",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-28T11:53:45.120Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-28T11:53:45.120Z"
+  }
+},
+{
+  "_id": 1719575647.342555,
+  "ApiIp": "/api/v1/rai/admin/getCustomeTemplate/",
+  "ApiName": "TemplateGet",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-28T11:54:07.342Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-28T11:54:07.342Z"
+  }
+},
+{
+  "_id": 1719575665.2312412,
+  "ApiIp": "/api/v1/rai/admin/updateCustomeTemplate",
+  "ApiName": "TemplateUpdate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-28T11:54:25.231Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-28T11:54:25.231Z"
+  }
+},
+{
+  "_id": 1719575680.1833217,
+  "ApiIp": "/api/v1/rai/admin/deleteCustomeTemplate",
+  "ApiName": "TemplateDelete",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-06-28T11:54:40.183Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-28T11:54:40.183Z"
+  }
+},
+{
+  "_id": 1719911140.5153065,
+  "ApiIp": "/rai/v1/moderations/getTemplates/",
+  "ApiName": "loadTemplate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-07-02T09:05:40.515Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-07-02T09:05:40.515Z"
+  }
+},
+{
+  "_id": 1719911168.8637905,
+  "ApiIp": "/rai/v1/moderations/evalLLM",
+  "ApiName": "TestTemplate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-07-02T09:06:08.863Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-07-02T09:06:08.863Z"
+  }
+},
+{
+  "_id": 1719983762.0680864,
+  "ApiIp": "/rai/v1/llm-explainability/got",
+  "ApiName": "ExplainGOT",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-07-03T05:16:02.068Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-07-03T05:16:02.068Z"
+  }
+},
+{
+  "_id": 1720011040.901949,
+  "ApiIp": "/rai/v1/moderations/translate",
+  "ApiName": "Moderationlayer_Translate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-07-03T12:50:40.901Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-07-03T12:50:40.901Z"
+  }
+},
+{
+  "_id": 1720767841.1380582,
+  "ApiIp": "/rag/v1/geval",
+  "ApiName": "RagGEVAL",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-07-12T07:04:01.138Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-07-12T07:04:01.138Z"
+  }
+},
+{
+  "_id": 1721043459.2165635,
+  "ApiIp": "/api/v1/rai/admin/AccTemplateMap",
+  "ApiName": "ACCTEMPMAP",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-07-15T11:37:39.216Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-07-15T11:37:39.216Z"
+  }
+},
+{
+  "_id": 1721043482.543759,
+  "ApiIp": "/api/v1/rai/admin/getAccTemplate/",
+  "ApiName": "GETACCTEMPMAP",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-07-15T11:38:02.543Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-07-15T11:38:02.543Z"
+  }
+},
+{
+  "_id": 1721976922.187077,
+  "ApiIp": "/rai/v1/moderations/getTemplates",
+  "ApiName": "Fm_GETTEMPLATES",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-07-26T06:55:22.187Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-07-26T06:55:22.187Z"
+  }
+},
+{
+  "_id": 1722851630.824834,
+  "ApiIp": "/rai/v1/moderations/multimodal",
+  "ApiName": "Multimodel",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-08-05T09:53:50.824Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-08-05T09:53:50.824Z"
+  }
+},
+{
+  "_id": 1723125791.0775502,
+  "ApiIp": "/api/v1/trustllm/",
+  "ApiName": "LeaderboardEndpoint",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-08-08T14:03:11.077Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-08-08T14:03:11.077Z"
+  }
+},
+{
+  "_id": 1723201267.937271,
+  "ApiIp": "/api/v1/rai/admin/addTempMap",
+  "ApiName": "Template_admin_update_addTempMap",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-08-09T11:01:07.937Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-08-09T11:01:07.937Z"
+  }
+},
+{
+  "_id": 1723201350.637844,
+  "ApiIp": "/api/v1/rai/admin/getTempMap",
+  "ApiName": "Template_admin_get_selected_getTempMap",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-08-09T11:02:30.637Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-08-09T11:02:30.637Z"
+  }
+},
+{
+  "_id": 1723457508.2551177,
+  "ApiIp": "/api/v1/rai/admin/updateCustomeTemplate",
+  "ApiName": "customTemplatePatchUrl_updateCustomeTemplate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-08-12T10:11:48.255Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-08-12T10:11:48.255Z"
+  }
+},
+{
+  "_id": 1723790274.2591937,
+  "ApiIp": "/rai/v1/raimoderationmodels/ImageGenerate",
+  "ApiName": "raimoderationmodelsImageGenerate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-08-16T06:37:54.259Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-08-16T06:37:54.259Z"
+  }
+},
+{
+  "_id": 1724304106.9477668,
+  "ApiIp": "/rai/v1/privacy-files/PDF/anonymize?ocr=",
+  "ApiName": "Privacy_Pdf",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-08-22T05:21:46.947Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-08-22T05:21:46.947Z"
+  }
+},
+{
+  "_id": 1725861673.381752,
+  "ApiIp": "/api/v1/fairness/preprocessing/mitigation/get_data",
+  "ApiName": "PreMitigate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-09T06:01:13.381Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-09T06:01:13.381Z"
+  }
+},
+{
+  "_id": 1725861704.52685,
+  "ApiIp": "/api/v1/fairness/bias/Workbench/analyse/uploadfile",
+  "ApiName": "PreAnalyze",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-09T06:01:44.526Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-09T06:01:44.526Z"
+  }
+},
+{
+  "_id": 1725861766.0268748,
+  "ApiIp": "/api/v1/fairness/bias/Workbench/analyse/uploadfile",
+  "ApiName": "PostMitigate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-09T06:02:46.026Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-09T06:02:46.026Z"
+  }
+},
+{
+  "_id": 1725861791.6841996,
+  "ApiIp": "/api/v1/fairness/bias/Workbench/analyse/uploadfile",
+  "ApiName": "PostAnalyze",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-09T06:03:11.684Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-09T06:03:11.684Z"
+  }
+},
+{
+  "_id": 1725862262.467491,
+  "ApiIp": "/api/v1/fairness/bias/workbench/analyze/batchId/Attributes",
+  "ApiName": "GenAnalyze",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-09T06:11:02.467Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-09T06:11:02.467Z"
+  }
+},
+{
+  "_id": 1725862322.025557,
+  "ApiIp": "/api/v1/fairness/preprocessing/mitigation/BatchId",
+  "ApiName": "GenMitigate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-09T06:12:02.025Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-09T06:12:02.025Z"
+  }
+},
+{
+  "_id": 1725877322.1099803,
+  "ApiIp": "/api/v1/rai/admin/getModMaps",
+  "ApiName": "Admin_getModMaps",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-09T10:22:02.109Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-09T10:22:02.109Z"
+  }
+},
+{
+  "_id": 1726052158.3269029,
+  "ApiIp": "/rag/v1/multimodal_Image",
+  "ApiName": "Rag_Image",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-11T10:55:58.326Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-11T10:55:58.326Z"
+  }
+},
+{
+  "_id": 1726729986.4673126,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "ExplainabilityAzure",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-19T07:13:06.467Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-19T07:13:06.467Z"
+  }
+},
+{
+  "_id": 1726730362.005943,
+  "ApiIp": "/rai/v1/image-explainability/analyze",
+  "ApiName": "image_explainability_analyze",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-19T07:19:22.005Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-19T07:19:22.005Z"
+  }
+},
+{
+  "_id": 1726742695.451066,
+  "ApiIp": "/rag/v1/multimodal_Video",
+  "ApiName": "Rag_Video",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-19T10:44:55.451Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-19T10:44:55.451Z"
+  }
+},
+{
+  "_id": 1727085783.6958704,
+  "ApiIp": "/api/v1/fairness/wrapper/download",
+  "ApiName": "FairnessWrapDownload",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-23T10:03:03.695Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-23T10:03:03.695Z"
+  }
+},
+{
+  "_id": 1727341695.2815201,
+  "ApiIp": "/api/v1/fairness/Workbench/inprocessing",
+  "ApiName": "inProcessGenerate",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-26T09:08:15.281Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-26T09:08:15.281Z"
+  }
+},
+{
+  "_id": 1727341748.7152016,
+  "ApiIp": "/api/v1/fairness/inprocessing/getModel/",
+  "ApiName": "inProcessDwnld",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-26T09:09:08.715Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-26T09:09:08.715Z"
+  }
+},
+{
+  "_id": 1727343887.9000006,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "legalAgent",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-26T09:44:47.900Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-26T09:44:47.900Z"
+  }
+},
+{
+  "_id": 1727343910.4259443,
+  "ApiIp": "/v1/legalAgent/getAllReports",
+  "ApiName": "legalAgentReports",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-26T09:45:10.425Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-26T09:45:10.425Z"
+  }
+},
+{
+  "_id": 1727344181.0407069,
+  "ApiIp": "/v1/legalAgent/uploadFile",
+  "ApiName": "legalAgentUpload",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-09-26T09:49:41.040Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-09-26T09:49:41.040Z"
+  }
+},
+{
+  "_id": 1728286454.0225582,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "chatBot",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-07T07:34:14.022Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-07T07:34:14.022Z"
+  }
+},
+{
+  "_id": 1728286476.27932,
+  "ApiIp": "/rag/v1/q&achatbot",
+  "ApiName": "chatBotAnswer",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-07T07:34:36.279Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-07T07:34:36.279Z"
+  }
+},
+{
+  "_id": 1728553370.8117874,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com/explanation_visualization/",
+  "ApiName": "explanation_visualization",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-10T09:42:50.811Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-10T09:42:50.811Z"
+  }
+},
+{
+  "_id": 1729241409.0827847,
+  "ApiIp": "/api/v1/fairness/Workbench/inprocessing_uploadfile",
+  "ApiName": "InProcessUpload",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-18T08:50:09.082Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-18T08:50:09.082Z"
+  }
+},
+{
+  "_id": 1729506435.4091702,
+  "ApiIp": "/v1/legalAgent/generateReport",
+  "ApiName": "legalReport",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-21T10:27:15.409Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-21T10:27:15.409Z"
+  }
+},
+{
+  "_id": 1729761039.7658792,
+  "ApiIp": "/api/v1/fairness/workbench/analyse/success_rate",
+  "ApiName": "DecisiveAudit",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-24T09:10:39.765Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-24T09:10:39.765Z"
+  }
+},
+{
+  "_id": 1729761099.5026975,
+  "ApiIp": "/api/v1/fairness/workbench/audit/fairness_classifier",
+  "ApiName": "GenericAudit",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-24T09:11:39.502Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-24T09:11:39.502Z"
+  }
+},
+{
+  "_id": 1730111062.634092,
+  "ApiIp": "/rai/v1/llm/image",
+  "ApiName": "GenerateImage",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-28T10:24:22.634Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-28T10:24:22.634Z"
+  }
+},
+{
+  "_id": 1730196105.7495408,
+  "ApiIp": "/rai/v1/moderations/recommend",
+  "ApiName": "PromptRecommendation",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-29T10:01:45.749Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-29T10:01:45.749Z"
+  }
+},
+{
+  "_id": 1730288423.536051,
+  "ApiIp": "/v1/agent/predictRiskFileUpload",
+  "ApiName": "PredictUpload",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-30T11:40:23.536Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-30T11:40:23.536Z"
+  }
+},
+{
+  "_id": 1730288448.4071498,
+  "ApiIp": "/v1/agent/getAllPredictRisk",
+  "ApiName": "PredictRisk",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-30T11:40:48.407Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-30T11:40:48.407Z"
+  }
+},
+{
+  "_id": 1730290061.1774132,
+  "ApiIp": "/v1/agent/deletePredictRisk",
+  "ApiName": "DeleteRisk",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-10-30T12:07:41.177Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-10-30T12:07:41.177Z"
+  }
+},
+{
+  "_id": 1730930931.4110558,
+  "ApiIp": "/api/v1/rai/admin/removeTempMap",
+  "ApiName": "Template_admin_delete_selected_removeTempMap",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-06T22:08:51.411Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-06T22:08:51.411Z"
+  }
+},
+{
+  "_id": 1730974813.5037515,
+  "ApiIp": "/v1/agent/predictRisk/Usecase",
+  "ApiName": "PredictRiskUseCase",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-07T10:20:13.503Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-07T10:20:13.503Z"
+  }
+},
+{
+  "_id": 1731671548.6290438,
+  "ApiIp": "/rai/v1/super_pixel/segment_image",
+  "ApiName": "image_superpixel_segment_image",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-15T11:52:28.629Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-15T11:52:28.629Z"
+  }
+},
+{
+  "_id": 1731906175.947615,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "image_superpixel_segment_image_ip",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-18T05:02:55.947Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-18T05:02:55.947Z"
+  }
+},
+{
+  "_id": 1731994385.2057266,
+  "ApiIp": "/v1/agent/usecase/create",
+  "ApiName": "createUsecase",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-19T05:33:05.205Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-19T05:33:05.205Z"
+  }
+},
+{
+  "_id": 1731995555.9690146,
+  "ApiIp": "/v1/agent/usecase/getAll",
+  "ApiName": "getUsecases",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-19T05:52:35.969Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-19T05:52:35.969Z"
+  }
+},
+{
+  "_id": 1731995594.512314,
+  "ApiIp": "/v1/agent/complianceReport/genereate",
+  "ApiName": "generateCompReport",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-19T05:53:14.512Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-19T05:53:14.512Z"
+  }
+},
+{
+  "_id": 1731996961.8872206,
+  "ApiIp": "/rag/v1/multimodal_Image",
+  "ApiName": "MMImageUrl",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-19T06:16:01.887Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-19T06:16:01.887Z"
+  }
+},
+{
+  "_id": 1731997001.8299758,
+  "ApiIp": "/rag/v1/multimodal_Video",
+  "ApiName": "MMVideoUrl",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-19T06:16:41.829Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-19T06:16:41.829Z"
+  }
+},
+{
+  "_id": 1731997037.6594949,
+  "ApiIp": "/rag/v1/multimodal_Audio",
+  "ApiName": "MMAudioUrl",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-19T06:17:17.659Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-19T06:17:17.659Z"
+  }
+},
+{
+  "_id": 1731997666.9764934,
+  "ApiIp": "http://0.0.0.0",
+  "ApiName": "Test",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-19T06:27:46.976Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-19T06:27:46.976Z"
+  }
+},
+{
+  "_id": 1732255204.1201363,
+  "ApiIp": "http://0.0.0.0",
+  "ApiName": "ApiTest",
+  "ApiPort": "12",
+  "CreatedDateTime": {
+    "$date": "2024-11-22T06:00:04.120Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-22T06:00:04.120Z"
+  }
+},
+{
+  "_id": 1732255299.550075,
+  "ApiIp": "http://0.0.0.0",
+  "ApiName": "Test12",
+  "ApiPort": "12",
+  "CreatedDateTime": {
+    "$date": "2024-11-22T06:01:39.550Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-22T06:01:39.550Z"
+  }
+},
+{
+  "_id": 1732269623.823996,
+  "ApiIp": "/rai/v1/llm-explainability/reread_reasoning",
+  "ApiName": "ReReadReason",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-22T10:00:23.824Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-22T10:00:23.824Z"
+  }
+},
+{
+  "_id": 1732276927.8034625,
+  "ApiIp": "/v1/legalAgent/SOWagent/sow_verification",
+  "ApiName": "SOWagent",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-22T12:02:07.803Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-22T12:02:07.803Z"
+  }
+},
+{
+  "_id": 1732542147.7447066,
+  "ApiIp": "/v1/agent/addBusinessJustification",
+  "ApiName": "businessJustificationUrl",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-25T13:42:27.744Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-25T13:42:27.744Z"
+  }
+},
+{
+  "_id": 1732600629.1112576,
+  "ApiIp": "/v1/agent/risk_mitigation",
+  "ApiName": "recommendationRep",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-26T05:57:09.111Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-26T05:57:09.111Z"
+  }
+},
+{
+  "_id": 1732704890.1046216,
+  "ApiIp": "/v1/legalAgent/SOWagent/sow_recommendation",
+  "ApiName": "SOWagent_sow_recommendation",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-27T10:54:50.104Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-27T10:54:50.104Z"
+  }
+},
+{
+  "_id": 1732784936.4798653,
+  "ApiIp": "http://localhost",
+  "ApiName": "pairRedTeaming",
+  "ApiPort": "80",
+  "CreatedDateTime": {
+    "$date": "2024-11-28T09:08:56.479Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-28T09:08:56.479Z"
+  }
+},
+{
+  "_id": 1732784982.4164438,
+  "ApiIp": "/v1/redteaming/models",
+  "ApiName": "pairRedTeamingAttackJudgeData",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-28T09:09:42.416Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-28T09:09:42.416Z"
+  }
+},
+{
+  "_id": 1732785003.7613537,
+  "ApiIp": "/v1/redteaming/pair",
+  "ApiName": "pairRedTeamingonllm",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-11-28T09:10:03.761Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-11-28T09:10:03.761Z"
+  }
+},
+{
+  "_id": 1733125274.4783661,
+  "ApiIp": "/v1/legalAgent/impact_assessment",
+  "ApiName": "generateImpactRep",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-02T07:41:14.478Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-02T07:41:14.478Z"
+  }
+},
+{
+  "_id": 1733206636.3252628,
+  "ApiIp": "/v1/privacy/getRecognizer",
+  "ApiName": "Privacy_getRecognizer",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-03T06:17:16.325Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-03T06:17:16.325Z"
+  }
+},
+{
+  "_id": 1733809532.5720773,
+  "ApiIp": "/rai/v1/llm-explainability/LoT",
+  "ApiName": "Explain_LOT",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-10T05:45:32.572Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-10T05:45:32.572Z"
+  }
+},
+{
+  "_id": 1733811487.9525516,
+  "ApiIp": "/v1/agent/generatingBusinessJustification",
+  "ApiName": "businessJustUrl",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-10T06:18:07.952Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-10T06:18:07.952Z"
+  }
+},
+{
+  "_id": 1733913341.8563576,
+  "ApiIp": "/rai/v1/codeshield",
+  "ApiName": "CodeShield",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-11T10:35:41.856Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-11T10:35:41.856Z"
+  }
+},
+{
+  "_id": 1734003798.2663543,
+  "ApiIp": "/rai/v1/privacy-files/PPT/anonymize",
+  "ApiName": "Privacy_PPT_anonymize",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-12T11:43:18.266Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-12T11:43:18.266Z"
+  }
+},
+{
+  "_id": 1734435325.6149457,
+  "ApiIp": "/rai/v1/llm-explainability/bulk_processing",
+  "ApiName": "llm_explainability_file_upload_explanation",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-17T11:35:25.614Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-17T11:35:25.614Z"
+  }
+},
+{
+  "_id": 1734605427.3569613,
+  "ApiIp": "/api/v1/trustllm/scores/getScores_explain",
+  "ApiName": "trustllm_getScores_explain",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-19T10:50:27.356Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-19T10:50:27.356Z"
+  }
+},
+{
+  "_id": 1734889465.9430149,
+  "ApiIp": "/v1/legalAgent/recommendations",
+  "ApiName": "complianceReportRecommendations",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-22T17:44:25.943Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-22T17:44:25.943Z"
+  }
+},
+{
+  "_id": 1735020024.178276,
+  "ApiIp": "/rai/v1/privacy-files/DOCX/anonymize",
+  "ApiName": "Privacy_DOCX_anonymize",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-24T06:00:24.178Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-24T06:00:24.178Z"
+  }
+},
+{
+  "_id": 1735020169.5042362,
+  "ApiIp": "/rai/v1/privacy-files/json/anonymize",
+  "ApiName": "Privacy_JSON_anonymize",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-24T06:02:49.504Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-24T06:02:49.504Z"
+  }
+},
+{
+  "_id": 1735020237.1759923,
+  "ApiIp": "/rai/v1/privacy-files/csv/anonymize",
+  "ApiName": "Privacy_CSV_anonymize",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-24T06:03:57.175Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-24T06:03:57.175Z"
+  }
+},
+{
+  "_id": 1735030011.0096169,
+  "ApiIp": "/v1/redteaming/tap",
+  "ApiName": "tapRedTeamingonllm",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2024-12-24T08:46:51.009Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-12-24T08:46:51.009Z"
+  }
+},
+{
+  "_id": 1736161244.6153784,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "llmGarakScanner",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-01-06T11:00:44.615Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-01-06T11:00:44.615Z"
+  }
+},
+{
+  "_id": 1736162121.5466895,
+  "ApiIp": "/v1/infosys/llm/garak/list_probes",
+  "ApiName": "llmGarakProbes",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-01-06T11:15:21.546Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-01-06T11:15:21.546Z"
+  }
+},
+{
+  "_id": 1736162185.711126,
+  "ApiIp": "/v1/infosys/llm/garak/run_garak",
+  "ApiName": "llmGarakDetails",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-01-06T11:16:25.711Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-01-06T11:16:25.711Z"
+  }
+},
+{
+  "_id": 1736763039.5771081,
+  "ApiIp": "/rai/v1/image-explainability/object-detection",
+  "ApiName": "objectDetectionExplain",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-01-13T10:10:39.577Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-01-13T10:10:39.577Z"
+  }
+},
+{
+  "_id": 1736763167.1421924,
+  "ApiIp": "/rai/v1/image-explainability/object-detection/yolo",
+  "ApiName": "objectDetectionYolo",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-01-13T10:12:47.142Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-01-13T10:12:47.142Z"
+  }
+},
+{
+  "_id": 1737108298.3122902,
+  "ApiIp": "/rag/v1/lot",
+  "ApiName": "RagLOT",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-01-17T10:04:58.312Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-01-17T10:04:58.312Z"
+  }
+},
+{
+  "_id": 1737348037.595411,
+  "ApiIp": "/v1/rai/backend/getUserConsent/",
+  "ApiName": "RAI_Backend_getUserConsent",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-01-20T04:40:37.595Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-01-20T04:40:37.595Z"
+  }
+},
+{
+  "_id": 1737348141.442348,
+  "ApiIp": "/v1/rai/backend/setUserConsent",
+  "ApiName": "RAI_Backend_setUserConsent",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-01-20T04:42:21.442Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-01-20T04:42:21.442Z"
+  }
+},
+{
+  "_id": 1737348193.1488066,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "RAI_Backend_URL",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-01-20T04:43:13.148Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-01-20T04:43:13.148Z"
+  }
+},
+{
+  "_id": 1739162104.1775362,
+  "ApiIp": "/api/v1/bulkprocessing/docDtl",
+  "ApiName": "getBulkTable",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-02-10T04:35:04.177Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-02-10T04:35:04.177Z"
+  }
+},
+{
+  "_id": 1739162131.7842467,
+  "ApiIp": "/api/v1/bulkprocessing/file",
+  "ApiName": "bulkSubmit",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-02-10T04:35:31.784Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-02-10T04:35:31.784Z"
+  }
+},
+{
+  "_id": 1739162158.9700568,
+  "ApiIp": "/api/v1/bulkprocessing/loadRAG",
+  "ApiName": "bulkRagLoad",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-02-10T04:35:58.970Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-02-10T04:35:58.970Z"
+  }
+},
+{
+  "_id": 1739164153.25564,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "BulkProcess",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-02-10T05:09:13.255Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-02-10T05:09:13.255Z"
+  }
+},
+{
+  "_id": 1739186756.7858837,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "agent_Ip",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-02-10T11:25:56.785Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-02-10T11:25:56.785Z"
+  }
+},
+{
+  "_id": 1739186804.0913465,
+  "ApiIp": "/v1/agent/riskClassification",
+  "ApiName": "agent_riskClassification",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-02-10T11:26:44.091Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-02-10T11:26:44.091Z"
+  }
+},
+{
+  "_id": 1739773522.9251914,
+  "ApiIp": "/v1/redteaming/tap/batch",
+  "ApiName": "tapBatchRedTeaming",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-02-17T06:25:22.925Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-02-17T06:25:22.925Z"
+  }
+},
+{
+  "_id": 1739773564.147719,
+  "ApiIp": "/v1/redteaming/pair/batch",
+  "ApiName": "pairBatchRedTeaming",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-02-17T06:26:04.147Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-02-17T06:26:04.147Z"
+  }
+},
+{
+  "_id": 1741353691.1763725,
+  "ApiIp": "/api/v1/rai/admin/ConfigApi",
+  "ApiName": "Admin_getConfig",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-03-07T13:21:31.176Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-07T13:21:31.176Z"
+  }
+},
+{
+  "_id": 1741353727.1321518,
+  "ApiIp": "/api/v1/rai/admin/ApiPost",
+  "ApiName": "Admin_newConfig",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-03-07T13:22:07.132Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-07T13:22:07.132Z"
+  }
+},
+{
+  "_id": 1741353793.5356507,
+  "ApiIp": "/api/v1/rai/admin/ApiDelete1",
+  "ApiName": "Admin_deleteConfig",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-03-07T13:23:13.535Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-07T13:23:13.535Z"
+  }
+},
+{
+  "_id": 1741607208.540298,
+  "ApiIp": "http://localhost",
+  "ApiName": "Privacy",
+  "ApiPort": "30002",
+  "CreatedDateTime": {
+    "$date": "2025-03-10T11:46:48.540Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-10T11:46:48.540Z"
+  },
+  "Ip": "http://localhost",
+  "Name": "Privacy",
+  "port": "30002"
+},
+{
+  "_id": 1741669991.1534607,
+  "ApiIp": "/api/v1/bulkprocessing/docProcDtl",
+  "ApiName": "docDetail",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-03-11T05:13:11.153Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-11T05:13:11.153Z"
+  }
+},
+{
+  "_id": 1741764348.7604792,
+  "ApiIp": "http://localhost:8003/rai/v1/llm-explainability/sentiment-analysis",
+  "ApiName": "Explainability",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-03-12T07:25:48.760Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-12T07:25:48.760Z"
+  }
+},
+{
+  "_id": 1741843083.4016922,
+  "ApiIp": "/rag/v1/multimodal_PDF",
+  "ApiName": "MMPdfUrl",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-03-13T05:18:03.401Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-13T05:18:03.401Z"
+  }
+},
+{
+  "_id": 1741856440.1112854,
+  "ApiIp": "/raglite/v1/LightRAG",
+  "ApiName": "LiteRAG",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-03-13T09:00:40.111Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-13T09:00:40.111Z"
+  }
+},
+{
+  "_id": 1743079023.4761424,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "Compliance",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-03-27T12:37:03.476Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-27T12:37:03.476Z"
+  }
+},
+{
+  "_id": 1743079050.8668747,
+  "ApiIp": "/rai/v1/compliance/upload",
+  "ApiName": "ComplianceUpload",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-03-27T12:37:30.866Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-27T12:37:30.866Z"
+  }
+},
+{
+  "_id": 1743272296.757407,
+  "ApiIp": "/rai/v1/compliance/CompianceResult/",
+  "ApiName": "ComplianceCompianceResult",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-03-29T18:18:16.757Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-29T18:18:16.757Z"
+  }
+},
+{
+  "_id": 1743272331.3069243,
+  "ApiIp": "/rai/v1/compliance/CompianceRecommondations/",
+  "ApiName": "CompianceRecommondations",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-03-29T18:18:51.306Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-03-29T18:18:51.306Z"
+  }
+},
+{
+  "_id": 1743838169.1543322,
+  "ApiIp": "/v1/agent/predictRisk",
+  "ApiName": "createPredictRisk",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-04-05T07:29:29.154Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-04-05T07:29:29.154Z"
+  }
+},
+{
+  "_id": 1744786411.448554,
+  "ApiIp": "/rai/v1/image-explainability/object-detection/video-explanation",
+  "ApiName": "Video_Explanation",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": "2025-04-16T06:53:31.448Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-04-16T06:53:31.448Z"
+  }
 }]

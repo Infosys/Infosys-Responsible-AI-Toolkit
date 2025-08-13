@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { Component, Input, ViewChild } from '@angular/core';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
@@ -18,9 +19,6 @@ import { UserValidationService } from 'src/app/services/user-validation.service'
   styleUrls: ['./template-mapping.component.css']
 })
 export class TemplateMappingComponent {
-  
-
-
 
   @ViewChild('select2') select2!: MatSelect;
   @ViewChild('select3') select3!: MatSelect;
@@ -33,7 +31,7 @@ export class TemplateMappingComponent {
   templateMappingGetUrl: any;
   Admin_getModMaps: any;
 
-  constructor (private fb: FormBuilder,public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog,public validationService : UserValidationService){
+  constructor (private fb: FormBuilder,public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog,private validationService:UserValidationService){
     this.form = this.fb.group({
       options: [null, Validators.required]
     });
@@ -139,11 +137,12 @@ viewoptions() {
 
 }
 
+ // Filters keys from an object based on boolean values
 filterKeysByBoolean(obj: Record<string, boolean>): string[] {
   return Object.keys(obj).filter((key) => obj[key]);
 }
 
-  // select 1
+  // select 1- Toggles all selections for a dropdown 1
   @ViewChild('select1') select1!: MatSelect;
   allSelected1: any;
 listShowlist1 = new Set();
@@ -169,6 +168,7 @@ toggleAllSelection1(event: any) {
     });
   }
 }
+// Updates the selection status for dropdown 1
 selectRecognizertype() {
   let newStatus = true;
   this.select1.options.forEach((item: MatOption) => {
@@ -183,7 +183,7 @@ selectRecognizertype() {
   this.allSelectedInput = newStatus;
 }
 
-  // select 2
+  // select 2- Toggles all selections for dropdown 2
   toggleAllSelection2(event: any) {
     this.event2 = event;
     this.c2 = event.checked;
@@ -206,6 +206,7 @@ selectRecognizertype() {
       });
     }
   }
+  // Updates the selection status for dropdown 2
   selectRecognizertype2() {
     let newStatus = true;
     this.select2.options.forEach((item: MatOption) => {
@@ -221,7 +222,7 @@ selectRecognizertype() {
   }
 
 
-    // select 1
+    // select 1- Toggles all selections for dropdown 3
 toggleAllSelection3(event: any) {
   this.event3 = event;
   this.c3 = event.checked;
@@ -244,6 +245,7 @@ toggleAllSelection3(event: any) {
     });
   }
 }
+// Updates the selection status for dropdown 3
 selectRecognizertype3() {
   let newStatus = true;
   this.select3.options.forEach((item: MatOption) => {
@@ -257,7 +259,7 @@ selectRecognizertype3() {
   });
   this.allSelectedInput3 = newStatus;
 }
-// select 4 category
+// select 4 category- Toggles all selections for dropdown 4
 toggleAllSelection4(event: any) {
   this.event4 = event;
   this.c4 = event.checked;
@@ -280,6 +282,7 @@ toggleAllSelection4(event: any) {
     });
   }
 }
+// Updates the selection status for dropdown 4
 selectRecognizertype4() {
   let newStatus = true;
   this.select4.options.forEach((item: MatOption) => {
@@ -293,7 +296,7 @@ selectRecognizertype4() {
   });
   this.allSelectedInput4 = newStatus;
 }
-// select 5 sub-category
+// select 5 sub-category-  Toggles all selections for dropdown 5
 toggleAllSelection5(event: any) {
   this.event5 = event;
   this.c5 = event.checked;
@@ -316,6 +319,7 @@ toggleAllSelection5(event: any) {
     });
   }
 }
+// Updates the selection status for dropdown 5
 selectRecognizertype5() {
   let newStatus = true;
   this.select5.options.forEach((item: MatOption) => {
@@ -415,6 +419,7 @@ toggleAllSelectionImageModelRequest1(event: any) {
   this.toggleAllSelection(event, this.selectImageModelRequest1, this.listShowlistImageModelRequest1, 'allSelectedImageModelRequest1');
 }
 
+// Toggles all selections for a dropdown
 toggleAllSelection(event: any, select: MatSelect, listShowlist: Set<any>, allSelectedKey: keyof TemplateMappingComponent & string) {
   (this as any)[allSelectedKey] = !(this as any)[allSelectedKey];
   if ((this as any)[allSelectedKey]) {
@@ -475,6 +480,7 @@ updateSelectionStatusImageModelRequest1() {
   this.updateSelectionStatus(this.selectImageModelRequest1, this.listShowlistImageModelRequest1, 'allSelectedImageModelRequest1');
 }
 
+ // Updates the selection status for a dropdown
 updateSelectionStatus(select: MatSelect, listShowlist: Set<any>, allSelectedKey: keyof TemplateMappingComponent & string) {
   let newStatus = true;
   select.options?.forEach((item: MatOption) => {
@@ -503,9 +509,75 @@ submitSingleModel() {
   console.log('Selected Model Response:', selectedModelResponse);
   console.log('Selected Template Request:', selectedTemplateRequest);
   console.log('Selected Template Response:', selectedTemplateResponse);
+  //
+
+  const myObject = { ...this.selectedOptions };
+  console.log("myObject===", myObject)
+  const filteredKeys = this.filterKeysByBoolean(myObject);
+  console.log("only keys", filteredKeys);
+  this.tenantarr = filteredKeys
+
+  if (this.tenantarr.includes('Model')) {
+    console.log("Model is present in tenantarr");
+    // Add any additional logic here if needed
+    const payload = {
+      "userId": this.userId,
+      "portfolio": this.parPortfolio,
+      "account": this.parAccount,
+      "category": "SingleModel",
+      "subcategory": "Model",
+      "requestTemplate": selectedModelRequest,
+      "responseTemplate": selectedModelResponse,
+      "comparisonTemplate": this.selectedReclist3 // has no value just a dummy array
+    }
+    console.log("payload===",payload)
+    this.creatTemplateMappingApiCall(payload)
+  }
+  if (this.tenantarr.includes('Template')) {
+    console.log("Template is present in tenantarr");
+    // Add any additional logic here if needed
+    const payload = {
+      "userId": this.userId,
+      "portfolio": this.parPortfolio,
+      "account": this.parAccount,
+      "category": "SingleModel",
+      "subcategory": "Template",
+      "requestTemplate": selectedTemplateRequest,
+      "responseTemplate": selectedTemplateResponse,
+      "comparisonTemplate": this.selectedReclist3 // has no value just a dummy array
+    }
+    console.log("payload===",payload)
+    this.creatTemplateMappingApiCall(payload)
+  }
 
   // Add further processing logic as needed
+  
+
+
+  
+  // console.log("=============",this.templateMappingPostUrl)
+  
 }
+// submitMultiModel() {
+//   const selectedTextTemplateRequest = this.selectedTextTemplateRequest;
+//   const selectedTextTemplateResponse = this.selectedTextTemplateResponse;
+//   const selectedTextModelRequest = this.selectedTextModelRequest;
+//   const selectedTextModelResponse = this.selectedTextModelResponse;
+//   const selectedImageTemplateRequest = this.selectedImageTemplateRequest;
+//   const selectedImageModelRequest = this.selectedImageModelRequest;
+
+//   // Process or log the selected values
+//   console.log('Selected Text Template Request:', selectedTextTemplateRequest);
+//   console.log('Selected Text Template Response:', selectedTextTemplateResponse);
+//   console.log('Selected Text Model Request:', selectedTextModelRequest);
+//   console.log('Selected Text Model Response:', selectedTextModelResponse);
+//   console.log('Selected Image Template Request:', selectedImageTemplateRequest);
+//   console.log('Selected Image Model Request:', selectedImageModelRequest);
+
+//   // Add further processing logic as needed
+// }
+
+// Submits the multi-model mapping
 submitMultiModel() {
   const selectedTextTemplateRequest = this.selectedTextTemplateRequest;
   const selectedTextTemplateResponse = this.selectedTextTemplateResponse;
@@ -522,9 +594,126 @@ submitMultiModel() {
   console.log('Selected Image Template Request:', selectedImageTemplateRequest);
   console.log('Selected Image Model Request:', selectedImageModelRequest);
 
-  // Add further processing logic as needed
+  const myObject = { ...this.selectedOptions3 };
+  console.log("myObject===", myObject);
+  const filteredKeys = this.filterKeysByBoolean(myObject);
+  console.log("only keys", filteredKeys);
+  this.tenantarr = filteredKeys;
+
+  if (this.tenantarr.includes('TextTemplate')) {
+    console.log("TextTemplate is present in tenantarr");
+    const payload = {
+      "userId": this.userId,
+      "portfolio": this.parPortfolio,
+      "account": this.parAccount,
+      "category": "MultiModel",
+      "subcategory": "TextTemplate",
+      "requestTemplate": selectedTextTemplateRequest,
+      "responseTemplate": selectedTextTemplateResponse,
+      "comparisonTemplate": this.selectedReclist3 // has no value just a dummy array
+    };
+    console.log("payload===", payload);
+    this.creatTemplateMappingApiCall(payload);
+  }
+  if (this.tenantarr.includes('TextModel')) {
+    console.log("TextModel is present in tenantarr");
+    const payload = {
+      "userId": this.userId,
+      "portfolio": this.parPortfolio,
+      "account": this.parAccount,
+      "category": "MultiModel",
+      "subcategory": "TextModel",
+      "requestTemplate": selectedTextModelRequest,
+      "responseTemplate": selectedTextModelResponse,
+      "comparisonTemplate": this.selectedReclist3 // has no value just a dummy array
+    };
+    console.log("payload===", payload);
+    this.creatTemplateMappingApiCall(payload);
+  }
+  if (this.tenantarr.includes('ImageTemplate')) {
+    console.log("ImageTemplate is present in tenantarr");
+    const payload = {
+      "userId": this.userId,
+      "portfolio": this.parPortfolio,
+      "account": this.parAccount,
+      "category": "MultiModel",
+      "subcategory": "ImageTemplate",
+      "requestTemplate": selectedImageTemplateRequest,
+      "responseTemplate": this.selectedReclist2, // Assuming this is the correct variable
+      "comparisonTemplate": this.selectedReclist3 // has no value just a dummy array
+    };
+    console.log("payload===", payload);
+    this.creatTemplateMappingApiCall(payload);
+  }
+  if (this.tenantarr.includes('ImageModel')) {
+    console.log("ImageModel is present in tenantarr");
+    const payload = {
+      "userId": this.userId,
+      "portfolio": this.parPortfolio,
+      "account": this.parAccount,
+      "category": "MultiModel",
+      "subcategory": "ImageModel",
+      "requestTemplate": selectedImageModelRequest,
+      "responseTemplate": this.selectedReclist2, // Assuming this is the correct variable
+      "comparisonTemplate": this.selectedReclist3 // has no value just a dummy array
+    };
+    console.log("payload===", payload);
+    this.creatTemplateMappingApiCall(payload);
+  }
 }
-// 
+
+ // Makes an API call to create a template mapping
+creatTemplateMappingApiCall(payload:any){
+  this.https.post(this.templateMappingPostUrl,payload).subscribe((res:any)=>{
+    console.log("res=================",res)
+    if (res.status === "True") {
+      const message = "Mpappings Added Successfully";
+      const action = "Close";
+      this._snackBar.open(message, action, {
+        duration: 3000,
+        panelClass: ['le-u-bg-black'],
+      });
+      
+      // this.getAllAccountData();
+    } else if (res.status === "False") {
+      const message = "Mapping already exists for this Account";
+      const action = "Close";
+      
+      this._snackBar.open(message, action, {
+        duration: 3000,
+        panelClass: ['le-u-bg-black'],
+      });
+    }
+    // this.CustomTemplateForm.reset()
+    // this.tempalteArray=[]
+    this.selectedReclist=[]
+    this.selectedReclist2=[]
+    this.selectedReclist3=[]
+    // this.getTemplateDetail()
+    
+    this._snackBar.open("Template Saved Successfully", "Close", {
+      duration: 2000,
+    });
+  }, error => {
+    // You can access status:
+    console.log(error.status);
+
+
+    // console.log(error.error.detail)
+    console.log(error)
+    const message = (error.error && (error.error.detail || error.error.message)) || "The Api has failed"
+    const action = "Close"
+    this._snackBar.open(message, action, {
+      duration: 3000,
+      horizontalPosition: 'left',
+      panelClass: ['le-u-bg-black'],
+    });
+
+
+  })
+}
+
+//  Handles category change and updates subcategories
 categoryslected: boolean = false
 categoryChange(event: MatSelectChange){
   this.categoryslected= true
@@ -539,6 +728,7 @@ categoryChange(event: MatSelectChange){
 
 }
 showresponseDropdownforTemp= true
+// Handles subcategory change and updates dropdowns
 subcategoryChange(event: MatSelectChange)
 {
   if ((event.value == "Model" && this.category == "SingleModel") || (event.value == "TextModel" && this.category == "MultiModel")) {
@@ -566,13 +756,9 @@ subcategoryChange(event: MatSelectChange)
     this.getTemplateDetail()
   }
     
-  
-  
- 
-
 }
 
-
+// Submits the template mapping
   submit(){
 
     const payload = {
@@ -620,12 +806,11 @@ subcategoryChange(event: MatSelectChange)
     })
 
   }
- 
 
   getTemplateDetail(){
     console.log("inside getTemplateDetail")
     let temptempalteArray:any= []
-    // const url = 'http://localhost:30016/api/v1/rai/admin/getCustomeTemplate/';
+    // const url = 'https://localhost:30016/api/v1/rai/admin/getCustomeTemplate/';
     const url = this.customTemplateGetUrl;
     const params = new HttpParams()
 
@@ -674,6 +859,8 @@ subcategoryChange(event: MatSelectChange)
   })
     
 }
+
+// Fetches template details for multi-model
   getTemplateDetailMultiple(){
     console.log("inside getTemplateDetailMultiple")
     let temptempalteArray:any= []
@@ -726,6 +913,8 @@ subcategoryChange(event: MatSelectChange)
   })
     
 }
+
+// Fetches template details for single model
   getTemplateDetailSingle(){
     console.log("inside getTemplateDetail single")
     let temptempalteArray:any= []
@@ -780,43 +969,43 @@ subcategoryChange(event: MatSelectChange)
     
 }
 
-
-  getLogedInUser() {
-    let role = localStorage.getItem('role');
-    console.log("role267===",role)
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-        this.userId = x ;
-      }
-      console.log("userId", this.userId)
+// Retrieves the logged-in user from local storage
+getLogedInUser(): any {
+  let role = localStorage.getItem('role');
+  console.log("role267===",role)
+  if (window && window.localStorage && typeof localStorage !== 'undefined') {
+    const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
+    if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
+      this.userId = x ;
     }
-
+    console.log("userId", this.userId)
+    return this.userId;
   }
-  sanitizeInput(input: any) {
-     // Allow alphanumeric characters, @, and .
-     return input.replace(/[^a-zA-Z0-9@.]/g, '');
+
 }
+
+// Retrieves API configuration from local storage
   getLocalStoreApi() {
-    let ip_port
-    if (localStorage.getItem("res") != null) {
-      const x = localStorage.getItem("res")
-      if (x != null) {
-        return ip_port = JSON.parse(x)
-      }
-    }
+    
+let ip_port
+if (window && window.localStorage && typeof localStorage !== 'undefined') {
+  const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+  if(res != null){
+    return ip_port = JSON.parse(res)
+  }
+}
+
   }
 
+  // Sets the API list URLs
   setApilist(ip_port: any) {
       this.templateMappingPostUrl=ip_port.result.Admin + ip_port.result.ACCTEMPMAP 
     this.customTemplateGetUrl=ip_port.result.Admin + ip_port.result.TemplateGet
     this.templateMappingGetUrl=ip_port.result.Admin + ip_port.result.GETACCTEMPMAP  
     this.Admin_getModMaps=ip_port.result.Admin + ip_port.result.Admin_getModMaps  
-    
-
-    
   }
 
+  // Fetches account module details
   getAccountModule() {
     // const url = 'http://localhost:30016/api/v1/rai/admin/getModMaps';
     // const url = 'https://rai-toolkit-dev.az.ad.idemo-ppc.com/api/v1/rai/admin/getModMaps';
@@ -863,6 +1052,8 @@ subcategoryChange(event: MatSelectChange)
           console.log("this.disabledsubcategoryList===",this.disabledsubcategoryList)
         },
         error => {
+          console.error('Error:', error);
+          // Handle the error here
         }
       );
   }
@@ -879,14 +1070,12 @@ subcategoryChange(event: MatSelectChange)
 
   }
 
-
-
-
+// Initializes the component and loads data
   ngOnInit(): void {
     this.dropdownloader = true
     let ip_port: any
 
-  this.getLogedInUser()
+    let user = this.getLogedInUser()
 
     ip_port = this.getLocalStoreApi()
     
@@ -908,6 +1097,7 @@ subcategoryChange(event: MatSelectChange)
     // Your logic here
   }
   
+  // Handles checkbox change for single model
   onCheckboxChange(option: string, event: any) {
     if (event.checked) {
       this.selectedOptions[option] = true;

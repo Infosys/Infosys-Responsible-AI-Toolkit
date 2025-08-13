@@ -1,14 +1,16 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FileHandler } from './fileHandler'
 import { Helper } from './helper';
 import { DifferentialPrivacyService } from './differential-privacy.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { environment } from 'src/environments/environment';`  `
 import { NonceService } from '../nonce.service';
 
 @Component({
@@ -26,7 +28,7 @@ export class DifferentialPrivacyComponent implements OnInit {
   constructor(private differentialPrivacyService: DifferentialPrivacyService, public _snackBar: MatSnackBar,private fb: FormBuilder,public nonceService:NonceService) 
   { 
     this.fromCreation()
-    this.fileHandler = new FileHandler();
+    this.fileHandler = new FileHandler(this._snackBar);
   }
 
 
@@ -36,7 +38,7 @@ export class DifferentialPrivacyComponent implements OnInit {
   showSpinner1 = false;
   showSpinner2 = false;
   showSpinner3 = false;
-  fileHandler = new FileHandler();
+  fileHandler = new FileHandler(this._snackBar);
   helper = new Helper();
 
 
@@ -50,6 +52,7 @@ export class DifferentialPrivacyComponent implements OnInit {
   selectedOptions: string[] = [];
   intialFromstatus= false
 
+  // Initializes the component and sets up API endpoints
   ngOnInit(): void {
     let ip_port: any
 
@@ -62,20 +65,15 @@ export class DifferentialPrivacyComponent implements OnInit {
   isLoading = false;
   submit() {
     // this.isLoading=true;
-    const allowedTypes = ['text/csv'];
-    for(let i =0; i< this.fileHandler.file.length; i++){
-      if (!allowedTypes.includes(this.fileHandler.file.type)) {
-        this._snackBar.open('Please upload valid file', 'Close', {
-          duration: 2000,
-        });
-       this.fileHandler.reset();
-        return ;
-      }
-    }
     if (this.fileHandler.fileExitsValidator() ==true) {
       this.postFile()
     }
+    // this.postFile()
+
+
   }
+
+  // Uploads the file to the server
   postFile() {
     this.showSpinner1 = true;
     let formData = new FormData();
@@ -96,6 +94,7 @@ export class DifferentialPrivacyComponent implements OnInit {
     }
   );
   }
+  // Sets the dropdown options based on the server response
   setSelectOptionsList(res: any){
     this.supressionList = res.allHeadders
       this.noiseList = res.numaricHeadder
@@ -103,6 +102,7 @@ export class DifferentialPrivacyComponent implements OnInit {
       this.binaryList = res.binaryHeadder
   }
 
+  // Creates the form with required controls
   fromCreation(){
     this.form = new FormGroup({
       supressionList: new FormControl([],Validators.required),
@@ -112,7 +112,7 @@ export class DifferentialPrivacyComponent implements OnInit {
     });
   }
   
-
+ // Submits the form data to the server
   submitFrom(){
     if (this.form.valid) {
     console.log("form",this.form.value)
@@ -170,8 +170,10 @@ export class DifferentialPrivacyComponent implements OnInit {
   
     // Close any open snack bars
     this._snackBar.dismiss();
+    this.resetRadioButtons()
   }
 
+  // Displays an error message in a snackbar
   errormessageCall(error: any){
       // const message = error.error.detail
       const message = (error && error.error && (error.error.detail || error.error.message)) || "The Api has failed"
@@ -181,6 +183,51 @@ export class DifferentialPrivacyComponent implements OnInit {
             panelClass: ['le-u-bg-black'],
           });
     
+  }
+
+  favoriteSeason: any;
+  sampleSrc1 = environment.imagePathurl + '/assets/image/csvIcon2.png';
+  sampleFile1 = environment.imagePathurl + '/assets/samplefiles/DifferentialTest.csv';
+  
+ // Handles the click event for downloading a sample file
+  onClick(s: any) {
+    console.log("s======", s);
+    fetch(s)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const file = new File(
+          [blob],
+          s.replace(/^.*[\\\/]/, ''),
+          { type: 'text/csv' }
+        );
+        const abc: any = [];
+        abc.push(file);
+        this.fileHandler.fileBrowseHandler({ target: { files: abc } });
+        this.fileHandler.prepareFilesList(abc);
+
+        this.fileHandler.demoFile.push(file);
+        this.form.get('file')?.setValue('validFileValue');
+      })
+      .catch((error) => {
+        console.warn('error converting imgageurl to file: ');
+      });
+  }
+
+  viewchange() {
+    console.log('view change', this.favoriteSeason);
+  }
+
+    // Downloads a file from a given URL
+  downloadFile(file: string, event: MouseEvent) {
+    event.preventDefault(); // Prevent the default context menu from appearing
+
+    const link = document.createElement('a');
+    link.href = file; // Assuming `file` is the URL to the file
+    link.download = file.split('/').pop() || 'downloaded-file'; // Extract the file name from the URL
+    link.click();
+  }
+  resetRadioButtons() {
+    this.favoriteSeason = null; // or any default value that doesn't match the radio button values
   }
   
 }

@@ -1,9 +1,9 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .chatbot {
     position: fixed;
     bottom: 30px;
@@ -28,9 +28,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     width: 25px!important;
   } */
 
-.chatbot-chat {
+/* .chatbot-chat { */
     /* CSS for the chatbot chat section goes here */
-}
+/* } */
 
  :root {
     --body-bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -65,16 +65,17 @@ body {
     display: flex;
     flex-flow: column wrap;
     justify-content: space-between;
-    width: 650px;
+    width: 750px;
     margin: 25px 10px;
     max-height: calc(100% - 50px);
-    height: 450px;
+    height: 500px;
     border: var(--border);
     border-radius: 5px;
-    background: var(--msger-bg);
+    /* background: var(--msger-bg); */
     box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
     border-radius: 6px;
     border: #7070706b solid .5px;
+    background: white;
 }
 
 .msger-header {
@@ -84,7 +85,7 @@ body {
     font-style: seogoe ui;
     display: flex;
     justify-content: space-between;
-    padding: 10px;
+    padding: 10px 4px 10px 10px;
     border-bottom: var(--border);
     background: #ffffff;
     color: #382261;
@@ -193,6 +194,16 @@ body {
     /* border-radius: 3px; */
     /* font-size: 1em; */
 }
+.msger-inputarea1 {
+    display: flex;
+    background: #ffffff;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.msger-inputarea1 * {
+    border: none;
+}
 
 .msger-input {
     flex: 1;
@@ -253,6 +264,15 @@ body {
     padding-right: 30px;
     padding-left: 10px;
 }
+.txtArea1 {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 65px;
+    padding-left: 5px;
+    padding-right: 30px;
+    padding-left: 10px;
+}
 
 .sendIcon {
     background: none;
@@ -297,41 +317,559 @@ body {
 
 .hover {
     cursor: pointer;
+    font-size:20px
 }
 
 .three-dots-spinner {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.dot {
+  }
+  
+  .dot {
     width: 5px;
     height: 5px;
     margin: 0 4px;
     background-color: #000;
     border-radius: 50%;
     animation: pulse 1s infinite ease-in-out;
-}
-
-.dot:nth-child(1) {
+  }
+  
+  .dot:nth-child(1) {
     animation-delay: 0s;
-}
-
-.dot:nth-child(2) {
+  }
+  
+  .dot:nth-child(2) {
     animation-delay: 0.2s;
-}
-
-.dot:nth-child(3) {
+  }
+  
+  .dot:nth-child(3) {
     animation-delay: 0.4s;
-}
-
-@keyframes pulse {
-    0%,
-    100% {
-        transform: scale(1);
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
     }
     50% {
-        transform: scale(1.5);
+      transform: scale(1.5);
     }
+  }
+
+  .switch1 {
+    display: inline-block;
 }
+
+.switch1 input {
+    display: none;
+}
+
+.switch1 label {
+    display: block;
+    width: 43px;
+    height: 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 3px;
+    background-color: #E0DCEC;
+    margin: 0px 5px;
+}
+
+.switch1 label::after {
+    content: "";
+    display: inherit;
+    width: 14px;
+    height: 14px;
+    border-radius: 12px;
+    background: #8626C3;
+    transition: 0.3s;
+    border: 2px solid white;
+}
+
+.switch1 input:checked~label {
+    border-color: #ffffff;
+}
+
+.switch1 input:checked~label::after {
+    translate: 23px 0;
+    background: #8626C3;
+}
+
+.switch1 input:disabled~label {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.switch1 input:disabled:checked~label {
+    background-color: #aaaaaa;
+}
+
+.switch1 input:disabled~label::after {
+    background-color: #bbbbbb;
+}
+.toggleLableOn{
+    color: #8626C3;
+}
+
+mat-label{
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: 0.8rem;
+    color: #382261;
+}
+.pill-button {
+    background-color: #5c2167;
+    color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 4px 8px;
+    margin: 0px 5px 10px 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    /* text-transform: uppercase; */
+    transition: color 0.3s ease;
+}
+
+.pill-button.active {
+    background-color: #8626c34a;
+    color: black;
+    font-weight: 600;
+}
+.fmMode{
+    border-top: 1px solid white;
+    background-color: #e5e4e8; 
+    padding: 10px;
+}
+.item-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1.33px solid #ccc;
+}
+
+.item-list li:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* height: 1px; */
+    background-color: #ddd;
+}
+.list-item {
+    padding: 4px;
+    /* background-color: #f0f0f0; */
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'Segoe UI';
+    /* text-transform: uppercase; */
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /* border-bottom: 1.33px solid #ccc; */
+    font-weight: 500;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #7e7e7e2e;
+}
+
+.list-item hr {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin-top: 2px;
+}
+
+.list-item:hover {
+    background-color: #8626c34a;
+    border-color: #8626c34a;
+}
+.close{
+    padding-left: 8px;
+}
+
+.model-based-guardrails-btn {
+    background-color: #333333; /* Dark grey color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.model-based-guardrails-btn:hover {
+    background-color: #1a1a1a; /* Darker shade for hover effect */
+}
+
+.template-based-guardrails-btn {
+    /* Add your custom styles here */
+    background-color: #6c757d; /* Secondary button color */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.template-based-guardrails-btn:hover {
+    background-color: #5a6268; /* Darker shade for hover effect */
+}
+
+
+
+
+::ng-deep .cdk-overlay-pane .mdc-menu-surface.mat-mdc-select-panel {
+    min-width: 15rem;
+    width: max-content !important; /* Change this value to your desired width */
+}
+
+
+/*  */
+.left-nav-panel {
+    position: absolute;
+    left: -250px;
+    width: 300px;
+    height: 80.7%;
+    background-color: #eeedf2;
+    color: rgb(0, 0, 0);
+    transition: left 0.3s ease, max-height 0.3s ease;
+    z-index: 10001;
+    border-radius: 6px;
+    display: none; /* Hide by default */
+    overflow-y: auto; /* Add vertical scroll */
+    padding: 10px; /* Add padding for better appearance */
+  }
+  
+  .left-nav-panel.open {
+    left: 1.4%;
+    position: absolute;
+    display: block; /* Show when open */
+  }
+
+  ::ng-deep.mat-mdc-checkbox.mat-accent {
+    --mdc-checkbox-selected-checkmark-color: #ffffff; /* Base color */
+    --mdc-checkbox-selected-focus-icon-color: #b35ab3; /* Lighter shade */
+    --mdc-checkbox-selected-hover-icon-color: #b35ab3; /* Lighter shade */
+    --mdc-checkbox-selected-icon-color: #95289b; /* Base color */
+    --mdc-checkbox-selected-pressed-icon-color: #b35ab3; /* Lighter shade */
+    --mdc-checkbox-unselected-focus-icon-color: #95289b; /* Base color */
+    --mdc-checkbox-unselected-hover-icon-color: #95289b; /* Base color */
+    --mdc-checkbox-disabled-selected-icon-color: rgba(149, 40, 155, 0.38); /* Lighter shade */
+    --mdc-checkbox-disabled-unselected-icon-color: rgba(149, 40, 155, 0.38); /* Lighter shade */
+    --mdc-checkbox-unselected-icon-color: rgba(149, 40, 155, 0.54); /* Lighter shade */
+    --mdc-checkbox-unselected-pressed-icon-color: rgba(149, 40, 155, 0.54); /* Lighter shade */
+}
+  
+  .tree-children {
+    padding-left: 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .tree-children.expanded {
+    max-height: 1000px; /* Arbitrary large value to allow expansion */
+  }
+  
+  .nav-toggle-btn {
+    vertical-align: middle;
+    background-color: #8626C3;
+    color: white;
+    border: none;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    /* padding: 10px 20px; */
+    /* font-size: 14px; */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    /* margin-bottom: 10px; */
+  }
+  
+  .nav-toggle-btn:hover {
+    background-color: 95289b;
+  }
+  .nav-toggle-container {
+    display: flex;
+    justify-content: flex-end; /* Align the button to the right */
+  }
+
+
+  
+  
+  .expand-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 5px;
+    color: #8626C3;
+  }
+
+
+  
+  .expand-btn mat-icon {
+    padding-top: .4rem;
+    font-size: 23px;
+  }
+
+  /* Scoped Accordion header styling */
+.chatbot-accordion ::ng-deep .mat-expansion-panel-header {
+    /* background-color: #6b6b6b; Light grey background */
+    /* color: white; White font color */
+    font-size: 14px;
+    font-family: 'Segoe UI', sans-serif;
+    border-radius: 4px;
+    border: 1px solid #cccccc; /* Nice subtle border */
+    /* margin-bottom: 5px; spacing between accordion items */
+}
+
+/* Scoped Accordion title styling */
+.chatbot-accordion ::ng-deep .mat-expansion-panel-header .mat-panel-title {
+    font-size: 14px !important;
+    font-family: 'Segoe UI', sans-serif !important;
+    color: #382261;
+}
+
+/* Scoped Accordion content styling */
+.chatbot-accordion ::ng-deep .mat-expansion-panel-body {
+    font-size: 14px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #4D4D4D;
+}
+
+/* Scoped Card styling */
+.chatbot-accordion mat-card {
+    /* background-color: rgba(149, 40, 155, 0.54); pastel background */
+    /* background-color: rgba(151, 127, 152, 0.54); pastel background */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 10px;
+}
+
+/* Scoped Accordion title styling */
+.chatbot-accordion ::ng-deep .mat-expansion-panel-header .accordion-title {
+    font-size: 14px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #382261;
+    display: flex;
+    align-items: center;
+}
+
+.chatbot-accordion ::ng-deep .accordion-title .check-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.chatbot-accordion ::ng-deep .accordion-title .status-passed {
+    background-color: #28a745; /* Green background */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* Scoped Accordion title styling for failed status */
+.chatbot-accordion ::ng-deep .accordion-title .status-failed {
+    background-color: #dc3545; /* Red background for failed status */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+}
+/* Scoped styling for failed checks list with scroll and border */
+.chatbot-accordion .failed-checks-list {
+    padding: 10px;
+    /* background-color: #f8d7da; Light red background */
+    border-radius: 6px;
+    margin-top: 10px;
+    max-height: 150px; /* Set max height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #f5d3d6; /*  Soft red border */
+}
+
+.chatbot-accordion .failed-checks-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chatbot-accordion .failed-check-item {
+    /* background-color: #dc3545; Red background */
+    color: rgb(78, 0, 0);
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    border: 1px solid #7e0713; /* Soft red border */
+}
+
+.chatbot-accordion .failed-check-item:last-child {
+    margin-bottom: 0;
+}
+/* Scoped styling for passed checks list with scroll and border */
+.chatbot-accordion .passed-checks-list {
+    padding: 10px;
+    /* background-color: #f0fff4; Light green background */
+    border-radius: 6px;
+    margin-top: 10px;
+    max-height: 150px; /* Set max height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #c3e6cb; /* Soft green border */
+}
+
+.chatbot-accordion .passed-checks-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chatbot-accordion .passed-check-item {
+    /* background-color: #28a745; Green background */
+    color: rgb(0, 112, 37);
+    padding: 6px 10px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    border: 1px solid #c3e6cb; /* Soft green border */
+    border-radius: 6px;
+}
+
+.chatbot-accordion .passed-check-item:last-child {
+    margin-bottom: 0;
+}
+
+/*  */
+
+/* Container for side-by-side cards */
+.custom-card-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* Individual card styling */
+.custom-card {
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+    border: 1px solid #ddd;
+}
+
+/* Card header styling */
+.custom-card-header {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Card title styling */
+.custom-card-title {
+    font-size: 14px;
+    font-family: 'Segoe UI', sans-serif;
+    font-weight: 600;
+    color: #382261;
+    margin: 0;
+}
+
+/* Card body styling */
+.custom-card-body {
+    max-height: 75px;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+/* Card text styling */
+.custom-card-text {
+    margin: 0;
+    font-size: 13px;
+    font-family: 'Segoe UI', sans-serif;
+    color: #4D4D4D;
+}
+
+/* Pastel color scheme for passed cards */
+.passed-card .custom-card-header {
+    background-color: #d1fae5; /* pastel green */
+}
+
+.passed-card .custom-card-body {
+    background-color: #ecfdf5; /* lighter pastel green */
+}
+
+/* Pastel color scheme for failed cards */
+.failed-card .custom-card-header {
+    background-color: #fee2e2; /* pastel red */
+}
+
+.failed-card .custom-card-header {
+    background-color: #fee2e2; /* pastel red */
+}
+
+.failed-card .custom-card-body {
+    background-color: #fef2f2; /* lighter pastel red */
+}
+
+.status-passed-div {
+    background-color: #28a745; /* Green background */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.check-status-div {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.status-failed-div {
+    background-color: #dc3545; /* Red background for failed status */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.skeleton-container {
+    position: relative;
+  }
+  
+  .skeleton-wrapper {
+    position: relative;
+  }
+  
+  .loading-text {
+    position: absolute;
+    top: 42%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    font-weight: bold;
+    color: #666;
+    pointer-events: none; /* Ensure the text doesn't interfere with clicks */
+  }

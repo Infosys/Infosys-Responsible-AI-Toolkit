@@ -12,7 +12,6 @@ python-multipart
 pyyaml
 regex
 opencv-python-headless
-ultralytics
 omegaconf
 anyio
 blis

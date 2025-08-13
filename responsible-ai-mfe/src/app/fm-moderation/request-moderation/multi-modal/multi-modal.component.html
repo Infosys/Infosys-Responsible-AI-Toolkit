@@ -1,26 +1,27 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="card outerResultCard">
     <div class="card-header pb-0 card-header-outerResultCard">
-        <h5 class="mainLabel d-flex mt-2 ml-2" style="font-size: 1rem; color: #303030;">
+        <h5 class="mainLabel d-flex mt-2 ms-2" style="font-size: 1rem; color: #303030;">
             Image Analysis
         </h5>
     </div>
     <div class="card-body">
         <div class="cardContainerMultiModal">
             <ng-container *ngFor="let template of templateList">
-                <div class="mt-1" *ngIf="template != 'Toxicity'">
+                <div class="mt-1" *ngIf="template != 'Image Toxicity Check'">
                     <div class="card innerResultCard h-100">
                         <div class="card-header border-bottom-0 py-2" style="background: none;" id="headingOne" aria-expanded="true">
                             <div class="d-flex justify-content-between">
-                                <label class="mainLabel m-0 d-flex" style="font-size: 0.9rem; color: #303030;">Image
+                                <label class="mainLabel m-0 d-flex" style="font-size: 0.9rem; color: #303030;">
                                     {{template}}
                                     <mat-icon
                                         *ngIf="response[template] && response[template].description && response[template]?.description != ''"
-                                        class="ml-2 cursor-pointer" [matTooltip]="response[template].description"
+                                        class="ms-2 cursor-pointer" [matTooltip]="response[template].description"
                                         style="color: #727272;" [inline]="true">info</mat-icon>
                                 </label>
                                 <div *ngIf="response[template]?.result" class="custom-badge" [class.custom-badge-passed]="response[template]?.result == 'PASSED'" [class.custom-badge-failed]="response[template]?.result == 'FAILED'">
@@ -45,11 +46,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 </p>
                                 <p class="mainLabel mainLabelSM mainLabelLight m-0"><span class="mainLabel mainLabelSM mb-0"><strong>Analysis: </strong></span>
                                     <span *ngIf="!showFullAnalysis[template]">
-                                        {{response[template]?.explanation | slice:0:80}}...
+                                        {{response[template]?.analysis | slice:0:80}}...
                                         <a (click)="toggleAnalysis(template)">Show more</a>
                                     </span>
                                     <span *ngIf="showFullAnalysis[template]">
-                                        {{response[template]?.explanation}}
+                                        {{response[template]?.analysis}}
                                         <a (click)="toggleAnalysis(template)">Show less</a>
                                     </span>
                                 </p>
@@ -123,23 +124,23 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </div>
             </div>
         </div>
-        <div class="mt-2" *ngIf="templateList.includes('Toxicity')">
+        <div class="mt-2" *ngIf="templateList.includes('Image Toxicity Check')">
             <div class="card innerResultCard h-100">
                 <div class="card-header border-bottom-0 py-2" style="background: none;" id="headingOne" aria-expanded="true">
                     <div class="d-flex justify-content-between">
-                        <label class="mainLabel m-0 d-flex" style="font-size: 0.9rem; color: #303030;">Image Toxicity
+                        <label class="mainLabel m-0 d-flex" style="font-size: 0.9rem; color: #303030;">Image Image Toxicity Check
                             <mat-icon
-                                *ngIf="response['Toxicity'] && response['Toxicity'].description && response['Toxicity']?.description != ''"
-                                class="ml-2 cursor-pointer" [matTooltip]="response['Toxicity'].description"
+                                *ngIf="response['Image Toxicity Check'] && response['Image Toxicity Check'].description && response['Image Toxicity Check']?.description != ''"
+                                class="ms-2 cursor-pointer" [matTooltip]="response['Image Toxicity Check'].description"
                                 style="color: #727272;" [inline]="true">info</mat-icon>
                         </label>
-                        <div *ngIf="response['Toxicity']?.result" class="custom-badge" [class.custom-badge-passed]="response['Toxicity']?.result == 'PASSED'" [class.custom-badge-failed]="response['Toxicity']?.result == 'FAILED'">
-                            {{response['Toxicity']?.result}}</div>
+                        <div *ngIf="response['Image Toxicity Check']?.result" class="custom-badge" [class.custom-badge-passed]="response['Image Toxicity Check']?.result == 'PASSED'" [class.custom-badge-failed]="response['Image Toxicity Check']?.result == 'FAILED'">
+                            {{response['Image Toxicity Check']?.result}}</div>
                     </div>
                 </div>
                 <div aria-labelledby="headingOne">
-                    <div class="card-body" *ngIf="isEmptyObject(response['Toxicity'])">
-                        <p class="mainLabel mainLabelSM" *ngIf="status['Toxicity'] == 'failed'; else loaderCOT">API got failed. Please try again later. <a class="text-decoration-underline" (click)="callMultiModal('Toxicity')">Click here to retry</a></p>
+                    <div class="card-body" *ngIf="isEmptyObject(response['Image Toxicity Check'])">
+                        <p class="mainLabel mainLabelSM" *ngIf="status['Image Toxicity Check'] == 'failed'; else loaderCOT">API got failed. Please try again later. <a class="text-decoration-underline" (click)="callMultiModal('Image Toxicity Check')">Click here to retry</a></p>
                         <ng-template #loaderCOT>
                             <div class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
                                 <div class="spinner-border" role="status">
@@ -148,23 +149,23 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </div>
                         </ng-template>
                     </div>
-                    <div class="card-body" *ngIf="!isEmptyObject(response['Toxicity'])">
+                    <div class="card-body" *ngIf="!isEmptyObject(response['Image Toxicity Check'])">
                         <p class="mainLabel mainLabelSM mb-2 mt-n3 text-end" style="font-size: 0.7rem;">Time Taken:
-                            <span>{{response['Toxicity']?.timetaken}}</span>
+                            <span>{{response['Image Toxicity Check']?.timetaken}}</span>
                         </p>
                         <p class="mainLabel mainLabelSM mainLabelLight m-0"><span class="mainLabel mainLabelSM mb-0">Analysis:
                             </span>
-                            <span *ngIf="!showFullAnalysis['Toxicity']">
-                                {{response['Toxicity']?.explanation | slice:0:80}}...
-                                <a (click)="toggleAnalysis('Toxicity')">Show more</a>
+                            <span *ngIf="!showFullAnalysis['Image Toxicity Check']">
+                                {{response['Image Toxicity Check']?.analysis | slice:0:80}}...
+                                <a (click)="toggleAnalysis('Image Toxicity Check')">Show more</a>
                             </span>
-                            <span *ngIf="showFullAnalysis['Toxicity']">
-                                {{response['Toxicity']?.explanation}}
-                                <a (click)="toggleAnalysis('Toxicity')">Show less</a>
+                            <span *ngIf="showFullAnalysis['Image Toxicity Check']">
+                                {{response['Image Toxicity Check']?.analysis}}
+                                <a (click)="toggleAnalysis('Image Toxicity Check')">Show less</a>
                             </span>
                         </p>
                         <div class="d-flex mt-3 flex-wrap">
-                            <div *ngFor="let score of response['Toxicity']?.score" class="cardA m-1 flex-1">
+                            <div *ngFor="let score of response['Image Toxicity Check']?.score" class="cardA m-1 flex-1">
                                 <p class="mainLabel m-0" style="color: #232323;font-size: x-large;">{{score.metricScore | number:'1.0-2'}}
                                 </p>
                                 <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">
@@ -174,7 +175,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <p class="mainLabel" style="    color: #232323;
                         margin: 0px;
                         font-size: x-large;">
-                            {{response['Toxicity']?.score |
+                            {{response['Image Toxicity Check']?.score |
                             number:'1.0-3'}}</p>
                         <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Actual Score</p>
                     </div> -->
@@ -182,7 +183,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <p class="mainLabel" style="    color: #232323;
                         margin: 0px;
                         font-size: x-large;">
-                                    {{response['Toxicity']?.threshold | number:'1.0-3'}}
+                                    {{response['Image Toxicity Check']?.threshold | number:'1.0-3'}}
                                 </p>
                                 <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
                             </div>

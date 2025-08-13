@@ -1,10 +1,11 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA ,MatDialogRef} from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -15,14 +16,16 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class ImageDialogComponent {
   pdfUrl?: SafeResourceUrl;
   videoUrl?: SafeResourceUrl;
+  audioUrl?: SafeResourceUrl;
   isPdf: boolean = false;
   isImage: boolean = false;
   isCsv: boolean = false;
   isPlainText: boolean = false;
   isVideo: boolean = false;
+  isAudio: boolean = false;
   textContent: string = '';
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private sanitizer: DomSanitizer) {
+  constructor(public dialogRef: MatDialogRef<ImageDialogComponent>,@Inject(MAT_DIALOG_DATA) public data: any, private sanitizer: DomSanitizer) {
     console.log('Dialog Data:', this.data);
 
     if (this.data.pdf && this.data.pdf.startsWith('data:application/pdf;base64,')) {
@@ -39,9 +42,17 @@ export class ImageDialogComponent {
     } else if (this.data.video && this.data.video.startsWith('data:video/')) {
       this.isVideo = true;
       this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.data.video);
+    } else if (this.data.audio && this.data.audio.startsWith('data:audio/')) {
+      this.isAudio = true;
+      this.audioUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.data.audio);
     } else {
+      console.error('Unsupported data type');
     }
 
     console.log('Formatted PDF Data:', this.data.pdf);
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

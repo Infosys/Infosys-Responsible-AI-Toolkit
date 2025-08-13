@@ -1,9 +1,9 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .mat-primary2 {
     color: #8626C3;
     /* background-color:#BFBFBF; */
@@ -85,7 +85,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     --mat-mdc-radio-checked-ripple-color: #D1C4E9;
 }
 
-
 /* :host ::ng-deep .mat-mdc-raised-button.mat-primary {
     --mdc-protected-button-container-color: #231F20;
     --mdc-protected-button-label-text-color: #fff;
@@ -122,7 +121,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     text-transform: uppercase;
 }
 
-.rfrshBtn {
+.rfrshBtn{
     color: #8626C3;
     border: none;
     background: none;
@@ -137,9 +136,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .disabled {
     pointer-events: none;
     opacity: 0.6;
-}
+  }
 
-.actionBtn {
+.actionBtn{
     color: #8626C3;
     border: none;
     background: none;
@@ -149,7 +148,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     margin-right: 10px;
 }
 
-.addDataBtn {
+.addDataBtn{
     border: 1px solid #8626C3;
     border-radius: 3px;
     font-size: 0.8rem;
@@ -158,7 +157,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     background: none;
     transition: background-color 0.3s ease;
 }
-
 .addDataBtn:hover {
     background-color: #8626C3;
     color: #fff;
@@ -251,7 +249,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     color: #382261;
     opacity: 70%;
     text-transform: uppercase;
+
 }
+
 
 .styled-table td {
     /* Segoe UI, regular */
@@ -265,9 +265,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-
 /* Icon Styling */
-
 app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
     width: 25px;
     height: 25px;
@@ -279,9 +277,7 @@ app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
     font-size: 16px;
 }
 
-
 /* -----Pagination------- */
-
 .ngx-pagination .current {
     background: #8626C3;
 }
@@ -296,18 +292,17 @@ app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
     font-size: .60rem;
     margin-right: 100px;
 }
-
 .pagination-info {
     font-family: 'Segoe UI';
     font-weight: 500 !important;
     font-size: 12px;
     color: #7E7E7E;
 }
-
 .cdk-overlay-container {
     z-index: 1056 !important;
     /* Adjust if needed */
 }
+
 
 .smallButton {
     font-size: smaller !important;
@@ -315,9 +310,7 @@ app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
     height: 30px !important;
 }
 
-
 /* PANEL BACKGOUND */
-
 .cdk-overlay-backdrop.custom-backdrop {
     background: rgba(0, 0, 0, 0.6);
     top: 57px;

@@ -1,9 +1,9 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .mainLabel {
     color: #2e2e2e;
     padding: 0px;
@@ -24,24 +24,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     height: 150px;
     overflow-y: auto;
 }
-
 .custom-badge-yellow {
     background-color: #fff3d6;
     color: #f9a701;
-}
 
+}
 .meter-container {
     position: relative;
-    width: 125px;
-    /* Set the width of the meter to 100px */
+    width: 125px; /* Set the width of the meter to 100px */
     margin-top: 0px;
 }
 
 .meter {
     display: flex;
     height: 20px;
-    width: 100%;
-    /* Ensure the meter takes the full width of the container */
+    width: 100%; /* Ensure the meter takes the full width of the container */
     border: 1px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
@@ -51,7 +48,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .meter-section {
     flex: 1;
 }
-
 
 /* .red {
     background-color: red;
@@ -73,27 +69,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-weight: bold;
     color: #fff;
     border-radius: 5px;
-    padding: 2px;
-    /* Reduce the padding to decrease the height */
-    font-size: 10px;
-    /* Reduce the font size */
-    background-color: black;
-    /* Set the background color of the indicator to black */
+    padding: 2px; /* Reduce the padding to decrease the height */
+    font-size: 10px; /* Reduce the font size */
+    background-color: black; /* Set the background color of the indicator to black */
 }
 
 .indicator::before {
     content: '';
     position: absolute;
-    top: -5px;
-    /* Position the pointer above the indicator */
+    top: -5px; /* Position the pointer above the indicator */
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
-    border-bottom: 5px solid black;
-    /* Create the pointer */
+    border-bottom: 5px solid black; /* Create the pointer */
 }
 
 .indicator.low {
@@ -107,8 +98,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .indicator.high {
     left: 60%;
 }
-
-.custom-badge {
+.custom-badge{
     color: rgb(31, 31, 31);
     font-size: 0.68rem;
     background-color: rgb(219, 219, 219);
@@ -117,4 +107,4 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     padding: 0px 7px;
     border-radius: 4px;
     height: 20px;
-}
+  }

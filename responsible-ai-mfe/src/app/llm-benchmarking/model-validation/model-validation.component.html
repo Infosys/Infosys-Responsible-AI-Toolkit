@@ -1,41 +1,47 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
-<div class="pr-5 mt-4">
+<div class="pe-5 mt-4">
     <p class="mainHeadng">Validate Model</p>
     <form #form="ngForm" class="d-flex mb-3 mt-3" (ngSubmit)="submitValidateModelForm(form.value)">
         <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
         <div class="w-50 d-flex">
-            <div class="d-flex flex-column pr-3 w-25">
+            <div class="d-flex flex-column pe-3 w-25">
                 <p class="mainHeadng mainHeadngSM mb-2">Select Options</p>
                 <ng-container class="selectTypeShimmer" *ngIf="isLoadingSelectType">
-                    <ngx-skeleton-loader count="3" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px'}">
+                    <ngx-skeleton-loader count="3" appearance="line"
+                        [theme]="{ 'border-radius': '20px', height: '20px'}">
                     </ngx-skeleton-loader>
                 </ng-container>
                 <div *ngIf="!isLoadingSelectType">
-                    <select class="form-select shadow-none selectInput w-100" name="model" ngModel>
+                    <select class="form-select shadow-none selectInput w-100" name="model" ngModel >
                         <option value="" selected disabled>Model</option>
                         <option *ngFor="let option of listOfavailableModels" [value]="option">
                             {{option}}</option>
                     </select>
-                    <select class="form-select shadow-none selectInput w-100" name="dataSetName" ngModel (change)="onDataSetSelect($event)" placeholder="Data Set">
+                    <select class="form-select shadow-none selectInput w-100" name="dataSetName" ngModel
+                        (change)="onDataSetSelect($event)" placeholder="Data Set">
                         <option value='' selected disabled hidden>Data Set</option>
                         <option *ngFor="let option of listOfaviablableDataSets" [value]="option">
                             {{option}}</option>
                     </select>
-                    <input type="text" class="form-control selectInput shadow-none" placeholder={{placeholder}} name="noOfSamples" ngModel />
+                    <input type="text" class="form-control selectInput shadow-none" placeholder={{placeholder}}
+                        name="noOfSamples" ngModel />
                 </div>
             </div>
             <ng-container class="selectTypeShimmer" *ngIf="isLoadingPrompt">
-                <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '170px', width: '800px'}">
+                <ngx-skeleton-loader count="1" appearance="circle"
+                    [theme]="{ 'border-radius': '10px', height: '170px', width: '800px'}">
                 </ngx-skeleton-loader>
             </ng-container>
             <div *ngIf="!isLoadingPrompt" class="w-75">
                 <p class="mainHeadng mainHeadngSM mb-2">Prompt Template</p>
                 <div class="position-relative">
-                    <textarea class="form-control w-100 txtArea shadow-none" rows="3" name="prompt" [(ngModel)]="selectedPrompt" placeholder="Enter Prompt" #prompt="ngModel"></textarea>
+                    <textarea class="form-control w-100 txtArea shadow-none" rows="3" name="prompt"
+                        [(ngModel)]="selectedPrompt" placeholder="Enter Prompt" #prompt="ngModel"></textarea>
                     <button type="submit" class="border-0 position-absolute m-2 sendIcon">
                         <i class="material-icons">send</i>
                     </button>
@@ -45,13 +51,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </div>
             </div>
         </div>
-        <div class="w-50 pl-3" *ngIf="showResultTab">
+        <div class="w-50 ps-3" *ngIf="showResultTab">
             <div class="d-flexjustify-content-between">
                 <p class="mainHeadng mainHeadngSM mb-2">Output</p>
             </div>
             <div>
                 <ng-container class="selectTypeShimmer" *ngIf="showResultLoader">
-                    <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '120px', width: '500px'}">
+                    <ngx-skeleton-loader count="1" appearance="circle"
+                        [theme]="{ 'border-radius': '10px', height: '120px', width: '500px'}">
                     </ngx-skeleton-loader>
                 </ng-container>
                 <div *ngIf="!showResultLoader">
@@ -70,17 +77,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
     </form>
     <div class="mt-2 d-flex">
-        <div class="w-50 pr-5">
+        <div class="w-50 pe-5">
             <div class="d-flex justify-content-between">
                 <p class="mainHeadng mainHeadngLG">Avalaible Models</p>
                 <div>
-                    <span class="btnRound addBtn ml-2" [ngbPopover]="popoverContent" [autoClose]="false" triggers="manual" #p="ngbPopover" (click)="openPopOver(p)" [popoverTitle]="Poptitle">+</span>
+                    <span class="btnRound addBtn ms-2" [ngbPopover]="popoverContent" [autoClose]="false"
+                        triggers="manual" #p="ngbPopover" (click)="openPopOver(p)" [popoverTitle]="Poptitle">+</span>
                 </div>
             </div>
 
             <div>
                 <ng-container class="selectTypeShimmer" *ngIf="isLoadingAvailableModel">
-                    <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '170px', width: '500px'}">
+                    <ngx-skeleton-loader count="1" appearance="circle"
+                        [theme]="{ 'border-radius': '10px', height: '170px', width: '500px'}">
                     </ngx-skeleton-loader>
                 </ng-container>
                 <div *ngIf="!isLoadingAvailableModel">
@@ -93,9 +102,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <tr *ngFor="let element of availableModels">
                             <td>{{element.modelName}}</td>
                             <td> {{element.lastUpdatedDateTime}}</td>
-                            <td class="pl-3">
+                            <td class="ps-3">
                                 <div>
-                                    <button class="actionBtn" matTooltip="Delete" (click)="deleteModel(element.modelName)">
+                                    <button class="actionBtn" matTooltip="Delete"
+                                        (click)="deleteModel(element.modelName)">
                                         <mat-icon [inline]=" true">delete</mat-icon>
                                     </button>
                                 </div>
@@ -109,11 +119,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div class="d-flex justify-content-between">
                 <p class="mainHeadng mainHeadngLG">Avalaible DataSets</p>
                 <div>
-                    <span class="btnRound addBtn ml-2" [ngbPopover]="popoverContentDataFile" [autoClose]="false" triggers="manual" #pData="ngbPopover" (click)="openPopOver(pData)" [popoverTitle]="PoptitleDataFile">+</span>
+                    <span class="btnRound addBtn ms-2" [ngbPopover]="popoverContentDataFile" [autoClose]="false"
+                        triggers="manual" #pData="ngbPopover" (click)="openPopOver(pData)"
+                        [popoverTitle]="PoptitleDataFile">+</span>
                 </div>
             </div>
             <ng-container class="selectTypeShimmer" *ngIf="isLoadingAvailableDataset">
-                <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '170px', width: '500px'}">
+                <ngx-skeleton-loader count="1" appearance="circle"
+                    [theme]="{ 'border-radius': '10px', height: '170px', width: '500px'}">
                 </ngx-skeleton-loader>
             </ng-container>
             <div *ngIf="!isLoadingAvailableDataset">
@@ -127,17 +140,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <tr *ngFor="let element of availableDataSets">
                         <td>{{element.DatasetName}}</td>
                         <td>{{element.LastUpdatedDateTime}}</td>
-                        <td class="pl-3">
-                            <button class="actionBtn" [ngbPopover]="popoverprevData" [autoClose]="false" triggers="manual" #prevData="ngbPopover" (click)="openPopOver(prevData)"><mat-icon
+                        <td class="ps-3">
+                            <button class="actionBtn" [ngbPopover]="popoverprevData" [autoClose]="false"
+                                triggers="manual" #prevData="ngbPopover" (click)="openPopOver(prevData)"><mat-icon
                                     [inline]=" true">
                                     remove_red_eye
                                 </mat-icon>
                             </button>
                             <ng-template #popoverprevData>
                                 <div style="width: 250px;" class="d-flex">
-                                    <input #numEntries type="number" class="form-control shadow-none" placeholder="Number of Entries" style="font-size: 10px;" />
-                                    <div class="d-flex w-100 justify-content-center ml-1">
-                                        <button mat-raised-button class="buttonMain" color="black" type="submit" (click)="openPrevModal(element.DatasetName,numEntries.value,prevData)">
+                                    <input #numEntries type="number" class="form-control shadow-none"
+                                        placeholder="Number of Entries" style="font-size: 10px;" />
+                                    <div class="d-flex w-100 justify-content-center ms-1">
+                                        <button mat-raised-button class="buttonMain" color="black" type="submit"
+                                            (click)="openPrevModal(element.DatasetName,numEntries.value,prevData)">
                                             <div *ngIf="showSpinner1==true" class="spinner-border"
                                                 style="width: 16px;height: 16px;" role="status">
                                                 <span class="sr-only">Loading...</span>
@@ -150,9 +166,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 </div>
                             </ng-template>
                         </td>
-                        <td class="pl-3">
+                        <td class="ps-3">
                             <div>
-                                <button class="actionBtn" matTooltip="Delete" (click)="deleteDataSet(element.DatasetName)">
+                                <button class="actionBtn" matTooltip="Delete"
+                                    (click)="deleteDataSet(element.DatasetName)">
                                     <mat-icon [inline]=" true">delete</mat-icon>
                                 </button>
                             </div>
@@ -166,22 +183,25 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 <ng-template #popoverContent>
     <div style="width: 250px;">
-        <input type="text" class="form-control shadow-none mb-3" #modelNameInput placeholder="Model Name" style="font-size: 10px;" />
+        <input type="text" class="form-control shadow-none mb-3" #modelNameInput placeholder="Model Name"
+            style="font-size: 10px;" />
         <div class="d-flex w-100 justify-content-between">
-            <input type="file" id="uploadFile" name="uploadFile" (change)="fileBrowseHandler($event)" class="uploadButton" />
+            <input type="file" id="uploadFile" name="uploadFile" (change)="fileBrowseHandler($event)"
+                class="uploadButton" />
             <label for="uploadFile"><mat-icon class="upload-iconUP">vertical_align_top</mat-icon>Upload File</label>
             <div class="file-upload" *ngIf="files[0]">
                 <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
                 <div class="d-flex align-items-center">
-                    <mat-progress-bar class="mr-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
-                    <button class="cancel-button mr-2" (click)="removeFile()">
+                    <mat-progress-bar class="me-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
+                    <button class="cancel-button me-2" (click)="removeFile()">
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
             </div>
         </div>
         <div class="d-flex w-100 justify-content-center mt-3">
-            <button mat-raised-button class="buttonMain" color="black" type="submit" (click)="addModelFile(modelNameInput.value,p)">Submit</button>
+            <button mat-raised-button class="buttonMain" color="black" type="submit"
+                (click)="addModelFile(modelNameInput.value,p)">Submit</button>
         </div>
     </div>
 </ng-template>
@@ -191,22 +211,25 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 <ng-template #popoverContentDataFile>
     <div style="width: 250px;">
-        <input type="text" class="form-control shadow-none mb-3" #dataNameInput placeholder="Data Set Name" style="font-size: 10px;" />
+        <input type="text" class="form-control shadow-none mb-3" #dataNameInput placeholder="Data Set Name"
+            style="font-size: 10px;" />
         <div class="d-flex w-100 justify-content-between">
-            <input type="file" id="uploadFile" name="uploadFile" (change)="fileBrowseHandler2($event)" class="uploadButton" />
+            <input type="file" id="uploadFile" name="uploadFile" (change)="fileBrowseHandler2($event)"
+                class="uploadButton" />
             <label for="uploadFile"><mat-icon class="upload-iconUP">vertical_align_top</mat-icon>Upload File</label>
             <div class="file-upload" *ngIf="files2[0]">
                 <p style="margin: 0px; font-size: x-small;">{{ files2[0].name }}</p>
                 <div class="d-flex align-items-center">
-                    <mat-progress-bar class="mr-1" mode="determinate" [value]="files2[0]?.progress"></mat-progress-bar>
-                    <button class="cancel-button mr-2" (click)="removeFile()">
+                    <mat-progress-bar class="me-1" mode="determinate" [value]="files2[0]?.progress"></mat-progress-bar>
+                    <button class="cancel-button me-2" (click)="removeFile()">
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
             </div>
         </div>
         <div class="d-flex w-100 justify-content-center mt-3">
-            <button mat-raised-button class="buttonMain" color="black" type="submit" (click)="addDataSet(dataNameInput.value,pData)">Submit</button>
+            <button mat-raised-button class="buttonMain" color="black" type="submit"
+                (click)="addDataSet(dataNameInput.value,pData)">Submit</button>
         </div>
     </div>
 </ng-template>

@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -19,9 +19,3 @@ USECASE_NOT_FOUND_ERROR="Usecase id PLACEHOLDER_TEXT Not Found"
 USECASE_NAME_VALIDATION_ERROR="Usecase name should not be empty"
 SPACE_DELIMITER=" "
 PLACEHOLDER_TEXT="PLACEHOLDER_TEXT"
-HTTP_STATUS_BAD_REQUEST=500
-HTTP_STATUS_NOT_FOUND=404
-HTTP_STATUS_409_CODE=409
-HTTP_422_UNPROCESSABLE_ENTITY="422"
-HTTP_415_UNSUPPORTED_MEDIA_TYPE=415
-UNSUPPPORTED_MEDIA_TYPE_ERROR="Unsupported media type: "

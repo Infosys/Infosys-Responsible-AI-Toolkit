@@ -1,13 +1,32 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="col-md-12">
     <div class="card fixed-height-card" *ngIf="option === 'Sentiment'">
-        <h2 class="sentimentalCard mt-2 ml-3">SENTIMENT
-            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Sentimental Analysis',type:'Sentiment'}); $event.stopPropagation()">info</mat-icon>
-        </h2>
+        <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
+            <div>
+                <label role='button' class="mainLabel cursor" style="display: flex;">
+                    SENTIMENT <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
+                        [inline]="true"
+                        (click)="openRightSideModal({title:'Sentimental Analysis',type:'Sentiment'}); $event.stopPropagation()">info</mat-icon>
+                </label>
+            </div>
+            <div class="col-md-10 text-end ">
+                <p class="mainLabel mainLabelSM ">Time Taken: <span>{{explainabilityRes?.explanation[0].time_taken}}s</span>
+                </p>
+            </div>
+        </div>
+        <!-- <div>
+            <label role='button' class="mainLabel cursor" style="display: flex;">
+                SENTIMENT <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
+                    [inline]="true"
+                    (click)="openRightSideModal({title:'Sentimental Analysis',type:'Sentiment'}); $event.stopPropagation()">info</mat-icon>
+            </label>
+        </div> -->
+
         <!-- <div class="table-container" style="display: flex; justify-content: center;">
             <table>
                 <tr class="mainLabel mainLabelSM">
@@ -22,18 +41,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </tr>
             </table>
         </div> -->
-        <p class="mainLabel mainLabelSM mainLabelLight  ml-3 mt-4 mr-3"><span class="mainLabel mainLabelSM mb-0"><strong>Analysis: </strong>
+        <p class="mainLabel mainLabelSM mainLabelLight  ms-3 mt-4 me-3"><span class="mainLabel mainLabelSM mb-0"><strong>Analysis: </strong>
         </span>{{ explainabilityRes?.explanation[0].explanation }}</p>
         <div class="d-flex mt-3 mb-2 flex-wrap">
-            <div class="cardA  mb-3 ml-3  flex-1" style="flex: 0 0 60%;">
-                <p class="mainLabel ml-2" style="    color: #232323; margin: 0px; font-size: small;">
+            <div class="cardA  mb-3 ms-3  flex-1" style="flex: 0 0 60%;">
+                <p class="mainLabel ms-2" style="    color: #232323; margin: 0px; font-size: small;">
                     {{ explainabilityRes?.explanation[0].anchor.join(', ') }} </p>
-                <p class="mainLabel mainLabelSM mb-0 ml-2" style="font-weight: 400;">Keywords</p>
+                <p class="mainLabel mainLabelSM mb-0 ms-2" style="font-weight: 400;">Keywords</p>
             </div>
-            <div class="cardA  mb-3 ml-3 mr-3 flex-1">
-                <p class="mainLabel ml-2" style="color: #232323; margin: 0px; font-size: small;">
+            <div class="cardA  mb-3 ms-3 me-3 flex-1">
+                <p class="mainLabel ms-2" style="color: #232323; margin: 0px; font-size: small;">
                     {{ explainabilityRes?.explanation[0].predictedTarget }} </p>
-                <p class="mainLabel mainLabelSM mb-0 ml-2" style="font-weight: 400;">Sentiment</p>
+                <p class="mainLabel mainLabelSM mb-0 ms-2" style="font-weight: 400;">Sentiment</p>
             </div>
         </div>
         <div style="display: block; width: 700px; height: 350px; align-self: center; margin-top: 20px; margin-bottom: 0px; padding: 0; box-sizing: border-box;">
@@ -44,7 +63,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </h5> -->
         <!-- <div class="card-body p-2 d-flex flex-column"> -->
         <!-- Keywords Card -->
-        <!-- <div class="d-flex mb-3 mr-2" style="width: 100%;">
+        <!-- <div class="d-flex mb-3 me-2" style="width: 100%;">
                 <div class="card" style="flex: 0 0 70%;">
                     <div class="mainLabel d-flex mt-1 mb-1" style="border-bottom: none; background-color: transparent; font-size: 0.94rem; color: #303030;">
                         Keywords
@@ -61,7 +80,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </span>
             </div> -->
         <!-- Analysis Card -->
-        <!-- <div class="card mb-2 mr-2" style="flex: 0 0 auto;">
+        <!-- <div class="card mb-2 me-2" style="flex: 0 0 auto;">
                 <div class="mainLabel d-flex mt-1 mb-1" style="border-bottom: none; background-color: transparent; font-size: 0.94rem; color: #303030;">
                     Analysis
                 </div>
@@ -97,9 +116,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </div>
             </div>
         </div>
-        <div class="d-flex  mt-3 ml-1 mb-0" *ngIf="enableSearch">
+        <div class="d-flex  mt-3 ms-1 mb-0">
             <label class="mainLabel labelSM">Internet Search</label>
-            <span class="switch1 ml-1" style="margin-top:2px;">
+            <span class="switch1 ms-1" style="margin-top:2px;">
                 <input id="serperOption1" type="checkbox" name="serperOption1" (change)="onToggleSearch($event)" />
                 <label for="serperOption1"></label>
             </span>
@@ -130,9 +149,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
         <div *ngIf="!isSerperSelected">
             <div class="fixed-height-card2">
-                <h2>REASONING
-                    <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'LLM Explanation',type:'llmExplain'}); $event.stopPropagation()">info</mat-icon>
-                </h2>
+                <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
+                    <div>
+                        <label role='button' class="mainLabel cursor" style="display: flex;">
+                            REASONING <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
+                                [inline]="true"
+                                (click)="openRightSideModal({title:'LLM Explanation',type:'llmExplain'}); $event.stopPropagation()">info</mat-icon>
+                        </label></div>
+                    <div class="col-md-10 text-end " *ngIf="UncertaintyAIMetric!">
+                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{UncertaintyAIMetric.time_taken}}s</span>
+                        </p>
+                    </div>
+                </div>
+
                 <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">
                     <div *ngIf="isLoadingCOV || isLoadingTHOT" class="spinner-container">
                         <div class="spinner"></div>
@@ -159,9 +188,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </div>
             </div>
             <div class="fixed-height-card2">
-                <h2>VERIFICATION
-                    <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'LLM Verification',type:'llmVerification'}); $event.stopPropagation()">info</mat-icon>
-                </h2>
+                <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
+                    <div>
+                        <label role='button' class="mainLabel cursor" style="display: flex;">
+                            VERIFICATION <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
+                                [inline]="true"
+                                (click)="openRightSideModal({title:'LLM Verification',type:'llmVerification'}); $event.stopPropagation()">info</mat-icon>
+                        </label></div>
+                    <div class="col-md-10 text-end " *ngIf="COVAnswer!">
+                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{COVTimeTaken}}s</span>
+                        </p>
+                    </div>
+                </div>
                 <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">
                     <div *ngIf="isLoadingCOV" class="spinner-container">
                         <div class="spinner"></div>
@@ -180,17 +218,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 (click)="openRightSideModal({title:'Token Importance',type:'token'}); $event.stopPropagation()">info</mat-icon>
                         </label>
                     </div>
-                    <div class="col-md-10 text-end " *ngIf="!isEmptyObject(tokenImportanceResponse)">
+                    <div class="col-md-10 text-end " *ngIf="!isEmptyObject(tokenImportanceResponse)"> 
                         <p class="mainLabel mainLabelSM ">Time Taken: <span>{{tokenImportanceResponse.time_taken}}s</span>
                         </p>
                     </div>
                 </div>
-
+                
                 <div class="card-bodymainLabel mainLabelSM mainLabelLight p-0">
                     <div class="card-body" *ngIf="isEmptyObject(tokenImportanceResponse)">
                         <p *ngIf="tokenImportanceShowErrorMessage" class="mainLabel mainLabelSM pt-3">
                             API got failed. Please try again later.
-                            <a class="text-decoration-underline" (click)="TokenImportance()">Click here to retry</a>
+                             <a class="text-decoration-underline" (click)="TokenImportance()">Click here to retry</a>
                         </p>
                     </div>
                     <div *ngIf="isLoadingTokenImportance" class="spinner-container">
@@ -206,11 +244,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             <tr *ngFor="let item of topTokens">
                                 <td style="padding: 0 15px; text-align: left;">{{item.token}}</td>
                                 <td style="padding: 0 15px; text-align: center;">{{item.importance_value | number:'1.2-2'}}</td>
-                                <td style="padding: 0 15px; text-align: center;">{{item.position}}</td>
+                                <td style="padding: 0 15px; text-align: center;">{{item.Position}}</td>
                             </tr>
                         </table>
                     </div>
-                    <div style="display: flex; margin-top:15px; margin-right:0px; padding: 0 0 0 0; justify-content: center;" *ngIf="!isEmptyObject(tokenImportanceResponse)">
+                    <div style="display: flex; margin-top:15px; margin-right:0px; padding: 0 0 0 0; justify-content: center;">
                         <div style="display: block; width: 520px; height: 300px; align-self: center; margin-top: 20px; margin-bottom: 0px;  padding: 0 0 0 0; box-sizing: border-box;">
                             <h3 class="mainLabel" style="text-align: center;">Importance Score Per Token</h3>
                             <canvas id="myTokenBarChart" width="520" height="300" style="display: block; box-sizing: border-box; height: 100%; width: 100%;"></canvas>
@@ -236,19 +274,120 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
 
             <div class="fixed-height-card2" *ngIf="!isArrowDown">
-                <h2>GRAPH OF THOUGHTS
-                    <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Graph of Thoughts',type:'got'}); $event.stopPropagation()">info</mat-icon>
-                </h2>
-                <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">
-                    <div *ngIf="isLoadingGOT" class="spinner-container">
-                        <div class="spinner"></div>
+                <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
+                    <div>
+                        <label role='button' class="mainLabel cursor" style="display: flex;">
+                            REREAD REASONING  <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
+                                [inline]="true" (click)="openRightSideModal({title: 'ReRead Reasoning',type: 'rereadDescription'}); $event.stopPropagation()">info</mat-icon>
+                        </label>
                     </div>
+                    <div class="col-md-10 text-end " *ngIf="!isEmptyObject(rereadResponse)">
+                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{rereadResponse.rereadTimeTaken}}s</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">
+                    <div class="card-body" *ngIf="isEmptyObject(rereadResponse)">
+                        <p *ngIf="rereadShowErrorMessage" class="mainLabel mainLabelSM pt-3">
+                            API got failed. Please try again later. 
+                            <a class="text-decoration-underline" (click)="reread()">Click here to retry</a>
+                        </p>
+                       <div *ngIf="rereadloading" class="spinner-container">
+                           <div class="spinner"></div>
+                        </div>
+                    </div>
+                    <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="rereadResponse?.rereadResult"></p>
+                    <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="rereadResponse?.rereadExplanation"></p>
+                    <div class="mt-1" id="metricsTable" *ngIf="uncertaintyResult!">
+                        <table style="border-collapse: collapse; width: 100%;">
+                            <tr>
+                                <th style="padding: 8px;">Metric</th>
+                                <th style="padding: 8px;">Level</th>
+                                <th>Score</th>
+                                <th style="padding: 8px;">Explanation</th>
+                                <th style="padding: 8px;">Recommendation</th>
+                            </tr>
+                            <tr *ngFor="let metric of metrics">
+                                <td style="padding: 8px;">{{metric.charAt(0).toUpperCase() + metric.slice(1)}}</td>
+                                <td style="padding: 8px;">{{metric === 'uncertainty' ? uncertaintyResult[metric].uncertainty_level : uncertaintyResult[metric].coherence_level}}</td>
+                                <td style="padding: 8px;">{{uncertaintyResult[metric]?.score}}</td>
+                                <td style="padding: 8px; vertical-align: top;">{{uncertaintyResult[metric]?.explanation}}</td>
+                                <td style="padding: 8px; vertical-align: top;">{{uncertaintyResult[metric]?.recommendation}}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="fixed-height-card2" *ngIf="!isArrowDown">
+                <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
+                    <div>
+                        <label role='button' class="mainLabel cursor" style="display: flex;">
+                            LOGIC OF THOUGHT  <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
+                                [inline]="true" (click)="openRightSideModal({title: 'Logic Of Thought',type: 'lotDescription'}); $event.stopPropagation()">info</mat-icon>
+                        </label></div>
+                    <div class="col-md-10 text-end " *ngIf="!isEmptyObject(lotResponse)">
+                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{lotResponse?.lotTimeTaken}}s</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">
+                    <div class="card-body" *ngIf="isEmptyObject(lotResponse)">
+                        <p *ngIf="lotShowErrorMessage" class="mainLabel mainLabelSM pt-3">
+                            API got failed. Please try again later. <a class="text-decoration-underline" (click)="logicOfThoughts()">Click here to retry</a>
+                        </p>
+                        <div *ngIf="lotloading" class="spinner-container">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>
+
+                    <div class="card-body" *ngIf="!isEmptyObject(lotResponse)">
+                        <p class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Explanation: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExplanation"></span></p>
+                            <p *ngIf="lotResponse?.lotPropositions" class="mainLabel mainLabelSM ms-0 mb-2 me-2 mt-3">Propositions:</p>
+                            <ul>
+                                <li *ngFor="let key of objectKeys(lotResponse.lotPropositions)"  class="mainLabel mainLabelSM ms-0 mb-2 me-2 mt-2">
+                                    <strong class="mainLabelLight ms-1">{{ key }}:</strong> <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotPropositions[key]"></span>
+                                  </li>
+                            </ul>
+                        <p *ngIf="lotResponse?.lotExpression" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Logical Expression: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExpression"></span></p>
+                        <p *ngIf="lotResponse?.lotExtendExplanation" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Extended Logical Expression: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExtendExplanation"></span></p>
+                        <p *ngIf="lotResponse?.lotReasoningLaw" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Law used to extend the logical expression: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotReasoningLaw"></span></p>
+                        <p *ngIf="lotResponse?.lotExtendInfo" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Extended Logical Information: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExtendInfo"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fixed-height-card2" *ngIf="!isArrowDown">
+                <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
+                    <div>
+                        <label role='button' class="mainLabel cursor" style="display: flex;">
+                            GRAPH OF THOUGHTS <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
+                                [inline]="true"
+                                (click)="openRightSideModal({title:'Graph of Thoughts',type:'got'}); $event.stopPropagation()">info</mat-icon>
+                        </label></div>
+                    <div class="col-md-10 text-end " *ngIf="!isEmptyObject(apiResult)">
+                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{apiResult.time_taken}}s</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">
+                    <div class="card-body" *ngIf="isEmptyObject(apiResult)">
+                        <p *ngIf="gotShowErrorMessage" class="mainLabel mainLabelSM pt-3">
+                            API got failed. Please try again later. 
+                            <a class="text-decoration-underline" (click)="GOT()">Click here to retry</a>
+                        </p>
+                        <div *ngIf="isLoadingGOT" class="spinner-container">
+                            <div class="spinner"></div>
+                        </div>
+                    </div>    
                     <div *ngIf="apiResult !== null" style="display:flex">
-                        <p class="mainLabel mainLabelSM ml-0 mb-2 mr-5 mt-3"> Cost Incurred: <span class="mainLabelLight ml-1" [innerHTML]="apiResult.cost_incurred"></span></p>
-                        <p class="mainLabel mainLabelSM ml-0 mb-2 mr-5 mt-3"> Consistency Level: <span class="mainLabelLight ml-1" [innerHTML]="apiResult.consistency_level"></span></p>
-                        <p class="mainLabel mainLabelSM ml-0 mb-4 mt-3"> Consistency Score:</p>
+                        <p class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Cost Incurred: <span class="mainLabelLight ms-1" [innerHTML]="apiResult.token_cost"></span></p>
+                        <p class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Consistency Level: <span class="mainLabelLight ms-1" [innerHTML]="apiResult.consistency_level"></span></p>
+                        <p class="mainLabel mainLabelSM ms-0 mb-4 mt-3"> Consistency Score:</p>
                         <div class="score-meter-container mt-3">
-                            <div class="score-meter mb-4 ml-3">
+                            <div class="score-meter mb-4 ms-3">
                                 <div class="score-pointer" [style.left.%]="apiResult.score">
                                     <span class="score-text">{{ apiResult.score | number:'1.2-2' }}</span>
                                 </div>
@@ -311,7 +450,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
         </div>
         <div class="fixed-height-card2">
-            <h2>EXPLANATION</h2>
+            <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
+                <div>
+                    <label role='button' class="mainLabel cursor" style="display: flex;">
+                        EXPLANATION
+                    </label>
+                </div>
+                <div class="col-md-10 text-end ">
+                    <p class="mainLabel mainLabelSM ">Time Taken: <span>{{THOTRAGTime}}s</span>
+                    </p>
+                </div>
+            </div>
+
+
+            <h2></h2>
             <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">
                 <div *ngIf="isLoadingTHOTRAG" class="spinner-container">
                     <div class="spinner"></div>
@@ -323,9 +475,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
         </div>
         <div class="fixed-height-card2">
-            <h2>VERIFICATION
-                <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'LLM Verification',type:'llmVerification'}); $event.stopPropagation()">info</mat-icon>
-            </h2>
+            <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
+                <div>
+                    <label role='button' class="mainLabel cursor" style="display: flex;">
+                        VERIFICATION <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
+                            [inline]="true"
+                            (click)="openRightSideModal({title:'LLM Verification',type:'llmVerification'}); $event.stopPropagation()">info</mat-icon>
+                    </label>
+                </div>
+                <div class="col-md-10 text-end ">
+                    <p class="mainLabel mainLabelSM ">Time Taken: <span>{{COVRAGTime}}s</span>
+                    </p>
+                </div>
+            </div>
             <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">
                 <div *ngIf="isLoadingCOVRAG" class="spinner-container">
                     <div class="spinner"></div>

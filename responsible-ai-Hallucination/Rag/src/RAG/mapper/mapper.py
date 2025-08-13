@@ -1,4 +1,6 @@
 """
+SPDX-License-Identifier: MIT
+
 Copyright 2024 - 2025 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -21,10 +23,12 @@ class gevalRequest(BaseModel):
     text: str = Field(example="How many moons do earth have?")
     response: str = Field(example="Earth have only one moon")
     sourcetext: str= Field(example="source")
+    llmtype: str = Field(example="openai")
 
 class defaultRetrievalRequest(BaseModel):
     fileupload:bool = Field(example=True)
     text: str = Field(example="Total area of India")
+    llmtype: str = Field(example="openai")
     vectorestoreid :Optional[str] = Field(example="764r876634874")
     
 class covRequest(BaseModel):
@@ -32,15 +36,11 @@ class covRequest(BaseModel):
     text: str = Field(example="Total area of India")
     vectorestoreid :Optional[str] = Field(example="764r876634874")
     complexity : str = Field(enum=["simple", "medium", "complex"])
-
-class thotRequest(BaseModel):
-    fileupload:bool = Field(example=True)
-    text: str = Field(example="Total area of India")
-    vectorestoreid :Optional[str] = Field(example="764r876634874")
-    complexity : str = Field(enum=["simple", "medium", "complex"])    
+    llmtype: str = Field(example="openai")   
     
 class cachingRequest(BaseModel):
-    blobname: List[str] = Field(example=["fileabc-qweresxbwusx.pdf"])
+    vectorestoreid: str = Field(example="764r876634874")
+    llmtype: str = Field(example="openai")
 
 class removecachingRequest(BaseModel):
     id: int = Field(example="34545645645645")

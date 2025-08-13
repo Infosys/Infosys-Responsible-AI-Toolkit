@@ -1,0 +1,552 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+
+<form #form="ngForm" class="pt-2">
+    <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+    <div *ngFor="let option of accordianheading; let i = index" class="pb-2">
+        <mat-accordion>
+            <mat-expansion-panel class="expandInput" [expanded]="i === 0 || i === 1">
+                <mat-expansion-panel-header>
+                    <mat-panel-title style="color: #382261;"> {{option}} </mat-panel-title>
+                </mat-expansion-panel-header>
+               
+                <!-- panel: ATTACK CONFIGURATION -->
+                <div *ngIf="option == 'ATTACK CONFIGURATION'" class="panelBorder">
+                    <div class="d-flex mt-2">
+                        <div class="w-125">
+                            <label style="color: #4D4D4D; font-size:13px;">OBJECTIVE FILE</label>
+                        </div>
+                        <div class="w-875 d-flex align-items-center">
+                            <label style="color: #4D4D4D; font-size:12px; margin-right: 10px;">AVAILABLE</label>
+                            <span class="switch">
+                                <input class="form-check-input" id="objectivefileavailable" type="checkbox"
+                                    name="objectivefileavailable" [(ngModel)]="isCheckedObjectiveFile"
+                                    (ngModelChange)="checkObjectiveFileAvailable()" />
+                                <label for="objectivefileavailable"></label>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mt-2" *ngIf="objectiveFileAvailable">
+                        <div class="w-125">
+                        </div>
+                        <div class="w-875 upload-button-section">
+                            <div class="d-flex" style="gap: 8px;">
+                                <input type="file" id="uploadFile" name="uploadFile" class="uploadButton"
+                                    (change)="onFileChange($event)" (change)="fileBrowseHandler($event)" />
+                                <label for="uploadFile">Upload</label>
+        
+                                <div *ngFor="let file of files; let i = index">
+                                    <div class="file-upload mt-2">
+                                        <div class="d-flex align-items-center mt-1"
+                                            style="width: 500%; justify-content: space-between;">
+                                            <mat-progress-bar class="me-1" mode="determinate" [value]="file?.progress"
+                                                style="flex-grow: 1;"></mat-progress-bar>
+                                            <button class="cancel-button me-2" (click)="deleteFile(i)">
+                                                <mat-icon>close</mat-icon>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex;">
+                                <div class="mt-3 ms-2">
+                                    <img src={{sampleImgXLSX}} matTooltip="Red Teaming Objective" class="custom_image"
+                                        (click)="uploadSampleXlsxFile('sampleFileRedTeaming')"
+                                        (contextmenu)="downloadFile(sampleFileRedTeaming, $event)">
+                                </div>
+                                <div class="mt-5 ms-2">
+                                    <p class="HeadingLabel2">*right click to download sample file</p>
+                                </div>
+                            </div>
+                            <div *ngFor="let file of files; let i = index">
+                                <div class="file-upload mt-2 w-50">
+                                    <p style="margin: 0px; font-size: x-small;">{{ file?.name }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex w-100 mt-2" *ngIf="!objectiveFileAvailable">
+                        <div class="w-50">
+                            <div class="d-flex">
+                                <div class="w-25">
+                                    <label style="color: #4D4D4D; font-size:13px; margin-top: 5px;">OBJECTIVE</label>
+                                </div>
+                                <div class="w-75">
+                                    <div class="position-relative" style="width: 95%;">
+                                        <textarea name="objective" class="form-control shadow-none" rows="3"
+                                            #objective="ngModel" [(ngModel)]="attackobjective"></textarea>
+                                        <button type="button" class="border-0 position-absolute resetIcon" style="right: 0; top: 0;">
+                                            <i (click)="resetObjective()" class="material-icons" matTooltip="Reset">autorenew</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="w-50">
+                            <div class="d-flex">
+                                <div class="w-25 text-end pe-4">
+                                    <label style="color: #4D4D4D; font-size:13px">OPENING STATEMENT</label>
+                                </div>
+                                <div class="w-75">
+                                    <div class="position-relative">
+                                        <textarea name="target_str" class="form-control shadow-none" rows="3"
+                                            #target_str="ngModel" [(ngModel)]="attackstartingresponse"></textarea>
+                                        <button type="button" class="border-0 position-absolute resetIcon" style="right: 0; top: 0;">
+                                            <i (click)="resettargetresponse()" class="material-icons" matTooltip="Reset">autorenew</i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div  class="d-flex" *ngIf="!objectiveFileAvailable">
+                        <div class="w-125">
+                        </div>
+                        <div class="w-875" style="display: flex; flex-wrap: nowrap;margin-top:10px;white-space: nowrap">
+                            <div *ngFor="let btn of displayedKeys">
+                                <button type="button" class="pill-button" [class.active]="selectedButton === btn"
+                                    (click)="showRecommand(btn); selectedButton = btn">{{btn}}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex my-3" *ngIf="pairMode">
+                        <div class="w-50 d-flex align-items-center">
+                            <div class="w-25">
+                                <label style="color: #4D4D4D; font-size:13px; white-space: nowrap;">RETRY LIMIT</label>
+                            </div>
+                            <div class="w-75">
+                                <input name="iterations" class="form-control shadow-none" type="text"
+                                    style="width: 95%; font-size: 12px;" [(ngModel)]="attackiteration" />
+                            </div>
+                        </div>
+                        <div class="w-50">
+                        </div>
+                    </div>
+
+                    <div class="d-flex mt-2" *ngIf="tapMode">
+                        <div class="w-125">
+                            <label style="color: #4D4D4D; font-size:13px; white-space: nowrap; margin-top: 5px;">DEPTH</label>
+                        </div>
+                        <div class="w-875">
+                            <input name="tapredteamingdepth" class="form-control shadow-none" type="text"
+                                style="font-size: 12px;" [(ngModel)]="tapdepth" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex my-2" *ngIf="tapMode">
+                        <div class="w-50 d-flex align-items-center">
+                            <div class="w-25">
+                                <label style="color: #4D4D4D; font-size:13px;">BRANCHING FACTOR</label>
+                            </div>
+                            <div class="w-75">
+                                <input class="form-control shadow-none" type="text" name="tapbranchingfactor"
+                                    style="font-size: 12px; width: 95%;" [(ngModel)]="branchingfactor" [disabled]="true" />
+                            </div>
+                        </div>
+                        <div class="w-50 d-flex align-items-center">
+                            <div class="w-25 text-end pe-4">
+                                <label style="color: #4D4D4D; font-size:13px;">WIDTH</label>
+                            </div>
+                            <div class="w-75">
+                                <input class="form-control shadow-none" type="text" name="tapredteamingwidth"
+                                    style="font-size: 12px;" [(ngModel)]="tapwidth" [disabled]="true" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3 text-end" *ngIf="!objectiveFileAvailable">
+                        <button mat-raised-button  class="black-button" (click)="onSubmit()" 
+                            color="black" style="color:white;background-color: black;">Submit</button>
+                    </div>
+
+                    <div class="mb-3 text-end" *ngIf="objectiveFileAvailable">
+                        <!-- <button mat-raised-button class="buttonMain" style="margin-right: 1rem;" color="reset">Reset</button> -->
+                        <button mat-raised-button class="black-button" color="black" (click)="onSubmit()" [disabled]="showSpinner1" style="color:white;background-color: black;">
+                            <div class="spinner-border text-light" style="font-size: 10px;width: 15px;height: 15px;"
+                                role="status" *ngIf="showSpinner1"><span class="sr-only">Loading...</span>
+                            </div>
+                            <span *ngIf="!showSpinner1">Submit</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- option: TARGET MODEL -->
+                <div *ngIf="option == 'TARGET MODEL'" class="panelBorder">
+                    <div class="d-flex mt-2">
+                        <div class="w-125">
+                            <label style="color: #4D4D4D; font-size:13px;">MODEL END POINT</label>
+                        </div>
+                        <div class="w-875 d-flex align-items-center">
+                            <label style="color: #4D4D4D; font-size:12px; margin-right: 10px;">AVAILABLE</label>
+                            <span class="switch">
+                                <input class="form-check-input" id="modelendpointavailable" type="checkbox"
+                                    name="modelendpointavailable" [(ngModel)]="isChecked"
+                                    (ngModelChange)="checkendpointavailable()" />
+                                <label for="modelendpointavailable"></label>
+                            </span>
+                            
+                            <!-- <label style="color: #4D4D4D; font-size:12px; margin-right: 10px;margin-left: 50px;">GUARDRAIL
+                                CHECK</label>
+                            <span class="switch" style="margin-left: 23px;">
+                                <input class="form-check-input" id="guardrailcheckavailable" type="checkbox"
+                                    name="guardrailcheckavailable" [(ngModel)]="isCheckedGuardrail"
+                                    (ngModelChange)="checkGuardrailEnabalitity()" />
+                                <label for="guardrailcheckavailable"></label>
+                            </span> -->
+                        </div>                
+                    </div>
+
+                    <div class="d-flex mt-2" *ngIf="modelendpointavailable">
+                        <div class="w-125">
+                            <label style="color: #4D4D4D; font-size:13px; white-space: nowrap;">END POINT URL</label>
+                        </div>
+                        <div class="w-875 position-relative">
+                            <textarea name="modelendpointurl" class="form-control txtArea2 shadow-none" rows="3"
+                                #modelendpointurl="ngModel" [(ngModel)]="targetendpointurl"></textarea>
+                            <button type="button" class="border-0 position-absolute resetIcon" style="right: 0; top: 0;">
+                                <i (click)="resettargetendpointurl()" class="material-icons"
+                                    matTooltip="Reset">autorenew</i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mt-2"*ngIf="modelendpointavailable">
+                        <div class="w-125">
+                            <label style="color: #4D4D4D; font-size:13px;">HEADERS</label>
+                        </div>
+                        <div class="w-875 position-relative">
+                            <textarea class="form-control txtArea shadow-none" rows="3"
+                                name="headers" [(ngModel)]="targetheaders" #headers="ngModel"></textarea>
+                            <button type="button" class="border-0 position-absolute resetIcon" style="right: 0; top: 0;">
+                                <i (click)="resetheaders()" class="material-icons" matTooltip="Reset">autorenew</i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="d-flex mt-2"*ngIf="modelendpointavailable">
+                        <div class="w-125">
+                            <label style="color: #4D4D4D; font-size: 13px;">PAYLOAD</label>
+                        </div>
+                        <div class="w-875">
+                            <form [formGroup]="Form">
+                                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                                <div formArrayName="payloadList">
+                                    <div *ngFor="let data of payloadList.controls; let i = index" [formGroupName]="i">
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div style="flex: 1;">
+                                                <input formControlName="key" class="form-control shadow-none"
+                                                    style="font-size: 12px; font-family: 'Segoe UI';">
+                                            </div>
+                                            <div class="d-flex align-items-center" style="flex: 1;">
+                                                <span style="margin-right: 10px;margin-left:5px;">:</span>  
+                                                <input formControlName="value" class="form-control shadow-none"
+                                                    style="font-size: 12px; font-family: 'Segoe UI';">
+                                            </div>
+                                            <div class="d-flex">
+                                                <mat-icon (click)="removePayload(i)"
+                                                    style="cursor: pointer; scale: 0.7">clear</mat-icon>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <mat-icon (click)="addPayload()" style="cursor: pointer; scale: 0.7">add</mat-icon>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center flex-wrap my-3" *ngIf="modelendpointavailable">
+                        <div class="w-125 d-flex align-items-center" style="flex: 1;">
+                            <label style="color: #4D4D4D; font-size: 13px; white-space: nowrap; flex-grow: 1;">
+                                PROMPT VARIABLE
+                            </label>
+                            <mat-icon matTooltip="{{promptvariablemattooltip}}"
+                                style="color: #727272; cursor: pointer; scale: 0.7; flex-shrink: 0;">
+                                info
+                            </mat-icon>
+                        </div>
+                        <div class="w-875">
+                            <input name="targetendpointvariable" class="form-control shadow-none" type="text"
+                                style="font-size: 12px;" [(ngModel)]="targetpromptvariable" />
+                        </div>
+                    </div>
+            
+                    <div class="d-flex mt-2"*ngIf="!modelendpointavailable">
+                        <div class="w-50 d-flex align-items-center">
+                            <div class="w-25">
+                                <label style="color: #4D4D4D; font-size:13px;">MODEL</label>
+                            </div>
+                            <div class="w-75">
+                                <select class="form-select shadow-none" style="font-size: 12px; width: 95%;" name="selectedTargetLlmModel"
+                                    [(ngModel)]="selectedTargetLlmModel">
+                                    <option value="" disabled selected>Select Model</option>
+                                    <option *ngFor="let model of Models" [value]="model.value">{{model.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="w-50 d-flex align-items-center">
+                            <div class="w-25 text-end pe-4">
+                                <label style="color: #4D4D4D; font-size:13px;white-space: nowrap;">MAX TOKEN</label>
+                            </div>
+                            <div class="w-75">
+                                <input class="form-control shadow-none" type="text" name="targetmax_token"
+                                    style="font-size: 12px;" [(ngModel)]="maxtoken" />
+                            </div>
+                        </div>
+                    </div>
+            
+                    <div class="d-flex my-2" *ngIf="!modelendpointavailable">
+                        <div class="w-125 d-flex align-items-center">
+                            <label style="color: #4D4D4D; font-size:13px; white-space: nowrap;">TEMPERATURE</label>
+                        </div>
+                        <div class="w-875 d-flex align-items-center">
+                            <input type="range" min="0" max="10" name="temp" [(ngModel)]="tempValue"
+                                style="width: 35%; margin-right: 10px;"/>
+                            <input type="text" class="form-control shadow-none tempInputBox"
+                                [value]="(tempValue / 10).toFixed(1)" readonly />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- option: ATTACK MODEL -->
+                <div *ngIf="option == 'ATTACK MODEL'" class="panelBorder">
+                    <div class=" d-flex my-3">
+                        <div class="d-flex align-items-center w-50">
+                            <div class="w-25">
+                                <label style="color: #4D4D4D; font-size:13px;">MODEL</label>
+                            </div>
+                            <div class="w-75">
+                                <select class="form-select shadow-none" style="width: 95%; font-size: 12px;"
+                                    name="selectedAttackLlmModel" [(ngModel)]="selectedAttackLlmModel" [disabled]="true">
+                                    <option *ngFor="let model of Models" [value]="model.value">{{model.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center w-50">
+                            <div class="w-25 text-end pe-4">
+                                <label style="color: #4D4D4D; font-size:13px; white-space: nowrap;">MAX TOKEN</label>
+                            </div>
+                            <div class="w-75">
+                                <input class="form-control shadow-none" type="text" name="attackMaxToken"
+                                    style="font-size: 12px;" [(ngModel)]="attackModelMaxToken" [disabled]="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- option: JUDGE MODEL -->
+                <div *ngIf="option == 'JUDGE MODEL'" class="panelBorder">
+                    <div class="d-flex my-3">
+                        <div class="d-flex align-items-center w-50">
+                            <div class="w-25">
+                                <label style="color: #4D4D4D; font-size:13px; margin-top: 5px;">MODEL</label>
+                            </div>
+                            <div class="w-75">
+                                <select class="form-select shadow-none" style="width: 95%; font-size: 12px;"
+                                    name="selectedJudgeLlmModel" [(ngModel)]="selectedJudgeLlmModel" [disabled]="true">
+                                    <option *ngFor="let model of Models" [value]="model.value">{{model.name}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center w-50">
+                            <div class="w-25 text-end pe-4">
+                                <label style="color: #4D4D4D; font-size:13px; white-space: nowrap;">MAX TOKEN</label>
+                            </div>
+                            <div class="w-75">
+                                <input class="form-control shadow-none" type="text" name="judgeMaxToken"
+                                    style="font-size: 12px;" [(ngModel)]="judgeModelMaxToken"
+                                    [disabled]="true" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</form>
+
+<!-- output -->
+<div id="outputSection" class="d-flex flex-column" *ngIf="shimmerLoader">
+    <ngx-skeleton-loader count="1" appearance="line"
+        [theme]="{ 'margin-top':'12px','border-radius': '6px','margin-left':'18px', width: '98%', height: '18px'}" />
+    <ngx-skeleton-loader count="1" appearance="line"
+        [theme]="{ 'margin-top':'2px','border-radius': '6px','margin-left':'18px', width: '98%', height: '20px'}" />
+    <ngx-skeleton-loader count="1" appearance="line"
+        [theme]="{ 'margin-top':'2px','border-radius': '10px','margin-left':'18px', width: '98%', height: '270px'}" />
+    <ngx-skeleton-loader count="1" appearance="line"
+        [theme]="{ 'margin-top':'10px','border-radius': '6px','margin-left':'18px', width: '98%', height: '20px'}" />
+    <ngx-skeleton-loader count="1" appearance="line"
+        [theme]="{ 'margin-top':'5px','border-radius': '10px','margin-left':'18px', width: '98%', height: modelendpointavailable ? '836px' : '397px'}" />
+</div>
+
+<div class="mt-3 mainContainer" *ngIf="targetLoader">
+    <div class="d-flex justify-content-between px-4 py-2">
+        <label class="py-2 mainLabel">OUTPUT</label>
+        <mat-checkbox [(ngModel)]="moderationCheck" (click)="checksModeration($event)" color="primary"
+            [disabled]="isCheckedObjectiveFile">{{'Enable Moderation' | uppercase}}</mat-checkbox>
+    </div>
+    <div class="d-flex p-4 pt-0">
+        <!-- prompt label section -->
+        <div style="width: 10%;">
+            <!-- <div class="tabs" *ngFor="let len of judgellmscores; let i = index">
+                <div (click)="selectTab(i+1)" [class.active]="selectedTab === (i+1)">
+                    Prompt {{i+1}}
+                </div>
+            </div> -->
+            <div class="tabs-carousel">
+                <div class="carousel-container">
+                    <div class="d-flex tabs carousel-item" *ngFor="let len of judgellmscores; let i = index">
+                        <div (click)="selectTab(i+1)" [class.active]="selectedTab === (i+1)">
+                            Prompt {{i+1}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- prompt and response section -->
+        <div class="d-flex" style="width: 90%;">
+            <div class="card w-50 me-1">
+                <div class="card-header fw-normal">{{'AUTO GENERATED PROMPT' | titlecase}}</div>
+                <div class="card-body">{{autogeneratedprompts[selectedTab-1]}}</div>
+            </div>
+
+            <div class="card w-50 ms-1">
+                <div class="card-header d-flex justify-content-between">
+                    <label class="fw-normal">{{'RESPONSE' | titlecase}}</label>
+                    <div class="d-flex align-items-center">
+                        <label>{{'JUDGE SCORE' | titlecase}}</label>
+                        <mat-icon style="scale: 0.7" matTooltip="{{judgescoremattooltip}}" [ngStyle]="{'color': getBackgroundColor(judgellmscores[selectedTab-1])}">info</mat-icon>
+                        : &nbsp;<span>{{judgellmscores[selectedTab-1]}}</span>
+                    </div>
+                </div>
+                <div class="card-body">{{targetllmresponse[selectedTab-1]}}</div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- moderation -->
+    <div [ngClass]="{ 'd-none': !moderationCheck }">
+        <div class="d-flex px-4 py-0">
+            <div style="width: 10%;"></div>
+            <div  style="width: 90%;" class="d-flex mt-4 mb-3">
+                <p class="HeadingLabel" role="button" [ngClass]="{ 'activeTab': activeTab === 'Request Moderation' }"
+                    (click)="changeTab('Request Moderation')">Request Moderation</p>
+                <p class="HeadingLabel" role="button" [ngClass]="{ 'activeTab': activeTab === 'Response Moderation' }"
+                    (click)="changeTab('Response Moderation')">Response Moderation</p>
+                <p class="HeadingLabel" role="button" [ngClass]="{ 'activeTab': activeTab === 'Response Comparison' }"
+                    (click)="changeTab('Response Comparison')">Response Comparison</p>
+            </div>
+        </div>
+
+        <div class="d-flex p-4 pt-0" *ngIf="promptLoader" [ngClass]="{ 'd-none': !moderationCheck }">
+            <div style="width: 10%;"></div>
+            <div  style="width: 90%;">
+                <ngx-skeleton-loader count="1" appearance="line"
+                    [theme]="{ 'margin-top':'12px','border-radius': '6px','margin-left':'18px', width: '98%', height: '18px'}" />
+                <ngx-skeleton-loader count="1" appearance="line"
+                    [theme]="{ 'margin-top':'2px','border-radius': '6px','margin-left':'18px', width: '98%', height: '20px'}" />
+                <ngx-skeleton-loader count="1" appearance="line"
+                    [theme]="{ 'margin-top':'2px','border-radius': '10px','margin-left':'18px', width: '98%', height: '270px'}" />
+            </div>
+        </div>
+        <div class="d-flex p-4 pt-0" *ngIf="!promptLoader">
+            <div style="width: 10%;"></div>
+            <div  style="width: 90%;">
+                <div [hidden]="activeTab !== 'Request Moderation'">
+                    <app-request-moderation 
+                        [requestTime]="fmTimeApiResult.requestModeration" 
+                        [openAITime]="fmTimeApiResult.OpenAIInteractionTime" 
+                        [nemoChecksApiResponses]="nemoChecksApiResponses" 
+                        [contentDetectorState]="contentDetectorState" 
+                        [prompt]="autogeneratedprompts[selectedTab-1]" 
+                        [modelName]="selectedLlmModel"
+                        [llmEvalPayload]="llmEvalPayload" 
+                        [templateBasedPayload]="templateBasedPayload" 
+                        [requestModerationTemplates]="requestModerationTemplates" 
+                        [privAnzOutput]="" 
+                        [analyze]="" 
+                        [fairness_response]="" 
+                        [imagePromptInjection]=""
+                        [imageJailbreak]="" 
+                        [imageRestrictedTopic]="" 
+                        [coupledModeration]="coupledModerationCheck" 
+                        [hallucinationSwitchCheck]="hallucinationSwitchCheck">
+                    </app-request-moderation>
+                </div>
+                <div [hidden]="activeTab !== 'Response Moderation'">
+                    <app-response-moderation *ngIf="!hallucinationSwitchCheck" 
+                        [responseTime]="fmTimeApiResult.responseModeration" 
+                        [openAITime]="fmTimeApiResult.OpenAIInteractionTime" 
+                        [nemoModerationRailRes]="nemoModerationRailRes" 
+                        [openAIRes]="openAIRes" 
+                        [llmEvalPayload]="llmEvalPayload"
+                        [responseModerationTemplates]="responseModerationTemplates" 
+                        [templateBasedPayload]="templateBasedPayload" 
+                        [selectedUseCaseName]="selectedUseCaseName" 
+                        [setLoadTemplateResMod]="setLoadTemplateResMod" 
+                        [summaryStatus]="coupledModerationRes?.moderationResults?.requestModeration?.summary?.status"
+                        [hallucinationSwitchCheck]="hallucinationSwitchCheck">
+                    </app-response-moderation>
+                </div>
+                <div [hidden]="activeTab !== 'Response Comparison'">
+                    <app-response-comparison 
+                        [openAIRes]="openAIRes" 
+                        [cotState]="cotState" 
+                        [fmRes]="coupledModerationRes" 
+                        [nemoModerationRailRes]="nemoModerationRailRes" 
+                        [covState]="covState" 
+                        [prompt]="autogeneratedprompts[selectedTab-1]" 
+                        [tokenImpState]="tokenImpState" 
+                        [gotState]="gotState" 
+                        [hallucinationSwitchCheck]="hallucinationSwitchCheck"
+                        [thotState]="thotState" 
+                        [gEvalres]="gEvalres" 
+                        [hallucinateRetrievalKeplerRes]="hallucinateRetrievalKeplerRes" 
+                        [serperResponseState]="serperResponseState" 
+                        [selectedUseCaseName]="selectedUseCaseName" 
+                        [llmExplainState]="llmExplainState"
+                        [submitFlag]="submitFlag" 
+                        [selectedTranslate]="selectedTranslate" 
+                        [UploadedFile]="UploadedFile" 
+                        [vectorId]="vectorId" 
+                        [MMImageResponse]="" 
+                        [faithfulnessScore]=""
+                        [relevanceScore]="" 
+                        [adhernceScore]="" 
+                        [correctnessScore]="" 
+                        [averageScore]="" 
+                        [faithfulness]="" 
+                        [relevance]="" 
+                        [adhernce]="" 
+                        [correctness]=""
+                        [isLoadingMMImage]="false" 
+                        [MMImageTHOT]="" 
+                        [MMImageCOV]="" 
+                        [MMImageCOT]="" 
+                        [MMTimeTaken]="" 
+                        [MMImageHallucinationScore]="" 
+                        [enableSearch]="false">
+                    </app-response-comparison>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- tooltip -->
+<div class="text-container">
+    <p class="text-content">
+      {{pairredteamingmattooltip}}
+    </p>
+</div>

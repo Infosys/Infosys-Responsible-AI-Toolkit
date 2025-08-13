@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewChild,ElementRef  } from '@angular/core';
 import { MatOption } from '@angular/material/core';
@@ -70,7 +71,9 @@ export class StructuredTextModalComponent {
     MitigateDownload:'',
     inProcessGenerate:'',
     inProcessDwnld:'',
-    inProcessUpload:''
+    inProcessUpload:'',
+    decisiveAuditApi:'',
+    GenericAuditApi:''
   }
   givenTitle = '';
   KValue = 5;
@@ -98,6 +101,8 @@ export class StructuredTextModalComponent {
     this.getAllTenants();
     this.getAllPreprocessor();
   }
+
+  // Sets the API endpoints for the modal
   setApilist(ip_port: any) {
     this.apiEndpoints.security_applicableAttacks = ip_port.result.SecurityWrapper + ip_port.result.security_applicableAttack;
     this.apiEndpoints.getAllData = ip_port.result.Workbench + ip_port.result.Workbench_Data;
@@ -120,7 +125,12 @@ export class StructuredTextModalComponent {
     this.apiEndpoints.inProcessGenerate =  ip_port.result.Fairness + ip_port.result.inProcessGenerate;
     this.apiEndpoints.inProcessDwnld = ip_port.result.Fairness + ip_port.result.inProcessDwnld;
     this.apiEndpoints.inProcessUpload = ip_port.result.Fairness + ip_port.result.InProcessUpload;
+    this.apiEndpoints.decisiveAuditApi = ip_port.result.Fairness + ip_port.result.DecisiveAudit;
+    this.apiEndpoints.GenericAuditApi = ip_port.result.Fairness + ip_port.result.GenericAudit;
+    
   }
+
+   // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
     if (localStorage.getItem("res") != null) {
@@ -131,6 +141,7 @@ export class StructuredTextModalComponent {
     }
   }
 
+  // Fetches all available models
   getModels() {
     // this.showSpinner1 = true;
     const formData = new FormData;
@@ -144,6 +155,8 @@ export class StructuredTextModalComponent {
       this.handleError(error)
     })
   }
+
+  // Fetches all available data files
   getDataFiles() {
     const formData = new FormData;
     formData.append("userId", this.loggedin_userId)
@@ -154,6 +167,8 @@ export class StructuredTextModalComponent {
       this.handleError(error)
     })
   }
+
+  // Fetches all available preprocessors
   getAllPreprocessor() {
     const formData = new FormData;
     formData.append("userId", this.loggedin_userId)
@@ -165,11 +180,15 @@ export class StructuredTextModalComponent {
       }
     )
   }
+
+  // Fetches all tenants
   getAllTenants() {
     this.https.get(this.apiEndpoints.allTenantsApi).subscribe((res: any) => {
       this.allTenants = res;
     })
   }
+
+  // Fetches applicable attacks and methods based on the selected options
   applicableAttacksMethod() {
     const fdata = new FormData();
     fdata.append('TargetClassifier', this.selectedTargetClassifier)
@@ -206,9 +225,11 @@ export class StructuredTextModalComponent {
     if (this.currentScreen < 3 && this.tenantarr.length > 0) {
       if (this.currentScreen == 1) {
         this.applicableAttacksMethod();
-      } else if (this.currentScreen == 2 && this.tenantarr.includes("Fairness")) {
+      } else if (this.currentScreen == 2 && this.tenantarr.includes("Fairness") && this.fairnessType != 'audit') {
         console.log("FAIRNESS INCLUDES")
         this.fairSubmit();
+      } else if (this.currentScreen == 2 && (this.tenantarr.includes("Fairness") && this.fairnessType == 'audit')) {
+        this.onChange("audit");
       }
       this.currentScreen++;
     }
@@ -299,7 +320,7 @@ export class StructuredTextModalComponent {
     // { value: 'LEARNING FAIR REPRESENTATION', viewValue: 'LEARNING FAIR REPRESENTATION' }
   ]
   selectedMitigationTechnique: any = '';
-
+  public selectTypeAudit: any = '';
 
 
   handleError(error: any, customErrorMessage?: any) {
@@ -324,7 +345,7 @@ export class StructuredTextModalComponent {
 
 
 
-  // ------------FUNCTIONS------------SECURITY
+  // Toggles the selection of all security options
   toggleAllSelection1(event: any) {
     this.event1 = event;
     this.c1 = event.checked;
@@ -347,6 +368,7 @@ export class StructuredTextModalComponent {
       });
     }
   }
+  // Handles the selection of applicable security attacks
   selectApplicableAttackSecurity() {
     let newStatus = true;
     this.select2.options.forEach((item: MatOption) => {
@@ -360,7 +382,8 @@ export class StructuredTextModalComponent {
     });
     this.allSelectedInput = newStatus;
   }
-  // --------------FUNCTIONS------------EXPLAINABILITY
+   
+  // Toggles the selection of all explainability options
   toggleAllSelection2(event: any) {
     this.event2 = event;
     this.c2 = event.checked;
@@ -382,6 +405,8 @@ export class StructuredTextModalComponent {
       });
     }
   }
+
+  // Handles the selection of applicable explainability methods
   selectApplicableMethod() {
     let newStatus = true;
     this.select3.options.forEach((item: MatOption) => {
@@ -395,16 +420,22 @@ export class StructuredTextModalComponent {
     });
     this.allSelectedMethod = newStatus;
   }
+
   // --------------FUNCTIONS------------FAIRNESS
+  // Handles the selection of bias type
   onSelectBiasType(e: any) {
     this.selectedBiasTypeOption = e.value;
   }
+  // Handles the selection of task type
   onSelectTaskType(e: any) {
     this.selectedTaskTypeOption = e.value;
   }
+  // Handles the selection of method type
   onSelectMethodType(e: any) {
     this.selectoption1 = e.value;
   }
+
+  // Submits the fairness-related data for analysis or mitigation
   fairSubmit() {
     console.log(this.fairnessType, this.selectedTaskTypeOption, this.selectoption1)
     let fileData;
@@ -486,7 +517,8 @@ export class StructuredTextModalComponent {
   pAResult: any;
   ldata: any;
   listShowlistForFO = new Set();
-
+  categoricalAttribute:any;
+  categoricalAttrArray:any;
   protAttResult: any;
   protectedAttValue: any;
   selectedPAArray: any[] = [];
@@ -510,25 +542,29 @@ export class StructuredTextModalComponent {
 
   rows: any = [{ pa: '', priv: '', priviRes: [] }];
 
-  // -----------------FUNCTIONS----------------
+  // Handles the selection of a label
   optionClickFromLabel(e: any) {
     this.selectedLabel = e.value
     console.log(this.selectedLabel);
     console.log(this.resultLabel);
-    if (!(this.fairnessType == 'inprocessing')){
+    if (this.fairnessType == 'preprocessing' || this.fairnessType == 'postprocessing'){
       this.getLabel(this.selectedLabel);
     }
   }
 
-  
+   // Retrieves the unique values for the selected label
   getLabel(selectedLbl: any) {
     this.resultFO = this.result.CategoricalAttributesUniqueValues[selectedLbl]
     this.protectedResult = this.resultFO
   }
+
+  // Handles the selection of a predicted label
   optionClickPredLabel(e: any) {
     this.predLabel = e.value
     console.log("predLabel::",this.predLabel);
   }
+
+  // Handles the selection of a favorable outcome
   optionClickFromFO(e: any) {
     console.log("______________ SECOND")
     console.log(e.value)
@@ -549,6 +585,8 @@ export class StructuredTextModalComponent {
     //   element.style.display = 'none';
     // }
   }
+
+  // Retrieves the protected attributes for the selected label
   getProtectedAttribute() {
     const fo = this.selectedLabel
     let temp = this.result.AttributesInTheDataset.CategoricalAttributesList;
@@ -561,6 +599,8 @@ export class StructuredTextModalComponent {
     // this.ldata = this.labelValue
     // this.resultDummy = this.resultLabel
   }
+
+  // Handles the selection of a protected attribute
   optionClickFromPA(e: any, index: any) {
     // console.log(r,"_______________________________")
     this.selectedProtAtt = e.value
@@ -582,6 +622,7 @@ export class StructuredTextModalComponent {
     this.getPriviledged()
   }
 
+  // Retrieves the privileged groups for the selected protected attribute
   getPriviledged() {
     // this.privDrop = true
     const fo = this.selectedProtAtt
@@ -608,13 +649,15 @@ export class StructuredTextModalComponent {
   //   // this.finalSubmit = true
   //   // this.selectedPriv = ""
   // }
+
+  // Handles the selection of privileged groups
   optionClickFromPriv(event: MatSelectChange,index: any) {
     const selectedValues = event.value;
     console.log("PRIV LIST::", selectedValues);
     this.rows[index].priv = selectedValues;
     }
 
-
+// Adds a new row for protected attributes and privileged groups
   addRow() {
     this.rows.push({ pa: '', priv: '', priviRes: [] });
     console.log(this.rows)
@@ -632,6 +675,8 @@ export class StructuredTextModalComponent {
     //  element.style.display = 'none';
     //}
   }
+
+  // Handles the selection of a model
   async selectModelMethod(optionValue: any) {
     console.log(optionValue.value)
     let filteredModels = this.allModels.filter((r: any) => r.modelId == optionValue.value);
@@ -641,6 +686,8 @@ export class StructuredTextModalComponent {
     this.selectedModelDataTypeValue = optionValue.targetDataType;
     this.selectedModelFileId = optionValue.modelId;
   }
+
+  // Handles the selection of a vector
   selectVectorMethod(vectorValue: any) {
     console.log("vectorValue", vectorValue.value)
     this.selectedVectorId = vectorValue.value;
@@ -696,8 +743,8 @@ export class StructuredTextModalComponent {
       payload.favorableOutcome = this.selectedFO ? this.selectedFO : "";
       // payload.protectedAttribute = JSON.stringify(protectedAttributesArr)
       // payload.privilegedGroup = JSON.stringify(privilegedGroupArr);
-       payload.protectedAttribute = protectedAttributesArr;
-      payload.privilegedGroup = this.fairnessType == 'inprocessing' ? [[""]]: privilegedGroupArr;
+       payload.protectedAttribute =  this.fairnessType =='audit'? this.categoricalAttribute : protectedAttributesArr;
+      payload.privilegedGroup = ( this.fairnessType == 'inprocessing' || this.fairnessType == 'audit') ? [[""]]: privilegedGroupArr;
       payload.mitigationType = this.fairnessType.toUpperCase();
       payload.mitigationTechnique = this.selectedMitigationTechnique;
       payload.knn = this.KValue;
@@ -705,6 +752,9 @@ export class StructuredTextModalComponent {
       payload.favourableLabel = this.favorableLabel;
       payload.sensitiveFeatures = this.senValues;
       // payload.methodType = ALL,
+      if(this.fairnessType =='audit'){
+        payload.methodType = this.selectTypeAudit;
+      }
     }
     if (this.selectedVectorId != 0) {
       payload.preProcessorId = this.selectedVectorId;
@@ -717,12 +767,16 @@ export class StructuredTextModalComponent {
         horizontalPosition: 'center',
         panelClass: ['le-u-bg-black'],
       });
+
+     
       this.closeDialog()
     }, error => {
       this.handleError(error)
     })
 
   }
+
+  // Calls the batch generation API for fairness
   callBatchGenerationFairness(batchId: any) {
     this.structuredTextService.api(this.apiEndpoints.inProcessGenerate,{Batch_id:batchId}).subscribe({
           next: (data: any) => {
@@ -743,7 +797,7 @@ export class StructuredTextModalComponent {
           this.handleError(error)
         }
       })
-           // this.https.get(this.apiEndpoints.inProcessDwnld).subscribe(())
+           // this.http.get(this.apiEndpoints.inProcessDwnld).subscribe(())
     // if (this.selectTypeFairness == 'ANALYZE') {
     //   this.structuredTextService.api(this.apiEndpoints.GenAnalyze,{Batch_id:batchId}).subscribe({
     //     next: (data: any) => {
@@ -757,7 +811,7 @@ export class StructuredTextModalComponent {
     //     next: (data: any) => {
     //       console.log(data);
     //      const mitigatedFile = data[1]!;
-    //      this.https.get(this.apiEndpoints.MitigateDownload + mitigatedFile, { responseType: 'text' }).subscribe
+    //      this.http.get(this.apiEndpoints.MitigateDownload + mitigatedFile, { responseType: 'text' }).subscribe
     //         ((response: any)=>{
     //         const blob = new Blob([response], { type: 'text/csv' });
     //          saveAs(blob, mitigatedFile);
@@ -769,6 +823,18 @@ export class StructuredTextModalComponent {
     // }
   }
 
+  // Calls the batch audit API
+  callBatchAudit(url:any,batchId: any){
+    this.https.post(url,{Batch_id:batchId}).subscribe((data:any)=>{
+      this._snackBar.open("Report Generated Successfully", "Close", {
+        duration: 3000,
+        horizontalPosition: 'center',
+        panelClass: ['le-u-bg-black'],
+      });
+    }, error => {
+      this.handleError(error)
+    })
+  }
   // --------------VALIDATION-------------------------
   isScreen1Valid() {
     console.log(this.tenantarr)
@@ -797,6 +863,7 @@ export class StructuredTextModalComponent {
   isScreen2Valid() {
     // Check if all the required details are provided in the Security section
     if (this.tenantarr.includes('Security') && (!this.selectedApplicableAttack || this.selectedApplicableAttack.length === 0)) {
+      this.getSecuityOptionsSelected();
       return false;
     }
     // Check if all the required details are provided in the Explainability section
@@ -807,9 +874,15 @@ export class StructuredTextModalComponent {
     // if (this.tenantarr.includes('Fairness') && (!this.selectedBiasTypeOption || !this.selectedTaskTypeOption || !this.selectoption1)) {
     //   return false;
     // }
+    // if (this.tenantarr.includes('Fairness') && (this.fairnessType == 'audit' &&  this.selectTypeAudit == '')) {
+    //   return false;
+    // }
     return true;
   }
   isScreen3Valid(): boolean {
+    if(this.fairnessType == 'audit'){
+      return true
+    }
     if (!this.selectedLabel) {
       return false;
     }
@@ -817,19 +890,35 @@ export class StructuredTextModalComponent {
       return false;
     }
     // Check if data in the Protected Attribute and Privileged selects for each row is selected
+    if(this.fairnessType != 'audit'){
     for (let row of this.rows) {
       if (!row.pa || !row.priv) {
         return false;
       }
     }
+  }
     return true;
   }
+
+  // Logs the selected label and favorable outcome
   onUpload1(){
-  console.log("senValues::",this.senValues);
-  console.log("this.favorableLabel;",this.favorableLabel)
-  console.log("this.selectedLabel;",this.selectedLabel)
+  console.log("selectedLabel::",this.selectedLabel);
+  console.log("selectedFO::",this.selectedFO);
+ // console.log("categoricalAttribute::",this.categoricalAttrArray);
   }
 
+  // Converts the categorical attribute input to an array
+  convertToArrayForCategory() {
+    const a= this.categoricalAttribute;
+    if (/^\d+(,\d+)*$/.test(a)) {
+      this.categoricalAttrArray = a.split(',').map(Number);
+    }
+    else{
+      this.categoricalAttrArray = a.split(',');
+    }
+  }
+
+// Handles changes for fairness type
 onChange(type: string){
    console.log("Type:",type)
   const endpointUrl =  this.apiEndpoints.inProcessUpload;
@@ -844,5 +933,13 @@ onChange(type: string){
      }
    })
   }
-  
+
+  // Selects all security options
+  getSecuityOptionsSelected() {
+    this.allSelected1 = true;
+    this.select2?.options?.forEach((item: MatOption) => {
+      item.select();
+      this.listShowlist1.add(item.value);
+    });
+  }
 }

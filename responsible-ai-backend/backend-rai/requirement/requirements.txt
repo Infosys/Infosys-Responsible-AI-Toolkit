@@ -11,7 +11,7 @@ passlib
 python-jose
 bcrypt
 email-validator
-Werkzeug
+Werkzeug==3.0.6
 requests
 #lib/aicloudlibs-0.1.0-py3-none-any.whl
 # ../lib/aicloudlibs-0.1.0-py3-none-any.whl  # Un-Comment this line and comment above line to run locally

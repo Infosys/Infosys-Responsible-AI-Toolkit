@@ -7,4 +7,3 @@ RUN pip install -r requirements/requirement.txt
 WORKDIR src
 
 CMD ["sh", "-c", "python main.py"]
-

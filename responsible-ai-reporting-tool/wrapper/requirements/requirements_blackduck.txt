@@ -11,8 +11,6 @@ python-dotenv
 pdfkit
 reportlab
 PyPDF2
-# ../lib/aicloudlibs-0.1.0-py3-none-any.whl
 ../lib/adversarial_robustness_toolbox-1.16.0-py3-none-any.whl
-#Un-Comment Below 2 lines and comment above 2 lines to run locally
-# ../lib/aicloudlibs-0.1.0-py3-none-any.whl  
+#Un-Comment Below 1 lines and comment above 1 lines to run locally
 # ../lib/adversarial_robustness_toolbox-1.16.0-py3-none-any.whl

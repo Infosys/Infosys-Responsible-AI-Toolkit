@@ -1,14 +1,16 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { UserValidationService } from 'src/app/services/user-validation.service';
 
 @Component({
   selector: 'app-privacy-parameters',
@@ -20,7 +22,7 @@ export class PrivacyParametersComponent {
   @Input() parPortfolio!: any;
   @Input() parAccount!: any;
 
-  constructor (public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog){
+  constructor (public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog, private validationService:UserValidationService){
     
   }
 
@@ -44,7 +46,7 @@ allSelectedInput = false;
 event1: any;
 c1: boolean = false;
 
-// select 1
+// select 1- Toggles all selections for the dropdown
 toggleAllSelection1(event: any) {
   this.event1 = event;
   this.c1 = event.checked;
@@ -67,6 +69,8 @@ toggleAllSelection1(event: any) {
     });
   }
 }
+
+// Updates the selection status for the dropdown
 selectRecognizertype() {
   let newStatus = true;
   this.select1.options.forEach((item: MatOption) => {
@@ -81,8 +85,7 @@ selectRecognizertype() {
   this.allSelectedInput = newStatus;
 }
 
-
-
+// Submits the privacy parameters to the server
   submit() {
     // console.log(this.AccountForm.value);
     const header = {
@@ -94,6 +97,8 @@ selectRecognizertype() {
     }
     this.setPrivacyParameter(header)
   }
+
+  // Sends the privacy parameters to the server
   setPrivacyParameter(header: any) {
     this.https.post(this.Admin_SetPrivacyParameter, header).subscribe
         ((res: any) => {
@@ -109,7 +114,8 @@ selectRecognizertype() {
             // this.getAccountMasterEntryList()
             // this.getAllAccountData();
           } else if (res.status === "False") {
-            const message = "Recognizer Added Failed"
+            const message = "Mapping already exists for this account "
+
             const action = "Close"
             // this.getAccountMasterEntryList()
             this._snackBar.open(message, action, {
@@ -136,6 +142,7 @@ selectRecognizertype() {
         })
   }
 
+  // Fetches the list of recognizers from the server
   getadmin_list_rec_get_list(){
     this.https.get(this.admin_list_rec_get_list).subscribe
     ((res: any) => {
@@ -158,7 +165,7 @@ selectRecognizertype() {
     })
   }
 
-  // 
+  // Initializes the component and sets up API lists
   ngOnInit(): void {
     let ip_port: any
 
@@ -172,28 +179,30 @@ selectRecognizertype() {
     console.log("oninit");
   }
   userId: any
+  // Retrieves the logged-in user from local storage
   getLogedInUser() {
-    if (localStorage.getItem("userid") != null) {
-      const x = localStorage.getItem("userid")
-      if (x != null) {
-
-        this.userId = JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
+      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
+        this.userId = x ;
         console.log(" userId", this.userId)
-        return JSON.parse(x)
       }
-
-      console.log("userId", this.userId)
+      return this.userId;
     }
   }
+
+  // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
-    if (localStorage.getItem("res") != null) {
-      const x = localStorage.getItem("res")
-      if (x != null) {
-        return ip_port = JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+      if(res != null){
+        return ip_port = JSON.parse(res)
       }
     }
   }
+
+  // Sets the API list URLs
   setApilist(ip_port: any) {
     this.admin_list_rec_get_list = ip_port.result.Admin + ip_port.result.Admin_DataRecogGrplist       //+ environment.admin_list_rec_get_list
     

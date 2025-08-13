@@ -1,11 +1,13 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div id="accordionFM" class="mt-3">
     <div class="card">
-        <div class="card-header cursor" id="headingOne" data-toggle="collapse" data-target="#FMCollapse" aria-expanded="true" aria-controls="FMCollapse">
+        <div class="card-header cursor" id="headingOne" data-toggle="collapse" data-target="#FMCollapse"
+            aria-expanded="true" aria-controls="FMCollapse">
             <h5 class="mb-0 mt-n2">
                 <label class="mainLabel cursor">
                     Safety Parameters
@@ -16,7 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div class="card-body">
                 <div>
                     <div class="d-flex flex-wrap flex-column" style="width: max-content;">
-                        <div class="d-flex flex-wrap flex-column">
+                        <div class="d-flex flex-wrap flex-column" >
                             <form [formGroup]="safetyForm" class="d-flex flex-column">
                                 <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
                                 <div class="d-flex">
@@ -24,9 +26,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                         <div class="mb-3">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <label class="mainLabel">Drawings Threshold</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((safetyForm.get('drawingsThreshold')?.value ??0) / 100).toFixed(2)" readonly />
+                                                <input type="text" class="form-control shadow-none tempInputBox"
+                                                    [value]="((safetyForm.get('drawingsThreshold')?.value ??0) / 100).toFixed(2)"
+                                                    readonly />
                                             </div>
-                                            <input type="range" min="0" max="100" name="drawingsThreshold" formControlName="drawingsThreshold" />
+                                            <input type="range" min="0" max="100" name="drawingsThreshold"
+                                                formControlName="drawingsThreshold" />
                                         </div>
 
                                     </div>
@@ -34,9 +39,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                         <div class="mb-3">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <label class="mainLabel">Hentai Threshold :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((safetyForm.get('hentaiThreshold')?.value ??0) / 100).toFixed(2)" readonly />
+                                                <input type="text" class="form-control shadow-none tempInputBox"
+                                                    [value]="((safetyForm.get('hentaiThreshold')?.value ??0) / 100).toFixed(2)"
+                                                    readonly />
                                             </div>
-                                            <input type="range" min="0" max="100" name="hentaiThreshold" formControlName="hentaiThreshold" />
+                                            <input type="range" min="0" max="100" name="hentaiThreshold"
+                                                formControlName="hentaiThreshold" />
                                         </div>
 
                                     </div>
@@ -46,20 +54,26 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                         <div class="mb-3">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <label class="mainLabel">Neutral Threshold :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((safetyForm.get('neutralThreshold')?.value ??0) / 100).toFixed(2)" readonly />
+                                                <input type="text" class="form-control shadow-none tempInputBox"
+                                                    [value]="((safetyForm.get('neutralThreshold')?.value ??0) / 100).toFixed(2)"
+                                                    readonly />
                                             </div>
-                                            <input type="range" min="0" max="100" name="neutralThreshold" formControlName="neutralThreshold" />
+                                            <input type="range" min="0" max="100" name="neutralThreshold"
+                                                formControlName="neutralThreshold" />
                                         </div>
 
                                     </div>
-
+                                
                                     <div style="margin: .1rem;">
                                         <div class="mb-3">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <label class="mainLabel">Porn Threshold :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((safetyForm.get('pornThreshold')?.value ??0) / 100).toFixed(2)" readonly />
+                                                <input type="text" class="form-control shadow-none tempInputBox"
+                                                    [value]="((safetyForm.get('pornThreshold')?.value ??0) / 100).toFixed(2)"
+                                                    readonly />
                                             </div>
-                                            <input type="range" min="0" max="100" name="pornThreshold" formControlName="pornThreshold" />
+                                            <input type="range" min="0" max="100" name="pornThreshold"
+                                                formControlName="pornThreshold" />
                                         </div>
 
                                     </div>
@@ -69,9 +83,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                         <div class="mb-3">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <label class="mainLabel">Sexy Threshold :</label>
-                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((safetyForm.get('sexyThreshold')?.value ??0) / 100).toFixed(2)" readonly />
+                                                <input type="text" class="form-control shadow-none tempInputBox"
+                                                    [value]="((safetyForm.get('sexyThreshold')?.value ??0) / 100).toFixed(2)"
+                                                    readonly />
                                             </div>
-                                            <input type="range" min="0" max="100" name="sexyThreshold" formControlName="sexyThreshold" />
+                                            <input type="range" min="0" max="100" name="sexyThreshold"
+                                                formControlName="sexyThreshold" />
                                         </div>
 
                                     </div>
@@ -83,7 +100,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <!-- submit button div -->
 
                         <div class="d-flex justify-content-center align-items-center ps-3">
-                            <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 14px;" color="black" (click)="submit()">Submit</button>
+                            <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 14px;"
+                                color="black" (click)="submit()">Submit</button>
                         </div>
                     </div>
                 </div>

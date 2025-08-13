@@ -9,7 +9,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 '''
 
 from fastapi import Depends,APIRouter,Query, Body,Form
-from app.mappers.mappers import GetBatchPayloadRequest, TenetDataRequest,GetModelPayloadRequest,GetModelRequest,UpdateModelPayloadRequest,GetDataPayloadRequest,GetDataRequest,UpdateDataPayloadRequest,GetPreprocessorPayloadRequest,GetPreprocessorRequest, UpdatePreprocessorPayloadRequest,GetGroundtruthFileRequest
+from app.mappers.mappers import GetBatchPayloadRequest, TenetDataRequest,GetModelPayloadRequest,GetModelRequest,UpdateModelPayloadRequest,GetDataPayloadRequest,GetDataRequest,UpdateDataPayloadRequest,GetPreprocessorPayloadRequest,GetPreprocessorRequest, UpdatePreprocessorPayloadRequest          #,GetGroundtruthFileRequest
 from app.service.service import InfosysRAI
 from app.config.logger import CustomLogger
 import os
@@ -53,8 +53,8 @@ def get_Datas(userId:str=Form()):
     return response
 
 @data.post('/v1/workbench/adddata')
-async def add_Data(userId = Form(...),Payload:GetDataPayloadRequest = Body(...), Payload2:GetDataRequest = Depends(), Payload3:GetGroundtruthFileRequest = Depends()):
-    response = InfosysRAI.addData(userId,Payload,Payload2,Payload3)
+async def add_Data(userId = Form(...),Payload:GetDataPayloadRequest = Body(...), Payload2:GetDataRequest = Depends()):      #Payload3:GetGroundtruthFileRequest = Depends()
+    response = InfosysRAI.addData(userId,Payload,Payload2)       #Payload3
     gc.collect()
     return response
 
@@ -107,7 +107,6 @@ async def delete_Model(userId:str=Form(), modelId:float=Form()):
 @preprocessor.post('/v1/workbench/preprocessor')
 def get_Preprocessor(userId:str=Form()):
     payload = {'userid':userId}
-    print(payload,"payload")
     response = InfosysRAI.getPreprocessor(payload)
     gc.collect()
     return response
@@ -115,8 +114,6 @@ def get_Preprocessor(userId:str=Form()):
 @preprocessor.post('/v1/workbench/addpreprocessor')
 async def add_Preprocessor(userId = Form(...),preprocessorName: str = Form(...), Payload2:GetPreprocessorRequest = Depends()):
     Payload = {"userId": userId, "preprocessorName": preprocessorName}
-    print(Payload,"payload")
-    print(Payload2,"payload")
     response = InfosysRAI.addPreprocessor(userId,Payload,Payload2)
     gc.collect()
     return response
@@ -125,7 +122,6 @@ async def add_Preprocessor(userId = Form(...),preprocessorName: str = Form(...),
 async def update_Preprocessor(userId: str = Form(...), preprocessorId: float = Form(...),preprocessorName: str = Form(...), Payload2: GetPreprocessorRequest = Depends()):
     payload = {'userid':userId, 'preprocessorid':preprocessorId}
     payload1 = {'PreprocessorName':preprocessorName}
-    print(payload,"payload")
     response = InfosysRAI.updatePreprocessor(payload,payload1,Payload2)
     gc.collect()
     return response
@@ -137,27 +133,20 @@ async def delete_Preprocessor(userId:str=Form(), preprocessorId:float=Form()):
     gc.collect()  
     return response
 
-
-
 @batch.post('/v1/workbench/batchgeneration')
 async def getBatch(Payload:GetBatchPayloadRequest = Body(...)):
-    #print(Payload)
     response = InfosysRAI.getBatchList(Payload)
     gc.collect()
-    #print(response)
     return response
 
 @batch.post('/v1/workbench/getbatchstatus')
 def getBatch(id:float=Form()):
-    print(id)
     response = InfosysRAI.getBatchStatusList(id)
     gc.collect()
-    print(response)
     return response
 
 @batch.post('/v1/workbench/getbatchtable')
 def getBatch(userId:str=Form()):
-    print(userId)
     payload = {'userid':userId}
     response = InfosysRAI.getBatchTable(payload)
     gc.collect()

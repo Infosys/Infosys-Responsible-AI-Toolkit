@@ -72,9 +72,10 @@ class ImagePrivacy:
             angle=0
             if(payload.rotationFlag):
                 image,angle=ImageRotation.rotateImage(image)
+            global imageAnalyzerEngine
+            analyzer,imageAnalyzerEngine,imageRedactorEngine,imagePiiVerifyEngine,encryptImageEngin=selectNlp(payload.nlp)
             
             ocr=None
-            global imageAnalyzerEngine
             if(payload.easyocr=="Tesseract"):
                 # ocr = TesseractOCR()
                 log.debug("TESSERACT SELECTED")
@@ -99,6 +100,17 @@ class ImagePrivacy:
             else:
                 piiEntitiesToBeRedacted = payload.piiEntitiesToBeRedacted.split(',')
             #print("piipiiEntitiesToBeRedacted===",piiEntitiesToBeRedacted)
+            
+            
+            spRecog=None
+            if(payload.nlp=="roberta"):
+                spRecog=[roberta_recog]
+            if(payload.nlp=="ranha"):
+                # registry.add_recognizer(ranha_recog)
+                if(piiEntitiesToBeRedacted==None and  payload.account==None):
+                    piiEntitiesToBeRedacted=list(set(ranha_recog.supported_entities+registry.get_supported_entities()))
+                spRecog=[ranha_recog]
+            # print("spRecog===",spRecog)
             if(payload.exclusion == None):
                 exclusionList=[]
             else:
@@ -107,11 +119,11 @@ class ImagePrivacy:
                 # entities=["PERSON","LOCATION"],
                 #print("payload103===",payload )
                 #print("payload.piiEntitiesToBeRedacted103==",payload.piiEntitiesToBeRedacted)
-                if(payload.piiEntitiesToBeRedacted == None):
-                    results = imageAnalyzerEngine.analyze(image, allow_list=exclusionList)
+                if(piiEntitiesToBeRedacted == None):
+                    results = imageAnalyzerEngine.analyze(image, allow_list=exclusionList,ad_hoc_recognizers=spRecog)
                 else:
                     try:
-                        results = imageAnalyzerEngine.analyze(image,entities=piiEntitiesToBeRedacted, allow_list=exclusionList)
+                        results = imageAnalyzerEngine.analyze(image,entities=piiEntitiesToBeRedacted, allow_list=exclusionList,ad_hoc_recognizers=spRecog)
                         #print("result------",results)
                     except Exception as e:
                         #print("error 103===",e)
@@ -153,7 +165,7 @@ class ImagePrivacy:
                         # log.debug("==========="+str(entityType[d]))                   
                         # results = engine.analyze(image,entities=[entityType[d]])
                         # result.extend(results)
-                results = imageAnalyzerEngine.analyze(image,entities=entityType+preEntity, allow_list=exclusionList,score_threshold=admin_par[request_id_var.get()]["scoreTreshold"])
+                results = imageAnalyzerEngine.analyze(image,entities=entityType+preEntity, allow_list=exclusionList,score_threshold=admin_par[request_id_var.get()]["scoreTreshold"],ad_hoc_recognizers=spRecog)
                 result.extend(results)
                     # results = PrivacyService.__analyze(text=payload.inputText,accName=accMasterid.accMasterId)
                 # if(len(preEntity)>0):               
@@ -214,9 +226,11 @@ class ImagePrivacy:
         error_dict[request_id_var.get()]=[]
         try: 
             payload=AttributeDict(payload)
+            global imageRedactorEngine
+            analyzer,imageAnalyzerEngine,imageRedactorEngine,imagePiiVerifyEngine,encryptImageEngin=selectNlp(payload.nlp)
+            
             # analyzer,registry=ConfModle.getAnalyzerEngin("en_core_web_lg")
             ocr=None
-            global imageRedactorEngine
             if(payload.easyocr=="Tesseract"):
                 # ocr = TesseractOCR()
                 log.debug("TESSERACT SELECTED")
@@ -237,7 +251,7 @@ class ImagePrivacy:
             # engine = ImageRedactorEngine()
             payload=AttributeDict(payload)
             image = Image.open(payload.image.file)
-          
+            
             
             angle=0
             if(payload.rotationFlag):
@@ -254,16 +268,28 @@ class ImagePrivacy:
                 exclusionList=[]
             else:
                 exclusionList=payload.exclusion.split(",")
+                
+            spRecog=None
+            if(payload.nlp=="roberta"):
+                spRecog=[roberta_recog]
+            if(payload.nlp=="ranha"):
+                # registry.add_recognizer(ranha_recog)
+                if(piiEntitiesToBeRedacted==None and  payload.account==None):
+                    piiEntitiesToBeRedacted=list(set(ranha_recog.supported_entities+registry.get_supported_entities()))
+                spRecog=[ranha_recog]
+            # print("spRecog===",spRecog)
+                
+                
             if(payload.portfolio== None):
-                if(payload.piiEntitiesToBeRedacted == None):
-                    redacted_image = imageRedactorEngine.redact(image, (255, 192, 203), allow_list=exclusionList)
-                try:
-                    
-                    redacted_image = imageRedactorEngine.redact(image, (255, 192, 203),entities=piiEntitiesToBeRedacted, allow_list=exclusionList)
+                if(piiEntitiesToBeRedacted == None):
+                    redacted_image = imageRedactorEngine.redact(image, (255, 192, 203), allow_list=exclusionList,ad_hoc_recognizers=spRecog)
+                else:
+                    try:
+                        redacted_image = imageRedactorEngine.redact(image, (255, 192, 203),entities=piiEntitiesToBeRedacted, allow_list=exclusionList,ad_hoc_recognizers=spRecog)
                     #print("result------",redacted_image)
-                except Exception as e:
-                    #print("error 103===",e)
-                    return 482
+                    except Exception as e:
+                        #print("error 103===",e)
+                        return 482
                 #print("results:",redacted_image)
                 processed_image_stream = io.BytesIO()
                 redacted_image.save(processed_image_stream, format='PNG')
@@ -303,7 +329,7 @@ class ImagePrivacy:
                         registry.add_recognizer(patternRecog)
                         # log.debug("=="+str(entityType[d]))
                         # results = engine.analyze(image,entities=[entityType[d]])
-                redacted_image = imageRedactorEngine.redact(image, (255, 192, 203),entities=entityType+preEntity, allow_list=exclusionList,score_threshold=admin_par[request_id_var.get()]["scoreTreshold"])
+                redacted_image = imageRedactorEngine.redact(image, (255, 192, 203),entities=entityType+preEntity, allow_list=exclusionList,score_threshold=admin_par[request_id_var.get()]["scoreTreshold"],ad_hoc_recognizers=spRecog)
                         # log.debug("redacted_image=="+str(redacted_image))
                 processed_image_stream = io.BytesIO()
                 redacted_image.save(processed_image_stream, format='PNG')
@@ -391,6 +417,8 @@ class ImagePrivacy:
                 # imagePiiVerifyEngine = ImagePiiVerifyEngine(image_analyzer_engine=imageAnalyzerEngine)
                 # enginex=EncryptImage(image_analyzer_engine=engine1)
                 global imagePiiVerifyEngine
+                analyzer,imageAnalyzerEngine,imageRedactorEngine,imagePiiVerifyEngine,encryptImageEngin=selectNlp(payload.nlp)
+            
                 payload=AttributeDict(payload)
                 image = Image.open(payload.image.file)
                 # registry.load_predefined_recognizers()
@@ -473,6 +501,8 @@ class ImagePrivacy:
 
                 ocr=None
                 global encryptImageEngin
+                analyzer,imageAnalyzerEngine,imageRedactorEngine,imagePiiVerifyEngine,encryptImageEngin=selectNlp(payload.nlp)
+            
                 if(payload.easyocr=="Tesseract"):
                     # ocr = TesseractOCR()
                     log.debug("TESSERACT SELECTED")
@@ -504,11 +534,37 @@ class ImagePrivacy:
                 else:
                     exclusionList=payload.exclusion.split(",")
                 encryptImageEngin.getText(image)
+                
+                if(payload.piiEntitiesToBeHashified== None):
+                    hashList=None
+                else:
+                    hashList = payload.piiEntitiesToBeHashified.split(',')
+                    
+                spRecog=None
+                if(payload.nlp=="roberta"):
+                    spRecog=[roberta_recog]
+                if(payload.nlp=="ranha"):
+                    # registry.add_recognizer(ranha_recog)
+                    if(hashList==None and  payload.account==None):
+                        hashList=list(set(ranha_recog.supported_entities+registry.get_supported_entities()))
+                    spRecog=[ranha_recog]
+                # print("spRecog===",spRecog)
                 if(payload.portfolio== None):
+                    
+                    if(hashList==None):
                     # redacted_image = engine.redact(image, (255, 192, 203), allow_list=exclusionList)
-                    redacted_image = encryptImageEngin.imageAnonimyze(image, (255, 192, 203), allow_list=exclusionList)
-                    processed_image_stream = io.BytesIO()
-                    redacted_image.save(processed_image_stream, format='PNG')
+                        redacted_image = encryptImageEngin.imageAnonimyze(image, (255, 192, 203), allow_list=exclusionList,ad_hoc_recognizers=spRecog)
+                        processed_image_stream = io.BytesIO()
+                        redacted_image.save(processed_image_stream, format='PNG')
+                    else:
+                        redacted_image = encryptImageEngin.imageAnonimyze(image, (255, 192, 203), allow_list=exclusionList,entities=hashList,encryptionList=hashList,ad_hoc_recognizers=spRecog)
+                        processed_image_stream = io.BytesIO()
+                        redacted_image.save(processed_image_stream, format='PNG')
+                        res=encryptImageEngin.encrypt(redacted_image,encryptionList=hashList)
+                        redacted_image=res[0]
+                        encryptMapper=res[1]
+                        processed_image_stream = io.BytesIO()
+                        redacted_image.save(processed_image_stream, format='PNG')
                 else:
                     result=[]
                     preEntity=[]
@@ -547,7 +603,7 @@ class ImagePrivacy:
                             registry.add_recognizer(patternRecog)
                             # log.debug("=="+str(entityType[d]))    
                             # results = engine.analyze(image,entities=[entityType[d]])
-                    redacted_image = encryptImageEngin.imageAnonimyze(image, (255, 192, 203),encryptionList=encryptionList,entities=entityType+preEntity, allow_list=exclusionList,score_threshold=admin_par[request_id_var.get()]["scoreTreshold"])
+                    redacted_image = encryptImageEngin.imageAnonimyze(image, (255, 192, 203),encryptionList=encryptionList,entities=entityType+preEntity, allow_list=exclusionList,score_threshold=admin_par[request_id_var.get()]["scoreTreshold"],ad_hoc_recognizers=spRecog)
                         # log.debug("redacted_image=="+str(redacted_image))
                     processed_image_stream = io.BytesIO()
                     redacted_image.save(processed_image_stream, format='PNG')

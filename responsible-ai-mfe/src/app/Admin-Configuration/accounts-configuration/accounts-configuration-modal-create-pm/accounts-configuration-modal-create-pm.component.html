@@ -1,55 +1,59 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="p-3 px-4 h-100">
     <div class="d-flex justify-content-between align-items-center pb-4">
         <p class="headingTop">Manage Parameters</p>
-        <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
     </div>
-    <div>
-        <!-- body of modal  -->
-        <div class="d-flex mt-4 mb-3">
-            <p class="HeadingLabel mr-5" role="button" [ngClass]="{
+<div>
+    <!-- body of modal  -->
+    <div class="d-flex mt-4 mb-3">
+        <p class="HeadingLabel me-5" role="button" [ngClass]="{
             'activeTab': tab =='acc',
           }" (click)="toggleTabs('acc')">Privacy Mapping</p>
-            <p class="HeadingLabel mr-5" role="button" [ngClass]="{
+        <p class="HeadingLabel me-5" role="button" [ngClass]="{
             'activeTab': tab =='fm',
           }" (click)="toggleTabs('fm')">FM Mapping</p>
-            <p class="HeadingLabel mr-5" role="button" [ngClass]="{
+        <p class="HeadingLabel me-5" role="button" [ngClass]="{
             'activeTab': tab =='safety',
           }" (click)="toggleTabs('safety')">Safety Mapping</p>
-            <p class="HeadingLabel" role="button" [ngClass]="{
+          <p class="HeadingLabel" role="button" [ngClass]="{
             'activeTab': tab =='custom_template',
           }" (click)="toggleTabs('custom_template')">Template Mapping</p>
-        </div>
-
-        <ng-container *ngIf="tab =='acc' ">
-            <app-privacy-parameters [parPortfolio]="data.x.portfolio" [parAccount]="data.x.account"></app-privacy-parameters>
-        </ng-container>
-        <ng-container *ngIf="tab =='fm' ">
-            <app-fm-parameters [parPortfolio]="data.x.portfolio" [parAccount]="data.x.account"></app-fm-parameters>
-        </ng-container>
-        <ng-container *ngIf="tab =='safety' ">
-            <app-safety-parameters [parPortfolio]="data.x.portfolio" [parAccount]="data.x.account"></app-safety-parameters>
-        </ng-container>
-        <ng-container *ngIf="tab =='custom_template' ">
-            <app-template-mapping [parPortfolio]="data.x.portfolio" [parAccount]="data.x.account"></app-template-mapping>
-        </ng-container>
-
-
-
-
-
-        <!--  -->
-
-
-
-
-
-
-
     </div>
+    
+    <ng-container *ngIf="tab =='acc' ">
+        <app-privacy-parameters  [parPortfolio]="data.x.portfolio"
+        [parAccount]="data.x.account"></app-privacy-parameters>
+    </ng-container>
+    <ng-container *ngIf="tab =='fm' ">
+      <app-fm-parameters [parPortfolio]="data.x.portfolio"
+      [parAccount]="data.x.account"></app-fm-parameters>
+    </ng-container>
+    <ng-container *ngIf="tab =='safety' ">
+      <app-safety-parameters [parPortfolio]="data.x.portfolio"
+      [parAccount]="data.x.account"></app-safety-parameters>
+    </ng-container>
+    <ng-container *ngIf="tab =='custom_template' ">
+      <app-template-mapping
+        [parPortfolio]="data.x.portfolio"
+       [parAccount]="data.x.account"></app-template-mapping>
+    </ng-container>
+    
+    
+    
+    
+    
+    <!--  -->
+    
+    
+    
+    
+    
+    
+    
+</div>

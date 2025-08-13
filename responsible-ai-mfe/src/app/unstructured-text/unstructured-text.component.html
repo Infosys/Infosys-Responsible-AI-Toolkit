@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="row mt-4 pt-1">
     <div class="button-container2">
@@ -58,8 +59,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <input type="file" (change)="fileBrowseHandler($event)">
                     </div>
                 </div>
-                <div class="image-container mt-2">
-                    <div class="card imgcardsize mr-2" [class.radio-checked-img]="favoriteSeason == sampleFile1" (click)="onClick(sampleFile1)" style="margin-bottom: 10px;">
+                <div class="label-container mt-2">
+                    <p class="HeadingLabel2">*right click to download sample file</p>
+                </div>
+                <div class="image-container">
+                    <div class="card imgcardsize me-2" [class.radio-checked-img]="favoriteSeason == sampleFile1" (click)="onClick(sampleFile1)" (contextmenu)="downloadFile(sampleFile1, $event)"  style="margin-bottom: 10px;">
                         <!-- <img src="..." class="card-img-top" alt="..."> -->
                         <label>
                     <input (click)="viewchange()" class="imgcardsize" type="radio" style="display: none;"
@@ -68,7 +72,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <!-- <i class="material-icons imgcardsize" style="font-size: 25px;">insert_drive_file</i> -->
                 </label>
                     </div>
-                    <div class="card imgcardsize" [class.radio-checked-img]="favoriteSeason == sampleFile2" (click)="onClick(sampleFile2)">
+                    <div class="card imgcardsize" [class.radio-checked-img]="favoriteSeason == sampleFile2" (click)="onClick(sampleFile2)" (contextmenu)="downloadFile(sampleFile2, $event)"  >
                         <!-- <img src="..." class="card-img-top" alt="..."> -->
                         <label>
                     <input class="imgcardsize" type="radio" style="display: none;" [(ngModel)]="favoriteSeason"
@@ -77,20 +81,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </label>
                     </div>
                 </div>
-                <div class="mr-3 fileContainer ml-3" [hidden]="files.length ==0">
+                <div class="me-3 fileContainer ms-3" [hidden]="files.length ==0">
                     <p class="HeadingLabelSM" *ngIf="files[0]" style="margin-bottom: 0px;">File</p>
                     <div class="file-upload" *ngIf="files[0]">
                         <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
                         <div class="d-flex align-items-center mt-1">
-                            <mat-progress-bar class="mr-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
-                            <button class="cancel-button mr-2" (click)="removeFile()">
+                            <mat-progress-bar class="me-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
+                            <button class="cancel-button me-2" (click)="removeFile()">
                       <mat-icon>close</mat-icon>
                     </button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="button-container mt-4">
+            <div class="button-container">
                 <!-- <button mat-raised-button class="buttonMain" style="margin-right: 1rem;" color="reset">Reset</button> -->
                 <button mat-raised-button class="buttonMain" color="black" (click)="submit()" [disabled]="showSpinner1">
                 <div class="spinner-border text-light" style="font-size: 10px;width: 15px;height: 15px;"
@@ -142,10 +146,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <!--  -->
             <div class="d-flex justify-content-between mt-3">
                 <div class="pagination-info">
-                    Showing {{ pagingConfig.totalItems
-                    < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }} </div>
-                        <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
-                        </pagination-controls>
+                    Showing {{ pagingConfig.totalItems < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }}
+                  </div>
+                    <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                    </pagination-controls>
                 </div>
             </div>
             <!--  -->
@@ -160,3 +164,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
         <app-fm-moderation></app-fm-moderation>
     </div>
+
+<div style="height: 50px;">
+
+</div>

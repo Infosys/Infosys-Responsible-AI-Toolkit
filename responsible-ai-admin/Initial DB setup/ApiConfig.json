@@ -1,4145 +1,5401 @@
 [{
-  "_id": 1692167019.380074,
-  "ApiIp": "http://localhost",
-  "ApiName": "Privacy",
-  "ApiPort": "30002",
-  "CreatedDateTime": {
-    "$date": "2023-08-16T11:53:39.380Z"
-  },
-  "Ip": "http://0.0.0.0",
-  "LastUpdatedDateTime": {
-    "$date": "2023-08-16T11:53:39.380Z"
-  },
-  "Name": "Privacy",
-  "port": "12"
-},
-{
   "_id": 1692167145.1518757,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Profanity",
-  "ApiPort": "8001",
-  "CreatedDateTime": {
-    "$date": "2023-08-16T11:55:45.151Z"
-  },
-  "LastUpdatedDateTime": {
-    "$date": "2023-08-16T11:55:45.151Z"
-  }
-},
-{
-  "_id": 1692167438.5314496,
-  "ApiIp": "http://localhost:8010/rai/v1/llm-explainability/sentiment-analysis",
-  "ApiName": "Explainability",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-08-16T12:00:38.531Z"
+    "$date": {
+      "$numberLong": "1692186945151"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-08-16T12:00:38.531Z"
+    "$date": {
+      "$numberLong": "1692186945151"
+    }
   }
-},
-{
+},{
   "_id": 1692167515.3674867,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Bloom",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-08-16T12:01:55.367Z"
+    "$date": {
+      "$numberLong": "1692187315367"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-08-16T12:01:55.367Z"
+    "$date": {
+      "$numberLong": "1692187315367"
+    }
   }
-},
-{
+},{
   "_id": 1692167566.8734314,
-  "ApiIp": "http://localhost",
-  "ApiName": "Fairness",
-  "ApiPort": "8000",
-  "CreatedDateTime": {
-    "$date": "2023-08-16T12:02:46.873Z"
-  },
-  "LastUpdatedDateTime": {
-    "$date": "2023-08-16T12:02:46.873Z"
-  }
-},
-{
-  "_id": 1692167658.0068746,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
-  "ApiName": "Bulkprocessing",
+  "ApiName": "Fairness",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-08-16T12:04:18.006Z"
+    "$date": {
+      "$numberLong": "1692187366873"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-08-16T12:04:18.006Z"
+    "$date": {
+      "$numberLong": "1692187366873"
+    }
   }
-},
-{
+},{
   "_id": 1692167831.3914711,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "FM_Moderation",
-  "ApiPort": "5400",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-08-16T12:07:11.391Z"
+    "$date": {
+      "$numberLong": "1692187631391"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-08-16T12:07:11.391Z"
+    "$date": {
+      "$numberLong": "1692187631391"
+    }
   }
-},
-{
+},{
   "_id": 1692167899.4651885,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Admin",
-  "ApiPort": "30016",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-08-16T12:08:19.465Z"
+    "$date": {
+      "$numberLong": "1692187699465"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-08-16T12:08:19.465Z"
+    "$date": {
+      "$numberLong": "1692187699465"
+    }
   }
-},
-{
+},{
   "_id": 1692167979.7121031,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Security",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-08-16T12:09:39.712Z"
+    "$date": {
+      "$numberLong": "1692187779712"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-08-16T12:09:39.712Z"
+    "$date": {
+      "$numberLong": "1692187779712"
+    }
   }
-},
-{
+},{
   "_id": 1692353106.6682105,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "docProcessing",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-08-18T15:35:06.668Z"
+    "$date": {
+      "$numberLong": "1692372906668"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-08-18T15:35:06.668Z"
+    "$date": {
+      "$numberLong": "1692372906668"
+    }
   }
-},
-{
+},{
   "_id": 1692768276.6862698,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "SecurityDefence",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-08-23T05:24:36.686Z"
+    "$date": {
+      "$numberLong": "1692768276686"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-08-23T05:24:36.686Z"
+    "$date": {
+      "$numberLong": "1692768276686"
+    }
   }
-},
-{
+},{
   "_id": 1692768323.0455914,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "SecurityWrapper",
-  "ApiPort": "83",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-08-23T05:25:23.045Z"
+    "$date": {
+      "$numberLong": "1692768323045"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-08-23T05:25:23.045Z"
+    "$date": {
+      "$numberLong": "1692768323045"
+    }
   }
-},
-{
+},{
   "_id": 1693217040.98972,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "DICOM",
-  "ApiPort": "30002",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-08-28T10:04:00.989Z"
+    "$date": {
+      "$numberLong": "1693217040989"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-08-28T10:04:00.989Z"
+    "$date": {
+      "$numberLong": "1693217040989"
+    }
   }
-},
-{
+},{
   "_id": 1694605488.2848084,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "DocProcess",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-09-13T11:44:48.284Z"
+    "$date": {
+      "$numberLong": "1694605488284"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-09-13T11:44:48.284Z"
+    "$date": {
+      "$numberLong": "1694605488284"
+    }
   }
-},
-{
+},{
   "_id": 1697016833.144161,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Nemo",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-10-11T09:33:53.159Z"
+    "$date": {
+      "$numberLong": "1697016833159"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-10-11T09:33:53.159Z"
+    "$date": {
+      "$numberLong": "1697016833159"
+    }
   }
-},
-{
+},{
   "_id": 1697100821.5389833,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Rag",
-  "ApiPort": "8008",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-10-12T08:53:41.538Z"
+    "$date": {
+      "$numberLong": "1697100821538"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-10-12T08:53:41.538Z"
+    "$date": {
+      "$numberLong": "1697100821538"
+    }
   }
-},
-{
+},{
   "_id": 1697625171.7389114,
   "ApiIp": "http://10.224.233.74:5601/app/dashboards#/view/0afb0620-bf56-11ee-ad0b-1f26a9536662?_g=(filters:!(),refreshInterval:(pause:!t,value:60000),time:(from:now-15m,to:now))",
   "ApiName": "kiaban_dashboard",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-10-18T10:32:51.738Z"
+    "$date": {
+      "$numberLong": "1697625171738"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-10-18T10:32:51.738Z"
+    "$date": {
+      "$numberLong": "1697625171738"
+    }
   }
-},
-{
+},{
   "_id": 1698648274.8108883,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Explainability_Demo",
-  "ApiPort": "8002",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-10-30T06:44:34.810Z"
+    "$date": {
+      "$numberLong": "1698648274810"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-10-30T06:44:34.810Z"
+    "$date": {
+      "$numberLong": "1698648274810"
+    }
   }
-},
-{
+},{
   "_id": 1699870474.4915476,
   "ApiIp": "/v1/privacy/text/analyze",
   "ApiName": "Privacy_text_analyze",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:14:34.491Z"
+    "$date": {
+      "$numberLong": "1699870474491"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:14:34.491Z"
+    "$date": {
+      "$numberLong": "1699870474491"
+    }
   }
-},
-{
+},{
   "_id": 1699870542.8353448,
   "ApiIp": "/v1/privacy/text/anonymize",
   "ApiName": "Privacy_text_anonymize",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:15:42.835Z"
+    "$date": {
+      "$numberLong": "1699870542835"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:15:42.835Z"
+    "$date": {
+      "$numberLong": "1699870542835"
+    }
   }
-},
-{
+},{
   "_id": 1699870783.7878282,
   "ApiIp": "/api/v1/safety/profanity/analyze",
   "ApiName": "Profanity_text_analyze",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:19:43.787Z"
+    "$date": {
+      "$numberLong": "1699870783787"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:19:43.787Z"
+    "$date": {
+      "$numberLong": "1699870783787"
+    }
   }
-},
-{
+},{
   "_id": 1699870886.9740124,
   "ApiIp": "/api/v1/safety/profanity/censor",
   "ApiName": "Profanity_text_censor",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:21:26.974Z"
+    "$date": {
+      "$numberLong": "1699870886974"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:21:26.974Z"
+    "$date": {
+      "$numberLong": "1699870886974"
+    }
   }
-},
-{
+},{
   "_id": 1699870988.0025654,
   "ApiIp": "/api/v1/text_generator/bloom",
   "ApiName": "Bloom_text",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:23:08.002Z"
+    "$date": {
+      "$numberLong": "1699870988002"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:23:08.002Z"
+    "$date": {
+      "$numberLong": "1699870988002"
+    }
   }
-},
-{
+},{
   "_id": 1699871053.943373,
   "ApiIp": "/v1/privacy/image/anonymize",
   "ApiName": "Privacy_image_anonymize",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:24:13.943Z"
+    "$date": {
+      "$numberLong": "1699871053943"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:24:13.943Z"
+    "$date": {
+      "$numberLong": "1699871053943"
+    }
   }
-},
-{
+},{
   "_id": 1699871123.5386324,
   "ApiIp": "/v1/privacy/image/analyze",
   "ApiName": "Privacy_image_analyze",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:25:23.538Z"
+    "$date": {
+      "$numberLong": "1699871123538"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:25:23.538Z"
+    "$date": {
+      "$numberLong": "1699871123538"
+    }
   }
-},
-{
+},{
   "_id": 1699871172.214852,
   "ApiIp": "/v1/privacy/image/verify",
   "ApiName": "Privacy_image_verify",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:26:12.214Z"
+    "$date": {
+      "$numberLong": "1699871172214"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:26:12.214Z"
+    "$date": {
+      "$numberLong": "1699871172214"
+    }
   }
-},
-{
+},{
   "_id": 1699871221.4420035,
   "ApiIp": "/v1/privacy/image/hashify",
   "ApiName": "Privacy_image_hashify",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:27:01.442Z"
+    "$date": {
+      "$numberLong": "1699871221442"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:27:01.442Z"
+    "$date": {
+      "$numberLong": "1699871221442"
+    }
   }
-},
-{
+},{
   "_id": 1699871316.6285255,
   "ApiIp": "/v1/privacy/dicom/anonymize",
   "ApiName": "Privacy_dicom_anonymize",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:28:36.628Z"
+    "$date": {
+      "$numberLong": "1699871316628"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:28:36.628Z"
+    "$date": {
+      "$numberLong": "1699871316628"
+    }
   }
-},
-{
+},{
   "_id": 1699871375.5052276,
   "ApiIp": "/api/v1/fairness/bias/analyze",
   "ApiName": "Fairness_analyze",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:29:35.505Z"
+    "$date": {
+      "$numberLong": "1699871375505"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:29:35.505Z"
+    "$date": {
+      "$numberLong": "1699871375505"
+    }
   }
-},
-{
+},{
   "_id": 1699871424.7094066,
   "ApiIp": "/api/v1/fairness/bias/getDataset",
   "ApiName": "Fairness_getDataset",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:30:24.709Z"
+    "$date": {
+      "$numberLong": "1699871424709"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:30:24.709Z"
+    "$date": {
+      "$numberLong": "1699871424709"
+    }
   }
-},
-{
+},{
   "_id": 1699871483.5938888,
   "ApiIp": "/api/v1/fairness/bias/getAttributes",
   "ApiName": "Fairness_getAttributes",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:31:23.593Z"
+    "$date": {
+      "$numberLong": "1699871483593"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:31:23.593Z"
+    "$date": {
+      "$numberLong": "1699871483593"
+    }
   }
-},
-{
+},{
   "_id": 1699871568.1539404,
   "ApiIp": "/bulkprocessing/docDtl",
   "ApiName": "Bulkprocessing_docDtl",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:32:48.153Z"
+    "$date": {
+      "$numberLong": "1699871568153"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:32:48.153Z"
+    "$date": {
+      "$numberLong": "1699871568153"
+    }
   }
-},
-{
+},{
   "_id": 1699871600.9084098,
   "ApiIp": "/bulkprocessing/docProcDtl",
   "ApiName": "Bulkprocessing_docProcDtl",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:33:20.908Z"
+    "$date": {
+      "$numberLong": "1699871600908"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:33:20.908Z"
+    "$date": {
+      "$numberLong": "1699871600908"
+    }
   }
-},
-{
+},{
   "_id": 1699871685.8740559,
   "ApiIp": "/bulkprocessing/pageDtl",
   "ApiName": "Bulkprocessing_pageDtl",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:34:45.874Z"
+    "$date": {
+      "$numberLong": "1699871685874"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:34:45.874Z"
+    "$date": {
+      "$numberLong": "1699871685874"
+    }
   }
-},
-{
+},{
   "_id": 1699871940.5626023,
   "ApiIp": "/bulkprocessing/data",
   "ApiName": "Bulkprocessing_data",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:39:00.562Z"
+    "$date": {
+      "$numberLong": "1699871940562"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:39:00.562Z"
+    "$date": {
+      "$numberLong": "1699871940562"
+    }
   }
-},
-{
+},{
   "_id": 1699872495.560266,
   "ApiIp": "/bulkprocessing/documentReport",
   "ApiName": "Bulkprocessing_documentReport",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:48:15.560Z"
+    "$date": {
+      "$numberLong": "1699872495560"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:48:15.560Z"
+    "$date": {
+      "$numberLong": "1699872495560"
+    }
   }
-},
-{
+},{
   "_id": 1699872565.4661705,
   "ApiIp": "/docProcessing/process",
   "ApiName": "DocProcessing_process",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T10:49:25.466Z"
+    "$date": {
+      "$numberLong": "1699872565466"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T10:49:25.466Z"
+    "$date": {
+      "$numberLong": "1699872565466"
+    }
   }
-},
-{
+},{
   "_id": 1699873360.4448164,
   "ApiIp": "/rai/v1/docProcess/uploadFile",
   "ApiName": "DocProcess_uploadFile",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T11:02:40.444Z"
+    "$date": {
+      "$numberLong": "1699873360444"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T11:02:40.444Z"
+    "$date": {
+      "$numberLong": "1699873360444"
+    }
   }
-},
-{
+},{
   "_id": 1699873469.0849802,
   "ApiIp": "/rai/v1/docProcess/getFiles",
   "ApiName": "DocProcess_getFiles",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T11:04:29.084Z"
+    "$date": {
+      "$numberLong": "1699873469084"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T11:04:29.084Z"
+    "$date": {
+      "$numberLong": "1699873469084"
+    }
   }
-},
-{
+},{
   "_id": 1699873569.2564962,
   "ApiIp": "/rai/v1/moderations/coupledmoderations",
   "ApiName": "Moderationlayer_completions",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T11:06:09.256Z"
+    "$date": {
+      "$numberLong": "1699873569256"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T11:06:09.256Z"
+    "$date": {
+      "$numberLong": "1699873569256"
+    }
   }
-},
-{
+},{
   "_id": 1699873636.3842635,
   "ApiIp": "/rai/v1/moderations/openai",
   "ApiName": "Moderationlayer_openai",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T11:07:16.384Z"
+    "$date": {
+      "$numberLong": "1699873636384"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T11:07:16.384Z"
+    "$date": {
+      "$numberLong": "1699873636384"
+    }
   }
-},
-{
+},{
   "_id": 1699873683.5218358,
   "ApiIp": "/rai/v1/moderations/PrivacyPopup",
   "ApiName": "Moderationlayer_PrivacyPopup",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T11:08:03.521Z"
+    "$date": {
+      "$numberLong": "1699873683521"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T11:08:03.521Z"
+    "$date": {
+      "$numberLong": "1699873683521"
+    }
   }
-},
-{
+},{
   "_id": 1699873746.980728,
   "ApiIp": "/rai/v1/moderations/ModerationTime",
   "ApiName": "Moderationlayer_ModerationTime",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T11:09:06.980Z"
+    "$date": {
+      "$numberLong": "1699873746980"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T11:09:06.980Z"
+    "$date": {
+      "$numberLong": "1699873746980"
+    }
   }
-},
-{
+},{
   "_id": 1699873822.9115734,
   "ApiIp": "/rai/v1/moderations/ProfanityPopup",
   "ApiName": "Moderationlayer_ProfanityPopup",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T11:10:22.911Z"
+    "$date": {
+      "$numberLong": "1699873822911"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T11:10:22.911Z"
+    "$date": {
+      "$numberLong": "1699873822911"
+    }
   }
-},
-{
+},{
   "_id": 1699873865.7543478,
   "ApiIp": "/rai/v1/moderations/ToxicityPopup",
   "ApiName": "Moderationlayer_ToxicityPopup",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T11:11:05.754Z"
+    "$date": {
+      "$numberLong": "1699873865754"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T11:11:05.754Z"
+    "$date": {
+      "$numberLong": "1699873865754"
+    }
   }
-},
-{
+},{
   "_id": 1699890509.5709562,
   "ApiIp": "/api/v1/rai/admin/ptrnRecognise",
   "ApiName": "Admin_ptrnRecognise",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T15:48:29.570Z"
+    "$date": {
+      "$numberLong": "1699890509570"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T15:48:29.570Z"
+    "$date": {
+      "$numberLong": "1699890509570"
+    }
   }
-},
-{
+},{
   "_id": 1699890580.8927627,
   "ApiIp": "/api/v1/rai/admin/ptrnRecogniselist",
   "ApiName": "Admin_ptrnRecogniselist",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T15:49:40.892Z"
+    "$date": {
+      "$numberLong": "1699890580892"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T15:49:40.892Z"
+    "$date": {
+      "$numberLong": "1699890580892"
+    }
   }
-},
-{
+},{
   "_id": 1699890615.886887,
   "ApiIp": "/api/v1/rai/admin/ptrnRecogniseUpdate",
   "ApiName": "Admin_ptrnRecogniseUpdate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T15:50:15.886Z"
+    "$date": {
+      "$numberLong": "1699890615886"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T15:50:15.886Z"
+    "$date": {
+      "$numberLong": "1699890615886"
+    }
   }
-},
-{
+},{
   "_id": 1699890918.229019,
   "ApiIp": "/api/v1/rai/admin/ptrnRecogniseDelete",
   "ApiName": "Admin_ptrnRecogniseDelete",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T15:55:18.229Z"
+    "$date": {
+      "$numberLong": "1699890918229"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T15:55:18.229Z"
+    "$date": {
+      "$numberLong": "1699890918229"
+    }
   }
-},
-{
+},{
   "_id": 1699891317.6822844,
   "ApiIp": "/api/v1/rai/admin/DataRecogGrp",
   "ApiName": "Admin_DataRecogGrp",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T16:01:57.682Z"
+    "$date": {
+      "$numberLong": "1699891317682"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T16:01:57.682Z"
+    "$date": {
+      "$numberLong": "1699891317682"
+    }
   }
-},
-{
+},{
   "_id": 1699891345.0855634,
   "ApiIp": "/api/v1/rai/admin/DataRecogGrplist",
   "ApiName": "Admin_DataRecogGrplist",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T16:02:25.085Z"
+    "$date": {
+      "$numberLong": "1699891345085"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T16:02:25.085Z"
+    "$date": {
+      "$numberLong": "1699891345085"
+    }
   }
-},
-{
+},{
   "_id": 1699891393.7259665,
   "ApiIp": "/api/v1/rai/admin/DataRecogGrpEntites",
   "ApiName": "Admin_DataRecogGrpEntites",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T16:03:13.725Z"
+    "$date": {
+      "$numberLong": "1699891393725"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T16:03:13.725Z"
+    "$date": {
+      "$numberLong": "1699891393725"
+    }
   }
-},
-{
+},{
   "_id": 1699892037.6586986,
   "ApiIp": "/api/v1/rai/admin/DataEntitesUpdate",
   "ApiName": "Admin_DataEntitesUpdate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T16:13:57.658Z"
+    "$date": {
+      "$numberLong": "1699892037658"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T16:13:57.658Z"
+    "$date": {
+      "$numberLong": "1699892037658"
+    }
   }
-},
-{
+},{
   "_id": 1699892148.5037882,
   "ApiIp": "/api/v1/rai/admin/DataGrpUpdate",
   "ApiName": "Admin_DataGrpUpdate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T16:15:48.503Z"
+    "$date": {
+      "$numberLong": "1699892148503"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T16:15:48.503Z"
+    "$date": {
+      "$numberLong": "1699892148503"
+    }
   }
-},
-{
+},{
   "_id": 1699892666.6197364,
   "ApiIp": "/api/v1/rai/admin/DataEntityAdd",
   "ApiName": "Admin_DataEntityAdd",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T16:24:26.619Z"
+    "$date": {
+      "$numberLong": "1699892666619"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T16:24:26.619Z"
+    "$date": {
+      "$numberLong": "1699892666619"
+    }
   }
-},
-{
+},{
   "_id": 1699893609.1387649,
   "ApiIp": "/api/v1/rai/admin/DataRecogGrpDelete",
   "ApiName": "Admin_DataRecogGrpDelete",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T16:40:09.138Z"
+    "$date": {
+      "$numberLong": "1699893609138"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T16:40:09.138Z"
+    "$date": {
+      "$numberLong": "1699893609138"
+    }
   }
-},
-{
+},{
   "_id": 1699893661.5466626,
   "ApiIp": "/api/v1/rai/admin/DataRecogEntityDelete",
   "ApiName": "Admin_DataRecogEntityDelete",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T16:41:01.546Z"
+    "$date": {
+      "$numberLong": "1699893661546"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T16:41:01.546Z"
+    "$date": {
+      "$numberLong": "1699893661546"
+    }
   }
-},
-{
+},{
   "_id": 1699894058.8110979,
   "ApiIp": "/api/v1/rai/admin/AccMasterEntry",
   "ApiName": "Admin_AccMasterEntry",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T16:47:38.811Z"
+    "$date": {
+      "$numberLong": "1699894058811"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T16:47:38.811Z"
+    "$date": {
+      "$numberLong": "1699894058811"
+    }
   }
-},
-{
+},{
   "_id": 1699894239.032783,
   "ApiIp": "/api/v1/rai/admin/AccMasterList",
   "ApiName": "Admin_AccMasterList",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T16:50:39.032Z"
+    "$date": {
+      "$numberLong": "1699894239032"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T16:50:39.032Z"
+    "$date": {
+      "$numberLong": "1699894239032"
+    }
   }
-},
-{
+},{
   "_id": 1699894355.116889,
   "ApiIp": "/api/v1/rai/admin/AccPtrnList",
   "ApiName": "Admin_AccPtrnList",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T16:52:35.116Z"
+    "$date": {
+      "$numberLong": "1699894355116"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T16:52:35.116Z"
+    "$date": {
+      "$numberLong": "1699894355116"
+    }
   }
-},
-{
+},{
   "_id": 1699896353.2384388,
   "ApiIp": "/api/v1/rai/admin/AccDataList",
   "ApiName": "Admin_AccDataList",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T17:25:53.238Z"
+    "$date": {
+      "$numberLong": "1699896353238"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T17:25:53.238Z"
+    "$date": {
+      "$numberLong": "1699896353238"
+    }
   }
-},
-{
+},{
   "_id": 1699896424.3522615,
   "ApiIp": "/api/v1/rai/admin/AccMasterDelete",
   "ApiName": "Admin_AccMasterDelete",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T17:27:04.352Z"
+    "$date": {
+      "$numberLong": "1699896424352"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T17:27:04.352Z"
+    "$date": {
+      "$numberLong": "1699896424352"
+    }
   }
-},
-{
+},{
   "_id": 1699896502.2727542,
   "ApiIp": "/api/v1/rai/admin/AccDataDelete",
   "ApiName": "Admin_AccDataDelete",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T17:28:22.272Z"
+    "$date": {
+      "$numberLong": "1699896502272"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T17:28:22.272Z"
+    "$date": {
+      "$numberLong": "1699896502272"
+    }
   }
-},
-{
+},{
   "_id": 1699896556.4256682,
   "ApiIp": "/api/v1/rai/admin/AccEntityAdd",
   "ApiName": "Admin_AccEntityAdd",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T17:29:16.425Z"
+    "$date": {
+      "$numberLong": "1699896556425"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T17:29:16.425Z"
+    "$date": {
+      "$numberLong": "1699896556425"
+    }
   }
-},
-{
+},{
   "_id": 1699896669.3207376,
   "ApiIp": "/api/v1/rai/admin/PrivacyEncrypt",
   "ApiName": "Admin_PrivacyEncrypt",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T17:31:09.320Z"
+    "$date": {
+      "$numberLong": "1699896669320"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T17:31:09.320Z"
+    "$date": {
+      "$numberLong": "1699896669320"
+    }
   }
-},
-{
+},{
   "_id": 1699896726.617661,
   "ApiIp": "/api/v1/rai/admin/ThresholdUpdate",
   "ApiName": "Admin_ThresholdUpdate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T17:32:06.617Z"
+    "$date": {
+      "$numberLong": "1699896726617"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T17:32:06.617Z"
+    "$date": {
+      "$numberLong": "1699896726617"
+    }
   }
-},
-{
+},{
   "_id": 1699896791.3293257,
   "ApiIp": "/api/v1/rai/admin/getOpenAI",
   "ApiName": "Admin_getOpenAI",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T17:33:11.329Z"
+    "$date": {
+      "$numberLong": "1699896791329"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T17:33:11.329Z"
+    "$date": {
+      "$numberLong": "1699896791329"
+    }
   }
-},
-{
+},{
   "_id": 1699896901.470353,
   "ApiIp": "/api/v1/rai/admin/UpdateOpenAI",
   "ApiName": "Admin_UpdateOpenAI",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T17:35:01.470Z"
+    "$date": {
+      "$numberLong": "1699896901470"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T17:35:01.470Z"
+    "$date": {
+      "$numberLong": "1699896901470"
+    }
   }
-},
-{
+},{
   "_id": 1699897374.99048,
   "ApiIp": "/api/v1/rai/admin/userRole",
   "ApiName": "Admin_userRole",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T17:42:54.990Z"
+    "$date": {
+      "$numberLong": "1699897374990"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T17:42:54.990Z"
+    "$date": {
+      "$numberLong": "1699897374990"
+    }
   }
-},
-{
+},{
   "_id": 1699897801.267249,
   "ApiIp": "/v1/security/model",
   "ApiName": "Security_model",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T17:50:01.267Z"
+    "$date": {
+      "$numberLong": "1699897801267"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T17:50:01.267Z"
+    "$date": {
+      "$numberLong": "1699897801267"
+    }
   }
-},
-{
+},{
   "_id": 1699898260.7091067,
   "ApiIp": "/v1/security/addmodel",
   "ApiName": "Security_addmodel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T17:57:40.709Z"
+    "$date": {
+      "$numberLong": "1699898260709"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T17:57:40.709Z"
+    "$date": {
+      "$numberLong": "1699898260709"
+    }
   }
-},
-{
+},{
   "_id": 1699898502.1945739,
   "ApiIp": "/v1/security/attack",
   "ApiName": "Security_attack",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T18:01:42.194Z"
+    "$date": {
+      "$numberLong": "1699898502194"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T18:01:42.194Z"
+    "$date": {
+      "$numberLong": "1699898502194"
+    }
   }
-},
-{
+},{
   "_id": 1699898531.4191968,
   "ApiIp": "/v1/security/activatemodel",
   "ApiName": "Security_activatemodel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T18:02:11.419Z"
+    "$date": {
+      "$numberLong": "1699898531419"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T18:02:11.419Z"
+    "$date": {
+      "$numberLong": "1699898531419"
+    }
   }
-},
-{
+},{
   "_id": 1699898749.8466828,
   "ApiIp": "/v1/security/activateattack",
   "ApiName": "Security_activateattack",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T18:05:49.846Z"
+    "$date": {
+      "$numberLong": "1699898749846"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T18:05:49.846Z"
+    "$date": {
+      "$numberLong": "1699898749846"
+    }
   }
-},
-{
+},{
   "_id": 1699898792.885807,
   "ApiIp": "/v1/security/tools",
   "ApiName": "Security_tools",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T18:06:32.885Z"
+    "$date": {
+      "$numberLong": "1699898792885"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T18:06:32.885Z"
+    "$date": {
+      "$numberLong": "1699898792885"
+    }
   }
-},
-{
+},{
   "_id": 1699898839.193052,
   "ApiIp": "/v1/security/report",
   "ApiName": "Security_report",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T18:07:19.193Z"
+    "$date": {
+      "$numberLong": "1699898839193"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T18:07:19.193Z"
+    "$date": {
+      "$numberLong": "1699898839193"
+    }
   }
-},
-{
+},{
   "_id": 1699898891.0037973,
   "ApiIp": "/AttackIdentification",
   "ApiName": "Security_AttackIdentification",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T18:08:11.003Z"
+    "$date": {
+      "$numberLong": "1699898891003"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T18:08:11.003Z"
+    "$date": {
+      "$numberLong": "1699898891003"
+    }
   }
-},
-{
+},{
   "_id": 1699898955.7519486,
   "ApiIp": "/rag/v1/FileUpload",
   "ApiName": "RAG_FileUpload",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T18:09:15.751Z"
+    "$date": {
+      "$numberLong": "1699898955751"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T18:09:15.751Z"
+    "$date": {
+      "$numberLong": "1699898955751"
+    }
   }
-},
-{
+},{
   "_id": 1699899092.3736992,
   "ApiIp": "/rag/v1/Retrieval",
   "ApiName": "RAG_Retrieval",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T18:11:32.373Z"
+    "$date": {
+      "$numberLong": "1699899092373"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T18:11:32.373Z"
+    "$date": {
+      "$numberLong": "1699899092373"
+    }
   }
-},
-{
+},{
   "_id": 1699899204.5325818,
   "ApiIp": "/rai/v1/explainability/upload/",
   "ApiName": "Explain_demo_upload",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T18:13:24.532Z"
+    "$date": {
+      "$numberLong": "1699899204532"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T18:13:24.532Z"
+    "$date": {
+      "$numberLong": "1699899204532"
+    }
   }
-},
-{
+},{
   "_id": 1699899247.8832238,
   "ApiIp": "/rai/v1/explainability/submit/",
   "ApiName": "Explain_demo_submit",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-13T18:14:07.883Z"
+    "$date": {
+      "$numberLong": "1699899247883"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-13T18:14:07.883Z"
+    "$date": {
+      "$numberLong": "1699899247883"
+    }
   }
-},
-{
+},{
   "_id": 1699940332.9707618,
   "ApiIp": "/bulkprocessing/file",
   "ApiName": "Bulkprocessing_file",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-14T05:38:52.970Z"
+    "$date": {
+      "$numberLong": "1699940332970"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-14T05:38:52.970Z"
+    "$date": {
+      "$numberLong": "1699940332970"
+    }
   }
-},
-{
+},{
   "_id": 1699942995.9375257,
   "ApiIp": "/api/v1/guardrail/nemo/TopicalRail",
   "ApiName": "Nemo_TopicalRail",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-14T06:23:15.937Z"
+    "$date": {
+      "$numberLong": "1699942995937"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-14T06:23:15.937Z"
+    "$date": {
+      "$numberLong": "1699942995937"
+    }
   }
-},
-{
+},{
   "_id": 1699943032.448778,
   "ApiIp": "/api/v1/guardrail/nemo/JailBreakRail",
   "ApiName": "Nemo_JailBreakRail",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-14T06:23:52.448Z"
+    "$date": {
+      "$numberLong": "1699943032448"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-14T06:23:52.448Z"
+    "$date": {
+      "$numberLong": "1699943032448"
+    }
   }
-},
-{
+},{
   "_id": 1699943064.1148741,
   "ApiIp": "/api/v1/guardrail/nemo/ModerationRail",
   "ApiName": "Nemo_ModerationRail",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-14T06:24:24.114Z"
+    "$date": {
+      "$numberLong": "1699943064114"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-14T06:24:24.114Z"
+    "$date": {
+      "$numberLong": "1699943064114"
+    }
   }
-},
-{
+},{
   "_id": 1699943099.4917374,
   "ApiIp": "/api/v1/guardrail/nemo/FactCheckRail",
   "ApiName": "Nemo_FactCheckRail",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-14T06:24:59.491Z"
+    "$date": {
+      "$numberLong": "1699943099491"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-14T06:24:59.491Z"
+    "$date": {
+      "$numberLong": "1699943099491"
+    }
   }
-},
-{
+},{
   "_id": 1699944485.496505,
   "ApiIp": "/DeferentialPrivacy/",
   "ApiName": "Security_DeferentialPrivacy",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-14T06:48:05.496Z"
+    "$date": {
+      "$numberLong": "1699944485496"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-14T06:48:05.496Z"
+    "$date": {
+      "$numberLong": "1699944485496"
+    }
   }
-},
-{
+},{
   "_id": 1699947341.2855532,
   "ApiIp": "/api/v1/rai/admin/UpdateReminder",
   "ApiName": "Admin_UpdateReminder",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-14T07:35:41.285Z"
+    "$date": {
+      "$numberLong": "1699947341285"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-14T07:35:41.285Z"
+    "$date": {
+      "$numberLong": "1699947341285"
+    }
   }
-},
-{
+},{
   "_id": 1699947375.477032,
   "ApiIp": "/api/v1/rai/admin/UpdateNemo",
   "ApiName": "Admin_UpdateNemo",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-14T07:36:15.477Z"
+    "$date": {
+      "$numberLong": "1699947375477"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-14T07:36:15.477Z"
+    "$date": {
+      "$numberLong": "1699947375477"
+    }
   }
-},
-{
+},{
   "_id": 1700020602.2497191,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "SecurityTraining",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2023-11-15T03:56:42.249Z"
+    "$date": {
+      "$numberLong": "1700020602249"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-15T03:56:42.249Z"
+    "$date": {
+      "$numberLong": "1700020602249"
+    }
   }
-},
-{
+},{
   "_id": 1700546413.648009,
   "ApiIp": "/rag/v1/chatbot",
   "ApiName": "RAG_chatbot",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-21T06:00:13.648Z"
+    "$date": {
+      "$numberLong": "1700546413648"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-21T06:00:13.648Z"
+    "$date": {
+      "$numberLong": "1700546413648"
+    }
   }
-},
-{
+},{
   "_id": 1701323820.1589348,
   "ApiIp": "/v1/security/getBatches/",
   "ApiName": "Security_getBatches",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-30T05:57:00.158Z"
+    "$date": {
+      "$numberLong": "1701323820158"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-30T05:57:00.158Z"
+    "$date": {
+      "$numberLong": "1701323820158"
+    }
   }
-},
-{
+},{
   "_id": 1701323853.7114289,
   "ApiIp": "/v1/security/getReports",
   "ApiName": "Security_getReports",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-30T05:57:33.711Z"
+    "$date": {
+      "$numberLong": "1701323853711"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-30T05:57:33.711Z"
+    "$date": {
+      "$numberLong": "1701323853711"
+    }
   }
-},
-{
+},{
   "_id": 1701323963.273633,
   "ApiIp": "/v1/security/getReport",
   "ApiName": "Security_getReport",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-30T05:59:23.273Z"
+    "$date": {
+      "$numberLong": "1701323963273"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-30T05:59:23.273Z"
+    "$date": {
+      "$numberLong": "1701323963273"
+    }
   }
-},
-{
+},{
   "_id": 1701325044.3192594,
   "ApiIp": "/rai/v1/moderations/feedback",
   "ApiName": "Moderationlayer_feedback",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-11-30T06:17:24.319Z"
+    "$date": {
+      "$numberLong": "1701325044319"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-11-30T06:17:24.319Z"
+    "$date": {
+      "$numberLong": "1701325044319"
+    }
   }
-},
-{
+},{
   "_id": 1701436231.293647,
   "ApiIp": "/security/process",
   "ApiName": "Security_process",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-01T13:10:31.293Z"
+    "$date": {
+      "$numberLong": "1701436231293"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-01T13:10:31.293Z"
+    "$date": {
+      "$numberLong": "1701436231293"
+    }
   }
-},
-{
+},{
   "_id": 1701760565.2666955,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "YOLODEMO",
-  "ApiPort": "83",
+  "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-05T07:16:05.266Z"
+    "$date": {
+      "$numberLong": "1701760565266"
+    }
   },
-  "Ip": "http://localhost",
   "LastUpdatedDateTime": {
-    "$date": "2023-12-05T07:16:05.266Z"
-  },
-  "Name": "YOLODEMO",
-  "port": "83"
-},
-{
+    "$date": {
+      "$numberLong": "1701760565266"
+    }
+  }
+},{
   "_id": 1701760854.2277455,
   "ApiIp": "/v1/security/yoloModel/defense",
   "ApiName": "YOLODEMO_Defense",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-05T07:20:54.227Z"
+    "$date": {
+      "$numberLong": "1701760854227"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-05T07:20:54.227Z"
+    "$date": {
+      "$numberLong": "1701760854227"
+    }
   }
-},
-{
+},{
   "_id": 1701760883.7595599,
   "ApiIp": "/v1/security/yoloModel/attack",
   "ApiName": "YOLODEMO_Attack",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-05T07:21:23.759Z"
+    "$date": {
+      "$numberLong": "1701760883759"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-05T07:21:23.759Z"
+    "$date": {
+      "$numberLong": "1701760883759"
+    }
   }
-},
-{
+},{
   "_id": 1702555288.8757834,
   "ApiIp": "/v1/privacy/code/anonymize",
   "ApiName": "Privacy_code_anonymize",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-14T12:01:28.875Z"
+    "$date": {
+      "$numberLong": "1702555288875"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-14T12:01:28.875Z"
+    "$date": {
+      "$numberLong": "1702555288875"
+    }
   }
-},
-{
+},{
   "_id": 1702555318.8221445,
   "ApiIp": "/v1/privacy/codefile/anonymize",
   "ApiName": "Privacy_codefile_anonymize",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-14T12:01:58.822Z"
+    "$date": {
+      "$numberLong": "1702555318822"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-14T12:01:58.822Z"
+    "$date": {
+      "$numberLong": "1702555318822"
+    }
   }
-},
-{
+},{
   "_id": 1703828415.7030578,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Questionnaire",
-  "ApiPort": "30080",
+  "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:40:15.703Z"
+    "$date": {
+      "$numberLong": "1703828415703"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:40:15.703Z"
+    "$date": {
+      "$numberLong": "1703828415703"
+    }
   }
-},
-{
+},{
   "_id": 1703828448.0872383,
   "ApiIp": "/v1/questionnaire/Details",
   "ApiName": "questionnariesDetails",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:40:48.087Z"
+    "$date": {
+      "$numberLong": "1703828448087"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:40:48.087Z"
+    "$date": {
+      "$numberLong": "1703828448087"
+    }
   }
-},
-{
+},{
   "_id": 1703828478.6058264,
   "ApiIp": "/v1/questionnaire/submitResponse",
   "ApiName": "submitResponse",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:41:18.605Z"
+    "$date": {
+      "$numberLong": "1703828478605"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:41:18.605Z"
+    "$date": {
+      "$numberLong": "1703828478605"
+    }
   }
-},
-{
+},{
   "_id": 1703828510.6364098,
   "ApiIp": "/v1/privacy/DifferentialPrivacy/file",
   "ApiName": "Diff_Priv_file",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:41:50.636Z"
+    "$date": {
+      "$numberLong": "1703828510636"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:41:50.636Z"
+    "$date": {
+      "$numberLong": "1703828510636"
+    }
   }
-},
-{
+},{
   "_id": 1703828533.7630277,
   "ApiIp": "/v1/privacy/DifferentialPrivacy/anonymize",
   "ApiName": "Diff_Priv_Anonymize",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:42:13.763Z"
+    "$date": {
+      "$numberLong": "1703828533763"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:42:13.763Z"
+    "$date": {
+      "$numberLong": "1703828533763"
+    }
   }
-},
-{
+},{
   "_id": 1703828556.6010423,
   "ApiIp": "/rai/v1/moderations",
   "ApiName": "Moderationlayer_Moderations",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:42:36.601Z"
+    "$date": {
+      "$numberLong": "1703828556601"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:42:36.601Z"
+    "$date": {
+      "$numberLong": "1703828556601"
+    }
   }
-},
-{
+},{
   "_id": 1703828586.9386866,
   "ApiIp": "/v1/security/downloadcombinedreport",
   "ApiName": "security_combinedReport",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:43:06.938Z"
+    "$date": {
+      "$numberLong": "1703828586938"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:43:06.938Z"
+    "$date": {
+      "$numberLong": "1703828586938"
+    }
   }
-},
-{
+},{
   "_id": 1703828613.329207,
   "ApiIp": "/rai/v1/security_workbench/runallattacks",
   "ApiName": "Security_runAttacks",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:43:33.329Z"
+    "$date": {
+      "$numberLong": "1703828613329"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:43:33.329Z"
+    "$date": {
+      "$numberLong": "1703828613329"
+    }
   }
-},
-{
+},{
   "_id": 1703828638.9183273,
   "ApiIp": "/v1/security/deletemodel",
   "ApiName": "Security_deleteModel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:43:58.918Z"
+    "$date": {
+      "$numberLong": "1703828638918"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:43:58.918Z"
+    "$date": {
+      "$numberLong": "1703828638918"
+    }
   }
-},
-{
+},{
   "_id": 1703828669.7382267,
   "ApiIp": "/v1/questionnaire/riskDashboardDetails/",
   "ApiName": "Ques_Risk_Dashboard",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:44:29.738Z"
+    "$date": {
+      "$numberLong": "1703828669738"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:44:29.738Z"
+    "$date": {
+      "$numberLong": "1703828669738"
+    }
   }
-},
-{
+},{
   "_id": 1703828730.5547853,
   "ApiIp": "/api/v1/rai/admin/FMConfigEntry",
   "ApiName": "Fm_Config_Entry",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:45:30.554Z"
+    "$date": {
+      "$numberLong": "1703828730554"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:45:30.554Z"
+    "$date": {
+      "$numberLong": "1703828730554"
+    }
   }
-},
-{
+},{
   "_id": 1703828759.5929596,
   "ApiIp": "/api/v1/rai/admin/FMConfigEntryList",
   "ApiName": "Fm_Config_EntryList",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:45:59.592Z"
+    "$date": {
+      "$numberLong": "1703828759592"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:45:59.592Z"
+    "$date": {
+      "$numberLong": "1703828759592"
+    }
   }
-},
-{
+},{
   "_id": 1703828784.626615,
   "ApiIp": "/api/v1/rai/admin/FmGrpDataList",
   "ApiName": "Fm_Config_Data",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:46:24.626Z"
+    "$date": {
+      "$numberLong": "1703828784626"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:46:24.626Z"
+    "$date": {
+      "$numberLong": "1703828784626"
+    }
   }
-},
-{
+},{
   "_id": 1703828810.83289,
   "ApiIp": "/api/v1/rai/admin/FmGrpDataUpdate",
   "ApiName": "Fm_Config_DataUpdate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:46:50.832Z"
+    "$date": {
+      "$numberLong": "1703828810832"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:46:50.832Z"
+    "$date": {
+      "$numberLong": "1703828810832"
+    }
   }
-},
-{
+},{
   "_id": 1703828830.3228798,
   "ApiIp": "/api/v1/rai/admin/FmConfigDelete",
   "ApiName": "Fm_Config_Delete",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:47:10.322Z"
+    "$date": {
+      "$numberLong": "1703828830322"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:47:10.322Z"
+    "$date": {
+      "$numberLong": "1703828830322"
+    }
   }
-},
-{
+},{
   "_id": 1703828853.369091,
   "ApiIp": "/api/v1/rai/admin/ModerationCheckLists",
   "ApiName": "Fm_Config_ModCheck",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:47:33.369Z"
+    "$date": {
+      "$numberLong": "1703828853369"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:47:33.369Z"
+    "$date": {
+      "$numberLong": "1703828853369"
+    }
   }
-},
-{
+},{
   "_id": 1703828876.396341,
   "ApiIp": "/api/v1/rai/admin/RestrictedTopicsLists",
   "ApiName": "Fm_Config_TopicList",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:47:56.396Z"
+    "$date": {
+      "$numberLong": "1703828876396"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:47:56.396Z"
+    "$date": {
+      "$numberLong": "1703828876396"
+    }
   }
-},
-{
+},{
   "_id": 1703828896.252775,
   "ApiIp": "/api/v1/rai/admin/ThemeTextsLists",
   "ApiName": "Fm_Config_ThemeListt",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2023-12-29T05:48:16.252Z"
+    "$date": {
+      "$numberLong": "1703828896252"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2023-12-29T05:48:16.252Z"
+    "$date": {
+      "$numberLong": "1703828896252"
+    }
   }
-},
-{
+},{
   "_id": 1705754563.3018255,
   "ApiIp": "/rai/v1/raimodels/restrictedtopicmodel",
   "ApiName": "Raimoderationmodels_text_restrictedtopicmodel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-01-20T12:42:43.301Z"
+    "$date": {
+      "$numberLong": "1705754563301"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-20T12:42:43.301Z"
+    "$date": {
+      "$numberLong": "1705754563301"
+    }
   }
-},
-{
+},{
   "_id": 1705754603.0803678,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Raimoderationmodels",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-01-20T12:43:23.080Z"
+    "$date": {
+      "$numberLong": "1705754603080"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-20T12:43:23.080Z"
+    "$date": {
+      "$numberLong": "1705754603080"
+    }
   }
-},
-{
+},{
   "_id": 1705754633.1815274,
   "ApiIp": "/v1/questionnaire/ResubmitDetails/",
   "ApiName": "Ques_selectedResponse",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-01-20T12:43:53.181Z"
+    "$date": {
+      "$numberLong": "1705754633181"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-20T12:43:53.181Z"
+    "$date": {
+      "$numberLong": "1705754633181"
+    }
   }
-},
-{
+},{
   "_id": 1705754660.1925957,
   "ApiIp": "/v1/questionnaire/canvas/getResponse/",
   "ApiName": "Canvas_Response",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-01-20T12:44:20.192Z"
+    "$date": {
+      "$numberLong": "1705754660192"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-20T12:44:20.192Z"
+    "$date": {
+      "$numberLong": "1705754660192"
+    }
   }
-},
-{
+},{
   "_id": 1705754687.5107932,
   "ApiIp": "/v1/questionnaire/canvas/submitResponse",
   "ApiName": "Canvas_Submit",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-01-20T12:44:47.510Z"
+    "$date": {
+      "$numberLong": "1705754687510"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-20T12:44:47.510Z"
+    "$date": {
+      "$numberLong": "1705754687510"
+    }
   }
-},
-{
+},{
   "_id": 1705754955.998182,
   "ApiIp": "/rai/v1/moderations/COV",
   "ApiName": "Moderationlayer_COV",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-01-20T12:49:15.998Z"
+    "$date": {
+      "$numberLong": "1705754955998"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-20T12:49:15.998Z"
+    "$date": {
+      "$numberLong": "1705754955998"
+    }
   }
-},
-{
+},{
   "_id": 1705754980.8665712,
   "ApiIp": "/rai/v1/moderations/OrgPolicy",
   "ApiName": "Moderationlayer_OrgPolicy",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-01-20T12:49:40.866Z"
+    "$date": {
+      "$numberLong": "1705754980866"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-20T12:49:40.866Z"
+    "$date": {
+      "$numberLong": "1705754980866"
+    }
   }
-},
-{
+},{
   "_id": 1705755005.443805,
   "ApiIp": "/rai/v1/moderations/openaiCOT",
   "ApiName": "Moderationlayer_openaiCOT",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-01-20T12:50:05.443Z"
+    "$date": {
+      "$numberLong": "1705755005443"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-20T12:50:05.443Z"
+    "$date": {
+      "$numberLong": "1705755005443"
+    }
   }
-},
-{
+},{
   "_id": 1705755029.6945438,
   "ApiIp": "/rag/v1/RetrievalKepler",
   "ApiName": "RAG_RetrievalKepler",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-01-20T12:50:29.694Z"
+    "$date": {
+      "$numberLong": "1705755029694"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-20T12:50:29.694Z"
+    "$date": {
+      "$numberLong": "1705755029694"
+    }
   }
-},
-{
+},{
   "_id": 1705908101.8715713,
   "ApiIp": "/rai/v1/security_workbench/attack",
   "ApiName": "security_applicableAttack",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-01-22T07:21:41.871Z"
+    "$date": {
+      "$numberLong": "1705908101871"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-22T07:21:41.871Z"
+    "$date": {
+      "$numberLong": "1705908101871"
+    }
   }
-},
-{
+},{
   "_id": 1706102642.4947278,
   "ApiIp": "/rai/v1/moderations/gEval",
   "ApiName": "Moderationlayer_gEval",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-01-24T13:24:02.494Z"
+    "$date": {
+      "$numberLong": "1706102642494"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-24T13:24:02.494Z"
+    "$date": {
+      "$numberLong": "1706102642494"
+    }
   }
-},
-{
+},{
   "_id": 1706102674.887928,
   "ApiIp": "/docProcess/getFileContent/",
   "ApiName": "DocProcessing_getFileContent",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-01-24T13:24:34.887Z"
+    "$date": {
+      "$numberLong": "1706102674887"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-01-24T13:24:34.887Z"
+    "$date": {
+      "$numberLong": "1706102674887"
+    }
   }
-},
-{
+},{
   "_id": 1706879340.306166,
   "ApiIp": "/api/v1/rai/admin/getAttributes",
   "ApiName": "Fm_Config_GetAttributes",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:09:00.306Z"
+    "$date": {
+      "$numberLong": "1706879340306"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:09:00.306Z"
+    "$date": {
+      "$numberLong": "1706879340306"
+    }
   }
-},
-{
+},{
   "_id": 1706879380.8420568,
   "ApiIp": "/api/v1/rai/admin/OutputModerationCheckLists",
   "ApiName": "Fm_Config_OutputModCheck",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:09:40.842Z"
+    "$date": {
+      "$numberLong": "1706879380842"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:09:40.842Z"
+    "$date": {
+      "$numberLong": "1706879380842"
+    }
   }
-},
-{
+},{
   "_id": 1706879420.178345,
   "ApiIp": "/v1/questionnaire/lotAssign",
   "ApiName": "AssignLot",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:10:20.178Z"
+    "$date": {
+      "$numberLong": "1706879420178"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:10:20.178Z"
+    "$date": {
+      "$numberLong": "1706879420178"
+    }
   }
-},
-{
+},{
   "_id": 1706879450.7095087,
   "ApiIp": "/v1/questionnaire/allLotDetails/",
   "ApiName": "AllLotDetails",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:10:50.709Z"
+    "$date": {
+      "$numberLong": "1706879450709"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:10:50.709Z"
+    "$date": {
+      "$numberLong": "1706879450709"
+    }
   }
-},
-{
+},{
   "_id": 1706879476.9001076,
   "ApiIp": "/api/v1/rai/admin/uploadFile",
   "ApiName": "Admin_uploadFile",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:11:16.900Z"
+    "$date": {
+      "$numberLong": "1706879476900"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:11:16.900Z"
+    "$date": {
+      "$numberLong": "1706879476900"
+    }
   }
-},
-{
+},{
   "_id": 1706879502.7543921,
   "ApiIp": "/api/v1/rai/admin/getFiles",
   "ApiName": "Admin_getFiles",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:11:42.754Z"
+    "$date": {
+      "$numberLong": "1706879502754"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:11:42.754Z"
+    "$date": {
+      "$numberLong": "1706879502754"
+    }
   }
-},
-{
+},{
   "_id": 1706879530.9506445,
   "ApiIp": "/api/v1/rai/admin/setCache",
   "ApiName": "Admin_setCache",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:12:10.950Z"
+    "$date": {
+      "$numberLong": "1706879530950"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:12:10.950Z"
+    "$date": {
+      "$numberLong": "1706879530950"
+    }
   }
-},
-{
+},{
   "_id": 1706879563.6535585,
   "ApiIp": "/api/v1/rai/admin/getEmbedings",
   "ApiName": "Admin_getEmbedings",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:12:43.653Z"
+    "$date": {
+      "$numberLong": "1706879563653"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:12:43.653Z"
+    "$date": {
+      "$numberLong": "1706879563653"
+    }
   }
-},
-{
+},{
   "_id": 1706879593.1179986,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Admin_Rag",
-  "ApiPort": "30016",
+  "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:13:13.118Z"
+    "$date": {
+      "$numberLong": "1706879593118"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:13:13.118Z"
+    "$date": {
+      "$numberLong": "1706879593118"
+    }
   }
-},
-{
+},{
   "_id": 1706879617.8102813,
   "ApiIp": "/v1/questionnaire/aicanvas/submitResponse",
   "ApiName": "Ai_Canvas_Submit",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:13:37.810Z"
+    "$date": {
+      "$numberLong": "1706879617810"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:13:37.810Z"
+    "$date": {
+      "$numberLong": "1706879617810"
+    }
   }
-},
-{
+},{
   "_id": 1706879643.5627618,
   "ApiIp": "/v1/questionnaire/aicanvas/getResponse/",
   "ApiName": "AI_Canvas_Response",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:14:03.562Z"
+    "$date": {
+      "$numberLong": "1706879643562"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:14:03.562Z"
+    "$date": {
+      "$numberLong": "1706879643562"
+    }
   }
-},
-{
+},{
   "_id": 1706879667.5139174,
   "ApiIp": "/v1/questionnaire/createUsecase",
   "ApiName": "Questionnaire_createUsecase",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:14:27.513Z"
+    "$date": {
+      "$numberLong": "1706879667513"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:14:27.513Z"
+    "$date": {
+      "$numberLong": "1706879667513"
+    }
   }
-},
-{
+},{
   "_id": 1706879697.111173,
   "ApiIp": "/v1/questionnaire/useCaseDetails/",
   "ApiName": "Questionnaire_getUsecaseDetail",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-02T13:14:57.111Z"
+    "$date": {
+      "$numberLong": "1706879697111"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-02T13:14:57.111Z"
+    "$date": {
+      "$numberLong": "1706879697111"
+    }
   }
-},
-{
+},{
   "_id": 1709203685.3708699,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Security_llm",
-  "ApiPort": "8030",
+  "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-29T10:48:05.370Z"
+    "$date": {
+      "$numberLong": "1709203685370"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-29T10:48:05.370Z"
+    "$date": {
+      "$numberLong": "1709203685370"
+    }
   }
-},
-{
+},{
   "_id": 1709203707.819463,
   "ApiIp": "/v1/infosys/llm/security/datasets",
   "ApiName": "SecurityLLM_availableDataSets",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-29T10:48:27.819Z"
+    "$date": {
+      "$numberLong": "1709203707819"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-29T10:48:27.819Z"
+    "$date": {
+      "$numberLong": "1709203707819"
+    }
   }
-},
-{
+},{
   "_id": 1709203736.5011249,
   "ApiIp": "/v1/infosys/llm/security/dataset/preview",
   "ApiName": "SecurityLLM_previewDataSets",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-29T10:48:56.501Z"
+    "$date": {
+      "$numberLong": "1709203736501"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-29T10:48:56.501Z"
+    "$date": {
+      "$numberLong": "1709203736501"
+    }
   }
-},
-{
+},{
   "_id": 1709203755.5249367,
   "ApiIp": "/v1/infosys/llm/security/addDataset",
   "ApiName": "SecurityLLM_addDataSet",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-29T10:49:15.524Z"
+    "$date": {
+      "$numberLong": "1709203755524"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-29T10:49:15.524Z"
+    "$date": {
+      "$numberLong": "1709203755524"
+    }
   }
-},
-{
+},{
   "_id": 1709203774.9388616,
   "ApiIp": "/v1/infosys/llm/security/models",
   "ApiName": "SecurityLLM_availableModels",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-29T10:49:34.938Z"
+    "$date": {
+      "$numberLong": "1709203774938"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-29T10:49:34.938Z"
+    "$date": {
+      "$numberLong": "1709203774938"
+    }
   }
-},
-{
+},{
   "_id": 1709203796.3983262,
   "ApiIp": "/v1/infosys/llm/security/addModel",
   "ApiName": "SecurityLLM_addModel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-29T10:49:56.398Z"
+    "$date": {
+      "$numberLong": "1709203796398"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-29T10:49:56.398Z"
+    "$date": {
+      "$numberLong": "1709203796398"
+    }
   }
-},
-{
+},{
   "_id": 1709203820.5665798,
   "ApiIp": "/v1/infosys/llm/security/robustness",
   "ApiName": "SecurityLLM_validateModel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-29T10:50:20.566Z"
+    "$date": {
+      "$numberLong": "1709203820566"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-29T10:50:20.566Z"
+    "$date": {
+      "$numberLong": "1709203820566"
+    }
   }
-},
-{
+},{
   "_id": 1709203842.3143325,
   "ApiIp": "/v1/infosys/llm/security/leaderBoard",
   "ApiName": "SecurityLLM_getLeaderboard",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-29T10:50:42.314Z"
+    "$date": {
+      "$numberLong": "1709203842314"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-29T10:50:42.314Z"
+    "$date": {
+      "$numberLong": "1709203842314"
+    }
   }
-},
-{
+},{
   "_id": 1709203858.0677817,
   "ApiIp": "/v1/infosys/llm/security/robustness/results",
   "ApiName": "SecurityLLM_robustnessResults",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-02-29T10:50:58.067Z"
+    "$date": {
+      "$numberLong": "1709203858067"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-02-29T10:50:58.067Z"
+    "$date": {
+      "$numberLong": "1709203858067"
+    }
   }
-},
-{
+},{
   "_id": 1709637433.999187,
   "ApiIp": "/v1/infosys/llm/security/deleteModel",
   "ApiName": "SecurityLLM_deleteModel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-05T11:17:13.999Z"
+    "$date": {
+      "$numberLong": "1709637433999"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-05T11:17:13.999Z"
+    "$date": {
+      "$numberLong": "1709637433999"
+    }
   }
-},
-{
+},{
   "_id": 1709637450.6561406,
   "ApiIp": "/v1/infosys/llm/security/deleteDataset",
   "ApiName": "SecurityLLM_deleteDataSet",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-05T11:17:30.656Z"
+    "$date": {
+      "$numberLong": "1709637450656"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-05T11:17:30.656Z"
+    "$date": {
+      "$numberLong": "1709637450656"
+    }
   }
-},
-{
+},{
   "_id": 1709808665.3668065,
   "ApiIp": "/api/v1/safety/profanity/imageanalyze",
   "ApiName": "Profan_Image_Analyse",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:51:05.366Z"
+    "$date": {
+      "$numberLong": "1709808665366"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:51:05.366Z"
+    "$date": {
+      "$numberLong": "1709808665366"
+    }
   }
-},
-{
+},{
   "_id": 1709808699.8180697,
   "ApiIp": "/api/v1/safety/profanity/imageGenerate",
   "ApiName": "Profan_Image_Generate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:51:39.818Z"
+    "$date": {
+      "$numberLong": "1709808699818"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:51:39.818Z"
+    "$date": {
+      "$numberLong": "1709808699818"
+    }
   }
-},
-{
+},{
   "_id": 1709808784.4361339,
   "ApiIp": "/v1/questionnaire/workbench/uploadFile",
   "ApiName": "Workbench_UploadFile",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:53:04.436Z"
+    "$date": {
+      "$numberLong": "1709808784436"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:53:04.436Z"
+    "$date": {
+      "$numberLong": "1709808784436"
+    }
   }
-},
-{
+},{
   "_id": 1709808815.2562478,
   "ApiIp": "/api/v1/fairness/mitigation/getDataset",
   "ApiName": "MitigateDataSet",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:53:35.256Z"
+    "$date": {
+      "$numberLong": "1709808815256"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:53:35.256Z"
+    "$date": {
+      "$numberLong": "1709808815256"
+    }
   }
-},
-{
+},{
   "_id": 1709808834.2763226,
   "ApiIp": "/api/v1/fairness/mitigation/getAttributes",
   "ApiName": "MitigateAttributes",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:53:54.276Z"
+    "$date": {
+      "$numberLong": "1709808834276"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:53:54.276Z"
+    "$date": {
+      "$numberLong": "1709808834276"
+    }
   }
-},
-{
+},{
   "_id": 1709808855.6922145,
   "ApiIp": "/api/v1/fairness/mitigation/getMitigatedData/",
   "ApiName": "MitigateDownload",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:54:15.692Z"
+    "$date": {
+      "$numberLong": "1709808855692"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:54:15.692Z"
+    "$date": {
+      "$numberLong": "1709808855692"
+    }
   }
-},
-{
+},{
   "_id": 1709808878.36307,
   "ApiIp": "/api/v1/fairness/pretrain/mitigation/getDataset",
   "ApiName": "PretrainMitigateDataSet",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:54:38.363Z"
+    "$date": {
+      "$numberLong": "1709808878363"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:54:38.363Z"
+    "$date": {
+      "$numberLong": "1709808878363"
+    }
   }
-},
-{
+},{
   "_id": 1709808904.810803,
   "ApiIp": "/api/v1/fairness/pretrain/mitigation/getAttributes",
   "ApiName": "PretrainMitigateAttributes",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:55:04.810Z"
+    "$date": {
+      "$numberLong": "1709808904810"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:55:04.810Z"
+    "$date": {
+      "$numberLong": "1709808904810"
+    }
   }
-},
-{
+},{
   "_id": 1709808928.2945604,
   "ApiIp": "/v1/privacy/image/masking",
   "ApiName": "Privacy_image_masking",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:55:28.294Z"
+    "$date": {
+      "$numberLong": "1709808928294"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:55:28.294Z"
+    "$date": {
+      "$numberLong": "1709808928294"
+    }
   }
-},
-{
+},{
   "_id": 1709808986.3801534,
-  "ApiIp": "http://localhost:80",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Workbench",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:56:26.380Z"
+    "$date": {
+      "$numberLong": "1709808986380"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:56:26.380Z"
+    "$date": {
+      "$numberLong": "1709808986380"
+    }
   }
-},
-{
+},{
   "_id": 1709809016.5467317,
   "ApiIp": "/v1/workbench/data",
   "ApiName": "Workbench_Data",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:56:56.546Z"
+    "$date": {
+      "$numberLong": "1709809016546"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:56:56.546Z"
+    "$date": {
+      "$numberLong": "1709809016546"
+    }
   }
-},
-{
+},{
   "_id": 1709809034.3498983,
   "ApiIp": "/v1/workbench/model",
   "ApiName": "Workbench_Model",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:57:14.349Z"
+    "$date": {
+      "$numberLong": "1709809034349"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:57:14.349Z"
+    "$date": {
+      "$numberLong": "1709809034349"
+    }
   }
-},
-{
+},{
   "_id": 1709809055.5838795,
   "ApiIp": "/v1/workbench/deletemodel",
   "ApiName": "Workbench_DeleteModel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:57:35.583Z"
+    "$date": {
+      "$numberLong": "1709809055583"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:57:35.583Z"
+    "$date": {
+      "$numberLong": "1709809055583"
+    }
   }
-},
-{
+},{
   "_id": 1709809073.2021337,
   "ApiIp": "/v1/workbench/addmodel",
   "ApiName": "Workbench_AddModel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:57:53.202Z"
+    "$date": {
+      "$numberLong": "1709809073202"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:57:53.202Z"
+    "$date": {
+      "$numberLong": "1709809073202"
+    }
   }
-},
-{
+},{
   "_id": 1709809097.244455,
   "ApiIp": "/v1/workbench/updatemodel",
   "ApiName": "Workbench_UpdateModel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:58:17.244Z"
+    "$date": {
+      "$numberLong": "1709809097244"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:58:17.244Z"
+    "$date": {
+      "$numberLong": "1709809097244"
+    }
   }
-},
-{
+},{
   "_id": 1709809116.0885508,
   "ApiIp": "/v1/workbench/deletedata",
   "ApiName": "Workbench_DeleteData",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:58:36.088Z"
+    "$date": {
+      "$numberLong": "1709809116088"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:58:36.088Z"
+    "$date": {
+      "$numberLong": "1709809116088"
+    }
   }
-},
-{
+},{
   "_id": 1709809135.7876327,
   "ApiIp": "/v1/workbench/adddata",
   "ApiName": "Workbench_AddData",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:58:55.787Z"
+    "$date": {
+      "$numberLong": "1709809135787"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:58:55.787Z"
+    "$date": {
+      "$numberLong": "1709809135787"
+    }
   }
-},
-{
+},{
   "_id": 1709809156.8593292,
   "ApiIp": "/v1/workbench/updatedata",
   "ApiName": "Workbench_UpdateData",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:59:16.859Z"
+    "$date": {
+      "$numberLong": "1709809156859"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:59:16.859Z"
+    "$date": {
+      "$numberLong": "1709809156859"
+    }
   }
-},
-{
+},{
   "_id": 1709809175.0221066,
   "ApiIp": "/api/v1/rai/admin/deleteFile",
   "ApiName": "Admin_LLmExplain_deleteFile",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-03-07T10:59:35.022Z"
+    "$date": {
+      "$numberLong": "1709809175022"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-03-07T10:59:35.022Z"
+    "$date": {
+      "$numberLong": "1709809175022"
+    }
   }
-},
-{
+},{
   "_id": 1712235573.8162968,
   "ApiIp": "/api/v1/fairness/mitigation/model/uploadFiles",
   "ApiName": "MitigateModelUpload",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-04T12:59:33.816Z"
+    "$date": {
+      "$numberLong": "1712235573816"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-04T12:59:33.816Z"
+    "$date": {
+      "$numberLong": "1712235573816"
+    }
   }
-},
-{
+},{
   "_id": 1712235593.8716433,
   "ApiIp": "/api/v1/fairness/mitigation/model/getMitigatedModelNameAnalyze",
   "ApiName": "MitigatedModelNameAnalyze",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-04T12:59:53.871Z"
+    "$date": {
+      "$numberLong": "1712235593871"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-04T12:59:53.871Z"
+    "$date": {
+      "$numberLong": "1712235593871"
+    }
   }
-},
-{
+},{
   "_id": 1712235608.612879,
   "ApiIp": "/api/v1/fairness/mitigation/model/getMitigatedModel",
   "ApiName": "MitigatedModelDwnld",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-04T13:00:08.612Z"
+    "$date": {
+      "$numberLong": "1712235608612"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-04T13:00:08.612Z"
+    "$date": {
+      "$numberLong": "1712235608612"
+    }
   }
-},
-{
+},{
   "_id": 1712235625.9510992,
   "ApiIp": "/rag/v1/cov",
   "ApiName": "RagCOV",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-04T13:00:25.951Z"
+    "$date": {
+      "$numberLong": "1712235625951"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-04T13:00:25.951Z"
+    "$date": {
+      "$numberLong": "1712235625951"
+    }
   }
-},
-{
+},{
   "_id": 1712235638.0931468,
   "ApiIp": "/rag/v1/cot",
   "ApiName": "RagCOT",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-04T13:00:38.093Z"
+    "$date": {
+      "$numberLong": "1712235638093"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-04T13:00:38.093Z"
+    "$date": {
+      "$numberLong": "1712235638093"
+    }
   }
-},
-{
+},{
   "_id": 1712291429.156694,
   "ApiIp": "/api/v1/rai/admin/getAccount",
   "ApiName": "getAccountDetail",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-05T04:30:29.156Z"
+    "$date": {
+      "$numberLong": "1712291429156"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-05T04:30:29.156Z"
+    "$date": {
+      "$numberLong": "1712291429156"
+    }
   }
-},
-{
+},{
   "_id": 1712291450.6384053,
   "ApiIp": "/api/v1/rai/admin/PrivacyParameter",
   "ApiName": "setPrivacyParameter",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-05T04:30:50.638Z"
+    "$date": {
+      "$numberLong": "1712291450638"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-05T04:30:50.638Z"
+    "$date": {
+      "$numberLong": "1712291450638"
+    }
   }
-},
-{
+},{
   "_id": 1712291476.4164398,
   "ApiIp": "/api/v1/rai/admin/SafetyParameter",
   "ApiName": "setSafetyParameter",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-05T04:31:16.416Z"
+    "$date": {
+      "$numberLong": "1712291476416"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-05T04:31:16.416Z"
+    "$date": {
+      "$numberLong": "1712291476416"
+    }
   }
-},
-{
+},{
   "_id": 1712291538.739218,
   "ApiIp": "/api/v1/rai/admin/AccSafetyListAccountWise",
   "ApiName": "Admin_AccSafetyListAccountWise",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-05T04:32:18.739Z"
+    "$date": {
+      "$numberLong": "1712291538739"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-05T04:32:18.739Z"
+    "$date": {
+      "$numberLong": "1712291538739"
+    }
   }
-},
-{
+},{
   "_id": 1712291556.1883044,
   "ApiIp": "/api/v1/rai/admin/SafetyUpdate",
   "ApiName": "Admin_SafetyUpdate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-05T04:32:36.188Z"
+    "$date": {
+      "$numberLong": "1712291556188"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-05T04:32:36.188Z"
+    "$date": {
+      "$numberLong": "1712291556188"
+    }
   }
-},
-{
+},{
   "_id": 1712922747.2786896,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "SecurityLLMInfo",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-04-12T11:52:27.278Z"
+    "$date": {
+      "$numberLong": "1712922747278"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-12T11:52:27.278Z"
+    "$date": {
+      "$numberLong": "1712922747278"
+    }
   }
-},
-{
+},{
   "_id": 1712922785.6153767,
   "ApiIp": "/v1/llm/security/datasets",
   "ApiName": "SecurityLLMInfo_datasets",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-12T11:53:05.615Z"
+    "$date": {
+      "$numberLong": "1712922785615"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-12T11:53:05.615Z"
+    "$date": {
+      "$numberLong": "1712922785615"
+    }
   }
-},
-{
+},{
   "_id": 1712922817.3777297,
   "ApiIp": "/v1/llm/security/leaderBoard",
   "ApiName": "SecurityLLMInfo_leadeboard",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-12T11:53:37.377Z"
+    "$date": {
+      "$numberLong": "1712922817377"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-12T11:53:37.377Z"
+    "$date": {
+      "$numberLong": "1712922817377"
+    }
   }
-},
-{
+},{
   "_id": 1712930021.8330934,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "SecurityLLMFairness",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-04-12T13:53:41.833Z"
+    "$date": {
+      "$numberLong": "1712930021833"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-12T13:53:41.833Z"
+    "$date": {
+      "$numberLong": "1712930021833"
+    }
   }
-},
-{
+},{
   "_id": 1712930060.8690495,
   "ApiIp": "/api/v1/scores/getScores",
   "ApiName": "SecurityLLMFairness_leaderboard",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-12T13:54:20.869Z"
+    "$date": {
+      "$numberLong": "1712930060869"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-12T13:54:20.869Z"
+    "$date": {
+      "$numberLong": "1712930060869"
+    }
   }
-},
-{
+},{
   "_id": 1712930090.8503227,
   "ApiIp": "/api/v1/scores/inhouse/getScores",
   "ApiName": "SecurityLLMFairnessInfo_leaderboard",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-12T13:54:50.850Z"
+    "$date": {
+      "$numberLong": "1712930090850"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-12T13:54:50.850Z"
+    "$date": {
+      "$numberLong": "1712930090850"
+    }
   }
-},
-{
+},{
   "_id": 1712990241.157155,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Llm_Explain",
-  "ApiPort": "8010",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:37:21.157Z"
+    "$date": {
+      "$numberLong": "1712990241157"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:37:21.157Z"
+    "$date": {
+      "$numberLong": "1712990241157"
+    }
   }
-},
-{
+},{
   "_id": 1712990286.975736,
   "ApiIp": "/rai/v1/llm-explainability/token-importance",
   "ApiName": "Token_Importance",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:38:06.975Z"
+    "$date": {
+      "$numberLong": "1712990286975"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:38:06.975Z"
+    "$date": {
+      "$numberLong": "1712990286975"
+    }
   }
-},
-{
+},{
   "_id": 1712990315.5654223,
   "ApiIp": "/rai/v1/llm-explainability/uncertainty",
   "ApiName": "Uncertainty",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:38:35.565Z"
+    "$date": {
+      "$numberLong": "1712990315565"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:38:35.565Z"
+    "$date": {
+      "$numberLong": "1712990315565"
+    }
   }
-},
-{
+},{
   "_id": 1712990347.9825826,
   "ApiIp": "/v1/workbench/batchgeneration",
   "ApiName": "BatchGeneration",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:39:07.982Z"
+    "$date": {
+      "$numberLong": "1712990347982"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:39:07.982Z"
+    "$date": {
+      "$numberLong": "1712990347982"
+    }
   }
-},
-{
+},{
   "_id": 1712990378.1529202,
   "ApiIp": "/v1/workbench/getbatchtable",
   "ApiName": "BatchTable",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:39:38.152Z"
+    "$date": {
+      "$numberLong": "1712990378152"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:39:38.152Z"
+    "$date": {
+      "$numberLong": "1712990378152"
+    }
   }
-},
-{
+},{
   "_id": 1712990408.4927654,
   "ApiIp": "/v1/workbench/tenet",
   "ApiName": "AllTenant",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:40:08.492Z"
+    "$date": {
+      "$numberLong": "1712990408492"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:40:08.492Z"
+    "$date": {
+      "$numberLong": "1712990408492"
+    }
   }
-},
-{
+},{
   "_id": 1712990437.7203536,
   "ApiIp": "/rai/v1/explainability/report/generate",
   "ApiName": "ExplainGenReport",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:40:37.720Z"
+    "$date": {
+      "$numberLong": "1712990437720"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:40:37.720Z"
+    "$date": {
+      "$numberLong": "1712990437720"
+    }
   }
-},
-{
+},{
   "_id": 1712990468.267317,
   "ApiIp": "/api/v1/fairness/wrapper/batchId",
   "ApiName": "FairGenReport",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:41:08.267Z"
+    "$date": {
+      "$numberLong": "1712990468267"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:41:08.267Z"
+    "$date": {
+      "$numberLong": "1712990468267"
+    }
   }
-},
-{
+},{
   "_id": 1712990496.5889404,
   "ApiIp": "/v1/report/downloadreport",
   "ApiName": "DownloadWorkReport",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:41:36.588Z"
+    "$date": {
+      "$numberLong": "1712990496588"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:41:36.588Z"
+    "$date": {
+      "$numberLong": "1712990496588"
+    }
   }
-},
-{
+},{
   "_id": 1712990524.0743544,
   "ApiIp": "/api/v1/fairness/bias/Workbench/fileid",
   "ApiName": "FairSubmit",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:42:04.074Z"
+    "$date": {
+      "$numberLong": "1712990524074"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:42:04.074Z"
+    "$date": {
+      "$numberLong": "1712990524074"
+    }
   }
-},
-{
+},{
   "_id": 1712990619.2526076,
   "ApiIp": "/rai/v1/explainability/methods/get",
   "ApiName": "ExplainWorkMethods",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:43:39.252Z"
+    "$date": {
+      "$numberLong": "1712990619252"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:43:39.252Z"
+    "$date": {
+      "$numberLong": "1712990619252"
+    }
   }
-},
-{
+},{
   "_id": 1712990646.272663,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "WorkbenchReport",
-  "ApiPort": "82",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-04-13T06:44:06.272Z"
+    "$date": {
+      "$numberLong": "1712990646272"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-13T06:44:06.272Z"
+    "$date": {
+      "$numberLong": "1712990646272"
+    }
   }
-},
-{
+},{
   "_id": 1713246870.625191,
   "ApiIp": "/v1/infosys/llm/security/getExternalRobustnessScore",
   "ApiName": "SecurityLLM_ExternalRobustScore",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T05:54:30.625Z"
+    "$date": {
+      "$numberLong": "1713246870625"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T05:54:30.625Z"
+    "$date": {
+      "$numberLong": "1713246870625"
+    }
   }
-},
-{
+},{
   "_id": 1713246899.7957458,
   "ApiIp": "/v1/infosys/llm/security/getExternalAttackScore",
   "ApiName": "SecurityLLM_ExternalAttackScore",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T05:54:59.795Z"
+    "$date": {
+      "$numberLong": "1713246899795"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T05:54:59.795Z"
+    "$date": {
+      "$numberLong": "1713246899795"
+    }
   }
-},
-{
+},{
   "_id": 1713251116.9136307,
   "ApiIp": "/api/v1/trustllm/scores/fairness/getScores",
   "ApiName": "SecurityLLMF",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T07:05:16.913Z"
+    "$date": {
+      "$numberLong": "1713251116913"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T07:05:16.913Z"
+    "$date": {
+      "$numberLong": "1713251116913"
+    }
   }
-},
-{
+},{
   "_id": 1713251189.0154178,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "SecurityLLMFairness1",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-04-16T07:06:29.015Z"
+    "$date": {
+      "$numberLong": "1713251189015"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T07:06:29.015Z"
+    "$date": {
+      "$numberLong": "1713251189015"
+    }
   }
-},
-{
+},{
   "_id": 1713251313.79637,
   "ApiIp": "/api/v1/trustllm/scores/privacy/getScores",
   "ApiName": "SecurityLLMPrivacyLScore",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T07:08:33.796Z"
+    "$date": {
+      "$numberLong": "1713251313796"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T07:08:33.796Z"
+    "$date": {
+      "$numberLong": "1713251313796"
+    }
   }
-},
-{
+},{
   "_id": 1713251859.1731951,
   "ApiIp": "/api/v1/trustllm/scores/safety/getScores",
   "ApiName": "SecurityLLMSafetyLScore",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T07:17:39.173Z"
+    "$date": {
+      "$numberLong": "1713251859173"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T07:17:39.173Z"
+    "$date": {
+      "$numberLong": "1713251859173"
+    }
   }
-},
-{
+},{
   "_id": 1713252358.7026126,
   "ApiIp": "/api/v1/trustllm/scores/ethics/getScores",
   "ApiName": "SecurityLLMEthicsLScore",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T07:25:58.702Z"
+    "$date": {
+      "$numberLong": "1713252358702"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T07:25:58.702Z"
+    "$date": {
+      "$numberLong": "1713252358702"
+    }
   }
-},
-{
+},{
   "_id": 1713253058.4366598,
   "ApiIp": "/api/v1/trustllm/scores/truthfullness/getScores",
   "ApiName": "SecurityLLMTruthfullnessLScore",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T07:37:38.436Z"
+    "$date": {
+      "$numberLong": "1713253058436"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T07:37:38.436Z"
+    "$date": {
+      "$numberLong": "1713253058436"
+    }
   }
-},
-{
+},{
   "_id": 1713253324.6171227,
   "ApiIp": "/api/v1/trustllm/inhouse/scores/fairness/getScores",
   "ApiName": "SecurityLLMInfoFairnessLScore",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T07:42:04.617Z"
+    "$date": {
+      "$numberLong": "1713253324617"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T07:42:04.617Z"
+    "$date": {
+      "$numberLong": "1713253324617"
+    }
   }
-},
-{
+},{
   "_id": 1713254183.4858499,
   "ApiIp": "/api/v1/trustllm/inhouse/scores/truthfullness/getScores",
   "ApiName": "SecurityLLMInfoTruthfullnessLScore",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T07:56:23.485Z"
+    "$date": {
+      "$numberLong": "1713254183485"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T07:56:23.485Z"
+    "$date": {
+      "$numberLong": "1713254183485"
+    }
   }
-},
-{
+},{
   "_id": 1713257198.820814,
   "ApiIp": "/api/v1/trustllm/inhouse/scores/safety/getScores",
   "ApiName": "SecurityLLMInfoSafetyLScore",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T08:46:38.820Z"
+    "$date": {
+      "$numberLong": "1713257198820"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T08:46:38.820Z"
+    "$date": {
+      "$numberLong": "1713257198820"
+    }
   }
-},
-{
+},{
   "_id": 1713257645.2274718,
   "ApiIp": "/api/v1/trustllm/inhouse/scores/privacy/getScores",
   "ApiName": "SecurityLLMInfoPrivacyLScore",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T08:54:05.227Z"
+    "$date": {
+      "$numberLong": "1713257645227"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T08:54:05.227Z"
+    "$date": {
+      "$numberLong": "1713257645227"
+    }
   }
-},
-{
+},{
   "_id": 1713257827.136645,
   "ApiIp": "/api/v1/trustllm/inhouse/scores/ethics/getScores",
   "ApiName": "SecurityLLMInfoEthicsLScore",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-16T08:57:07.136Z"
+    "$date": {
+      "$numberLong": "1713257827136"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T08:57:07.136Z"
+    "$date": {
+      "$numberLong": "1713257827136"
+    }
   }
-},
-{
+},{
   "_id": 1713259813.132782,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "SecurityLLMLeaderboard",
-  "ApiPort": "8030",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-04-16T09:30:13.132Z"
+    "$date": {
+      "$numberLong": "1713259813132"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-16T09:30:13.132Z"
+    "$date": {
+      "$numberLong": "1713259813132"
+    }
   }
-},
-{
+},{
   "_id": 1714385869.015188,
   "ApiIp": "/v1/workbench/deletebatch",
   "ApiName": "Workbench_deleteBatch",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-04-29T10:17:49.015Z"
+    "$date": {
+      "$numberLong": "1714385869015"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-04-29T10:17:49.015Z"
+    "$date": {
+      "$numberLong": "1714385869015"
+    }
   }
-},
-{
+},{
   "_id": 1715083466.368361,
   "ApiIp": "/rag/v1/thot",
   "ApiName": "RagTHOT",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-07T12:04:26.368Z"
+    "$date": {
+      "$numberLong": "1715083466368"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-07T12:04:26.368Z"
+    "$date": {
+      "$numberLong": "1715083466368"
+    }
   }
-},
-{
+},{
   "_id": 1715169585.9038815,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "FairnessAzure",
-  "ApiPort": "8000",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-05-08T11:59:45.903Z"
+    "$date": {
+      "$numberLong": "1715169585903"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-08T11:59:45.903Z"
+    "$date": {
+      "$numberLong": "1715169585903"
+    }
   }
-},
-{
+},{
   "_id": 1715169614.65076,
   "ApiIp": "/api/v1/fairness/analysis/llm",
   "ApiName": "FairUnstructure",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-08T12:00:14.650Z"
+    "$date": {
+      "$numberLong": "1715169614650"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-08T12:00:14.650Z"
+    "$date": {
+      "$numberLong": "1715169614650"
+    }
   }
-},
-{
+},{
   "_id": 1715244444.414612,
   "ApiIp": "https://rai-toolkit-rai.az.ad.idemo-ppc.com",
   "ApiName": "textDetector",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-05-09T08:47:24.414Z"
+    "$date": {
+      "$numberLong": "1715244444414"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-09T08:47:24.414Z"
+    "$date": {
+      "$numberLong": "1715244444414"
+    }
   }
-},
-{
+},{
   "_id": 1715244471.6195266,
   "ApiIp": "/rai/v1/models/text-detection",
   "ApiName": "textDetectorModel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-09T08:47:51.619Z"
+    "$date": {
+      "$numberLong": "1715244471619"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-09T08:47:51.619Z"
+    "$date": {
+      "$numberLong": "1715244471619"
+    }
   }
-},
-{
+},{
   "_id": 1715251822.137342,
   "ApiIp": "/rai/v1/security_workbench/runallattacks",
   "ApiName": "SecurityReport",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-09T10:50:22.137Z"
+    "$date": {
+      "$numberLong": "1715251822137"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-09T10:50:22.137Z"
+    "$date": {
+      "$numberLong": "1715251822137"
+    }
   }
-},
-{
+},{
   "_id": 1715251926.954425,
-  "ApiIp": "http://localhost",
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "SecurityWorkbench",
-  "ApiPort": "83",
+  "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-05-09T10:52:06.954Z"
+    "$date": {
+      "$numberLong": "1715251926954"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-09T10:52:06.954Z"
+    "$date": {
+      "$numberLong": "1715251926954"
+    }
   }
-},
-{
+},{
   "_id": 1715856387.543722,
   "ApiIp": "/api/v1/fairness/individual/bias/getlabels",
   "ApiName": "IndividualLabels",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-16T10:46:27.543Z"
+    "$date": {
+      "$numberLong": "1715856387543"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-16T10:46:27.543Z"
+    "$date": {
+      "$numberLong": "1715856387543"
+    }
   }
-},
-{
+},{
   "_id": 1715856409.68721,
   "ApiIp": "/api/v1/fairness/individual/bias/getscore",
   "ApiName": "IndividualScores",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-16T10:46:49.687Z"
+    "$date": {
+      "$numberLong": "1715856409687"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-16T10:46:49.687Z"
+    "$date": {
+      "$numberLong": "1715856409687"
+    }
   }
-},
-{
+},{
   "_id": 1715856438.2543793,
   "ApiIp": "/rai/v1/moderations/openaiTHOT",
   "ApiName": "OpenAiThot",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-16T10:47:18.254Z"
+    "$date": {
+      "$numberLong": "1715856438254"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-16T10:47:18.254Z"
+    "$date": {
+      "$numberLong": "1715856438254"
+    }
   }
-},
-{
+},{
   "_id": 1715859161.7465658,
   "ApiIp": "/rai/v1/explainability/localTabular/explain",
   "ApiName": "Exp_Local_Tabular",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-16T11:32:41.746Z"
+    "$date": {
+      "$numberLong": "1715859161746"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-16T11:32:41.746Z"
+    "$date": {
+      "$numberLong": "1715859161746"
+    }
   }
-},
-{
+},{
   "_id": 1715859182.4425156,
   "ApiIp": "/rai/v1/explainability/global/explain",
   "ApiName": "Exp_Global_Tabular",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-16T11:33:02.442Z"
+    "$date": {
+      "$numberLong": "1715859182442"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-16T11:33:02.442Z"
+    "$date": {
+      "$numberLong": "1715859182442"
+    }
   }
-},
-{
+},{
   "_id": 1715859202.0069568,
   "ApiIp": "/rai/v1/explainability/localText/explain",
   "ApiName": "Exp_Local_Text",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-16T11:33:22.006Z"
+    "$date": {
+      "$numberLong": "1715859202006"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-16T11:33:22.006Z"
+    "$date": {
+      "$numberLong": "1715859202006"
+    }
   }
-},
-{
+},{
   "_id": 1715859230.150005,
   "ApiIp": "/rai/v1/explainability/localImage/explain",
   "ApiName": "Exp_Local_Image",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-16T11:33:50.150Z"
+    "$date": {
+      "$numberLong": "1715859230150"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-16T11:33:50.150Z"
+    "$date": {
+      "$numberLong": "1715859230150"
+    }
   }
-},
-{
+},{
   "_id": 1715859310.7189493,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Explainability_Host",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-05-16T11:35:10.718Z"
+    "$date": {
+      "$numberLong": "1715859310718"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-16T11:35:10.718Z"
+    "$date": {
+      "$numberLong": "1715859310718"
+    }
   }
-},
-{
+},{
   "_id": 1716478163.813337,
   "ApiIp": "/v1/privacy/text/encrpyt",
   "ApiName": "Privacy_encrypt",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-23T15:29:23.813Z"
+    "$date": {
+      "$numberLong": "1716478163813"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-23T15:29:23.813Z"
+    "$date": {
+      "$numberLong": "1716478163813"
+    }
   }
-},
-{
+},{
   "_id": 1716478197.802887,
   "ApiIp": "/v1/privacy/text/decrpyt",
   "ApiName": "Privacy_decrypt",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-23T15:29:57.802Z"
+    "$date": {
+      "$numberLong": "1716478197802"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-23T15:29:57.802Z"
+    "$date": {
+      "$numberLong": "1716478197802"
+    }
   }
-},
-{
+},{
   "_id": 1716478218.8934152,
   "ApiIp": "/v1/workbench/preprocessor",
   "ApiName": "Workbench_Vector",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-23T15:30:18.893Z"
+    "$date": {
+      "$numberLong": "1716478218893"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-23T15:30:18.893Z"
+    "$date": {
+      "$numberLong": "1716478218893"
+    }
   }
-},
-{
+},{
   "_id": 1716478238.5056462,
   "ApiIp": "/v1/workbench/updatepreprocessor",
   "ApiName": "Workbench_UpdateVector",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-23T15:30:38.505Z"
+    "$date": {
+      "$numberLong": "1716478238505"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-23T15:30:38.505Z"
+    "$date": {
+      "$numberLong": "1716478238505"
+    }
   }
-},
-{
+},{
   "_id": 1716478257.6787305,
   "ApiIp": "/v1/workbench/deletepreprocessor",
   "ApiName": "Workbench_DeleteVector",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-23T15:30:57.678Z"
+    "$date": {
+      "$numberLong": "1716478257678"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-23T15:30:57.678Z"
+    "$date": {
+      "$numberLong": "1716478257678"
+    }
   }
-},
-{
+},{
   "_id": 1716478276.8051727,
   "ApiIp": "/v1/workbench/addpreprocessor",
   "ApiName": "Workbench_AddVector",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-23T15:31:16.805Z"
+    "$date": {
+      "$numberLong": "1716478276805"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-23T15:31:16.805Z"
+    "$date": {
+      "$numberLong": "1716478276805"
+    }
   }
-},
-{
+},{
   "_id": 1716478297.1547408,
   "ApiIp": "/rai/v1/image-explainability/generate-image",
   "ApiName": "ImageGen_Explain",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-05-23T15:31:37.154Z"
+    "$date": {
+      "$numberLong": "1716478297154"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-05-23T15:31:37.154Z"
+    "$date": {
+      "$numberLong": "1716478297154"
+    }
   }
-},
-{
+},{
   "_id": 1717997366.8163605,
   "ApiIp": "/rai/v1/moderations/evalLLMCheck",
   "ApiName": "EvalLLMCheck",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-10T05:29:26.816Z"
+    "$date": {
+      "$numberLong": "1717997366816"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-10T05:29:26.816Z"
+    "$date": {
+      "$numberLong": "1717997366816"
+    }
   }
-},
-{
+},{
   "_id": 1718014475.0527017,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Image_Explain",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-06-10T10:14:35.052Z"
+    "$date": {
+      "$numberLong": "1718014475052"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-10T10:14:35.052Z"
+    "$date": {
+      "$numberLong": "1718014475052"
+    }
   }
-},
-{
+},{
   "_id": 1718014661.3495414,
   "ApiIp": "/rai/v1/llm-explainability/serper_response",
   "ApiName": "SerperResponse",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-10T10:17:41.349Z"
+    "$date": {
+      "$numberLong": "1718014661349"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-10T10:17:41.349Z"
+    "$date": {
+      "$numberLong": "1718014661349"
+    }
   }
-},
-{
+},{
   "_id": 1718017092.6059995,
   "ApiIp": "/rai/v1/moderations/evalLLM",
   "ApiName": "EvalLLM",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-10T10:58:12.606Z"
+    "$date": {
+      "$numberLong": "1718017092606"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-10T10:58:12.606Z"
+    "$date": {
+      "$numberLong": "1718017092606"
+    }
   }
-},
-{
+},{
   "_id": 1718103504.0482972,
   "ApiIp": "/api/v1/fairness/analysis/image",
   "ApiName": "FairnessImage",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-11T10:58:24.048Z"
+    "$date": {
+      "$numberLong": "1718103504048"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-11T10:58:24.048Z"
+    "$date": {
+      "$numberLong": "1718103504048"
+    }
   }
-},
-{
+},{
   "_id": 1718366457.751755,
   "ApiIp": "/rai/v1/image-explainability/analyze",
   "ApiName": "ImageGen_Analyze",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-14T12:00:57.751Z"
+    "$date": {
+      "$numberLong": "1718366457751"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-14T12:00:57.751Z"
+    "$date": {
+      "$numberLong": "1718366457751"
+    }
   }
-},
-{
+},{
   "_id": 1719486370.9258845,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "Backend",
   "ApiPort": "",
   "CreatedDateTime": {
-    "$date": "2024-06-27T11:06:10.925Z"
+    "$date": {
+      "$numberLong": "1719486370925"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-27T11:06:10.925Z"
+    "$date": {
+      "$numberLong": "1719486370925"
+    }
   }
-},
-{
+},{
   "_id": 1719486502.02789,
   "ApiIp": "/v1/rai/backend/users",
   "ApiName": "Backend_Users",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-27T11:08:22.027Z"
+    "$date": {
+      "$numberLong": "1719486502027"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-27T11:08:22.027Z"
+    "$date": {
+      "$numberLong": "1719486502027"
+    }
   }
-},
-{
+},{
   "_id": 1719486523.0002062,
   "ApiIp": "/v1/rai/backend/users/updateUser",
   "ApiName": "Backend_UpdateUser",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-27T11:08:43.000Z"
+    "$date": {
+      "$numberLong": "1719486523000"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-27T11:08:43.000Z"
+    "$date": {
+      "$numberLong": "1719486523000"
+    }
   }
-},
-{
+},{
   "_id": 1719486552.0487978,
   "ApiIp": "/v1/rai/backend/users",
   "ApiName": "Backend_DeleteUser",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-27T11:09:12.048Z"
+    "$date": {
+      "$numberLong": "1719486552048"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-27T11:09:12.048Z"
+    "$date": {
+      "$numberLong": "1719486552048"
+    }
   }
-},
-{
+},{
   "_id": 1719486581.9211085,
   "ApiIp": "/v1/rai/backend/users/authorities",
   "ApiName": "Backend_authorities",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-27T11:09:41.921Z"
+    "$date": {
+      "$numberLong": "1719486581921"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-27T11:09:41.921Z"
+    "$date": {
+      "$numberLong": "1719486581921"
+    }
   }
-},
-{
+},{
   "_id": 1719575625.1206808,
   "ApiIp": "/api/v1/rai/admin/createCustomeTemplate",
   "ApiName": "TemplateCreation",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-28T11:53:45.120Z"
+    "$date": {
+      "$numberLong": "1719575625120"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-28T11:53:45.120Z"
+    "$date": {
+      "$numberLong": "1719575625120"
+    }
   }
-},
-{
+},{
   "_id": 1719575647.342555,
   "ApiIp": "/api/v1/rai/admin/getCustomeTemplate/",
   "ApiName": "TemplateGet",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-28T11:54:07.342Z"
+    "$date": {
+      "$numberLong": "1719575647342"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-28T11:54:07.342Z"
+    "$date": {
+      "$numberLong": "1719575647342"
+    }
   }
-},
-{
+},{
   "_id": 1719575665.2312412,
   "ApiIp": "/api/v1/rai/admin/updateCustomeTemplate",
   "ApiName": "TemplateUpdate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-28T11:54:25.231Z"
+    "$date": {
+      "$numberLong": "1719575665231"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-28T11:54:25.231Z"
+    "$date": {
+      "$numberLong": "1719575665231"
+    }
   }
-},
-{
+},{
   "_id": 1719575680.1833217,
   "ApiIp": "/api/v1/rai/admin/deleteCustomeTemplate",
   "ApiName": "TemplateDelete",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-06-28T11:54:40.183Z"
+    "$date": {
+      "$numberLong": "1719575680183"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-06-28T11:54:40.183Z"
+    "$date": {
+      "$numberLong": "1719575680183"
+    }
   }
-},
-{
+},{
   "_id": 1719911140.5153065,
   "ApiIp": "/rai/v1/moderations/getTemplates/",
   "ApiName": "loadTemplate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-07-02T09:05:40.515Z"
+    "$date": {
+      "$numberLong": "1719911140515"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-07-02T09:05:40.515Z"
+    "$date": {
+      "$numberLong": "1719911140515"
+    }
   }
-},
-{
+},{
   "_id": 1719911168.8637905,
   "ApiIp": "/rai/v1/moderations/evalLLM",
   "ApiName": "TestTemplate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-07-02T09:06:08.863Z"
+    "$date": {
+      "$numberLong": "1719911168863"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-07-02T09:06:08.863Z"
+    "$date": {
+      "$numberLong": "1719911168863"
+    }
   }
-},
-{
+},{
   "_id": 1719983762.0680864,
   "ApiIp": "/rai/v1/llm-explainability/got",
   "ApiName": "ExplainGOT",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-07-03T05:16:02.068Z"
+    "$date": {
+      "$numberLong": "1719983762068"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-07-03T05:16:02.068Z"
+    "$date": {
+      "$numberLong": "1719983762068"
+    }
   }
-},
-{
+},{
   "_id": 1720011040.901949,
   "ApiIp": "/rai/v1/moderations/translate",
   "ApiName": "Moderationlayer_Translate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-07-03T12:50:40.901Z"
+    "$date": {
+      "$numberLong": "1720011040901"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-07-03T12:50:40.901Z"
+    "$date": {
+      "$numberLong": "1720011040901"
+    }
   }
-},
-{
+},{
   "_id": 1720767841.1380582,
   "ApiIp": "/rag/v1/geval",
   "ApiName": "RagGEVAL",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-07-12T07:04:01.138Z"
+    "$date": {
+      "$numberLong": "1720767841138"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-07-12T07:04:01.138Z"
+    "$date": {
+      "$numberLong": "1720767841138"
+    }
   }
-},
-{
+},{
   "_id": 1721043459.2165635,
   "ApiIp": "/api/v1/rai/admin/AccTemplateMap",
   "ApiName": "ACCTEMPMAP",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-07-15T11:37:39.216Z"
+    "$date": {
+      "$numberLong": "1721043459216"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-07-15T11:37:39.216Z"
+    "$date": {
+      "$numberLong": "1721043459216"
+    }
   }
-},
-{
+},{
   "_id": 1721043482.543759,
   "ApiIp": "/api/v1/rai/admin/getAccTemplate/",
   "ApiName": "GETACCTEMPMAP",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-07-15T11:38:02.543Z"
+    "$date": {
+      "$numberLong": "1721043482543"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-07-15T11:38:02.543Z"
+    "$date": {
+      "$numberLong": "1721043482543"
+    }
   }
-},
-{
+},{
   "_id": 1721976922.187077,
   "ApiIp": "/rai/v1/moderations/getTemplates",
   "ApiName": "Fm_GETTEMPLATES",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-07-26T06:55:22.187Z"
+    "$date": {
+      "$numberLong": "1721976922187"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-07-26T06:55:22.187Z"
+    "$date": {
+      "$numberLong": "1721976922187"
+    }
   }
-},
-{
+},{
   "_id": 1722851630.824834,
   "ApiIp": "/rai/v1/moderations/multimodal",
   "ApiName": "Multimodel",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-08-05T09:53:50.824Z"
+    "$date": {
+      "$numberLong": "1722851630824"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-08-05T09:53:50.824Z"
+    "$date": {
+      "$numberLong": "1722851630824"
+    }
   }
-},
-{
+},{
   "_id": 1723125791.0775502,
   "ApiIp": "/api/v1/trustllm/",
   "ApiName": "LeaderboardEndpoint",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-08-08T14:03:11.077Z"
+    "$date": {
+      "$numberLong": "1723125791077"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-08-08T14:03:11.077Z"
+    "$date": {
+      "$numberLong": "1723125791077"
+    }
   }
-},
-{
+},{
   "_id": 1723201267.937271,
   "ApiIp": "/api/v1/rai/admin/addTempMap",
   "ApiName": "Template_admin_update_addTempMap",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-08-09T11:01:07.937Z"
+    "$date": {
+      "$numberLong": "1723201267937"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-08-09T11:01:07.937Z"
+    "$date": {
+      "$numberLong": "1723201267937"
+    }
   }
-},
-{
+},{
   "_id": 1723201350.637844,
   "ApiIp": "/api/v1/rai/admin/getTempMap",
   "ApiName": "Template_admin_get_selected_getTempMap",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-08-09T11:02:30.637Z"
+    "$date": {
+      "$numberLong": "1723201350637"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-08-09T11:02:30.637Z"
+    "$date": {
+      "$numberLong": "1723201350637"
+    }
   }
-},
-{
+},{
   "_id": 1723457508.2551177,
   "ApiIp": "/api/v1/rai/admin/updateCustomeTemplate",
   "ApiName": "customTemplatePatchUrl_updateCustomeTemplate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-08-12T10:11:48.255Z"
+    "$date": {
+      "$numberLong": "1723457508255"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-08-12T10:11:48.255Z"
+    "$date": {
+      "$numberLong": "1723457508255"
+    }
   }
-},
-{
+},{
   "_id": 1723790274.2591937,
   "ApiIp": "/rai/v1/raimoderationmodels/ImageGenerate",
   "ApiName": "raimoderationmodelsImageGenerate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-08-16T06:37:54.259Z"
+    "$date": {
+      "$numberLong": "1723790274259"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-08-16T06:37:54.259Z"
+    "$date": {
+      "$numberLong": "1723790274259"
+    }
   }
-},
-{
+},{
   "_id": 1724304106.9477668,
   "ApiIp": "/rai/v1/privacy-files/PDF/anonymize?ocr=",
   "ApiName": "Privacy_Pdf",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-08-22T05:21:46.947Z"
+    "$date": {
+      "$numberLong": "1724304106947"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-08-22T05:21:46.947Z"
+    "$date": {
+      "$numberLong": "1724304106947"
+    }
   }
-},
-{
+},{
   "_id": 1725861673.381752,
   "ApiIp": "/api/v1/fairness/preprocessing/mitigation/get_data",
   "ApiName": "PreMitigate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-09T06:01:13.381Z"
+    "$date": {
+      "$numberLong": "1725861673381"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-09T06:01:13.381Z"
+    "$date": {
+      "$numberLong": "1725861673381"
+    }
   }
-},
-{
+},{
   "_id": 1725861704.52685,
   "ApiIp": "/api/v1/fairness/bias/Workbench/analyse/uploadfile",
   "ApiName": "PreAnalyze",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-09T06:01:44.526Z"
+    "$date": {
+      "$numberLong": "1725861704526"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-09T06:01:44.526Z"
+    "$date": {
+      "$numberLong": "1725861704526"
+    }
   }
-},
-{
+},{
   "_id": 1725861766.0268748,
   "ApiIp": "/api/v1/fairness/bias/Workbench/analyse/uploadfile",
   "ApiName": "PostMitigate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-09T06:02:46.026Z"
+    "$date": {
+      "$numberLong": "1725861766026"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-09T06:02:46.026Z"
+    "$date": {
+      "$numberLong": "1725861766026"
+    }
   }
-},
-{
+},{
   "_id": 1725861791.6841996,
   "ApiIp": "/api/v1/fairness/bias/Workbench/analyse/uploadfile",
   "ApiName": "PostAnalyze",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-09T06:03:11.684Z"
+    "$date": {
+      "$numberLong": "1725861791684"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-09T06:03:11.684Z"
+    "$date": {
+      "$numberLong": "1725861791684"
+    }
   }
-},
-{
+},{
   "_id": 1725862262.467491,
   "ApiIp": "/api/v1/fairness/bias/workbench/analyze/batchId/Attributes",
   "ApiName": "GenAnalyze",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-09T06:11:02.467Z"
+    "$date": {
+      "$numberLong": "1725862262467"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-09T06:11:02.467Z"
+    "$date": {
+      "$numberLong": "1725862262467"
+    }
   }
-},
-{
+},{
   "_id": 1725862322.025557,
   "ApiIp": "/api/v1/fairness/preprocessing/mitigation/BatchId",
   "ApiName": "GenMitigate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-09T06:12:02.025Z"
+    "$date": {
+      "$numberLong": "1725862322025"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-09T06:12:02.025Z"
+    "$date": {
+      "$numberLong": "1725862322025"
+    }
   }
-},
-{
+},{
   "_id": 1725877322.1099803,
   "ApiIp": "/api/v1/rai/admin/getModMaps",
   "ApiName": "Admin_getModMaps",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-09T10:22:02.109Z"
+    "$date": {
+      "$numberLong": "1725877322109"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-09T10:22:02.109Z"
+    "$date": {
+      "$numberLong": "1725877322109"
+    }
   }
-},
-{
+},{
   "_id": 1726052158.3269029,
   "ApiIp": "/rag/v1/multimodal_Image",
   "ApiName": "Rag_Image",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-11T10:55:58.326Z"
+    "$date": {
+      "$numberLong": "1726052158326"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-11T10:55:58.326Z"
+    "$date": {
+      "$numberLong": "1726052158326"
+    }
   }
-},
-{
+},{
   "_id": 1726729986.4673126,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "ExplainabilityAzure",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-19T07:13:06.467Z"
+    "$date": {
+      "$numberLong": "1726729986467"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-19T07:13:06.467Z"
+    "$date": {
+      "$numberLong": "1726729986467"
+    }
   }
-},
-{
+},{
   "_id": 1726730362.005943,
   "ApiIp": "/rai/v1/image-explainability/analyze",
   "ApiName": "image_explainability_analyze",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-19T07:19:22.005Z"
+    "$date": {
+      "$numberLong": "1726730362005"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-19T07:19:22.005Z"
+    "$date": {
+      "$numberLong": "1726730362005"
+    }
   }
-},
-{
+},{
   "_id": 1726742695.451066,
   "ApiIp": "/rag/v1/multimodal_Video",
   "ApiName": "Rag_Video",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-19T10:44:55.451Z"
+    "$date": {
+      "$numberLong": "1726742695451"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-19T10:44:55.451Z"
+    "$date": {
+      "$numberLong": "1726742695451"
+    }
   }
-},
-{
+},{
   "_id": 1727085783.6958704,
   "ApiIp": "/api/v1/fairness/wrapper/download",
   "ApiName": "FairnessWrapDownload",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-23T10:03:03.695Z"
+    "$date": {
+      "$numberLong": "1727085783695"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-23T10:03:03.695Z"
+    "$date": {
+      "$numberLong": "1727085783695"
+    }
   }
-},
-{
+},{
   "_id": 1727341695.2815201,
-  "ApiIp": "/api/v1/fairness/wrapper/batchId",
+  "ApiIp": "/api/v1/fairness/Workbench/inprocessing",
   "ApiName": "inProcessGenerate",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-26T09:08:15.281Z"
+    "$date": {
+      "$numberLong": "1727341695281"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-26T09:08:15.281Z"
+    "$date": {
+      "$numberLong": "1727341695281"
+    }
   }
-},
-{
+},{
   "_id": 1727341748.7152016,
   "ApiIp": "/api/v1/fairness/inprocessing/getModel/",
   "ApiName": "inProcessDwnld",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-26T09:09:08.715Z"
+    "$date": {
+      "$numberLong": "1727341748715"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-26T09:09:08.715Z"
+    "$date": {
+      "$numberLong": "1727341748715"
+    }
   }
-},
-{
+},{
   "_id": 1727343887.9000006,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "legalAgent",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-26T09:44:47.900Z"
+    "$date": {
+      "$numberLong": "1727343887900"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-26T09:44:47.900Z"
+    "$date": {
+      "$numberLong": "1727343887900"
+    }
   }
-},
-{
+},{
   "_id": 1727343910.4259443,
   "ApiIp": "/v1/legalAgent/getAllReports",
   "ApiName": "legalAgentReports",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-26T09:45:10.425Z"
+    "$date": {
+      "$numberLong": "1727343910425"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-26T09:45:10.425Z"
+    "$date": {
+      "$numberLong": "1727343910425"
+    }
   }
-},
-{
+},{
   "_id": 1727344181.0407069,
   "ApiIp": "/v1/legalAgent/uploadFile",
   "ApiName": "legalAgentUpload",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-09-26T09:49:41.040Z"
+    "$date": {
+      "$numberLong": "1727344181040"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-09-26T09:49:41.040Z"
+    "$date": {
+      "$numberLong": "1727344181040"
+    }
   }
-},
-{
+},{
   "_id": 1728286454.0225582,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "chatBot",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-07T07:34:14.022Z"
+    "$date": {
+      "$numberLong": "1728286454022"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-10-07T07:34:14.022Z"
+    "$date": {
+      "$numberLong": "1728286454022"
+    }
   }
-},
-{
+},{
   "_id": 1728286476.27932,
   "ApiIp": "/rag/v1/q&achatbot",
   "ApiName": "chatBotAnswer",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-07T07:34:36.279Z"
+    "$date": {
+      "$numberLong": "1728286476279"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-10-07T07:34:36.279Z"
+    "$date": {
+      "$numberLong": "1728286476279"
+    }
   }
-},
-{
+},{
   "_id": 1728553370.8117874,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com/explanation_visualization/",
   "ApiName": "explanation_visualization",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-10T09:42:50.811Z"
+    "$date": {
+      "$numberLong": "1728553370811"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-10-10T09:42:50.811Z"
+    "$date": {
+      "$numberLong": "1728553370811"
+    }
   }
-},
-{
+},{
   "_id": 1729241409.0827847,
   "ApiIp": "/api/v1/fairness/Workbench/inprocessing_uploadfile",
   "ApiName": "InProcessUpload",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-18T08:50:09.082Z"
+    "$date": {
+      "$numberLong": "1729241409082"
+    }
   },
-  "Ip": "/api/v1/fairness/Workbench/inprocessing_uploadfile",
   "LastUpdatedDateTime": {
-    "$date": "2024-10-18T08:50:09.082Z"
-  },
-  "Name": "InProcessUpload",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1729241409082"
+    }
+  }
+},{
   "_id": 1729506435.4091702,
   "ApiIp": "/v1/legalAgent/generateReport",
   "ApiName": "legalReport",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-21T10:27:15.409Z"
+    "$date": {
+      "$numberLong": "1729506435409"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-10-21T10:27:15.409Z"
+    "$date": {
+      "$numberLong": "1729506435409"
+    }
   }
-},
-{
+},{
   "_id": 1729761039.7658792,
   "ApiIp": "/api/v1/fairness/workbench/analyse/success_rate",
   "ApiName": "DecisiveAudit",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-24T09:10:39.765Z"
+    "$date": {
+      "$numberLong": "1729761039765"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-10-24T09:10:39.765Z"
+    "$date": {
+      "$numberLong": "1729761039765"
+    }
   }
-},
-{
+},{
   "_id": 1729761099.5026975,
   "ApiIp": "/api/v1/fairness/workbench/audit/fairness_classifier",
   "ApiName": "GenericAudit",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-24T09:11:39.502Z"
+    "$date": {
+      "$numberLong": "1729761099502"
+    }
   },
-  "Ip": "/api/v1/fairness/workbench/audit/fairness_classifier",
   "LastUpdatedDateTime": {
-    "$date": "2024-10-24T09:11:39.502Z"
-  },
-  "Name": "GenericAudit",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1729761099502"
+    }
+  }
+},{
   "_id": 1730111062.634092,
   "ApiIp": "/rai/v1/llm/image",
   "ApiName": "GenerateImage",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-28T10:24:22.634Z"
+    "$date": {
+      "$numberLong": "1730111062634"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-10-28T10:24:22.634Z"
+    "$date": {
+      "$numberLong": "1730111062634"
+    }
   }
-},
-{
+},{
   "_id": 1730196105.7495408,
   "ApiIp": "/rai/v1/moderations/recommend",
   "ApiName": "PromptRecommendation",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-29T10:01:45.749Z"
+    "$date": {
+      "$numberLong": "1730196105749"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-10-29T10:01:45.749Z"
+    "$date": {
+      "$numberLong": "1730196105749"
+    }
   }
-},
-{
+},{
   "_id": 1730288423.536051,
   "ApiIp": "/v1/agent/predictRiskFileUpload",
   "ApiName": "PredictUpload",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-30T11:40:23.536Z"
+    "$date": {
+      "$numberLong": "1730288423536"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-10-30T11:40:23.536Z"
+    "$date": {
+      "$numberLong": "1730288423536"
+    }
   }
-},
-{
+},{
   "_id": 1730288448.4071498,
   "ApiIp": "/v1/agent/getAllPredictRisk",
   "ApiName": "PredictRisk",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-30T11:40:48.407Z"
+    "$date": {
+      "$numberLong": "1730288448407"
+    }
   },
-  "Ip": "/v1/agent/predictRiskUsecaseName",
   "LastUpdatedDateTime": {
-    "$date": "2024-10-30T11:40:48.407Z"
-  },
-  "Name": "PredictRisk",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1730288448407"
+    }
+  }
+},{
   "_id": 1730290061.1774132,
   "ApiIp": "/v1/agent/deletePredictRisk",
   "ApiName": "DeleteRisk",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-10-30T12:07:41.177Z"
+    "$date": {
+      "$numberLong": "1730290061177"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-10-30T12:07:41.177Z"
+    "$date": {
+      "$numberLong": "1730290061177"
+    }
   }
-},
-{
+},{
   "_id": 1730930931.4110558,
   "ApiIp": "/api/v1/rai/admin/removeTempMap",
   "ApiName": "Template_admin_delete_selected_removeTempMap",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-06T22:08:51.411Z"
+    "$date": {
+      "$numberLong": "1730930931411"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-11-06T22:08:51.411Z"
+    "$date": {
+      "$numberLong": "1730930931411"
+    }
   }
-},
-{
+},{
   "_id": 1730974813.5037515,
   "ApiIp": "/v1/agent/predictRisk/Usecase",
   "ApiName": "PredictRiskUseCase",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-07T10:20:13.503Z"
+    "$date": {
+      "$numberLong": "1730974813503"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-11-07T10:20:13.503Z"
+    "$date": {
+      "$numberLong": "1730974813503"
+    }
   }
-},
-{
+},{
   "_id": 1731671548.6290438,
   "ApiIp": "/rai/v1/super_pixel/segment_image",
   "ApiName": "image_superpixel_segment_image",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-15T11:52:28.629Z"
+    "$date": {
+      "$numberLong": "1731671548629"
+    }
   },
-  "Ip": "/rai/v1/super_pixel/segment_image",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-15T11:52:28.629Z"
-  },
-  "Name": "image_superpixel_segment_image",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1731671548629"
+    }
+  }
+},{
   "_id": 1731906175.947615,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "image_superpixel_segment_image_ip",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-18T05:02:55.947Z"
+    "$date": {
+      "$numberLong": "1731906175947"
+    }
   },
-  "Ip": "http://100.78.104.162",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-18T05:02:55.947Z"
-  },
-  "Name": "image_superpixel_segment_image_ip",
-  "port": "8000"
-},
-{
+    "$date": {
+      "$numberLong": "1731906175947"
+    }
+  }
+},{
   "_id": 1731994385.2057266,
   "ApiIp": "/v1/agent/usecase/create",
   "ApiName": "createUsecase",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-19T05:33:05.205Z"
+    "$date": {
+      "$numberLong": "1731994385205"
+    }
   },
-  "Ip": "/v1/agent/usecase/create",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-19T05:33:05.205Z"
-  },
-  "Name": "createUsecase",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1731994385205"
+    }
+  }
+},{
   "_id": 1731995555.9690146,
   "ApiIp": "/v1/agent/usecase/getAll",
   "ApiName": "getUsecases",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-19T05:52:35.969Z"
+    "$date": {
+      "$numberLong": "1731995555969"
+    }
   },
-  "Ip": "/v1/agent/usecase/getAll",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-19T05:52:35.969Z"
-  },
-  "Name": "getUsecases",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1731995555969"
+    }
+  }
+},{
   "_id": 1731995594.512314,
   "ApiIp": "/v1/agent/complianceReport/genereate",
   "ApiName": "generateCompReport",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-19T05:53:14.512Z"
+    "$date": {
+      "$numberLong": "1731995594512"
+    }
   },
-  "Ip": "/v1/agent/complianceReport/genereate",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-19T05:53:14.512Z"
-  },
-  "Name": "generateCompReport",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1731995594512"
+    }
+  }
+},{
   "_id": 1731996961.8872206,
   "ApiIp": "/rag/v1/multimodal_Image",
   "ApiName": "MMImageUrl",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-19T06:16:01.887Z"
+    "$date": {
+      "$numberLong": "1731996961887"
+    }
   },
-  "Ip": "/rag/v1/multimodal_Image",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-19T06:16:01.887Z"
-  },
-  "Name": "MMImageUrl",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1731996961887"
+    }
+  }
+},{
   "_id": 1731997001.8299758,
   "ApiIp": "/rag/v1/multimodal_Video",
   "ApiName": "MMVideoUrl",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-19T06:16:41.829Z"
+    "$date": {
+      "$numberLong": "1731997001829"
+    }
   },
-  "Ip": "/rag/v1/multimodal_Video",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-19T06:16:41.829Z"
-  },
-  "Name": "MMVideoUrl",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1731997001829"
+    }
+  }
+},{
   "_id": 1731997037.6594949,
   "ApiIp": "/rag/v1/multimodal_Audio",
   "ApiName": "MMAudioUrl",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-19T06:17:17.659Z"
+    "$date": {
+      "$numberLong": "1731997037659"
+    }
   },
-  "Ip": "/rag/v1/multimodal_Audio",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-19T06:17:17.659Z"
-  },
-  "Name": "MMAudioUrl"
-},
-{
+    "$date": {
+      "$numberLong": "1731997037659"
+    }
+  }
+},{
   "_id": 1731997666.9764934,
   "ApiIp": "http://0.0.0.0",
   "ApiName": "Test",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-19T06:27:46.976Z"
+    "$date": {
+      "$numberLong": "1731997666976"
+    }
   },
-  "Ip": "http://0.0.0.0",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-19T06:27:46.976Z"
-  },
-  "Name": "Test",
-  "port": "12"
-},
-{
+    "$date": {
+      "$numberLong": "1731997666976"
+    }
+  }
+},{
   "_id": 1732255204.1201363,
   "ApiIp": "http://0.0.0.0",
   "ApiName": "ApiTest",
   "ApiPort": "12",
   "CreatedDateTime": {
-    "$date": "2024-11-22T06:00:04.120Z"
+    "$date": {
+      "$numberLong": "1732255204120"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-11-22T06:00:04.120Z"
+    "$date": {
+      "$numberLong": "1732255204120"
+    }
   }
-},
-{
+},{
   "_id": 1732255299.550075,
   "ApiIp": "http://0.0.0.0",
   "ApiName": "Test12",
   "ApiPort": "12",
   "CreatedDateTime": {
-    "$date": "2024-11-22T06:01:39.550Z"
+    "$date": {
+      "$numberLong": "1732255299550"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-11-22T06:01:39.550Z"
+    "$date": {
+      "$numberLong": "1732255299550"
+    }
   }
-},
-{
+},{
   "_id": 1732269623.823996,
   "ApiIp": "/rai/v1/llm-explainability/reread_reasoning",
   "ApiName": "ReReadReason",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-22T10:00:23.824Z"
+    "$date": {
+      "$numberLong": "1732269623824"
+    }
   },
-  "Ip": "/rai/v1/llm-explainability/reread_reasoning",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-22T10:00:23.824Z"
-  },
-  "Name": "ReReadReason",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1732269623824"
+    }
+  }
+},{
   "_id": 1732276927.8034625,
   "ApiIp": "/v1/legalAgent/SOWagent/sow_verification",
   "ApiName": "SOWagent",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-22T12:02:07.803Z"
+    "$date": {
+      "$numberLong": "1732276927803"
+    }
   },
-  "Ip": "/v1/agent/SOWagent/sow_verification",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-22T12:02:07.803Z"
-  },
-  "Name": "SOWagent",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1732276927803"
+    }
+  }
+},{
   "_id": 1732542147.7447066,
   "ApiIp": "/v1/agent/addBusinessJustification",
   "ApiName": "businessJustificationUrl",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-25T13:42:27.744Z"
+    "$date": {
+      "$numberLong": "1732542147744"
+    }
   },
-  "Ip": "/v1/agent/addBusinessJustification",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-25T13:42:27.744Z"
-  },
-  "Name": "businessJustificationUrl",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1732542147744"
+    }
+  }
+},{
   "_id": 1732600629.1112576,
   "ApiIp": "/v1/agent/risk_mitigation",
   "ApiName": "recommendationRep",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-26T05:57:09.111Z"
+    "$date": {
+      "$numberLong": "1732600629111"
+    }
   },
-  "Ip": "/v1/agent/risk_mitigation",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-26T05:57:09.111Z"
-  },
-  "Name": "recommendationRep",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1732600629111"
+    }
+  }
+},{
   "_id": 1732704890.1046216,
   "ApiIp": "/v1/legalAgent/SOWagent/sow_recommendation",
   "ApiName": "SOWagent_sow_recommendation",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-27T10:54:50.104Z"
+    "$date": {
+      "$numberLong": "1732704890104"
+    }
   },
-  "Ip": "/v1/agent/SOWagent/sow_recommendation",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-27T10:54:50.104Z"
-  },
-  "Name": "SOWagent_sow_recommendation",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1732704890104"
+    }
+  }
+},{
   "_id": 1732784936.4798653,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "pairRedTeaming",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-28T09:08:56.479Z"
+    "$date": {
+      "$numberLong": "1732784936479"
+    }
   },
-  "Ip": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-28T09:08:56.479Z"
-  },
-  "Name": "pairRedTeaming",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1732784936479"
+    }
+  }
+},{
   "_id": 1732784982.4164438,
   "ApiIp": "/v1/redteaming/models",
   "ApiName": "pairRedTeamingAttackJudgeData",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-28T09:09:42.416Z"
+    "$date": {
+      "$numberLong": "1732784982416"
+    }
   },
-  "Ip": "/v1/redteaming/models",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-28T09:09:42.416Z"
-  },
-  "Name": "pairRedTeamingAttackJudgeData",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1732784982416"
+    }
+  }
+},{
   "_id": 1732785003.7613537,
   "ApiIp": "/v1/redteaming/pair",
   "ApiName": "pairRedTeamingonllm",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-11-28T09:10:03.761Z"
+    "$date": {
+      "$numberLong": "1732785003761"
+    }
   },
-  "Ip": "/v1/redteaming",
   "LastUpdatedDateTime": {
-    "$date": "2024-11-28T09:10:03.761Z"
-  },
-  "Name": "pairRedTeamingonllm",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1732785003761"
+    }
+  }
+},{
   "_id": 1733125274.4783661,
   "ApiIp": "/v1/legalAgent/impact_assessment",
   "ApiName": "generateImpactRep",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-02T07:41:14.478Z"
+    "$date": {
+      "$numberLong": "1733125274478"
+    }
   },
-  "Ip": "/v1/legalAgent/impact_assessment",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-02T07:41:14.478Z"
-  },
-  "Name": "generateImpactRep",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1733125274478"
+    }
+  }
+},{
   "_id": 1733206636.3252628,
   "ApiIp": "/v1/privacy/getRecognizer",
   "ApiName": "Privacy_getRecognizer",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-03T06:17:16.325Z"
+    "$date": {
+      "$numberLong": "1733206636325"
+    }
   },
-  "Ip": "/v1/privacy/getRecognizer",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-03T06:17:16.325Z"
-  },
-  "Name": "Privacy_getRecognizer",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1733206636325"
+    }
+  }
+},{
   "_id": 1733809532.5720773,
   "ApiIp": "/rai/v1/llm-explainability/LoT",
   "ApiName": "Explain_LOT",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-10T05:45:32.572Z"
+    "$date": {
+      "$numberLong": "1733809532572"
+    }
   },
-  "Ip": "/rai/v1/llm-explainability/LoT",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-10T05:45:32.572Z"
-  },
-  "Name": "Explain_LOT",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1733809532572"
+    }
+  }
+},{
   "_id": 1733811487.9525516,
   "ApiIp": "/v1/agent/generatingBusinessJustification",
   "ApiName": "businessJustUrl",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-10T06:18:07.952Z"
+    "$date": {
+      "$numberLong": "1733811487952"
+    }
   },
-  "Ip": "/v1/agent/generatingBusinessJustification",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-10T06:18:07.952Z"
-  },
-  "Name": "businessJustUrl",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1733811487952"
+    }
+  }
+},{
   "_id": 1733913341.8563576,
   "ApiIp": "/rai/v1/codeshield",
   "ApiName": "CodeShield",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-11T10:35:41.856Z"
+    "$date": {
+      "$numberLong": "1733913341856"
+    }
   },
-  "Ip": "/rai/v1/codeshield",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-11T10:35:41.856Z"
-  },
-  "Name": "CodeShield",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1733913341856"
+    }
+  }
+},{
   "_id": 1734003798.2663543,
   "ApiIp": "/rai/v1/privacy-files/PPT/anonymize",
   "ApiName": "Privacy_PPT_anonymize",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-12T11:43:18.266Z"
+    "$date": {
+      "$numberLong": "1734003798266"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2024-12-12T11:43:18.266Z"
+    "$date": {
+      "$numberLong": "1734003798266"
+    }
   }
-},
-{
+},{
   "_id": 1734435325.6149457,
-  "ApiIp": "/rai/v1/llm-explainability/file_upload_explanation",
+  "ApiIp": "/rai/v1/llm-explainability/bulk_processing",
   "ApiName": "llm_explainability_file_upload_explanation",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-17T11:35:25.614Z"
+    "$date": {
+      "$numberLong": "1734435325614"
+    }
   },
-  "Ip": "/rai/v1/llm-explainability/file_upload_explanation",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-17T11:35:25.614Z"
-  },
-  "Name": "llm_explainability_file_upload_explanation",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1734435325614"
+    }
+  }
+},{
   "_id": 1734605427.3569613,
   "ApiIp": "/api/v1/trustllm/scores/getScores_explain",
   "ApiName": "trustllm_getScores_explain",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-19T10:50:27.356Z"
+    "$date": {
+      "$numberLong": "1734605427356"
+    }
   },
-  "Ip": "/api/v1/trustllm/scores/getScores_explain",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-19T10:50:27.356Z"
-  },
-  "Name": "trustllm_getScores_explain",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1734605427356"
+    }
+  }
+},{
   "_id": 1734889465.9430149,
   "ApiIp": "/v1/legalAgent/recommendations",
   "ApiName": "complianceReportRecommendations",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-22T17:44:25.943Z"
+    "$date": {
+      "$numberLong": "1734889465943"
+    }
   },
-  "Ip": "v1/legalAgent/recommendations",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-22T17:44:25.943Z"
-  },
-  "Name": "complianceReportRecommendations",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1734889465943"
+    }
+  }
+},{
   "_id": 1735020024.178276,
   "ApiIp": "/rai/v1/privacy-files/DOCX/anonymize",
   "ApiName": "Privacy_DOCX_anonymize",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-24T06:00:24.178Z"
+    "$date": {
+      "$numberLong": "1735020024178"
+    }
   },
-  "Ip": "/rai/v1/privacy-files/DOCX/anonymize",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-24T06:00:24.178Z"
-  },
-  "Name": "Privacy_DOCX_anonymize",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1735020024178"
+    }
+  }
+},{
   "_id": 1735020169.5042362,
   "ApiIp": "/rai/v1/privacy-files/json/anonymize",
   "ApiName": "Privacy_JSON_anonymize",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-24T06:02:49.504Z"
+    "$date": {
+      "$numberLong": "1735020169504"
+    }
   },
-  "Ip": "/rai/v1/privacy-files/json/anonymize",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-24T06:02:49.504Z"
-  },
-  "Name": "Privacy_JSON_anonymize",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1735020169504"
+    }
+  }
+},{
   "_id": 1735020237.1759923,
   "ApiIp": "/rai/v1/privacy-files/csv/anonymize",
   "ApiName": "Privacy_CSV_anonymize",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-24T06:03:57.175Z"
+    "$date": {
+      "$numberLong": "1735020237175"
+    }
   },
-  "Ip": "/rai/v1/privacy-files/csv/anonymize",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-24T06:03:57.175Z"
-  },
-  "Name": "Privacy_CSV_anonymize",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1735020237175"
+    }
+  }
+},{
   "_id": 1735030011.0096169,
   "ApiIp": "/v1/redteaming/tap",
   "ApiName": "tapRedTeamingonllm",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2024-12-24T08:46:51.009Z"
+    "$date": {
+      "$numberLong": "1735030011009"
+    }
   },
-  "Ip": "/v1/redteaming/tap",
   "LastUpdatedDateTime": {
-    "$date": "2024-12-24T08:46:51.009Z"
-  },
-  "Name": "tapRedTeamingonllm",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1735030011009"
+    }
+  }
+},{
   "_id": 1736161244.6153784,
   "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "ApiName": "llmGarakScanner",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2025-01-06T11:00:44.615Z"
+    "$date": {
+      "$numberLong": "1736161244615"
+    }
   },
-  "Ip": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
   "LastUpdatedDateTime": {
-    "$date": "2025-01-06T11:00:44.615Z"
-  },
-  "Name": "llmGarakScanner",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1736161244615"
+    }
+  }
+},{
   "_id": 1736162121.5466895,
   "ApiIp": "/v1/infosys/llm/garak/list_probes",
   "ApiName": "llmGarakProbes",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2025-01-06T11:15:21.546Z"
+    "$date": {
+      "$numberLong": "1736162121546"
+    }
   },
-  "Ip": "/v1/infosys/llm/garak/list_probes",
   "LastUpdatedDateTime": {
-    "$date": "2025-01-06T11:15:21.546Z"
-  },
-  "Name": "llmGarakProbes",
-  "port": null
-},
-{
+    "$date": {
+      "$numberLong": "1736162121546"
+    }
+  }
+},{
   "_id": 1736162185.711126,
   "ApiIp": "/v1/infosys/llm/garak/run_garak",
   "ApiName": "llmGarakDetails",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2025-01-06T11:16:25.711Z"
+    "$date": {
+      "$numberLong": "1736162185711"
+    }
   },
-  "Ip": "/v1/infosys/llm/garak/run_garak",
   "LastUpdatedDateTime": {
-    "$date": "2025-01-06T11:16:25.711Z"
-  },
-  "Name": "llmGarakDetails",
-  "port": null
-},
-{
-  "_id": 1738830646.0154688,
-  "ApiName": "InprocessUpload",
-  "ApiIp": "/api/v1/fairness/Workbench/inprocessing_uploadfile",
+    "$date": {
+      "$numberLong": "1736162185711"
+    }
+  }
+},{
+  "_id": 1736763039.5771081,
+  "ApiIp": "/rai/v1/image-explainability/object-detection",
+  "ApiName": "objectDetectionExplain",
   "ApiPort": null,
   "CreatedDateTime": {
-    "$date": "2025-02-06T08:30:46.015Z"
+    "$date": {
+      "$numberLong": "1736763039577"
+    }
   },
   "LastUpdatedDateTime": {
-    "$date": "2025-02-06T08:30:46.015Z"
+    "$date": {
+      "$numberLong": "1736763039577"
+    }
+  }
+},{
+  "_id": 1736763167.1421924,
+  "ApiIp": "/rai/v1/image-explainability/object-detection/yolo",
+  "ApiName": "objectDetectionYolo",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1736763167142"
+    }
   },
-  "Ip": "/api/v1/fairness/Workbench/inprocessing_uploadfile",
-  "Name": "InprocessUpload",
-  "port": null
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1736763167142"
+    }
+  }
+},{
+  "_id": 1737108298.3122902,
+  "ApiIp": "/rag/v1/lot",
+  "ApiName": "RagLOT",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1737108298312"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1737108298312"
+    }
+  }
+},{
+  "_id": 1737348037.595411,
+  "ApiIp": "/v1/rai/backend/getUserConsent/",
+  "ApiName": "RAI_Backend_getUserConsent",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1737348037595"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1737348037595"
+    }
+  }
+},{
+  "_id": 1737348141.442348,
+  "ApiIp": "/v1/rai/backend/setUserConsent",
+  "ApiName": "RAI_Backend_setUserConsent",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1737348141442"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1737348141442"
+    }
+  }
+},{
+  "_id": 1737348193.1488066,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "RAI_Backend_URL",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1737348193148"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1737348193148"
+    }
+  }
+},{
+  "_id": 1739162104.1775362,
+  "ApiIp": "/api/v1/bulkprocessing/docDtl",
+  "ApiName": "getBulkTable",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1739162104177"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1739162104177"
+    }
+  }
+},{
+  "_id": 1739162131.7842467,
+  "ApiIp": "/api/v1/bulkprocessing/file",
+  "ApiName": "bulkSubmit",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1739162131784"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1739162131784"
+    }
+  }
+},{
+  "_id": 1739162158.9700568,
+  "ApiIp": "/api/v1/bulkprocessing/loadRAG",
+  "ApiName": "bulkRagLoad",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1739162158970"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1739162158970"
+    }
+  }
+},{
+  "_id": 1739164153.25564,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "BulkProcess",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1739164153255"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1739164153255"
+    }
+  }
+},{
+  "_id": 1739186756.7858837,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "agent_Ip",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1739186756785"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1739186756785"
+    }
+  }
+},{
+  "_id": 1739186804.0913465,
+  "ApiIp": "/v1/agent/riskClassification",
+  "ApiName": "agent_riskClassification",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1739186804091"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1739186804091"
+    }
+  }
+},{
+  "_id": 1739773522.9251914,
+  "ApiIp": "/v1/redteaming/tap/batch",
+  "ApiName": "tapBatchRedTeaming",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1739773522925"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1739773522925"
+    }
+  }
+},{
+  "_id": 1739773564.147719,
+  "ApiIp": "/v1/redteaming/pair/batch",
+  "ApiName": "pairBatchRedTeaming",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1739773564147"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1739773564147"
+    }
+  }
+},{
+  "_id": 1741353691.1763725,
+  "ApiIp": "/api/v1/rai/admin/ConfigApi",
+  "ApiName": "Admin_getConfig",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1741353691176"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1741353691176"
+    }
+  }
+},{
+  "_id": 1741353727.1321518,
+  "ApiIp": "/api/v1/rai/admin/ApiPost",
+  "ApiName": "Admin_newConfig",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1741353727132"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1741353727132"
+    }
+  }
+},{
+  "_id": 1741353793.5356507,
+  "ApiIp": "/api/v1/rai/admin/ApiDelete1",
+  "ApiName": "Admin_deleteConfig",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1741353793535"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1741353793535"
+    }
+  }
+},{
+  "_id": 1741607208.540298,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "Privacy",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1741607208540"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1741607208540"
+    }
+  }
+},{
+  "_id": 1741669991.1534607,
+  "ApiIp": "/api/v1/bulkprocessing/docProcDtl",
+  "ApiName": "docDetail",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1741669991153"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1741669991153"
+    }
+  }
+},{
+  "_id": 1741764348.7604792,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com/rai/v1/llm-explainability/sentiment-analysis",
+  "ApiName": "Explainability",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1741764348760"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1741764348760"
+    }
+  }
+},{
+  "_id": 1741843083.4016922,
+  "ApiIp": "/rag/v1/multimodal_PDF",
+  "ApiName": "MMPdfUrl",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1741843083401"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1741843083401"
+    }
+  }
+},{
+  "_id": 1741856440.1112854,
+  "ApiIp": "/raglite/v1/LightRAG",
+  "ApiName": "LiteRAG",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1741856440111"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1741856440111"
+    }
+  }
+},{
+  "_id": 1743079023.4761424,
+  "ApiIp": "https://rai-toolkit-dev.az.ad.idemo-ppc.com",
+  "ApiName": "Compliance",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1743079023476"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1743079023476"
+    }
+  }
+},{
+  "_id": 1743079050.8668747,
+  "ApiIp": "/rai/v1/compliance/upload",
+  "ApiName": "ComplianceUpload",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1743079050866"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1743079050866"
+    }
+  }
+},{
+  "_id": 1743272296.757407,
+  "ApiIp": "/rai/v1/compliance/CompianceResult/",
+  "ApiName": "ComplianceCompianceResult",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1743272296757"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1743272296757"
+    }
+  }
+},{
+  "_id": 1743272331.3069243,
+  "ApiIp": "/rai/v1/compliance/CompianceRecommondations/",
+  "ApiName": "CompianceRecommondations",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1743272331306"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1743272331306"
+    }
+  }
+},{
+  "_id": 1743838169.1543322,
+  "ApiIp": "/v1/agent/predictRisk",
+  "ApiName": "createPredictRisk",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1743838169154"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1743838169154"
+    }
+  }
+},{
+  "_id": 1744786411.448554,
+  "ApiIp": "/rai/v1/image-explainability/object-detection/video-explanation",
+  "ApiName": "Video_Explanation",
+  "ApiPort": null,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1744786411448"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1744786411448"
+    }
+  }
 }]

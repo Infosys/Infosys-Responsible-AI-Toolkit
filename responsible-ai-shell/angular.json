@@ -29,7 +29,9 @@
                         "inlineStyleLanguage": "scss",
                         "assets": [
                             "src/favicon.ico",
-                            "src/assets"
+                            "src/assets",
+                            "src/401.html",
+                            "src/404.html"
                         ],
                         "styles": [
                             "src/content/scss/vendor.scss",
@@ -119,7 +121,7 @@
     "cli": {
         "analytics": false,
         "cache": {
-            "enabled": false
+            "enabled": true
         }
     }
 }

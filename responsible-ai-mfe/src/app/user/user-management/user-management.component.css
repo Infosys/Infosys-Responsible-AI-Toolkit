@@ -1,9 +1,9 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .mat-primary2 {
     color: #8626C3;
     /* background-color:#BFBFBF; */
@@ -85,7 +85,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     --mat-mdc-radio-checked-ripple-color: #D1C4E9;
 }
 
-
 /* :host ::ng-deep .mat-mdc-raised-button.mat-primary {
     --mdc-protected-button-container-color: #231F20;
     --mdc-protected-button-label-text-color: #fff;
@@ -122,7 +121,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     text-transform: uppercase;
 }
 
-.rfrshBtn {
+.rfrshBtn{
     color: #8626C3;
     border: none;
     background: none;
@@ -137,9 +136,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .disabled {
     pointer-events: none;
     opacity: 0.6;
-}
+  }
 
-.actionBtn {
+.actionBtn{
     color: #8626C3;
     border: none;
     background: none;
@@ -149,7 +148,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     margin-right: 10px;
 }
 
-.addDataBtn {
+.addDataBtn{
     border: 1px solid #8626C3;
     border-radius: 3px;
     font-size: 0.8rem;
@@ -158,7 +157,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     background: none;
     transition: background-color 0.3s ease;
 }
-
 .addDataBtn:hover {
     background-color: #8626C3;
     color: #fff;
@@ -235,7 +233,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 .vertical-center {
     vertical-align: middle;
-}
+  }
 
 .styled-table {
     /* margin-left: 1rem; */
@@ -255,7 +253,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     color: #382261;
     opacity: 70%;
     text-transform: uppercase;
+
 }
+
 
 .styled-table td {
     /* Segoe UI, regular */
@@ -269,9 +269,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
 }
 
-
 /* Icon Styling */
-
 app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
     width: 25px;
     height: 25px;
@@ -283,9 +281,7 @@ app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
     font-size: 16px;
 }
 
-
 /* -----Pagination------- */
-
 .ngx-pagination .current {
     background: #8626C3 !important;
 }
@@ -305,15 +301,14 @@ app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
     /* Adjust if needed */
 }
 
+
 .smallButton {
     font-size: smaller !important;
     width: 65px !important;
     height: 30px !important;
 }
 
-
 /* PANEL BACKGOUND */
-
 .cdk-overlay-backdrop.custom-backdrop {
     background: rgba(0, 0, 0, 0.6);
     top: 57px;
@@ -323,24 +318,24 @@ app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
 
 .styled-table tr td,
 .styled-table tr th {
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
 }
-
 
 /* *, ::after, ::before {
     box-sizing: content-box !important;
   } */
 
-.input-content-box {
+  .input-content-box {
     font-size: 0.70rem;
     font-family: 'Segoe UI';
     font-weight: 500;
     color: #061838;
     background-color: white;
-}
 
- :host .dropdown {
+  }
+
+  :host .dropdown {
     max-width: 15rem;
     width: 100%;
     border: 1px solid #dee2e6;
@@ -349,13 +344,8 @@ app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
     font-size: smaller;
     margin-right: .5rem;
 }
-
-
 /* toogle switch */
-
-
 /* Toggle Switch */
-
 .switch {
     display: inline-block;
 }
@@ -408,17 +398,14 @@ app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
 .switch input:disabled~label::after {
     background-color: #bbbbbb;
 }
-
-
 /* toggle switch end  */
 
 .mat-primary3 {
     color: #B10000;
     /* background-color:#BFBFBF; */
 }
-
 .mat-primary4 {
-    color: #000000;
+    color:#000000;
     opacity: 59%;
     /* background-color:#BFBFBF; */
 }
@@ -441,92 +428,82 @@ app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
     font-family: 'Segoe UI';
 }
 
-
 /* SEARCH BAR */
-
 .search-bar {
-    display: flex;
-    align-items: center;
-    width: 49px;
-    /* Adjust this to fit the search icon */
-    /* border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  width: 49px; /* Adjust this to fit the search icon */
+  /* border: 1px solid #ccc;
   border-radius: 4px; */
-    padding: 5px;
-    margin-right: 20px;
-    transition: width 0.3s ease-in-out;
-    /* Add transition for smooth animation */
+  padding: 5px;
+  margin-right: 20px;
+  transition: width 0.3s ease-in-out; /* Add transition for smooth animation */
 }
 
-.admin_panel_settings {
-    align-items: center;
-    margin-top: 7px;
-    margin-right: 8px;
-    border: none;
-    background: none;
+.admin_panel_settings{
+  align-items: center;
+  margin-top: 7px;
+  margin-right: 8px;
+  border: none;
+  background: none;
 }
 
 .search-bar input[type="text"] {
-    flex: 1;
-    padding: 5px;
-    border: none;
-    outline: none;
-    width: 0;
-    opacity: 0;
-    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
-    /* Add transition for smooth animation */
+  flex: 1;
+  padding: 5px;
+  border: none;
+  outline: none;
+  width: 0;
+  opacity: 0;
+  transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out; /* Add transition for smooth animation */
 }
 
 .search-bar.active {
-    width: 300px;
-    /* Adjust this to your desired search bar width */
-    border: 1px solid #ccc;
-    border-radius: 15px;
+  width: 300px; /* Adjust this to your desired search bar width */
+  border: 1px solid #ccc;
+  border-radius: 15px;
 }
 
 .search-bar.active input[type="text"] {
-    width: 100%;
-    opacity: 1;
+  width: 100%;
+  opacity: 1;
 }
 
 .search-bar .search-icon {
-    margin-right: 5px;
-    cursor: pointer;
+  margin-right: 5px;
+  cursor: pointer;
 }
 
 .search-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-right: 40px;
-    margin-top: -20px;
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 40px;
+  margin-top: -20px;
 }
 
 .close-button {
-    border: none;
-    background: none;
-    padding: 0;
-    cursor: pointer;
-    /* margin-right: 230px; */
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  /* margin-right: 230px; */
 }
 
+
 .manage-access-btn {
-    background-color: #9C27B0;
-    /* Adjust color to match exact shade */
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 12px;
-    display: flex;
-    /* Add this */
-    align-items: center;
-    /* Add this */
-    justify-content: center;
-    /* Add this */
-    gap: 5px;
-    /* Add this */
-    margin-right: 20px;
+  background-color: #9C27B0; /* Adjust color to match exact shade */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  display: flex; /* Add this */
+  align-items: center; /* Add this */
+  justify-content: center; /* Add this */
+  gap: 5px; /* Add this */
+  margin-right: 20px;
 }
 
 .gear-icon {
-    /* Add styling for gear icon here, or use a font library like Font Awesome */
+  /* Add styling for gear icon here, or use a font library like Font Awesome */
 }

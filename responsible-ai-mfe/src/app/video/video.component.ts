@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { Component, ViewEncapsulation, OnInit, ViewChild, ElementRef, TemplateRef} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -32,6 +33,8 @@ export class VideoComponent implements OnInit{
   selectValue: string = '';
   showFileInput = false;
   selectedOptions: string[] = [];
+  uploadedVideoMode: boolean = true;
+  liveStreamMode: boolean = false;
   
   constructor(public _snackBar: MatSnackBar, private https: HttpClient, private dialog: MatDialog, private sanitizer: DomSanitizer) {
     this.form1 = new FormControl(null, this.fileSelectedValidator);
@@ -43,12 +46,16 @@ export class VideoComponent implements OnInit{
       totalItems: this.totalItems
     }
   }
+
+  // Validates if a file is selected
   fileSelectedValidator(control: AbstractControl): ValidationErrors | null {
     if (control.value == null || control.value.length === 0) {
       return { 'noFileSelected': true };
     }
     return null;
   }
+
+  // Validates if an option is selected
   optionSelectedValidator(control: AbstractControl): ValidationErrors | null {
     if (this.selectedOptions.length === 0) {
       return { 'noOptionSelected': true };
@@ -56,6 +63,18 @@ export class VideoComponent implements OnInit{
     return null;
   }
 
+  // Toggles between uploaded video mode and live stream mode
+  toggleVideoMode(mode: string) {
+    if (mode === 'uploaded') {
+      this.uploadedVideoMode = true;
+      this.liveStreamMode = false;
+    } else if (mode === 'live') {
+      this.uploadedVideoMode = false;
+      this.liveStreamMode = true;
+    }
+  }
+
+   // Opens a dialog to display the video
   openDialog(videoUrl: string): void{
     console.log("Opening dialog with URL: ", videoUrl);
 
@@ -115,6 +134,8 @@ export class VideoComponent implements OnInit{
     };
     reader.readAsText(event.target.files[0]);
   }
+
+   // Initializes the component and fetches initial data
   ngOnInit(): void {
     let ip_port: any
 
@@ -125,8 +146,9 @@ export class VideoComponent implements OnInit{
     this.isLoadingUpload = false;
     this.getVideoFilesList()
 
-
   }
+
+  // Retrieves the logged-in user from local storage
   getLogedInUser() {
     if (localStorage.getItem("userid") != null) {
       const x = localStorage.getItem("userid")
@@ -140,6 +162,8 @@ export class VideoComponent implements OnInit{
       console.log("userId", this.userId)
     }
   }
+
+  // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
     if (localStorage.getItem("res") != null) {
@@ -149,6 +173,8 @@ export class VideoComponent implements OnInit{
       }
     }
   }
+
+  // Sets the API endpoints for the component
   setApilist(ip_port: any) {
     this.getFile = ip_port.result.DocProcess + ip_port.result.DocProcess_getFiles  // + environment.getFile
 
@@ -158,6 +184,7 @@ export class VideoComponent implements OnInit{
 
   }
 
+   // Fetches the list of video files for the user
   getVideoFilesList() {
     this.https.get(this.getFile + "/" + this.userId + "/video").subscribe
       ((res: any) => {
@@ -183,16 +210,21 @@ export class VideoComponent implements OnInit{
 
       })
   }
+
+  // Handles pagination changes
   onTableDataChange(event: any) {
     this.pagingConfig.currentPage = event;
     this.pagingConfig.totalItems = this.result.length;
   }
+
+   // Handles changes in the table size
   onTableSizeChange(event: any): void {
     this.pagingConfig.itemsPerPage = event.result.value;
     this.pagingConfig.currentPage = 1;
     this.pagingConfig.totalItems = this.result.length;
   }
 
+  // Checks if the given data indicates a completed status
   isCompleted(data: any): boolean {
     if (data == "Completed") {
       return true
@@ -202,6 +234,8 @@ export class VideoComponent implements OnInit{
     }
 
   }
+
+  // Handles the form submission
   submit() {
     this.form2.updateValueAndValidity();
     const message = this.form1.invalid && this.form2.invalid ? 'Please select a Video File & Category before Submitting' :
@@ -219,6 +253,8 @@ export class VideoComponent implements OnInit{
     console.log("submit")
     this.upload_file()
   }
+
+  // Uploads the selected video file
   upload_file() {
     this.showSpinner1 = true;
     let userId = this.getLogedInUser()
@@ -245,6 +281,8 @@ export class VideoComponent implements OnInit{
       });
     }
   }
+
+  // Makes the API call to upload the video file
   uploadFileApiCall(fileData: any) {
     this.https.post(this.uploadFile, fileData).subscribe((res: any) => {
       this.result = res
@@ -270,7 +308,7 @@ export class VideoComponent implements OnInit{
     })
   }
   // getfileContent(id:any){
-  //   this.https.post(this.DocProcessing_getFileContent+id,null).subscribe
+  //   this.http.post(this.DocProcessing_getFileContent+id,null).subscribe
   //       ((res: any) => {
   //         // this.showSpinner1=false
   //         console.log("video file name ",res[0].data)
@@ -301,34 +339,39 @@ export class VideoComponent implements OnInit{
   //       })
 
   //     }
+
+  // Navigates to the given document link
   getfileContent(documentLink: string){
     console.log('Navigating to:', documentLink);
     window.location.href = documentLink; 
   }
 
+   // Handles file selection for upload
   fileBrowseHandler(imgFile: any) {
+    const allowedTypes = ['video/mp4'];
+    console.log("fileBrowseHandler", imgFile.target.files[0].type)
+    if (!allowedTypes.includes(imgFile.target.files[0].type)) {
+      this._snackBar.open('Please select a valid file type', '✖', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      });
+      // return;
+    }else{
     // this.browseFilesLenth = imgFile.target.files.length;
     this.files = [];
     this.demoFile = [];
     this.prepareFilesList(imgFile.target.files);
     this.demoFile = this.files;
     this.file = this.files[0];
-        // to validate file SAST
-        const allowedTypes = ['video/mp4'];
-        for(let i =0; i< this.file.length; i++){
-          if (!allowedTypes.includes(this.file[i].type)) {
-            this._snackBar.open('Please upload valid file', 'Close', {
-              duration: 2000,
-            });
-            this.file = [];
-            return ;
-          }
-        }
+    }
+
     this.form1.setValue(this.files);
     // this.uploadDocument(this.file);
     //  console.log("on choosing")
   }
 
+  // Prepares the list of files for upload
   prepareFilesList(files: Array<any>) {
     for (const item of files) {
       // item.progress = 0;
@@ -336,6 +379,8 @@ export class VideoComponent implements OnInit{
     }
     this.uploadFilesSimulator(0, this.files);
   }
+
+   // Simulates the file upload process
   uploadFilesSimulator(index: number,files:any) {
     setTimeout(() => {
       console.log(this.files[0].name)
@@ -353,16 +398,21 @@ export class VideoComponent implements OnInit{
       }
     }, 1000);
   }
+
+  // Deletes the selected file
   deleteFile(){
     this.files = [];
     this.demoFile = [];
     this.file = null;
   }
+
+  // Toggles the selection of all options
   toggleAllSelection(event: any) {
     this.selectedOptions = event.checked ? this.options.map(x => x.value) : [];
     this.form2.updateValueAndValidity();
   }
 
+   // Resets the form and clears all selections
   reset(){
     this.files = [];
     this.demoFile = [];

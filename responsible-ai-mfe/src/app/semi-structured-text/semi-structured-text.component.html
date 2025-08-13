@@ -1,57 +1,75 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <label class="topHeading">DOCUMENTS</label>
 <div style="display: flex;" class="mt-2">
     <div>
-        <h3 class="HeadingCheckBoxLabel pl-0">Select Type</h3>
-        <div class="checkbox-container ml-1">
-            <div class="d-flex align-items-center">
+        <h3 class="HeadingCheckBoxLabel ps-0">Select Type</h3>
+        <div class="checkbox-container ms-1">
+            <!-- <div class="d-flex align-items-center">
                 <input type="radio" id="Privacy" name="Privacy" value="Privacy" [(ngModel)]="selectType" (ngModelChange)="resetAll(); handleSelectTypeChange()">
-                <label for="Privacy" class="HeadingCheckBoxLabel fw-medium m-0 pl-2">Privacy</label>
-            </div>
+                <label for="Privacy" class="HeadingCheckBoxLabel fw-medium m-0 ps-2">Privacy</label>
+            </div> -->
             <!-- <div class="d-flex align-items-center">
                 <input type="radio" id="Safety" name="Safety"
                     value="Safety" [(ngModel)]="selectType" (ngModelChange)="resetAll(); handleSelectTypeChange()">
-                <label for="Safety" class="HeadingCheckBoxLabel fw-medium m-0 pl-2" >Safety</label>
-            </div>
+                <label for="Safety" class="HeadingCheckBoxLabel fw-medium m-0 ps-2" >Safety</label>
+            </div> -->
             <div class="d-flex align-items-center">
-                <input type="radio" id="Explainability" name="Explainability"
-                    value="Explainability" [(ngModel)]="selectType" (ngModelChange)="resetAll(); handleSelectTypeChange()">
-                <label for="Explainability" class="HeadingCheckBoxLabel fw-medium m-0 pl-2" >Explainability</label>
+                <input type="radio" id="Explainability" name="Explainability" value="Explainability" [(ngModel)]="selectType" (ngModelChange)="resetAll(); handleSelectTypeChange()">
+                <label for="Explainability" class="HeadingCheckBoxLabel fw-medium m-0 ps-2">Explainability</label>
             </div>
-            <div class="d-flex align-items-center">
+            <!-- <div class="d-flex align-items-center">
                 <input type="radio" id="Security" name="Security"
                     value="Security" [(ngModel)]="selectType" (ngModelChange)="resetAll(); handleSelectTypeChange()">
-                <label for="Security" class="HeadingCheckBoxLabel fw-medium m-0 pl-2" >Security</label>
+                <label for="Security" class="HeadingCheckBoxLabel fw-medium m-0 ps-2" >Security</label>
             </div> -->
         </div>
     </div>
     <div>
-        <div class="drop-zone mt-2 ml-3">
+        <div class="drop-zone mt-2 ms-3">
             <mat-icon class="material-icons browse-logo ">cloud_upload</mat-icon>
             <p class="paragraph_dnd">Drag and drop files here <br>or<span class="high-light"> browse</span></p>
-            <input type="file" (change)="onFileChange($event)" (change)="fileBrowseHandler($event)" multiple accept="application/pdf">
+            <input type="file" (change)="onFileChange($event)" (change)="fileBrowseHandler($event)" multiple>
+
             <p class="dnd-lable">
-                .pdf files upto 20 MB are supported</p>
+                .pdf,.pptx,.docx,.csv,.json files upto 20 MB are supported</p>
         </div>
-        <div style="display: flex;">
-            <div class="mt-1 ml-2">
-                <img src={{sampleImg}} matTooltip="Health Care Application" class="custom_image" (click)="uploadSampleFile('sampleFile')">
+        <div class="label-container mt-2" style="padding-left: 15px;">
+            <p class="HeadingLabel2">*right click to download sample file</p>
+        </div>
+        <div style="display: flex;" *ngIf="selectType == 'Privacy'">
+            <div class="mt-1 ms-2">
+                <img src={{sampleImg}} matTooltip="Health Care Application" class="custom_image" (click)="uploadSampleFile('sampleFile')" (contextmenu)="downloadFile(sampleFile, $event)">
             </div>
-            <div class="mt-1 ml-2">
+            <div class="mt-1 ms-2">
+                <img src={{sampleImgCSV}} matTooltip="Customer Finance Data" class="custom_image" (click)="uploadSampleCsvFile('sampleFilePRivacycsv')" (contextmenu)="downloadFile(sampleFilePRivacycsv, $event)">
+            </div>
+            <div class="mt-1 ms-2">
+                <img src={{sampleImgpptx}} matTooltip="Project Status Details" class="custom_image" (click)="uploadSamplePptxFile('sampleFilePRivacyppt')" (contextmenu)="downloadFile(sampleFilePRivacyppt, $event)">
+            </div>
+            <!-- <div class="mt-1 ms-2">
                 <img src={{sampleImg}} matTooltip="Life Insurance" class="custom_image" (click)="uploadSampleFile('sampleFile2')">
-            </div>
+            </div> -->
         </div>
-        <div class="fileContainer mt-1 ml-3">
+        <div style="display: flex;" *ngIf="selectType == 'Explainability'">
+            <div class="mt-1 ms-2">
+                <img src={{sampleImgXLSX}} matTooltip="Prompts" class="custom_image" (click)="uploadSampleXlsxFile('sampleFileExplain')" (contextmenu)="downloadFile(sampleFileExplain, $event)">
+            </div>
+            <!-- <div class="mt-1 ms-2">
+                <img src={{sampleImg}} matTooltip="Life Insurance" class="custom_image" (click)="uploadSampleFile('sampleFile2')">
+            </div> -->
+        </div>
+        <div class="fileContainer mt-1 ms-3">
             <p class="HeadingLabelSM mb-0" *ngIf="files[0]">File</p>
             <div class="file-upload" *ngIf="files[0]">
                 <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
                 <div class="d-flex align-items-center mt-1">
-                    <mat-progress-bar class="mr-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
-                    <button class="cancel-button mr-2" (click)="removeFile()">
+                    <mat-progress-bar class="me-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
+                    <button class="cancel-button me-2" (click)="removeFile()">
                         <mat-icon>close</mat-icon>
                     </button>
                 </div>
@@ -61,9 +79,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
     </div>
 
-    <div class="ml-4">
+    <div class="ms-4">
         <label class="HeadingLabel mb-3">Select Options</label>
-        <div>
+        <!-- select options colloum for Privacy -->
+        <div *ngIf="selectType == 'Privacy'">
             <form [formGroup]="form">
                 <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
                 <select formControlName="languageModel" (change)="selectOptionOcr($event.target)" class="form-select shadow-none" aria-label="Default select example" [(ngModel)]="ocrvalue">
@@ -76,34 +95,107 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <!-- <option *ngFor="let option of ocr_options" [value]="option">{{option}}</option>
                     <option *ngFor="let option of ['ComputerVision']" [value]="option"><span *ngIf="files[0].name == 'PII_handwritten.jpg'">{{option}}</span></option> -->
                 </select>
+
+                <select formControlName="newDropdown" (change)="selectOptionNewDropdown($event.target)" class="form-select shadow-none" aria-label="Default select example" [(ngModel)]="newDropdownValue">
+                <option value="" disabled selected>Method Type</option>
+                <ng-container *ngIf="files == [] || files[0]?.name != 'PII_handwritten.jpg'">
+                    <option *ngFor="let option of new_options" [value]="option">{{option}}</option>
+                </ng-container>
+                <ng-container *ngIf="files && files[0]?.name == 'PII_handwritten.jpg'">
+                    <option selected [value]="'NewOption'">NewOption</option>
+                </ng-container>
+            </select>
             </form>
 
             <!--  -->
-            <ng-container *ngIf="selectType == 'Privacy' || selectType === 'Safety'">
-                <!-- <input type="text" [(ngModel)]="portfolioName_value" class="form-control shadow-none"
-                    placeholder="Portfolio Name" aria-label="Portfolio Name">
-                <input type="text" [(ngModel)]="accountName_value" class="form-control shadow-none"
-                    placeholder="Account Name" aria-label="Account Name"> -->
-                <input [hidden]="selectType === 'Safety'" type="text" [(ngModel)]="exclusionList_value" class="form-control shadow-none" placeholder="Exclusion List" aria-label="Exclusion List">
-            </ng-container>
+            <div class="position-relative">
+                <label class="optional-label">(Optional)</label>
+                <input [hidden]="newDropdownValue != 'JSON Anonymize' && newDropdownValue != 'CSV Anonymize'" type="text" [(ngModel)]="keys_to_skip" class="form-control shadow-none" placeholder="Keys To Skip" aria-label="Keys To Skip">
+            </div>
+
+            <div class="position-relative">
+                <label class="optional-label">(Optional)</label>
+                <input type="text" [(ngModel)]="exclusionList_value" class="form-control shadow-none" placeholder="Exclusion List" aria-label="Exclusion List">
+            </div>
+
+            <!--  -->
+            <div [class.disabled]="fmService.checkLocalStorageForKeys()" class="d-flex flex-column">
+
+                <!-- <select class="form-select shadow-none " aria-label="Default select example" name="nlpOption" [(ngModel)]="nlpOption">
+                    <option value="" selected disabled>Choose NLP Model</option>
+                    <option *ngFor="let option of nlp_options" [value]="option">
+                        {{option}}
+                    </option>
+                </select> -->
+
+                <div class="icon-dropdown-container">
+                    <div class="d-flex">
+                        <label class="optional-label2">(Optional)</label>
+                        <mat-icon ngbTooltip="{{nlptooltip}}" placement="top" class="smallIcon" style="font-size: 16px;">info_outline</mat-icon>
+                    </div>
+                    <select class="form-select shadow-none" aria-label="Default select example" name="nlpOption" [(ngModel)]="nlpOption">
+                      <option value="" selected disabled>Choose NLP Model</option>
+                      <option *ngFor="let option of nlp_options" [value]="option.value">
+                        {{option.viewValue}}
+                      </option>
+                    </select>
+                </div>
+
+
+                <!-- <mat-form-field class="w-100"> -->
+                <div class="position-relative">
+                    <label class="optional-label">(Optional)</label>
+                    <mat-select multiple class="dropdown1" placeholder="Select Recognizer" [formControl]="piiEntitiesToBeRedactedOption" style="margin-bottom:1.1rem;">
+                        <mat-option *ngFor="let option of available_Recognizers" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+                <!-- </mat-form-field> -->
+            </div>
+            <!--  -->
+
+        </div>
+        <!-- select options colloum for Explainability -->
+        <div *ngIf="selectType == 'Explainability'">
+            <form [formGroup]="explainabilityForm" *ngIf="selectType == 'Explainability'">
+                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                <mat-select multiple class="dropdown1" placeholder="Methods" [formControl]="anotherOptionControl" (selectionChange)="onSelectionChange($event)" style="margin-bottom:1.1rem; width: 11rem;">
+                    <mat-option *ngFor="let option of anotherOptions" [value]="option" [disabled]="isOptionDisabled(option)">
+                        {{option}}
+                    </mat-option>
+                </mat-select>
+            </form>
+            <select class="form-select shadow-none" aria-label="Default select example" name="responseFileType" [(ngModel)]="responseFileType">
+                <option *ngFor="let option of responseFileTypeOptions" [value]="option">
+                  {{option}}
+                </option>
+              </select>
         </div>
         <div class="button-container">
             <button mat-raised-button class="mainBtn resetButton" (click)="resetAll()" color="reset">Reset</button>
             <button mat-raised-button (click)="submit()" class="mainBtn" style="margin-left: .5rem;" color="black">Submit</button>
         </div>
     </div>
-    <div class="ml-5" *ngIf="spinner==true">
+    <div class="ms-5" *ngIf="spinner==true">
         <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'border-radius': '10px', height: '450px', width:'800px'}" />
     </div>
-    <div class="ml-5" *ngIf="output">
+    <div class="ms-5" *ngIf="output">
         <iframe [src]="pdfSrc" width="800px" height="450px"></iframe>
     </div>
-    <!-- <div class="ml-5" *ngIf="pdfSrc">
+    <!-- <div *ngIf="pptSrc">
+        <iframe [src]="pptSrc" width="100%" height="600px"></iframe>
+    </div> -->
+    <!-- <div class="ms-5" *ngIf="pdfSrc">
         <embed [src]="pdfSrc" width="800px" height="400px" type="application/pdf">
     </div> -->
-    <!-- <div class="ml-5" *ngIf="pdfSrc">
+    <!-- <div class="ms-5" *ngIf="pdfSrc">
         <object [data]="pdfSrc" type="application/pdf" width="800px" height="400px">
             <p>Your browser does not support PDFs. <a [href]="pdfSrc">Download the PDF</a>.</p>
         </object>
     </div> -->
+</div>
+
+<div style="height: 50px;">
+
 </div>

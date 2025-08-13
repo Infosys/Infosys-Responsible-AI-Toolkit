@@ -8,7 +8,7 @@ dnspython
 elastic-transport==8.4.1
 elasticsearch==8.10.0
 elasticsearch-dsl==8.9.0
-fastapi==0.103.2
+fastapi==0.115.12
 Flask==3.0.0
 h11
 idna              
@@ -18,7 +18,7 @@ MarkupSafe
 pip               
 pydantic          
 pydantic_core     
-pymongo==4.5.0
+pymongo==4.6.3
 python-dateutil   
 python-dotenv     
 pytz              
@@ -26,7 +26,7 @@ PyYAML
 setuptools        
 six              
 sniffio          
-starlette         
+starlette==0.40.0   
 typing_extensions 
 tzdata            
 urllib3          

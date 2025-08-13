@@ -17,7 +17,7 @@ The `responsible-ai-reporting-tool` repository is used for generating of the rep
 ## Installation
 To run the application, first we need to install Python and the necessary packages:
 
-1. Install Python (version >= 3.9) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
+1. Install Python (version ==3.11.4) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
 
 2. Install MongoDB by following the instructions on the [official MongoDB website](https://docs.mongodb.com/manual/installation/).
 
@@ -80,7 +80,17 @@ After installing all the required packages, configure the variables necessary to
     ```sh
     allow_origin = "${allow_origin}"     # ALLOW_ORIGINS ="*"       
     To allow access to all sites, use the value *. Alternatively, you can specify a list of sites that should have access.
+
     ```
+3. Navigate to app/exception/exception.py under 'src':
+   Add the below import statements:
+   ```sh
+   from fastapi.responses import JSONResponse
+   from fastapi.encoders import jsonable_encoder
+   ```
+   Save it and proceed
+   
+   
 
 ## Running the Application
 Once we have completed all the aforementioned steps, we can start the service.
@@ -90,8 +100,8 @@ Once we have completed all the aforementioned steps, we can start the service.
     python main.py
     ```
 
-2. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: 
-   `(http://localhost:<portno>/v1/report/docs`
+2. Open the following URL in your browser:
+    [http://localhost:80/v1/report/docs](http://localhost:80/v1/report/docs)
 
     User can also change the port which mentioned in main.py file
 

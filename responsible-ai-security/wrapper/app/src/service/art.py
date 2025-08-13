@@ -24,7 +24,7 @@ import math
 import warnings
 warnings.filterwarnings("ignore")
  
-import tensorflow as tf
+#import tensorflow as tf
 # if tf.executing_eagerly():
 #     tf.compat.v1.disable_eager_execution()
  
@@ -32,10 +32,10 @@ from src.service.utility import Utility as UT
 from src.service.report import Report as RT
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-from keras.models import load_model
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.preprocessing import image
-from tensorflow.image import grayscale_to_rgb
+#from keras.models import load_model
+# from tensorflow.keras.utils import to_categorical
+# from tensorflow.keras.preprocessing import image
+# from tensorflow.image import grayscale_to_rgb
 from art.estimators.classification import SklearnClassifier
 from sklearn.svm import SVC, LinearSVC
 from sklearn.ensemble import RandomForestClassifier

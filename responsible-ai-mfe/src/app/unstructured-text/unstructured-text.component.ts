@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { PagingConfig } from '../_models/paging-config.model';
@@ -10,6 +11,7 @@ import { environment } from 'src/environments/environment';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RoleManagerService } from '../services/role-maganer.service';
+import { UserValidationService } from '../services/user-validation.service';
 
 
 @Component({
@@ -39,7 +41,7 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
 
   p: number = 1;
 
-  constructor(private https: HttpClient, private fb: FormBuilder, private snackBar: MatSnackBar, public roleService: RoleManagerService) {
+  constructor(private https: HttpClient, private fb: FormBuilder, private snackBar: MatSnackBar, public roleService: RoleManagerService, private validationService:UserValidationService) {
     this.pagingConfig = {
       itemsPerPage: this.itemsPerPage,
       currentPage: this.currentPage,
@@ -102,6 +104,7 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
     reader.readAsText(event.target.files[0]);
   }
 
+  // Initializes the component and fetches initial data
   ngOnInit(): void {
     this.options = this.roleService.getSelectedTypeOptions("Workbench", "Unstructured-Text", "Traditional-AI")
     if (!this.roleService.checkActiveTabExists('Workbench', 'Unstructured-Text', 'Traditional-AI')) {
@@ -120,16 +123,17 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
     this.getLotDetails(this.user)
 
   }
+
+  // Retrieves the logged-in user from local storage
   getLogedInUser() {
-    if (localStorage.getItem("userid") != null) {
-      const x = localStorage.getItem("userid")
-      if (x != null) {
-        // this.userId = JSON.parse(x)
-        return JSON.parse(x)
-      }
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
+      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
+        return x;      }
     }
   }
 
+  // Toggles between upload mode and prompt mode
   ontoglechange(event: any) {
     if (event.checked == true) {
       this.uploadMode = false;
@@ -164,15 +168,19 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
     this.lot_details = ip_port.result.Questionnaire + ip_port.result.AllLotDetails;
     this.Workbench_UploadFile = ip_port.result.Questionnaire + ip_port.result.Workbench_UploadFile;
   }
+
+  // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
-    if (localStorage.getItem("res") != null) {
-      const x = localStorage.getItem("res")
-      if (x != null) {
-        return ip_port = JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+      if(res != null){
+        return ip_port = JSON.parse(res)
       }
     }
   }
+
+  // Fetches the details of the lots for the given user
   getLotDetails(user: any) {
     this.dataSource = [];
     const getUrl = this.lot_details + user;
@@ -201,26 +209,28 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
 
         this.isLoadingUpload = false;
 
-
         this.isLoadingSelectType = false;
         this.isLoadingTable = false;
-
-
 
         // this.isLoadingUpload=false;
       })
   }
+
+  // Handles pagination changes
   onTableDataChange(event: any) {
     this.currentPage = event;
     this.pagingConfig.currentPage = event;
     this.pagingConfig.totalItems = this.dataSource.length;
   }
+
+  // Handles changes in the table size
   onTableSizeChange(event: any): void {
     this.pagingConfig.itemsPerPage = event.target.value;
     this.pagingConfig.currentPage = 1;
     this.pagingConfig.totalItems = this.dataSource.length;
   }
 
+  // Handles file selection for upload
   fileBrowseHandler(imgFile: any) {
     const allowedTypes = ['text/csv'];
     console.log("fileBrowseHandler", imgFile.target.files[0].type)
@@ -244,6 +254,7 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
   }
   }
 
+  // Prepares the list of files for upload
   prepareFilesList(files: Array<any>) {
     this.files = []
     for (const item of files) {
@@ -252,10 +263,9 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
       this.files.push(newFile);
     }
     this.uploadFilesSimulator(0, files)
-
-
   }
 
+  // Removes the selected file
   removeFile() {
     this.demoFile = []
     // this.imageArray = []
@@ -264,6 +274,7 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
     this.resetRadioButtons()
   }
 
+  // Simulates the file upload process
   uploadFilesSimulator(index: number, files: any) {
     setTimeout(() => {
       if (index === this.files.length) {
@@ -298,6 +309,8 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
     console.log("submit")
     this.uploadFileData()
   }
+
+  // Uploads the selected file data
   uploadFileData() {
     this.showSpinner1 = true;
     this.getLotDetails(this.user);
@@ -312,6 +325,7 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
   }
 
   intervalId: any
+   // Makes the API call to upload the file to the workbench
   workBenchPostApiCall(fileData: any) 
   {
     // let i = 0
@@ -375,6 +389,7 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
 
   }
 
+  // Updates the selected options for tenants
   viewoptions() {
     // console.log("Array===",this.selectedOptions)
     // [Privacy: true, Profanity: true, Explainability: true, FM-Moderation: true]
@@ -389,9 +404,13 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
     });
 
   }
+
+   // Filters keys with boolean values from an object
   filterKeysByBoolean(obj: Record<string, boolean>): string[] {
     return Object.keys(obj).filter((key) => obj[key]);
   }
+
+  // Checks if the given data indicates a completed status
   isCompleted(data: any): boolean {
     if (data == "Completed") {
       return true
@@ -408,6 +427,7 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
   // sampleSrc2 = environment.imagePathurl + '/assets/image/sampleImage2.png';
   // sampleSrc3 = environment.imagePathurl + '/assets/image/sampleImage3.jpg';
 
+  // Handles the click event for downloading a sample file
   onClick(s: any) {
     console.log("s======",s);
     fetch(s)
@@ -432,6 +452,7 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
         // this.cdr.detectChanges();
       })
       .catch((error) => {
+        console.error('error converting imgageurl to file: ');
       });
 
     //  This works in standalone but not in MFE
@@ -450,12 +471,24 @@ export class UnstructuredTextComponent implements OnInit, PagingConfig {
     // this.cdr.detectChanges();
   }
 
+    // Handles changes in the selected view
   viewchange() {
     console.log('view change', this.favoriteSeason);
   }
 
+   // Resets the selected radio buttons
   resetRadioButtons() {
     this.favoriteSeason = null; // or any default value that doesn't match the radio button values
+  }
+
+   // Downloads the specified file
+  downloadFile(file: string, event: MouseEvent) {
+    event.preventDefault(); // Prevent the default context menu from appearing
+  
+    const link = document.createElement('a');
+    link.href = file; // Assuming `file` is the URL to the file
+    link.download = file.split('/').pop() || 'downloaded-file'; // Provide a default file name if undefined
+    link.click();
   }
 
 

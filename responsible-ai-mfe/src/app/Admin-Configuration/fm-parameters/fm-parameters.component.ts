@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
@@ -11,6 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NonceService } from 'src/app/nonce.service';
+import { UserValidationService } from 'src/app/services/user-validation.service';
 
 @Component({
   selector: 'app-fm-parameters',
@@ -20,7 +22,7 @@ import { NonceService } from 'src/app/nonce.service';
 export class FmParametersComponent {
 
 
-  constructor(private _fb: UntypedFormBuilder, public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog,public nonceService:NonceService) {
+  constructor(private _fb: UntypedFormBuilder, public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog,public nonceService:NonceService,private validationService:UserValidationService) {
     this.fromCreation();
   }
 
@@ -32,6 +34,8 @@ export class FmParametersComponent {
 
 
   public recognizerList: any =['PERSON', 'LOCATION', 'DATE', 'AU_ABN', 'AU_ACN', 'AADHAR_NUMBER', 'AU_MEDICARE', 'AU_TFN', 'CREDIT_CARD', 'CRYPTO', 'DATE_TIME', 'EMAIL_ADDRESS', 'ES_NIF', 'IBAN_CODE', 'IP_ADDRESS', 'IT_DRIVER_LICENSE', 'IT_FISCAL_CODE', 'IT_IDENTITY_CARD', 'IT_PASSPORT', 'IT_VAT_CODE', 'MEDICAL_LICENSE', 'PAN_Number', 'PHONE_NUMBER', 'SG_NRIC_FIN', 'UK_NHS', 'URL', 'PASSPORT', 'US_ITIN', 'US_PASSPORT', 'US_SSN'];
+  gibberishLabels: string[] = ['word salad', 'noise', 'mild gibberish', 'clean'];
+  bannedCategories: string[] = ['Cf', 'Co', 'Cn', 'So', 'Sc'];
 
 
   // 
@@ -46,16 +50,14 @@ export class FmParametersComponent {
   fm_config_topicList = ""
   fm_config_outputModCheck = ""
 
-
+// Initializes the form for FM configuration
   fromCreation() {
-
-
     this.FmConfigResponseForm = new FormGroup({
       inputModChecks: new FormControl([], [Validators.required]),
       outputModChecks: new FormControl([], [Validators.required]),
       PromptInjectionThreshold: new FormControl(7, [Validators.required]),
       JailbreakThreshold: new FormControl(7, [Validators.required]),
-   //   recognizerNamesToDetect: new FormControl([], [Validators.required]),
+      recognizerNamesToDetect: new FormControl([], [Validators.required]),
       recognizerNamesToBlock: new FormControl([], [Validators.required]),
       RefusalThreshold: new FormControl(7, [Validators.required]),
       ToxicityThreshold: new FormControl(6, [Validators.required]),
@@ -67,10 +69,16 @@ export class FmParametersComponent {
       SexualExplicitThreshold: new FormControl(6, [Validators.required]),
       ProfanityCountThreshold: new FormControl(10, [Validators.required]),
       RestrictedtopicThreshold: new FormControl(7, [Validators.required]),
+      SentimentThreshold:new FormControl(-0.01, [Validators.required]),
+      BanCodeThreshold:new FormControl(7, [Validators.required]),//not being used
+      InvisibleTextCountThreshold: new FormControl(10, [Validators.required]),
+      GibberishThreshold: new FormControl(7, [Validators.required]),
       Restrictedtopics: new FormControl([], [Validators.required]),
       ThemeName: new FormControl('', [Validators.required]),
       Themethresold: new FormControl(6, [Validators.required]),
       ThemeTexts: new FormControl('', [Validators.required]),
+      gibberishLabels: new FormControl([], [Validators.required]),
+      bannedCategories: new FormControl([], [Validators.required]),
     });
 
     // let initialFormValues = {
@@ -102,7 +110,7 @@ export class FmParametersComponent {
 
 
   }
-
+ // Submits the FM configuration form
   submit() {
     console.log('Form Submitted');
     console.log('Form Submitted', this.FmConfigResponseForm.value);
@@ -130,16 +138,32 @@ export class FmParametersComponent {
         Themethresold: this.FmConfigResponseForm.value.Themethresold / 10,
         ThemeTexts: themeTextArray,
       };
+      const InvisibleTextCountDetails ={
+         InvisibleTextCountThreshold: this.FmConfigResponseForm.value.InvisibleTextCountThreshold / 10,
+            BannedCategories: this.FmConfigResponseForm.value.bannedCategories
+
+      };
+      const GibberishDetails ={
+        GibberishThreshold: this.FmConfigResponseForm.value.GibberishThreshold / 10,
+            GibberishLabels: this.FmConfigResponseForm.value.gibberishLabels
+
+      };
+
       const payload1 = {
         PromptinjectionThreshold: this.FmConfigResponseForm.value.PromptInjectionThreshold / 10,
         JailbreakThreshold: this.FmConfigResponseForm.value.JailbreakThreshold / 10,
-        PiientitiesConfiguredToDetect: [],
+        PiientitiesConfiguredToDetect: this.FmConfigResponseForm.value.recognizerNamesToDetect,
         PiientitiesConfiguredToBlock: this.FmConfigResponseForm.value.recognizerNamesToBlock,
         RefusalThreshold: this.FmConfigResponseForm.value.RefusalThreshold / 10,
         ToxicityThresholds: ToxicityThreshold,
         ProfanityCountThreshold: this.FmConfigResponseForm.value.ProfanityCountThreshold / 10,
         RestrictedtopicDetails: RestrictedtopicDetail,
         CustomTheme: CustomTheme,
+        SentimentThreshold: this.FmConfigResponseForm.value.SentimentThreshold,
+        InvisibleTextCountDetails: InvisibleTextCountDetails,
+        GibberishDetails: GibberishDetails,
+         BanCodeThreshold: this.FmConfigResponseForm.value.BanCodeThreshold / 10,// not being used 
+
       };
 
       const payload = {
@@ -153,38 +177,44 @@ export class FmParametersComponent {
     this.setFMConfigData(payload);
 
   }
+
+   // Sends the FM configuration data to the server
   setFMConfigData(payload: any) {
-    this.https.post(this.fm_config_entry,payload).subscribe(
-      (res:any) =>{
-        
-        const message = 'The Api has succeeded';
-        
-          const action = 'Close';
+    this.https.post(this.fm_config_entry, payload).subscribe(
+      (res: any) => {
+        if (res.status === "True") {
+          const message = "Mapping Added Successfully";
+          const action = "Close";
           this._snackBar.open(message, action, {
             duration: 3000,
-            horizontalPosition: 'left',
             panelClass: ['le-u-bg-black'],
           });
+          
+          // this.getAllAccountData();
+        } else if (res.status === "False") {
+          const message = "Mapping already exists for this Account";
+          const action = "Close";
+          this._snackBar.open(message, action, {
+            duration: 3000,
+            panelClass: ['le-u-bg-black'],
+          });
+        } 
       },
       error => {
-        // You can access status:
         console.log(error.status);
-        
-          
-          // console.log(error.error.detail)
-          console.log(error);
-          const message = 'The Api has failed';
-          const action = 'Close';
-        
-          this._snackBar.open(message, action, {
-            duration: 3000,
-            horizontalPosition: 'left',
-            panelClass: ['le-u-bg-black'],
-          });
-        }
+        console.log(error);
+        const message = 'The Api has failed';
+        const action = 'Close';
+        this._snackBar.open(message, action, {
+          duration: 3000,
+          horizontalPosition: 'left',
+          panelClass: ['le-u-bg-black'],
+        });
+      }
     )
   }
 
+   // Initializes the component and sets up API lists
   ngOnInit(): void {
     let ip_port: any
 
@@ -194,28 +224,31 @@ export class FmParametersComponent {
     this.setApilist(ip_port)
     this.getSelectDRopDownArrray()
   }
+
+   // Retrieves the logged-in user from local storage
   getLogedInUser() {
-    if (localStorage.getItem("userid") != null) {
-      const x = localStorage.getItem("userid")
-      if (x != null) {
-
-        this.userId = JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
+      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
+        this.userId = x ;
         console.log(" userId", this.userId)
-        return JSON.parse(x)
       }
-
-      console.log("userId", this.userId)
+      return this.userId;
     }
   }
+
+  // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
-    if (localStorage.getItem("res") != null) {
-      const x = localStorage.getItem("res")
-      if (x != null) {
-        return ip_port = JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+      if(res != null){
+        return ip_port = JSON.parse(res)
       }
     }
   }
+
+  // Sets the API list URLs
   setApilist(ip_port: any) {
 
     this.admin_list_rec_get_list = ip_port.result.Admin + ip_port.result.Admin_DataRecogGrplist;
@@ -243,7 +276,7 @@ export class FmParametersComponent {
   event1: any;
   c1: boolean = false;
 
-  // select 1
+  // select 1- Toggles all selections for input moderation
   toggleAllSelection1(event: any) {
     this.event1 = event;
     this.c1 = event.checked;
@@ -266,6 +299,8 @@ export class FmParametersComponent {
       });
     }
   }
+
+  // Updates the selection status for input moderation
   selectInputModeration() {
     let newStatus = true;
     this.select1.options.forEach((item: MatOption) => {
@@ -291,7 +326,7 @@ export class FmParametersComponent {
   event2: any;
   c2: boolean = false;
 
-  // select 2
+  // select 2- // Toggles all selections for output moderation
   toggleAllSelection2(event: any) {
     this.event2 = event;
     this.c2 = event.checked;
@@ -314,6 +349,8 @@ export class FmParametersComponent {
       });
     }
   }
+
+  // Updates the selection status for output moderation
   selectOutputModeration() {
     let newStatus = true;
     this.select2.options.forEach((item: MatOption) => {
@@ -338,7 +375,7 @@ export class FmParametersComponent {
   event3: any;
   c3: boolean = false;
 
-  // select 3
+  // select 3- Toggles all selections for recognizer list
   toggleAllSelection3(event: any) {
     this.event3 = event;
     this.c3 = event.checked;
@@ -361,6 +398,8 @@ export class FmParametersComponent {
       });
     }
   }
+
+  // Updates the selection status for recognizer list
   selectrecognizerList() {
     let newStatus = true;
     this.select3.options.forEach((item: MatOption) => {
@@ -386,7 +425,7 @@ export class FmParametersComponent {
   event4: any;
   c4: boolean = false;
 
-  // select 4
+  // select 4- Toggles all selections for recognizer list to block
   toggleAllSelection4(event: any) {
     this.event4 = event;
     this.c4 = event.checked;
@@ -409,6 +448,8 @@ export class FmParametersComponent {
       });
     }
   }
+
+  // Updates the selection status for recognizer list to block
   selectrecognizerListtoblock() {
     let newStatus = true;
     this.select4.options.forEach((item: MatOption) => {
@@ -433,7 +474,7 @@ export class FmParametersComponent {
   event5: any;
   c5: boolean = false;
 
-  // select 5
+  // select 5- Toggles all selections for restricted topics
   toggleAllSelection5(event: any) {
     this.event5 = event;
     this.c5 = event.checked;
@@ -456,6 +497,8 @@ export class FmParametersComponent {
       });
     }
   }
+
+  // Updates the selection status for restricted topics
   selectRestrictedtopics() {
     let newStatus = true;
     this.select5.options.forEach((item: MatOption) => {
@@ -469,6 +512,57 @@ export class FmParametersComponent {
     });
     this.allSelectedInput5 = newStatus;
   }
+
+  @ViewChild('selectGibberishLabels') selectGibberishLabels!: MatSelect;
+  @ViewChild('selectBannedCategories') selectBannedCategories!: MatSelect;
+
+  allSelectedGibberishLabels: boolean = false;
+  allSelectedBannedCategories: boolean = false;
+
+  // Toggles all selections for gibberish labels
+  toggleAllSelectionGibberishLabels(event: any) {
+    this.allSelectedGibberishLabels = event.checked;
+    if (this.allSelectedGibberishLabels) {
+      this.selectGibberishLabels.options.forEach((item: MatOption) => item.select());
+    } else {
+      this.selectGibberishLabels.options.forEach((item: MatOption) => item.deselect());
+    }
+  }
+
+  // Updates the selection status for gibberish labels
+  selectsGibberishLabels() {
+    let newStatus = true;
+    this.selectGibberishLabels.options.forEach((item: MatOption) => {
+      if (!item.selected) {
+        newStatus = false;
+        this.allSelectedGibberishLabels = false;
+      }
+    });
+    this.allSelectedGibberishLabels = newStatus;
+  }
+
+  // Toggles all selections for banned categories
+  toggleAllSelectionBannedCategories(event: any) {
+    this.allSelectedBannedCategories = event.checked;
+    if (this.allSelectedBannedCategories) {
+      this.selectBannedCategories.options.forEach((item: MatOption) => item.select());
+    } else {
+      this.selectBannedCategories.options.forEach((item: MatOption) => item.deselect());
+    }
+  }
+
+  selectsBannedCategories() {
+    let newStatus = true;
+    this.selectBannedCategories.options.forEach((item: MatOption) => {
+      if (!item.selected) {
+        newStatus = false;
+        this.allSelectedBannedCategories = false;
+      }
+    });
+    this.allSelectedBannedCategories = newStatus;
+  }
+
+
 
 
 

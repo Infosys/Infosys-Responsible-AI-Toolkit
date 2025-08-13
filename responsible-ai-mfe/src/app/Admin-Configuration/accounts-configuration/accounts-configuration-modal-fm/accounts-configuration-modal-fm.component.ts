@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -11,6 +12,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NonceService } from 'src/app/nonce.service';
+import { UserValidationService } from 'src/app/services/user-validation.service';
 
 @Component({
   selector: 'app-accounts-configuration-modal-fm',
@@ -18,7 +20,7 @@ import { NonceService } from 'src/app/nonce.service';
   styleUrls: ['./accounts-configuration-modal-fm.component.css']
 })
 export class AccountsConfigurationModalFmComponent {
-  constructor(public dialogRef: MatDialogRef<AccountsConfigurationModalFmComponent>, public _snackBar: MatSnackBar, public https: HttpClient,public nonceService:NonceService
+  constructor(public dialogRef: MatDialogRef<AccountsConfigurationModalFmComponent>, public _snackBar: MatSnackBar, public https: HttpClient,public nonceService:NonceService,private validationService:UserValidationService
     , @Inject(MAT_DIALOG_DATA) public data: { id: any }) {
     this.fromCreation();
   }
@@ -35,16 +37,21 @@ export class AccountsConfigurationModalFmComponent {
 
 
   dataSource1: any = []
+  gibberishLabels: string[] = ['word salad', 'noise', 'mild gibberish', 'clean'];
+  bannedCategories: string[] = ['Cf', 'Co', 'Cn', 'So', 'Sc'];
+
+    // Closes the dialog
   closeDialog() {
     this.dialogRef.close();
   }
 
   userId: any
 
+    // Initializes the component and sets up API lists
   ngOnInit(): void {
     console.log(this.data)
 
-    
+
     let ip_port: any
 
     let user = this.getLogedInUser()
@@ -55,25 +62,27 @@ export class AccountsConfigurationModalFmComponent {
     this.get_fmdataforFmConfigResponseform()
     this.recognizerList = ['PERSON', 'LOCATION', 'DATE', 'AU_ABN', 'AU_ACN', 'AADHAR_NUMBER', 'AU_MEDICARE', 'AU_TFN', 'CREDIT_CARD', 'CRYPTO', 'DATE_TIME', 'EMAIL_ADDRESS', 'ES_NIF', 'IBAN_CODE', 'IP_ADDRESS', 'IT_DRIVER_LICENSE', 'IT_FISCAL_CODE', 'IT_IDENTITY_CARD', 'IT_PASSPORT', 'IT_VAT_CODE', 'MEDICAL_LICENSE', 'PAN_Number', 'PHONE_NUMBER', 'SG_NRIC_FIN', 'UK_NHS', 'URL', 'PASSPORT', 'US_ITIN', 'US_PASSPORT', 'US_SSN'];
   }
-  getLogedInUser() {
-    if (localStorage.getItem("userid") != null) {
-      const x = localStorage.getItem("userid")
-      if (x != null) {
 
-        this.userId = JSON.parse(x)
-        console.log(" userId", this.userId)
-        return JSON.parse(x)
+    // Retrieves the logged-in user from local storage
+  getLogedInUser():any {
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
+      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
+        this.userId = x ;
+        return this.userId;
       }
-
       console.log("userId", this.userId)
+      return this.userId;
     }
   }
+
+    // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
-    if (localStorage.getItem("res") != null) {
-      const x = localStorage.getItem("res")
-      if (x != null) {
-        return ip_port = JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+      if(res != null){
+        return ip_port = JSON.parse(res)
       }
     }
   }
@@ -87,6 +96,8 @@ export class AccountsConfigurationModalFmComponent {
   fm_config_modCheck = ""
   fm_config_topicList = ""
   fm_config_outputModCheck = ""
+
+    // Sets the API list URLs
   setApilist(ip_port: any) {
 
     this.admin_list_rec_get_list = ip_port.result.Admin + ip_port.result.Admin_DataRecogGrplist;
@@ -102,15 +113,18 @@ export class AccountsConfigurationModalFmComponent {
 
   }
 
+  // Submits the form data to update FM configuration
   submit() {
     console.log(this.FmConfigResponseForm.value);
 
-    let themeTextArray=[]
-    if(this.FmConfigResponseForm.value.ThemeTexts){
+    let themeTextArray: string[]=[]
+    if (this.FmConfigResponseForm.value.ThemeTexts) {
       const theme = this.FmConfigResponseForm.value.ThemeTexts;
-        themeTextArray = theme!.split(/[,]/);
+      if (typeof theme === 'string') {
+        themeTextArray = theme.split(/[,]/);
       }
-   
+    }
+
      const ToxicityThreshold = {
        ToxicityThreshold: this.FmConfigResponseForm.value.ToxicityThreshold,
        SevereToxicityThreshold: this.FmConfigResponseForm.value.SevereToxicityThreshold,
@@ -124,17 +138,27 @@ export class AccountsConfigurationModalFmComponent {
        RestrictedtopicThreshold: this.FmConfigResponseForm.value.RestrictedtopicThreshold,
        Restrictedtopics: this.FmConfigResponseForm.value.Restrictedtopics,
      };
-     
+
      const CustomTheme = {
        Themename: this.FmConfigResponseForm.value.ThemeName,
        Themethresold: this.FmConfigResponseForm.value.Themethresold,
        ThemeTexts: themeTextArray
-       
-       
-    
-       
-    
+
+
+
+
+
      };
+     const InvisibleTextCountDetails ={
+      // InvisibleTextCountThreshold: this.FmConfigResponseForm.value.InvisibleTextCountThreshold,
+          BannedCategories: this.FmConfigResponseForm.value.bannedCategories
+
+    };
+    const GibberishDetails ={
+      GibberishThreshold: this.FmConfigResponseForm.value.GibberishThreshold,
+          GibberishLabels: this.FmConfigResponseForm.value.gibberishLabels
+
+    };
      const payload1 = {
        PromptinjectionThreshold: this.FmConfigResponseForm.value.PromptInjectionThreshold,
        JailbreakThreshold: this.FmConfigResponseForm.value.JailbreakThreshold,
@@ -145,6 +169,10 @@ export class AccountsConfigurationModalFmComponent {
        ProfanityCountThreshold: this.FmConfigResponseForm.value.ProfanityCountThreshold,
        RestrictedtopicDetails: RestrictedtopicDetail,
        CustomTheme: CustomTheme,
+       SentimentThreshold: this.FmConfigResponseForm.value.SentimentThreshold,
+       InvisibleTextCountDetails: InvisibleTextCountDetails,
+       GibberishDetails: GibberishDetails,
+      //  BanCodeThreshold: this.FmConfigResponseForm.value.BanCodeThreshold,// not being used 
      };
        const payload =
          {
@@ -193,9 +221,8 @@ export class AccountsConfigurationModalFmComponent {
 
   FmConfigResponseForm!: FormGroup;
 
+  // Initializes the form for FM configuration
   fromCreation() {
-
-
     this.FmConfigResponseForm = new FormGroup({
       inputModChecks: new FormControl([], [Validators.required]),
       outputModChecks: new FormControl([], [Validators.required]),
@@ -217,23 +244,29 @@ export class AccountsConfigurationModalFmComponent {
       ThemeName: new FormControl('', [Validators.required]),
       Themethresold: new FormControl(0.6, [Validators.required]),
       ThemeTexts: new FormControl('', [Validators.required]),
+      SentimentThreshold:new FormControl(-0.01, [Validators.required]),
+      // BanCodeThreshold:new FormControl(0.7, [Validators.required]),// not being used
+      // InvisibleTextCountThreshold: new FormControl(1, [Validators.required]),
+      GibberishThreshold: new FormControl(0.7, [Validators.required]),
+      gibberishLabels: new FormControl([], [Validators.required]),
+      bannedCategories: new FormControl([], [Validators.required]),
     });
 
-  
+
 
   }
-  // 
+  //
   InputModerationChecks:any = []
   OutputModerationChecks:any = []
   recognizerList:any = []
   Restrictedtopics:any = []
 
 
-  // 
-  // 
+  //
+  //
   @ViewChild('select1') select1!: MatSelect;
 
-  // SCREEN TWO ADD DATA  
+  // SCREEN TWO ADD DATA
   //--------------VARIABLES-----------SECURITY
   selectedApplicableAttack: any;
   applicableAttack: any = [];
@@ -243,7 +276,7 @@ export class AccountsConfigurationModalFmComponent {
   event1: any;
   c1: boolean = false;
 
-  // select 1
+  // select 1- Toggles all selections for input moderation
   toggleAllSelection1(event: any) {
     this.event1 = event;
     this.c1 = event.checked;
@@ -266,6 +299,8 @@ export class AccountsConfigurationModalFmComponent {
       });
     }
   }
+
+    // Updates the selection status for input moderation
   selectInputModeration() {
     let newStatus = true;
     this.select1.options.forEach((item: MatOption) => {
@@ -279,11 +314,11 @@ export class AccountsConfigurationModalFmComponent {
     });
     this.allSelectedInput = newStatus;
   }
-  // 
+  //
 
   @ViewChild('select2') select2!: MatSelect;
 
-  // SCREEN TWO ADD DATA  
+  // SCREEN TWO ADD DATA
   //--------------VARIABLES-----------Output mOderation
   allSelected2: any;
   listShowlist2 = new Set();
@@ -291,7 +326,7 @@ export class AccountsConfigurationModalFmComponent {
   event2: any;
   c2: boolean = false;
 
-  // select 2
+  // select 2 p- Toggles all selections for output moderation
   toggleAllSelection2(event: any) {
     this.event2 = event;
     this.c2 = event.checked;
@@ -314,6 +349,8 @@ export class AccountsConfigurationModalFmComponent {
       });
     }
   }
+
+    // Updates the selection status for output moderation
   selectOutputModeration() {
     let newStatus = true;
     this.select2.options.forEach((item: MatOption) => {
@@ -327,18 +364,18 @@ export class AccountsConfigurationModalFmComponent {
     });
     this.allSelectedInput2 = newStatus;
   }
-  // 
+  //
   @ViewChild('select3') select3!: MatSelect;
 
-  // SCREEN TWO ADD DATA  
-  //--------------VARIABLES-----------selectrecognizerList 
+  // SCREEN TWO ADD DATA
+  //--------------VARIABLES-----------selectrecognizerList
   allSelected3: any;
   listShowlist3 = new Set();
   allSelectedInput3 = false;
   event3: any;
   c3: boolean = false;
 
-  // select 3
+  // select 3 - Toggles all selections for recognizer list
   toggleAllSelection3(event: any) {
     this.event3 = event;
     this.c3 = event.checked;
@@ -361,6 +398,8 @@ export class AccountsConfigurationModalFmComponent {
       });
     }
   }
+
+    // Updates the selection status for recognizer list
   selectrecognizerList() {
     let newStatus = true;
     this.select3.options.forEach((item: MatOption) => {
@@ -375,18 +414,18 @@ export class AccountsConfigurationModalFmComponent {
     this.allSelectedInput3 = newStatus;
   }
 
-  // 
+  //
   @ViewChild('select4') select4!: MatSelect;
 
-  // SCREEN TWO ADD DATA  
-  //--------------VARIABLES-----------selectrecognizerListtoblock 
+  // SCREEN TWO ADD DATA
+  //--------------VARIABLES-----------selectrecognizerListtoblock
   allSelected4: any;
   listShowlist4 = new Set();
   allSelectedInput4 = false;
   event4: any;
   c4: boolean = false;
 
-  // select 4
+  // select 4- Toggles all selections for recognizer list to block
   toggleAllSelection4(event: any) {
     this.event4 = event;
     this.c4 = event.checked;
@@ -409,6 +448,8 @@ export class AccountsConfigurationModalFmComponent {
       });
     }
   }
+
+    // Updates the selection status for recognizer list to block
   selectrecognizerListtoblock() {
     let newStatus = true;
     this.select4.options.forEach((item: MatOption) => {
@@ -422,18 +463,18 @@ export class AccountsConfigurationModalFmComponent {
     });
     this.allSelectedInput4 = newStatus;
   }
-  // 
+  //
   @ViewChild('select5') select5!: MatSelect;
 
-  // SCREEN TWO ADD DATA  
-  //--------------VARIABLES-----------selectrecognizerListtoblock 
+  // SCREEN TWO ADD DATA
+  //--------------VARIABLES-----------selectrecognizerListtoblock
   allSelected5: any;
   listShowlist5 = new Set();
   allSelectedInput5 = false;
   event5: any;
   c5: boolean = false;
 
-  // select 5
+  // select 5 - Toggles all selections for restricted topics
   toggleAllSelection5(event: any) {
     this.event5 = event;
     this.c5 = event.checked;
@@ -456,6 +497,8 @@ export class AccountsConfigurationModalFmComponent {
       });
     }
   }
+
+    // Updates the selection status for restricted topics
   selectRestrictedtopics() {
     let newStatus = true;
     this.select5.options.forEach((item: MatOption) => {
@@ -470,12 +513,69 @@ export class AccountsConfigurationModalFmComponent {
     this.allSelectedInput5 = newStatus;
   }
 
-  dataSource3: any;
+  @ViewChild('selectGibberishLabels') selectGibberishLabels!: MatSelect;
+  @ViewChild('selectBannedCategories') selectBannedCategories!: MatSelect;
 
+  allSelectedGibberishLabels: boolean = false;
+  allSelectedBannedCategories: boolean = false;
+
+  // Toggles all selections for gibberish labels
+  toggleAllSelectionGibberishLabels(event: any) {
+    this.allSelectedGibberishLabels = event.checked;
+    if (this.allSelectedGibberishLabels) {
+      this.selectGibberishLabels.options.forEach((item: MatOption) => item.select());
+    } else {
+      this.selectGibberishLabels.options.forEach((item: MatOption) => item.deselect());
+    }
+  }
+
+    // Updates the selection status for gibberish labels
+  selectsGibberishLabels() {
+    let newStatus = true;
+    this.selectGibberishLabels.options.forEach((item: MatOption) => {
+      if (!item.selected) {
+        newStatus = false;
+        this.allSelectedGibberishLabels = false;
+      }
+    });
+    this.allSelectedGibberishLabels = newStatus;
+  }
+
+  // Toggles all selections for banned categories
+  toggleAllSelectionBannedCategories(event: any) {
+    this.allSelectedBannedCategories = event.checked;
+    if (this.allSelectedBannedCategories) {
+      this.selectBannedCategories.options.forEach((item: MatOption) => item.select());
+    } else {
+      this.selectBannedCategories.options.forEach((item: MatOption) => item.deselect());
+    }
+  }
+
+  // Updates the selection status for banned categories
+  selectsBannedCategories() {
+    let newStatus = true;
+    this.selectBannedCategories.options.forEach((item: MatOption) => {
+      if (!item.selected) {
+        newStatus = false;
+        this.allSelectedBannedCategories = false;
+      }
+    });
+    this.allSelectedBannedCategories = newStatus;
+  }
+
+  
+
+  dataSource3: any;
+  isLoading: boolean = true;
+  isDataEmpty: boolean = false;
+
+  // Fetches FM configuration data for the response form
   get_fmdataforFmConfigResponseform() {
     this.https.post(this.fm_config_dataList, { accMasterId: this.data.id }).subscribe
       ((res: any) => {
+        this.isLoading = false;
         if(res==null){
+          this.isDataEmpty = true;
           const message = 'FM Parameters is not set for this account';
           const action = 'Close';
           this._snackBar.open(message, action, {
@@ -483,10 +583,13 @@ export class AccountsConfigurationModalFmComponent {
             horizontalPosition: 'left',
             panelClass: ['le-u-bg-black'],
           });
+        }else{
+          this.isDataEmpty = false;
+
+          this.dataSource3 = res.dataList[0];
+            this.FmConfigResponseFormSETformValues(this.dataSource3)
         }
-        this.dataSource3 = res.dataList[0];
-          this.FmConfigResponseFormSETformValues(this.dataSource3)
-   
+
       }, error => {
         console.log(error.status);
         if (error.status == 430) {
@@ -509,10 +612,12 @@ export class AccountsConfigurationModalFmComponent {
             horizontalPosition: 'left',
             panelClass: ['le-u-bg-black'],
           });
-  
+
         }
       })
   }
+
+  // Sets the values of the FM configuration form
   FmConfigResponseFormSETformValues(dataSource3: any) {
     this.FmConfigResponseForm.get('inputModChecks')?.setValue(dataSource3?.ModerationChecks)
     this.FmConfigResponseForm.get('outputModChecks')?.setValue(dataSource3?.OutputModerationChecks)
@@ -530,14 +635,22 @@ export class AccountsConfigurationModalFmComponent {
     this.FmConfigResponseForm.get('SexualExplicitThreshold')?.setValue(dataSource3?.ModerationCheckThresholds?.ToxicityThresholds?.SexualExplicitThreshold)
     this.FmConfigResponseForm.get('ProfanityCountThreshold')?.setValue(dataSource3?.ModerationCheckThresholds?.ProfanityCountThreshold)
     this.FmConfigResponseForm.get('RestrictedtopicThreshold')?.setValue(dataSource3?.ModerationCheckThresholds?.RestrictedtopicDetails?.RestrictedtopicThreshold)
-    this.FmConfigResponseForm.get('Restrictedtopics')?.setValue(dataSource3?.ModerationCheckThresholds?.RestrictedtopicDetails?.Restrictedtopics)
+    this.FmConfigResponseForm.get('Restrictedtopics')?.setValue(dataSource3?.ModerationCheckThresholds?.RestrictedtopicDetails?.Restrictedtopics);
     this.FmConfigResponseForm.get('ThemeName')?.setValue(dataSource3?.ModerationCheckThresholds?.CustomTheme?.Themename)
     this.FmConfigResponseForm.get('Themethresold')?.setValue(dataSource3?.ModerationCheckThresholds?.CustomTheme?.Themethresold)
     this.FmConfigResponseForm.get('ThemeTexts')?.setValue(dataSource3?.ModerationCheckThresholds?.CustomTheme?.ThemeTexts)
-  }
-  // 
 
-  // set the value of the form in base 
+      // Set new form fields
+  this.FmConfigResponseForm.get('SentimentThreshold')?.setValue(dataSource3?.ModerationCheckThresholds?.SentimentThreshold);
+  // this.FmConfigResponseForm.get('InvisibleTextCountThreshold')?.setValue(dataSource3?.ModerationCheckThresholds?.InvisibleTextCountDetails?.InvisibleTextCountThreshold);
+  this.FmConfigResponseForm.get('bannedCategories')?.setValue(dataSource3?.ModerationCheckThresholds?.InvisibleTextCountDetails?.BannedCategories);
+  this.FmConfigResponseForm.get('GibberishThreshold')?.setValue(dataSource3?.ModerationCheckThresholds?.GibberishDetails?.GibberishThreshold);
+  this.FmConfigResponseForm.get('gibberishLabels')?.setValue(dataSource3?.ModerationCheckThresholds?.GibberishDetails?.GibberishLabels);
+  // this.FmConfigResponseForm.get('BanCodeThreshold')?.setValue(dataSource3?.ModerationCheckThresholds?.BanCodeThreshold);// not being used
+  }
+  //
+
+  // set the value of the form in base
   getSelectDRopDownArrray() {
     this.https.get(this.fm_config_modCheck).subscribe(
       (res: any) => {

@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="mt-2">
     <!-- <button id="hiddenButton" (click)="changeApiUrls()">Hidden Button</button> -->
@@ -10,7 +11,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   </button>
     <form #form="ngForm" (ngSubmit)="onSubmit(form)" class="d-flex">
         <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-        <div class="w-100 mr-2">
+        <div class="w-100 me-2">
             <ng-container class="selectTypeShimmer" *ngIf="isLoadingPrompt">
                 <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '170px', width: '800px'}">
                 </ngx-skeleton-loader>
@@ -20,7 +21,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
                 <div class="position-relative">
 
-                    <textarea class="form-control w-100 txtArea shadow-none" rows="3" name="prompt" ngModel placeholder={{Placeholder}} #prompt="ngModel"></textarea>
+                    <textarea class="form-control w-100 txtArea shadow-none" rows="3" name="prompt" [(ngModel)]="promptTest" placeholder={{Placeholder}} #prompt="ngModel"></textarea>
                     <div class="border-0 position-absolute m-2 sendIcon">
                         <!-- <i class="fa fa-chevron-right"></i> -->
                         <button class="border-0  resetIcon" hidden>
@@ -32,9 +33,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </div>
                     <!-- ngb-popover-window -->
                     <div class="border-0 position-absolute m-2 resetIcon d-flex align-items-center" style="right: 0; top: 0;">
-                        <input type="file" #fileInputMul (change)=" fileBrowseHandlerMultiModel($event)" style="display: none;">
-                        <i class="material-icons icon-pointer" style="padding-right: 7px;" (click)="fileInputMul.click()" matTooltip="Image">image</i>
-                        <!-- <mat-icon [inline]="true" style="font-size: 21px;" class="mr-2 text-lg icon-pointer"
+                        <input type="file" #fileInputMul (change)="fileBrowseHandlerMultiModel($event)" style="display: none;" accept="image/*,video/*,audio/*,application/*,text/*" multiple>
+
+                        <i class="material-icons icon-pointer" style="padding-right: 7px;" (click)="fileInputMul.click(); showFileTypesSnackbar()" matTooltip="Attach File">attach_file</i>
+                        <!-- <mat-icon [inline]="true" style="font-size: 21px;" class="me-2 text-lg icon-pointer"
                             [ngbPopover]="popoverContentEmoji" [autoClose]="false" triggers="manual"
                             #pEmoji="ngbPopover" placement="top" (click)="openPopOverEmoji()"
                             matTooltip="Emoji Enablement">tag_faces</mat-icon> -->
@@ -42,19 +44,33 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <i (click)="resetData(form)" class="material-icons icon-pointer" matTooltip="Reset">autorenew</i>
                     </div>
                 </div>
-                <div style="align-items: end;display: flex; flex-direction: column;" *ngIf="filesMultiModel.length != 0" class="mt-2">
-                    <!-- <div style="height: 35px; width: 35px; border-radius: 8px;" class="position-relative mb-1">
-                            <img src={{imgShowUrl}} style="height: 35px; width: 35px;">
-                        </div> -->
-                    <div style="display: flex; justify-content: flex-start;">
-                        <p class="mainLabel mainLabelSM" style="margin: 0px; font-weight: 500; color:grey; font-size: 0.65rem;">{{ selectedFileNameMultiModel }}</p>
-                        <button type="button" class="cancel-button ml-1" (click)="removeFileMultimodel();">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                        <p class="mainLabel mainLabelSM ml-2 cursor" style="text-decoration: underline; font-size: 0.6rem;" (click)="openDialog(imgShowUrl)">
-                            (Preview)</p>
+                <div>
+                    <div *ngIf="recommendDrop == true" style="width: 50%;">
+                        <ul class="item-list" *ngIf="isListVisible">
+                            <li *ngFor="let con of recommendedContent" (click)="addToPrompt(con)" class="list-item">{{con.substring(0, 80) + '...'}}</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <div *ngFor="let btn of displayedKeys">
+                            <button type="button" class="pill-button " [class.active]="selectedButton === btn" (click)="showRecommand(btn); selectedButton = btn">{{btn}}</button>
+                        </div>
+                        <button type="button" class="pill-button" *ngIf="!showAll" (click)="toggleShowAll()">More</button>
                     </div>
                 </div>
+                <div style="align-items: end; display: flex; flex-direction: column;" *ngIf="filesMultiModel.length != 0" class="mt-2">
+                    <div *ngFor="let file of filesMultiModel; let i = index" style="display: flex; justify-content: flex-start; align-items: center; margin-bottom: 5px;">
+                        <p class="mainLabel mainLabelSM" style="margin: 0px; font-weight: 500; color: grey; font-size: 0.65rem;">{{ file.name }}</p>
+                        <button type="button" class="cancel-button ms-1" (click)="removeFileMultimodel(i);">
+                        <mat-icon>close</mat-icon>
+                      </button>
+                        <p class="mainLabel mainLabelSM ms-2 cursor" style="text-decoration: underline; font-size: 0.6rem;" (click)="openDialog(file.preview)">
+                            (Preview)
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end" *ngIf="dataCuratorMsg !== ''">
+                <p class="mainLabel mainLabelSM ms-2 cursor text-decoration-underline" style="font-size: 0.6rem;">{{dataCuratorMsg}}</p>
             </div>
             <div *ngIf="tLoading==true">
                 <!-- <ngx-skeleton-loader count="1" appearance="circle"></ngx-skeleton-loader> -->
@@ -106,24 +122,29 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </div>
 
                 <div [hidden]="activeTab !== 'Request Moderation'">
-                    <app-request-moderation *ngIf="!hallucinationSwitchCheck" [requestTime]="fmTimeApiResult.requestModeration" [openAITime]="fmTimeApiResult.OpenAIInteractionTime" [nemoChecksApiResponses]="nemoChecksApiResponses" [contentDetectorState]="contentDetectorState"
-                        [prompt]="prompt" [modelName]="selectedLlmModel" [llmEvalPayload]="llmEvalPayload" [templateBasedPayload]="templateBasedPayload" [requestModerationTemplates]="requestModerationTemplates" [privAnzOutput]="privAnzOutput" [analyze]="analyze"
-                        [fairness_response]="fairness_response" [imagePromptInjection]="imagePromptInjection" [imageJailbreak]="imageJailbreak" [imageRestrictedTopic]="imageRestrictedTopic" [coupledModeration]="coupledModeration" [hallucinationSwitchCheck]="hallucinationSwitchCheck"></app-request-moderation>
-                    <app-request-moderation *ngIf="hallucinationSwitchCheck" [requestTime]="fmTimeApiResult.requestModeration" [openAITime]="fmTimeApiResult.OpenAIInteractionTime" [nemoChecksApiResponses]="nemoChecksApiResponses" [contentDetectorState]="contentDetectorState"
+                    <app-request-moderation [requestTime]="fmTimeApiResult.requestModeration" [openAITime]="fmTimeApiResult.OpenAIInteractionTime" [nemoChecksApiResponses]="nemoChecksApiResponses" [contentDetectorState]="contentDetectorState" [prompt]="prompt" [modelName]="selectedLlmModel"
+                        [llmEvalPayload]="llmEvalPayload" [templateBasedPayload]="templateBasedPayload" [requestModerationTemplates]="requestModerationTemplates" [privAnzOutput]="privAnzOutput" [analyze]="analyze" [fairness_response]="fairness_response" [imagePromptInjection]="imagePromptInjection"
+                        [imageJailbreak]="imageJailbreak" [imageRestrictedTopic]="imageRestrictedTopic" [coupledModeration]="coupledModeration" [hallucinationSwitchCheck]="hallucinationSwitchCheck" [gibrishDisplayLabels]="gibrishDisplayLabels" [bannedCategoriesDisplay]="bannedCategoriesDisplay"
+                        [customApipayloadStatus]="customApipayloadStatus"></app-request-moderation>
+                    <!-- <app-request-moderation *ngIf="hallucinationSwitchCheck" [requestTime]="fmTimeApiResult.requestModeration" [openAITime]="fmTimeApiResult.OpenAIInteractionTime" [nemoChecksApiResponses]="nemoChecksApiResponses" [contentDetectorState]="contentDetectorState"
                         [prompt]="prompt" [modelName]="selectedLlmModel" [templateBasedPayload]="templateBasedPayload" [requestModerationTemplates]="requestModerationTemplates" [privAnzOutput]="privAnzOutput" [analyze]="analyze" [fairness_response]="fairness_response"
-                        [imagePromptInjection]="imagePromptInjection" [imageJailbreak]="imageJailbreak" [imageRestrictedTopic]="imageRestrictedTopic" [coupledModeration]="coupledModeration" [hallucinationSwitchCheck]="hallucinationSwitchCheck"></app-request-moderation>
+                        [imagePromptInjection]="imagePromptInjection" [imageJailbreak]="imageJailbreak" [imageRestrictedTopic]="imageRestrictedTopic" [coupledModeration]="coupledModeration" [hallucinationSwitchCheck]="hallucinationSwitchCheck"></app-request-moderation> -->
                 </div>
                 <div [hidden]="activeTab !== 'Response Moderation'">
                     <app-response-moderation *ngIf="!hallucinationSwitchCheck" [responseTime]="fmTimeApiResult.responseModeration" [openAITime]="fmTimeApiResult.OpenAIInteractionTime" [nemoModerationRailRes]="nemoModerationRailRes" [openAIRes]="openAIRes" [llmEvalPayload]="llmEvalPayload"
                         [responseModerationTemplates]="responseModerationTemplates" [templateBasedPayload]="templateBasedPayload" [selectedUseCaseName]="selectedUseCaseName" [setLoadTemplateResMod]="setLoadTemplateResMod" [summaryStatus]="coupledModerationRes?.moderationResults?.requestModeration?.summary?.status"
-                        [hallucinationSwitchCheck]="hallucinationSwitchCheck"></app-response-moderation>
+                        [hallucinationSwitchCheck]="hallucinationSwitchCheck" [gibrishDisplayLabels]="gibrishDisplayLabels" [bannedCategoriesDisplay]="bannedCategoriesDisplay" [customApipayloadStatus]="customApipayloadStatus" [customApipayloadStatus]="customApipayloadStatus"></app-response-moderation>
                     <app-response-moderation-hallucination *ngIf="hallucinationSwitchCheck" [responseTime]="fmTimeApiResult.responseModeration" [responseModerationResult]="hallucinationResModerationData" [nemoModerationRailRes]="nemoModerationRailRes" [openAIRes]="openAIRes"
-                        [responseModerationTemplates]="responseModerationTemplates" [templateBasedPayload]="templateBasedPayload" [selectedUseCaseName]="selectedUseCaseName" [setLoadTemplateResMod]="setLoadTemplateResMod" [summaryStatus]="coupledModerationRes?.moderationResults?.requestModeration?.summary?.status"></app-response-moderation-hallucination>
+                        [llmEvalPayload]="llmEvalPayload" [responseModerationTemplates]="responseModerationTemplates" [templateBasedPayload]="templateBasedPayload" [selectedUseCaseName]="selectedUseCaseName" [setLoadTemplateResMod]="setLoadTemplateResMod"
+                        [summaryStatus]="coupledModerationRes?.moderationResults?.requestModeration?.summary?.status" [gibrishDisplayLabels]="gibrishDisplayLabels" [bannedCategoriesDisplay]="bannedCategoriesDisplay" [customApipayloadStatus]="customApipayloadStatus"></app-response-moderation-hallucination>
                 </div>
                 <div [hidden]="activeTab !== 'Response Comparison'">
                     <app-response-comparison [openAIRes]="openAIRes" [cotState]="cotState" [fmRes]="coupledModerationRes" [nemoModerationRailRes]="nemoModerationRailRes" [covState]="covState" [prompt]="prompt" [tokenImpState]="tokenImpState" [gotState]="gotState" [hallucinationSwitchCheck]="hallucinationSwitchCheck"
                         [thotState]="thotState" [gEvalres]="gEvalres" [hallucinateRetrievalKeplerRes]="hallucinateRetrievalKeplerRes" [serperResponseState]="serperResponseState" [selectedUseCaseName]="selectedUseCaseName" [llmExplainState]="llmExplainState"
-                        [RagMultiModalResponse]="RagMultiModalResponse" [submitFlag]="submitFlag" [selectedTranslate]="selectedTranslate"></app-response-comparison>
+                        [submitFlag]="submitFlag" [selectedTranslate]="selectedTranslate" [UploadedFile]="UploadedFile" [vectorId]="vectorId ? vectorId : bulkRagId" [MMImageResponse]="MMImageResponse" [faithfulnessScore]="faithfulnessScore" [relevanceScore]="relevanceScore"
+                        [adhernceScore]="adhernceScore" [correctnessScore]="correctnessScore" [averageScore]="averageScore" [faithfulness]="faithfulness" [relevance]="relevance" [adhernce]="adhernce" [correctness]="correctness" [isLoadingMMImage]="isLoadingMMImage"
+                        [MMImageTHOT]="MMImageTHOT" [MMImageCOV]="MMImageCOV" [MMImageCOT]="MMImageCOT" [MMTimeTaken]="MMTimeTaken" [MMImageHallucinationScore]="MMImageHallucinationScore" [enableSearch]="enableSearch" [MMPdfReference]="MMPdfReference" [lightRag]="lightRag"
+                        [fileupload]="fileupload"></app-response-comparison>
 
                 </div>
                 <div *ngIf="activeTab == 'Privacy Result'">
@@ -134,7 +155,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </div>
                 <div [hidden]="activeTab !== 'Explainability'">
                     <app-explainability-result [explainabilityRes]="explainabilityRes" [explainabilityOption]="explainabilityOption" [ExplanabilityFileId]="ExplanabilityFileId" [prompt]="prompt" [selectedOptions]="selectedOptions" [selectedTranslate]="selectedTranslate"
-                        [isLoadingCOV]="isLoadingCOV" [covFinalAnswer]="covFinalAnswer" [finalAnswer]="finalAnswer" [COVAnswer]="COVAnswer"></app-explainability-result>
+                        [isLoadingCOV]="isLoadingCOV" [covFinalAnswer]="covFinalAnswer" [finalAnswer]="finalAnswer" [COVAnswer]="COVAnswer" [COVTimeTaken]="COVTimeTaken" [enableSearch]="enableSearch" [selectedExplainabilityModel]="selectedExplainabilityModel"></app-explainability-result>
                 </div>
                 <div *ngIf="activeTab == 'Fairness'">
                     <app-fairness-result [fairnessRes]="fairnessRes"></app-fairness-result>
@@ -150,254 +171,265 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         </ngx-skeleton-loader>
                     </ng-container>
                     <div *ngIf="!isLoadingSelectType" class="checkbox-container d-flex flex-column">
-                        <div *ngFor="let option of options">
-                            <mat-accordion>
-                                <mat-expansion-panel [disabled]="roles === 'ROLE_ML'" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
-                                    <mat-expansion-panel-header>
-                                        <mat-panel-title>
-                                            <mat-checkbox class="custom-frame mt-n2" (click)="$event.stopPropagation()" (change)="viewoptions(); " color="primary" name="allOptions" [(ngModel)]="selectedOptions[option]" [disabled]="roles === 'ROLE_ML'">{{option}}</mat-checkbox>
-                                        </mat-panel-title>
-                                    </mat-expansion-panel-header>
-                                    <div class="panel-body">
-                                        <div *ngIf="option == 'Privacy'">
-                                            <!-- <div class="mb-2">
-                                                <input class="form-control shadow-none inputSMfont" type="text" name="portfolioNamePrivacy" ngModel placeholder="Portfolio Name" />
-                                            </div>
-                                            <div class="mb-2">
-                                                <input class="form-control shadow-none inputSMfont" type="text" name="accountNamePrivacy" ngModel placeholder="Account Name" />
-                                            </div> -->
-                                            <div class="mb-2">
+                        <mat-accordion>
+                            <mat-expansion-panel [disabled]="roles === 'ROLE_ML'" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <mat-checkbox class="custom-frame mt-n2" (click)="$event.stopPropagation()" (change)="viewoptions()" color="primary" name="Privacy" [(ngModel)]="selectedOptions['Privacy']" [disabled]="roles === 'ROLE_ML' || disabledOptions.includes('Privacy')">
+                                            Privacy
+                                        </mat-checkbox>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="panel-body">
+                                    <div *ngIf="true">
+                                        <!-- Privacy option content -->
+                                        <div class="mb-2">
+                                            <div class="position-relative">
+                                                <label class="optional-label">(Optional)</label>
                                                 <input class="form-control shadow-none inputSMfont" type="text" name="exclusionListPrivacy" ngModel placeholder="Exclusion List" />
-
-                                            </div>
-                                            <select class="form-select shadow-none w-100" aria-label="Default select example" *ngIf="option =='Privacy'" name="privacyOption" [(ngModel)]="privacyOption" (ngModelChange)="resetPrivacyResult()">
-                                                <option selected disabled>Choose Options</option>
-                                                <option *ngFor="let option of privacy_options" [value]="option">
-                                                    {{option}}
-                                                </option>
-                                            </select>
-                                            <div class="d-flex justify-content-between mb-2" *ngIf="privacyOption == 'Privacy-Anonymize' || privacyOption == 'Choose Options'">
-                                                <label class="mainLabel labelSM">Fake Data</label>
-                                                <span class="switch">
-                                                    <input id="fakeDataFlag" type="checkbox" name="fakeDataFlag" ngModel/>
-                                                    <label for="fakeDataFlag"></label>
-                                                </span>
                                             </div>
                                         </div>
-                                        <div class="d-flex justify-content-between" *ngIf="option =='Fairness'">
-                                            <div class="d-flex align-items-center">
-                                                <input type="radio" id="gpt" name="gpt" value="GPT_4" [(ngModel)]="fairnessEvaluator">
-                                                <label for="gpt4" class="mainLabel labelXS">GPT_4</label><br>
+                                        <select class="form-select shadow-none w-100" aria-label="Default select example" name="privacyOption" [(ngModel)]="privacyOption" (ngModelChange)="resetPrivacyResult()">
+                                  <option selected disabled>Choose Options</option>
+                                  <option *ngFor="let option of privacy_options" [value]="option">
+                                    {{option}}
+                                  </option>
+                                </select>
+                                        <div [class.disabled]="fmService.checkLocalStorageForKeys()" class="d-flex flex-column">
+                                            <div class="icon-dropdown-container">
+                                                <div class="d-flex">
+                                                    <label class="optional-label2">(Optional)</label>
+                                                    <mat-icon ngbTooltip="{{nlptooltip}}" placement="auto" class="smallIcon" style="font-size: 16px;" [attr.ngbTooltip]="nlptooltip">
+                                                        info_outline
+                                                    </mat-icon>
+                                                </div>
+                                                <select class="form-select shadow-none w-100" aria-label="Default select example" name="nlpOption" [(ngModel)]="nlpOption" (ngModelChange)="resetPrivacyResult()">
+                                      <option value="" selected disabled>Choose NLP Model</option>
+                                      <option *ngFor="let option of nlp_options" [value]="option.value">
+                                        {{option.viewValue}}
+                                      </option>
+                                    </select>
+                                            </div>
+                                            <div class="position-relative">
+                                                <label class="optional-label">(Optional)</label>
+                                                <mat-select multiple class="dropdown" placeholder="Select Recognizers" style="margin-bottom: 1.1rem;" [formControl]="piiEntitiesToBeRedactedOption" (selectionChange)="resetPrivacyResult()">
+                                                    <mat-option *ngFor="let option of available_Recognizers" [value]="option">
+                                                        {{option}}
+                                                    </mat-option>
+                                                </mat-select>
                                             </div>
                                         </div>
-                                        <div class="d-flex flex-column" *ngIf="option =='Explainability'">
-                                            <select class="form-select shadow-none w-100" aria-label="Explainability select example" name="explainabilityOption" [(ngModel)]="explainabilityOption">
-                                                <option value="" disabled selected>Choose Options</option>
-                                                <option value="LLM">LLM</option>
-                                                <option value="Sentiment">Sentiment</option>
-                                                <option value="RAG">RAG</option>
-                                            </select>
-                                            <div *ngIf="explainabilityOption == 'RAG'">
-                                                <input type="file" id="uploadFile1" name="uploadFile1" (change)="fileBrowseHandler1($event)" class="uploadButton" />
-                                                <label for="uploadFile1" class="mb-0">Upload</label>
-                                                <mat-icon matTooltip=".pdf(10mb),.csv(1mb),.txt(400kb)" style="color: #727272; cursor: pointer;" [inline]="true">info</mat-icon>
-                                                <p class="m-0" style="font-size: 8px; font-weight: 500;color: #989898;">
-                                                    .pdf, .csv and .txt files are supported
-                                                </p>
-                                                <div *ngFor="let file of filesExplainability; let i = index">
-                                                    <div class="file-upload mt-2">
-                                                        <p style="margin: 0px; font-size: x-small;">{{ file?.name }}</p>
-                                                        <div class="d-flex align-items-center mt-1">
-                                                            <mat-progress-bar class="mr-1" mode="determinate" [value]="file?.progress"></mat-progress-bar>
-                                                            <button class="cancel-button mr-2" (click)="deleteFile1(i);">
-                                                                <mat-icon>close</mat-icon>
-                                                            </button>
-                                                        </div>
-                                                        <p *ngIf="!file?.preview?.startsWith('data:video/')" class="mainLabel2 mainLabelSM2 mt-2 cursor" style="text-decoration: underline; font-size: 0.6rem;" (click)="openDialog(file.preview)">
-                                                            (Preview)
-                                                        </p>
-                                                    </div>
+                                        <div class="d-flex justify-content-between mb-2" *ngIf="privacyOption == 'Privacy-Anonymize' || privacyOption == 'Choose Options'">
+                                            <label class="mainLabel labelSM">Fake Data</label>
+                                            <span class="switch">
+                                    <input id="fakeDataFlag" type="checkbox" name="fakeDataFlag" ngModel />
+                                    <label for="fakeDataFlag"></label>
+                                  </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel [disabled]="roles === 'ROLE_ML'" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <mat-checkbox class="custom-frame mt-n2" (click)="$event.stopPropagation()" (change)="viewoptions()" color="primary" name="Profanity" [(ngModel)]="selectedOptions['Profanity']" [disabled]="roles === 'ROLE_ML' || disabledOptions.includes('Profanity')">
+                                            Safety
+                                        </mat-checkbox>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="panel-body">
+                                    <!-- Profanity option content -->
+                                </div>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel [disabled]="roles === 'ROLE_ML'" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <mat-checkbox class="custom-frame mt-n2" (click)="$event.stopPropagation()" (change)="viewoptions()" color="primary" name="FM-Moderation" [(ngModel)]="selectedOptions['FM-Moderation']" [disabled]="roles === 'ROLE_ML' || disabledOptions.includes('FM-Moderation')">
+                                            FM-Moderation
+                                        </mat-checkbox>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="panel-body">
+                                    <div *ngIf="true">
+                                        <!-- FM-Moderation option content -->
+                                        <div class="mb-2">
+                                            <select class="form-select shadow-none w-100 inputSMfont" name="selectedUsecase" ngModel (change)="onTemplateSelect($event)">
+                                    <option value="" selected>Select Template Account</option>
+                                    <option value="Navi">Navi</option>
+                                    <option *ngFor="let template of allTemplates" [value]="template.mapId">
+                                      {{template.portfolio}} - {{template.account}}
+                                    </option>
+                                  </select>
+                                        </div>
+                                        <div class="mb-2">
+                                            <select class="form-select shadow-none w-100 inputSMfont" name="selectedLlmModel" [(ngModel)]="selectedLlmModel" (change)="onModelSelect($event)">
+                                    <option value="" selected>Select LLM Model</option>
+                                    <option *ngFor="let model of Models" [value]="model.value">{{model.name}}</option>
+                                  </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <label class="mainLabel labelSM">Temperature</label>
+                                                <input type="text" class="form-control shadow-none tempInputBox" [value]="(tempValue / 10).toFixed(1)" readonly />
+                                            </div>
+                                            <input type="range" min="0" max="20" name="temp" [(ngModel)]="tempValue" />
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="mainLabel labelSM">Prompt Template</label>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="radio" id="goalPriority" name="goalPriority" value="GoalPriority" [(ngModel)]="selectPromptTemplate">
+                                                    <label for="goalPriority" class="mainLabel labelXS">Goal Priority</label><br>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <input type="radio" id="selfReminder" name="selfReminder" value="SelfReminder" [(ngModel)]="selectPromptTemplate">
+                                                    <label for="selfReminder" class="mainLabel labelXS">Self Reminder</label><br>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div *ngIf="option == 'FM-Moderation'">
-                                            <!-- <div class="mb-2">
-                                                <input class="form-control shadow-none inputSMfont" type="text" name="portfolioName" [(ngModel)]="portfolioName" placeholder="Portfolio Name" />
-                                            </div>
-                                            <div class="mb-2">
-                                                <input class="form-control shadow-none inputSMfont" type="text" name="accountName" [(ngModel)]="accountName" placeholder="Account Name" />
-                                            </div> -->
-                                            <div class="mb-2">
-                                                <select class="form-select shadow-none w-100 inputSMfont" name="selectedUsecase" ngModel (change)="onTemplateSelect($event)">
-                                                    <option value="" selected>Select Template Account</option>
-                                                    <option value="Navi">Navi</option>
-                                                    <option *ngFor="let template of allTemplates"
-                                                        [value]="template.mapId">
-                                                        {{template.portfolio}} - {{template.account}}</option>
-                                                </select>
-                                            </div>
-                                            <div class="mb-3">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <label class="mainLabel labelSM">Temperature</label>
-                                                    <input type="text" class="form-control shadow-none tempInputBox" [value]="(tempValue / 10).toFixed(1)" readonly />
+                                        <div class="mb-2">
+                                            <label class="mainLabel labelSM">COVE Complexity</label>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <input type="radio" id="simple" name="coveComplexity" value="simple" [(ngModel)]="selectCoveComplexity">
+                                                    <label for="simple" class="mainLabel labelXS">Simple</label><br>
                                                 </div>
-                                                <input type="range" min="0" max="20" name="temp" [(ngModel)]="tempValue" />
-                                            </div>
-                                            <div class="mb-2">
-                                                <label class="mainLabel labelSM">Prompt Template</label>
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <input type="radio" id="goalPriority" name="goalPriority" value="GoalPriority" [(ngModel)]="selectPromptTemplate">
-                                                        <label for="goalPriority" class="mainLabel labelXS">Goal
-                                                            Priority</label><br>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <input type="radio" id="selfReminder" name="selfReminder" value="SelfReminder" [(ngModel)]="selectPromptTemplate">
-                                                        <label for="selfReminder" class="mainLabel labelXS">Self
-                                                            Reminder</label><br>
-                                                    </div>
+                                                <div class="d-flex align-items-center">
+                                                    <input type="radio" id="medium" name="coveComplexity" value="medium" [(ngModel)]="selectCoveComplexity">
+                                                    <label for="medium" class="mainLabel labelXS">Medium</label><br>
+                                                </div>
+                                                <div class="d-flex align-items-center">
+                                                    <input type="radio" id="complex" name="coveComplexity" value="complex" [(ngModel)]="selectCoveComplexity">
+                                                    <label for="complex" class="mainLabel labelXS">Complex</label>
                                                 </div>
                                             </div>
-                                            <div class="mb-2">
-                                                <label class="mainLabel labelSM">COVE Complexity</label>
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <input type="radio" id="simple" name="coveComplexity" value="simple" [(ngModel)]="selectCoveComplexity">
-                                                        <label for="simple" class="mainLabel labelXS">Simple</label><br>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <input type="radio" id="medium" name="coveComplexity" value="medium" [(ngModel)]="selectCoveComplexity">
-                                                        <label for="medium" class="mainLabel labelXS">Medium</label><br>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <input type="radio" id="complex" name="coveComplexity" value="complex" [(ngModel)]="selectCoveComplexity">
-                                                        <label for="complex" class="mainLabel labelXS">Complex</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3" hidden>
-                                                <label class="mainLabel labelSM">Trasnlate</label>
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <input type="radio" id="Google" name="Google" value="Google" [(ngModel)]="selectedTranslate">
-                                                        <label for="Google" class="mainLabel labelXS">Google</label><br>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <input type="radio" id="Azure" name="Azure" value="Azure" [(ngModel)]="selectedTranslate">
-                                                        <label for="Azure" class="mainLabel labelXS">Azure</label><br>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-
-                                                        <input type="radio" id="no" name="no" value="no" [(ngModel)]="selectedTranslate">
-                                                        <label for="no" class="mainLabel labelXS">No</label><br>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label class="mainLabel labelSM">LLM Model</label>
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="d-flex align-items-center">
-                                                        <input type="radio" id="gpt4" name="gpt4" value="gpt4" [(ngModel)]="selectedLlmModel">
-                                                        <label for="gpt4" class="mainLabel labelXS">GPT 4</label><br>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <input type="radio" id="gpt3" name="gpt3" value="gpt3" [(ngModel)]="selectedLlmModel">
-                                                        <label for="gpt3" class="mainLabel labelXS">GPT 3</label><br>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <label class="mainLabel labelSM">LLM as Evaluator</label>
+                                            <span class="switch">
+                                    <input id="llmAsEvaluatorSwitch" type="checkbox" name="llmAsEvaluatorSwitch" ngModel />
+                                    <label for="llmAsEvaluatorSwitch"></label>
+                                  </span>
+                                        </div>
+                                        <div class="mb-3">
                                             <div class="d-flex justify-content-between mb-2">
-                                                <label class="mainLabel labelSM">LLM as Evaluator</label>
+                                                <label class="mainLabel labelSM">Nemo Guardrail Comparison</label>
                                                 <span class="switch">
-                                                    <input id="llmAsEvaluatorSwitch" type="checkbox"
-                                                        name="llmAsEvaluatorSwitch" ngModel  />
-                                                    <label for="llmAsEvaluatorSwitch"></label>
-                                                </span>
-                                            </div>
-                                            <div class="mb-3">
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <label class="mainLabel labelSM">Nemo Guardrail Comparison</label>
-                                                    <span class="switch">
-                                                        <input id="nemoGaurdrailSwitch" type="checkbox"
-                                                            name="nemoGaurdrail" 
-                                                            [(ngModel)]="nemoGaurdrailCheck" />
-
-                                                        <label for="nemoGaurdrailSwitch"></label>
-                                                    </span>
-                                                </div>
-                                                <div class="d-flex justify-content-between mb-2">
-                                                    <label class="mainLabel labelSM">File Upload</label>
-                                                    <span class="switch">
-                                                        <input id="hallucinationSwitch" type="checkbox"
-                                                            name="hallucinationSwitch"
-                                                            [(ngModel)]="hallucinationSwitchCheck"
-                                                            (ngModelChange)="handleHallucinationSwitch();"
-                                                            [disabled]="uncertainitySwitchCheck" />
-                                                        <label for="hallucinationSwitch"></label>
-                                                    </span>
-                                                </div>
-                                                <div class="mb-3" *ngIf="hallucinationSwitchCheck">
-                                                    <select class="form-select shadow-none m-0" style="font-size: 10px; padding: 5px" (change)="selectEmbeddedMethod($event.target)">
-                                                        <option selected disabled>Choose Embedding</option>
-                                                        <option *ngFor="let option of allEmbeddingsRes"
-                                                            [value]="option.embedingName" [id]="option.cacheId">
-                                                            {{option.embedingName}}</option>
-                                                    </select>
-                                                    <p class="m-0 p-1 fw-lighter" style="font-size: 11px;">Or</p>
-                                                    <input type="file" id="uploadFile" name="uploadFile" (change)="fileBrowseHandler($event)" class="uploadButton" />
-                                                    <label for="uploadFile" class="mb-0">Upload</label>
-                                                    <mat-icon matTooltip=".pdf(10mb),.csv(1mb),.txt(400kb),.mp4(200mb),png/jfif(15mb)." style="color: #727272; cursor: pointer;" [inline]="true">info</mat-icon>
-                                                    <p class="m-0" style="font-size: 8px; font-weight: 500;color: #989898;">
-                                                        .pdf, .csv and .txt files are supported <br/> jpg,jpeg,png,gif,bmp,jfif,mp4,3gp are supported</p>
-                                                    <div *ngFor="let file of files; let i = index">
-                                                        <div class="file-upload mt-2">
-                                                            <p style="margin: 0px; font-size: x-small;">{{ file?.name }}
-                                                            </p>
-                                                            <div class="d-flex align-items-center mt-1">
-                                                                <mat-progress-bar class="mr-1" mode="determinate" [value]="file?.progress"></mat-progress-bar>
-                                                                <button class="cancel-button mr-2" (click)="deleteFile(i); ">
-                                                                    <mat-icon>close</mat-icon>
-                                                                </button>
-                                                            </div>
-                                                            <p *ngIf="!file.preview.startsWith('data:video/')" class="mainLabel2 mainLabelSM2 mt-2 cursor" style="text-decoration: underline; font-size: 0.6rem;" (click)="openDialog(file.preview)">
-                                                                (Preview)
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="file-upload mt-2" *ngIf="selectedEmbeddedFileName != ''">
-                                                        <p style="margin: 0px; font-size: x-small;">{{ selectedEmbeddedFileName }}</p>
-                                                        <div class="d-flex align-items-center mt-1">
-                                                            <mat-progress-bar class="mr-1" mode="determinate" value="100"></mat-progress-bar>
-                                                            <button class="cancel-button mr-2" (click)="removeFile()">
-                                                                <mat-icon>close</mat-icon>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="mb-3" *ngIf="uncertainitySwitchCheck">
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <label class="mainLabel labelSM">No. Of Options</label>
-                                                    <input type="number" class="form-control shadow-none tempInputBox" [value]="noOfOptionUncertanity" min="2" max="5" />
-                                                </div>
+                                      <input id="nemoGaurdrailSwitch" type="checkbox" name="nemoGaurdrail" [(ngModel)]="nemoGaurdrailCheck" />
+                                      <label for="nemoGaurdrailSwitch"></label>
+                                    </span>
                                             </div>
                                         </div>
-                                        <div *ngIf="option == 'Profanity'">
-                                            <!-- <div class="mb-2">
-                                                <input class="form-control shadow-none inputSMfont" type="text" name="portfolioNameProf" ngModel placeholder="Portfolio Name" />
-                                            </div>
-                                            <div class="mb-2">
-                                                <input class="form-control shadow-none inputSMfont" type="text" name="accountNameProf" ngModel placeholder="Account Name" />
-                                            </div> -->
-                                            <div class="mb-2">
-                                                <input class="form-control shadow-none inputSMfont" type="text" name="exclusionListProf" ngModel placeholder="Exclusion List" />
+                                        <!-- <div class="d-flex justify-content-between mb-2">
+                                            <label class="mainLabel labelSM">Embedding</label>
+                                            <span class="switch">
+                                                <input id="hallucinationSwitch" type="checkbox" name="hallucinationSwitch"
+                                                    [(ngModel)]="enableEmbedding" (ngModelChange)="handleHallucinationSwitch()" [disabled]="uncertainitySwitchCheck" />
+                                                <label for="hallucinationSwitch"></label>
+                                            </span>
+                                        </div> -->
+                                        <div class="mb-3" *ngIf="enableEmbedding">
+                                            <select class="form-select shadow-none m-0" style="font-size: 10px; padding: 5px" (change)="selectEmbeddedMethod($event.target)">
+                                                <option selected disabled>Choose Embedding</option>
+                                                <option *ngFor="let option of allEmbeddingsRes" [value]="option.embedingName"
+                                                    [id]="option.cacheId">
+                                                    {{option.embedingName}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <label class="mainLabel labelSM">Light RAG</label>
+                                            <span class="switch">
+                                                <input id="LiteRAG" type="checkbox" name="LiteRAG"
+                                                    [(ngModel)]="LiteRAGSwitchCheck" />
+                                                <label for="LiteRAG"></label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel [disabled]="roles === 'ROLE_ML'" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <mat-checkbox class="custom-frame mt-n2" (click)="$event.stopPropagation()" (change)="viewoptions()" color="primary" name="Explainability" [(ngModel)]="selectedOptions['Explainability']" [disabled]="roles === 'ROLE_ML' || disabledOptions.includes('Explainability')">
+                                            Explainability
+                                        </mat-checkbox>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="panel-body">
+                                    <div *ngIf="true">
+                                        <!-- Explainability option content -->
+                                        <select class="form-select shadow-none w-100" aria-label="Explainability select example" name="explainabilityOption" [(ngModel)]="explainabilityOption">
+                                  <option value="" disabled selected>Choose Options</option>
+                                  <option value="LLM">LLM</option>
+                                  <option value="Sentiment">Sentiment</option>
+                                  <option value="RAG">RAG</option>
+                                </select>
+
+                                        <div *ngIf="explainabilityOption === 'LLM'">
+                                            <label class="mainLabel labelSM">LLM Model</label>
+                                            <select class="form-select shadow-none w-100" aria-label="LLM Model select example" name="selectedExplainabilityModel" [(ngModel)]="selectedExplainabilityModel">
+                                        <option value="" disabled selected>Choose LLM Model</option>
+                                        <option *ngFor="let model of explainabilityModels" [value]="model.value">{{model.name}}</option>  
+                                    </select>
+                                        </div>
+                                        <div *ngIf="explainabilityOption == 'RAG'">
+                                            <input type="file" id="uploadFile1" name="uploadFile1" (change)="fileBrowseHandler1($event)" class="uploadButton" />
+                                            <label for="uploadFile1" class="mb-0">Upload</label>
+                                            <mat-icon matTooltip=".pdf(10mb),.csv(1mb),.txt(400kb)" style="color: #727272; cursor: pointer;" [inline]="true">info</mat-icon>
+                                            <p class="m-0" style="font-size: 8px; font-weight: 500;color: #989898;">
+                                                .pdf, .csv and .txt files are supported
+                                            </p>
+                                            <div *ngFor="let file of filesExplainability; let i = index">
+                                                <div class="file-upload mt-2">
+                                                    <p style="margin: 0px; font-size: x-small;">{{ file?.name }}</p>
+                                                    <div class="d-flex align-items-center mt-1">
+                                                        <mat-progress-bar class="me-1" mode="determinate" [value]="file?.progress"></mat-progress-bar>
+                                                        <button class="cancel-button me-2" (click)="deleteFile1(i);">
+                                          <mat-icon>close</mat-icon>
+                                        </button>
+                                                    </div>
+                                                    <p *ngIf="!file?.preview?.startsWith('data:video/')" class="mainLabel2 mainLabelSM2 mt-2 cursor" style="text-decoration: underline; font-size: 0.6rem;" (click)="openDialog(file.preview)">
+                                                        (Preview)
+                                                    </p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </mat-expansion-panel>
-                            </mat-accordion>
-                        </div>
+                                </div>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel [disabled]="roles === 'ROLE_ML'" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        <mat-checkbox class="custom-frame mt-n2" (click)="$event.stopPropagation()" (change)="viewoptions()" color="primary" name="Fairness" [(ngModel)]="selectedOptions['Fairness']" [disabled]="roles === 'ROLE_ML' || disabledOptions.includes('Fairness')">
+                                            Fairness
+                                        </mat-checkbox>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="panel-body">
+                                    <div *ngIf="true">
+                                        <!-- Fairness option content -->
+                                        <div class="d-flex justify-content-between">
+                                            <!-- <div class="d-flex align-items-center">
+                                                <input type="radio" id="gpt" name="gpt" value="GPT_4" [(ngModel)]="fairnessEvaluator">
+                                                <label for="gpt4" class="mainLabel labelXS">GPT_4</label><br>
+                                            </div>
+                                            <div class="d-flex align-items-center me-4">
+                                                <input type="radio" id="llama" name="llama" value="LLAMA" [(ngModel)]="fairnessEvaluator">
+                                                <label for="llama" class="mainLabel labelXS">LLAMA</label><br>
+                                            </div> -->
+                                            <select class="form-select shadow-none w-100" name="fairnessEvaluator" [(ngModel)]="fairnessEvaluator">
+                                            <option value="" disabled selected>Select Evaluator</option>
+                                             <option *ngFor="let evaluator of fairnessEvaluators" [value]="evaluator.value">{{ evaluator.name }}</option>
+                                             </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
                     </div>
                 </div>
             </div>

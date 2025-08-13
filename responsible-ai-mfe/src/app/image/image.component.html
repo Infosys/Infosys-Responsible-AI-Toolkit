@@ -1,97 +1,93 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div style="display: flex; flex-direction: column;">
     <div style="display: flex;">
-        <div class="select-contatiner1 mr-2">
+        <div class="select-contatiner1 me-2">
             <div>
-                <h3 class="HeadingCheckBoxLabel pl-0">Select Type</h3>
-                <!--  -->
-                <div class="checkbox-container ml-1">
+                <h3 class="HeadingCheckBoxLabel ps-0">Select Type</h3>
+                <div class="checkbox-container ms-1">
                     <div class="d-flex align-items-center">
                         <input type="radio" id="Privacy" name="Privacy" value="Privacy" [(ngModel)]="selectType" (ngModelChange)=" handleSelectTypeChange()">
-                        <label for="Privacy" class="HeadingCheckBoxLabel fw-medium m-0 pl-2">Privacy</label>
+                        <label for="Privacy" class="HeadingCheckBoxLabel fw-medium m-0 ps-2">Privacy</label>
                     </div>
                     <div class="d-flex align-items-center">
                         <input type="radio" id="Safety" name="Safety" value="Safety" [(ngModel)]="selectType" (ngModelChange)=" handleSelectTypeChange()">
-                        <label for="Safety" class="HeadingCheckBoxLabel fw-medium m-0 pl-2">Safety</label>
+                        <label for="Safety" class="HeadingCheckBoxLabel fw-medium m-0 ps-2">Safety</label>
                     </div>
                     <!-- <div class="d-flex align-items-center">
-                        <input type="radio" id="Explainability" name="Explainability"
-                            value="Explainability" [(ngModel)]="selectType" (ngModelChange)=" handleSelectTypeChange()">
-                        <label for="Explainability" class="HeadingCheckBoxLabel fw-medium m-0 pl-2" >Explainability</label>
-                    </div> -->
-                    <!-- <div class="d-flex align-items-center">
                         <input type="radio" id="Security" name="Security" value="Security" [(ngModel)]="selectType" (ngModelChange)=" handleSelectTypeChange()">
-                        <label for="Security" class="HeadingCheckBoxLabel fw-medium m-0 pl-2">Security</label>
+                        <label for="Security" class="HeadingCheckBoxLabel fw-medium m-0 ps-2">Security</label>
                     </div> -->
-                    <!-- <mat-checkbox class="custom-frame" (change)="viewoptions()" color="primary" *ngFor="let option of options" [(ngModel)]="selectedOptions[option]">{{option}}</mat-checkbox> -->
+                    <div class="d-flex align-items-center">
+                        <input type="radio" id="imgExplainability" name="imgExplainability" value="imgExplainability" [(ngModel)]="selectType" (ngModelChange)=" handleSelectTypeChange()">
+                        <label for="imgExplainability" class="HeadingCheckBoxLabel fw-medium m-0 pl-2">Explainability</label>
+                    </div>
                 </div>
-                <!--  -->
             </div>
         </div>
         <ng-container class="selectTypeShimmer" *ngIf="isLoadingUpload">
             <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '200px', width: '230px'}">
             </ngx-skeleton-loader>
         </ng-container>
-        <div *ngIf="!isLoadingUpload" class="mr-4 mt-2">
-            <!-- <label class="HeadingLabel">Upload File(s)</label> -->
+        <div *ngIf="!isLoadingUpload" class="me-4 mt-2">
             <div class="drop-zone">
                 <mat-icon class="material-icons browse-logo ">cloud_upload</mat-icon>
                 <p class="paragraph_dnd">Drag and drop files here <br>or<span class="high-light mb-0"> browse</span></p>
-                <input type="file" (change)="onFileChange($event)" (change)="fileBrowseHandler($event)" multiple accept="image/*">
+                <input type="file" (change)="onFileChange($event)" (change)="fileBrowseHandler($event, false)" multiple accept="image/*">
                 <p class="dnd-lable mt-0">
                     .png, .jfif, .jpg files are supported</p>
             </div>
             <div class="image-container justify-content-between mt-2">
-                <div class="card imgcardsize" matTooltip="Handwritten" [class.radio-checked-img]="favoriteSeason == sampleSrc1" (click)="onClick(sampleSrc1); ocrvalue = 'ComputerVision'">
-                    <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <div class="card imgcardsize" matTooltip="Handwritten" [class.radio-checked-img]="imageSelection == sampleSrc1" (click)="onClick(sampleSrc1); ocrvalue = 'ComputerVision'">
                     <label>
                         <input (click)="viewchange()" class="imgcardsize" type="radio" style="display: none;"
-                            [(ngModel)]="favoriteSeason" name="option" value={{sampleSrc1}} checked>
+                            [(ngModel)]="imageSelection" name="option" value={{sampleSrc1}} checked>
                         <img class="imgcardsize" src={{sampleSrc1}}>
                     </label>
                 </div>
-                <div class="card imgcardsize" matTooltip="Privacy" [class.radio-checked-img]="favoriteSeason == sampleSrc2" (click)="onClick(sampleSrc2); ocrvalue = 'Tesseract'">
-                    <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <div class="card imgcardsize" matTooltip="Privacy" [class.radio-checked-img]="imageSelection == sampleSrc2" (click)="onClick(sampleSrc2); ocrvalue = 'Tesseract'">
                     <label>
-                        <input class="imgcardsize" type="radio" style="display: none;" [(ngModel)]="favoriteSeason"
+                        <input class="imgcardsize" type="radio" style="display: none;" [(ngModel)]="imageSelection"
                             name="option" value={{sampleSrc2}} checked>
                         <img class="imgcardsize" src={{sampleSrc2}}>
                     </label>
                 </div>
-                <div class="card imgcardsize" matTooltip="Safety & Explainability" [class.radio-checked-img]="favoriteSeason == sampleSrc3" (click)="onClick(sampleSrc3); ocrvalue = 'Tesseract'">
-                    <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <div class="card imgcardsize" matTooltip="Safety & Explainability" [class.radio-checked-img]="imageSelection == sampleSrc3" (click)="onClick(sampleSrc3); ocrvalue = 'Tesseract'">
                     <label>
-                        <input class="imgcardsize" type="radio" style="display: none;" [(ngModel)]="favoriteSeason"
+                        <input class="imgcardsize" type="radio" style="display: none;" [(ngModel)]="imageSelection"
                             name="option" value={{sampleSrc3}} checked>
                         <img class="imgcardsize" src={{sampleSrc3}}>
                     </label>
                 </div>
             </div>
             <div class="fileContainer mt-2">
-                <p class="HeadingLabelSM mb-0" *ngIf="files[0]">File</p>
-                <div class="file-upload" *ngIf="files[0]">
-                    <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
-                    <div class="d-flex align-items-center mt-1">
-                        <mat-progress-bar class="mr-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
-                        <button class="cancel-button mr-2" (click)="removeFile()">
-                            <mat-icon>close</mat-icon>
-                        </button>
+                <p class="HeadingLabelSM mb-0" *ngIf="files.length > 0">Files</p>
+                <ng-container *ngFor="let file of files; let i = index">
+                    <div class="file-upload" *ngIf="file">
+                        <p style="margin: 0px; font-size: x-small;">{{ file.name }}</p>
+                        <div class="d-flex align-items-center mt-1">
+                            <mat-progress-bar class="me-1" mode="determinate" [value]="file?.progress"></mat-progress-bar>
+                            <button class="cancel-button me-2" (click)="removeFile(i)">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </div>
+                        <p class="mainLabel2 mainLabelSM2 mt-2 cursor" style="text-decoration: underline; font-size: 0.6rem;" (click)="openDialog(file.preview)">
+                            (Preview)</p>
                     </div>
-                    <p class="mainLabel2 mainLabelSM2 mt-2 cursor" style="text-decoration: underline; font-size: 0.6rem;" (click)="openDialog(filePreview)">
-                        (Preview)</p>
-                </div>
+                </ng-container>
             </div>
         </div>
-        <div class="mr-4">
+        <div class="me-4">
             <label class="HeadingLabel mb-3">Select Options</label>
             <div>
                 <form [formGroup]="form">
                     <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-                    <select formControlName="languageModel" (change)="selectOptionOcr($event.target)" class="form-select shadow-none" aria-label="Default select example" [(ngModel)]="ocrvalue">
+                    <div *ngIf="selectType == 'Privacy'">
+                        <select formControlName="languageModel" (change)="selectOptionOcr($event.target)" class="form-select shadow-none" aria-label="Default select example" [(ngModel)]="ocrvalue">
                         <ng-container *ngIf="files == [] || files[0]?.name != 'PII_handwritten.jpg'">
                             <option *ngFor="let option of ocr_options" [value]="option">{{option}}</option>
                         </ng-container>
@@ -101,10 +97,75 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <!-- <option *ngFor="let option of ocr_options" [value]="option">{{option}}</option>
                         <option *ngFor="let option of ['ComputerVision']" [value]="option"><span *ngIf="files[0].name == 'PII_handwritten.jpg'">{{option}}</span></option> -->
                     </select>
+                    </div>
                     <select *ngIf="selectType == 'Privacy'" formControlName="option" (change)="selectOption($event.target)" [(ngModel)]="selectValue" class="form-select shadow-none" aria-label="Default select example">
-                        <option value="" >Option</option>
+                        <option value="" disabled>Option</option>
                         <option *ngFor="let option of options" [value]="option.value">{{option.viewValue}}</option>
                     </select>
+                    <!--  -->
+                    <div *ngIf="selectType == 'Privacy'" [class.disabled]="fmService.checkLocalStorageForKeys()" class="d-flex flex-column">
+                        <!-- <div class="icon-dropdown-container">
+                            <mat-icon ngbTooltip="{{nlptooltip}}" placement="top" class="smallIcon" style="font-size: 16px;">info_outline</mat-icon>
+                            <select class="form-select shadow-none " aria-label="Default select example" name="nlpOption" formControlName="nlpOption">
+                            <option value="" selected disabled>Choose NLP Model</option>
+                            <option *ngFor="let option of nlp_options" [value]="option.value">
+                                {{option.viewValue}}
+                            </option>
+                          </select>
+                        </div> -->
+                        <div class="position-relative">
+                            <label class="optional-label">(Optional)</label>
+                            <div class="dropdown-container">
+                                <select class="form-select shadow-none " aria-label="Default select example" name="nlpOption" formControlName="nlpOption">
+
+                            <option value="" selected disabled>Choose NLP Model</option>
+                            <option *ngFor="let option of nlp_options" [value]="option.value">
+                                {{option.viewValue}}
+                            </option>
+                          </select>
+                                <mat-icon ngbTooltip="{{nlptooltip}}" placement="top" class="smallIcon" style="font-size: 16px;">info_outline</mat-icon>
+                            </div>
+                        </div>
+
+                        <!-- <mat-form-field class="w-100"> -->
+                        <div class="position-relative">
+                            <label class="optional-label">(Optional)</label>
+                            <mat-select multiple class="dropdown" placeholder="Recognizers" formControlName="piiEntitiesToBeRedactedOption" style="margin-bottom:1.1rem;">
+                                <mat-option *ngFor="let option of available_Recognizers" [value]="option">
+                                    {{option}}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                        <!-- </mat-form-field> -->
+
+                    </div>
+                    <!--  -->
+                    <div *ngIf="selectType == 'imgExplainability'" class="mt-2">
+                        <select class="form-select shadow-none" formControlName="explainabilityOption" [(ngModel)]="selectedExplainabilityOption" (change)="onExplainabilityOptionChange($event)">                   
+                            <option *ngFor="let option of explainValues" [value]="option.value">{{option.viewValue}}</option>
+                        </select>
+
+                        <div *ngIf="selectedExplainabilityOption === 'Custom model'" class="upload-button-section w-100 flex-column" style="display: flex;">
+                            <input type="file" id="uploadFile" name="uploadFile" (change)="onFileChange($event)" (change)="fileBrowseHandler($event,true)" class="uploadButton" />
+                            <label for="uploadFile">Upload</label>
+                            <div *ngFor="let file of modelFiles; let i = index">
+                                <div class="file-upload mt-2 w-50">
+                                    <p style="margin: 0px; font-size: x-small;">{{ file?.name }}</p>
+                                    <div class="d-flex align-items-center mt-1">
+                                        <mat-progress-bar class="me-1" mode="determinate" [value]="file?.progress"></mat-progress-bar>
+                                        <button class="cancel-button me-2" (click)="removeYoloFile(i)">
+                                            <mat-icon>close</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="dnd-lable1">Yolo Py Torch model are supported (yolov*n.pt)</p>
+                        </div>
+                    </div>
+                    <!-- New select element for Safety -->
+                    <select *ngIf="selectType == 'Safety'" formControlName="safetyaccuracyOption" class="form-select shadow-none" aria-label="Default select example" [(ngModel)]="selectedSafetyaccuracyOption">
+                    <option *ngFor="let option of accuracyValues" [value]="option.value">{{option.viewValue}}</option>
+                  </select>
                     <select *ngIf="selectValue == 'Security'" formControlName="securityModel" (change)="selectSecurityModel($event.target)" class="form-select shadow-none" aria-label="Default select example" [(ngModel)]="selectedModel">
                         <option *ngFor="let option of models" [value]="option.value">{{option.viewValue}}</option>
                     </select>
@@ -115,16 +176,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </form>
 
                 <!--  -->
-                <ng-container *ngIf="selectType == 'Privacy' || selectType === 'Safety'">
+                <ng-container *ngIf="selectType == 'Privacy'">
                     <!-- <input type="text" [(ngModel)]="portfolioName_value" class="form-control shadow-none"
                         placeholder="Portfolio Name" aria-label="Portfolio Name">
                     <input type="text" [(ngModel)]="accountName_value" class="form-control shadow-none"
                         placeholder="Account Name" aria-label="Account Name"> -->
-                    <input [hidden]="selectType === 'Safety'" type="text" [(ngModel)]="exclusionList_value" class="form-control shadow-none" placeholder="Exclusion List" aria-label="Exclusion List">
+                    <input type="number" [(ngModel)]="scoreThreshold" class="form-control shadow-none" placeholder="Threshold" aria-label="Threshold" [step]="0.05" [value]="0.6" max="1" min="0" style="margin-bottom: 1.1rem;">
+                    <div class="position-relative">
+                        <label class="optional-label">(Optional)</label>
+                        <input type="text" [(ngModel)]="exclusionList_value" class="form-control shadow-none" placeholder="Exclusion List" aria-label="Exclusion List">
+                    </div>
                 </ng-container>
             </div>
             <div class="button-container">
-                <button mat-raised-button class="mainBtn resetButton" (click)="removeFile()" color="reset">Reset</button>
+                <button mat-raised-button class="mainBtn resetButton" (click)="resetAll()" color="reset">Reset</button>
                 <button mat-raised-button (click)="submit()" class="mainBtn" style="margin-left: .5rem;" color="black">Submit</button>
             </div>
         </div>
@@ -133,14 +198,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <div *ngIf="privacy_analyzeFlag" class="w-50">
             <label class="HeadingLabel mb-3">Output</label>
             <div class="card outputCard w-100 p-2">
-                <label class="HeadingLabel mb-2">PII Entities Recognised</label>
-                <div class="d-flex flex-wrap">
-                    <span *ngFor="let res of PrivacyAnzUniqueData" class="HeadingLabel HeadingLabelSM mr-2" style="padding: 5px 8px; border-radius: 7px; background-color: #ececec; width: fit-content;">
-                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">{{res}}</p>
-                    </span>
-                    <span *ngIf="PrivacyAnzUniqueData.length == 0" class="HeadingLabel HeadingLabelSM mr-2" style="padding: 5px 8px; border-radius: 7px; background-color: #ececec; width: fit-content;">
-                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">NONE</p>
-                    </span>
+                <label class="HeadingLabel mb-2">PII Entities Recognized</label>
+                <!-- <div *ngFor="let resObj of PrivacyAnzUniqueData" class="d-flex flex-wrap mt-1">
+                    <div *ngFor="let res of resObj.PIIEntities" class="HeadingLabel HeadingLabelSM me-2" style="padding: 5px 8px; border-radius: 7px; background-color: #ececec; width: fit-content;">
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">{{PrivacyAnzUniqueData}}</p>
+                    </div>
+                </div> -->
+                <div class="d-flex flex-wrap mt-1">
+                    <div *ngFor="let data of PrivacyAnzUniqueData" class="HeadingLabel HeadingLabelSM me-2" style="padding: 5px 8px; border-radius: 7px; background-color: #ececec; width: fit-content;">
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">{{data}}</p>
+                    </div>
+                </div>
+                <div *ngIf="PrivacyAnzUniqueData.length == 0" class="d-flex flex-wrap">
+                    <span class="HeadingLabel HeadingLabelSM me-2" style="padding: 5px 8px; border-radius: 7px; background-color: #ececec; width: fit-content;">
+                  <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">NONE</p>
+                </span>
                 </div>
             </div>
         </div>
@@ -158,6 +230,23 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         Report</button>
                 </div>
             </div>
+            <!-- for image output privacy anonymize  -->
+            <!-- <div *ngIf="imgOp==true"> -->
+
+            <!-- <ngb-carousel *ngIf="outputImg.length > 0" class="mb-4">
+                <ng-template ngbSlide *ngFor="let im of outputImg">
+                    <div class="card outputImageCard position-relative d-flex justify-content-center w-100">
+                        <img [src]="'data:image/jpg;base64,'+im" *ngIf="im" class="card-img w-100 h-100" alt="...">
+                        <div class="fullscreen-button-wrapper d-flex justify-content-center align-items-center">
+                            <button mat-icon-button class="expand-button btn btn-dark" (click)="openDialog(im); $event.stopPropagation()">
+                                    <mat-icon>fullscreen</mat-icon>
+                                </button>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-carousel> -->
+            <!-- </div> -->
+
             <div *ngFor="let im of outputImg">
                 <div class="card outputImageCard position-relative d-flex justify-content-center w-100">
                     <img [src]="'data:image/jpg;base64,'+im" *ngIf="im" class="card-img w-100 h-100" alt="...">
@@ -231,7 +320,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div>
                 <div *ngIf="imageOutput==true" style="display: flex;" class="caret-container">
                     <div class="d-flex justify-content-between w-100">
-                        <div class="mr-2 w-50">
+                        <div class="me-2 w-50">
                             <p class="outputLabel mb-1">Original Image</p>
                             <div class="card position-relative">
                                 <img mat-card-image class="imgStyle" src="{{'data:image/jpg;base64,' + imageAnalysePath}}" alt="Original Image">
@@ -267,6 +356,45 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
             <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'border-radius': '10px', height: '250px', width:'565px'}" />
         </div>
+        <div *ngIf="explanation" class="explanation-box  w-50">
+            <label class="HeadingLabel mb-3">Output</label>
+            <div class="card outputCard w-100 p-2">
+                <div class="d-flex flex-wrap">
+                    <p style="font-weight:400;">Explanation:</p>
+                    <div class="col-md-10 text-end ">
+                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{timeTaken}}s</span>
+                        </p>
+                    </div>
+                    <p class="explanation" [innerHTML]="explanation"></p>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="yoloExplanation" class="yoloExplanation-box  w-50">
+            <label class="HeadingLabel mb-3">Output</label>
+            <div class="d-flex justify-content-between w-100">
+                <div class="me-2 w-40">
+                    <p class="outputLabel mb-1">Image</p>
+                    <div class="card position-relative smaller-image-card">
+                        <img mat-card-image class="imgStyle1" src="{{yoloImg}}" alt="REDACTED IMAGE">
+                        <button mat-icon-button class="expand-button position-absolute top-0 end-0" (click)="openDialog(yoloImg)">
+                                <mat-icon>fullscreen</mat-icon>
+                            </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card w-100 p-2 mt-3">
+                <div class="d-flex flex-wrap">
+                    <p class="outputLabel mb-1">Explanation:</p>
+                    <div class="col-md-10 text-end ">
+                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{yoloTimeTaken}}s</span>
+                        </p>
+                    </div>
+                    <p class="explanation" [innerHTML]="yoloExplanation"></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- </div> -->
     </div>
     <!-- output section below -->
     <div>

@@ -1,107 +1,32 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="p-3 px-4 h-100">
     <div class="d-flex justify-content-between align-items-center pb-4">
         <p class="HeadingLabel2">Safety Parameters</p>
-        <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
     </div>
     <div>
 
     </div>
+    <div *ngIf="isLoading" class="loading-spinner">
+        <!-- Add your loading spinner here -->
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+      </div>
+      <div *ngIf="isDataEmpty" class="alert alert-warning">
+        Value is not set. Create a mapping first.
+      </div>
 
-    <!-- <div>
-        <div class="d-flex flex-wrap">
-            <div class="d-flex flex-wrap">
-                <form [formGroup]="safetyForm" class="d-flex flex-column">
-                    <div class="d-flex flex-row">
 
-                        <div style="margin: .1rem;">
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <label class="mainLabel">Drawings Threshold :</label>
-                                    <input type="text" class="form-control shadow-none tempInputBox"
-                                        [value]="((safetyForm.get('drawingsThreshold')?.value ??0) / 100).toFixed(2)"
-                                        readonly />
-                                </div>
-                                <input type="range" min="0" max="100" name="drawingsThreshold"
-                                    formControlName="drawingsThreshold" />
-                            </div>
 
-                        </div>
-                        <div style="margin: .1rem;">
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <label class="mainLabel">Hentai Threshold :</label>
-                                    <input type="text" class="form-control shadow-none tempInputBox"
-                                        [value]="((safetyForm.get('hentaiThreshold')?.value ??0) / 100).toFixed(2)"
-                                        readonly />
-                                </div>
-                                <input type="range" min="0" max="100" name="hentaiThreshold"
-                                    formControlName="hentaiThreshold" />
-                            </div>
-
-                        </div>
-                        <div style="margin: .1rem;">
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <label class="mainLabel">Neutral Threshold :</label>
-                                    <input type="text" class="form-control shadow-none tempInputBox"
-                                        [value]="((safetyForm.get('neutralThreshold')?.value ??0) / 100).toFixed(2)"
-                                        readonly />
-                                </div>
-                                <input type="range" min="0" max="100" name="neutralThreshold"
-                                    formControlName="neutralThreshold" />
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="d-flex flex-row">
-                        <div style="margin: .1rem;">
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <label class="mainLabel">Porn Threshold :</label>
-                                    <input type="text" class="form-control shadow-none tempInputBox"
-                                        [value]="((safetyForm.get('pornThreshold')?.value ??0) / 100).toFixed(2)"
-                                        readonly />
-                                </div>
-                                <input type="range" min="0" max="100" name="pornThreshold"
-                                    formControlName="pornThreshold" />
-                            </div>
-
-                        </div>
-                        <div style="margin: .1rem;">
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <label class="mainLabel">Sexy Threshold :</label>
-                                    <input type="text" class="form-control shadow-none tempInputBox"
-                                        [value]="((safetyForm.get('sexyThreshold')?.value ??0) / 100).toFixed(2)"
-                                        readonly />
-                                </div>
-                                <input type="range" min="0" max="100" name="sexyThreshold"
-                                    formControlName="sexyThreshold" />
-                            </div>
-
-                        </div>
-                    </div>
-                </form>
-
-            </div>
-
-            <div class="d-flex justify-content-center align-items-center ps-3">
-                <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 14px;" color="black"
-                    (click)="submit()">Submit</button>
-            </div>
-        </div>
-    </div> -->
-
-    <!--  -->
-
-    <div>
+    <div  *ngIf="!isDataEmpty && isLoading == false">
         <form [formGroup]="SafetyFormUpdateEntity" (ngSubmit)="updateSafetyFormEntity()">
             <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
             <div class="row mb-3">
@@ -111,7 +36,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             <label style="padding-left: 0px; margin-bottom: 0px;">Drawings Threshold</label>
                             <span>{{SafetyFormUpdateEntity.controls['drawingsThreshold'].value}}</span>
                         </div>
-                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;" (change)="UpdateSafePars(SafetyFormUpdateEntity.controls['drawingsThreshold'].value,'drawings')">
+                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;"(change)="UpdateSafePars(SafetyFormUpdateEntity.controls['drawingsThreshold'].value,'drawings')">
                             <input matSliderThumb #slider id="drawingsThreshold" formControlName="drawingsThreshold">
                         </mat-slider>
                     </div>

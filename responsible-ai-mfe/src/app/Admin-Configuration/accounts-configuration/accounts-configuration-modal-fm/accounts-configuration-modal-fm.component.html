@@ -1,16 +1,31 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="p-3 px-4 h-100">
     <div class="d-flex justify-content-between align-items-center pb-4">
         <p class="HeadingLabel">Update FM Parameters</p>
-        <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
     </div>
-    <div>
+    <div *ngIf="isLoading" class="loading-spinner">
+        <!-- Add your loading spinner here -->
+        <ngx-skeleton-loader count="1" appearance="line"
+            [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line"
+            [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line"
+            [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line"
+            [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line"
+            [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+    </div>
+    <div *ngIf="isDataEmpty" class="alert alert-warning">
+        Value is not set. Create a mapping first.
+    </div>
+    <div *ngIf="!isDataEmpty && isLoading == false">
         <form [formGroup]="FmConfigResponseForm">
             <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
 
@@ -23,12 +38,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         </div>
                         <div class="marginDiv">
                             <!-- <h3 class="HeadingLabelSM">Input Moderation Checks</h3> -->
-                            <mat-select #select1 multiple id="selectApplicableAttacks" class="dropdown" formControlName="inputModChecks" placeholder="InputModerationChecks">
+                            <mat-select #select1 multiple id="selectApplicableAttacks" class="dropdown"
+                                formControlName="inputModChecks" placeholder="InputModerationChecks">
                                 <div class="select-all">
-                                    <mat-checkbox (change)="toggleAllSelection1($event)" color="primary">Select All
-                                    </mat-checkbox>
+                                    <mat-checkbox (change)="toggleAllSelection1($event)" color="primary">Select
+                                        All</mat-checkbox>
                                 </div>
-                                <mat-option (click)="selectInputModeration()" class="dropdownOptions" *ngFor="let attack of InputModerationChecks" [value]="attack">
+                                <mat-option (click)="selectInputModeration()" class="dropdownOptions"
+                                    *ngFor="let attack of InputModerationChecks" [value]="attack">
                                     {{attack}}
                                 </mat-option>
                             </mat-select>
@@ -36,61 +53,99 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <!-- Left column content -->
                         <div class="marginDiv">
                             <!-- <h3 class="HeadingLabelSM">Output Moderation Checks</h3> -->
-                            <mat-select #select2 multiple id="selectApplicableAttacks" class="dropdown" formControlName="outputModChecks" placeholder="OutputModerationChecks">
+                            <mat-select #select2 multiple id="selectApplicableAttacks" class="dropdown"
+                                formControlName="outputModChecks" placeholder="OutputModerationChecks">
                                 <div class="select-all">
-                                    <mat-checkbox (change)="toggleAllSelection2($event)" color="primary">Select All
-                                    </mat-checkbox>
+                                    <mat-checkbox (change)="toggleAllSelection2($event)" color="primary">Select
+                                        All</mat-checkbox>
                                 </div>
-                                <mat-option (click)="selectOutputModeration()" class="dropdownOptions" *ngFor="let attack of OutputModerationChecks" [value]="attack">
+                                <mat-option (click)="selectOutputModeration()" class="dropdownOptions"
+                                    *ngFor="let attack of OutputModerationChecks" [value]="attack">
                                     {{attack}}
                                 </mat-option>
                             </mat-select>
                         </div>
                         <div class="marginDiv">
                             <!-- <h3 class="HeadingLabelSM">Recognizers To Detect</h3> -->
-                            <mat-select #select3 multiple id="selectApplicableAttacks" class="dropdown" formControlName="recognizerNamesToDetect" placeholder="Recognizers To Detect">
+                            <mat-select #select3 multiple id="selectApplicableAttacks" class="dropdown"
+                                formControlName="recognizerNamesToDetect" placeholder="Recognizers To Detect">
                                 <div class="select-all">
-                                    <mat-checkbox (change)="toggleAllSelection3($event)" color="primary">Select All
-                                    </mat-checkbox>
+                                    <mat-checkbox (change)="toggleAllSelection3($event)" color="primary">Select
+                                        All</mat-checkbox>
                                 </div>
-                                <mat-option (click)="selectrecognizerList()" class="dropdownOptions" *ngFor="let attack of recognizerList" [value]="attack">
+                                <mat-option (click)="selectrecognizerList()" class="dropdownOptions"
+                                    *ngFor="let attack of recognizerList" [value]="attack">
                                     {{attack}}
                                 </mat-option>
                             </mat-select>
                         </div>
                         <div class="marginDiv">
                             <!-- <h3 class="HeadingLabelSM">Recognizers To Block</h3> -->
-                            <mat-select #select4 multiple id="selectApplicableAttacks" class="dropdown" formControlName="recognizerNamesToBlock" placeholder="Recognizers To Block">
+                            <mat-select #select4 multiple id="selectApplicableAttacks" class="dropdown"
+                                formControlName="recognizerNamesToBlock" placeholder="Recognizers To Block">
                                 <div class="select-all">
-                                    <mat-checkbox (change)="toggleAllSelection4($event)" color="primary">Select All
-                                    </mat-checkbox>
+                                    <mat-checkbox (change)="toggleAllSelection4($event)" color="primary">Select
+                                        All</mat-checkbox>
                                 </div>
-                                <mat-option (click)="selectrecognizerListtoblock()" class="dropdownOptions" *ngFor="let attack of recognizerList" [value]="attack">
+                                <mat-option (click)="selectrecognizerListtoblock()" class="dropdownOptions"
+                                    *ngFor="let attack of recognizerList" [value]="attack">
                                     {{attack}}
                                 </mat-option>
                             </mat-select>
                         </div>
                         <div class="marginDiv">
                             <!-- <h3 class="HeadingLabelSM">Restrictedtopics</h3> -->
-                            <mat-select #select5 multiple id="selectApplicableAttacks" class="dropdown" formControlName="Restrictedtopics" placeholder="Restrictedtopics">
+                            <mat-select #select5 multiple id="selectApplicableAttacks" class="dropdown"
+                                formControlName="Restrictedtopics" placeholder="Restrictedtopics">
                                 <div class="select-all">
-                                    <mat-checkbox (change)="toggleAllSelection5($event)" color="primary">Select All
-                                    </mat-checkbox>
+                                    <mat-checkbox (change)="toggleAllSelection5($event)" color="primary">Select
+                                        All</mat-checkbox>
                                 </div>
-                                <mat-option (click)="selectRestrictedtopics()" class="dropdownOptions" *ngFor="let attack of Restrictedtopics" [value]="attack">
+                                <mat-option (click)="selectRestrictedtopics()" class="dropdownOptions"
+                                    *ngFor="let attack of Restrictedtopics" [value]="attack">
                                     {{attack}}
                                 </mat-option>
                             </mat-select>
                         </div>
 
+                        <div class="marginDiv">
+                            <!-- <h3 class="HeadingLabelSM">Gibberish Labels</h3> -->
+                            <mat-select #selectGibberishLabels multiple id="selectGibberishLabels" class="dropdown" formControlName="gibberishLabels" placeholder="Gibberish Labels">
+                                <div class="select-all">
+                                    <mat-checkbox (change)="toggleAllSelectionGibberishLabels($event)" color="primary">Select All
+                                    </mat-checkbox>
+                                </div>
+                                <mat-option (click)="selectsGibberishLabels()" class="dropdownOptions" *ngFor="let label of gibberishLabels" [value]="label">
+                                    {{label}}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+
+                        <div class="marginDiv">
+                            <!-- <h3 class="HeadingLabelSM">Banned Categories</h3> -->
+                            <mat-select #selectBannedCategories multiple id="selectBannedCategories" class="dropdown" formControlName="bannedCategories" placeholder="Invisible text categories">
+                                <div class="select-all">
+                                    <mat-checkbox (change)="toggleAllSelectionBannedCategories($event)" color="primary">Select All
+                                    </mat-checkbox>
+                                </div>
+                                <mat-option (click)="selectsBannedCategories()" class="dropdownOptions" *ngFor="let category of bannedCategories" [value]="category">
+                                    {{category}}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+
+
                         <!-- -->
 
                         <div class="marginDiv">
                             <label class="sliderLabel" style="padding-bottom: 0px;">Theme Name:</label>
-                            <input type="text" class="form-control form-InputText" placeholder="Enter Value" aria-label="Theme Name" formControlName="ThemeName">
+                            <input type="text" class="form-control form-InputText" placeholder="Enter Value"
+                                aria-label="Theme Name" formControlName="ThemeName">
 
                             <label class="sliderLabel" style="padding-bottom: 0px;">Theme Texts:</label>
-                            <input type="text" class="form-control mb-3 form-InputText " placeholder="Enter comma(,) separated values" style="width: 100%;" formControlName="ThemeTexts">
+                            <input type="text" class="form-control mb-3 form-InputText "
+                                placeholder="Enter comma(,) separated values" style="width: 100%;"
+                                formControlName="ThemeTexts">
                         </div>
                         <!--  -->
                     </div>
@@ -106,10 +161,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">JailBreak Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['JailbreakThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">JailBreak Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['JailbreakThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="JailbreakThreshold">
                                         </mat-slider>
 
@@ -118,10 +176,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Prompt Injection Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['PromptInjectionThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">Prompt Injection Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['PromptInjectionThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="PromptInjectionThreshold">
                                         </mat-slider>
                                     </div>
@@ -129,10 +190,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Refusal Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['RefusalThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">Refusal Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['RefusalThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="RefusalThreshold">
                                         </mat-slider>
                                     </div>
@@ -143,10 +207,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Toxicity Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['ToxicityThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">Toxicity Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['ToxicityThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="ToxicityThreshold">
                                         </mat-slider>
                                     </div>
@@ -154,10 +221,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Severe Toxicity Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['SevereToxicityThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">Severe Toxicity Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['SevereToxicityThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="SevereToxicityThreshold">
                                         </mat-slider>
                                     </div>
@@ -165,10 +235,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Identity Attack Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['IdentityAttackThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">Identity Attack Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['IdentityAttackThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="IdentityAttackThreshold">
                                         </mat-slider>
                                     </div>
@@ -178,10 +251,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Threat Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['ThreatThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">Threat Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['ThreatThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="ThreatThreshold">
                                         </mat-slider>
                                     </div>
@@ -190,10 +266,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Profanity Count Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['ProfanityCountThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">Profanity Count Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['ProfanityCountThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="ProfanityCountThreshold">
                                         </mat-slider>
                                     </div>
@@ -201,10 +280,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Obscene Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['ObsceneThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">Obscene Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['ObsceneThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="ObsceneThreshold">
                                         </mat-slider>
                                     </div>
@@ -214,10 +296,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Insult Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['InsultThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">Insult Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['InsultThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="InsultThreshold">
                                         </mat-slider>
                                     </div>
@@ -225,10 +310,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Restricted topic Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['RestrictedtopicThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">Restricted topic Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['RestrictedtopicThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="RestrictedtopicThreshold">
                                         </mat-slider>
                                     </div>
@@ -236,10 +324,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">SexualExplicit Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['SexualExplicitThreshold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">SexualExplicit Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['SexualExplicitThreshold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="SexualExplicitThreshold">
                                         </mat-slider>
                                     </div>
@@ -249,14 +340,73 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 <div class="col" style="max-width: 33%;">
                                     <div style="padding-left: 25px; width: 100%;">
                                         <div class="d-flex justify-content-between">
-                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Theme Threshold</label>
-                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['Themethresold'].value}}</span>
+                                            <label style="padding-left: 0px; margin-bottom: 0px;"
+                                                class="sliderLabel">Theme Threshold</label>
+                                            <span
+                                                class="tempInputBox">{{FmConfigResponseForm.controls['Themethresold'].value}}</span>
                                         </div>
-                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                            [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
                                             <input matSliderThumb #slider formControlName="Themethresold">
                                         </mat-slider>
                                     </div>
                                 </div>
+                                <div class="col" style="max-width: 33%;">
+                                    <div style="padding-left: 25px; width: 100%;">
+                                        <div class="d-flex justify-content-between">
+                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Sentiment Threshold</label>
+                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['SentimentThreshold'].value}}</span>
+                                        </div>
+                                        <mat-slider [disabled]="disabled" [max]="1" [min]="-1" [step]="0.01" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                            <input matSliderThumb #slider formControlName="SentimentThreshold">
+                                        </mat-slider>
+                                    </div>
+                                </div>
+                                <div class="col" style="max-width: 33%;">
+                                    <div style="padding-left: 25px; width: 100%;">
+                                        <div class="d-flex justify-content-between">
+                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Gibberish Threshold</label>
+                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['GibberishThreshold'].value}}</span>
+                                        </div>
+                                        <mat-slider  [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                        [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                            <input matSliderThumb #slider formControlName="GibberishThreshold">
+                                        </mat-slider>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="col" style="max-width: 33%;">
+                                    <div style="padding-left: 25px; width: 100%;">
+                                        <div class="d-flex justify-content-between">
+                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Ban Code Threshold</label>
+                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['BanCodeThreshold'].value}}</span>
+                                        </div>
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                        [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                            <input matSliderThumb #slider formControlName="BanCodeThreshold">
+                                        </mat-slider>
+                                    </div>
+                                </div> -->
+
+                                
+                            </div>
+
+                            <div class="row mb-3">
+                                <!-- <div class="col" style="max-width: 33%;">
+                                    <div style="padding-left: 25px; width: 100%;">
+                                        <div class="d-flex justify-content-between">
+                                            <label style="padding-left: 0px; margin-bottom: 0px;" class="sliderLabel">Invisible Text Count Threshold</label>
+                                            <span class="tempInputBox">{{FmConfigResponseForm.controls['InvisibleTextCountThreshold'].value}}</span>
+                                        </div>
+                                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step"
+                                        [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;">
+                                            <input matSliderThumb #slider formControlName="InvisibleTextCountThreshold">
+                                        </mat-slider>
+                                    </div>
+                                </div> -->
+
+
+
                             </div>
 
                         </div>
@@ -266,7 +416,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <!-- out side the 2 colloums -->
 
                 <div class="d-flex justify-content-center align-items-center ps-3">
-                    <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 14px;" color="black" (click)="submit()">Submit</button>
+                    <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 14px;" color="black"
+                        (click)="submit()">Submit</button>
                 </div>
             </div>
         </form>

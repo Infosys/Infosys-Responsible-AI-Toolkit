@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <!-- <div class="custom-dialog-container">
   <div class="headingRole">
@@ -62,7 +63,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 </div> -->
 
 
-<!-- <div class="manage-access-header">
+  <!-- <div class="manage-access-header">
     <h2>MANAGE ACCESS</h2>
       <button class="close-btn"  mat-button mat-dialog-close>
         <mat-icon>close</mat-icon>
@@ -75,7 +76,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       <option *ngFor="let option of data.options" [value]="option">{{ option }}</option>
     </select>
   </div>  -->
-<!-- <mat-accordion>
+  <!-- <mat-accordion>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
@@ -216,80 +217,96 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   </mat-accordion> -->
 
 
-<!-- app.component.html -->
+  <!-- app.component.html -->
 <div class="parentcomp">
-    <div class="manage-access-container">
-        <h2>Manage Access</h2>
-        <div class="manage-access-header">
-            <button class="close-btn" mat-button mat-dialog-close>
+<div class="manage-access-container">
+  <h2>Manage Access</h2>
+  <div class="manage-access-header">
+      <button class="close-btn"  mat-button mat-dialog-close>
         <mat-icon>close</mat-icon>
       </button>
-        </div>
-        <div class="plusIcon">
-            <span class="btnRound addBtn" [ngbPopover]="popoverContent" [autoClose]="false" triggers="manual" #p="ngbPopover" placement="start" (click)="test(p)" [popoverTitle]="Poptitle">+</span>
-        </div>
-        <div class="roledropdown">
-            <select class="form-select shadow-none w-100 inputSMfont dropdown-menu-select" [value]="selectedRole" [(ngModel)]="selectedRole" (ngModelChange)="onOptionSelected()">
+  </div>
+  <div class="plusIcon">
+    <span class="btnRound addBtn"         [ngbPopover]="popoverContent"
+    [autoClose]="false"
+    triggers="manual"
+    #p="ngbPopover"
+    placement="start"
+    (click)="test(p)"
+    [popoverTitle]="Poptitle"
+    >+</span>
+  </div>
+  <div class="roledropdown">
+    <select class="form-select shadow-none w-100 inputSMfont dropdown-menu-select" [value]="selectedRole"
+       [(ngModel)]="selectedRole" (ngModelChange)="onOptionSelected()">
       <option value="Select A Role" disabled selected>Select a Role</option>
       <option *ngFor="let option of updatedRoles" [value]="option">{{ option }}</option>
     </select>
-        </div>
+  </div>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let tab of tabs">
+      <mat-expansion-panel-header>
+        <mat-checkbox (change)="onTabCheckboxChange($event, tab.name)" [(ngModel)]="tab.active">{{ tab.name }}</mat-checkbox>
+      </mat-expansion-panel-header>
+      <div *ngIf="tab.subtabs">
         <mat-accordion>
-            <mat-expansion-panel *ngFor="let tab of tabs">
-                <mat-expansion-panel-header>
-                    <mat-checkbox (change)="onTabCheckboxChange($event, tab.name)" [(ngModel)]="tab.active">{{ tab.name }}</mat-checkbox>
-                </mat-expansion-panel-header>
-                <div *ngIf="tab.subtabs">
-                    <mat-accordion>
-                        <mat-expansion-panel *ngFor="let subtab of tab.subtabs">
-                            <mat-expansion-panel-header>
-                                <mat-checkbox (change)="onSubTabCheckboxChange($event,tab.name,subtab.name)" [(ngModel)]="subtab.active">{{ subtab.name }}</mat-checkbox>
-                            </mat-expansion-panel-header>
-                            <div *ngIf="subtab.selectType">
-                                <mat-accordion>
-                                    <mat-expansion-panel *ngFor="let selectType of subtab.selectType">
-                                        <mat-expansion-panel-header>
-                                            <mat-checkbox (change)="onSelectTypeChange($event,tab.name, subtab.name, selectType.name)" [(ngModel)]="selectType.active">{{ selectType.name }}</mat-checkbox>
-                                        </mat-expansion-panel-header>
-                                        <div *ngIf="selectType.options">
-                                            <div class="sub-category-title subtabsunstructured" *ngFor="let option of selectType.options">
-                                                <mat-panel-title>
-                                                    <mat-checkbox (change)="onOptionsSelect($event,tab.name, subtab.name, selectType.name, option.name)" [(ngModel)]="option.active">{{ option.name }}</mat-checkbox>
-                                                </mat-panel-title>
-                                            </div>
-                                        </div>
-                                    </mat-expansion-panel>
-                                </mat-accordion>
-                            </div>
-                        </mat-expansion-panel>
-                    </mat-accordion>
-                </div>
-            </mat-expansion-panel>
+          <mat-expansion-panel *ngFor="let subtab of tab.subtabs">
+            <mat-expansion-panel-header>
+              <mat-checkbox (change)="onSubTabCheckboxChange($event,tab.name,subtab.name)"  [(ngModel)]="subtab.active">{{ subtab.name }}</mat-checkbox>
+            </mat-expansion-panel-header>
+            <div *ngIf="subtab.selectType">
+              <mat-accordion>
+                <mat-expansion-panel *ngFor="let selectType of subtab.selectType">
+                  <mat-expansion-panel-header>
+                    <mat-checkbox (change)="onSelectTypeChange($event,tab.name, subtab.name, selectType.name)" [(ngModel)]="selectType.active">{{ selectType.name }}</mat-checkbox>
+                  </mat-expansion-panel-header>
+                  <div *ngIf="selectType.options">
+                    <div class="sub-category-title subtabsunstructured" *ngFor="let option of selectType.options">
+                      <mat-panel-title>
+                        <mat-checkbox (change)="onOptionsSelect($event,tab.name, subtab.name, selectType.name, option.name)" [(ngModel)]="option.active">{{ option.name }}</mat-checkbox>
+                      </mat-panel-title>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </mat-expansion-panel>
         </mat-accordion>
-    </div>
-    <div class="manage-access-actions">
-        <button class="reset-btn" (click)="resetCheckbox()">RESET</button>
-        <button class="submit-btn" (click)="onSubmit()">SUBMIT</button>
-    </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+  <div class="manage-access-actions">
+    <button class="reset-btn" (click)="resetCheckbox()">RESET</button>
+    <button class="submit-btn" (click)="onSubmit()">SUBMIT</button>
+  </div>
 </div>
 
 <div class="rolepopup">
-    <ng-template class="rolepopup" #popoverContent>
-        <form [formGroup]="NewAccPort">
-            <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-            <div class='form-group'>
-                <!-- <label for='input1' class="mainLabel">Role</label> -->
-                <input placeholder="Role" type='text' class='form-control InputPop shadow-none' formControlName="role" id='input1'>
-                <span *ngIf="NewAccPort.get('role')?.invalid" class="text-danger">
+<ng-template class="rolepopup" #popoverContent>
+  <form [formGroup]="NewAccPort">
+    <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+      <div class='form-group'>
+        <!-- <label for='input1' class="mainLabel">Role</label> -->
+          <input placeholder="Role" type='text' class='form-control InputPop shadow-none' formControlName="role" id='input1'>
+          <span *ngIf="NewAccPort.get('role')?.invalid" class="text-danger">
               Role Name required.
           </span>
-            </div>
-            <button mat-raised-button type='submit' class='buttonMain mt-0' color="black" (click)="p.close()" [disabled]="NewAccPort.invalid" (click)="submitRoleForm()">Create</button>
-        </form>
+      </div>
+      <button mat-raised-button type='submit' class='buttonMain mt-0'
+      color="black"  (click)="p.close()"  [disabled]="NewAccPort.invalid"  (click)="submitRoleForm()">Create</button>
+  </form>
 
-    </ng-template>
+</ng-template>
 
-    <ng-template #Poptitle>
-        <label class="HeadingLabel1"> Create a New Role</label>
-    </ng-template>
+<ng-template #Poptitle>
+  <label class="HeadingLabel1"> Create a New Role</label>
+</ng-template>
 </div>
+
+
+
+
+
+
+

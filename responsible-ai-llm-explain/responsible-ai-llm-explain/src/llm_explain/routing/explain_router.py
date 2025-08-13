@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
@@ -17,37 +17,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 from llm_explain.mappers.mappers import UncertainityResponse, UncertainityRequest, \
         TokenImportanceResponse, TokenImportanceRequest, GoTResponse, GoTRequest, \
-        SafeSearchResponse, SafeSearchRequest, SentimentAnalysisRequest, SentimentAnalysisResponse
+        SafeSearchResponse, SafeSearchRequest, SentimentAnalysisRequest, SentimentAnalysisResponse, \
+        rereadRequest, rereadResponse, openAIRequest, CoTResponse, CoVRequest, CoVResponse, FileUploadRequest, \
+        lotRequest, lotResponse
+        
 from llm_explain.service.service import ExplainService as service
+from llm_explain.utility.utility import Utils
 from llm_explain.config.logger import CustomLogger, request_id_var
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, UploadFile, File
+from fastapi.responses import StreamingResponse
 from datetime import  datetime
 import concurrent.futures
-import requests
 import asyncio
 import uuid
 import os
 
 explanation = APIRouter()
+reasoning = APIRouter()
 
 log = CustomLogger()
 
 telemetry_flag = os.getenv("TELEMETRY_FLAG")
 tel_error_url = os.getenv("ERROR_LOG_TELEMETRY_URL")
-
-## FUNCTION FOR FAIL_SAFE TELEMETRY
-def send_telemetry_request(explainability_telemetry_request, url):
-    try:
-        response = requests.post(url, json=explainability_telemetry_request)
-        response.raise_for_status()
-        response_data = response.json()
-        log.info(f"Telemetry response: {response_data}")
-    except Exception as e:
-        log.error(str(e))
-        raise HTTPException(
-            status_code=500,
-            detail="Please check with administration!!",
-            headers={"X-Error": "Please check with administration!!"})
 
 def telemetry_error_logging(cie, request_id_var, api_endpoint):
     function_name = None
@@ -72,7 +63,7 @@ def telemetry_error_logging(cie, request_id_var, api_endpoint):
             "errorRequestMethod": "POST"
         }
         with concurrent.futures.ThreadPoolExecutor() as executor:
-            executor.submit(send_telemetry_request, error_input, tel_error_url)
+            executor.submit(Utils.send_telemetry_request, error_input, tel_error_url)
 
 @explanation.post('/llm-explainability/sentiment-analysis', 
                   response_model = SentimentAnalysisResponse, 
@@ -85,7 +76,7 @@ def sentiment_analysis(payload: SentimentAnalysisRequest):
         start_time = datetime.now()
         log.info(f"start_time: {start_time}")
         log.info("before invoking sentiment_analysis service ")
-        response = service.sentiment_analysis(payload)
+        response = asyncio.run(service.sentiment_analysis(payload))
         log.info("after invoking sentiment_analysis service ")
         log.info("exit create usecase routing method")
         end_time = datetime.now()
@@ -150,32 +141,6 @@ def token_importance(payload: TokenImportanceRequest):
         telemetry_error_logging(cie, request_id_var, "/llm-explainability/token-importance")
         log.info("exit router token_importance method")
         raise HTTPException(status_code=500, detail=str(cie))
-
-@explanation.post('/llm-explainability/got', 
-                  response_model = GoTResponse, 
-                  summary = "Graph-of-Thoughts Reasoning")
-def graph_of_thoughts(payload: GoTRequest):
-    id = uuid.uuid4().hex
-    request_id_var.set(id)
-    log.info("Entered create usecase routing method")
-    try:
-        start_time = datetime.now()
-        log.info(f"start_time: {start_time}")
-        log.info("before invoking graph_of_thoughts service ")
-        response = asyncio.run(service.graph_of_thoughts(payload))
-        log.info("after invoking graph_of_thoughts service ")
-        log.info("exit create usecase routing method")
-        end_time = datetime.now()
-        log.info(f"end_time: {end_time}")
-        total_time = end_time - start_time
-        log.info(f"total_time: {total_time}")
-
-        return response
-    except Exception as cie:
-        log.error(cie)
-        telemetry_error_logging(cie, request_id_var, "/llm-explainability/got")
-        log.info("exit router graph_of_thoughts method")
-        raise HTTPException(status_code=500, detail=str(cie))
     
 @explanation.post('/llm-explainability/serper_response',
                   response_model = SafeSearchResponse,
@@ -201,4 +166,184 @@ def searchAugmentation(payload: SafeSearchRequest):
         log.error(cie)
         telemetry_error_logging(cie, request_id_var, "/llm-explainability/serper_response")
         log.info("exit router search_augmentation method")
+        raise HTTPException(status_code=500, detail=str(cie))
+
+@reasoning.post('/llm-explainability/got', 
+                  response_model = GoTResponse, 
+                  summary = "Graph-of-Thoughts Reasoning")
+def graph_of_thoughts(payload: GoTRequest):
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered create usecase routing method")
+    try:
+        start_time = datetime.now()
+        log.info(f"start_time: {start_time}")
+        log.info("before invoking graph_of_thoughts service ")
+        response = asyncio.run(service.graph_of_thoughts(payload))
+        log.info("after invoking graph_of_thoughts service ")
+        log.info("exit create usecase routing method")
+        end_time = datetime.now()
+        log.info(f"end_time: {end_time}")
+        total_time = end_time - start_time
+        log.info(f"total_time: {total_time}")
+
+        return response
+    except Exception as cie:
+        log.error(cie)
+        telemetry_error_logging(cie, request_id_var, "/llm-explainability/got")
+        log.info("exit router graph_of_thoughts method")
+        raise HTTPException(status_code=500, detail=str(cie))
+
+@reasoning.post('/llm-explainability/reread_reasoning',
+                  response_model = rereadResponse,
+                  summary = "ReRead Reasoning")
+def reread_reasoning(payload: rereadRequest):
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered create usecase routing method")
+    try:
+        start_time = datetime.now()
+        log.info(f"start_time: {start_time}")
+        log.info("before invoking search_augmentation service ")
+        response = asyncio.run(service.reread_reasoning(payload))
+        log.info("after invoking search_augmentation service ")
+        log.info("exit create usecase routing method")
+        end_time = datetime.now()
+        log.info(f"end_time: {end_time}")
+        total_time = end_time - start_time
+        log.info(f"total_time: {total_time}")  
+
+        return response
+    except Exception as cie:
+        log.error(cie)
+        telemetry_error_logging(cie, request_id_var, "/llm-explainability/reread_reasoning")
+        log.info("exit router search_augmentation method")
+        raise HTTPException(status_code=500, detail=str(cie))
+    
+@reasoning.post("/llm-explainability/thot",
+                  response_model = rereadResponse,
+                  summary="Thread of Thought Reasoning",)
+def generate_Thot(payload: openAIRequest):
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered create usecase routing method")
+    try:
+        start_time = datetime.now()
+        log.info(f"start_time: {start_time}")
+        log.info("before invoking create usecase service ")
+        response = asyncio.run(service.thot_reasoning(payload))
+        log.info("after invoking thot usecase service ")
+        log.info("exit create usecase routing method")
+        end_time = datetime.now()
+        log.info(f"end_time: {end_time}")
+        total_time = end_time - start_time
+        log.info(f"total_time: {total_time}")  
+        return response
+    except Exception as cie:
+        log.error(cie)
+        telemetry_error_logging(cie, request_id_var, "/llm-explainability/ThoT")
+        log.info("exit router THOT method")
+        raise HTTPException(status_code=500, detail=str(cie))
+    
+@reasoning.post("/llm-explainability/cot",
+                  response_model = CoTResponse,
+                  summary="Chain of Thought Reasoning",)
+def generate_CoT(payload: openAIRequest):
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered create usecase routing method")
+    try:
+        start_time = datetime.now()
+        log.info(f"start_time: {start_time}")
+        log.info("before invoking create usecase service ")
+        response = asyncio.run(service.cot_reasoning(payload))
+        log.info("after invoking CoT usecase service ")
+        log.info("exit create usecase routing method")
+        end_time = datetime.now()
+        log.info(f"end_time: {end_time}")
+        total_time = end_time - start_time
+        log.info(f"total_time: {total_time}")  
+        return response
+    except Exception as cie:
+        log.error(cie)
+        telemetry_error_logging(cie, request_id_var, "/llm-explainability/CoT")
+        log.info("exit router CoT method")
+        raise HTTPException(status_code=500, detail=str(cie))
+    
+@reasoning.post("/llm-explainability/cov",
+                response_model = CoVResponse,
+                summary="Chain of Verification",)
+def generate_CoV(payload: CoVRequest):
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered create usecase routing method")
+    try:
+        start_time = datetime.now()
+        log.info(f"start_time: {start_time}")
+        log.info("before invoking create usecase service ")
+        response = asyncio.run(service.cov_reasoning(payload))
+        log.info("after invoking CoV usecase service ")
+        log.info("exit create usecase routing method")
+        end_time = datetime.now()
+        log.info(f"end_time: {end_time}")
+        total_time = end_time - start_time
+        log.info(f"total_time: {total_time}")  
+        return response
+    except Exception as cie:
+        log.error(cie)
+        telemetry_error_logging(cie, request_id_var, "/llm-explainability/CoV")
+        log.info("exit router CoV method")
+        raise HTTPException(status_code=500, detail=str(cie))
+
+@reasoning.post('/llm-explainability/LoT',
+                  response_model = lotResponse,
+                  summary = "Logic Of Thought")   
+def generate_LoT(payload: lotRequest):
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered create usecase routing method")
+    try:
+        start_time = datetime.now()
+        log.info(f"start_time: {start_time}")
+        log.info("before invoking LoT service ")
+        response = asyncio.run(service.lot_reasoning(payload))
+        log.info("after invoking LoT service ")
+        log.info("exit create usecase routing method")
+        end_time = datetime.now()
+        log.info(f"end_time: {end_time}")
+        total_time = end_time - start_time
+        log.info(f"total_time: {total_time}")  
+
+        return response
+    except Exception as cie:
+        log.error(cie)
+        telemetry_error_logging(cie, request_id_var, "/llm-explainability/LoT")
+        log.info("exit router LoT method")
+        raise HTTPException(status_code=500, detail=str(cie))
+        
+@reasoning.post("/llm-explainability/bulk_processing",
+                response_class = StreamingResponse,
+                summary="Bulk Processing for reasoning techniques",)
+def bulk_processing_explanation(payload: FileUploadRequest,  file: UploadFile = File(...)):
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered create usecase routing method")
+    try:
+        start_time = datetime.now()
+        log.info(f"start_time: {start_time}")
+        log.info("before invoking create usecase service ")
+        payload = {"methods": payload.methods, "response_type": payload.responseFileType, "file" : file, "user_id": payload.userId}
+        response = asyncio.run(service.bulk_processing_explanation(payload))
+        log.info("after invoking excel upload usecase service ")
+        log.info("exit create usecase routing method")
+        end_time = datetime.now()
+        log.info(f"end_time: {end_time}")
+        total_time = end_time - start_time
+        log.info(f"total_time: {total_time}")  
+       
+        return response
+    except Exception as cie:
+        log.error(cie)
+        telemetry_error_logging(cie, request_id_var, "/llm-explainability/bulk_processing")
+        log.info("exit router excel upload method")
         raise HTTPException(status_code=500, detail=str(cie))

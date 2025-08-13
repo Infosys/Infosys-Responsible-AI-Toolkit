@@ -1,0 +1,427 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+
+
+/* FILE CONTAINER */
+
+.fileContainer {
+    width: 158px;
+}
+
+:host ::ng-deep.form-select {
+    width: 11rem;
+    height: 2rem;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+:host ::ng-deep.form-control {
+    width: 11rem;
+    height: 2rem;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.dialog-container {
+    width: 900px;
+    height: 800px;
+}
+
+.txtArea {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 65px;
+}
+
+.red-asterisk {
+    color: red;
+}
+
+.textFontCss {
+    top: 310px;
+    left: 78px;
+    width: 93px;
+    height: 288px;
+    /* UI Properties */
+    text-align: left;
+    font: normal normal normal 12px/16px Segoe UI;
+    letter-spacing: 0px;
+    color: #7E7E7E;
+    font-weight: 650;
+    opacity: 1;
+}
+
+.inputMat2 {
+    width: 220px;
+    height: 50px;
+    /* UI Properties */
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 0.30000001192092896px solid #707070;
+    border-radius: 4px;
+    opacity: 1;
+}
+
+.inputMat1 {
+    width: 250px;
+    height: 50px;
+    /* UI Properties */
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 0.30000001192092896px solid #707070;
+    border-radius: 4px;
+    opacity: 1;
+}
+
+.inputMat {
+    width: 250px;
+    height: 40px;
+    /* UI Properties */
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 0.30000001192092896px solid #707070;
+    border-radius: 4px;
+    opacity: 1;
+}
+
+.textareaPrompt {
+    font-family: 'Segoe UI';
+    font-size: 11px;
+}
+
+.sendIcon {
+    background: none;
+    color: #8626C3;
+    i {
+        font-size: 30px;
+    }
+}
+
+.addIcon {
+    color: #8626C3;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.HeadingLabelSM {
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    letter-spacing: 0px;
+    color: #382261;
+    text-transform: uppercase;
+}
+
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+    /* margin-top: 1.8rem; */
+}
+
+.drop-zone {
+    border: 2px dashed #dcdcdc;
+    /* Dashed border */
+    border-radius: 5px;
+    padding: 40px;
+    text-align: center;
+    color: #4a4a4a;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    width: 218px;
+    height: 197px;
+}
+
+.drop-zone p {
+    margin-bottom: 20px;
+}
+
+.drop-zone input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.drop-zone p {
+    margin-bottom: 20px;
+}
+
+.drop-zone input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.browse-logo {
+    opacity: 70%;
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+}
+
+.cancel-button {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.cancel-button mat-icon {
+    color: white;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+
+.buttonMain {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: .75rem;
+    height: 26px !important;
+    width: 3.3rem;
+    margin: 1rem 0rem;
+}
+
+.buttonMain1 {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: .75rem;
+    height: 26px !important;
+    width: 3.3rem;
+}
+
+
+/* drag and drop text */
+
+.paragraph_dnd {
+    color: #9C9C9C;
+    opacity: 70%;
+    font-family: 'Segoe UI';
+    font-weight: regular;
+    font-size: 12px;
+}
+
+.dnd-lable {
+    /* Segoe UI, Regular .75rem */
+    color: #9C9C9C;
+    opacity: 70%;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    font-size: .65rem;
+}
+
+.styled-table {
+    /* margin-left: 1rem; */
+    width: 95%;
+    border-collapse: collapse;
+}
+
+.styled-table th.header {
+    /* Segoe UI, Semibold .75rem */
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    /* padding-top: 10px; */
+    padding-bottom: 10px;
+    padding-right: 10px;
+    /* background-color: #4CAF50; */
+    color: #382261;
+    opacity: 70%;
+    text-transform: uppercase;
+}
+
+.styled-table td {
+    /* Segoe UI, regular */
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    color: #061838;
+}
+
+.styled-table th {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.form-control {
+    /* width: 27%; */
+    width: 150px;
+}
+
+.report-container {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+/* -----Pagination------- */
+
+:host ::ng-deep.ngx-pagination .current {
+    background: #8626C3;
+}
+
+.ngx-pagination a {
+    text-decoration: none;
+}
+
+.pagination-label {
+    font-family: 'Segoe UI';
+    font-weight: 500 !important;
+    font-size: .60rem;
+    margin-right: 100px;
+}
+
+.pagination-info {
+    font-family: 'Segoe UI';
+    font-weight: 500 !important;
+    font-size: 12px;
+    color: #7E7E7E;
+}
+
+.actionBtn {
+    color: #8626C3;
+    border: none;
+    background: none;
+    font-size: 19px;
+    padding: 0px;
+    margin-top: 3px;
+    margin-right: 10px;
+}
+
+.rfrshBtn:active {
+    transform: rotate(90deg);
+}
+
+.mat-black {
+    color: white;
+    background-color: #231F20;
+}
+
+.mat-reset {
+    color: white;
+    background-color: #BFBFBF;
+}
+
+.switch {
+    display: inline-block;
+}
+
+.switch input {
+    display: none;
+}
+
+.switch label {
+    display: block;
+    width: 43px;
+    height: 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 3px;
+    background-color: #E0DCEC;
+    margin: 0px 5px;
+}
+
+.switch label::after {
+    content: "";
+    display: inherit;
+    width: 14px;
+    height: 14px;
+    border-radius: 12px;
+    background: #8626C3;
+    transition: 0.3s;
+    border: 2px solid white;
+}
+
+.switch input:checked~label {
+    border-color: #ffffff;
+}
+
+.switch input:checked~label::after {
+    translate: 23px 0;
+    background: #8626C3;
+}
+
+.switch input:disabled~label {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.switch input:disabled:checked~label {
+    background-color: #aaaaaa;
+}
+
+.switch input:disabled~label::after {
+    background-color: #bbbbbb;
+}
+
+mat-label {
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    font-size: 14px;
+    color: #382261;
+    text-transform: uppercase;
+}
+
+:host ::ng-deep.form-select {
+    width: 11rem;
+    height: 2rem;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.mdc-tooltip__surface.mdc-tooltip__surface-animation {
+    overflow: scroll;
+}
+
+.customMultiselect {
+    /* max-width: 14.2rem; */
+    border-radius: 5px;
+    padding: 4px 10px;
+    height: 2rem;
+    /* margin-bottom: 1rem; */
+    font-size: 0.75rem;
+}
+
+.custom-accordion {
+    width: 100%;
+    /* Adjust the width as needed */
+    max-width: 1500px;
+    /* Optional: Set a maximum width */
+    margin: 0 auto;
+    /* Center the accordion */
+    /* background-color: #8626C3; */
+}
+
+:host .dropdown {
+    /* max-width: 13.2rem;
+    width: 100%; */
+    border: 1px solid #dee2e6;
+    /* border-radius: 3px;
+    padding: 0px 10px;
+    font-size: smaller; */
+}

@@ -1,4 +1,6 @@
 """
+SPDX-License-Identifier: MIT
+
 Copyright 2024 - 2025 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -25,12 +27,12 @@ import re
 log=CustomLogger()
 request_id_var.set("Startup")
 
-try:
-    azureaddfileurl=os.getenv("AZUREADDFILE")
-    containername=os.getenv("CONTAINERNAME")
-    azureblobnameurl=os.getenv("AZUREBLOBNAME")
-except Exception as e:
-    log.info("Failed at azure loading")
+# try:
+#     azureaddfileurl=os.getenv("AZUREADDFILE")
+#     containername=os.getenv("CONTAINERNAME")
+#     azureblobnameurl=os.getenv("AZUREBLOBNAME")
+# except Exception as e:
+#     log.info("Failed at azure loading")
 
 class AttributeDict(dict):
     __getattr__ = dict.__getitem__
@@ -62,62 +64,34 @@ class Multimodal:
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
     
-    def config(self,messages,modelName):
-        if modelName == "gpt4O":
-            AZURE_API_KEY = os.getenv('OPENAI_API_KEY_GPT4_O')
-            AZURE_API_BASE =  os.getenv('OPENAI_API_BASE_GPT4_O')            
-            AZURE_API_VERSION = os.getenv('OPENAI_API_VERSION_GPT4_O')
-            deployment_name = os.getenv("OPENAI_MODEL_GPT4_O")
-
-        # client = AzureChatOpenAI(
-        #                 azure_endpoint=AZURE_API_BASE,
-        #                 api_key=AZURE_API_KEY,
-        #                 api_version=AZURE_API_VERSION
-        #             )
+    def config(self,messages,llmtype):
+        '''Configures the model and sends the request to the selected model.'''
         try:
             # response = client.completions.create(
             #         model=deployment_name,
             #         messages=messages,
             #         max_tokens=500)
-            llm = AzureChatOpenAI(deployment_name=os.getenv("OPENAI_MODEL_GPT4_O"), openai_api_version=os.getenv('OPENAI_API_VERSION_GPT4_O'), openai_api_key=os.getenv('OPENAI_API_KEY_GPT4_O'), openai_api_base=os.getenv('OPENAI_API_BASE_GPT4_O'))
-            ai_message = llm.invoke(messages)
-            # return json.loads(response.choices[0].message.content)
-            # print(ai_message.content)
-            output = [ai_message.content]
-            # print("outputoutput",output)
+            if llmtype=="openai":
+                log.info("Using openai model")
+                llm = AzureChatOpenAI(deployment_name=os.getenv("OPENAI_MODEL_GPT4_O"), openai_api_version=os.getenv('OPENAI_API_VERSION_GPT4_O'), openai_api_key=os.getenv('OPENAI_API_KEY_GPT4_O'), openai_api_base=os.getenv('OPENAI_API_BASE_GPT4_O'))
+                ai_message = llm.invoke(messages)
+                output = [ai_message.content]
+            elif llmtype=="gemini":
+                log.info("Using gemini model")
+                from langchain_google_genai import ChatGoogleGenerativeAI
+                llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"), temperature=0, transport='rest')
+                print("llm",llm)
+                response=llm.invoke(messages)
+                output=[response.content]
+                print(output)
+            else:
+                raise ValueError("Invalid llmtype provided. Use 'openai' or 'gemini'.")
             return output
         
         except Exception as e:
             log.info("Failed at image_config")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
-
-
-    # def image_rag(self,payload):
-    #     '''Implements image explainability using GPT-4o
-    #     Args: Prompt, Image
-    #     Return: response text'''
-    #     try:
-    #         payload=AttributeDict(payload)
-    #         text=payload.text
-    #         file=payload.file
-    #         # print("filefilefile", file.file)
-    #         base64_image=self.encode_image(file.file)
-    #         messages = [{"role": "user", "content": 
-    #                     [
-    #                     {"type": "image_url","image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
-    #                     ]}]
-            
-    #         messages[0]["content"].append({"type": "text", "text": text})
-            
-    #         # messages[0]["content"].append({"type": "text", "text": template[payload['TemplateName']].replace("prompt",payload['Prompt'])})
-            
-    #         return self.config(messages,"gpt4O")
-        
-    
-    #     except Exception as e:
-    #         log.info("Failed at image_rag")
-    #         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
     
     def image_rag(self,payload):
         '''Implements image explainability using GPT-4o
@@ -127,7 +101,8 @@ class Multimodal:
             payload = AttributeDict(payload) 
             text = payload.text  
             files = payload.file
-            complexity=payload.cov_complexity  
+            complexity=payload.cov_complexity 
+            llmtype= payload.llmtype 
             
             template_1 = """Utilize the provided source images to address the inquiry. 
             If the question lacks similarity to the given images, generate a creative response from the internet instead. 
@@ -164,12 +139,12 @@ class Multimodal:
             for file in files:
                 contents = file.file
                 filename = file.filename  
-                response = requests.post(url=azureaddfileurl, files={"file": (filename, contents)}, data={"container_name": containername}, headers=None, verify=False)
-                if response.status_code == 200:
-                    blobname_output = response.json()["blob_name"]
-                    log.info(f"File uploaded successfully. Blob name: {blobname_output}, Container name: {containername}")
-                else:
-                    log.info(f"Error uploading file': {response.status_code} - {response.text}")
+                # response = requests.post(url=azureaddfileurl, files={"file": (filename, contents)}, data={"container_name": containername}, headers=None, verify=False)
+                # if response.status_code == 200:
+                #     blobname_output = response.json()["blob_name"]
+                #     log.info(f"File uploaded successfully. Blob name: {blobname_output}, Container name: {containername}")
+                # else:
+                #     log.info(f"Error uploading file': {response.status_code} - {response.text}")
                 base64_image = self.encode_image(file.file)  
                 messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}})
                 cot_messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}})
@@ -184,11 +159,11 @@ class Multimodal:
             
             messages[0]["content"].append({"type": "text", "text": template_1})
             
-            response = self.config(messages, "gpt4O")
-            cot_response = self.image_cot(cot_messages)
-            thot_response = self.image_thot(thot_messages)
-            cov_response = self.image_cov(text, response, cov_messages, complexity)
-            haluscores, halureasons = self.geval_image(text, response, geval_messages)
+            response = self.config(messages, llmtype)
+            cot_response = self.image_cot(cot_messages,llmtype)
+            thot_response = self.image_thot(thot_messages,llmtype)
+            cov_response = self.image_cov(text, response, cov_messages, complexity,llmtype)
+            haluscores, halureasons = self.geval_image(text, response, geval_messages, llmtype)
             geval_response = [haluscores, halureasons]
             avgmetrics= haluscores["AverageScore"]
             avgmetrics=avgmetrics/5
@@ -214,7 +189,7 @@ class Multimodal:
             log.info("Failed at image_rag")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
             
-    def image_cot(self, cot_messages):
+    def image_cot(self, cot_messages, llmtype):
         try:
             cot_4 = """Utilize the provided source images to address the inquiry. 
             If the question lacks similarity to the given images, generate a creative response from the internet instead. 
@@ -230,13 +205,13 @@ class Multimodal:
             Helpful Answer: """
             
             cot_messages[0]["content"].append({"type": "text", "text": cot_4})
-            response = self.config(cot_messages, "gpt4O")
+            response = self.config(cot_messages, llmtype)
             return response
         except Exception as e:
             log.info("Failed at image_cot")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
             
-    def image_thot(self, thot_messages):
+    def image_thot(self, thot_messages, llmtype):
         try:
             thot_4 = """Walk me through this context in manageable parts step by step, summarising and analysing as we go.
             Engage in a step-by-step thought process to explain how the answer was derived. 
@@ -248,13 +223,13 @@ class Multimodal:
             Helpful Answer: """
             
             thot_messages[0]["content"].append({"type": "text", "text": thot_4})
-            response = self.config(thot_messages, "gpt4O")
+            response = self.config(thot_messages, llmtype)
             return response
         except Exception as e:
             log.info("Failed at image_thot")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
             
-    def image_cov(self, text, response, cov_messages, complexity):
+    def image_cov(self, text, response, cov_messages, complexity, llmtype):
         try:
             original_question=text
             baseline_response=response
@@ -296,13 +271,13 @@ class Multimodal:
                 cov_prompt = VERIFICATION_QUESTION_PROMPT_LONG_complex
             
             cov_messages[0]["content"].append({"type": "text", "text": cov_prompt})
-            cov_response = self.config(cov_messages, "gpt4O")
+            cov_response = self.config(cov_messages, llmtype)
             return cov_response
         except Exception as e:
             log.info("Failed at image_cov")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
             
-    def geval_image(self, text, response, geval_messages):
+    def geval_image(self, text, response, geval_messages, llmtype):
         try:
             faith_prompt = """This prompt establishes a framework for evaluating the faithfulness of a Large Language Model (LLM) response to an Image on a scale of 1 to 5.
             Faithfulness refers to how accurately the LLM captures the content and intent of the original Image.
@@ -442,7 +417,7 @@ class Multimodal:
             while(pindx<len(prompts)):
                 try:
                     geval_messages[0]["content"].append({"type": "text", "text": prompts[pindx]})
-                    res = self.config(geval_messages, "gpt4O")
+                    res = self.config(geval_messages, llmtype)
                     print(res, "resresresres")
                     res=str(res)
                     geval_messages[0]["content"].pop()

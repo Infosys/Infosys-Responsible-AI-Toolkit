@@ -14,5 +14,3 @@ keras==2.13.1
 tensorflow
 fastapi_csrf_protect
 #torch==2.1.0
-../lib/aicloudlibs-0.1.0-py3-none-any.whl
-#../lib/aicloudlibs-0.1.0-py3-none-any.whl  #Un-Comment this line and comment above line to run locally

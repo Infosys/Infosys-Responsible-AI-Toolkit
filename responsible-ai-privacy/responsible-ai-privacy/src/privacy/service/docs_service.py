@@ -25,7 +25,6 @@ import threading
 import uuid
 from docx import Document
 from docx.shared import Inches
-from unidecode import unidecode
 import tempfile
 
 log = CustomLogger()
@@ -54,7 +53,6 @@ class DOCService:
             
             imgd = io.BytesIO(img_bytes)
             payload["image"] = AttributeDict({"file": imgd})
-            payload["piiEntitiesToBeRedacted"] = None
             resImage = ImagePrivacy.image_anonymize(AttributeDict(payload))
             log.debug(f"Anonymized image response: {resImage}")
             resImg = base64.b64decode(resImage)
@@ -80,18 +78,18 @@ class DOCService:
 
     def editText(text, i, run):
         request_id_var.set("editText")
-        log.debug(str(text[i.start:i.end]) + ":" + str(i.entity_type))
+        print(text[i.start : i.end])
         run.text = run.text.replace(text[i.start:i.end], f"<{i.entity_type}>")
 
     def processText(paragraph, payload, uid):
         try:
             request_id_var.set(uid)
             for run in paragraph.runs:
-                text = unidecode(run.text)
+                text = run.text
                 accDetails = None
                 if payload.portfolio is not None:
                     accDetails = AttributeDict({"portfolio": payload.portfolio, "account": payload.account})
-                res = TextPrivacy.textAnalyze(text=text, accName=accDetails, exclusion=payload.exclusion.split(',') if payload.exclusion is not None else [])
+                res = TextPrivacy.textAnalyze(text=text, accName=accDetails, exclusion=payload.exclusion.split(',') if payload.exclusion is not None else [],piiEntitiesToBeRedacted=payload.piiEntitiesToBeRedacted.split(',') if payload.piiEntitiesToBeRedacted != None else [],nlp=payload.nlp)
                 res = anonymizer._remove_conflicts_and_get_text_manipulation_data(res, (ConflictResolutionStrategy.MERGE_SIMILAR_OR_CONTAINED))
                 res = anonymizer._merge_entities_with_whitespace_between(text, res)
                 resThreads = []
@@ -115,6 +113,7 @@ class DOCService:
             log.debug("payload:-" + str(payload))
             id = uuid.uuid4().hex
             request_id_var.set(id)
+            payload=AttributeDict(payload)
 
             if payload.portfolio is not None or payload.account is not None:
                 response_value = ApiCall.request(AttributeDict({"portfolio": payload.portfolio, "account": payload.account}))

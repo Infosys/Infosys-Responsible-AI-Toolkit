@@ -52,6 +52,104 @@
 <p> </p>
 </div>
 </div>
+<h2 id="Pipeline" style="color: #0747a6;"><span>Pipeline</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<h3 id="UpcomingImplementations" style="color: #0747a6;"><span>Upcoming implementations of Fairness and Bias</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+
+
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="9a1c2c53-91a4-4a84-82fb-f94c6a8b9d03" data-macro-name="expand" id="expander-290384672">
+  <div class="expand-control" id="expander-control-290384672" onclick="expandContent('expander-content-290384672', 'expander-control-290384672')">
+    <span class="expand-control-icon icon"> </span><span class="expand-control-text"><strong style="color: black;">Parametrize context for Fairness evaluation of text and images:</strong></span>
+  </div>
+  <div class="expand-content expand-hidden" id="expander-content-290384672">
+    <p>When evaluating a model output, along with the choice of model for evaluation, additional parameter will be added that defines the use case context based on which the evaluation of bias has to be performed. This will give flexibility to the use case team during adoption.</p>
+  </div>
+</div>
+
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="1dff34c2-82bc-4179-9c6e-120d34f1a6d0" data-macro-name="expand" id="expander-290384673">
+  <div class="expand-control" id="expander-control-290384673" onclick="expandContent('expander-content-290384673', 'expander-control-290384673')">
+    <span class="expand-control-icon icon"> </span><span class="expand-control-text"><strong style="color: black;">GraphRAG based Legal consulting for Finance client:</strong></span>
+  </div>
+  <div class="expand-content expand-hidden" id="expander-content-290384673">
+    <p>We had implemented a prompt template-based approach to validate the insurance policy document with US Federal law for Bias analysis. GPT-4o model was used for this analysis and it was able to quote the relevant conflicting legal clauses for the identified Biases. Below is the link for more details. We then extended with GraphRAG based analysis for more accurate results.</p>
+    <p><a href="#" style="color: #0747a6;" target="_blank"><strong>Fairness &amp; Bias - Technical Essentials | Review of Insurance policy documents using Agentic Framework [Use case based]</strong></a></p>
+    <p>Next step is to work on Finance Domain for a particular use case like loan approval, and perform similar analysis and provide legal recommendation.</p>
+  </div>
+</div>
+
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="4d8dfcb3-36f7-4d7b-946b-1df0e79fbd94" data-macro-name="expand" id="expander-290384674">
+  <div class="expand-control" id="expander-control-290384674" onclick="expandContent('expander-content-290384674', 'expander-control-290384674')">
+    <span class="expand-control-icon icon"> </span><span class="expand-control-text"><strong style="color: black;">Implement OECD recommended Fairness metrics:</strong></span>
+  </div>
+  <div class="expand-content expand-hidden" id="expander-content-290384674">
+    <p>We will read through all the metrics published in OECD and implement the new and enhanced metrics for Fairness and Bias in the toolkit.</p>
+    <p><a href="#" style="color: #0747a6;" target="_blank"><strong>Metrics for Trustworthy AI - OECD.AI</strong></a></p>
+  </div>
+</div>
+<h3 id="ResearchItems" style="color: #0747a6;">
+  <span>Research Items from Market scan</span>
+  <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a>
+</h3>
+
+<h4 id="BenchmarkingPapers" style="color: black;">
+  <span>Benchmarking research papers: To be consumed to expand our benchmarking datasets</span>
+  <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a>
+</h4>
+
+<!-- Table 1: Benchmarking Research Papers -->
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+  <thead style="background-color: #f2f2f2;">
+    <tr>
+      <th>Paper</th>
+      <th>Description</th>
+      <th>Priority</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>YourBench: Easy Custom Evaluation Sets for Everyone</strong></td>
+      <td>YourBench is an open-source framework designed to address the limitations of traditional static benchmarks and costly human evaluations in assessing large language models (LLMs). It allows users to create their own benchmarks using their documents, generating reliable and up-to-date tests quickly and cheaply.</td>
+      <td>Low</td>
+      <td>To do</td>
+    </tr>
+    <tr>
+      <td><strong>Fairness through Difference Awareness: Measuring Desired Group...</strong></td>
+      <td>Benchmark suite with eight scenarios and 16,000 questions to evaluate how well large language models (LLMs) can discern and respect these differences. Their findings highlight that traditional bias mitigation strategies, which often adopt a color-blind perspective, may fall short or even backfire in certain contexts.</td>
+      <td>Low</td>
+      <td>To do</td>
+    </tr>
+    <tr>
+      <td><strong>FairSHAP: Preprocessing for Fairness Through Attribution-Based Data Augmentation</strong></td>
+      <td>FairSHAP: An AI Framework for Enhancing Fairness in Machine Learning Through Shapley-Based Data Augmentation and Transparent Preprocessing - Marked for Fairness monitoring in ML</td>
+      <td>Low</td>
+      <td>To do</td>
+    </tr>
+  </tbody>
+</table>
+
+<br/>
+
+<!-- Table 2: Fairness Metrics -->
+<h4 style="color: black;"><strong>Fairness Metrics:</strong></h4>
+
+<table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%;">
+  <thead style="background-color: #f2f2f2;">
+    <tr>
+      <th>Paper</th>
+      <th>Description</th>
+      <th>Priority</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Fairness through Difference Awareness: Measuring Desired Group...</strong></td>
+      <td>The authors have identified 12 maximal sets of fairness definitions that can be satisfied together. These sets include combinations of two or three rules, such as demographic parity, equal opportunity, and predictive equality. The study underscores the practical importance of these combinations, considering the accuracy of classifiers and the balance between false positives and false negatives, offering valuable insights for developing fairer AI systems.</td>
+      <td>Low</td>
+      <td>To do</td>
+    </tr>
+  </tbody>
+</table>
 
 
 <h2 id="InfosysResponsibleAItoolkitFairnessasatenet"><span data-colorid="vqhg1in98h">Infosys Responsible AI toolkit - Fairness as a tenet</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>

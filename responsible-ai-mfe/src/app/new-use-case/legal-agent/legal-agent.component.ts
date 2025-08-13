@@ -1,14 +1,16 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
-import { HttpClient } from '@angular/common/http';
-import { Component,OnInit } from '@angular/core';
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+import { HttpClient, HttpParams} from '@angular/common/http';
+import { Component,OnInit ,Input} from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PagingConfig } from 'src/app/_models/paging-config.model';
 import { NonceService } from 'src/app/nonce.service';
+import { UserValidationService } from 'src/app/services/user-validation.service';
 
 @Component({
   selector: 'app-legal-agent',
@@ -16,6 +18,7 @@ import { NonceService } from 'src/app/nonce.service';
   styleUrls: ['./legal-agent.component.css']
 })
 export class LegalAgentComponent implements OnInit {
+  @Input() useCaseNameDetail: any;
   files: any[] = [];
   demoFile: any[] = [];
   file: File | any;
@@ -34,9 +37,11 @@ export class LegalAgentComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
- 
+  switch: boolean= false;
+  selectedUseCase: string = '';
+  legalReport: any;
 
-  constructor (public _snackBar: MatSnackBar, private https: HttpClient, private snackBar: MatSnackBar,public nonceService:NonceService)
+  constructor (public _snackBar: MatSnackBar, private https: HttpClient, private snackBar: MatSnackBar,public nonceService:NonceService,private validationService:UserValidationService)
   {
     this.pagingConfig = {
       itemsPerPage: this.itemsPerPage,
@@ -46,30 +51,40 @@ export class LegalAgentComponent implements OnInit {
     this.useCase = new FormGroup({
       //useCaseName: new FormControl('', [Validators.required]),
       fileData: new FormControl('', [Validators.required]),
+      option: new FormControl('', [Validators.required]),
     });
   }
+
+  // Initializes the component and sets up API calls
   ngOnInit(): void {
     let ip_port: any;
-    this.user = localStorage.getItem('userid')?JSON.parse(localStorage.getItem('userid')!) : '';
-    ip_port = this.getLocalStoreApi();
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
+      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
+        this.user = x ;
+      }    }    ip_port = this.getLocalStoreApi();
     // seting up api list
     this.setApiList(ip_port);
     this.getAllData();
   }
+
+ // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
-    if (localStorage.getItem("res") != null) {
-      const x = localStorage.getItem("res")
-      if (x != null) {
-        return ip_port = JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+      if(res != null){
+        return ip_port = JSON.parse(res)
       }
     }
   }
+
+// Sets the API endpoints
   setApiList(ip_port: any) {
     this.getData = ip_port.result.legalAgent + ip_port.result.legalAgentReports ;//"http://10.152.196.184:30080/v1/legalAgent/getAllReports";
     this.legalUpload = ip_port.result.legalAgent + ip_port.result.legalAgentUpload ;//"http://10.152.196.184:30080/v1/legalAgent/uploadFile";
-
-    console.log("this.getData::",this.getData)
+    this.legalReport = ip_port.result.legalAgent + ip_port.result.legalReport;
+    console.log("this.getData::",this.legalReport)
   }
 // ----------------Pagination-----------------
 onTableDataChange(event: any) {
@@ -78,6 +93,7 @@ onTableDataChange(event: any) {
   this.pagingConfig.totalItems = this.dataSource.length;
 }
 
+ // Handles file change event
   onFileChange(event: any) {
     const reader = new FileReader();
     reader.onload = (e: any) => {
@@ -87,22 +103,14 @@ onTableDataChange(event: any) {
     reader.readAsText(event.target.files[0]);
   }
 
+   // Handles file browsing and prepares the file list
   fileBrowseHandler(file: any){
-    // to validate file SAST
-    const allowedTypes = ['application/pdf','text/plain'];
-    for(let i =0; i< this.file.length; i++){
-      if (!allowedTypes.includes(this.file[i].type)) {
-        this._snackBar.open('Please upload valid file', 'Close', {
-          duration: 2000,
-        });
-        this.file = [];
-        return ;
-      }
-    }
     this.prepareFilesList(file.target.files);
     this.demoFile = this.files;
     this.file = this.files[0];
   }
+
+// Prepares the list of files for upload
   prepareFilesList(files: Array<any>) {
     this.files = []
     for (const item of files) {
@@ -112,6 +120,8 @@ onTableDataChange(event: any) {
     }
     this.uploadFilesSimulator(0, files)
   }
+
+// Simulates file upload progress
   uploadFilesSimulator(index: number, files: any) {
     setTimeout(() => {
       if (index === this.files.length) {
@@ -130,13 +140,21 @@ onTableDataChange(event: any) {
       }
     }, 1000);
   }
+
+// Deletes the uploaded file
   deleteFile(){
     this.files = [];
     this.demoFile = [];
     this.file = null;
   }
+
+// Submits the form and triggers the API call
   submit(){
-    if (this.useCase.invalid) {
+    this.showSpinner1 = true;
+    if (this.switch==false){
+      const { fileData, option } = this.useCase.value;
+    if (!fileData) {
+      this.showSpinner1 = false;
       this.snackBar.open('Please select a File', '✖', {
         horizontalPosition: 'center',
         verticalPosition: 'top',
@@ -144,11 +162,12 @@ onTableDataChange(event: any) {
       });
       return;
     }
-    const fileData = new FormData();
+    const fileData1 = new FormData();
     this.selectedFile = this.files[0];
-    fileData.append('file', this.selectedFile);
-    fileData.append('user_id', this.user);
-    this.https.post(this.legalUpload ,fileData).subscribe((res: any)=>{
+    fileData1.append('file', this.selectedFile);
+    fileData1.append('user_id', this.user);
+    this.https.post(this.legalUpload ,fileData1).subscribe((res: any)=>{
+      this.showSpinner1 = false;
       this.getAllData();
       const message = res?.message;
       const action = "Close";
@@ -166,11 +185,59 @@ onTableDataChange(event: any) {
       });
     })
   }
+    if(this.switch){
+      if (this.selectedUseCase=='') {
+        this.showSpinner1 = false;
+        this.snackBar.open('Please select a Use Case', '✖', {
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+          duration: 3000,
+        });
+        return;
+      }
+
+      const params = new HttpParams()
+        .set('userId', this.user)
+        .set('useCaseName', this.selectedUseCase);
+
+      this.https.get(this.legalReport, { params }).subscribe(
+        (response) => {
+          this.getAllData();
+          this.showSpinner1 = false;
+          console.log('Response:', response);
+          this.snackBar.open('Processing started', '✖', {
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            duration: 3000,
+          });
+        },
+        (error) => {
+          this.showSpinner1 = false;
+          console.error('API error:', error);
+          this.snackBar.open('API Failed', '✖', {
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+            duration: 3000,
+          });
+        }
+      );
+    }
+  }
+
+    // Handles the selection of an option
+  selectOption(e: any) {
+    console.log('Selected option ID:', e.value);
+    this.selectedUseCase = e.value;
+  }
+
+  // Resets the file inputs
   reset(){
     this.files = [];
     this.demoFile = [];
     this.file = null;
   }
+
+  // Returns the error message for a form control
   getErrorMessage(control: AbstractControl): string {
     if (control.hasError('required')) {
       return 'File is required.';
@@ -178,6 +245,8 @@ onTableDataChange(event: any) {
       return 'Please enter a valid file.';
     }
   }
+
+  // Fetches all data for the table
   getAllData(){
     //this.getData = this.getData + '?user_id='+ this.user;
     this.https.get(this.getData + '?user_id='+ this.user).subscribe
@@ -194,8 +263,19 @@ onTableDataChange(event: any) {
       });
     })
   }
+
+  // Opens a file link in a new tab
   getfileContent(documentLink: string){
     console.log('Navigating to:', documentLink);
-    window.location.href = documentLink; 
+    const a = document.createElement('a');
+    a.href = documentLink;
+    a.target = '_blank'; // Open in a new tab
+    a.click();
+    //window.location.href = documentLink; 
+  }
+  
+  // Toggles the switch state
+  onToggleSwitch(event: Event): void {
+    this.switch = (event.target as HTMLInputElement).checked;
   }
 }

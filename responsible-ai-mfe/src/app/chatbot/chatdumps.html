@@ -1,0 +1,182 @@
+<div *ngIf="isFMMode">
+    <main class="msger-chat chatbot-accordion">
+        <mat-card>
+          <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="accordion-title">
+                    <span class="check-status">
+                      10 out of 40 checks have <span class="status-passed">Passed</span>
+                    </span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="passed-checks-list">
+                  <ul>
+                    <li *ngFor="let check of passedChecks" class="passed-check-item">
+                      {{ check }}
+                    </li>
+                  </ul>
+                </div>
+              </mat-expansion-panel>
+      
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="accordion-title">
+                    <span class="check-status">
+                      30 out of 40 checks have <span class="status-failed">Failed</span>
+                    </span>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="failed-checks-list">
+                    <ul>
+                      <li *ngFor="let check of failedChecks" class="failed-check-item">
+                        {{ check }}
+                      </li>
+                    </ul>
+                  </div>
+                </mat-expansion-panel>
+          </mat-accordion>
+        </mat-card>
+      </main>
+
+    <div class="fmMode" *ngIf="isFMMode">
+
+        <form class="msger-inputarea1">
+            <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+            <div class="position-relative" style="width: 100%;">
+                <textarea class="form-control w-100 txtArea1 shadow-none" rows="3" name="prompt"
+                    [(ngModel)]="fmPrompt" placeholder="Type" [disabled]="isLoading"></textarea>
+                <button type="submit" class="border-0 position-absolute m-2 sendIcon"
+                    (click)="fmModeration()" [disabled]="isLoading">
+                    <i class="material-icons">send</i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!--  -->
+
+<mat-accordion>
+    <!-- ...existing code... -->
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title class="accordion-title">
+                <span class="check-status">
+                    10 out of 40 checks have <span class="status-passed">Passed</span>
+                </span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="custom-card-container">
+            <div class="custom-card passed-card">
+                <div class="custom-card-header">
+                    <p class="custom-card-title">Model-Based Guardrails</p>
+                </div>
+                <div class="custom-card-body">
+                    <p class="custom-card-text">Summary or details about passed checks
+                        (Model-Based).</p>
+                </div>
+            </div>
+            <div class="custom-card passed-card">
+                <div class="custom-card-header">
+                    <p class="custom-card-title">Template-Based Guardrails</p>
+                </div>
+                <div class="custom-card-body">
+                    <p class="custom-card-text">Additional details or metrics.</p>
+                </div>
+            </div>
+        </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title class="accordion-title">
+                <span class="check-status">
+                    30 out of 40 checks have <span class="status-failed">Failed</span>
+                </span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="custom-card-container">
+            <div class="custom-card failed-card">
+                <div class="custom-card-header">
+                    <p class="custom-card-title">Model-Based Guardrails</p>
+                </div>
+                <div class="custom-card-body">
+                    <p class="custom-card-text">Summary or details about failed checks.</p>
+                </div>
+            </div>
+            <div class="custom-card failed-card">
+                <div class="custom-card-header">
+                    <p class="custom-card-title">Template-Based Guardrails</p>
+                </div>
+                <div class="custom-card-body">
+                    <p class="custom-card-text">Suggested actions or improvements.</p>
+                </div>
+            </div>
+        </div>
+    </mat-expansion-panel>
+    <!-- ...existing code... -->
+</mat-accordion>
+
+
+
+<!-- / -->
+
+                <!-- <div *ngIf="isFMMode && isDivVisible" [@divAnimation]="divState"
+                    (@divAnimation.done)="onAnimationDone($event)">
+                    <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+                        <button type="button" class="btn btn-primary m-2 model-based-guardrails-btn"
+                            (click)="selectModelBasedGuardrails()">Model-Based Guardrails</button>
+                        <button type="button" class="btn btn-secondary m-2 template-based-guardrails-btn"
+                            (click)="selectTemplateBasedGuardrails()">Template-Based Guardrails</button>
+                    </div>
+                </div> -->
+
+                <div class="d-flex justify-content-start align-items-center mt-4"
+                    *ngIf="isFMMode && isAnotherMode == 'Model-Based Guardrails'">
+                    <mat-select multiple [(ngModel)]="selectedOptions" class="dropdownx"
+                        placeholder="Select Model Based Checks">
+                        <mat-optgroup label="Input Moderation Checks">
+                            <mat-option *ngFor="let option of group1Options"
+                                [value]="option.id">{{option.label}}</mat-option>
+                        </mat-optgroup>
+                        <mat-optgroup label="Response Moderation checks">
+                            <mat-option *ngFor="let option of group2Options"
+                                [value]="option.id">{{option.label}}</mat-option>
+                        </mat-optgroup>
+                    </mat-select>
+                </div>
+                <div class="d-flex justify-content-start align-items-center mt-4"
+                    *ngIf="isFMMode && isAnotherMode == 'Template-Based Guardrails'">
+                    <mat-select multiple [(ngModel)]="selectedNewOptions" class="dropdownx"
+                        placeholder="Select Templates">
+                        <mat-optgroup label="Request Templates">
+                            <mat-option *ngFor="let option of newGroup1Options"
+                                [value]="option.id">{{option.label}}</mat-option>
+                        </mat-optgroup>
+                        <mat-optgroup label="Response Templates">
+                            <mat-option *ngFor="let option of newGroup2Options"
+                                [value]="option.id">{{option.label}}</mat-option>
+                        </mat-optgroup>
+                    </mat-select>
+                </div>
+
+
+<!--  -->
+<div *ngIf="!isDivVisible">
+  <div class="d-flex justify-content-end align-items-center">
+      <div class="d-flex justify-content-end align-items-center">
+          <mat-label
+              [ngClass]="{ 'toggleLableOn': isAnotherMode === 'Model-Based Guardrails', 'toggleLableOff': isAnotherMode !== 'Model-Based Guardrails' }">Model-Based
+              Guardrails</mat-label>
+          <span class="switch1">
+              <input id="switch2-rounded" type="checkbox"
+                  [checked]="isAnotherMode === 'Template-Based Guardrails'"
+                  (change)="toggleAnotherMode($event)" />
+              <label for="switch2-rounded"></label>
+          </span>
+          <mat-label
+              [ngClass]="{ 'toggleLableOn': isAnotherMode === 'Template-Based Guardrails', 'toggleLableOff': isAnotherMode !== 'Template-Based Guardrails' }">Template-Based
+              Guardrails</mat-label>
+      </div>
+  </div>
+</div>

@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
@@ -378,6 +378,7 @@ def run(
             #     f"Budget has been depleted, stopping. Method {method.__name__} has not been run."
             # )
             break
+
         lm = language_models.AzureOpenAI(
             os.path.join(
                 os.path.dirname(os.path.abspath(__file__)),
@@ -385,7 +386,8 @@ def run(
             ),
             model_name=lm_name,
             cache=True,
-        )
+            )
+            
         operations_graph = method()
         executor = controller.Controller(
             lm,

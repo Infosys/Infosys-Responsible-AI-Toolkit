@@ -1,13 +1,12 @@
-# MIT license https://opensource.org/licenses/MIT
-# Copyright 2024 Infosys Ltd
-
-# Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-# The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+'''
+Copyright 2024-2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ 
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+'''
 
 
 import json
@@ -23,11 +22,12 @@ from dotenv import load_dotenv
 import tempfile
 
 
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import Response, StreamingResponse
 from docProcess.dao.DatabaseConnection import DB
 
 from docProcess.dao.DocProccessDb import docDb
 from docProcess.dao.fileStoreDb import fileStoreDb as fileDb
+sslv={"False":False,"True":True,"None":True}
 load_dotenv()
 
 def customeMask(file_content, maskImage_content,fileName, reqUrl, docid):
@@ -37,7 +37,7 @@ def customeMask(file_content, maskImage_content,fileName, reqUrl, docid):
             "payload": (fileName, file_content),
             "maskImage": ("mask.png", maskImage_content)
         }
-        response = requests.request("POST", reqUrl, files=post_files)
+        response = requests.request("POST", reqUrl, files=post_files,verify=sslv[os.getenv("VERIFY_SSL","None")])
         response.raise_for_status()
         data = response.json()
         file_content = data.get('video')
@@ -49,8 +49,10 @@ def customeMask(file_content, maskImage_content,fileName, reqUrl, docid):
         # docDb.update(docid, {"resultFileId": rf._id, "status": "Completed"})
         # rf.close()
     except requests.HTTPError as http_err:
+        print(f'HTTP error occurred: {http_err}') 
         docDb.update(docid, {"status": "Failed"})
-    except Exception as err: 
+    except Exception as err:
+        print(f'Other error occurred: {err}') 
         docDb.update(docid, {"status": "Failed"})
         
 class AttributeDict(dict):
@@ -61,7 +63,20 @@ class AttributeDict(dict):
 # localStore="../fileStore/"
 class DocProcess:
     def storeFile(file,filetype,fileName,docid):
-        surl=os.getenv("AZURE_STORE_ADD_API")
+        storage_option = os.getenv("STORAGE_OPTION")
+        print("STORAGE OPTION ->"+storage_option)
+
+        if(storage_option=="azure"):
+             surl=os.getenv("AZURE_STORE_ADD_API")
+             payload={"container_name":filetype}
+        elif(storage_option=="gcp"):
+            surl=os.getenv("GCP_STORE_ADD_API") 
+            payload={"bucket_name":filetype}  
+        elif(storage_option=="aws"):
+             surl=os.getenv("AWS_STORE_ADD_API")
+             container_name =os.getenv("AWS_BUCKET_NAME")
+             payload={"bucket_name":container_name}  
+        
         # file=BytesIO(data)
         
         # with open(fileName, "wb") as f:
@@ -69,19 +84,55 @@ class DocProcess:
         # file=open(fileName,"rb")
         print(file)
         file={"file":file}
-        payload={"container_name":filetype}
+
+        
         for i in range(3):
             try:
-                print("==========================================")
-                res=requests.post(url=surl,files=file,data=payload)
-                storageDetails=res.json()
-                print(storageDetails["blob_name"])
-                storelink=os.getenv("AZURE_STORE_GET_API")+"?blob_name="+storageDetails["blob_name"].replace(" ","%20")+"&container_name="+filetype
-              
+                print("====================================================================================")
+                if( storage_option == "mongodb"):
+                    # (_id=time.time(),filename=value.fileName,content_type=value.type)
+                    print("inside mongodb ---------------------------------------------------------->")
+                    fileid= docDb.createForMongo({"fileName":fileName,"file":file['file'],"type":filetype})
+                    res={}
+                    res["object_id"]=fileid
+                    
+                    storageDetails=res
+                else:    
+                    res=requests.post(url=surl,files=file,data=payload,verify=False)
+                    print("=========================================="+str(res)+"==========================================")
+                    storageDetails=res.json()
+                print("storageDetails------------------------------------------------------>",storageDetails)
+                # print("-----------------------------------------------------------------------------"+storageDetails["object_name"])
+                # storelink=os.getenv("AZURE_STORE_GET_API")+"?blob_name="+storageDetails["blob_name"].replace(" ","%20")+"&container_name="+filetype
+                if storage_option == "azure":
+                    print("inside azure ---------------------------------------------------------->")
+                    storelink = os.getenv("AZURE_STORE_GET_API") + "?blob_name=" + storageDetails["blob_name"].replace(" ", "%20") + "&container_name=" + filetype
+                elif storage_option == "gcp":
+                    print("inside gcp ---------------------------------------------------------->")
+                    storelink = os.getenv("GCP_STORE_GET_API") + "?object_name=" + storageDetails["object_name"].replace(" ", "%20") + "&bucket_name=" + filetype
+                elif storage_option == "aws":
+                    print("inside aws ---------------------------------------------------------->")
+                    storelink = os.getenv("AWS_STORE_GET_API") + "?object_key" + storageDetails["object_key"].replace(" ", "%20") + "&bucket_name=" + filetype
+               
+                elif storage_option == "mongodb":
+                    print("inside mongodb ---------------------------------------------------------->")
+                    base_url = os.getenv("BASE_URL")
+                    storelink = docDb.get_download_link_with_base_url(storageDetails['object_id'],base_url)
+                    print("--------------------------------------------------URL PRINT-----------------------------------")
+                    print("storelink for mongodb", storelink)
+
+                    # Update the document to include the file ID reference
+                print("storelink---------------------------------------------------->",storelink)
                 docDb.update(docid,{"documentLink":storelink,"status":"Completed"})
+
+                print("--------------------------------..................................................") 
+                if(storage_option=="mongodb"):
+                    print("mongodb file store")
+                    return {"fileName":fileName,"type":filetype,"data":storageDetails["object_id"]}
                 return res.content
                 # break
             except Exception as e:
+                print(e)
                 continue
         # res=requests.post(url=surl,files=file,data=payload)
         docDb.update(docid,{"status":"Failed"})
@@ -154,10 +205,13 @@ class DocProcess:
                         }
                         
                         docDb.update(docid,{"status":"PIIAnonymize Processing"})
-                        response = requests.request("POST", reqUrl, data=payload, files=post_files)
+                        print(reqUrl)
+                        response = requests.request("POST", reqUrl, data=payload, files=post_files,verify=sslv[os.getenv("VERIFY_SSL","None")])
                         if(file.closed==False):
                             file.close()
+                        print("Response =====",response)
                         if(len(response.content)>0 or response.status_code==200):
+                                print(response.content)
                                 file_content=base64.b64decode(response.content)
                                 # file=tempfile.NamedTemporaryFile(suffix='.mp4')
                                 # file.write(file_content)
@@ -167,10 +221,12 @@ class DocProcess:
                                 # shutil.copyfileobj(file_content,ff)
                                 file=open(fileName,"rb")
                                 print(file)
+                                print(f"File size: {os.path.getsize(file.name)} bytes")
                         docDb.update(docid,{"status":"PIIAnonymize completed"})
                         
                 if("FaceAnonymize" in subCat):
                         reqUrl = os.getenv("PRIVACY_FaceVIDEO_IP")+"/rai/v1/video/anonymize"
+                        print(reqUrl)
                         post_files = {
                     #   "payload": open("c:\WORK\GIT\responsible-ai-admin\responsible-ai-admin\src\rai_admin\temp\test4.mp4", "rb"),
                         "payload":file
@@ -178,7 +234,7 @@ class DocProcess:
                      
                         payload = {"name":fileName.split(".")[0]}
                         docDb.update(docid,{"status":"FaceAnonymize Processing"})
-                        response = requests.request("POST", reqUrl, data=payload, files=post_files)
+                        response = requests.request("POST", reqUrl, data=payload, files=post_files,verify=sslv[os.getenv("VERIFY_SSL","None")])
                         print(response)
                         print("file",file.closed)
                         if(file.closed==False):
@@ -203,7 +259,7 @@ class DocProcess:
                         }
                        
                         docDb.update(docid,{"status":"SafetyMasking Processing"})
-                        response = requests.request("POST", reqUrl, files=post_files)
+                        response = requests.request("POST", reqUrl, files=post_files,verify=sslv[os.getenv("VERIFY_SSL","None")])
                         if(file.closed==False):
                             file.close()
                         print("Response =====",response)
@@ -224,7 +280,7 @@ class DocProcess:
                         }
                        
                         docDb.update(docid,{"status":"NudityMasking Processing"})
-                        response = requests.request("POST", reqUrl, files=post_files)
+                        response = requests.request("POST", reqUrl, files=post_files,verify=sslv[os.getenv("VERIFY_SSL","None")])
                         if(file.closed==False):
                             file.close()
                         print("Response =====",response)
@@ -258,7 +314,7 @@ class DocProcess:
 
                     payload = ""
 
-                    response = requests.request("POST", reqUrl, data=payload, files=post_files)
+                    response = requests.request("POST", reqUrl, data=payload, files=post_files,verify=sslv[os.getenv("VERIFY_SSL","None")])
                     if(len(response.content)>0 or response.status_code==200):
                         file_content=response.content
                         file_content=base64.b64encode(file_content).decode('utf-8')
@@ -283,7 +339,7 @@ class DocProcess:
  "Content-Type": "multipart/form-data;" 
 }
                 payload ={"exclusionList":payload.exclusionList,"fileName":fileName}
-                response = requests.request("POST", reqUrl, data=payload, files=post_files)
+                response = requests.request("POST", reqUrl, data=payload, files=post_files,verify=sslv[os.getenv("VERIFY_SSL","None")])
                 if(response.status_code==200):
                     data=response.text
                     # print(type(x))
@@ -381,6 +437,38 @@ class DocProcess:
         print("contentList",contentList)
         return contentList
     
-        
-        
-    
+    # def getFileContent(fileId):
+    #     print("Getting file content for ID:", fileId)
+    #     try:
+    #         # Convert string ID to float if it's a timestamp-based ID
+    #         if isinstance(fileId, str) and fileId.replace('.', '', 1).isdigit():
+    #             fileId = float(fileId)
+            
+    #         # Retrieve the file directly from GridFS
+    #         fileData = fileDb.findOne(fileId)
+    #         print("File data retrieved:", fileData)
+    #         if not fileData:
+    #             return {"error": "File not found"}
+                
+    #         # Create a response with the binary data
+    #         content = fileData["data"]
+    #         media_type = fileData["contentType"]
+    #         filename = fileData["fileName"]
+            
+            
+            
+    #         # Return as StreamingResponse with explicit media_type
+    #         return StreamingResponse(
+    #             BytesIO(content),
+    #             media_type=media_type,  # Set the content type explicitly
+    #             headers={
+    #                 "Content-Disposition": f'attachment; filename="{filename}"',
+    #             }
+    #         )
+    #     except Exception as e:
+    #         print(f"Error retrieving file: {e}")
+    #         return {"error": f"Failed to retrieve file: {str(e)}"}
+
+
+
+

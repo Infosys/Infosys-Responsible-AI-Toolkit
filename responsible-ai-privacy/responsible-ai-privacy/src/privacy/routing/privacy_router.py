@@ -17,20 +17,18 @@ import uuid
 import requests
 from privacy.util.code_detect.ner.pii_inference.netcustom import code_detect_ner
 from privacy.util.code_detect.ner.CodePIINER import codeNer
-# from privacy.dao.TelemetryFlagDb import TelemetryFlag
 from fastapi import Depends, Query,Request,APIRouter, HTTPException, Response, WebSocket,websockets,FastAPI,Cookie,Body
 from typing import List, Union
 
 from privacy.service.privacytelemetryservice import PrivacyTelemetryRequest
 from privacy.service.Video_service import *
-
+from privacy.service.csv_service import *
+from privacy.service.json_service import *
 from fastapi.params import Form
 from privacy.mappers.mappers import *
-#from privacy.mappers.mappers import PIIEntity, PIIAnalyzeRequest, PIIAnonymizeResponse, PIIAnonymizeRequest,PIIAnalyzeResponse,PIIImageAnonymizeResponse,PIIImageAnalyzeResponse,PIIImageAnalyzeRequest
 
 
 from privacy.service.Video_service import VideoService
-# from privacy.service.logo_service import Logo 
 from privacy.service.code_detect_service import *
 from privacy.service.excel_service import Excel
 
@@ -44,11 +42,7 @@ import concurrent.futures
 from fastapi import Request
 from fastapi.responses import StreamingResponse
 from privacy.util.code_detect.ner.pii_inference.netcustom import *
-# from privacy.util.face_detect.mask_detect_video import mask_video
 import logging
-# from privacy.code_generator.codegeneration import create_new_recognizer_file,modify_recognizer_registry,modify_init_py,run_wheel_creation_commands, copy_wheel_file,test
-# from privacy.dao.privacy.PrivacyException import ExceptionDb
-# from privacy.dao.privacy.TelemetryDb import TelemetryDb
 from privacy.service.api_req import *
 from privacy.service.__init__ import *
 from privacy.service.textPrivacy import TextPrivacy,Shield
@@ -58,27 +52,22 @@ from privacy.service.loadRecognizer import LoadRecognizer
 import cv2
 import numpy as np
 router = APIRouter()
-# user_id=1234
 log=CustomLogger()
 app = FastAPI()
 
 fileRouter=APIRouter()
-# logger = UserLogger()
+
 
 import tracemalloc
 from transformers import AutoModelForTokenClassification, AutoTokenizer
-#@router.post('/privacy/text/analyze', response_model= PIIAnalyzeResponse)
 today = date.today()
 from datetime import datetime
 import asyncio
 from dotenv import load_dotenv
 load_dotenv()
-# import gc
+
 import os
 from uuid import UUID, uuid4
-# from fastapi_sessions.backends.implementations import InMemoryBackend
-# from fastapi_sessions.frontends.implementations import SessionCookie, CookieParameters
-# from request_id_store import request_ids
 from privacy.config.logger import request_id_var
 import traceback
 from fastapi import APIRouter, HTTPException, Request, Depends
@@ -88,29 +77,16 @@ from privacy.util.auth.auth_client_id import get_auth_client_id
 from privacy.util.auth.auth_jwt import get_auth_jwt
 from privacy.util.auth.auth_none import get_auth_none
 
-# from fastapi.se
 
-# from fastapi_session import get_session
-# returns current date and time
 now = datetime.now()
-# from memory_profiler import profile
-# telFlagData = TelemetryFlag.findall({})[0]
-# tel_Falg = telFlagData["TelemetryFlag"]
-# telFlagData = TelemetryFlag.findall({"Module":"Privacy"})
-# print("Teldata==",telFlagData)
-# if(len(telFlagData) == 0):
-    # telData = TelemetryFlag.create({"module":"Privacy"})
-    # print("telData===",telData)
+
 magMap = {"True": True, "False": False,"true": True, "false": False}
 tel_Falg=os.getenv("TELE_FLAG")
 tel_Falg=magMap[tel_Falg]
-# tel_Falg = os.getenv("TELE_FLAG", "False")  # Default to "False" if TELE_FLAG is not set
-# tel_Falg = magMap.get(tel_Falg, False)  # Use .get() to safely access the dictionary and default to False if the key doesn't exist
-# print("===============",tel_Falg,type(tel_Falg))
 privacytelemetryurl = os.getenv("PRIVACY_TELEMETRY_URL")
 privacyerrorteleurl = os.getenv("PRIVACY_ERROR_URL")
 
-# print("tel_falg===",tel_Falg)
+ 
 # Load the model and tokenizer for CODEFILE API
 local_model_directory = "privacy/util/code_detect/ner/pii_inference/nermodel"
 model = AutoModelForTokenClassification.from_pretrained(local_model_directory)
@@ -135,18 +111,17 @@ def send_telemetry_request(privacy_telemetry_request):
     request_id_var.set("telemetry")
 
     try:
-        # print("==",privacy_telemetry_request)
-        log.debug("teleReq="+str(privacy_telemetry_request))
+
+        log.debug("teleReq=" + json.dumps(privacy_telemetry_request, indent=4))
         
         response = requests.post(privacytelemetryurl, json=privacy_telemetry_request)
-        # print/("===,",response)
+ 
         response.raise_for_status()
         response_data = response.json()
         log.debug("tele data response: "+ str(response))
-        # print(response_data)
+ 
     except Exception as e:
         log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"send_telemetry_requestFunction","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
         raise HTTPException(
             status_code=500,    
             detail="Please check with administration!!",
@@ -158,21 +133,20 @@ class Telemetry:
         request_id_var.set(id)
 
         try:
-            # print("==",privacy_telemetry_request)
+ 
             log.debug("teleReq="+str(errobj))
             log.debug("teleReq="+str(errobj['error']))  # Convert list to string before concatenating
             errorRequest = errobj['error'][0]
-            print(json.dumps(errorRequest))
+ 
             if(tel_Falg):
                 response = requests.post(privacyerrorteleurl, json=errorRequest)
-                # print("===,",response)
+ 
                 response.raise_for_status()
                 response_data = response.json()
                 log.debug("tele error response: "+ str(response))
-                # print(response_data)
+ 
         except Exception as e:
             log.error(str(e))
-            # ExceptionDb.create({"UUID":request_id_var.get(),"function":"send_telemetry_requestFunction","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
             raise HTTPException(
                 status_code=500,    
                 detail="Please check with administration!!",
@@ -197,10 +171,6 @@ else:
 
 router = APIRouter()
 
-# @router.get('/privacy/loadrecog')
-# def loadrecog():
-    
-#     return {"message":"Recognizers loaded successfully"}
 
 @router.post('/privacy/loadRecognizer')
 def loadRecognizer(payload:UploadFile = File(...)):
@@ -236,21 +206,18 @@ def loadRecognizer():
             headers={"X-Error": "Please check with administration!!"})
 
 @router.post('/privacy/text/analyze', response_model= PIIAnalyzeResponse)
-# @profile
 def analyze(payload: PIIAnalyzeRequest,auth= Depends(auth)):
 
-    # gc.collect()
+    
     id = uuid.uuid4().hex
     request_id_var.set(id)
     log.info("Entered into analyze routing method" )
 
     try:
         log.debug("request payload: "+ str(payload))
-        # raise Exception("This is a test exception")  # Add this line to raise an exception
         startTime = time.time()
         log.debug("Entered into analyze function")
         tracemalloc.start()
-        # raise Exception()
         response = TextPrivacy.analyze(payload)
         ApiCall.delAdminList()
         tracemalloc.stop()
@@ -262,25 +229,15 @@ def analyze(payload: PIIAnalyzeRequest,auth= Depends(auth)):
         if(response==482):
             raise NoMatchingRecognizer
         if(response==None):
-            # print("Inside Raise Exception")
-            # return "Portfolio/Account Is Incorrect"
             raise NoAccountException
-        # print("---",response.admin)
+ 
         if(response==404):
             raise NoAdminConnException
-        #     raise HTTPException(
-        #     status_code=430,
-        #     detail="Portfolio/Account Is Incorrect",
-        #     headers={"X-Error": "There goes my error"},
-
-        # )
+        
     
         log.debug("response : "+ str(response))
         log.info("exit create from analyze routing method")
-        # telFlagData = TelemetryFlag.findall({"Module":"Privacy"})[0]
-        # tel_Falg = telFlagData["TelemetryFlag"]
         log.debug("TelFlag==="+ str(tel_Falg))
-        # TelemetryDb.create({"UUID":id,"tenant":"privacy","apiName":analyze.__name__,"portfolio":payload.portfolio,"accountName":payload.account,"exclusion_list":payload.exclusionList,"entityrecognised":"Text"})
         if(tel_Falg == True):
             responseList = list(map(lambda obj: obj.__dict__, response.PIIEntities))
             requestList = payload.__dict__
@@ -290,9 +247,6 @@ def analyze(payload: PIIAnalyzeRequest,auth= Depends(auth)):
                 "inputText": requestList["inputText"],
                 "exclusion_list": requestList["exclusionList"].split(',') if requestList["exclusionList"] is not None else [],
             }
-            # lotNumber = 0  # Initialize lotNumber with a default value
-            # if payload.lotNumber is not None:
-            #     lotNumber = payload.lotNumber
             
             telemetryPayload = {
                 "uniqueid": id,
@@ -301,17 +255,13 @@ def analyze(payload: PIIAnalyzeRequest,auth= Depends(auth)):
                 "user": payload.user if payload.user is not None else "None",
                 "date":now.isoformat(),
                 "lotNumber": payload.lotNumber if payload.lotNumber is not None else "None",
-                # "exclusionList": payload.exclusionList,
                 "request": requestObj,
                 "response": responseList
             }
-            # TelemetryDb.create(telemetryPayload)
-            # Trigger the API call asynchronously using a separate thread
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 executor.submit(send_telemetry_request, telemetryPayload)
             log.info("******TELEMETRY REQUEST COMPLETED********")
-        # responseprivacytelemetry = requests.post(privacytelemetryurl, json=privacy_telemetry_request.__dict__)
-        # gc.collect()
+
         
         return response
     except PrivacyException as cie:
@@ -321,15 +271,13 @@ def analyze(payload: PIIAnalyzeRequest,auth= Depends(auth)):
         er=[{"tenetName":"Privacy","errorCode":"textAnalyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/text/analyze", "errorRequestMethod":"POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
-        # 
         if len(er)!=0:
             thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
             thread.start()
             if request_id_var.get() in error_dict:
                 del error_dict[id] 
-        # ExceptionDb.create({"UUID":id,"function":"textAnalyzeRouter","msg":cie.__dict__,"description":cie.__dict__})
-        # print(cie)
-        # print(cie.__dict__)
+
+
         log.error(cie, exc_info=True)
         log.info("exit create from analyze routing method")
         raise HTTPException(**cie.__dict__)
@@ -353,17 +301,15 @@ def analyze(payload: PIIAnalyzeRequest,auth= Depends(auth)):
         )
     except Exception as e:
         log.error(str(e))
-        # print(error_dict)
+ 
         er=[{"tenetName":"Privacy","errorCode":"textAnalyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/text/analyze", "errorRequestMethod":"POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
-        # 
         if len(er)!=0:
             thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
             thread.start()
             if request_id_var.get() in error_dict:
                 del error_dict[id] 
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"textAnalyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
         raise HTTPException(
             status_code=500,
             detail="Please check with administration!!",
@@ -377,20 +323,16 @@ def anonymize(payload: PIIAnonymizeRequest,auth= Depends(auth)):
     
     log.info("Entered create into anonymize routing method")
     try:
-        # log.info("Entered create usecase routing method" )
         log.debug("request payload: "+ str(payload))
         startTime = time.time()
         log.debug("Entered into anonymize function")
         response = TextPrivacy.anonymize(payload)
-        #print("response339===",response)
+ 
         ApiCall.delAdminList()
         log.debug("Returned from anonymize function")
         endTime = time.time()
         totalTime = endTime - startTime
         log.info("Total Time taken "+str(totalTime))
-        # if(response!=482 or response!=None or response!=404):
-        #     log.debug("response : "+ str(response))
-        #     pass
         if(response==482):
             raise NoMatchingRecognizer
         if(response==None):
@@ -422,11 +364,9 @@ def anonymize(payload: PIIAnonymizeRequest,auth= Depends(auth)):
                 "user": payload.user if payload.user is not None else "None",
                 "date":now.isoformat(),
                 "lotNumber": payload.lotNumber if payload.lotNumber is not None else "None",
-                # "exclusionList": payload.exclusionList,
                 "request": requestObj,
                 "response": [responseObj]
             }
-            # Trigger the API call asynchronously using a separate thread
            
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 executor.submit(send_telemetry_request, telemetryPayload)
@@ -436,10 +376,8 @@ def anonymize(payload: PIIAnonymizeRequest,auth= Depends(auth)):
         log.error("Exception for anonymize")
         log.error(cie.__dict__)
         er=[{"tenetName":"Privacy","errorCode":"textAnonimyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/text/annonymize", "errorRequestMethod":"POST"}]
-        # er=[{"UUID":id,"function":"textAnonimyzeRouter","msg":cie.__dict__,"description":cie.__dict__}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
-        # 
         if len(er)!=0:
             thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
             thread.start()
@@ -468,11 +406,9 @@ def anonymize(payload: PIIAnonymizeRequest,auth= Depends(auth)):
         )
     except Exception as e:
         log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"textAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
         er=[{"tenetName":"Privacy","errorCode":"textAnonimyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/text/annonymize", "errorRequestMethod":"POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
-        # 
         if len(er)!=0:
             thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
             thread.start()
@@ -497,7 +433,7 @@ def encrypt(payload: PIIAnonymizeRequest,auth= Depends(auth)):
         log.debug("Returned from encrypt function")
         endTime = time.time()
         totalTime = endTime - startTime
-        print("response=======",response)
+ 
         log.info("Total Time taken "+str(totalTime))
         
         if(response==None):
@@ -526,14 +462,9 @@ def encrypt(payload: PIIAnonymizeRequest,auth= Depends(auth)):
                 "user": payload.user if payload.user is not None else "None",
                 "date":now.isoformat(),
                 "lotNumber": payload.lotNumber if payload.lotNumber is not None else "None",
-                # "exclusionList": payload.exclusionList,
                 "request": requestObj,
                 "response": [responseObj]
             }
-            # TelemetryDb.create(telemetryPayload)
-            
-            
-            # Trigger the API call asynchronously using a separate thread
            
             with concurrent.futures.ThreadPoolExecutor() as executor:
                 executor.submit(send_telemetry_request, telemetryPayload)
@@ -544,10 +475,8 @@ def encrypt(payload: PIIAnonymizeRequest,auth= Depends(auth)):
         log.error("Exception for encrypt")
         log.error(cie.__dict__)
         er=[{"tenetName":"Privacy","errorCode":"textEncryptRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/text/encrpyt", "errorRequestMethod":"POST"}]
-        # er=[{"UUID":id,"function":"textEncryptRouter","msg":cie.__dict__,"description":cie.__dict__}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
-        # 
         if len(er)!=0:
             thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
             thread.start()
@@ -564,7 +493,6 @@ def encrypt(payload: PIIAnonymizeRequest,auth= Depends(auth)):
         )
     except Exception as e:
         log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"textAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
         er=[{"tenetName":"Privacy","errorCode":"textEncryptRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/text/encrpyt", "errorRequestMethod":"POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
@@ -597,10 +525,8 @@ def decrypt(payload: PIIDecryptRequest,auth= Depends(auth)):
         log.error("Exception for decrypt")
         log.error(cie.__dict__)
         er=[{"tenetName":"Privacy","errorCode":"textDecryptRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/text/decrpyt", "errorRequestMethod":"POST"}]
-        # er=[{"UUID":id,"function":"textDecryptRouter","msg":cie.__dict__,"description":cie.__dict__}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
-        # 
         if len(er)!=0:
             thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
             thread.start()
@@ -617,8 +543,6 @@ def decrypt(payload: PIIDecryptRequest,auth= Depends(auth)):
         )
     except Exception as e:
         log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"textAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        # er=[{"UUID":request_id_var.get(),"function":"textAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
         er=[{"tenetName":"Privacy","errorCode":"textDecryptRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/text/decrpyt", "errorRequestMethod":"POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
@@ -632,57 +556,71 @@ def decrypt(payload: PIIDecryptRequest,auth= Depends(auth)):
             detail="Please check with administration!!",
             headers={"X-Error": "Please check with administration!!"})
 
-@router.post('/privacy/image/analyze', response_model= PIIImageAnalyzeResponse)
-def image_analyze(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","ComputerVision"]),magnification:str=Form(...),rotationFlag:str=Form(...),image: UploadFile = File(...),portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),exclusionList:Optional[str]=Form(None),piiEntitiesToBeRedacted:Optional[str]=Form(None),auth= Depends(auth)):
+@router.post('/privacy/image/analyze', response_model=List[PIIImageAnalyzeResponse])
+def image_analyze(
+    ocr: str = Query('Tesseract', enum=['Tesseract', "EasyOcr", "ComputerVision"]),
+    magnification: str = Form(...),
+    rotationFlag: str = Form(...),
+    images: List[UploadFile] = File(...),
+    nlp: str = Form(default=None, example="basic/good/roberta/ranha"),
+    portfolio: Optional[str] = Form(None),
+    account: Optional[str] = Form(None),
+    exclusionList: Optional[str] = Form(None),
+    piiEntitiesToBeRedacted: Optional[str] = Form(None),
+    auth=Depends(auth)
+):
     id = uuid.uuid4().hex
     request_id_var.set(id)
     log.info("Entered create into image_analyze routing method")
     try:
+        payloads = []
+        for image in images:
+            payload = {
+                "easyocr": ocr,
+                "mag_ratio": magMap[magnification],
+                "rotationFlag": magMap[rotationFlag],
+                "image": image,
+                "nlp": nlp if nlp != "" else None,
+                "portfolio": portfolio if portfolio != "" else None,
+                "account": account if account != "" else None,
+                "piiEntitiesToBeRedacted": piiEntitiesToBeRedacted if piiEntitiesToBeRedacted != "" else None,
+                "exclusion": exclusionList if exclusionList != "" else None
+            }
+            payloads.append(payload)
         
-        payload={"easyocr":ocr,"mag_ratio":magMap[magnification],"rotationFlag":magMap[rotationFlag],"image":image,"portfolio":portfolio,"account":account,"piiEntitiesToBeRedacted":piiEntitiesToBeRedacted,"exclusion":exclusionList}
-        log.debug("Requested payload" + str(payload))
+        log.debug("Requested payloads: " + str(payloads))
         startTime = time.time()
         log.debug("Entered into image_analyze function")
-        response = ImagePrivacy.image_analyze(payload)
+        
+        responses = []
+        for payload in payloads:
+            response = ImagePrivacy.image_analyze(payload)
+            responses.append(response)
+        
         ApiCall.delAdminList()
         log.debug("Returned from image_analyze function")
         endTime = time.time()
         totalTime = endTime - startTime
-        log.info("Total Time taken "+str(totalTime))
-        if(response==482):
-            raise NoMatchingRecognizer
-        if(response==None):
-            raise NoAccountException
-        if(response==404):
-            raise NoAdminConnException        
+        log.info("Total Time taken " + str(totalTime))
+        
+        for response in responses:
+            if response == 482:
+                raise NoMatchingRecognizer
+            if response is None:
+                raise NoAccountException
+            if response == 404:
+                raise NoAdminConnException        
         log.info("exit create from image_analyze routing method")
         log.debug("tel_Flag==="+str(tel_Falg))
         if(tel_Falg == True):
             log.debug("Inside Telemetry Flag")
-            # telemetryPayload = {
-            #     "uniqueid": id,
-            #     "tenant": "privacy",
-            #     "apiName": image_analyze.__name__,
-            #     # "portfolio": portfolio,
-            #     # "accountName": account,
-            #     # "exclusion_list": exclusionList,
-            #     "request": requestList,
-            #     "response": responseList
-            # }
-            # TelemetryDb.create(telemetryPayload)
-            
-            # Trigger the API call asynchronously using a separate thread
-            # with concurrent.futures.ThreadPoolExecutor() as executor:
-            #     executor.submit(send_telemetry_request, privacy_telemetry_request)
             log.info("******TELEMETRY REQUEST COMPLETED********")
-        return response
+        return responses
         
     except PrivacyException as cie:
         log.error("Exception for image_analyze")
         log.error(cie.__dict__)
-        # ExceptionDb.create({"UUID":id,"function":"imageAnalyzeRouter","msg":cie.__dict__,"description":cie.__dict__})
         er=[{"tenetName":"Privacy","errorCode":"imageAnalyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/image/analyze", "errorRequestMethod":"POST"}]
-        # er=[{"UUID":request_id_var.get(),"function":"imageAnalyzeRouter","msg":cie.__dict__,"description":cie.__dict__}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
         
@@ -714,9 +652,7 @@ def image_analyze(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","Com
         )
     except Exception as e:
         log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"imageAnalyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
         er=[{"tenetName":"Privacy","errorCode":"imageAnalyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/image/analyze", "errorRequestMethod":"POST"}]
-        # er=[{"UUID":request_id_var.get(),"function":"imageAnalyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
         
@@ -731,56 +667,68 @@ def image_analyze(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","Com
             headers={"X-Error": "Please check with administration!!"})
 
 @router.post('/privacy/image/anonymize')
-def image_anonymize(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","ComputerVision"]),magnification:str=Form(...),rotationFlag:str=Form(...),image: UploadFile = File(...),portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),exclusionList:Optional[str]=Form(None),piiEntitiesToBeRedacted:Optional[str]=Form(None),auth= Depends(auth)):
+def image_anonymize(
+    ocr: str = Query('Tesseract', enum=['Tesseract', "EasyOcr", "ComputerVision"]),
+    magnification: str = Form(...),
+    rotationFlag: str = Form(...),
+    images: List[UploadFile] = File(...),
+    nlp: str = Form(default=None, example="basic/good/roberta/ranha"),
+    portfolio: Union[str, None] = Form(None),
+    account: Union[str, None] = Form(None),
+    exclusionList: Union[str, None] = Form(None),
+    piiEntitiesToBeRedacted: Union[str, None] = Form(None),
+    auth=Depends(auth)
+):
     id = uuid.uuid4().hex
     request_id_var.set(id)
-    log.info("Entered create into image_anonymize routing method" )
+    log.info("Entered create into image_anonymize routing method")
     try:
+        payloads = []
+        for image in images:
+            payload = {
+                "easyocr": ocr,
+                "mag_ratio": magMap[magnification],
+                "rotationFlag": magMap[rotationFlag],
+                "image": image,
+                "nlp": nlp if nlp != "" else None,
+                "portfolio": portfolio if portfolio != "" else None,
+                "account": account if account != "" else None,
+                "piiEntitiesToBeRedacted": piiEntitiesToBeRedacted if piiEntitiesToBeRedacted != "" else None,
+                "exclusion": exclusionList if exclusionList != "" else None
+            }
+            payloads.append(payload)
         
-        payload={"easyocr":ocr,"mag_ratio":magMap[magnification],"rotationFlag":magMap[rotationFlag],"image":image,"portfolio":portfolio,"account":account,"piiEntitiesToBeRedacted":piiEntitiesToBeRedacted,"exclusion":exclusionList}
-        log.debug("Payload:"+str(payload))
+        log.debug("Payloads: " + str(payloads))
         startTime = time.time()
         log.debug("Entered into image_anonymize function")
-        response = ImagePrivacy.image_anonymize(payload)
+        responses = []
+        for payload in payloads:
+            response = ImagePrivacy.image_anonymize(payload)
+            responses.append(response)
         ApiCall.delAdminList()
         log.debug("Returned from image_anonymize function")
         endTime = time.time()
         totalTime = endTime - startTime
-        log.info("Total Time taken "+str(totalTime))
-        if(response==482):
-            raise NoMatchingRecognizer
-        if(response==None):
-            raise NoAccountException
-        if(response==404):
-            raise NoAdminConnException 
+        log.info("Total Time taken " + str(totalTime))
+        for response in responses:
+            if response == 482:
+                raise NoMatchingRecognizer
+            if response is None:
+                raise NoAccountException
+            if response == 404:
+                raise NoAdminConnException
+        
         log.info("exit create from image_anonymize routing method")
         log.debug("tel_Flag==="+str(tel_Falg))
         if(tel_Falg == True):
             log.debug("Inside Telemetry Flag")
-            # telemetryPayload = {
-            #     "uniqueid": id,
-            #     "tenant": "privacy",
-            #     "apiName": image_anonymize.__name__,
-            #     # "portfolio": portfolio,
-            #     # "accountName": account,
-            #     # "exclusion_list": exclusionList,
-            #     "request": requestList,
-            #     "response": responseList
-            # }
-            # TelemetryDb.create(telemetryPayload)
-            
-            # Trigger the API call asynchronously using a separate thread
-            # with concurrent.futures.ThreadPoolExecutor() as executor:
-            #     executor.submit(send_telemetry_request, privacy_telemetry_request)
             log.info("******TELEMETRY REQUEST COMPLETED********")
-        return response
+        return responses
         
     except PrivacyException as cie:
         log.error("Exception for image_anonymize")
         log.error(cie.__dict__)
-        # ExceptionDb.create({"UUID":id,"function":"imageAnonimyzeRouter","msg":cie.__dict__,"description":cie.__dict__})
         er=[{"tenetName":"Privacy","errorCode":"imageAnonimyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/image/anonymize", "errorRequestMethod":"POST"}]
-        # er=[{"UUID":request_id_var.get(),"function":"imageAnonimyzeRouter","msg":cie.__dict__,"description":cie.__dict__}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
         
@@ -812,7 +760,6 @@ def image_anonymize(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","C
         )
     except Exception as e:
         log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"imageAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
         er=[{"tenetName":"Privacy","errorCode":"imageAnonimyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/image/anonymize", "errorRequestMethod":"POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
@@ -826,196 +773,14 @@ def image_anonymize(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","C
             status_code=500,
             detail="Please check with administration!!",
             headers={"X-Error": "Please check with administration!!"})
-
-# @router.post('/privacy/image/masking')
-# async def image_mask(media: UploadFile = File(...), template: UploadFile = File(...),auth= Depends(auth)):
-#     try:
-#         # log.info("before invoking create usecase service ")
-#         main_image_content = await media.read()
-#         nparr = np.fromstring(main_image_content, np.uint8)
-#         main_image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-
-#         template_image_content = await template.read()
-#         nparr = np.fromstring(template_image_content, np.uint8)
-#         template_image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-#         if template_image.shape[0] > main_image.shape[0] or template_image.shape[1] > main_image.shape[1]:
-#             raise HTTPException(status_code=400, detail ="Mask image must be smaller or equal in size to the main image")
-#         response = await ImagePrivacy.image_masking(main_image,template_image)
-#         # log.info("after invoking image masking service")
-#         is_success, buffer = cv2.imencode(".png", response)
-
-#         # Create a StreamingResponse from the image buffer
-#         return StreamingResponse(io.BytesIO(buffer.tobytes()), media_type="image/png")
-#     except PrivacyException as cie:
-#         log.error(cie.__dict__)
-#         log.info("exit create usecase routing method")
-#         raise HTTPException(**cie.__dict__)
-# @router.post('/privacy/pii/image/anonymize/zip')                                   #########@#@@#@#$@
-# def image_anonymize(payload: UploadFile):
-#     try:
-#         log.info("Entered create usecase routing method" )
-#         response = service.zipimage_anonymize(payload)
-#         if(response==None):
-#             raise HTTPException(
-#             status_code=430,
-#             detail="Portfolio/Account Is Incorrect",
-#             headers={"X-Error": "There goes my error"},
-#         )
-#         log.info("after invoking create usecase service ")
         
-#         log.info("exit create usecase routing method")
-#         return response
-        
-#     except PrivacyException as cie:
-#         log.error(cie.__dict__)
-#         log.info("exit create usecase routing method")
-#         raise HTTPException(**cie.__dict__)
-
-
-# @router.post('/privacy/pii/image/anonymize/multiple')
-# def image_anonymize(payload: List[UploadFile] = File(...)):
-#     try:
-#         log.info("Entered create usecase routing method" )
-#         response=[]
-#         for image in payload:
-#             response.append(service.image_anonymize(image))
-            
-#         log.info("after invoking create usecase service ")
-        
-#         log.info("exit create usecase routing method")
-#         return response
-        
-#     except PrivacyException as cie:
-#         log.error(cie.__dict__)
-#         log.info("exit create usecase routing method")
-#         raise HTTPException(**cie.__dict__)
-
-# @router.post('/privacy/pii/image/analyze/multiple')#,response_model=PIIMultipleImageAnalyzeResponse)
-# def image_analyze(payload: List[UploadFile] = File(...)):
-#     try:
-#         log.info("Entered create usecase routing method" )
-#         response=[]
-#         for image in payload:
-#             response.append(service.temp(image))
-        
-#         log.info("after invoking create usecase service ")
-        
-#         log.info("exit create usecase routing method")
-#         return response
-        
-#     except PrivacyException as cie:
-#         log.error(cie.__dict__)
-#         log.info("exit create usecase routing method")
-#         raise HTTPException(**cie.__dict__)
-
-
-@router.post('/privacy/image/verify')
-def image_verify(image: UploadFile = File(...),portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),exclusionList:Optional[str]=Form(None),auth= Depends(auth)):
-    id = uuid.uuid4().hex
-    request_id_var.set(id)
-    log.info("Entered create into image_verify routing method" )
-    try:
-        payload={"image":image,"portfolio":portfolio,"account":account,"exclusion":exclusionList}
-        log.debug("request payload: "+str(payload))
-        startTime = time.time()
-        log.debug("Entered into image_verify function")
-        response = ImagePrivacy.image_verify(payload)
-        ApiCall.delAdminList()
-        log.debug("Returned from image_verify function")
-        endTime = time.time()
-        totalTime = endTime - startTime
-        log.info("Total Time taken "+str(totalTime))
-        if(response==None):
-            raise NoAccountException
-        if(response==404):
-            raise NoAdminConnException        
-        #     raise HTTPException(
-        #     status_code=430,
-        #     detail="Portfolio/Account Is Incorrect",
-        #     headers={"X-Error": "There goes my error"},
-        # )
-      
-        
-        log.info("exit create from image_verify routing method")
-        # telFlagData = TelemetryFlag.findall({"Module":"Privacy"})[0]
-        # tel_Falg = telFlagData["TelemetryFlag"]
-        log.debug("tel_Flag==="+ str(tel_Falg))
-        # responseList = list(map(lambda obj: obj.__dict__, response.PIIEntities))
-        if(tel_Falg == True):
-            log.debug("Inside Telemetry Flag")
-            # telemetryPayload = {
-            #     "uniqueid": id,
-            #     "tenant": "privacy",
-            #     "apiName": image_verify.__name__,
-            #     # "portfolio": portfolio,
-            #     # "accountName": account,
-            #     # "exclusion_list": exclusionList,
-            #     "request": payload,
-            #     "response": response
-            # }
-            # TelemetryDb.create(telemetryPayload)
-            
-            # Trigger the API call asynchronously using a separate thread
-            # with concurrent.futures.ThreadPoolExecutor() as executor:
-            #     executor.submit(send_telemetry_request, privacy_telemetry_request)
-            log.info("******TELEMETRY REQUEST COMPLETED********")
-        return response
-        
-    except PrivacyException as cie:
-        log.error("Exception for image_verify")
-        log.error(cie.__dict__)
-        # ExceptionDb.create({"UUID":id,"function":"imageVerifyRouter","msg":cie.__dict__,"description":cie.__dict__})
-        er=[{"tenetName":"Privacy","errorCode":"imageVerifyRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/image/verify", "errorRequestMethod":"POST"}]
-        er=[{"UUID":request_id_var.get(),"function":"imageVerifyRouter","msg":cie.__dict__,"description":cie.__dict__}]
-        er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
-        logobj = {"uniqueid":id,"error":er}
-        
-        if len(er)!=0:
-            thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
-            thread.start()
-            if request_id_var.get() in error_dict:
-                del error_dict[id] 
-        log.error(cie, exc_info=True)
-        log.info("exit create from image_verify routing method")
-        raise HTTPException(**cie.__dict__)
-    except NoAccountException:
-        raise HTTPException(
-            status_code=430,
-            detail="Portfolio/Account Is Incorrect",
-            headers={"X-Error": "There goes my error"},
-        )
-    except NoAdminConnException:
-        raise HTTPException(
-            status_code=435,
-            detail=" Accounts and Portfolio not available with the Subscription!!",
-            headers={"X-Error": "Admin Connection is not established,"},
-        )
-    except Exception as e:
-        log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"imageVerifyRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        er=[{"tenetName":"Privacy","errorCode":"imageVerifyRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/image/verify", "errorRequestMethod":"POST"}]
-        # er=[{"UUID":request_id_var.get(),"function":"imageVerifyRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
-        er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
-        logobj = {"uniqueid":id,"error":er}
-        
-        if len(er)!=0:
-            thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
-            thread.start()
-            if request_id_var.get() in error_dict:
-                del error_dict[id] 
-        raise HTTPException(
-            status_code=500,
-            detail="Please check with administration!!",
-            headers={"X-Error": "Please check with administration!!"})
-    
-    
 @router.post('/privacy/image/hashify')
-def image_hashify(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","ComputerVision"]),magnification:str=Form(...),rotationFlag:str=Form(...),image: UploadFile = File(...),portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),exclusionList:Optional[str]=Form(None),auth= Depends(auth)):
+def image_hashify(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","ComputerVision"]),magnification:str=Form(...),rotationFlag:str=Form(...),image: UploadFile = File(...),nlp:str=Form(default=None,example="basic/good/roberta/ranha"),piiEntitiesToBeHashified:Union[str|None]=Form(None),portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),exclusionList:Optional[str]=Form(None),auth= Depends(auth)):
     id = uuid.uuid4().hex
     request_id_var.set(id)
     log.info("Entered create into imageEncryption routing method" )
     try:
-        payload={"easyocr":ocr,"mag_ratio":magMap[magnification],"rotationFlag":magMap[rotationFlag],"image":image,"portfolio":portfolio,"account":account,"exclusion":exclusionList}
+        payload={"easyocr":ocr,"mag_ratio":magMap[magnification],"rotationFlag":magMap[rotationFlag],"image":image,"nlp":nlp if nlp!="" else None,"piiEntitiesToBeHashified":piiEntitiesToBeHashified if piiEntitiesToBeHashified !="" else None,"portfolio":portfolio,"account":account,"exclusion":exclusionList}
         log.debug("request payload: "+str(payload))
         startTime = time.time()
         log.debug("Entered into imageEncryption function")
@@ -1029,42 +794,18 @@ def image_hashify(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","Com
             raise NoAccountException
         if(response==404):
             raise NoAdminConnException        
-        #     raise HTTPException(
-        #     status_code=430,
-        #     detail="Portfolio/Account Is Incorrect",
-        #     headers={"X-Error": "There goes my error"},
-        # )
+        
         log.info("exit create from into imageEncryption routing method")
-        # telFlagData = TelemetryFlag.findall({"Module":"Privacy"})[0]
-        # tel_Falg = telFlagData["TelemetryFlag"]
         log.debug("tel_Flag==="+str(tel_Falg))
-        # requestList = payload.__dict__
         if(tel_Falg == True):
             log.debug("Inside Telemetry Flag")
-            # telemetryPayload = {
-            #     "uniqueid": id,
-            #     "tenant": "privacy",
-            #     "apiName": image_verify.__name__,
-            #     # "portfolio": portfolio,
-            #     # "accountName": account,
-            #     # "exclusion_list": exclusionList,
-            #     "request": requestList,
-            #     "response": response
-            # }
-            # TelemetryDb.create(telemetryPayload)
-            
-            # Trigger the API call asynchronously using a separate thread
-            # with concurrent.futures.ThreadPoolExecutor() as executor:
-            #     executor.submit(send_telemetry_request, privacy_telemetry_request)
             log.info("******TELEMETRY REQUEST COMPLETED********")
         return response
         
     except PrivacyException as cie:
         log.error("Exception for imageEncryption")
         log.error(cie.__dict__)
-        # ExceptionDb.create({"UUID":id,"function":"imageHashifyRouter","msg":cie.__dict__,"description":cie.__dict__})
         er=[{"tenetName":"Privacy","errorCode":"imageVerifyRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/image/verify", "errorRequestMethod":"POST"}]
-        # er=[{"UUID":request_id_var.get(),"function":"imageHashifyRouter","msg":cie.__dict__,"description":cie.__dict__}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
         
@@ -1090,9 +831,7 @@ def image_hashify(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","Com
         )
     except Exception as e:
         log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"imageHashifyRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
         er=[{"tenetName":"Privacy","errorCode":"imageVerifyRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/image/verify", "errorRequestMethod":"POST"}]
-        # er=[{"UUID":request_id_var.get(),"function":"imageHashifyRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
         
@@ -1105,135 +844,7 @@ def image_hashify(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","Com
             status_code=500,
             detail="Please check with administration!!",
             headers={"X-Error": "Please check with administration!!"})
-    
-
-
-# @router.post('/privacy/privacyShield', response_model= PIIPrivacyShieldResponse)
-# def privacy_shield(payload: PIIPrivacyShieldRequest,auth= Depends(auth)):
-#     id = uuid.uuid4().hex
-#     request_id_var.set(id)
-#     log.info("Entered create into privacyShield routing method")
-#     try:
-#         # log.info("Entered create usecase routing method" )
-#         log.debug("request payload: "+ str(payload))
-#         startTime = time.time()
-#         log.debug("Entered into privacyShield function")
-#         response = Shield.privacyShield(payload)
-#         ApiCall.delAdminList()
-#         log.debug("Returned from privacyShield function")
-#         endTime = time.time()
-#         totalTime = endTime - startTime
-#         log.info("Total Time taken "+str(totalTime))
-#         if(response==None):
-#             raise NoAccountException
-#         if(response==404):
-#             raise NoAdminConnException        
-#         #     raise HTTPException(
-#         #     status_code=430,
-#         #     detail="Portfolio/Account Is Incorrect",
-#         #     headers={"X-Error": "There goes my error"},
-#         # )
-#         # log.info("after invoking create usecase service ")
-#         log.debug("response : "+ str(response))
-#         log.info("exit create from privacyShield routing method")
-#         # telFlagData = TelemetryFlag.findall({"Module":"Privacy"})[0]
-#         # tel_Falg = telFlagData["TelemetryFlag"]
-#         log.debug("tel_Flag==="+str(tel_Falg))
-#         # responseList = response.privacyCheck
-#         # requestList = payload.__dict__
-#         if(tel_Falg == True):
-#             log.debug("Inside Telemetry Flag")
-#             # telemetryPayload = {
-#             #     "uniqueid": id,
-#             #     "tenant": "privacy",
-#             #     "apiName": "privacyshield",
-#             #     # "portfolio": payload.portfolio,
-#             #     # "accountName": payload.account,
-#             #     # "exclusion_list": "None",
-#             #     "request": requestList,
-#             #     "response": responseList
-#             # }
-#             # TelemetryDb.create(telemetryPayload)
-            
-#             # Trigger the API call asynchronously using a separate thread
-#             # with concurrent.futures.ThreadPoolExecutor() as executor:
-#             #     executor.submit(send_telemetry_request, privacy_telemetry_request)
-#             log.info("******TELEMETRY REQUEST COMPLETED********")
-#         return response
-#     except PrivacyException as cie:
-#         log.error("Exception for privacyShield")
-#         log.error(cie.__dict__)
-#         # ExceptionDb.create({"UUID":id,"function":"privacyShield","msg":cie.__dict__,"description":cie.__dict__})
-#         er=[{"tenetName":"Privacy","errorCode":"privacyShield","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/privacyShield", "errorRequestMethod":"POST"}]
-#         # er=[{"UUID":request_id_var.get(),"function":"privacyShield","msg":cie.__dict__,"description":cie.__dict__}]
-#         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
-#         logobj = {"uniqueid":id,"error":er}
-        
-#         if len(er)!=0:
-#             thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
-#             thread.start()
-#             if request_id_var.get() in error_dict:
-#                 del error_dict[id] 
-#         log.error(cie, exc_info=True)
-#         log.info("exit create from privacyShield routing method")
-#         raise HTTPException(**cie.__dict__)
-#     except NoAccountException:
-#         raise HTTPException(
-#             status_code=430,
-#             detail="Portfolio/Account Is Incorrect",
-#             headers={"X-Error": "There goes my error"},
-#         )
-#     except NoAdminConnException:
-#         raise HTTPException(
-#             status_code=435,
-#             detail=" Accounts and Portfolio not available with the Subscription!!",
-#             headers={"X-Error": "Admin Connection is not established,"},
-#         )
-#     except Exception as e:
-#         log.error(str(e))
-#         # ExceptionDb.create({"UUID":request_id_var.get(),"function":"privacyShield","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-#         er=[{"tenetName":"Privacy","errorCode":"privacyShield","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/privacyShield", "errorRequestMethod":"POST"}]
-#         # er=[{"UUID":request_id_var.get(),"function":"privacyShield","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
-#         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
-#         logobj = {"uniqueid":id,"error":er}
-        
-#         if len(er)!=0:
-#             thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
-#             thread.start()
-#             if request_id_var.get() in error_dict:
-#                 del error_dict[id] 
-#         raise HTTPException(
-#             status_code=500,
-#             detail="Please check with administration!!",
-#             headers={"X-Error": "Please check with administration!!"})
-
-# from privacy.service.dicom_service import DICOM
-# @router.get('/privacy/pii/dicom/anonymize')
-# def image_anonymize():
-#     try:
-#         log.info("Entered create usecase routing method" )
-#         # payload={"image":image,"portfolio":portfolio,"account":account,"exclusion":exclusionList}
-#         # log.info(str(payload))
-#         # response = service.image_anonymize(payload)
-#         response=DICOM.dicomReader()
-#         # print(response)
-        
-#         # if(response==None):
-#         #     raise HTTPException(
-#         #     status_code=430,
-#         #     detail="Portfolio/Account Is Incorrect",
-#         #     headers={"X-Error": "There goes my error"},
-#         # )
-#         log.info("after invoking create usecase service ")
-        
-#         log.info("exit create usecase routing method")
-#         return response
-        
-#     except PrivacyException as cie:
-#         log.error(cie.__dict__)
-#         log.info("exit create usecase routing method")
-#         raise HTTPException(**cie.__dict__)
- 
+     
    
 @router.post('/privacy/dicom/anonymize')
 def dicom_anonymize(payload: UploadFile = File(...),auth= Depends(auth)):
@@ -1241,7 +852,6 @@ def dicom_anonymize(payload: UploadFile = File(...),auth= Depends(auth)):
     request_id_var.set(id)
     log.info("Entered create into readDicom routing method" )
     try:
-        # payload={"image":image,"portfolio":portfolio,"account":account,"exclusion":exclusionList}
         startTime = time.time()
         log.debug("Entered into readDicom function")
         response =DICOMPrivacy.readDicom(payload)
@@ -1253,45 +863,20 @@ def dicom_anonymize(payload: UploadFile = File(...),auth= Depends(auth)):
             raise NoAccountException
         if(response==404):
             raise NoAdminConnException  
-        #     raise HTTPException(
-        #     status_code=430,
-        #     detail="Portfolio/Account Is Incorrect",
-        #     headers={"X-Error": "There goes my error"},
-        # )
+
      
         
         log.info("exit create from readDicom routing method")
-        # telFlagData = TelemetryFlag.findall({"Module":"Privacy"})[0]
-        # tel_Falg = telFlagData["TelemetryFlag"]
         log.debug("tel_Flag==="+str(tel_Falg))
-        # responseList = list(map(lambda obj: obj.__dict__, response.PIIEntities))
-        # requestList = payload.__dict__
         if(tel_Falg == True):
             log.debug("Inside Telemetry Flag")
-            # telemetryPayload = {
-            #     "uniqueid": id,
-            #     "tenant": "privacy",
-            #     "apiName": "DICOMIMAGE",
-            #     # "portfolio": "None",
-            #     # "accountName": "None",
-            #     # "exclusion_list": "None",
-            #     "request": requestList,
-            #     "response": responseList
-            # }
-            # TelemetryDb.create(telemetryPayload)
-            
-            # Trigger the API call asynchronously using a separate thread
-            # with concurrent.futures.ThreadPoolExecutor() as executor:
-            #     executor.submit(send_telemetry_request, privacy_telemetry_request)
             log.info("******TELEMETRY REQUEST COMPLETED********")
         return response
         
     except PrivacyException as cie:
         log.error("Exception for readDicom")
         log.error(cie.__dict__)
-        # ExceptionDb.create({"UUID":id,"function":"DICOMAnonimyzeRouter","msg":cie.__dict__,"description":cie.__dict__})
         er=[{"tenetName":"Privacy","errorCode":"DICOMAnonimyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/dicom/anonymize", "errorRequestMethod":"POST"}]
-        # er=[{"UUID":request_id_var.get(),"function":"DICOMAnonimyzeRouter","msg":cie.__dict__,"description":cie.__dict__}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
         
@@ -1317,8 +902,6 @@ def dicom_anonymize(payload: UploadFile = File(...),auth= Depends(auth)):
         )
     except Exception as e:
         log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"DICOMAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        # er=[{"UUID":request_id_var.get(),"function":"DICOMAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
         er=[{"tenetName":"Privacy","errorCode":"DICOMAnonimyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy/dicom/anonymize", "errorRequestMethod":"POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
@@ -1333,112 +916,14 @@ def dicom_anonymize(payload: UploadFile = File(...),auth= Depends(auth)):
             detail="Please check with administration!!",
             headers={"X-Error": "Please check with administration!!"})
 
-@fileRouter.post('/privacy-files/excel/anonymize')
-def logo_anonymize(excel: UploadFile = File(...),auth= Depends(auth)):
-    id = uuid.uuid4().hex
-    request_id_var.set(id)
-    log.info("Entered create into excelanonymize routing method" )
-    try:
-        payload={"excel":excel}
-        print("payload==",payload)
-        # print("type==",excel.file.content_type)
-        startTime = time.time()
-        log.debug("Entered into excelanonymize function")
-        response = Excel.excelanonymize(payload)
-        log.debug("Returned from excelanonymize function")
-        endTime = time.time()
-        totalTime = endTime - startTime
-        log.info("Total Time taken "+str(totalTime))
-        if(response==None):
-            raise NoAccountException
-        if(response==404):
-            raise NoAdminConnException  
-        
-        #     raise HTTPException(
-        #     status_code=430,
-        #     detail="Portfolio/Account Is Incorrect",
-        #     headers={"X-Error": "There goes my error"},
-        # )
-       
-        log.info("exit create from excelanonymize routing method")
-        log.debug("response===="+str(response))
-        # telFlagData = TelemetryFlag.findall({"Module":"Privacy"})[0]
-        # tel_Falg = telFlagData["TelemetryFlag"]
-        log.debug("tel_Flag==="+str(tel_Falg))
-        # responseList = list(map(lambda obj: obj.__dict__, response.PIIEntities))
-        # requestList = payload.__dict__
-        if(tel_Falg == True):
-            log.debug("Inside Telemetry Flag")
-            # telemetryPayload = {
-            #     "uniqueid": id,
-            #     "tenant": "privacy",
-            #     "apiName": "Excel_Anonymize",
-            #     # "portfolio": "None",
-            #     # "accountName": "None",
-            #     # "exclusion_list": "None",
-            #     "request": requestList,
-            #     "response": responseList
-            # }
-            # TelemetryDb.create(telemetryPayload)
-            
-            # Trigger the API call asynchronously using a separate thread
-            # with concurrent.futures.ThreadPoolExecutor() as executor:
-            #     executor.submit(send_telemetry_request, privacy_telemetry_request)
-            log.info("******TELEMETRY REQUEST COMPLETED********")
-        return FileResponse(response,media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        # return response
-        
-    except PrivacyException as cie:
-        log.error("Exception for excelanonymize")
-        log.error(cie.__dict__)
-        # ExceptionDb.create({"UUID":id,"function":"excelAnonimyzeRouter","msg":cie.__dict__,"description":cie.__dict__})
-        er=[{"tenetName":"Privacy","errorCode":"excelAnonimyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy-files/excel/anonymize", "errorRequestMethod":"POST"}]
-        # er=[{"UUID":request_id_var.get(),"function":"excelAnonimyzeRouter","msg":cie.__dict__,"description":cie.__dict__}]
-        er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
-        logobj = {"uniqueid":id,"error":er}
-        
-        if len(er)!=0:
-            thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
-            thread.start()
-            if request_id_var.get() in error_dict:
-                del error_dict[id] 
-        log.error(cie, exc_info=True)
-        log.info("exit create usecase routing method")
-        raise HTTPException(**cie.__dict__)
-    except NoAccountException:
-        raise HTTPException(
-            status_code=430,
-            detail="Portfolio/Account Is Incorrect",
-            headers={"X-Error": "There goes my error"},
-        )
-    except NoAdminConnException:
-        raise HTTPException(
-            status_code=435,
-            detail=" Accounts and Portfolio not available with the Subscription!!",
-            headers={"X-Error": "Admin Connection is not established,"},
-        )
-    except Exception as e:
-        log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"excelAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        # er=[{"UUID":request_id_var.get(),"function":"excelAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
-        er=[{"tenetName":"Privacy","errorCode":"excelAnonimyzeRouter","errorMessage":str(e)+"Line No:"+str(e.__traceback__.tb_lineno),"apiEndPoint":"/privacy-files/excel/anonymize", "errorRequestMethod":"POST"}]
-        er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
-        logobj = {"uniqueid":id,"error":er}
-        
-        if len(er)!=0:
-            thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
-            thread.start()
-            if request_id_var.get() in error_dict:
-                del error_dict[id] 
-        raise HTTPException(
-            status_code=500,
-            detail="Please check with administration!!",
-            headers={"X-Error": "Please check with administration!!"})
-
+ 
 ## PAYLOAD CHANGED TO ACCEPT TEXT IN A STRUCTURED FORMAT AND GET RESPONSE FOR THE SAME
 from starlette.responses import PlainTextResponse
 @router.post('/privacy/code/anonymize',response_class=PlainTextResponse)
-async def code_redaction(payload_text: str = Body(..., media_type="text/plain", description="The code to be anonymized"),auth= Depends(auth)):
+async def code_redaction(payload_text: str = Body(..., media_type="text/plain", description="The code to be anonymized"),
+                        accountName: str = Query("None", description="account name"),
+                        portfolioName: str = Query("None", description="portfolio name"),
+                         portauth= Depends(auth)):
     id = uuid.uuid4().hex
     request_id_var.set(id)
     log.info("Entered create into textner routing method")
@@ -1459,13 +944,42 @@ async def code_redaction(payload_text: str = Body(..., media_type="text/plain", 
             raise NoAccountException
         
         log.info("exit create from textner routing method")
+        log.debug("TelFlag==="+ str(tel_Falg))
+        if(tel_Falg == True):
+            telemetryPayload = {
+                "uniqueid": id,
+                "tenant": "privacy",
+                "apiname": "CodeText Annonymize",           
+                "user": "None",
+                "date":now.isoformat(),
+                "lotNumber": "None",
+                "request": {
+                "portfolio_name": portfolioName,
+                "account_name": accountName,
+                "exclusion_list": [
+                  "None"
+                ],
+                "inputText": payload_text
+              },
+                "response": [
+                {
+                  "type": "None",
+                  "beginOffset": 0,
+                  "endOffset": 0,
+                  "score": 0,
+                  "responseText": response
+                }
+              ]
+            }
+            # Trigger the API call asynchronously using a separate thread
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                executor.submit(send_telemetry_request, telemetryPayload)
+            log.info("******TELEMETRY REQUEST COMPLETED********")
         # Return the response as plain text, maintaining the format
         return PlainTextResponse(content=response)
     except PrivacyException as cie:
         log.error("Exception for code anonymize")
         log.error(str(cie))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"excelAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        # er=[{"UUID":request_id_var.get(),"function":"excelAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
         er=[{"tenetName":"Privacy","errorCode":"CodeAnnonymizeRouter","errorMessage":str(cie)+"Line No:"+str(cie.__traceback__.tb_lineno),"apiEndPoint":"/privacy/code/anonymize", "errorRequestMethod":"POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
@@ -1479,25 +993,26 @@ async def code_redaction(payload_text: str = Body(..., media_type="text/plain", 
 from io import BytesIO
 
 @router.post('/privacy/codefile/anonymize')
-async def code_anonymize(code_file: UploadFile = File(...)):
+async def code_anonymize(code_file: UploadFile = File(...),
+                         accountName: str = Body("None", description="Enter account name"),
+                         portfolioName: str = Body("None", description="Enter portfolio name")):
     id = uuid.uuid4().hex
     request_id_var.set(id)
-    log.info("Entered create into filener routing method" )
+    log.info("Entered create into filener routing method")
     try:
         # Read the file content from the UploadFile object
         code_content = await code_file.read()
-        print("code_content==",code_content)
         # Perform code redaction
         startTime = time.time()
         log.debug("Entered into filener function")
-        redacted_content, output_code_file = codeNer.codeFile(code_content, code_file.filename,model, tokenizer)
+        redacted_content, output_code_file = codeNer.codeFile(code_content, code_file.filename, model, tokenizer)
         log.debug("Returned from filener function")
         if isinstance(redacted_content, str):
             redacted_content = redacted_content.encode('utf-8')
-        print(redacted_content,"REDACTED CONTENT")
+
         endTime = time.time()
         totalTime = endTime - startTime
-        log.info("Total Time taken "+str(totalTime))
+        log.info("Total Time taken " + str(totalTime))
         headers = {
             "Content-Disposition": f"attachment; filename={output_code_file}",
             "Access-Control-Expose-Headers": "Content-Disposition"
@@ -1505,30 +1020,37 @@ async def code_anonymize(code_file: UploadFile = File(...)):
 
         # Delete the uploaded file
         await code_file.close()
-        # filepath = os.path.join('', code_file.filename)
         output_code_file = os.path.splitext(code_file.filename)[0] + "_redacted" + os.path.splitext(code_file.filename)[1]
         os.remove(output_code_file)
-        # telFlagData = TelemetryFlag.findall({"Module":"Privacy"})[0]
-        # tel_Falg = telFlagData["TelemetryFlag"]
-        # responseList = list(map(lambda obj: obj.__dict__, response.PIIEntities))
-        # requestList = payload.__dict__
-        if(tel_Falg == True):
-            log.debug("Inside Telemetry Flag")
-            # telemetryPayload = {
-            #     "uniqueid": id,
-            #     "tenant": "privacy",
-            #     "apiName": code_anonymize.__name__,
-            #     # "portfolio": "None",
-            #     # "accountName": "None",
-            #     # "exclusion_list": "None",
-            #     "request": requestList,
-            #     "response": responseList
-            # }
-            # TelemetryDb.create(telemetryPayload)
-            
+        log.debug("TelFlag===" + str(tel_Falg))
+        if tel_Falg:
+            telemetryPayload = {
+                "uniqueid": id,
+                "tenant": "privacy",
+                "apiname": "CodeFile Annonymize",
+                "user": "None",
+                "date": datetime.now().isoformat(),
+                "lotNumber": "None",
+                "request": {
+                    "portfolio_name": portfolioName,
+                    "account_name": accountName,
+                    "exclusion_list": ["None"],
+                    "inputText": code_content.decode('utf-8') if isinstance(code_content, bytes) else code_content
+                },
+                "response": [{
+                    "type": "None",
+                    "beginOffset": 0,
+                    "endOffset": 0,
+                    "score": 0,
+                    "responseText": redacted_content.decode('utf-8') if isinstance(redacted_content, bytes) else redacted_content
+                }]
+            }
+            # Convert telemetryPayload to JSON and print it
+            log.debug("telemetryPayload=" + json.dumps(telemetryPayload, indent=4))
+
             # Trigger the API call asynchronously using a separate thread
-            # with concurrent.futures.ThreadPoolExecutor() as executor:
-            #     executor.submit(send_telemetry_request, privacy_telemetry_request)
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                executor.submit(send_telemetry_request, telemetryPayload)
             log.info("******TELEMETRY REQUEST COMPLETED********")
 
         # Return the redacted code content as a response with the correct filename
@@ -1536,81 +1058,31 @@ async def code_anonymize(code_file: UploadFile = File(...)):
     except PrivacyException as cie:
         log.error("Exception for filener")
         log.error(cie, exc_info=True)
-        # ExceptionDb.create({"UUID":id,"function":"codeFileAnonimyzeRouter","msg":cie.__dict__,"description":cie.__dict__})
-        # er=[{"UUID":request_id_var.get(),"function":"codeFileAnonimyzeRouter","msg":cie.__dict__,"description":cie.__dict__}]
         er = [{"tenetName": "Privacy", "errorCode": "codeFileAnonimyzeRouter", "errorMessage": str(cie) + "Line No:" + str(cie.__traceback__.tb_lineno), "apiEndPoint": "/privacy/codefile/anonymize", "errorRequestMethod": "POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
-        logobj = {"uniqueid":id,"error":er}
-        
-        if len(er)!=0:
-            thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
+        logobj = {"uniqueid": id, "error": er}
+
+        if len(er) != 0:
+            thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj, id))
             thread.start()
             if request_id_var.get() in error_dict:
-                del error_dict[id] 
+                del error_dict[id]
         raise cie
     except Exception as e:
         log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"codeFileAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        # er=[{"UUID":request_id_var.get(),"function":"codeFileAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
         er = [{"tenetName": "Privacy", "errorCode": "codeFileAnonimyzeRouter", "errorMessage": str(e) + "Line No:" + str(e.__traceback__.tb_lineno), "apiEndPoint": "/privacy/codefile/anonymize", "errorRequestMethod": "POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
-        logobj = {"uniqueid":id,"error":er}
-        
-        if len(er)!=0:
-            thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
+        logobj = {"uniqueid": id, "error": er}
+
+        if len(er) != 0:
+            thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj, id))
             thread.start()
             if request_id_var.get() in error_dict:
-                del error_dict[id] 
+                del error_dict[id]
         raise HTTPException(
             status_code=500,
             detail="Please check with administration!!",
             headers={"X-Error": "Please check with administration!!"})
-
-
-
-
-# # from privacy.service.test import Test
-# @router.get('/privacy/pii/video/anonymizea')
-# async def image_analyze():
-#     try:
-#         log.info("Entered create usecase routing method" )
-#         # payload={"image":image,"portfolio":portfolio,"account":account,"exclusion":exclusionList}
-#         # response =VideoAnalyzer.anonymize(payload)
-#         # print(response)
-#         # if(response==None):
-#         #     raise HTTPException(
-#         #     status_code=430,
-#         #     detail="Portfolio/Account Is Incorrect",
-#         #     headers={"X-Error": "There goes my error"},
-#         # )
-#         # log.info("after invoking create usecase service ")
-#         # x=[]
-#         x=Test.work()
-#         # for i in x:
-#         #     print(i)
-#         # log.info("exit create usecase routing method")
-#         return StreamingResponse(x,media_type="plain/text")
-        
-        
-#     except PrivacyException as cie:
-#         log.error(cie.__dict__)
-#         log.info("exit create usecase routing method")
-#         raise HTTPException(**cie.__dict__)
-# app=FastAPI()
-# cc=set()
-# @app.websocket("/ws")
-# async def check(websocket:WebSocket):
-#     await websocket.accept()
-#     cc.add(websocket)
-#     try:
-#         while True:
-#             m="asdasdasdasdasd"
-#             await websocket.send_text(m)
-#             await asyncio.sleep(1)
-#     except:
-#         cc.remove(websocket)
-
-
 
 from privacy.service.diffrentialPrivacy import DiffPrivacy
 @router.post('/privacy/DifferentialPrivacy/file')
@@ -1620,8 +1092,6 @@ def diff_privacy_file(dataset: UploadFile = File(...),auth= Depends(auth)):
     log.info("Entered create into uploadFIle routing method" )
     try:
         # payload={"excel":excel}
-        # print("payload==",payload)
-        # print("type==",excel.file.content_type)
         startTime = time.time()
         log.debug("Entered into uploadFIle function")
         response = DiffPrivacy.uploadFIle(dataset)
@@ -1631,29 +1101,12 @@ def diff_privacy_file(dataset: UploadFile = File(...),auth= Depends(auth)):
         log.info("Total Time taken "+str(totalTime))
         if(response==None):
             raise NoAccountException
-        #     raise HTTPException(
-        #     status_code=430,
-        #     detail="Portfolio/Account Is Incorrect",
-        #     headers={"X-Error": "There goes my error"},
-        # )
-        # log.info("after invoking create usecase service ")
         
         log.info("exit create from uploadFIle routing method")
-        # telFlagData = TelemetryFlag.findall({"Module":"Privacy"})[0]
-        # tel_Falg = telFlagData["TelemetryFlag"]
-        # print("tel_Flag===",tel_Falg)
-        # if(tel_Falg == True):
-        #     print("Inside Telemetry Flag")
-        #     
-        #     # Trigger the API call asynchronously using a separate thread
-        #     with concurrent.futures.ThreadPoolExecutor() as executor:
-            #    executor.submit(send_telemetry_request, privacy_telemetry_request)
         return response
     except PrivacyException as cie:
         log.error("Exception for uploadFIle")
         log.error(cie.__dict__)
-        # ExceptionDb.create({"UUID":id,"function":"diffPrivacyFileRouter","msg":cie.__dict__,"description":cie.__dict__})
-        # er=[{"UUID":request_id_var.get(),"function":"diffPrivacyFileRouter","msg":cie.__dict__,"description":cie.__dict__}]
         er = [{"tenetName": "Privacy", "errorCode": "diffPrivacyFileRouter", "errorMessage": str(cie) + "Line No:" + str(cie.__traceback__.tb_lineno), "apiEndPoint": "/privacy/DifferentialPrivacy/file", "errorRequestMethod": "POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
@@ -1674,8 +1127,6 @@ def diff_privacy_file(dataset: UploadFile = File(...),auth= Depends(auth)):
         )
     except Exception as e:
         log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"diffPrivacyFileRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        # er=[{"UUID":request_id_var.get(),"function":"diffPrivacyFileRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
         er = [{"tenetName": "Privacy", "errorCode": "diffPrivacyFileRouter", "errorMessage": str(e) + "Line No:" + str(e.__traceback__.tb_lineno), "apiEndPoint": "/privacy/DifferentialPrivacy/file", "errorRequestMethod": "POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
@@ -1697,11 +1148,7 @@ def diff_privacy_anonymize(suppression:Optional[str]=Form(""),noiselist:Optional
     request_id_var.set(id)
     log.info("Entered create into diffPrivacy routing method" )
     try:
-        # log.info("Entered create usecase routing method" )
-        # payload={"excel":excel}
-        # print("payload==",payload)
         payload={"suppression":suppression,"noiselist":noiselist,"binarylist":binarylist,"rangelist":rangeList}
-        # print("type==",excel.file.content_type)
         startTime = time.time()
         log.debug("Entered into diffPrivacy function")
         response = DiffPrivacy.diffPrivacy(payload)
@@ -1711,32 +1158,14 @@ def diff_privacy_anonymize(suppression:Optional[str]=Form(""),noiselist:Optional
         log.info("Total Time taken "+str(totalTime))
         if(response==None):
             raise NoAccountException
-        #     raise HTTPException(
-        #     status_code=430,
-        #     detail="Portfolio/Account Is Incorrect",
-        #     headers={"X-Error": "There goes my error"},
-        # )
-        # log.info("after invoking create usecase service ")
         
         log.info("exit create from diffPrivacy routing method")
         log.debug("res===="+str(response))
-        # telFlagData = TelemetryFlag.findall({"Module":"Privacy"})[0]
-        # tel_Falg = telFlagData["TelemetryFlag"]
-        # print("tel_Flag===",tel_Falg)
-        # if(tel_Falg == True):
-        #     print("Inside Telemetry Flag")
-        #     
-        #     # Trigger the API call asynchronously using a separate thread
-        #     with concurrent.futures.ThreadPoolExecutor() as executor:
-            #    executor.submit(send_telemetry_request, privacy_telemetry_request)
-        # return response
         headers = {"Content-Disposition": f"attachment; filename=x.csv"}
         return StreamingResponse(response, media_type="text/csv", headers=headers)
     except PrivacyException as cie:
         log.error("Exception for diffPrivacy")
         log.error(cie.__dict__)
-        # ExceptionDb.create({"UUID":id,"function":"diffPrivacyAnonimyzeRouter","msg":cie.__dict__,"description":cie.__dict__})
-        # er=[{"UUID":request_id_var.get(),"function":"diffPrivacyAnonimyzeRouter","msg":cie.__dict__,"description":cie.__dict__}]
         er = [{"tenetName": "Privacy", "errorCode": "diffPrivacyAnonimyzeRouter", "errorMessage": str(cie) + "Line No:" + str(cie.__traceback__.tb_lineno), "apiEndPoint": "/privacy/DifferentialPrivacy/anonymize", "errorRequestMethod": "POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
@@ -1757,8 +1186,6 @@ def diff_privacy_anonymize(suppression:Optional[str]=Form(""),noiselist:Optional
         )
     except Exception as e:
         log.error(str(e))
-        # er={"UUID":request_id_var.get(),"function":"diffPrivacyAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
-        # er=[{"UUID":request_id_var.get(),"function":"diffPrivacyAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
         er = [{"tenetName": "Privacy", "errorCode": "diffPrivacyAnonimyzeRouter", "errorMessage": str(e) + "Line No:" + str(e.__traceback__.tb_lineno), "apiEndPoint": "/privacy/DifferentialPrivacy/anonymize", "errorRequestMethod": "POST"}]
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
@@ -1773,17 +1200,50 @@ def diff_privacy_anonymize(suppression:Optional[str]=Form(""),noiselist:Optional
             status_code=500,
             detail="Please check with administration!!",
             headers={"X-Error": "Please check with administration!!"})
+@fileRouter.post('/privacy/loadRecognizer')
+def loadRecognizer(payload:UploadFile = File(...)):
+    
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered into analyze routing method" )
+
+    try:
+        log.debug("request payload: "+ str(payload))
+        payload = {"file":payload}
+        response = LoadRecognizer.set_recognizer(payload)
+        return response
+    except Exception as e:
+        log.error(str(e))
+        raise HTTPException(
+            status_code=500,
+            detail="Please check with administration!!",
+            headers={"X-Error": "Please check with administration!!"})
+
+@fileRouter.get('/privacy/getRecognizer')
+def loadRecognizer():
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    try:
+        response = LoadRecognizer.load_recognizer()
+        return response
+    except Exception as e:
+        log.error(str(e))
+        raise HTTPException(
+            status_code=500,
+            detail="Please check with administration!!",
+            headers={"X-Error": "Please check with administration!!"})
    
+
 @fileRouter.post('/privacy-files/video/anonymize')
-async def videoPrivacy(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","ComputerVision"]),magnification:str=Form(...),rotationFlag:str=Form(...),video: UploadFile = File(...),portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),exclusionList:Optional[str]=Form(None),auth= Depends(auth)):
-    # payload = {"video": video, "easyocr": ocr}
+async def videoPrivacy(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","ComputerVision"]),magnification:str=Form(...),rotationFlag:str=Form(...),video: UploadFile = File(...),nlp:str=Form(default=None,example="basic/good/roberta/ranha"),portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),exclusionList:Optional[str]=Form(None),piiEntitiesToBeRedacted:Optional[str]=Form(None),scoreThreshold:Optional[float] = Form(default=float(0.4)),auth= Depends(auth)):
     id = uuid.uuid4().hex
     request_id_var.set(id)
     log.info("Entered create into image_anonymize routing method" )
     try:
-        payload={"easyocr":ocr,"mag_ratio":magMap[magnification],"rotationFlag":magMap[rotationFlag],"video":video,"portfolio":portfolio,"account":account,"exclusion":exclusionList}
+        payload={"easyocr":ocr,"mag_ratio":magMap[magnification],"rotationFlag":magMap[rotationFlag],"video":video,"nlp":nlp if nlp!="" else None,"portfolio":portfolio,"account":account,"exclusion":exclusionList,"piiEntitiesToBeRedacted":piiEntitiesToBeRedacted,"scoreThreshold":scoreThreshold}
         startTime = time.time()
-        response = await VideoService.videoPrivacy(payload)
+        video_service = VideoService()
+        response = await video_service.videoPrivacy(payload)
         endTime = time.time()
         totalTime = endTime - startTime
         log.info("Total Time taken "+str(totalTime))
@@ -1799,7 +1259,6 @@ async def videoPrivacy(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr"
         log.error(cie.__dict__)
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
-        # ExceptionDb.create({"UUID":id,"function":"videoPrivacyRouter","msg":cie.__dict__,"description":cie.__dict__})
         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
         logobj = {"uniqueid":id,"error":er}
         
@@ -1821,8 +1280,37 @@ async def videoPrivacy(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr"
     except Exception as e:
         log.error(str(e))
         er = [{"tenetName": "Privacy", "errorCode": "diffPrivacyAnonimyzeRouter", "errorMessage": str(e) + "Line No:" + str(e.__traceback__.tb_lineno), "apiEndPoint": "/privacy/DifferentialPrivacy/anonymize", "errorRequestMethod": "POST"}]
+        raise HTTPException(
+            status_code=500,
+            detail="Please check with administration!!",
+            headers={"X-Error": "Please check with administration!!"})
         
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"videoPrivacyRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
+    except PrivacyException as cie:
+        log.error("Exception for video_privacy")
+        log.error(cie.__dict__)
+        er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
+        logobj = {"uniqueid":id,"error":er}
+        er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
+        logobj = {"uniqueid":id,"error":er}
+        
+        if len(er)!=0:
+            thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
+            thread.start()
+            
+            if request_id_var.get() in error_dict:
+                del error_dict[id]
+        log.error(cie, exc_info=True)
+        log.info("exit create usecase routing method")
+        raise HTTPException(**cie.__dict__)
+    except NoAccountException:
+        raise HTTPException(
+            status_code=430,
+            detail="Portfolio/Account Is Incorrect",
+            headers={"X-Error": "There goes my error"},
+        )
+    except Exception as e:
+        log.error(str(e))
+        er = [{"tenetName": "Privacy", "errorCode": "diffPrivacyAnonimyzeRouter", "errorMessage": str(e) + "Line No:" + str(e.__traceback__.tb_lineno), "apiEndPoint": "/privacy/DifferentialPrivacy/anonymize", "errorRequestMethod": "POST"}]
         raise HTTPException(
             status_code=500,
             detail="Please check with administration!!",
@@ -1830,7 +1318,7 @@ async def videoPrivacy(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr"
 
 from privacy.service.pdf_service import PDFService
 @fileRouter.post('/privacy-files/PDF/anonymize')
-async def PDF(pdf:UploadFile=File(...),ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","ComputerVision"]),portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),exclusionList:Optional[str]=Form(None),auth= Depends(auth)):
+async def PDF(pdf:UploadFile=File(...),nlp:str=Form(default=None,example="basic/good/roberta/ranha"),ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","ComputerVision"]),portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),exclusionList:Optional[str]=Form(None),piiEntitiesToBeRedacted:Optional[str]=Form(None),scoreThreshold:Optional[float] = Form(default=float(0.4)),auth= Depends(auth)):
     # payload = {"video": video, "easyocr": ocr}
     id = uuid.uuid4().hex
     request_id_var.set(id)
@@ -1840,7 +1328,7 @@ async def PDF(pdf:UploadFile=File(...),ocr: str = Query('Tesseract', enum=['Tess
         log.info(f"start_time: {start_time}")
         log.info("Before invoking create usecase service ")
 
-        payload={"easyocr":ocr,"mag_ratio":False,"rotationFlag":False,"file": pdf,"portfolio":portfolio,"account":account,"exclusion":exclusionList}
+        payload={"easyocr":ocr,"mag_ratio":False,"rotationFlag":False,"file": pdf,"nlp":nlp if nlp!="" else None,"portfolio":portfolio,"account":account,"exclusion":exclusionList,"piiEntitiesToBeRedacted":piiEntitiesToBeRedacted,"scoreThreshold":scoreThreshold}
       
         log.debug("Request payload: "+ str(payload))
         response = PDFService.mask_pdf(AttributeDict(payload))
@@ -1893,12 +1381,11 @@ async def PDF(pdf:UploadFile=File(...),ocr: str = Query('Tesseract', enum=['Tess
         raise HTTPException(
             status_code=500,
             detail="Please check with administration!!",
-            headers={"X-Error": "Please check with administration!!"})
-    
+            headers={"X-Error": "Please check with administration!!"})   
 
 from privacy.service.ppt_service import PPTService  
 @fileRouter.post('/privacy-files/PPT/anonymize')
-async def PPT(ppt: UploadFile = File(...), ocr: str = Query('Tesseract', enum=['Tesseract', "EasyOcr", "ComputerVision"]), portfolio: Optional[str] = Form(None), account: Optional[str] = Form(None), exclusionList: Optional[str] = Form(None), auth=Depends(auth)):
+async def PPT(ppt: UploadFile = File(...),nlp:str=Form(default=None,example="basic/good/roberta/ranha"), ocr: str = Query('Tesseract', enum=['Tesseract', "EasyOcr", "ComputerVision"]), portfolio: Optional[str] = Form(None), account: Optional[str] = Form(None), exclusionList: Optional[str] = Form(None),piiEntitiesToBeRedacted:Optional[str]=Form(None), auth=Depends(auth)):
     id = uuid.uuid4().hex
     request_id_var.set(id)
     log.info("Entered create into image_anonymize routing method")
@@ -1907,7 +1394,7 @@ async def PPT(ppt: UploadFile = File(...), ocr: str = Query('Tesseract', enum=['
         log.info(f"start_time: {start_time}")
         log.info("Before invoking create usecase service")
 
-        payload = {"easyocr": ocr, "mag_ratio": False, "rotationFlag": False, "file": ppt, "portfolio": portfolio, "account": account, "exclusion": exclusionList}
+        payload = {"easyocr": ocr, "mag_ratio": False, "rotationFlag": False, "file": ppt,"nlp":nlp if nlp!="" else None, "portfolio": portfolio, "account": account, "exclusion": exclusionList,"piiEntitiesToBeRedacted":piiEntitiesToBeRedacted}
 
         log.debug("Request payload: " + str(payload))
         response = PPTService.mask_ppt(AttributeDict(payload))
@@ -1963,7 +1450,7 @@ async def PPT(ppt: UploadFile = File(...), ocr: str = Query('Tesseract', enum=['
 
 from privacy.service.docs_service import DOCService
 @fileRouter.post('/privacy-files/DOCX/anonymize')
-async def DOCX(docx: UploadFile = File(...), ocr: str = Query('Tesseract', enum=['Tesseract', "EasyOcr", "ComputerVision"]), portfolio: Optional[str] = Form(None), account: Optional[str] = Form(None), exclusionList: Optional[str] = Form(None), auth=Depends(auth)):
+async def DOCX(docx: UploadFile = File(...), nlp:str=Form(default=None,example="basic/good/roberta/ranha"),ocr: str = Query('Tesseract', enum=['Tesseract', "EasyOcr", "ComputerVision"]), portfolio: Optional[str] = Form(None), account: Optional[str] = Form(None), exclusionList: Optional[str] = Form(None), piiEntitiesToBeRedacted:Optional[str]=Form(None),auth=Depends(auth)):
     id = uuid.uuid4().hex
     request_id_var.set(id)
     log.info("Entered create into image_anonymize routing method")
@@ -1972,7 +1459,7 @@ async def DOCX(docx: UploadFile = File(...), ocr: str = Query('Tesseract', enum=
         log.info(f"start_time: {start_time}")
         log.info("Before invoking create usecase service")
 
-        payload = {"easyocr": ocr, "mag_ratio": False, "rotationFlag": False, "file": docx, "portfolio": portfolio, "account": account, "exclusion": exclusionList}
+        payload = {"easyocr": ocr, "mag_ratio": False, "rotationFlag": False, "file": docx,"nlp":nlp if nlp!="" else None, "portfolio": portfolio, "account": account, "exclusion": exclusionList,"piiEntitiesToBeRedacted":piiEntitiesToBeRedacted}
 
         log.debug("Request payload: " + str(payload))
         response = DOCService.mask_doc(AttributeDict(payload))
@@ -2025,3 +1512,110 @@ async def DOCX(docx: UploadFile = File(...), ocr: str = Query('Tesseract', enum=
             detail="Please check with administration!!",
             headers={"X-Error": "Please check with administration!!"}
         )
+
+@fileRouter.post('/privacy-files/csv/anonymize')
+def csv_anonymize(file: UploadFile = File(...), keys_to_skip: Union[str, None] = Form(None), nlp: str = Form(default=None, example="basic/good/roberta/ranha"), ocr: str = Query('Tesseract', enum=['Tesseract', "EasyOcr", "ComputerVision"]), portfolio: Optional[str] = Form(None), account: Optional[str] = Form(None), exclusionList: Optional[str] = Form(None),piiEntitiesToBeRedacted:Optional[str]=Form(None),auth=Depends(auth)):
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered csv_anonymize routing method")
+    try:
+        payload = {
+            "file": file,
+            "keys_to_skip": keys_to_skip.split(',') if keys_to_skip else None,
+            "nlp":nlp if nlp!="" else "basic",
+            "portfolio": portfolio, 
+            "account": account, 
+            "exclusion": exclusionList,
+            "piiEntitiesToBeRedacted":piiEntitiesToBeRedacted
+
+        }
+        log.debug("Payload: " + str(payload))
+        start_time = time.time()
+        output = CSVService.csv_anonymize(payload)
+        end_time = time.time()
+        total_time = end_time - start_time
+        log.info("Total Time taken " + str(total_time))
+        log.info("Exiting csv_anonymize routing method")
+        return Response(output.getvalue(), media_type='text/csv', headers={'Content-Disposition': 'attachment; filename=anonymized.csv'})
+    except Exception as e:
+        log.error(str(e))
+        raise e
+
+
+
+@fileRouter.post('/privacy-files/json/anonymize')
+def anonymize_json(file: UploadFile = File(...), keys_to_skip: Union[str, None] = Form(None),  nlp: str = Form(default=None, example="basic/good/roberta/ranha"), ocr: str = Query('Tesseract', enum=['Tesseract', "EasyOcr", "ComputerVision"]), portfolio: Optional[str] = Form(None), account: Optional[str] = Form(None), exclusionList: Optional[str] = Form(None),piiEntitiesToBeRedacted:Optional[str]=Form(None),auth=Depends(auth)):
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered anonymize_json routing method")
+    try:
+        payload = {
+            "file": file,
+            "keys_to_skip": keys_to_skip.split(',') if keys_to_skip else None,
+            "nlp": nlp if nlp != "" else "basic",
+            "easyocr": ocr,
+            "portfolio": portfolio,
+            "account": account,
+            "exclusion": exclusionList,
+            "piiEntitiesToBeRedacted":piiEntitiesToBeRedacted,
+        }
+        log.debug("Payload: " + str(payload))
+        start_time = time.time()
+        anonymized_json = JSONService.anonymize_json(payload)
+        end_time = time.time()
+        total_time = end_time - start_time
+        log.info("Total Time taken " + str(total_time))
+        log.info("Exiting anonymize_json routing method")
+        return Response(anonymized_json, media_type='application/json', headers={'Content-Disposition': 'attachment; filename=anonymized.json'})
+    except Exception as e:
+        log.error(str(e))
+        raise e
+
+from privacy.service.files_service import *
+
+def get_file_extension(filename: str) -> str:
+    return filename.split('.')[-1].lower()
+
+@fileRouter.post('/privacy-files/anonymize')
+def anonymize_file(file: UploadFile = File(...), nlp: str = Form(default=None, example="basic/good/roberta/ranha"), ocr: str = Query('Tesseract', enum=['Tesseract', "EasyOcr", "ComputerVision"]), portfolio: Optional[str] = Form(None), account: Optional[str] = Form(None), exclusionList: Optional[str] = Form(None), keys_to_skip: Union[str, None] = Form(None),piiEntitiesToBeRedacted:Optional[str]=Form(None), auth=Depends(auth)):
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered anonymize_file routing method")
+    try:
+        file_extension = get_file_extension(file.filename)
+        payload = {
+            "file": file,
+            "nlp": nlp if nlp != "" else "basic",
+            "easyocr": ocr,
+            "portfolio": portfolio,
+            "account": account,
+            "mag_ratio": False,
+            "rotationFlag":False,
+            "exclusion": exclusionList,
+            "piiEntitiesToBeRedacted":piiEntitiesToBeRedacted,
+            "keys_to_skip": keys_to_skip.split(',') if keys_to_skip else None
+        }
+        log.debug("Payload: " + str(payload))
+        start_time = time.time()
+        response_file = FileService.anonymize_file(payload, file_extension)
+        end_time = time.time()
+        total_time = end_time - start_time
+        log.info("Total Time taken " + str(total_time))
+        log.info("Exiting anonymize_file routing method")
+        
+        media_type = 'application/octet-stream'
+        if file_extension == 'csv':
+            media_type = 'text/csv'
+        elif file_extension == 'json':
+            media_type = 'application/json'
+        elif file_extension == 'pdf':
+            media_type = 'application/pdf'
+        elif file_extension == 'ppt':
+            media_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        elif file_extension == 'docx':
+            media_type = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+
+        return StreamingResponse(response_file, media_type=media_type, headers={"Content-Disposition": f"attachment; filename=anonymized.{file_extension}"})
+    except Exception as e:
+        log.error(str(e))
+        raise HTTPException(status_code=500, detail="An error occurred during file anonymization.")

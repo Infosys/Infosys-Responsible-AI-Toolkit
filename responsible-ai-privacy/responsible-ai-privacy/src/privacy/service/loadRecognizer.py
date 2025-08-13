@@ -25,27 +25,25 @@ class LoadRecognizer:
         # gc.collect()
         log.debug(f"payload: {payload}")
         try:
-            # print("payload",payload)
             payload=AttributeDict(payload)
-            # print("payload",payload.file)
             contents =payload.file.file.read()
           
             json_data_bytes = bytes(contents)
             json_data_decoded = json_data_bytes.decode("utf-8")
             
             json_data = json.loads (json_data_decoded)
-            # print(json_data)
+
             
             for d in range(len(json_data)):
                         # record=ApiCall.getRecord(entityType[d])
                         # record=AttributeDict(record)
                         json_data[d] = AttributeDict(json_data[d])
-                        # print("json_data[d]",json_data[d])
+                         
                         
                         if(json_data[d]['RecogType']=="Data"):
                                 
                                 dataRecog=(DataListRecognizer(terms=json_data[d].EntityValue,entitie=[json_data[d].RecogName]))
-                                # print("dataRecog",dataRecog)
+                                 
                                 registry.add_recognizer(dataRecog)
                                 # log.debug("++++++"+str(entityType[d]))
                                 # results = engine.analyze(image,entities=[entityType[d]])
@@ -60,13 +58,12 @@ class LoadRecognizer:
                                                         score=json_data[d].Score)
                             patternRecog = PatternRecognizer(supported_entity=json_data[d].RecogName,
                                                                     patterns=[patternObj],context=contextObj)
-                            # print("patternRecog",patternRecog)
+                             
                             registry.add_recognizer(patternRecog)
                             
                   
-            # print("recog====",analyzer.get_recognizers())
-            # print("recog====",analyzer.get_supported_entities())
-            return {"Available Recognizers":analyzer.get_supported_entities()}
+ 
+            return {"Available Recognizers":registry.get_supported_entities()+[str(i)+"*" for i in set(ranha_recog.get_supported_entities())-set(registry.get_supported_entities())],"*": "select NLP:ranha use the above entities"}
         except Exception as e:
                 log.error(str(e))
                 log.error("Line No:"+str(e.__traceback__.tb_lineno))
@@ -79,8 +76,8 @@ class LoadRecognizer:
     def load_recognizer():
         
         try:
-            # print("recog====",analyzer.get_supported_entities())
-            return {"Available Recognizers":analyzer.get_supported_entities()}
+ 
+            return {"Available Recognizers":registry.get_supported_entities()+[str(i)+"*" for i in set(ranha_recog.get_supported_entities())-set(registry.get_supported_entities())],"*": "select NLP:ranha use the above entities"}
         except Exception as e:
                 log.error(str(e))
                 log.error("Line No:"+str(e.__traceback__.tb_lineno))

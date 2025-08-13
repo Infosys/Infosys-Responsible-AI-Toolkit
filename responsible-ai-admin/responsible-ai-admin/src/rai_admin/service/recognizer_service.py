@@ -1,11 +1,13 @@
-'''
-MIT license https://opensource.org/licenses/MIT
-Copyright 2024 Infosys Ltd
- 
+"""
+# SPDX-License-Identifier: MIT
+# Copyright 2024 - 2025 Infosys Ltd.
+
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-'''
+"""
 
 from io import BytesIO
 import io
@@ -368,20 +370,14 @@ class AccMaster:
     def getAccData(payload)->AccDataResponse:
         log.info(str(payload))
         dataList=AccDataGrpDb.findall({"accMasterId":payload.accMasterId})
-        # print(data)
-        # print("datalist=====",dataList)
         response=[]
         # print("type of datalist===",len(dataList))
         for i in dataList:
             # print("value of i=====",i)
-            value= RecogDb.findall({"RecogId":i.dataRecogGrpId})[0]
-            # print("value====",value)
-            # print("type value====",type(value))
-            # print("value==",value)
-            value["isHashify"]=i.isHashify
-            
-            response.append(value)
-        # print(response)
+            value= RecogDb.findall({"RecogId":i.dataRecogGrpId})
+            if(len(value)>0):
+                value[0]["isHashify"]=i.isHashify
+                response.append(value[0])
         obj=AccDataResponse
         obj.dataList=response
         obj.accMasterId=payload.accMasterId
@@ -671,18 +667,18 @@ class PrivacyData:
             # print("=====",accName)
             # accMasterid=AccMasterDb.findall({"accMasterName":accName})[0]
             accdata=AccDataGrpDb.findall({"accMasterId":accName})
-            # print(accdata)
             for i in accdata:
-                record=RecogDb.findOne(i.dataRecogGrpId)
-                record=AttributeDict(record)
-                recogList.append(record)
-                if(i.isHashify==True):
-                    encrList.append(record.RecogName)
-                if(record.isPreDefined=="No"):
-                    newEntityType.append(record.RecogName)
-                    datalsit.append(EntityDb.mycol.distinct("EntityName",{"RecogId":i.dataRecogGrpId}))
-                else:
-                    preEntity.append(record.RecogName)
+                record= RecogDb.findall({"RecogId":i.dataRecogGrpId})
+                if(len(record)>0):
+                    # record=AttributeDict(record)
+                    recogList.append(record[0])
+                    if(i.isHashify==True):
+                        encrList.append(record[0].RecogName)
+                    if(record[0].isPreDefined=="No"):
+                        newEntityType.append(record[0].RecogName)
+                        datalsit.append(EntityDb.mycol.distinct("EntityName",{"RecogId":i.dataRecogGrpId}))
+                    else:
+                        preEntity.append(record[0].RecogName)    
             # entityType=
         else:
             recogList=RecogDb.findall({})
@@ -1087,7 +1083,11 @@ class FMConfig:
         "Profanity",
         "RestrictTopic",
         "TextQuality",
-        "CustomizedTheme"
+        "CustomizedTheme",
+        "Sentiment",
+        "InvisibleText",
+        "Gibberish",
+        "BanCode"
        ]
         auth = list(ModerationChecksDb.findall({}))
         obj=FmConfigUpdateStatus
@@ -1098,27 +1098,27 @@ class FMConfig:
                 obj.result=response 
         return obj
     def RestrictedTopicCreate():
-        value =  [
-        "terrorism",
-        "explosives",
-        "nudity",
-        "sexual Content",
-        "cruelty",
-        "cheating",
-        "fraud",
-        "crime",
-        "hacking",
-        "security Breach",
-        "immoral",
-        "cyberattack",
-        "exam Misconduct",
-        "conspiracy",
-        "unethical",
-        "illegal",
-        "robbery",
-        "forgery",
-        "misinformation"
-       ]
+        value = [
+        "Terrorism",
+        "Explosives",
+        "Nudity",
+        "Sexual Content",
+        "Cruelty",
+        "Cheating",
+        "Fraud",
+        "Crime",
+        "Hacking",
+        "Security Breach",
+        "Immoral",
+        "Cyberattack",
+        "Exam Misconduct",
+        "Conspiracy",
+        "Unethical",
+        "Illegal",
+        "Robbery",
+        "Forgery",
+        "Misinformation"
+    ]
         auth = list(RestrictedTopic.findall({}))
         obj=FmConfigUpdateStatus
         if len(auth)==0:           
@@ -1136,7 +1136,11 @@ class FMConfig:
         "RestrictTopic",
         "TextQuality",
         "CustomizedTheme",
-         "TextRelevance"
+        "TextRelevance",
+        "Sentiment",
+        "InvisibleText",
+        "Gibberish",
+        "BanCode"
        ]
         auth = list(OutputModerationChecksDb.findall({}))
         obj=FmConfigUpdateStatus

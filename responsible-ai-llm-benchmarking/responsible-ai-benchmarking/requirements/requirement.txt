@@ -10,7 +10,7 @@ python-dotenv
 pymongo
 gradio-client
 grpcio
-torch==2.5.0
-lib/aicloudlibs-0.1.0-py3-none-any.whl
+torch==2.6.0
 lib/trustllm-0.3.3-py2.py3-none-any.whl
+transformers==4.48.1
 

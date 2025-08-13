@@ -1,10 +1,3 @@
-
-import json
-import os
-import uuid
-
-from pydantic import BaseModel, Json
-
 '''
 MIT license https://opensource.org/licenses/MIT
 Copyright 2024 Infosys Ltd
@@ -15,23 +8,28 @@ The above copyright notice and this permission notice shall be included in all c
  
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
-
-
+import json
+import os
+import uuid
+from pydantic import BaseModel, Field, Json
 from fastapi import Body, Depends, Form,Request,APIRouter, HTTPException
 from typing import List, Optional, Union
-
 import requests
-from profanity.mappers.mappers import profanity, profanityScoreList, ProfanityAnalyzeRequest, ProfanityAnalyzeResponse,ProfanitycensorRequest, ProfanitycensorResponse
-from profanity.service.service import ProfanityService as service
+from profanity.mappers.mappers import profanity, profanityScoreList, ProfanityAnalyzeRequest, ProfanityAnalyzeResponse,ProfanitycensorRequest, ProfanitycensorResponse,MaliciousURLAnalyzeRequest
+from profanity.service.service import  AddProfaneWordService, CsvSafetyService, ProfanityService as service
+from profanity.service.malicious_url_service import MaliciousUrlService
 from profanity.exception.exception import ProfanityException
 from profanity.config.logger import CustomLogger
 from datetime import datetime
 import concurrent.futures
 from fastapi import FastAPI, UploadFile,File
+from fastapi import Response
+from fastapi.responses import FileResponse
 
 now = datetime.now()
 router = APIRouter()
 log=CustomLogger()
+sslv={"False":False,"True":True,"None":True}
 profanitytelemetryurl = os.getenv("PROFANITY_TELEMETRY_URL")
 
 class NoAccountException(Exception):
@@ -41,12 +39,38 @@ class NoAdminConnException(Exception):
 
 def send_telemetry_request(privacy_telemetry_request):
         log.info(profanitytelemetryurl)
-        response = requests.post(profanitytelemetryurl, json=privacy_telemetry_request)
+        response = requests.post(profanitytelemetryurl, json=privacy_telemetry_request,verify=sslv[os.getenv("VERIFY_SSL","None")])
         log.info(response)
         response.raise_for_status()
         log.info("after raise status")       
         response_data = response.json()
         log.info(response_data)
+        
+
+
+@router.post('/safety/profanity/addProfaneWords')
+def analyze(payload:UploadFile = File(...)):
+    log.info("Entered create usecase routing method")
+    payload = {"file":payload}
+    id = uuid.uuid4().hex
+    log.info("UUID: " + id)
+    try:
+        log.info("before invoking create usecase service ")
+        log.debug("request payload: "+ str(payload))
+        response = AddProfaneWordService.addProneWord(payload)
+        log.info("after invoking create usecase service ")
+        log.debug("response : "+ str(response))
+        log.info("exit create usecase routing method")
+        return response
+    except ProfanityException as cie:
+        log.error(cie.__dict__)
+        log.info("exit create usecase routing method")
+        raise HTTPException(**cie.__dict__)
+
+
+
+
+
 @router.post('/safety/profanity/analyze', response_model= ProfanityAnalyzeResponse)
 def analyze(payload: ProfanityAnalyzeRequest):
     log.info("Entered create usecase routing method")
@@ -93,6 +117,8 @@ def analyze(payload: ProfanityAnalyzeRequest):
         log.error(cie.__dict__)
         log.info("exit create usecase routing method")
         raise HTTPException(**cie.__dict__)
+
+
 
 @router.post('/safety/profanity/censor', response_model= ProfanitycensorResponse)
 def censor(payload: ProfanitycensorRequest):
@@ -176,34 +202,37 @@ def censor(payload: ProfanitycensorRequest):
 
 
 @router.post('/safety/profanity/imageanalyze')
-def imageAnalyze(portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),image: UploadFile = File(...)):
-    # print("===========================",config,type(config))
-    payload={"image":image,"portfolio":portfolio,"account":account}
-    # config='{"drawings":0.5,"hentai":0.5,"neutral":0.5,"porn":0.5,"sexy":0.5}' if config==None or config=="" else config
-    # config=json.loads(config)
+def imageAnalyze(
+    portfolio: Optional[str] = Form(None),
+    account: Optional[str] = Form(None),
+    image: UploadFile = File(...),
+    accuracy: Optional[str] = Form("high")  # New parameter for accuracy
+):
+    payload = {
+        "image": image,
+        "portfolio": portfolio,
+        "account": account,
+        "accuracy": accuracy  # Include the new parameter in the payload
+    }
     log.info("Entered create usecase routing method")
     id = uuid.uuid4().hex
     log.info("UUID: " + id)
     try:
         log.debug("before invoking create usecase service ")
-        log.debug("request payload: "+ str(payload))
+        log.debug("request payload: " + str(payload))
         response = service.imageAnalyze(payload)
         log.debug("after invoking create usecase service ")
-        # log.debug("response : "+ str(response))
         log.debug("exit create usecase routing method")
-        if(response==None):
+        if response is None:
             print("Inside Raise Exception")
-            # return "Portfolio/Account Is Incorrect"
             raise NoAccountException
-        if(response==404):
+        if response == 404:
             raise NoAdminConnException
-       
         return response
     except ProfanityException as cie:
         log.error(cie.__dict__)
         log.info("exit create usecase routing method")
         raise HTTPException(**cie.__dict__)
-
     except NoAccountException:
         raise HTTPException(
             status_code=430,
@@ -213,15 +242,9 @@ def imageAnalyze(portfolio:Optional[str]=Form(None),account:Optional[str]=Form(N
     except NoAdminConnException:
         raise HTTPException(
             status_code=435,
-            detail=" Accounts and Portfolio not available with the Subscription!!",
+            detail="Accounts and Portfolio not available with the Subscription!!",
             headers={"X-Error": "Admin Connection is not established,"},
         )
-
-
-
-
-
-
 
 @router.post('/safety/profanity/imageGenerate')
 def imageAnalyze(portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),prompt:str=Form(...)):
@@ -395,3 +418,92 @@ def videoAnalyzeNud(video: UploadFile = File(...)):
             detail=" Accounts and Portfolio not available with the Subscription!!",
             headers={"X-Error": "Admin Connection is not established,"},
         )
+
+
+## Malicious URL Detection
+@router.post('/safety/profanity/maliciousUrl')
+def maliciousUrl(payload: MaliciousURLAnalyzeRequest):
+    log.info("Entered create usecase routing method")
+    id = uuid.uuid4().hex
+    log.info("UUID: " + id)
+    try:
+        log.info("before invoking create usecase service ")
+        log.debug("request payload: "+ str(payload))
+        m= MaliciousUrlService()
+        response = m.scan(payload)
+        log.info("after invoking create usecase service ")
+        log.debug("response : "+ str(response))
+        log.info("exit create usecase routing method")
+        log.info('Before telemetry')
+        tel_flag = os.getenv('TELEMETRY_FLAG')
+        log.debug("TelFlag="+ str(tel_flag))
+        
+        if(tel_flag == "True"):
+            log.info("INSIDE TELEMETRY IF CONDITION")    
+            responseObject = {
+                "profanityScoreList": response['result'],
+                "outputText": "None"
+            }
+
+            telemetryPayload = {
+                    "uniqueid": id,
+                    "tenant": "malicious-url-detection",      
+                    "apiname": "detect",   
+                    "user": payload.user if payload.user is not None else "None",
+                    "date": now.isoformat(),
+                    "lotNumber": payload.lotNumber if payload.lotNumber is not None else "None",
+                    "request": {
+                        "inputText": payload.inputText,
+                    },
+                    "response": responseObject
+                }
+                 
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                executor.submit(send_telemetry_request, telemetryPayload)
+            log.info('After telemetry')
+        return response
+    except ProfanityException as cie:
+        log.error(cie.__dict__)
+        log.debug("exit create usecase routing method")
+        raise HTTPException(**cie.__dict__)
+    except NoAccountException:
+        raise HTTPException(
+            status_code=430,
+            detail="Portfolio/Account Is Incorrect",
+            headers={"X-Error": "There goes my error"},
+        )
+    except NoAdminConnException:
+        raise HTTPException(
+            status_code=435,
+            detail=" Accounts and Portfolio not available with the Subscription!!",
+            headers={"X-Error": "Admin Connection is not established,"},
+        )
+        
+@router.post('/safety/profanity/csvSafety')
+def bulkAnalyze(file: UploadFile = File(...)):
+    log.info("Entered create usecase routing method")
+    payload={"file":file}
+    id = uuid.uuid4().hex
+    log.info("UUID: " + id)
+    try:
+        log.info("before invoking create usecase service ")
+        log.debug("request payload: "+ str(payload))
+        # response = service.analyze(payload)
+        response = CsvSafetyService.csvSafetyCheck(payload)
+        log.info("after invoking create usecase service ")
+        log.debug("response : "+ str(response))
+        log.info("exit create usecase routing method")
+        log.info('Before telemetry')
+        tel_flag = os.getenv('TELEMETRY_FLAG')
+        # tel_flag = json.loads(telFlagData)
+        log.debug("TelFlag="+ str(tel_flag))
+        
+        
+        return Response(response.getvalue(), media_type='text/csv', headers={'Content-Disposition': 'attachment; filename=safety.csv'})
+        
+    except ProfanityException as cie:
+        log.error(cie.__dict__)
+        log.info("exit create usecase routing method")
+        raise HTTPException(**cie.__dict__)
+
+

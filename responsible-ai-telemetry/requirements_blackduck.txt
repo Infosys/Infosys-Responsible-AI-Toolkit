@@ -18,7 +18,7 @@ MarkupSafe
 pip               
 pydantic          
 pydantic_core     
-pymongo==4.5.0
+pymongo==4.6.3
 python-dateutil   
 python-dotenv     
 pytz              

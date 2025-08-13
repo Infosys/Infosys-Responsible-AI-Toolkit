@@ -1,2 +1,2 @@
-C:\Python\Python3.9.13\Python3.9.13\python.exe -m venv p_env
-p_env\scripts\activate & pip install -r requirements_blackduck.txt --index-url
+"C:\Program Files\Python311\python.exe" -m venv p_env
+p_env\Scripts\activate && pip install -r requirements.txt

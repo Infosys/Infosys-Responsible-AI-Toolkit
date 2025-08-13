@@ -1,40 +1,46 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="p-3 px-4 h-100" *ngIf="isCreateData == true">
     <div class="d-flex justify-content-between align-items-center pb-4">
         <p class="headingTop">Add Data</p>
-        <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
     </div>
     <form [formGroup]="SecurityForm">
         <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
         <div class="d-flex flex-column justify-content-between" style="height:90%;">
-            <input class="form-control" type="text" formControlName="dataFileName" placeholder="Data File Name" aria-label="DataFile Name">
+            <input class="form-control" type="text" formControlName="dataFileName" placeholder="Data File Name"
+                aria-label="DataFile Name">
 
-            <select class="form-select shadow-none" formControlName="targetDataType" [disabled]="!target_Data_Type" placeholder="Select Data Type">
+            <select class="form-select shadow-none" formControlName="targetDataType" [disabled]="!target_Data_Type"
+                placeholder="Select Data Type">
                 <option value="" disabled selected>Select Data Type</option>
                 <option *ngFor="let option of target_Data_Type" [value]="option.value">{{option.viewValue}}</option>
             </select>
-            <input type="text" formControlName="targetColumnName" class="form-control" placeholder="Groundtruth LabelName" aria-label="Groundtruth LabelName">
+            <input type="text" formControlName="targetColumnName" class="form-control"
+                placeholder="Groundtruth LabelName" aria-label="Groundtruth LabelName">
 
-            <input type="text" formControlName="targetOutputClass" class="form-control" placeholder="Groundtruth LabelData" aria-label="Groundtruth LabelData" (input)="convertToArrayForTargetOutputClass()">
+            <input type="text" formControlName="targetOutputClass" class="form-control"
+                placeholder="Groundtruth LabelData" aria-label="Groundtruth LabelData"
+                (input)="convertToArrayForTargetOutputClass()">
             <div class="upload-button-section w-50 flex-column" style="display: flex;">
                 <!-- <input type="file" #fileDropRef id="fileDropRef" formControlName="dataFileDropRef"
                     (change)="fileBrowseHandler($event)" (click)="fileDropRef.value=''" multiple style="display: none;">
                 <button class="uploadButton" (click)="fileDropRef.click()">UPLOAD</button> -->
-                <input type="file" id="uploadFile" name="uploadFile" formControlName="dataFileDropRef" (change)="fileBrowseHandler($event)" class="uploadButton" />
+                <input type="file" id="uploadFile" name="uploadFile" formControlName="dataFileDropRef" (change)="fileBrowseHandler($event)"
+                    class="uploadButton" />
                 <label for="uploadFile">Upload</label>
                 <p class="dnd-lable">.csv files are supported</p>
                 <div *ngFor="let file of files; let i = index">
                     <div class="file-upload mt-2 w-50">
                         <p style="margin: 0px; font-size: x-small;">{{ file?.name }}</p>
                         <div class="d-flex align-items-center mt-1">
-                            <mat-progress-bar class="mr-1" mode="determinate" [value]="file?.progress"></mat-progress-bar>
-                            <button class="cancel-button mr-2" (click)="deleteFile(i)">
+                            <mat-progress-bar class="me-1" mode="determinate"
+                                [value]="file?.progress"></mat-progress-bar>
+                            <button class="cancel-button me-2" (click)="deleteFile(i)">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </div>
@@ -44,7 +50,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
         <div class="button-container">
             <button mat-raised-button class="mainBtn resetButton" color="reset" (click)="resetForm()">Reset</button>
-            <button mat-raised-button class="mainBtn" (click)="createNew()" style="margin-left: .5rem;" color="black">Submit</button>
+            <button mat-raised-button class="mainBtn" (click)="createNew()" style="margin-left: .5rem;"
+                color="black">Submit</button>
         </div>
     </form>
     <div *ngIf="spinner==true" class="w-25 mt-2 d-flex justify-content-center align-items-center" style="color: #8626C3;">
@@ -57,9 +64,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <div class="p-3 px-4 h-100" *ngIf="isUpdateData == true">
     <div class="d-flex justify-content-between align-items-center pb-4">
         <p class="headingTop">Update Data</p>
-        <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
     </div>
     <form [formGroup]="SecurityUpdateForm">
         <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
@@ -70,8 +75,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <option value="" disabled selected>Select Data Type</option>
                 <option *ngFor="let option of target_Data_Type" [value]="option.value">{{option.viewValue}}</option>
             </select>
-            <input type="text" class="form-control" id="targetColumnName" formControlName="targetColumnName" placeholder="Groundtruth LabelName" />
-            <input type="text" class="form-control" id="targetOutputClass" formControlName="targetOutputClass" (input)="convertToArrayForTargetOutputClass2()" placeholder="Groundtruth LabelData" />
+            <input type="text" class="form-control" id="targetColumnName" formControlName="targetColumnName"
+                placeholder="Groundtruth LabelName" />
+            <input type="text" class="form-control" id="targetOutputClass" formControlName="targetOutputClass"
+                (input)="convertToArrayForTargetOutputClass2()" placeholder="Groundtruth LabelData" />
             <!-- <div class="upload-button-section" style="display: flex; align-items: center;">
                 <input type="file" #fileDropRef id="fileDropRef" formControlName="dataFileDropRef"
                     (change)="fileBrowseHandler($event)" (click)="fileDropRef.value=''" multiple style="display: none;">
@@ -82,14 +89,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <!-- <input type="file" #fileDropRef id="fileDropRef" formControlName="dataFileDropRef"
                     (change)="fileBrowseHandler($event)" (click)="fileDropRef.value=''" multiple style="display: none;">
                 <button class="uploadButton" (click)="fileDropRef.click()">UPLOAD</button> -->
-                <input type="file" id="uploadFile" name="uploadFile" formControlName="dataFileDropRef" (change)="fileBrowseHandler($event)" class="uploadButton" />
+                <input type="file" id="uploadFile" name="uploadFile" formControlName="dataFileDropRef" (change)="fileBrowseHandler($event)"
+                    class="uploadButton" />
                 <label for="uploadFile">Upload</label>
                 <div *ngFor="let file of files; let i = index">
                     <div class="file-upload mt-2 w-50">
                         <p style="margin: 0px; font-size: x-small;">{{ file?.name }}</p>
                         <div class="d-flex align-items-center mt-1">
-                            <mat-progress-bar class="mr-1" mode="determinate" [value]="file?.progress"></mat-progress-bar>
-                            <button class="cancel-button mr-2" (click)="deleteFile(i)">
+                            <mat-progress-bar class="me-1" mode="determinate"
+                                [value]="file?.progress"></mat-progress-bar>
+                            <button class="cancel-button me-2" (click)="deleteFile(i)">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </div>
@@ -99,7 +108,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
         <div class="button-container">
             <button mat-raised-button class="mainBtn resetButton" color="reset" (click)="resetForm()">Reset</button>
-            <button mat-raised-button (click)="updateDataFile()" class="mainBtn" style="margin-left: .5rem;" color="black">Submit</button>
+            <button mat-raised-button (click)="updateDataFile()" class="mainBtn" style="margin-left: .5rem;"
+                color="black">Submit</button>
         </div>
 
     </form>

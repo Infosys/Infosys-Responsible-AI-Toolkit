@@ -1,0 +1,463 @@
+/* Your specified section and its classes remain untouched */
+
+.topHeading {
+    /* position: absolute;
+    left: 0;
+    top: 0; */
+    color: #4D4D4D;
+    font-weight: 400;
+    font-size: 24px;
+    font-family: 'Segoe UI';
+}
+
+.upload-card {
+    width: 343px;
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px; /* Ensure spacing from the heading */
+}
+
+.card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #303030;
+    /* margin-bottom: 10px; */
+}
+
+.drop-zone {
+    width: 100%;
+    height: auto;
+    border: 2px dashed #dcdcdc;
+    border-radius: 5px;
+    text-align: center;
+    color: #4a4a4a;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    position: relative;
+    padding: 23px;
+    overflow: hidden;
+}
+
+.drop-zone p {
+    margin-bottom: 20px;
+}
+
+.drop-zone input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.browse-logo {
+    opacity: 70%;
+    width: 3.914rem;
+    height: 2.739rem;
+}
+
+.paragraph_dnd {
+    color: #9c9c9c;
+    opacity: 70%;
+    font-family: 'Segoe UI';
+    font-weight: regular;
+    font-size: 12px;
+}
+
+.high-light {
+    font-family: 'Segoe UI';
+    font-weight: 600 !important;
+    font-size: 0.75rem;
+    color: #061838 !important;
+    opacity: 70% !important;
+}
+
+.dnd-lable {
+    color: #9c9c9c;
+    opacity: 70%;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    font-size: 0.65rem;
+}
+
+.file-upload {
+    margin-top: 10px;
+}
+
+.cancel-button {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.cancel-button mat-icon {
+    color: white;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+
+.mainBtn {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: 11px;
+    height: 24px;
+    width: 70px;
+}
+
+.resetButton {
+    width: 65px;
+}
+
+.mat-black {
+    color: white !important;
+    background-color: #231F20 !important;
+}
+
+.mat-reset {
+    color: white !important;
+    background-color: #BFBFBF !important;
+}
+
+.button-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: right;
+}
+/* ----- End of untouched section ----- */
+
+/* Updated CSS for rest of the page */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+    padding: 1rem;
+}
+
+.grid-item {
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+.file-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.file-list-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a4a4a;
+    margin-bottom: 8px;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.styled-table th {
+    font-size: 0.75rem;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    color: #382261;
+    opacity: 70%;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 8px;
+}
+
+.styled-table td {
+    font-size: 0.8rem;
+    padding: 8px 0;
+    color: #4D4D4D;
+}
+
+.styled-table t-body {
+    max-height: 15rem;
+    overflow-y: scroll;
+}
+
+/* Pagination */
+::ng-deep .ngx-pagination .current {
+    background: #8626C3 !important;
+}
+
+.ngx-pagination a {
+    text-decoration: none;
+}
+
+.pagination-label {
+    font-family: 'Segoe UI';
+    font-weight: 500 !important;
+    font-size: .60rem;
+    margin-right: 100px;
+}
+
+.pagination-info {
+    font-family: 'Segoe UI';
+    font-weight: 500 !important;
+    font-size: 12px;
+    color: #7E7E7E;
+}
+
+.compliance-summary-card {
+    height: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.compliance-summary-card .card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4D4D4D;;
+}
+
+.compliance-summary-card .compliance-percentage {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4caf50;
+}
+
+.compliance-summary-card .compliance-status {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #f44336;
+}
+
+.compliance-details-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.compliance-chart-card {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.compliance-chart-card .card-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #4D4D4D;
+}
+
+.compliance-chart-card .card-body {
+    max-height: 341px;
+    padding: 1rem;
+}
+
+.headingLabel {
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #4a4a4a;
+    cursor: pointer;
+    margin-bottom: 0rem;
+    margin-right: 1rem;
+    text-transform: uppercase;
+}
+
+.headingLabel.activeTab {
+    color: #8626C3;
+    border-bottom: #8626C3 2px solid;
+}
+
+.w-10 {
+    width: 10%;
+}
+
+.w-90 {
+    width: 90%;
+}
+
+td.greenLabel {
+    color: green !important;
+}
+
+.compCol {
+    color: red !important;
+    font-weight: 400;
+}
+
+.custom-span {
+    width: 100%;
+    height: 12px;
+    background: #e1e1e1;
+    border-radius: 4px;
+}
+
+.custom-span-score {
+    display: block;
+    background: #8626C3;
+    border-radius: 4px;
+    height: 12px;
+}
+
+.priority-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 80px;
+}
+
+.priority-low {
+    background-color: #ffff5f;
+    color: black; /* Optional for better contrast */
+}
+
+.priority-medium {
+    background-color: #ffa037;
+}
+
+.priority-high {
+    background-color: #f34d4d;
+}
+
+.card-high {
+    border-left-color: #f34d4d;
+    border-left-width: 4px;
+}
+
+.card-medium {
+    border-left-color: #ffa037;
+    border-left-width: 4px;
+}
+
+.card-low {
+    border-left-color: #ffff5f;
+    border-left-width: 4px;
+}
+
+/* loader css */
+.dynamic-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 1000;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.image-container {
+    /* scale: 0.3; */
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.loader-image {
+    width: 25%;
+    height: 100%;
+}
+
+.compliance-summary-section {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    font-family: 'Segoe UI'; /* Added font-family */
+}
+
+.compliance-summary-section .section-title {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    font-family: 'Segoe UI'; /* Added font-family */
+}
+
+.compliance-values-row {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px; /* Space between items */
+    font-family: 'Segoe UI'; /* Added font-family */
+}
+
+.compliance-item {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between key and value */
+    font-size: .75rem;
+    font-weight: 400;
+    color: #4D4D4D;
+    font-family: 'Segoe UI'; /* Added font-family */
+}
+
+.compliance-key {
+    font-weight: bold;
+    color: #303030;
+    font-family: 'Segoe UI'; /* Added font-family */
+}
+
+.compliance-value {
+    font-weight: bold;
+    font-family: 'Segoe UI'; /* Added font-family */
+}
+
+.redLabel {
+    color: #f44336 !important; /* Red for Non Compliant */
+    font-weight: bold;
+}
+
+.amberLabel {
+    color: #ffc107 !important; /* Amber for Partially Compliant */
+    font-weight: bold;
+}
+
+.greenLabel {
+    color: #4caf50 !important; /* Green for Fully Compliant */
+    font-weight: bold;
+}
+
+.recommendation-card-body {
+    overflow-y: auto;
+    max-height: 20rem;
+}
+
+/* Status label styles */
+.status-label {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: #fff;
+}
+
+.status-in-progress {
+    margin-right: 20px;
+    background-color: #f44336; /* Red for In Progress */
+}
+
+.status-completed {
+    margin-right: 20px;
+    background-color: #4caf50; /* Green for Completed */
+}

@@ -2,9 +2,9 @@
     "openapi": "3.0.0",
     "info": {
         "title": "Infosys Responsible AI - LLM Moderation - OpenAPI 3.0",
-        "description": "API specs for Infosys Responsible AI LLM Moderation layer in OpenAPI 3.0 format",
+        "description": "## APIs for LLM Moderation and Filtering to ensure Privacy, Safety, Security, and Transparency. \n\nFind out more @ [Responsible AI Office](https://www.infosys.com/services/data-ai-topaz/offerings/responsible-ai-overview.html)",
         "contact": {
-            "email": "aina@infosys.com"
+            "email": "ResponsibleAI@infosys.com"
         },
         "license": {
             "name": "Infosys",
@@ -69,14 +69,14 @@
         "/rai/v1/moderations": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
                     "BearerAuth": []
                     }
                 ],
-                "summary": "Moderations",
+                "summary": "Decoupled guardrail provides checks for the prompt like privacy check, prompt injection check, jailbreak check, toxicity check, restricted topic, custom theme check.",
                 "operationId": "generate_text_rai_v1_moderations_post",
                 "parameters": [
                     {
@@ -141,6 +141,17 @@
                           }
                         }
                       }
+                    },
+                    "310":
+                    {
+                        "description":"Empty moderation request checks list",
+                        "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPEmptyRequestCheckListError"
+                          }
+                        }
+                      }
                     }
                 }
             }
@@ -148,14 +159,14 @@
         "/rai/v1/moderations/coupledmoderations": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
                     "BearerAuth": []
                     }
                 ],
-                "summary": "Coupled Moderations",
+                "summary": "Coupled guardrail provides checks for input prompt, LLM interaction for generating response and checks for response.",
                 "operationId": "generate_text_rai_v1_moderations_coupledmoderations_post",
                 "parameters": [
                     {
@@ -220,6 +231,17 @@
                           }
                         }
                       }
+                    },
+                    "310":
+                    {
+                        "description":"Empty moderation request checks list",
+                        "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPEmptyRequestCheckListError"
+                          }
+                        }
+                      }
                     }
                 }
             }
@@ -227,7 +249,7 @@
         "/rai/v1/moderations/getTemplates/{userId}": {
             "get": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -245,7 +267,7 @@
                         }
                     }
                 ],
-                "summary": "Get Templates",
+                "summary": "To retrieve and store all the custom templates.",
                 "operationId": "generate_text_rai_v1_moderations_templates_get",
                 "responses": {
                     "200": {
@@ -281,10 +303,112 @@
                 }
             }
         },
+        "/rai/v1/moderations/clearCache": {
+            "get": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                    "BearerAuth": []
+                    }
+                ],
+                "summary": "To clear the cache of prompts and responses.",
+                "operationId": "generate_text_rai_v1_moderations_cache_clear",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/recommend": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                    "BearerAuth": []
+                    }
+                ],
+                "summary": "Recommends Prompts for the user.",
+                "operationId": "generate_text_rai_v1_moderations_recommend_prompts",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
         "/rai/v1/moderations/evalLLM": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -293,7 +417,7 @@
                         ]
                     }
                 ],
-                "summary": "Eval LLM",
+                "summary": "Provides Template based guardrails to check prompts for prompt injection, jailbreak, language coherence etc. using LLM as evaluator.",
                 "operationId": "generate_text_rai_v1_moderations_evalLLM_post",
                 "parameters": [
                     {
@@ -363,7 +487,7 @@
         "/rai/v1/moderations/multimodal": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -372,7 +496,7 @@
                         ]
                     }
                 ],
-                "summary": "Multimodal",
+                "summary": "Provides checks for multimodal prompts like prompt injection, jailbreak, etc.",
                 "operationId": "generate_text_rai_v1_moderations_multimodal_post",
                 "parameters": [
                     {
@@ -442,7 +566,7 @@
         "/rai/v1/moderations/translate": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -451,7 +575,7 @@
                         ]
                     }
                 ],
-                "summary": "Translate",
+                "summary": "To convert text in any language to English using Google Translate or Azure Translation.",
                 "operationId": "generate_text_rai_v1_moderations_translate_post",
                 "requestBody": {
                     "content": {
@@ -512,7 +636,7 @@
         "/rai/v1/moderations/openai": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -521,7 +645,7 @@
                         ]
                     }
                 ],
-                "summary": "Open AI Completion",
+                "summary": "Provides Open AI completion Response for a prompt.",
                 "operationId": "generate_text_rai_v1_moderations_openai_post",
                 "requestBody": {
                     "content": {
@@ -582,7 +706,7 @@
         "/rai/v1/moderations/openaiCOT": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -591,7 +715,7 @@
                         ]
                     }
                 ],
-                "summary": "Chain of Thought",
+                "summary": "Provides the Chain of Thought that LLM went through to provide the response to the prompt.",
                 "operationId": "generate_text_rai_v1_moderations_openaiCOT_post",
                 "requestBody": {
                     "content": {
@@ -650,12 +774,12 @@
         "/rai/v1/moderations/healthcareopenaiCOT": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [{
                     "my_auth": ["write:users"]
                 }],
-                "summary": "Explain Chain of Thought Text",
+                "summary": "Provides the chain of thoughts the LLM went through to provide response to the prompt, adding in example prompt response to tell the LLM which details to be included in the response and what format the response should be in.",
                 "operationId": "generate_text_rai_v1_moderations_healthcareopenaiCOT_post",
                 "requestBody": {
                     "content": {
@@ -714,7 +838,7 @@
         "/rai/v1/moderations/openaiTHOT": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -723,7 +847,7 @@
                         ]
                     }
                 ],
-                "summary": "Thread of Thought",
+                "summary": "Provides Thread of Thought ie. how LLM breaks down the prompt to correctly understand it and generate response. ",
                 "operationId": "generate_text_rai_v1_moderations_openaiTHOT_post",
                 "requestBody": {
                     "content": {
@@ -782,7 +906,7 @@
         "/rai/v1/moderations/ModerationTime": {
             "get": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -791,7 +915,7 @@
                         ]
                     }
                 ],
-                "summary": "Moderation Time",
+                "summary": "Provides the time taken by all Moderation Checks.",
                 "operationId": "generate_text_rai_v1_moderations_ModerationTime_get",
                 "responses": {
                     "200": {
@@ -830,7 +954,7 @@
         "/rai/v1/moderations/setTelemetry": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -839,7 +963,7 @@
                         ]
                     }
                 ],
-                "summary": "Telemetry Status",
+                "summary": "To Check Telemetry Status.",
                 "operationId": "telemetry_status_rai_v1_moderations_setTelemetry_post",
                 "parameters": [
                     {
@@ -899,7 +1023,7 @@
         "/rai/v1/moderations/ToxicityPopup": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -908,7 +1032,7 @@
                         ]
                     }
                 ],
-                "summary": "Toxicity Check",
+                "summary": "To check Toxicity of the prompt.",
                 "operationId": "toxicity_check_rai_v1_moderations_ToxicityPopup_post",
                 "parameters": [
                     {
@@ -978,7 +1102,7 @@
         "/rai/v1/moderations/ProfanityPopup": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -987,7 +1111,7 @@
                         ]
                     }
                 ],
-                "summary": "Profanity Check",
+                "summary": "To Check if the prompt contains profane words.",
                 "operationId": "profanity_check_rai_v1_moderations_ProfanityPopup_post",
                 "parameters": [
                     {
@@ -1057,7 +1181,7 @@
         "/rai/v1/moderations/PrivacyPopup": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -1066,7 +1190,7 @@
                         ]
                     }
                 ],
-                "summary": "Privacy Check",
+                "summary": "To check whether the prompt contains any PII entities.",
                 "operationId": "privacy_check_rai_v1_moderations_PrivacyPopup_post",
                 "requestBody": {
                     "content": {
@@ -1127,7 +1251,7 @@
         "/rai/v1/moderations/COV": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -1136,7 +1260,7 @@
                         ]
                     }
                 ],
-                "summary": "Chain Of Verification",
+                "summary": "Provides the Chain Of Verifications - Questions the LLM asked itself and answered to reach the final response.",
                 "operationId": "chain_of_verification_rai_v1_moderations_COV_post",
                 "parameters": [
                     {
@@ -1206,7 +1330,7 @@
         "/rai/v1/moderations/OrgPolicy": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -1215,7 +1339,7 @@
                         ]
                     }
                 ],
-                "summary": "Org Policy",
+                "summary": "To check if prompt is associated with any Restricted Topic.",
                 "operationId": "org_policy_rai_v1_moderations_OrgPolicy_post",
                 "parameters": [
                     {
@@ -1285,7 +1409,7 @@
         "/rai/v1/moderations/gEval": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -1294,7 +1418,7 @@
                         ]
                     }
                 ],
-                "summary": "Faithfullness",
+                "summary": "Provides Faithfullness Check and scores for how summary is related to the text.",
                 "operationId": "Faithfullness_rai_v1_moderations_gEval_post",
                 "parameters": [
                     {
@@ -1364,7 +1488,7 @@
         "/rai/v1/moderations/Hallucination_Check": {
             "post": {
                 "tags": [
-                    "Infosys Responsible AI - LLM Moderation"
+                    "Endpoints for LLM Moderation"
                 ],
                 "security": [
                     {
@@ -1373,7 +1497,7 @@
                         ]
                     }
                 ],
-                "summary": "Hallucination Check",
+                "summary": "To check whether the prompt is related to the sources provided.",
                 "operationId": "hallucination_check_rai_v1_moderations_Hallucination_Check_post",
                 "parameters": [
                     {
@@ -1490,6 +1614,17 @@
                     },
                     "SmoothLlmThreshold": {
                         "$ref": "#/components/schemas/SmoothLlmThreshold"
+                    },
+                    "SentimentThreshold": {
+                        "type": "number",
+                        "title": "SentimentThreshold",
+                        "example": -0.01
+                    },
+                    "InvisibleTextCountDetails": {
+                        "$ref": "#/components/schemas/ITTHRESHOLDS"
+                    },
+                    "GibberishDetails": {
+                        "$ref": "#/components/schemas/GBTHRESHOLDS"
                     }
                 },
                 "type": "object",
@@ -1503,7 +1638,10 @@
                     "ProfanityCountThreshold",
                     "RestrictedtopicDetails",
                     "CustomTheme",
-                    "SmoothLlmThreshold"
+                    "SmoothLlmThreshold",
+                    "SentimentThreshold",
+                    "InvisibleTextCountDetails",
+                    "GibberishDetails"
                 ],
                 "title": "COUPLEDMODERATIONTHRESHOLD"
             },
@@ -1589,6 +1727,18 @@
                     "bergeronCheck": {
                         "$ref": "#/components/schemas/bergeronCheck"
                     },
+                    "sentimentCheck": {
+                        "$ref": "#/components/schemas/sentimentCheck"
+                    },
+                    "invisibleTextCheck":{
+                        "$ref": "#/components/schemas/invisibleTextCheck"
+                    },
+                    "gibberishCheck":{
+                        "$ref": "#/components/schemas/gibberishCheck"   
+                    },
+                    "bancodeCheck":{
+                        "$ref": "#/components/schemas/bancodeCheck"
+                    },
                     "summary": {
                         "$ref": "#/components/schemas/summary"
                     }
@@ -1607,6 +1757,10 @@
                     "customThemeCheck",
                     "smoothLlmCheck",
                     "bergeronCheck",
+                    "sentimentCheck",
+                    "bancodeCheck",
+                    "gibberishCheck",
+                    "invisibleTextCheck",
                     "summary"
                 ],
                 "title": "CoupledRequestModeration"
@@ -1712,6 +1866,19 @@
                 "type":"object",
                 "title":"HTTPForbiddenAccessError" 
             },
+            "HTTPEmptyRequestCheckListError":{
+                "properties":{
+                 "detail":{
+                   "items":{
+                     "$ref":"#/components/schemas/EmptyRequestCheckListError"
+                   },
+                   "type":"array",
+                   "title":"Detail"
+                 }
+                },
+                "type":"object",
+                "title":"HTTPEmptyRequestCheckListError" 
+            },
             "MODCHECKS": {
                 "type": "string",
                 "enum": [
@@ -1773,6 +1940,17 @@
                     },
                     "CustomTheme": {
                         "$ref": "#/components/schemas/CustomThemeTexts"
+                    },
+                    "SentimentThreshold": {
+                        "type": "number",
+                        "title": "SentimentThreshold",
+                        "example": -0.01
+                    },
+                    "InvisibleTextCountDetails": {
+                        "$ref": "#/components/schemas/ITTHRESHOLDS"
+                    },
+                    "GibberishDetails": {
+                        "$ref": "#/components/schemas/GBTHRESHOLDS"
                     }
                 },
                 "type": "object",
@@ -2000,6 +2178,59 @@
                 ],
                 "title": "RTTHRESHOLDS"
             },
+            "ITTHRESHOLDS": {
+                "properties": {
+                    "InvisibleTextCountThreshold": {
+                        "type": "integer",
+                        "title": "InvisibleTextCountThreshold",
+                        "example": 1
+                    },
+                    "BannedCategories": {
+                        "items": {},
+                        "type": "array",
+                        "title": "BannedCategories",
+                        "default": [
+                            "Cf",
+                            "Co",
+                            "Cn",
+                            "So",
+                            "Sc"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "InvisibleTextCountThreshold",
+                    "BannedCategories"
+                ],
+                "title": "ITTHRESHOLDS"
+            },
+            "GBTHRESHOLDS": {
+                "properties": {
+                    "GibberishThreshold": {
+                        "type": "number",
+                        "title": "GibberishThreshold",
+                        "example": 0.7
+                    },
+                    "GibberishLabels": {
+                        "items": {},
+                        "type": "array",
+                        "title": "GibberishLabels",
+                        "default": [
+                            "word salad",
+                            "noise",
+                            "mild gibberish",
+                            "clean"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "GibberishThreshold",
+                    "GibberishLabels"
+                ],
+                "title": "ITTHRESHOLDS"
+            },
             "Rating": {
                 "type": "string",
                 "enum": [
@@ -2042,6 +2273,18 @@
                     "customThemeCheck": {
                         "$ref": "#/components/schemas/customThemeCheck"
                     },
+                    "sentimentCheck": {
+                        "$ref": "#/components/schemas/sentimentCheck"
+                    },
+                    "invisibleTextCheck":{
+                        "$ref": "#/components/schemas/invisibleTextCheck"
+                    },
+                    "gibberishCheck":{
+                        "$ref": "#/components/schemas/gibberishCheck"   
+                    },
+                    "bancodeCheck":{
+                        "$ref": "#/components/schemas/bancodeCheck"
+                    },
                     "summary": {
                         "$ref": "#/components/schemas/summary"
                     }
@@ -2058,6 +2301,10 @@
                     "textQuality",
                     "refusalCheck",
                     "customThemeCheck",
+                    "sentimentCheck",
+                    "invisibleTextCheck",
+                    "gibberishCheck",
+                    "bancodeCheck",
                     "summary"
                 ],
                 "title": "RequestModeration"
@@ -2095,6 +2342,18 @@
                     "refusalCheck": {
                         "$ref": "#/components/schemas/refusalCheck"
                     },
+                    "sentimentCheck": {
+                        "$ref": "#/components/schemas/sentimentCheck"
+                    },
+                    "invisibleTextCheck":{
+                        "$ref": "#/components/schemas/invisibleTextCheck"
+                    },
+                    "gibberishCheck":{
+                        "$ref": "#/components/schemas/gibberishCheck"   
+                    },
+                    "bancodeCheck":{
+                        "$ref": "#/components/schemas/bancodeCheck"
+                    },
                     "summary": {
                         "$ref": "#/components/schemas/summary"
                     }
@@ -2110,6 +2369,10 @@
                     "textQuality",
                     "textRelevanceCheck",
                     "refusalCheck",
+                    "bancodeCheck",
+                    "sentimentCheck",
+                    "gibberishCheck",
+                    "invisibleTextCheck",
                     "summary"
                 ],
                 "title": "ResponseModeration"
@@ -2321,6 +2584,24 @@
                 ],
                 "title": "UnauthorizedAccessError"
             },
+            "EmptyRequestCheckListError":{
+                "properties": {
+                  "error code": {
+                    "type": "integer",
+                    "title": "Error code"
+                  },
+                  "msg": {
+                    "type": "string",
+                    "title": "Message"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "error code",
+                  "msg"
+                ],
+                "title": "EmptyRequestCheckListError"
+            },
             "ForbiddenAccessError":{
                 "properties": {
                   "loc": {
@@ -2438,6 +2719,12 @@
                         "example": "yes"
                     },
 
+                    "token_env":{
+                        "type":"string",
+                        "title":"token_env",
+                        "example":"others"
+                    },
+
                     "Prompt": {
                         "type": "string",
                         "title": "Prompt",
@@ -2458,7 +2745,11 @@
                             "Profanity",
                             "RestrictTopic",
                             "TextQuality",
-                            "CustomizedTheme"
+                            "CustomizedTheme",
+                            "Sentiment",
+                            "InvisibleText",
+                            "Gibberish",
+                            "BanCode"
                         ]
                     },
                     "ModerationCheckThresholds": {
@@ -2644,7 +2935,11 @@
                             "Profanity",
                             "RestrictTopic",
                             "TextQuality",
-                            "CustomizedTheme"
+                            "CustomizedTheme",
+                            "Sentiment",
+                            "InvisibleText",
+                            "Gibberish",
+                            "BanCode"
                         ]
                     },
                     "OutputModerationChecks": {
@@ -2660,7 +2955,11 @@
                             "Profanity",
                             "RestrictTopic",
                             "TextQuality",
-                            "TextRelevance"
+                            "TextRelevance",
+                            "Sentiment",
+                            "InvisibleText",
+                            "Gibberish",
+                            "BanCode"
                         ]
                     },
                     "llm_BasedChecks": {
@@ -2789,6 +3088,137 @@
                     "result"
                 ],
                 "title": "jailbreakCheck"
+            },
+            "sentimentCheck": {
+                "properties": {
+                    "score": {
+                        "type": "string",
+                        "title": "sentimentScore",
+                        "example": "0.82"
+                    },
+                    "threshold": {
+                        "type": "string",
+                        "title": "threshold",
+                        "example": "-0.1"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "score",
+                    "threshold",
+                    "result"
+                ],
+                "title": "sentimentCheck"
+            },
+            "invisibleTextCheck": {
+                "properties": {
+                    "invisibleTextIdentified": {
+                        "items": {},
+                        "type": "array",
+                        "title": "invisibleTextIdentified",
+                        "example": [
+                            "Hello"
+                        ]
+                    },
+                    "threshold": {
+                        "type": "string",
+                        "title": "threshold",
+                        "example": "0.7"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "invisibleTextIdentified",
+                    "threshold",
+                    "result"
+                ],
+                "title": "invisibleTextCheck"
+            },
+            "gibberishCheck": {
+                "properties": {
+                    "gibberishScore": {
+                        "items": {},
+                        "type": "array",
+                        "title": "gibberishScore",
+                        "example": [
+                            {
+                                "gibberish_label": "mild gibberish",
+                                "gibberish_score": 0.32
+                            }
+                        ]
+                    },
+                    "threshold": {
+                        "type": "string",
+                        "title": "threshold",
+                        "example": "0.7"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "gibberishScore",
+                    "threshold",
+                    "result"
+                ],
+                "title": "gibberishCheck"
+            },
+            "bancodeCheck": {
+                "properties": {
+                    "score": {
+                        "items": {},
+                        "type": "array",
+                        "title": "score",
+                        "example": [
+                            {
+                                "label":"CODE",
+                                "score":0.9994174242019653
+                            }
+                        ]
+                    },
+                    "threshold": {
+                        "type": "string",
+                        "title": "threshold",
+                        "example": "0.7"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "score",
+                    "threshold",
+                    "result"
+                ],
+                "title": "bancodeCheck"
             },
             "llm_Based_Checks": {
                 "type": "string",
@@ -3562,8 +3992,12 @@
                         "example": "Which is the biggest country in the world?"
                     },
                     "Image": {
-                        "type": "file",
-                        "title": "Image"
+                        "type": "array",
+                        "title": "Image",
+                        "items": {
+                            "type": "file"
+                        },
+                        "collectionFormat": "multi"   
                     },
                     "TemplateName": {
                          "anyOf": [
@@ -3603,15 +4037,5 @@
                 "in": "header"
             }
         }
-    },
-    "tags": [
-        {
-            "name": "LLM Moderation",
-            "description": "Operations required for LLM moderation proxy.",
-            "externalDocs": {
-                "description": "Find out more",
-                "url": "https://www.infosys.com/"
-            }
-        }
-    ]
+    }
 }

@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
@@ -18,9 +18,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 # Sentiment Analysis
 output_format_sentiment_analysis = """
     {
-        "Sentiment": "Sentiment of the given prompt"
-        "Keywords": [List of contributing keywords for the sentiment]
-        "Explanation": "Explanation for the sentiment"
+        "Sentiment": "Sentiment of the given prompt",
+        "Keywords": [List of contributing keywords for the sentiment],
+        "Explanation": "Explanation for the sentiment",
         "token_importance_mapping": [Dictionary of token importance mapping for identified keywords]
     }
 """
@@ -45,8 +45,8 @@ output_format_local_explanation = """
 output_format_token_importance = """
     {
         "Token": ["Each Token from input prompt"],
-        "Importance Score": ["The value here should be a comma-separated list of importance scores"],
-        "Position": ["The value here should be a comma-separated list of respective token index positions"]
+        "Importance Score": [The value here should be a comma-separated list of importance scores],
+        "Position": [The value here should be a comma-separated list of respective token index positions]
     }
 """
 
@@ -120,3 +120,45 @@ FACT_FILTER_OUTPUT_FORMAT = """
     ]
 }
 """
+
+# Thot Explanation
+output_format_thot = """
+    {
+        "Result": "answer",
+        "Explanation": "step-by-step reasoning"
+    }
+"""
+
+#CoT Explanation
+output_format_cot = """
+    {
+        "Explanation": "think the answer step by step and explain step by step how you got the answer"
+    }
+""" 
+
+#LoT Explanation
+output_format_lot_phase1 = """
+    {
+        "Propositions": "Propositions given in the output",
+        "Logical Expression": "Logical Expression"
+    }
+"""
+
+output_format_lot_phase2 = """
+    {
+        "Extended Logical Expression": "Drived extended logical expression",
+        "Law Used": "Law used to derive the extended logical expression and its definition"
+    }
+"""
+
+output_format_lot_phase3 = """
+    {
+        "Extended Logical Information: "Drived extended logical information",
+    }
+"""
+
+output_format_lot4 = """
+    {
+        "Explanation": "Returned explaination should be in a plain text and shouldn't consist of special characters, sub-dictionaries"
+    }
+""" 

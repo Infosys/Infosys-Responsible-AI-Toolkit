@@ -1,8 +1,23 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.btn-close {
+  width: .75rem; /* Adjust the width as needed */
+  height: .75rem; /* Adjust the height as needed */
+  padding: 0.25rem;
+}
+
+.btn-close::before {
+  font-size: .75rem; /* Adjust the font size as needed */
+}
+
+.btn-close:focus {
+  box-shadow: none;
+  outline: none;
+}
 
 .headingTop {
     color: #7E7E7E;
@@ -12,20 +27,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-size: 14px;
     font-family: 'Segoe UI';
     text-transform: uppercase;
-}
+  }
 
-.mainContainer {
+.mainContainer{
     height: 300px;
     padding: 20px 11px;
 }
 
-.close {
+
+  .close {
     font-size: 2.2rem;
     color: #7E7E7E;
     font-weight: 400;
-}
+  }
 
-table {
+  table{
     width: 100%;
     color: #7E7E7E;
     font-size: 12px;
@@ -34,23 +50,23 @@ table {
     display: block;
     overflow-y: auto;
     height: 212px;
-    tr {
-        padding: 5px 0px;
-        td {
-            padding-right: 8px;
-        }
+    tr{
+      padding: 5px 0px;
+      td{
+        padding-right: 8px;
+      }
     }
-}
-
-.mainLabel {
+  }
+  
+  .mainLabel {
     color: #7E7E7E;
     padding: 0px;
     font-weight: 500;
     font-size: 13px;
     font-family: 'Segoe UI';
-}
+  }
 
-.mainLabelSM {
+  .mainLabelSM{
     font-size: 12px;
     font-weight: 400;
-}
+  }

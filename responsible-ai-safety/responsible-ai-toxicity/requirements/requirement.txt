@@ -1,7 +1,6 @@
 uvicorn
 pyyaml
 fastapi
-#lib/aicloudlibs-0.1.0-py3-none-any.whl
 pandas
 detoxify==0.5.0
 pymongo
@@ -11,7 +10,6 @@ faiss-cpu
 sentence_transformers
 httpx
 lib/better_profanity-2.0.0-py3-none-any.whl
-#lib/aicloudlibs-0.1.0-py3-none-any.whl
 tensorflow
 # tensorflow_macos>=2.5.0;sys_platform == 'darwin'
 tensorflow-hub
@@ -19,3 +17,6 @@ pillow
 opencv-python
 nudenet
 numpy
+dask
+pyarrow
+asyncio

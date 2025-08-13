@@ -14,7 +14,7 @@ import os
 from urllib import response
 
 from app.config.logger import CustomLogger
-from app.mappers.mappers import GetBatchStatusPayloadRequest, GetModelRequest,GetModelPayloadRequest,UpdateModelPayloadRequest,GetDataRequest,GetDataPayloadRequest,UpdateDataPayloadRequest,GetGroundtruthFileRequest
+from app.mappers.mappers import GetBatchStatusPayloadRequest, GetModelRequest,GetModelPayloadRequest,UpdateModelPayloadRequest,GetDataRequest,GetDataPayloadRequest,UpdateDataPayloadRequest      
 
 from app.dao.SaveFileDB import FileStoreDb
 from app.dao.ModelDb import Model
@@ -39,6 +39,8 @@ log = CustomLogger()
 explainabilitygeneration = os.getenv("EXPLAINABILITYGENERATION")
 fairnessgeneration = os.getenv("FAIRNESSGENERATION")
 securitygeneration = os.getenv("SECURITYGENERATION")
+sslVerify = os.getenv("sslVerify")
+sslv={"False":False,"True":True,"None":True}
 
 class AttributeDict(dict):
     __getattr__ = dict.__getitem__
@@ -53,7 +55,18 @@ class InfosysRAI:
     def getTenetsList():
         try:
             response = Tenet.findall({"ProjectName" : "RAI"})
-            return response
+            tenent_details =[]
+            if response:
+                
+                for tenent in response:
+                    payload_data = {}
+                    payload_data['Id'] = tenent['Id']
+                    payload_data['TenetName'] = tenent['TenetName']
+                    payload_data['ProjectName'] = tenent['ProjectName']
+                    payload_data['CreatedDateTime'] = tenent['CreatedDateTime']
+                    payload_data['LastUpdatedDateTime'] = tenent['LastUpdatedDateTime']
+                    tenent_details.append(payload_data)
+            return tenent_details
         except Exception as exc:
             return "Something Went Wrong" 
     
@@ -120,7 +133,7 @@ class InfosysRAI:
     
     
     
-    def addData(userId,Payload1:GetDataPayloadRequest,Payload2:GetDataRequest,Payload3:GetGroundtruthFileRequest):
+    def addData(userId,Payload1:GetDataPayloadRequest,Payload2:GetDataRequest):    #Payload3:GetGroundtruthFileRequest
 
         try:
             Payload1 = AttributeDict(Payload1)
@@ -137,13 +150,14 @@ class InfosysRAI:
                 else:
                     commonTenetId = Tenet.findOne("Common")
                     dataFileId = FileStoreDb.create(Payload2.DataFile,Payload1.dataFileName+data_extension[1])
-                    if Payload3.GroundTruthFile is not None:
-                        groundTruthFile_Extension = os.path.splitext(Payload3.GroundTruthFile.filename)
-                        groundTruthFileName = Payload1.dataFileName+'_groundtruthFile'+groundTruthFile_Extension[1]
-                        groundTruthFileId = FileStoreDb.create(Payload3.GroundTruthFile,groundTruthFileName)
-                        dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":dataFileId,"userId":userId,'groundTruthImageFileId':groundTruthFileId})
-                    else:
-                        dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":dataFileId,"userId":userId,'groundTruthImageFileId':'NA'})    
+                    # if Payload3.GroundTruthFile is not None:
+                    #     groundTruthFile_Extension = os.path.splitext(Payload3.GroundTruthFile.filename)
+                    #     groundTruthFileName = Payload1.dataFileName+'_groundtruthFile'+groundTruthFile_Extension[1]
+                    #     groundTruthFileId = FileStoreDb.create(Payload3.GroundTruthFile,groundTruthFileName)
+                    #     dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":dataFileId,"userId":userId,'groundTruthImageFileId':groundTruthFileId})
+                    # else:
+                    #     dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":dataFileId,"userId":userId,'groundTruthImageFileId':'NA'}) 
+                    dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":dataFileId,"userId":userId,'groundTruthImageFileId':'NA'})       
                     # dataFileId = str(dataFileId)
                     for key in keys:
                         if key == "dataFileName":
@@ -167,19 +181,20 @@ class InfosysRAI:
                     container_name = os.getenv('DATA_CONTAINER_NAME')
                     upload_file_api = os.getenv('AZURE_UPLOAD_API') 
                     Payload2.DataFile.file.seek(0)
-                    response =requests.post(url =upload_file_api, files ={"file":(Payload2.DataFile.filename,Payload2.DataFile.file)}, data ={"container_name":container_name}).json()
+                    response =requests.post(url =upload_file_api, files ={"file":(Payload2.DataFile.filename,Payload2.DataFile.file)}, data ={"container_name":container_name}, verify = sslv[sslVerify]).json()
                     # dataFileId = FileStoreDb.create(Payload2.DataFile,Payload1.dataFileName+data_extension[1])
                     blob_name =response["blob_name"]
                     print(blob_name,"blob_name")
-                    if Payload3.GroundTruthFile is not None:
-                        Payload3.GroundTruthFile.file.seek(0)
-                        groundTruthFile_Extension = os.path.splitext(Payload3.GroundTruthFile.filename)
-                        groundTruthFileName = Payload1.dataFileName+'_groundtruthFile'+groundTruthFile_Extension[1]
-                        response =requests.post(url =upload_file_api, files ={"file":(groundTruthFileName,Payload3.GroundTruthFile.file)}, data ={"container_name":container_name}).json()
-                        groundTruthFileId_blob_name =response["blob_name"]
-                        dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":blob_name,"userId":userId,'groundTruthImageFileId':groundTruthFileId_blob_name})
-                    else:
-                        dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":blob_name,"userId":userId,'groundTruthImageFileId':'NA'})    
+                    # if Payload3.GroundTruthFile is not None:
+                    #     Payload3.GroundTruthFile.file.seek(0)
+                    #     groundTruthFile_Extension = os.path.splitext(Payload3.GroundTruthFile.filename)
+                    #     groundTruthFileName = Payload1.dataFileName+'_groundtruthFile'+groundTruthFile_Extension[1]
+                    #     response =requests.post(url =upload_file_api, files ={"file":(groundTruthFileName,Payload3.GroundTruthFile.file)}, data ={"container_name":container_name}, verify = sslv[sslVerify]).json()
+                    #     groundTruthFileId_blob_name =response["blob_name"]
+                    #     dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":blob_name,"userId":userId,'groundTruthImageFileId':groundTruthFileId_blob_name})
+                    # else:
+                    #     dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":blob_name,"userId":userId,'groundTruthImageFileId':'NA'}) 
+                    dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":blob_name,"userId":userId,'groundTruthImageFileId':'NA'}) 
                     for key in keys:
                         if key == "dataFileName":
                             pass
@@ -261,7 +276,7 @@ class InfosysRAI:
                         container_name = os.getenv('DATA_CONTAINER_NAME')
                         upload_file_api = os.getenv('AZURE_UPLOAD_API')
                         Payload2.DataFile.file.seek(0)
-                        responseUpdate =requests.post(url =upload_file_api, files ={"file":(Payload2.DataFile.filename,Payload2.DataFile.file)}, data ={"container_name":container_name}).json()
+                        responseUpdate =requests.post(url =upload_file_api, files ={"file":(Payload2.DataFile.filename,Payload2.DataFile.file)}, data ={"container_name":container_name}, verify = sslv[sslVerify]).json()
                         print(responseUpdate,"responseUpdate")
                         blob_name = responseUpdate["blob_name"]
                         print(blob_name,"blob_name UPDATED")
@@ -455,13 +470,13 @@ class InfosysRAI:
                         upload_file_api = os.getenv('AZURE_UPLOAD_API')
                         get_file_api = os.getenv('AZURE_GET_API')
                         Payload2.ModelFile.file.seek(0)
-                        response =requests.post(url =upload_file_api, files ={"file":(Payload2.ModelFile.filename,Payload2.ModelFile.file)}, data ={"container_name":container_name}).json()
+                        response =requests.post(url =upload_file_api, files ={"file":(Payload2.ModelFile.filename,Payload2.ModelFile.file)}, data ={"container_name":container_name},verify = sslv[sslVerify]).json()
                         blob_name =response["blob_name"]
                         modelId = Model.create({"userId":userId,"modelName":Payload1.modelName,"modelVersion":v,"modelData":blob_name,"modelEndPoint":"NA"}) 
                         # responseGet = requests.get(url=get_file_api, data={"container_name": container_name, "blob_name": blob_name})
                         responseGet = requests.get(
                             url=get_file_api, 
-                            params={"container_name": container_name, "blob_name": blob_name}
+                            params={"container_name": container_name, "blob_name": blob_name}, verify = sslv[sslVerify]
                         )
                         print(type(responseGet.content),"MODEL BLOB TYPE")
                         # dataFileId = FileStoreDb
@@ -555,7 +570,7 @@ class InfosysRAI:
                         container_name = os.getenv('MODEL_CONTAINER_NAME')
                         upload_file_api = os.getenv('AZURE_UPLOAD_API')
                         Payload2.ModelFile.file.seek(0)
-                        responseUpdate =requests.post(url =upload_file_api, files ={"file":(Payload2.ModelFile.filename,Payload2.ModelFile.file)}, data ={"container_name":container_name}).json()
+                        responseUpdate =requests.post(url =upload_file_api, files ={"file":(Payload2.ModelFile.filename,Payload2.ModelFile.file)}, data ={"container_name":container_name}, verify = sslv[sslVerify]).json()
                         print(responseUpdate,"responseUpdate")
                         blob_name = responseUpdate["blob_name"]
                         print(blob_name,"blob_name UPDATED")
@@ -598,8 +613,16 @@ class InfosysRAI:
     def getPreprocessor(payload):
         PreprocessorList = []
         try:
-            PreprocessorList = Preprocessor.findall({"UserId":payload['userid'],"IsActive":'Y'})
-            if not PreprocessorList:
+            response = Preprocessor.findall({"UserId":payload['userid'],"IsActive":'Y'})
+            if response:
+                for Preprocessors in response:
+                    payload_data = {}
+                    payload_data['preprocessorId'] = Preprocessors['PreprocessorId']
+                    payload_data['preprocessorName'] = Preprocessors['PreprocessorName']
+                    payload_data['preprocessorFileId'] = Preprocessors['PreprocessorFileId']
+                    PreprocessorList.append(payload_data)
+                PreprocessorList.reverse()
+            else:
                 return {"message": "This user doesn't have preprocessor values"}
             return PreprocessorList
         except Exception as exc:
@@ -623,7 +646,7 @@ class InfosysRAI:
                     container_name = os.getenv('PREPROCESSOR_CONTAINER_NAME')
                     upload_file_api = os.getenv('AZURE_UPLOAD_API')
                     Payload2.PreprocessorFile.file.seek(0)
-                    response =requests.post(url =upload_file_api, files ={"file":(Payload2.PreprocessorFile.filename,Payload2.PreprocessorFile.file)}, data ={"container_name":container_name}).json()
+                    response =requests.post(url =upload_file_api, files ={"file":(Payload2.PreprocessorFile.filename,Payload2.PreprocessorFile.file)}, data ={"container_name":container_name}, verify = sslv[sslVerify]).json()
                     blob_name =response["blob_name"]
                     print(blob_name,"blob_name")
                     preprocessorId = Preprocessor.create({"userId":userId,"preprocessorName":Payload1.preprocessorName,"preprocessorFileId":blob_name})
@@ -663,7 +686,7 @@ class InfosysRAI:
                         container_name = os.getenv('PREPROCESSOR_CONTAINER_NAME')
                         upload_file_api = os.getenv('AZURE_UPLOAD_API')
                         Payload2.PreprocessorFile.file.seek(0)
-                        responseUpdate =requests.post(url =upload_file_api, files ={"file":(Payload2.PreprocessorFile.filename,Payload2.PreprocessorFile.file)}, data ={"container_name":container_name}).json()
+                        responseUpdate =requests.post(url =upload_file_api, files ={"file":(Payload2.PreprocessorFile.filename,Payload2.PreprocessorFile.file)}, data ={"container_name":container_name}, verify = sslv[sslVerify]).json()
                         print(responseUpdate,"responseUpdate")
                         blob_name = responseUpdate["blob_name"]
                         print(blob_name,"blob_name UPDATED")
@@ -704,7 +727,7 @@ class InfosysRAI:
                 if(tenetName=="Fairness"):
                     def send_fairnress_request(batch_id):
                         print(batch_id,"Fairness batch_id")
-                        response = requests.post(fairnessgeneration, batch_id)
+                        response = requests.post(fairnessgeneration, batch_id, verify = sslv[sslVerify])
                         print("Fairness Response", response)
                     fairnessTenetId = Tenet.findOne("Fairness")
                     data_attribute_names = ["biasType", "methodType", "taskType", "label", "favorableOutcome", "protectedAttribute", "privilegedGroup","mitigationType","mitigationTechnique", "predLabel", "knn","sensitiveFeatures","favourableLabel"]
@@ -739,7 +762,7 @@ class InfosysRAI:
                         data = {
                             'batchId':batch_id
                         }
-                        response = requests.post(securitygeneration, data=data)
+                        response = requests.post(securitygeneration, data=data,verify = sslv[sslVerify])
                         print("Security Response", response)
                     securityTenetId = tenantId
                     data_attribute_names = ["appAttacks"]
@@ -767,7 +790,7 @@ class InfosysRAI:
                 if(tenetName=="Fairness"):
                     def send_fairnress_request(batch_id):
                         print(batch_id,"Fairness batch_id")
-                        response = requests.post(fairnessgeneration, batch_id)
+                        response = requests.post(fairnessgeneration, batch_id, verify = sslv[sslVerify])
                         print("Fairness Response", response)
                     fairnessTenetId = Tenet.findOne("Fairness")
                     data_attribute_names = ["label"]
@@ -805,7 +828,7 @@ class InfosysRAI:
                 if(tenetName=="Explainability"):
                     def send_explainability_request(batch_id):
                         print(batch_id,"batch_id")
-                        response = requests.post(explainabilitygeneration, batch_id)
+                        response = requests.post(explainabilitygeneration, batch_id, verify = sslv[sslVerify])
                         print("Explainability Response", response)
                     explainabilityTenetId = Tenet.findOne("Explainability")
                     data_attribute_names = ["appExplanationMethods"]

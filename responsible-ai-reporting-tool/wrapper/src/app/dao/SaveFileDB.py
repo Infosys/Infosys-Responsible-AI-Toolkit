@@ -40,6 +40,7 @@ class FileStoreDb:
     # mycol = mydb["ResponseRegistery"]
     fs = GridFS(mydb)
     db_type = os.getenv('DB_TYPE').lower()
+    verify_ssl = os.getenv('sslVerify', 'false').lower() in ('true', '1', 't', 'yes')
     
     @staticmethod
     def read_file(unique_id, container_name):
@@ -68,7 +69,7 @@ class FileStoreDb:
             if not container_name or not unique_id:
                 raise ValueError("container_name and unique_id must not be empty")
             try:
-                response = requests.get(url=download_file_api, params={"container_name": container_name, "blob_name": unique_id})
+                response = requests.get(url=download_file_api, params={"container_name": container_name, "blob_name": unique_id}, verify=FileStoreDb.verify_ssl)
                 # Check if the request was successful
                 if response.status_code != 200:
                     raise Exception(f"Request to {download_file_api} failed with status code {response.status_code}")
@@ -117,7 +118,7 @@ class FileStoreDb:
                 container_name = os.getenv('PDF_CONTAINER_NAME')
                 upload_file_api = os.getenv('AZURE_UPLOAD_API')
                 filename = "exp_pdf_file" 
-                response =requests.post(url =upload_file_api, files ={"file":(filename, file)}, data ={"container_name":container_name}).json()
+                response =requests.post(url =upload_file_api, files ={"file":(filename, file)}, data ={"container_name":container_name}, verify=FileStoreDb.verify_ssl).json()
                 blob_name =response["blob_name"]
             except Exception as e:
                 raise IOError(f"An error occurred while writing the file: {str(e)}")

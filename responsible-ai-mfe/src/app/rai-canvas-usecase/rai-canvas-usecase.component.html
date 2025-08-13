@@ -1,110 +1,115 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="le-u-pad-t-32 le-u-pad-lr-24">
-
+    
     <form [formGroup]="raiCanvasForm">
         <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-        <div style="display: flex;">
+        <div  style="display: flex;">
             <!-- <div class="le-u-pad-t-32 le-u-pad-lr-24"> -->
-            <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
-            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
+            <div class="col-lg-4 col-md-4 le-u-mar-b-16" >
                 <span class="textFontCss">Accountability</span>
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Accountability" (keyup)="resetFeatureCountWords($event,0)">{{raiCanvasForm.controls['Accountability'].value}}</textarea><br>
-                <!-- <span *ngIf="resetFeatureWordLength[0] > 149" style="color: red;">* Please limit your response to 149 words</span> -->
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  
+                    formControlName="Accountability"
+                    (keyup)="resetFeatureCountWords($event,0)">{{raiCanvasForm.controls['Accountability'].value}}</textarea><br>
+                    <!-- <span *ngIf="resetFeatureWordLength[0] > 149" style="color: red;">* Please limit your response to 149 words</span> -->
             </div>
             <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
-            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;">
-
+            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;" >
+    
                 <span class="textFontCss">Drift
                 </span>
-
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Drift" (keyup)="countWords($event,3)">{{raiCanvasForm.controls['Drift'].value}}</textarea><br>
-
+    
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="Drift" (keyup)="countWords($event,3)">{{raiCanvasForm.controls['Drift'].value}}</textarea><br>
+    
             </div>
         </div>
 
-        <div style="display: flex;">
+        <div  style="display: flex;">
             <!-- <div class="le-u-pad-t-32 le-u-pad-lr-24"> -->
-            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
-
-                <span class="textFontCss">Security Vulnerabilities</span>
-
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="SecurityVulnerabilities" (keyup)="countWords($event,1)">{{raiCanvasForm.controls['SecurityVulnerabilities'].value}}</textarea><br>
-
-            </div>
-            <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
-            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;">
-
+                <div class="col-lg-4 col-md-4 le-u-mar-b-16" >
+    
+                    <span class="textFontCss">Security Vulnerabilities</span>
+        
+        
+                    <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" 
+                        formControlName="SecurityVulnerabilities"
+                        (keyup)="countWords($event,1)">{{raiCanvasForm.controls['SecurityVulnerabilities'].value}}</textarea><br>
+        
+                </div>
+                <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
+            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;" >
+    
                 <span class="textFontCss">Human Touch Points
                 </span>
-
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="HumanTouchPoints" (keyup)="countWords($event,4)">{{raiCanvasForm.controls['HumanTouchPoints'].value}}</textarea><br>
-
+    
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"   formControlName="HumanTouchPoints" (keyup)="countWords($event,4)">{{raiCanvasForm.controls['HumanTouchPoints'].value}}</textarea><br>
+    
             </div>
         </div>
 
 
-        <div style="display: flex;">
+        <div  style="display: flex;">
             <!-- <div class="le-u-pad-t-32 le-u-pad-lr-24"> -->
-
-            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                
+            <div class="col-lg-4 col-md-4 le-u-mar-b-16" >
                 <span class="textFontCss">Explainability</span>
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Explainability" (keyup)="countWords($event,2)">{{raiCanvasForm.controls['Explainability'].value}}</textarea><br>
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="Explainability" (keyup)="countWords($event,2)">{{raiCanvasForm.controls['Explainability'].value}}</textarea><br>
             </div>
             <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;">
-
+    
                 <span class="textFontCss">Robustness And Risks
                 </span>
-
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="RobustnessAndRisks" (keyup)="countWords($event,5)">{{raiCanvasForm.controls['RobustnessAndRisks'].value}}</textarea><br>
-
+    
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="RobustnessAndRisks" (keyup)="countWords($event,5)">{{raiCanvasForm.controls['RobustnessAndRisks'].value}}</textarea><br>
+    
             </div>
         </div>
 
-        <div style="display: flex;">
+        <div  style="display: flex;">
             <!-- <div class="le-u-pad-t-32 le-u-pad-lr-24"> -->
             <div class="col-lg-4 col-md-4 le-u-mar-b-16">
                 <span class="textFontCss">StandardMLops Practices</span>
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="StandardMLopsPractices" (keyup)="countWords($event,6)">{{raiCanvasForm.controls['StandardMLopsPractices'].value}}</textarea><br>
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="StandardMLopsPractices" (keyup)="countWords($event,6)">{{raiCanvasForm.controls['StandardMLopsPractices'].value}}</textarea><br>
             </div>
             <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;">
-
+    
                 <span class="textFontCss">Privacy
                 </span>
-
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Privacy" (keyup)="countWords($event,7)" (change)="emitRaiCanvasDataToParent()">{{raiCanvasForm.controls['Privacy'].value}}</textarea><br>
-
+    
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="Privacy" (keyup)="countWords($event,7)" (change)="emitRaiCanvasDataToParent()">{{raiCanvasForm.controls['Privacy'].value}}</textarea><br>
+    
             </div>
         </div>
 
-        <div style="display: flex;">
+        <div  style="display: flex;">
             <!-- <div class="le-u-pad-t-32 le-u-pad-lr-24"> -->
-            <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
+                <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
             <div class="col-lg-4 col-md-4 le-u-mar-b-16">
                 <span class="textFontCss">Fairness</span>
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Fairness" (keyup)="countWords($event,8)" (change)="emitRaiCanvasDataToParent()">{{raiCanvasForm.controls['Fairness'].value}}</textarea><br>
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="Fairness" (keyup)="countWords($event,8)" (change)="emitRaiCanvasDataToParent()" >{{raiCanvasForm.controls['Fairness'].value}}</textarea><br>
             </div>
             <!-- class="col-lg-4 col-md-4 le-u-mar-b-16" -->
             <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 120px;">
-
+    
                 <span class="textFontCss">IP Protection and IP Infringement
                 </span>
-
-
-                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="IPProtectionandIPInfringement" (change)="emitRaiCanvasDataToParent()" (keyup)="countWords($event,5)">{{raiCanvasForm.controls['IPProtectionandIPInfringement'].value}}</textarea><br>
-
+    
+    
+                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt"  formControlName="IPProtectionandIPInfringement" (change)="emitRaiCanvasDataToParent()" (keyup)="countWords($event,5)">{{raiCanvasForm.controls['IPProtectionandIPInfringement'].value}}</textarea><br>
+    
             </div>
         </div>
 
@@ -112,5 +117,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </form>
 
 
-
+    
 </div>
+

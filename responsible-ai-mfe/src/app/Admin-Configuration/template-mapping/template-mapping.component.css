@@ -1,272 +1,273 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .custom-panel .card-body {
-    height: 100px;
-    /* adjust as needed */
-    overflow-y: auto;
-    /* add scrollbar if content is taller than height */
-}
+    height: 100px; /* adjust as needed */
+    overflow-y: auto; /* add scrollbar if content is taller than height */
+  }
 
-.accordion-button {
+
+
+  .accordion-button{
     padding: .5rem
-}
+  }
 
-.accordion-button:not(.collapsed) {
-    background-color: #f5f5f5;
-    /* Replace with your desired background color */
+  .accordion-button:not(.collapsed) {
+   
+    background-color: #f5f5f5; /* Replace with your desired background color */
+    
 }
 
 .accordion-button:focus {
     box-shadow: none;
 }
 
+
+
 .form-select1 {
-    width: 10rem;
-    height: 1.813rem;
-    font-size: 0.75rem;
-    margin-bottom: 1.10rem;
+  width: 10rem;
+  height: 1.813rem;
+  font-size: 0.75rem;
+  margin-bottom: 1.10rem;
 }
+
 
 .btnRound {
-    cursor: pointer;
-    border: 1px solid;
-    border-radius: 50%;
-    color: #8626C3;
-    margin: 0.5rem;
+  cursor: pointer;
+  border: 1px solid;
+  border-radius: 50%;
+  color: #8626C3;
+  margin: 0.5rem;
 }
-
 .btnRound i {
-    font-size: medium;
-    padding: 4px;
+  font-size: medium;
+  padding: 4px;
 }
 
-.addBtn {
-    padding: 0px 8px 4px 7px;
-    font-weight: 500;
+.addBtn{
+  padding: 0px 8px 4px 7px;
+  font-weight: 500;
 }
 
-.InputPop {
-    height: 1.2rem !important;
-    font-size: 0.75rem!important;
-    font-family: 'Segoe UI' !important;
-    color: #7E7E7E !important;
+.InputPop{
+  height: 1.2rem !important;
+  font-size: 0.75rem!important;
+  font-family: 'Segoe UI' !important;
+  color: #7E7E7E !important;
 }
 
 .HeadingLabelSM {
-    color: #7E7E7E;
-    padding: 0px;
-    font-weight: 600;
-    font-size: 12px;
-    font-family: 'Segoe UI';
-    text-transform: uppercase;
-    /* margin-top: 1.8rem; */
+  color: #7E7E7E;
+  padding: 0px;
+  font-weight: 600;
+  font-size: 12px;
+  font-family: 'Segoe UI';
+  text-transform: uppercase;
+  /* margin-top: 1.8rem; */
 }
 
 :host .dropdown {
-    max-width: 15rem;
-    width: 100%;
-    border: 1px solid #dee2e6;
-    border-radius: 3px;
-    padding: 0px 10px;
-    font-size: smaller;
+  max-width: 15rem;
+  width: 100%;
+  border: 1px solid #dee2e6;
+  border-radius: 3px;
+  padding: 0px 10px;
+  font-size: smaller;
 }
 
-.marginDiv {
-    margin: .5rem
+.marginDiv{
+  margin:.5rem
 }
+.mainLabel{
 
-.mainLabel {
-    min-width: 10%;
-    width: 15%;
-    color: #382261;
-    opacity: 70%;
-    padding: 0px;
-    font-weight: 700;
-    font-size: 12px;
-    font-family: 'Segoe UI';
-    text-transform: uppercase;
+  min-width: 10%;
+  width: 15%;
+
+  color: #382261;
+  opacity: 70%;
+  padding: 0px;
+  font-weight: 700;
+  font-size: 12px;
+  font-family: 'Segoe UI';
+  text-transform: uppercase;
 }
 
 .HeadingLabel {
-    color: #7E7E7E;
-    padding: 5px 0px;
-    margin-bottom: 0px;
-    font-weight: 600;
-    font-size: 13px;
-    font-family: 'Segoe UI';
-    text-transform: uppercase;
-    transition: color 0.3s ease;
+  color: #7E7E7E;
+  padding: 5px 0px;
+  margin-bottom: 0px;
+  font-weight: 600;
+  font-size: 13px;
+  font-family: 'Segoe UI';
+  text-transform: uppercase;
+  transition: color 0.3s ease;
 }
 
 .toggleLableOn {
-    color: #8626C3;
+  color: #8626C3;
 }
 
 .activeTab {
-    color: #8626C3;
-    position: relative;
+  color: #8626C3;
+  position: relative;
 }
 
 .activeTab::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    border-bottom: 2px solid #8626C3;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-bottom: 2px solid #8626C3;
 }
 
-
 /* Toggle Switch */
-
 .switch {
-    display: inline-block;
+  display: inline-block;
 }
 
 .switch input {
-    display: none;
+  display: none;
 }
 
 .switch label {
-    display: block;
-    width: 43px;
-    height: 20px;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: 0.3s;
-    padding: 3px;
-    background-color: #E0DCEC;
-    margin: 0px 5px;
+  display: block;
+  width: 43px;
+  height: 20px;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+  padding: 3px;
+  background-color: #E0DCEC;
+  margin: 0px 5px;
 }
 
 .switch label::after {
-    content: "";
-    display: inherit;
-    width: 14px;
-    height: 14px;
-    border-radius: 12px;
-    background: #8626C3;
-    transition: 0.3s;
-    border: 2px solid white;
+  content: "";
+  display: inherit;
+  width: 14px;
+  height: 14px;
+  border-radius: 12px;
+  background: #8626C3;
+  transition: 0.3s;
+  border: 2px solid white;
 }
 
 .switch input:checked~label {
-    border-color: #ffffff;
+  border-color: #ffffff;
 }
 
 .switch input:checked~label::after {
-    translate: 23px 0;
-    background: #8626C3;
+  translate: 23px 0;
+  background: #8626C3;
 }
-
 
 /* 
 
  */
 
-.mainLabel2 {
-    color: #7E7E7E;
-    padding: 0px;
-    font-weight: 500;
-    font-size: 13px;
-    font-family: 'Segoe UI';
-    margin-bottom: 0px;
+ .mainLabel2 {
+  color: #7E7E7E;
+  padding: 0px;
+  font-weight: 500;
+  font-size: 13px;
+  font-family: 'Segoe UI';
+  margin-bottom: 0px;
 }
 
-.mainLabelSM {
-    font-size: 12px;
+.mainLabelSM{
+  font-size: 12px;
 }
 
-.mainLabelLight {
-    font-weight: 400;
+.mainLabelLight{
+  font-weight: 400;
 }
 
-.fixed-height-card {
-    height: 100px;
-    overflow-y: auto;
+.fixed-height-card{
+  height: 100px;
+  overflow-y: auto;
 }
+
+
+
 
 .HeadingLabel {
-    color: #7E7E7E;
-    padding: 5px 0px;
-    margin-bottom: 0px;
-    font-weight: 600;
-    font-size: 11px;
-    margin-right: 1.7rem;
-    font-family: 'Segoe UI';
-    text-transform: uppercase;
-    transition: color 0.3s ease;
+  color: #7E7E7E;
+  padding: 5px 0px;
+  margin-bottom: 0px;
+  font-weight: 600;
+  font-size: 11px;
+  margin-right: 1.7rem;
+  font-family: 'Segoe UI';
+  text-transform: uppercase;
+  transition: color 0.3s ease;
 }
 
 .activeTab {
-    color: #8626C3;
-    position: relative;
+  color: #8626C3;
+  position: relative;
 }
 
 .activeTab::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    /* width: 35%; */
-    border-bottom: 2px solid #8626C3;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  /* width: 35%; */
+  border-bottom: 2px solid #8626C3;
 }
 
-.hyperLink {
-    color: #8626C3;
-    cursor: pointer;
-    text-decoration: underline;
+.hyperLink{
+  color: #8626C3;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
-.cursor {
-    cursor: pointer;
+.cursor{
+  cursor: pointer;
 }
 
-.snackBar-custom {
-    background-color: white;
+.snackBar-custom{
+  background-color: white;
 }
 
 .dropdown-container {
-    margin-right: 20px;
-    /* Adjust the space as needed */
+    margin-right: 20px; /* Adjust the space as needed */
 }
 
-
 /* To ensure the last dropdown doesn't have extra space on the right */
-
 .dropdown-container:last-child {
     margin-right: 0;
 }
 
 .buttonMain {
-    font-family: 'Segoe UI';
-    font-weight: semi-bold;
-    font-size: .75rem;
-    height: 28px;
-    min-width: fit-content;
-    width: max-content;
+  font-family: 'Segoe UI';
+  font-weight: semi-bold;
+  font-size: .75rem;
+  height: 28px;
+  min-width:fit-content;
+  width: max-content;
 }
 
 .mat-black {
-    color: white !important;
-    background-color: #231F20 !important;
+  color: white !important;
+  background-color: #231F20 !important;
 }
 
 ::ng-deep.mdc-form-field>label {
-    margin-top: 7px;
-    margin-left: 0;
-    margin-right: auto;
-    padding-left: 4px;
-    padding-right: 0;
-    order: 0;
+  margin-top: 7px;
+  margin-left: 0;
+  margin-right: auto;
+  padding-left: 4px;
+  padding-right: 0;
+  order: 0;
 }
 
 input[type='radio'] {
-    accent-color: #8626C3;
+  accent-color: #8626C3;
 }
 
 ::ng-deep .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
@@ -278,19 +279,18 @@ input[type='radio'] {
 ::ng-deep.mat-mdc-checkbox .mdc-checkbox__background .mat-checkbox-frame {
     border-radius: 50%;
 }
-
 ::ng-deep.mat-mdc-checkbox .mat-checkbox-frame {
     border-radius: 50%;
 }
 
 ::ng-deep.mat-checkbox-background svg {
     display: none;
-}
+  }
 
 ::ng-deep.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
     border-radius: 50%;
-}
+  }
 
-.card-width {
-    width: 500px;
+.card-width{
+  width: 500px;
 }

@@ -1,17 +1,37 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="p-3 px-4 h-100">
     <div class="d-flex justify-content-between align-items-center pb-4">
         <p class="headingTop">Item List</p>
-        <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
     </div>
     <!-- modal body -->
-    <div>
+    <div *ngIf="isDataEmpty" class="alert alert-warning">
+        Value is not set. Create a mapping first.
+    </div>
+    <div *ngIf="!isDataEmpty">
+        <!--  -->
+        <form [formGroup]="recognizerForm" (ngSubmit)="onSubmit()">
+            <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+            <div formArrayName="recognizerItems">
+                <div *ngFor="let item of recognizerItems.controls; let i = index" [formGroupName]="i" class="d-flex align-items-center mb-2">
+                    <input type="text" class="form-control" formControlName="newRecognizerItem" placeholder="Add New Recognizer Item" />
+                    <button mat-icon-button color="primary" (click)="addRecognizerItem()">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                    <button mat-icon-button color="warn" (click)="removeRecognizerItem(i)" *ngIf="recognizerItems.length > 1">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <button mat-raised-button color="black" class="buttonMainSubmit" type="submit">Submit</button>
+        </form>
+        <!--  -->
+
         <table class="styled-table">
             <tr>
                 <th class="header">Entities Id</th>
@@ -20,12 +40,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </tr>
             <tr *ngFor="let element of dataSource1| paginate : pagingConfig; let i = index">
                 <td> {{element.EntityId}}</td>
-                <td> {{element.EntityName}}</td>
+                <td *ngIf="!editIndex.includes(i)">{{ element.EntityName }}</td>
+                <td *ngIf="editIndex.includes(i)">
+                    <input [(ngModel)]="element.EntityName" />
+                </td>
+                <!-- <td> {{element.EntityName}}</td> -->
                 <td class="upper-case  ">
 
-                    <!-- <button class="mr-2" mat-icon-button color="primary4"><mat-icon> edit </mat-icon></button> -->
+                    <!-- <button class="me-2" mat-icon-button color="primary4"><mat-icon> edit </mat-icon></button> -->
                     <button mat-icon-button color="primary3" (click)="deleteListEntity(element.EntityId)"><mat-icon> delete </mat-icon>
                 </button>
+                    <button mat-icon-button color="primary4" *ngIf="!editIndex.includes(i)" (click)="edit(i)">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                    <button mat-icon-button color="primary4" *ngIf="editIndex.includes(i)" (click)="update(i, element)">
+                    <mat-icon>check</mat-icon>
+                  </button>
                 </td>
             </tr>
         </table>

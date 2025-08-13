@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div>
     <div class="w-25 mb-4 mt-4">
@@ -10,229 +11,198 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </select>
     </div>
     <div *ngIf="isLoadingTable">
-        <ngx-skeleton-loader count="5" appearance="line" [theme]="{ 'border-radius': '20px', height: '30px', width:'900px'}">
-        </ngx-skeleton-loader>
+      <ngx-skeleton-loader count="5" appearance="line"
+        [theme]="{ 'border-radius': '20px', height: '30px', width:'900px'}">
+      </ngx-skeleton-loader>
     </div>
     <div *ngIf="!isLoadingTable">
-        <table class="styled-table" *ngIf="activeTable=='Model Robustness'">
-            <tr>
-                <th class="header">Model Name</th>
-                <th class="header">Assessing Sentence Pair Similarity (QQP)</th>
-                <th class="header">Sentiment Analysis (SST-2)</th>
-                <th class="header">Assessing Sentence Grammaticality (CoLA)</th>
-            </tr>
-            <tr *ngFor="let item of dataSource1Robustness">
-                <td>{{ item.Model_Name}}</td>
-                <td>{{ item.qqp}}</td>
-                <td>{{ item.sst2}}</td>
-                <td>{{ item.cola}}</td>
-            </tr>
-        </table>
-        <table class="styled-table" *ngIf="activeTable=='Model-Fairness'">
-            <tr>
-                <th class="header">Model Name</th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Stereotype Recognition -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Overall Agreement Rate -
-                        <mat-icon>arrow_downward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Stereotype Query Test -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Disparagement Sex -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Disparagement Race -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Prefereence Rta -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-            </tr>
-            <tr *ngFor="let item of fairness">
-                <td>{{ item['model_name']}}</td>
-                <td>{{ item['stereotype_recognition']}}</td>
-                <td>{{ item['overall_agreement_rate']}}</td>
-                <td>{{ item['stereotype_query_test']}}</td>
-                <td>{{ item['disparagement_sex']}}</td>
-                <td>{{ item['disparagement_race']}}</td>
-                <td>{{ item['prefereence_rta']}}</td>
-            </tr>
-        </table>
-        <table class="styled-table" *ngIf="activeTable=='Model-Truthfulness'">
-            <tr>
-                <th class="header">Model Name</th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Internal -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">External -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Hallucination -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Persona Sycophancy -
-                        <mat-icon>arrow_downward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Preference Sycophancy -
-                        <mat-icon>arrow_downward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Adv Factuality -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-            </tr>
-            <tr *ngFor="let item of dataSourceTruthfullness">
-                <td>{{ item.model_name}}</td>
-                <td>{{ item.internal}}</td>
-                <td>{{ item.external}}</td>
-                <td>{{ item.hallucination}}</td>
-                <td>{{ item.persona_sycophancy}}</td>
-                <td>{{ item.preference_sycophancy}}</td>
-                <td>{{ item.adv_factuality}}</td>
-            </tr>
-        </table>
+    <table class="styled-table" *ngIf="activeTable=='Model Robustness'">
+        <tr>
+            <th class="header">Model Name</th>
+            <th class="header">Assessing Sentence Pair Similarity (QQP)</th>
+            <th class="header">Sentiment Analysis (SST-2)</th>
+            <th class="header">Assessing Sentence Grammaticality (CoLA)</th>
+        </tr>
+        <tr *ngFor="let item of dataSource1Robustness">
+            <td>{{ item.Model_Name}}</td>
+            <td>{{ item.qqp}}</td>
+            <td>{{ item.sst2}}</td>
+            <td>{{ item.cola}}</td>
+        </tr>
+    </table>
+    <table class="styled-table" *ngIf="activeTable=='Model-Fairness'">
+        <tr>
+            <th class="header">Model Name</th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Stereotype Recognition -
+                    <mat-icon>arrow_upward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Overall Agreement Rate -
+                    <mat-icon>arrow_downward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Stereotype Query Test -
+                    <mat-icon>arrow_upward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Disparagement Sex - <mat-icon>arrow_upward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Disparagement Race - <mat-icon>arrow_upward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Prefereence Rta - <mat-icon>arrow_upward</mat-icon>
+                </div>
+            </th>
+        </tr>
+        <tr *ngFor="let item of fairness">
+            <td>{{ item['model_name']}}</td>
+            <td>{{ item['stereotype_recognition']}}</td>
+            <td>{{ item['overall_agreement_rate']}}</td>
+            <td>{{ item['stereotype_query_test']}}</td>
+            <td>{{ item['disparagement_sex']}}</td>
+            <td>{{ item['disparagement_race']}}</td>
+            <td>{{ item['prefereence_rta']}}</td>
+        </tr>
+    </table>
+    <table class="styled-table" *ngIf="activeTable=='Model-Truthfulness'">
+        <tr>
+            <th class="header">Model Name</th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Internal - <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">External - <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Hallucination - <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Persona Sycophancy - <mat-icon>arrow_downward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Preference Sycophancy -
+                    <mat-icon>arrow_downward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Adv Factuality - <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+        </tr>
+        <tr *ngFor="let item of dataSourceTruthfullness">
+            <td>{{ item.model_name}}</td>
+            <td>{{ item.internal}}</td>
+            <td>{{ item.external}}</td>
+            <td>{{ item.hallucination}}</td>
+            <td>{{ item.persona_sycophancy}}</td>
+            <td>{{ item.preference_sycophancy}}</td>
+            <td>{{ item.adv_factuality}}</td>
+        </tr>
+    </table>
 
-        <!-- MODEL SAFETY -->
-        <table class="styled-table" *ngIf="activeTable=='Model-Safety'">
-            <tr>
-                <th class="header">Model Name</th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Jailbreak -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Toxicity -
-                        <mat-icon>arrow_downward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Misuse -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Exaggerated Safety -
-                        <mat-icon>arrow_downward</mat-icon>
-                    </div>
-                </th>
+    <!-- MODEL SAFETY -->
+    <table class="styled-table" *ngIf="activeTable=='Model-Safety'">
+        <tr>
+            <th class="header">Model Name</th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Jailbreak - <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Toxicity - <mat-icon>arrow_downward</mat-icon></div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Misuse - <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Exaggerated Safety - <mat-icon>arrow_downward</mat-icon>
+                </div>
+            </th>
 
-            </tr>
-            <tr *ngFor="let item of dataSourceSafety">
-                <td>{{ item.model_name}}</td>
-                <td>{{ item.jailbreak}}</td>
-                <td>{{ item.toxicity}}</td>
-                <td>{{ item.misuse}}</td>
-                <td>{{ item.exaggerated_safety}}</td>
-            </tr>
-        </table>
+        </tr>
+        <tr *ngFor="let item of dataSourceSafety">
+            <td>{{ item.model_name}}</td>
+            <td>{{ item.jailbreak}}</td>
+            <td>{{ item.toxicity}}</td>
+            <td>{{ item.misuse}}</td>
+            <td>{{ item.exaggerated_safety}}</td>
+        </tr>
+    </table>
 
-        <table class="styled-table" *ngIf="activeTable=='Model-Privacy'">
-            <tr>
-                <th class="header">Model Name</th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Privacy Awareness Normal -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Privacy Awareness Aug -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Privacy Leakage RTA -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Privacy Leakage TD -
-                        <mat-icon>arrow_downward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Privacy Leakage CD -
-                        <mat-icon>arrow_downward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Privacy Awareness Correlation -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-            </tr>
-            <tr *ngFor="let item of dataSourcePrivacy">
-                <td>{{ item.model_name}}</td>
-                <td>{{ item.privacy_awareness_normal}}</td>
-                <td>{{ item.privacy_awareness_aug}}</td>
-                <td>{{ item.privacy_leakage_rta }}</td>
-                <td>{{ item.privacy_leakage_td}}</td>
-                <td>{{ item.privacy_leakage_cd }}</td>
-                <td>{{ item.privacy_awareness_correlation}}</td>
-            </tr>
-        </table>
-        <table class="styled-table" *ngIf="activeTable=='Model-Ethics'">
-            <tr>
-                <th class="header">Model Name</th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Social Chemistry 101 Acc -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">ETHICS Acc -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">MoralChoice Acc -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">MoralChoice RTA -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-                <th class="header">
-                    <div style="display: flex;align-items: center;">Emotional Acc -
-                        <mat-icon>arrow_upward</mat-icon>
-                    </div>
-                </th>
-            </tr>
-            <tr *ngFor="let item of dataSourceMachineEthics">
-                <td>{{ item.model_name}}</td>
-                <td>{{ item.social_chemistry_101_acc }}</td>
-                <td>{{ item.ehitcs_acc }}</td>
-                <td>{{ item.moralchoice_acc }}</td>
-                <td>{{ item.moralchoice_rta }}</td>
-                <td>{{ item.emotional_acc }}</td>
-            </tr>
-        </table>
-    </div>
+    <table class="styled-table" *ngIf="activeTable=='Model-Privacy'">
+        <tr>
+            <th class="header">Model Name</th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Privacy Awareness Normal -
+                    <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Privacy Awareness Aug -
+                    <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Privacy Leakage RTA - <mat-icon>arrow_upward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Privacy Leakage TD - <mat-icon>arrow_downward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Privacy Leakage CD - <mat-icon>arrow_downward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Privacy Awareness Correlation -
+                    <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+        </tr>
+        <tr *ngFor="let item of dataSourcePrivacy">
+            <td>{{ item.model_name}}</td>
+            <td>{{ item.privacy_awareness_normal}}</td>
+            <td>{{ item.privacy_awareness_aug}}</td>
+            <td>{{ item.privacy_leakage_rta }}</td>
+            <td>{{ item.privacy_leakage_td}}</td>
+            <td>{{ item.privacy_leakage_cd }}</td>
+            <td>{{ item.privacy_awareness_correlation}}</td>
+        </tr>
+    </table>
+    <table class="styled-table" *ngIf="activeTable=='Model-Ethics'">
+        <tr>
+            <th class="header">Model Name</th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Social Chemistry 101 Acc -
+                    <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">ETHICS Acc - <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">MoralChoice Acc - <mat-icon>arrow_upward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">MoralChoice RTA - <mat-icon>arrow_upward</mat-icon>
+                </div>
+            </th>
+            <th class="header">
+                <div style="display: flex;align-items: center;">Emotional Acc - <mat-icon>arrow_upward</mat-icon></div>
+            </th>
+        </tr>
+        <tr *ngFor="let item of dataSourceMachineEthics">
+            <td>{{ item.model_name}}</td>
+            <td>{{ item.social_chemistry_101_acc }}</td>
+            <td>{{ item.ehitcs_acc }}</td>
+            <td>{{ item.moralchoice_acc }}</td>
+            <td>{{ item.moralchoice_rta }}</td>
+            <td>{{ item.emotional_acc }}</td>
+        </tr>
+    </table>
+  </div>
 </div>

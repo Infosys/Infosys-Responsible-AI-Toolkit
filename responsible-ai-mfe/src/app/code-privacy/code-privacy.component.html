@@ -1,36 +1,69 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
-<div>
-    <div class="pb-2">
-        <div class="upload-button-section" style="display: flex; align-items: center;">
-            <input type="file" #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event)" (click)="fileDropRef.value=''" multiple style="display: none;">
-            <button class="uploadButton" (click)="fileDropRef.click()">
-          <mat-icon class="uploadIcon" >vertical_align_top</mat-icon>
-          <span class="uploadText">UPLOAD</span>
-        </button>
-            <div class="dotted-spinner" *ngIf="spinner1" style="margin-top: 30px; margin-left: 5px;"></div>
+<div style="display: flex; flex-direction: column;">
+    <div style="display: flex;">
+        <div class="select-contatiner1 me-2 mt-2">
+            <div>
+                <h3 class="HeadingCheckBoxLabel ms-0">Select Type</h3>
+                <div class="checkbox-container ms-1">
+                    <div class="d-flex align-items-center">
+                        <input type="radio" id="Privacy" name="Privacy" value="Privacy" [(ngModel)]="selectType" (ngModelChange)="handleSelectTypeChange()">
+                        <label for="Privacy" class="HeadingCheckBoxLabel fw-medium m-0 ms-2">Privacy</label>
+                    </div>
+                    <!-- <div class="d-flex align-items-center">
+                        <input type="radio" id="CodeShield" name="CodeShield" value="CodeShield" [(ngModel)]="selectType" (ngModelChange)="handleSelectTypeChange()">
+                        <label for="CodeShield" class="HeadingCheckBoxLabel fw-medium m-0 ms-2">Code Shield</label>
+                    </div> -->
+                </div>
+            </div>
         </div>
-        <div class="button_container mt-1">
-            <img src={{sampleSrc1}} matTooltip="Sample Code" class="custom_image" (click)="onButtonClick()">
+        <ng-container class="selectTypeShimmer" *ngIf="isLoadingUpload">
+            <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '200px', width: '230px'}">
+            </ngx-skeleton-loader>
+        </ng-container>
+        <div *ngIf="!isLoadingUpload" class="me-4 mt-3">
+            <div class="drop-zone">
+                <mat-icon class="material-icons browse-logo ">cloud_upload</mat-icon>
+                <p class="paragraph_dnd">Drag and drop files here <br>or<span class="high-light mb-0"> browse</span></p>
+                <input type="file" (change)="fileBrowseHandler($event)" multiple>
+                <p class="dnd-lable mt-0">
+                    .txt, .py. java, .ts files are supported (Python, Java, TypeScript)</p>
+            </div>
+            <div class="button_container mt-1">
+                <img *ngIf="this.selectType=='Privacy'" src={{sampleSrc1}} matTooltip="Privacy Sample Code" class="custom_image" (click)="onButtonClick()">
+                <img *ngIf="this.selectType=='CodeShield'" src={{sampleSrc1}} matTooltip="CodeShield Sample Code" class="custom_image" (click)="onIconClick()">
+            </div>
+            <div class="fileContainer mt-2">
+                <p class="HeadingLabelSM mb-0" *ngIf="files[0]">File</p>
+                <div class="file-upload" *ngIf="files[0]">
+                    <div class="d-flex align-items-center mt-1">
+                        <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
+                        <button class="cancel-button ms-2" (click)="removeFile()">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="d-flex mt-3">
-            <div class="mr-3">
+            <div class="me-3">
                 <form #inputText="ngForm">
                     <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
                     <h4 class="labelHead mb-2">Input Text</h4>
-                    <textarea class="textAreaCode" [(ngModel)]="textDesc" name="inputText" required placeholder="Enter Some Text" [innerHTML]="safeTemplateData"></textarea>
+                    <textarea class="textAreaCode" [(ngModel)]="textDesc" name="inputText" required placeholder="Enter Some Text"></textarea>
                 </form>
             </div>
             <div>
                 <h4 class="labelHead mb-2">Output Text</h4>
-                <textarea disabled class="textAreaCode" [(ngModel)]="textDesc2" name="inputText2" placeholder="Showing the response " [innerHTML]="safeTemplateData"></textarea>
+                <textarea *ngIf="this.selectType=='Privacy'" disabled class="textAreaCode" [(ngModel)]="textDesc2" name="inputText2" placeholder="Showing the response "></textarea>
+                <div *ngIf="this.selectType=='CodeShield'" class="textCode" [innerHTML]="textDesc3"></div>
                 <div class="d-flex justify-content-end mt-3">
-                    <button mat-raised-button class="btnMain rstButton mr-2" color="reset" (click)="reset()">Reset</button>
+                    <button mat-raised-button class="btnMain rstButton me-2" color="reset" (click)="reset()">Reset</button>
                     <button mat-raised-button class="btnMain" [disabled]="showSpinner" (click)="onSubmit(inputText.value)" color="black">
-
             <div class="spinner-border text-light" style="font-size: 10px;width: 15px;height: 15px;" role="status" *ngIf="showSpinner">
               <span class="sr-only">Loading...</span>
             </div>
@@ -39,8 +72,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </div>
             </div>
         </div>
+
+
     </div>
-</div>
-<div style="height: 50px;">
+
+
+
+
 
 </div>

@@ -1,4 +1,6 @@
 """
+SPDX-License-Identifier: MIT
+
 Copyright 2024 - 2025 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -15,6 +17,7 @@ import random
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores.faiss import FAISS
 from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain.chains import RetrievalQA
 from langchain.chat_models import AzureChatOpenAI
 from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
@@ -29,7 +32,6 @@ import uuid
 import pymongo
 import requests
 import io
-from pathlib import Path
 from sentence_transformers import util
 from sentence_transformers import SentenceTransformer
 from RAG.config.logger import CustomLogger,request_id_var
@@ -39,6 +41,7 @@ from dotenv import load_dotenv
 import traceback
 import torch
 from RAG.service.geval import gEval
+# from RAG.service.FileUploadtodb import default_blobname_output
 from RAG.dao.AdminDb import mydb, collection, fs, defaultfs
 # from azure.cosmos import CosmosClient, exceptions
 log=CustomLogger()
@@ -46,29 +49,52 @@ MAX_CACHE_SIZE = 20
 cache = Cache(maxsize=MAX_CACHE_SIZE)
 request_id_var.set("Startup")
 
+# Base directory for storing vectorstores
+VECTORSTORE_BASE_DIR = "../data/vectorstores/"
+
 try:
     load_dotenv()
     openai_api_type = os.environ.get("OPENAI_API_TYPE")
     openai_api_base = os.environ.get("OPENAI_API_BASE")
     openai_api_key = os.environ.get("OPENAI_API_KEY")
     openai_api_version = os.environ.get("OPENAI_API_VERSION")
-    azureaddfileurl=os.getenv("AZUREADDFILE")
-    containername=os.getenv("CONTAINERNAME")
-    azureblobnameurl=os.getenv("AZUREBLOBNAME")
+    # azureaddfileurl=os.getenv("AZUREADDFILE")
+    # containername=os.getenv("CONTAINERNAME")
+    # azureblobnameurl=os.getenv("AZUREBLOBNAME")
     dbtypename=os.getenv("DB_TYPE")
     # print(openai_api_version)
 except Exception as e:
     log.info("Failed at openai model loading")
-
+    
+sslverify=os.getenv('SSL_VERIFY').lower() == 'true'
+print("SSL Verification in service is set to:", sslverify)
 try:
+    #similarity_model = SentenceTransformer(r"C:\Users\anand.jaipuriyar\chatbotRAG\responsible-ai-Hallucination\Rag\models\all-MiniLM-L6-v2")
     similarity_model = SentenceTransformer("../models/all-MiniLM-L6-v2")
     # similarity_model = SentenceTransformer(r"D:\responsible-ai-fm-moderation\Fm_Moderation\models\all-MiniLM-L6-v2")
     #embedding_function = SentenceTransformerEmbeddings(model_name="../models/all-MiniLM-L6-v2")
-    embedding_function = OpenAIEmbeddings()
 except Exception as e:
     log.info("Failed at model loading")
     log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
+def select_embeddingmodel(llmtype):
+    try:
+        """
+        Function to select the embedding model based on the llmtype.
+        """
+        if llmtype == "openai":
+            embedding_function = OpenAIEmbeddings()
+            log.info("OpenAI embedding model initialized successfully")
+        # elif llmtype == "gemini":
+        #     embedding_function = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        #     log.info("Gemini embedding model initialized successfully")
+        else:
+            # embedding_function = SentenceTransformerEmbeddings(model_name=r"D:\responsible-ai-fm-moderation\Fm_Moderation\models\all-MiniLM-L6-v2")
+            embedding_function = SentenceTransformerEmbeddings(model_name="../models/all-MiniLM-L6-v2")
+        return embedding_function
+    except Exception as e:
+        log.info("Failed at select_embeddingmodel")
+        log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
 #with open("../data/DefaultVectorstore.pkl","rb") as file:
     #vectorstore =pickle.load(file)
@@ -115,6 +141,11 @@ template10 ="""Use the following pieces of context to answer the question. If th
             - Scores between 0 and 1 should reflect the degree of confidence based on the relevance and accuracy of the answer. Avoid assigning a score of 0.5.
 
             Avoid phrases like "I do not know", "Sorry", "I apologize", or "As an AI model, I am not allowed" in your response.
+            
+            
+            Output Format (DO not deviate from the format. Strictly adhere to the below format):
+            Your-response,score
+            SOURCE: [Provide the exact section and excerpt along with the Heading from the source document that corresponds to the response. Make sure to reference any specific section numbers or headers or page numbers where applicable. If there are no headings, quote the exact section or paragraph.]
 
             {context}
 
@@ -169,7 +200,42 @@ template6 ="""Use the following pieces of context to answer the question.
 
 message_text = [{"role":"system","content":"You are an AI assistant that helps people find information."}]
 QA_CHAIN_PROMPT = PromptTemplate.from_template(template10)
-llm = AzureChatOpenAI(deployment_name=os.getenv("OPENAI_MODEL"), temperature=1)
+
+def select_llmtype(llmtype):
+    """
+    Function to select the LLM type based on the llmtype.
+    """
+    try:
+        if llmtype == "openai":
+            llm = AzureChatOpenAI(deployment_name=os.getenv("OPENAI_MODEL"), temperature=1)
+        elif llmtype == "gemini":
+            from langchain.chat_models import init_chat_model
+            llm = init_chat_model(os.getenv("GOOGLE_MODEL"), model_provider="google_genai",transport='rest')
+            log.info("Gemini model initialized successfully")
+        elif llmtype == "aws":
+            from langchain_aws import ChatBedrock
+            import boto3
+            bedrock_client = boto3.client(
+                service_name=os.getenv("AWS_SERVICE_NAME"),
+                aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+                aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+                aws_session_token=os.getenv("AWS_SESSION_TOKEN"),
+                region_name= os.getenv("AWS_REGION"),
+                verify=sslverify  # Disable SSL verification
+            )
+            llm = ChatBedrock(
+                name=os.getenv("AWS_SERVICE_NAME"),
+                model_id=os.getenv("AWS_MODEL_ID"),
+                model_kwargs={"max_tokens": 512, "temperature": 0.1},
+                client=bedrock_client  # Use the custom client
+            )
+            log.info("AWS Bedrock model initialized successfully")
+        else:
+            raise ValueError(f"Unsupported LLM type: {llmtype}")
+        return llm
+    except Exception as e:
+        log.info("Failed at select_llmtype")
+        log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}") 
 
 # conn = pymongo.MongoClient(os.environ.get("MONGO_PATH"))
 # db = conn[os.environ.get("DB_NAME")]
@@ -177,227 +243,47 @@ llm = AzureChatOpenAI(deployment_name=os.getenv("OPENAI_MODEL"), temperature=1)
 # fs=gridfs.GridFS(db)
 # defaultfs=gridfs.GridFS(defaultdb)
 
-# def defaultQARetrieval(text):
-#     try:
-#         starttime = time.time()
-#         global output
-        
-#         res = []
-#         log.info("Before llm calling")
-#         # with open("../data/DefaultVectorstore.pkl","rb") as file:
-#         #     vectorstore =pickle.load(file)
-#         # vectorstore = pickle.loads(fs.get_last_version(_id=id+"vectorstore",filename="vectorstore.pkl").read())
-#         log.info("Vectorstore loaded")
-#         qa_chain = RetrievalQA.from_chain_type(llm, retriever=vectorstore.as_retriever(), return_source_documents=True,
-#                                             chain_type_kwargs={"prompt": QA_CHAIN_PROMPT})
-#         output = qa_chain({"query": text})
-#         rt =time.time()
-#         #log.info(output["result"])
-#         log.info("After llm calling")
-#         textArr = re.split(r'(?<=[.!?])\s+(?=\D|$)', output["result"])
-#         fullText = output["result"]
-#         return [{"text":fullText}]
-#         refusals=["Sorry, as an AI model I am unable to provide this information as it is not present in the provided documents.",
-#                 "I dont know","I am unable to determine what you ate today as there is no relevant context or information provided to respond to the question"
-#                 "I'm sorry, I cannot answer that as there is no information related"
-#                 ]
-#         for i in refusals:
-#             if promptResponseSimilarity(fullText,i) > 0.7:
-#                 return [{"text":fullText,"score":0.20},{"endsrc":[]}]
-#         inpoutsim = promptResponseSimilarity(text, fullText)
-#         # log.info(f"Similarty score between input and output {inpoutsim}")
-#         srcArr = output["source_documents"]
-#         maxScore = 0
-#         inpsourcesim = 0
-#         print(textArr)
-#         for i in textArr:
-#             simScore = 0
-#             cit = ""
-#             flag = 0
-#             for j in srcArr:
-#                 score = promptResponseSimilarity(j.page_content, i)
-                
-#                 maxScore = max(maxScore,score)
-#                 print("#",score)
-#                 if flag == 0:
-#                     flag = 1
-#                     maxScore = max(maxScore, promptResponseSimilarity(j.page_content, fullText))
-#                     score2 = promptResponseSimilarity(j.page_content, text)
-#                     inpsourcesim = max(score2,inpsourcesim)
-#                 if score > simScore:
-#                     simScore = score
-#                     print(j.page_content)
-#                     cit = j.metadata["source"]
-
-#             log.info(simScore)
-            
-#             log.info(f"Source of document:{cit}")
-#             if simScore > 0.6:
-#                 res.append({"text": i, "source": cit})  # ,"Score":round(simScore.tolist()[0],2)}])
-#             else:
-#                 res.append({"text": i, "source": ""})
-        
-#         queue = []
-#         i = 0
-#         totalsrc = {}
-#         while i< len(res):
-#             j = i+1
-#             st = res[i]["text"]
-#             while j < len(res) and res[i]["source"] == res[j]["source"]:
-#                 st += res[j]["text"]
-#                 j+=1
-#             if res[i]["source"] == "":
-#                 queue.append([{"text": st}])
-#             else:
-
-#                 log.info(f"source: {id+res[i]['source']}")
-#                 log.info(f"filename: {os.path.basename(res[i]['source'])}")
-#                 pdf_content = fs.get_last_version(_id=id+os.path.basename(res[i]["source"])).read()
-#                 encodedString = base64.b64encode(pdf_content)
-#                 if os.path.basename(res[i]["source"]) not in totalsrc:
-#                         print(res[i]["source"])
-#                         totalsrc[os.path.basename(res[i]["source"])] = encodedString
-#                 queue.append([{"text": st, "source": os.path.basename(res[i]["source"]),"base64":encodedString}])
-#             i=j
-#         # log.info(f"Max score {maxScore}")
-#         finalScore = (inpoutsim*0.2 + inpsourcesim*0.4 + maxScore*0.4)
-#         if finalScore != 0:
-#             queue[-1][0]["score"] = round(1- finalScore.tolist()[0], 2)
-#         else:
-#             queue[-1][0]["score"] = 1
-#         totalsrc =  list(map(lambda item:{"source":item[0],"base64":item[1]},totalsrc.items()))
-#         queue.append([{"endsrc": totalsrc}])
-        
-#         et = time.time()
-#         return queue
-    
-#     except Exception as e:
-#         log.info("Failed at Default Qa retrieval")
-#         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-
-def QARetrieval(text,id):
-    try:
-        res = []
-        log.info("Before llm calling")
-        # with open("../data/docs/"+str(id)+"/DefaultVectorstore.pkl","rb") as file:
-        #  vectorstore =pickle.load(file)
-        if dbtypename=="mongo":
-            vectorstore = pickle.loads(fs.get_last_version(_id=id+"vectorstore",filename="vectorstore.pkl").read())
-        else:
-            ##################################
-            filter = {"id": id + "vectorstore"}
-            document = collection.find_one(filter)
-            if document:
-                vectorstore_binary = document["data"]
-                vectorstore = pickle.loads(vectorstore_binary)
-                print("Vectorstore retrieved successfully!")
-            else:
-                print("Document not found!")
-            ##################################
-        log.info("Vectorstore loaded")
-        qa_chain = RetrievalQA.from_chain_type(llm, retriever=vectorstore.as_retriever(), return_source_documents=True,
-                                            chain_type_kwargs={"prompt": QA_CHAIN_PROMPT})
-        
-        output = qa_chain({"query": text})
-        #log.info(output["result"])
-        log.info("After llm calling")
-        refusals=["Sorry, as an AI model I am unable to provide this information as it is not present in the provided documents.",
-                "I dont know","I am unable to determine what you ate today as there is no relevant context or information provided to respond to the question"
-                "I'm sorry, I cannot answer that as there is no information related"
-                ]
-        fullText = output["result"]  
-        srcArr = output["source_documents"]  
-         
-        inpoutsim, ressourcescore, inpsourcesim, tempscore, res, arrForSourceText= scoringmetrics(text,fullText,srcArr)
-        pagecontent=" ".join(set(arrForSourceText)).replace("\n"," ")
-        fullText = fullText.strip('.')
-        fullText=",".join(fullText.split(",")[:-1])
-        haluscores=gEval(text,fullText,pagecontent)
-        avgmetrics= haluscores["AverageScore"]
-        avgmetrics=avgmetrics/5
-        maxscore=max(inpoutsim, ressourcescore, inpsourcesim)
-        print("maxmaxmax", maxscore)
-        if avgmetrics>=0.75:
-            haluscore=1-avgmetrics*0.98
-        elif avgmetrics>=0.5 and avgmetrics<0.75:
-            avgsimilarity=(inpoutsim+ressourcescore+inpsourcesim)/3
-            if maxscore>=0.5 and maxscore<0.75:
-                wt1=0.20
-                wt2=0.80
-                haluscore=1-avgsimilarity*wt1-avgmetrics*wt2
-            elif maxscore>=0.75:
-                haluscore=1-avgsimilarity*1.15
-            elif maxscore<0.5:
-                wt1=1
-                wt2=1
-                haluscore=1-avgsimilarity*wt1-avgmetrics*wt2
-        elif avgmetrics<0.5:
-            haluscore=1-avgmetrics
-            
-        # if haluscore>0.70:
-        #     haluscore=random.uniform(0.20,0.40)
-            
-        queue = []
-        i = 0
-        totalsrc = {}
-        while i< len(res):
-            j = i+1
-            st = res[i]["text"]
-            while j < len(res) and res[i]["source"] == res[j]["source"]:
-                st += res[j]["text"]
-                j+=1
-            if res[i]["source"] == "":
-                queue.append([{"text": st}])
-            else:
-
-                log.info(f"source: {id+res[i]['source']}")
-                queue.append([{"text": st, "source": new_blobname}])
-            i=j
-        
-        # finalScore = (inpoutsim*0.2 + inpsourcesim*0.4 + maxScore*0.4)
-        # if finalScore != 0:
-        #     queue[-1][0]["score"] = finalScore #round(1- finalScore.tolist()[0], 2)
-        # else:
-        #     queue[-1][0]["score"] = 1
-        totalsrc =  list(map(lambda item:{"source":item[0],"base64":item[1]},totalsrc.items()))
-        queue.append([{"endsrc": totalsrc}])
-        queue.append({"page_content":" ".join(set(arrForSourceText)).replace("\n"," ")})
-        queue.append({"hallucination-score":round(haluscore,3)})
-        queue.append({"openai_score":tempscore})
-        # queue.append(list(map(lambda item: item["page_content"], srcArr)))
-        # queue.append(srcArr)
-        et = time.time()
-        queue.append(fullText)
-        return queue
-    
-
-    except Exception as e:
-        log.info("Failed at Retrieval")
-        log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-
-def defaultQARetrievalKepler(text,fileupload,vectorestoreid=None):
+def defaultQARetrievalKepler(text,fileupload,llmtype,vectorestoreid=None):
+    """
+    Function to generate a RAG response along with hallucination score using the Langchain library and a vector store.
+    """
     if fileupload==True:
         res = []
         log.info("Before llm calling")
         # with open("../data/docs/"+str(id)+"/DefaultVectorstore.pkl","rb") as file:
         #  vectorstore =pickle.load(file)
-        if dbtypename=="mongo":
-            vectorstore = pickle.loads(fs.get_last_version(_id=vectorestoreid+"vectorstore",filename="vectorstore.pkl").read())
-        else:
-            #########################
-            # Define the filter to retrieve the document
-            filter = {"id": vectorestoreid + "vectorstore"}
-            document = collection.find_one(filter)
-            if document:
-                vectorstore_binary = document["data"]
-                vectorstore = pickle.loads(vectorstore_binary)
-                print("Vectorstore retrieved successfully!")
+        if llmtype=="openai":
+            if dbtypename=="mongo":
+                vectorstore = pickle.loads(fs.get_last_version(_id=vectorestoreid+"vectorstore",filename="vectorstore.pkl").read())
             else:
-                print("Document not found!")
+                #########################
+                # Define the filter to retrieve the document
+                filter = {"id": vectorestoreid + "vectorstore"}
+                document = collection.find_one(filter)
+                if document:
+                    vectorstore_binary = document["data"]
+                    vectorstore = pickle.loads(vectorstore_binary)
+                    print("Vectorstore retrieved successfully!")
+                else:
+                    print("Document not found!")
+        else:
+            vectorstore_path = f"{VECTORSTORE_BASE_DIR}{vectorestoreid}/"
+            embedding_function = select_embeddingmodel(llmtype)
+        
+            # Load vectorstore using FAISS native method
+            vectorstore = FAISS.load_local(
+                vectorstore_path, 
+                embedding_function, 
+                allow_dangerous_deserialization=True
+            )
+            
+            print(f"Vectorstore loaded successfully from: {vectorstore_path}")
             #########################
         log.info("Vectorstore loaded")
         retriever=vectorstore.as_retriever()
         # print("llm",llm)
+        llm=select_llmtype(llmtype)
+        print("llm",llm)
         qa_chain = RetrievalQA.from_chain_type(llm, retriever=retriever, return_source_documents=True,
                                             chain_type_kwargs={"prompt": QA_CHAIN_PROMPT})
         
@@ -413,12 +299,21 @@ def defaultQARetrievalKepler(text,fileupload,vectorestoreid=None):
         srcArr = output["source_documents"]  
         log.info(f"final response from the retriever:")
         log.info(fullText)
+        match = re.search(r"\s*source:\s*(.*)", fullText, re.IGNORECASE) #re.IGNORECASE handles both "SOURCE" and "source"
+        if match:
+            matching_section = match.group(1).strip()
+        else:
+            matching_section = "No source found"
+        log.info(f"Extracted text: {matching_section}")
+        match2 = re.search(r"(.*?)\s*SOURCE:", fullText, re.DOTALL)  # Capture group before SOURCE
+        fullText = match2.group(1).strip()
+        log.info(f"Response Without Source: {fullText}")
         inpoutsim, ressourcescore, inpsourcesim, tempscore, res, arrForSourceText= scoringmetrics(text,fullText,srcArr)
         pagecontent=" ".join(set(arrForSourceText)).replace("\n"," ")
         log.info(pagecontent)
         fullText = fullText.strip('.')
         fullText=",".join(fullText.split(",")[:-1])
-        haluscores, halureasons=gEval(text,fullText,pagecontent) 
+        haluscores, halureasons=gEval(text,fullText,pagecontent,llmtype) 
         # print("haluscores",haluscores)
         avgmetrics= haluscores["AverageScore"]
         log.info(f"Average hallucination score: {avgmetrics}")
@@ -493,6 +388,7 @@ def defaultQARetrievalKepler(text,fileupload,vectorestoreid=None):
         
         totalsrc =  list(map(lambda item:{"source":item[0],"base64":item[1]},totalsrc.items()))
         queue.append([{"endsrc": totalsrc}])
+        queue.append({"Matching Section From Document":matching_section})
         queue.append({"page_content":" ".join(set(arrForSourceText)).replace("\n"," ")})
         queue.append({"Factual_Halluciantion_score":tempscore})
         queue.append({"source-file":sourceName })
@@ -501,7 +397,7 @@ def defaultQARetrievalKepler(text,fileupload,vectorestoreid=None):
         # queue.append(list(map(lambda item: item["page_content"], srcArr)))
         # queue.append(srcArr)
         et = time.time()
-        queue.append(fullText)
+        queue.append({"Response":fullText})
         return {"rag_response":queue}
 
        
@@ -516,6 +412,7 @@ def defaultQARetrievalKepler(text,fileupload,vectorestoreid=None):
             
             vect=cache[int(vectorestoreid)]
             retriever=vect.as_retriever()
+            llm=select_llmtype(llmtype)
             qa_chain = RetrievalQA.from_chain_type(llm, retriever=retriever, return_source_documents=True,
                                             chain_type_kwargs={"prompt": QA_CHAIN_PROMPT})
             
@@ -529,6 +426,15 @@ def defaultQARetrievalKepler(text,fileupload,vectorestoreid=None):
         log.info("After llm calling")
         fullText = output["result"]
         srcArr = output["source_documents"]
+        match = re.search(r"\s*source:\s*(.*)", fullText, re.IGNORECASE) #re.IGNORECASE handles both "SOURCE" and "source"
+        if match:
+            matching_section = match.group(1).strip()
+        else:
+            matching_section = "No source found"
+        log.info(f"Extracted text: {matching_section}")
+        match2 = re.search(r"(.*?)\s*SOURCE:", fullText, re.DOTALL)  # Capture group before SOURCE
+        fullText = match2.group(1).strip()
+        log.info(f"Response Without Source: {fullText}")
         
         tempresponse = fullText.strip('.')
         tempresponse=",".join(tempresponse.split(",")[:-1])
@@ -546,7 +452,7 @@ def defaultQARetrievalKepler(text,fileupload,vectorestoreid=None):
         pagecontent=" ".join(set(arrForSourceText)).replace("\n"," ")
         fullText = fullText.strip('.')
         fullText=",".join(fullText.split(",")[:-1])
-        haluscores, halureasons=gEval(text,fullText,pagecontent)
+        haluscores, halureasons=gEval(text,fullText,pagecontent,llmtype)
         avgmetrics= haluscores["AverageScore"]
         avgmetrics=avgmetrics/5
         maxscore=max(inpoutsim, ressourcescore, inpsourcesim)
@@ -592,13 +498,18 @@ def defaultQARetrievalKepler(text,fileupload,vectorestoreid=None):
         #     queue[-1][0]["score"] = 1
         queue.append([{"endsrc": totalsrc}])
         queue.append({"page_content":" ".join(set(arrForSourceText)).replace("\n"," ")})
+        queue.append({"Matching Section From Document":matching_section})
         queue.append({"Factual_Hallucination_score":tempscore})
         queue.append({"Faithfulness_Hallucination_score":round(haluscore,3)})
         queue.append({"openai_time":round(openai_endtime,2)})
+        queue.append({"Response":fullText})
         log.info(f"Total time taken: {round(float(time.time()-starttime),2)}")
         return {"rag_response":queue}
 
 def promptResponseSimilarity (inp,out):
+    """
+    Function to calculate the similarity between two text inputs using cosine similarity.
+    """
     try:
         # input_embedding = get_embedding(inp)
         # output_embedding = get_embedding(out)
@@ -614,6 +525,9 @@ def promptResponseSimilarity (inp,out):
         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}") 
 
 def scoringmetrics(text,fullText,srcArr):
+    """
+    Function to calculate the similarity score for the generated response.
+    """
     try:
         res = []
         fullText = fullText.strip('.')
@@ -681,6 +595,9 @@ def scoringmetrics(text,fullText,srcArr):
 #     return [{"text": "\n".join([para.text for para in doc.paragraphs]), "metadata": {"source": file_path}}]
 
 def get_loader(file_path):
+    """
+    Returns the appropriate loader based on the file extension.
+    """
     if file_path.endswith('.pdf'):
         return PyPDFLoader(file_path)
     elif file_path.endswith('.txt'):
@@ -698,13 +615,10 @@ def get_loader(file_path):
     else:
         raise ValueError(f"Unsupported file format: {file_path}")
 
-def path_check(safe_path):
-    if re.match(r'^[\w\-\\\/\s.]+$', str(safe_path)):
-        return safe_path
-    else:
-        raise ValueError(f"Invalid path: {safe_path}")
-
-def createvector(payload):
+def createvector(files, llmtype):
+    """
+    Function to create a vector store from the uploaded files and save it to the database.
+    """
     try:
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         print("Chunking")
@@ -713,35 +627,34 @@ def createvector(payload):
         path = "../data/docs/"+str(id)+"/"
         if not os.path.exists(path):
             os.makedirs(path)
-        blobnames=[]
-        for i in payload:
+        for i in files:
             # with open(filepath, "rb") as file:
             #     #Create a dictionary with the file data
             #     files={'file': file.file}
             contents = i.file.read()
             filename = i.filename
-            response = requests.post(url=azureaddfileurl, files={"file": (filename, contents)}, data={"container_name": containername}, headers=None, verify=False)
+            # response = requests.post(url=azureaddfileurl, files={"file": (filename, contents)}, data={"container_name": containername}, headers=None, verify=False)
             
-            if response.status_code == 200:
-                global new_blobname, blobname_output
-                blobname_output = response.json()['blob_name']
-                blobnames.append(blobname_output)
-                base_name, file_ext = os.path.splitext(blobname_output)
-                newbasename = blobname_output.rsplit("_", 1)[0]
-                new_blobname = f"{newbasename}{file_ext}"
+            # if response.status_code == 200:
+            #     global new_blobname, blobname_output
+            #     blobname_output = response.json()['blob_name']
+            #     blobnames.append(blobname_output)
+            #     base_name, file_ext = os.path.splitext(blobname_output)
+            #     newbasename = blobname_output.rsplit("_", 1)[0]
+            #     new_blobname = f"{newbasename}{file_ext}"
                 
-                log.info(f"File uploaded successfully. Blob name: {blobname_output}, Container name: {containername}")
-            else:
-                log.info(f"Error uploading file': {response.status_code} - {response.text}")
+            #     log.info(f"File uploaded successfully. Blob name: {blobname_output}, Container name: {containername}")
+            # else:
+            #     log.info(f"Error uploading file': {response.status_code} - {response.text}")
                     
-            blobnameurl= f"{azureblobnameurl}blob_name={blobname_output}&container_name={containername}"
-            print(blobnameurl, blobname_output, containername)
-            getblob_response = requests.get(url=blobnameurl, data={"blob_name": blobname_output,"container_name": containername}, headers=None, verify=False, timeout=10)
+            # blobnameurl= f"{azureblobnameurl}blob_name={blobname_output}&container_name={containername}"
+            # print(blobnameurl, blobname_output, containername)
+            # getblob_response = requests.get(url=blobnameurl, data={"blob_name": blobname_output,"container_name": containername}, headers=None, verify=False, timeout=10)
                 
-            safe_path = Path(path) / new_blobname
-            new_input_path = path_check(safe_path)
-            with open(str(new_input_path), "wb") as buffer:
-                shutil.copyfileobj(io.BytesIO(getblob_response.content), buffer)
+            with open(path+filename, "wb") as buffer:
+                # shutil.copyfileobj(io.BytesIO(getblob_response.content), buffer)
+                shutil.copyfileobj(io.BytesIO(contents), buffer)
+        log.info("Files saved successfully")
             
         # loader = DirectoryLoader(path, glob="**/*.pdf", loader_cls=PyPDFLoader)
         # data = loader.load()
@@ -756,88 +669,47 @@ def createvector(payload):
                     else:
                         data.extend(loader.load())
                 except ValueError as e:
-                    log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
+                    print(e)
         
         all_splits = text_splitter.split_documents(data)
         global qa_chain
         vectorstore = None
+        embedding_function= select_embeddingmodel(llmtype)
         vectorstore = FAISS.from_documents(documents=all_splits, embedding=embedding_function)
         log.info("AftereVector")
         # unique_id = str(uuid.uuid4())
-        if dbtypename=="mongo":
-            fs.put(pickle.dumps(vectorstore),filename="vectorstore.pkl",_id=id+"vectorstore")
+        if llmtype == "openai":
+            if dbtypename=="mongo":
+                fs.put(pickle.dumps(vectorstore),filename="vectorstore.pkl",_id=id+"vectorstore")
+            else:
+                vectorstore_binary = pickle.dumps(vectorstore)
+                document = {"id": id + "vectorstore", "data": vectorstore_binary}
+                collection.insert_one(document)
         else:
-            vectorstore_binary = pickle.dumps(vectorstore)
-            document = {"id": id + "vectorstore", "data": vectorstore_binary}
-            collection.insert_one(document)
+            # Create vectorstore directory
+            vectorstore_path = f"{VECTORSTORE_BASE_DIR}{id}/"
+            if not os.path.exists(vectorstore_path):
+                os.makedirs(vectorstore_path, exist_ok=True)
+            # Save the vectorstore to a file
+            vectorstore.save_local(vectorstore_path)
+            print(f"Vectorstore saved locally at: {vectorstore_path}")
+            
         
         if os.path.exists("../data/docs/"+str(id)+"/"):
             print("Exists")
             shutil.rmtree("../data/docs/"+str(id)+"/")
-        return {"id": id, "blobname": blobnames}
+        return {"id": id}
     
     except Exception as e:
         log.info("Failed at createvector")
         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
        
 
-# def FileUploadtodb(payload):
-#     try:
-#         # for i in payload:
-#         #     print(i.filename)
-#         #     with defaultfs.new_file(filename= i.filename,content_type="application/pdf",_id=i.filename) as f:
-#         #         shutil.copyfileobj(i.file,f)
-#         for i in payload:
-#             # with open(filepath, "rb") as file:
-#             #     #Create a dictionary with the file data
-#             #     files={'file': file.file}
-#             contents = i.file.read()
-#             filename = i.filename
-#             response = requests.post(url=azureaddfileurl, files={"file": (filename, contents)}, data={"container_name": containername}, headers=None, verify=False)
-            
-#             if response.status_code == 200:
-#                 global default_blobname_output
-#                 default_blobname_output = response.json()['blob_name']
-#                 log.info(f"File uploaded successfully. Blob name: {default_blobname_output}, Container name: {containername}")
-#             else:
-#                 log.info(f"Error uploading file': {response.status_code} - {response.text}")
-            
-#         return 1
-#     except Exception as e:
-#         log.info("Failed at Upload to db")
-#         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-
-# def dbupdate():
-#     try:
-#         if not os.path.exists("../data/temp"):
-#             os.makedirs("../data/temp")
-#         blobnameurl= f"{azureblobnameurl}blob_name={default_blobname_output}&container_name={containername}"
-#         getblob_response = requests.get(url=blobnameurl, data={"blob_name": default_blobname_output,"container_name": containername}, headers=None, verify=False)
-#         text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=0)
-#         with open("../data/temp/"+ default_blobname_output, "wb") as buffer:
-#             shutil.copyfileobj(io.BytesIO(getblob_response.content), buffer)
-#         loader = DirectoryLoader("../data/temp/", glob="**/*.pdf", loader_cls=PyPDFLoader)
-#         data = loader.load()
-#         print(data)
-#         all_splits = text_splitter.split_documents(data)
-#         #log.info("BeforeVector",all_splits)
-#         global vectorstore,qa_chain
-#         vectorstore = None
-#         vectorstore = FAISS.from_documents(documents=all_splits, embedding=embedding_function)
-#         #change
-#         # retriever = faiss_index.as_retriever(search_type="similarity_score_threshold", search_kwargs={"score_threshold": 0.6})
-#         with open("../data/DefaultVectorstore.pkl","wb") as file:
-#             pickle.dump(vectorstore,file)
-#         if os.path.exists("../data/temp/"):
-#             print("Exists")
-#             shutil.rmtree("../data/temp/")
-#     except Exception as e:
-#         log.info("Failed at VectorestoreUpdate")
-#         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-    
-#     # encodedString = base64.b64encode(pdf_content)
 
 def show_score(prompt, response, sourcearr):
+    """
+    Function to calculate the score for the generated response based on the prompt and source documents.
+    """
     try:        
         log.info("Showing Scores")
         response = response.strip('.')  

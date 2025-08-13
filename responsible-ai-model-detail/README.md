@@ -16,7 +16,7 @@ The `responsible-ai-model-detail` provides us the workbench to add, update or de
 ## Installation
 To run the application, first we need to install Python and the necessary packages:
 
-1. Install Python (version >= 3.9) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
+1. Install Python (version == 3.11.4) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
 
 2. Clone the repository:`responsible-ai-model-detail` by executing the command in git bash or cmd:
     ```sh
@@ -43,13 +43,6 @@ To run the application, first we need to install Python and the necessary packag
     
     ```sh
     cd workbench\requirements
-    ```
-    
-    Open the requirement.txt file present at path `responsible-ai-model-detail\workbench\requirements` in the repository. Comment line number 16 and uncomment line number 17 and save the file to install the aicloudlibs-0.1.0-py3-none-any.whl file present in `lib` folder of the         	repository. Follow these : 
-    
-    ```sh
-    #lib/aicloudlibs-0.1.0-py3-none-any.whl
-    ../lib/aicloudlibs-0.1.0-py3-none-any.whl
     ```
     
     Now install the requirements - 
@@ -121,8 +114,8 @@ Once we have completed all the aforementioned steps, we can start the service.
     python main.py
     ```
 
-3. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: 
-   `http://localhost:<portno.>/v1/workbench/docs`
+3. Open the following URL in your browser to access the swagger:
+    [http://localhost:80/v1/workbench/docs](http://localhost:80/v1/workbench/docs)
 
 
 ## License
@@ -130,4 +123,4 @@ The source code for the project is licensed under MIT license, which you can fin
 
 
 ## Contact
-If you have more questions or need further insights please feel free to connect with us @infosysraitoolkit@infosys.com
+If you have more questions or need further insights please feel free to connect with us @ ResponsibleAI@infosys.com

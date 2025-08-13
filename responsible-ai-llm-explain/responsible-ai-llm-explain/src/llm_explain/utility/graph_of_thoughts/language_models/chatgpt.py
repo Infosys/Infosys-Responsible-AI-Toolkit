@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
@@ -17,6 +17,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 import backoff
 import os
+import random
+import time
 from typing import List, Dict, Union
 from openai import OpenAI, OpenAIError
 from openai.types.chat.chat_completion import ChatCompletion
@@ -102,6 +104,7 @@ class ChatGPT(AbstractLanguageModel):
                     self.logger.warning(
                         f"Error in chatgpt: {e}, trying again with {next_try} samples"
                     )
+                    time.sleep(random.randint(1, 3))
                     total_num_attempts -= 1
 
         if self.cache:

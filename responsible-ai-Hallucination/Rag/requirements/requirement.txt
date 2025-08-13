@@ -1,13 +1,8 @@
 openai==0.28.0
-#langchain==0.1.0
-#langchain==0.2.5
-#langchain-community==0.0.10
-#langchain-community==0.2.9
 langchain==0.3.4
 langchain-community==0.3.3
 langchain-core==0.3.24
 pypdf
-lxml
 sentence-transformers
 tiktoken
 faiss-cpu
@@ -23,9 +18,15 @@ moviepy==1.0.3
 opencv-python
 SpeechRecognition
 pydub
-atlassian-python-api
+docx2txt
+pydantic-settings==2.6.0
+librosa
+soundfile
 wheel==0.38.1
-#wheel==0.38.0
-jinja2==3.1.5
+jinja2==3.1.6
 setuptools==70.0.0
-#setuptools==65.5.1
+pydantic==2.9.2
+# langchain[google-genai]
+langchain-google-genai
+google-genai
+langchain-aws

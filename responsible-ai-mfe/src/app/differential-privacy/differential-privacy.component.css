@@ -1,16 +1,16 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .drop-zone {
     border: 2px dashed #dcdcdc;
     border-radius: 5px;
     padding: 40px;
     text-align: center;
     color: #4a4a4a;
-    background-color: #FFFFFF;
+    background-color:#FFFFFF;
     cursor: pointer;
     position: relative;
     overflow: hidden;
@@ -103,7 +103,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     color: #12A108 !important;
 }
 
-.file-name-preview {
+.file-name-preview{
     color: #333333d0;
     font-size: 20px;
     margin-left: 25px;
@@ -174,7 +174,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     /* margin-bottom: 1rem; */
 }
 
-
 /* :host .dropdown {
     width: 276px;
     border: 1px solid #dee2e6;
@@ -184,7 +183,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     max-width: 15rem;
     width: 100%;
 } */
-
 
 /* .dropdownSelect {
     width: 276px;
@@ -209,25 +207,60 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     justify-content: center;
     align-items: center;
     z-index: 9999;
-}
+  }
 
-.border-div {
+
+  .border-div {
     position: relative;
     flex: 1;
-}
-
-.border-div::after {
+  }
+  
+  .border-div::after {
     content: "";
     position: absolute;
-    top: 9%;
-    /* Adjust this to move the border up or down */
-    bottom: 16%;
-    /* Adjust this to change the length of the border */
+    top: 9%; /* Adjust this to move the border up or down */
+    bottom: 16%; /* Adjust this to change the length of the border */
     right: 0;
     border-right: 1px solid #ccc;
-}
+  }
 
-.warn {
+.warn{
     font-family: 'Segoe UI';
     font-size: 12px;
+}
+
+.label-container {
+    margin-bottom: 10px;
+}
+
+.small-label {
+    font-size: 12px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+    text-align: center;
+}
+
+.imgcardsize {
+    width: 45px;
+    height: 47px;
+    overflow: hidden;
+}
+
+.radio-checked-img {
+    border: 2px solid #8626C3;
+}
+
+.HeadingLabel2 {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-size: 8px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.image-container {
+    display: flex;
+    width: min-content;
 }

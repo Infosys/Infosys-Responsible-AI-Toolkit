@@ -2,7 +2,7 @@ import json
 import random
 import string
 import ipaddress
-import secrets
+
 # List of random private IP addresses to use as replacements
 REPLACEMENTS_IP = {
     "IPv4": ["172.16.31.10", "172.16.58.3", "172.16.17.32", "192.168.127.12", "192.168.3.11"],
@@ -45,19 +45,19 @@ def load_json(sample):
 def random_replacements(n=10):
     letters = string.ascii_lowercase
     letters_digits = string.ascii_lowercase + string.digits
-    emails = ["".join(secrets.choice(letters) for i in range(5)) + "@example.com" for i in range(n)]
-    keys = ["".join(secrets.choice(letters_digits) for i in range(32)) for i in range(n)]
+    emails = ["".join(random.choice(letters) for i in range(5)) + "@example.com" for i in range(n)]
+    keys = ["".join(random.choice(letters_digits) for i in range(32)) for i in range(n)]
     ip_addresses = REPLACEMENTS_IP
     return {"EMAIL": emails, "KEY": keys, "IP_ADDRESS": ip_addresses}
 
 def replace_ip(value, replacements_dict):
     try:
         ipaddress.IPv4Address(value)
-        return secrets.choice(replacements_dict["IP_ADDRESS"]["IPv4"])
+        return random.choice(replacements_dict["IP_ADDRESS"]["IPv4"])
     except ValueError:
         try:
             ipaddress.IPv6Address(value)
-            return secrets.choice(replacements_dict["IP_ADDRESS"]["IPv6"])
+            return random.choice(replacements_dict["IP_ADDRESS"]["IPv6"])
         except ValueError:
             print("Invalid IP address")
             return value

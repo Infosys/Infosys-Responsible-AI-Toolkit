@@ -1,21 +1,23 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <label class="topHeading">AI CONTENT DETECTOR</label>
 <div class="header-container">
     <h3>ENTER PROMPT</h3>
     <div class="spacer"></div>
     <h3 *ngIf="loadComplete">RESULT</h3>
-</div>
+  </div>
 <ng-container class="selectTypeShimmer" *ngIf="isLoadingPrompt">
-    <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '170px', width: '800px'}">
-    </ngx-skeleton-loader>
+  <ngx-skeleton-loader count="1" appearance="circle"
+    [theme]="{ 'border-radius': '10px', height: '170px', width: '800px'}">
+  </ngx-skeleton-loader>
 </ng-container>
 <div *ngIf="!isLoadingPrompt" style="display: flex;">
     <div class="textarea-container">
-        <textarea class="textarea-input" [(ngModel)]="Prompt" id="prompt" matInput required [innerHTML]="safeTemplateData"></textarea>
+        <textarea class="textarea-input" [(ngModel)]="Prompt" id="prompt" matInput required></textarea>
         <button mat-icon-button class="submit-button" (click)="textValidationMethod()">
             <mat-icon>send</mat-icon>
         </button>
@@ -24,38 +26,38 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </button>
     </div>
     <div *ngIf="responseLoading && !loadComplete" class="shimmer-loader"></div>
-    <div *ngIf="loadComplete">
+     <div *ngIf="loadComplete">
         <!-- <h1 class="h1-div">RESULT
         </h1> -->
         <div class="outer-card">
             <mat-card class="prediction-card">
                 <mat-card-header>
                     <mat-card-title>{{ response.prediction | uppercase }}</mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
+                  </mat-card-header>
+              <mat-card-content>
+              </mat-card-content>
+          
+              <div class="inner-cards">
+                <mat-card class="score-card">
+                  <mat-card-header>
+                    <mat-card-title>{{ response.score | number:'1.2-2' }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <p>Actual Score for This Prompt</p>
                 </mat-card-content>
-
-                <div class="inner-cards">
-                    <mat-card class="score-card">
-                        <mat-card-header>
-                            <mat-card-title>{{ response.score | number:'1.2-2' }}</mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content>
-                            <p>Actual Score for This Prompt</p>
-                        </mat-card-content>
-                    </mat-card>
-
-                    <mat-card class="threshold-card">
-                        <mat-card-header>
-                            <mat-card-title>{{ response.threshold | number:'1.2-2' }}</mat-card-title>
-                        </mat-card-header>
-                        <mat-card-content>
-                            <p>Minimum Human-Like Threshold</p>
-                        </mat-card-content>
-                    </mat-card>
-                </div>
+                </mat-card>
+                
+                <mat-card class="threshold-card">
+                  <mat-card-header>
+                    <mat-card-title>{{ response.threshold | number:'1.2-2' }}</mat-card-title>
+                  </mat-card-header>
+                  <mat-card-content>
+                    <p>Minimum Human-Like Threshold</p>
+                  </mat-card-content>
+                </mat-card>
+              </div>
             </mat-card>
-        </div>
+          </div>
         <!-- <table class="bordered-table">
             <thead>
                 <tr>
@@ -81,7 +83,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </tr>
             </tbody>
         </table> -->
-    </div>
+     </div>
 </div>
 <div>
     <!-- <h3>Sample Text</h3>

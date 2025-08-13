@@ -1,25 +1,26 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="tab-container">
     <label class="topHeading">MODELS</label>
-    <mat-tab-group dynamicHeight dynamicWidth color="primary" class="workbenchContainer">
-        <mat-tab label="Data Form" *ngIf="roleService.checkSubtabExists('Models','Model-Form')">
-            <ng-template matTabContent>
-                <app-data-form></app-data-form>
-            </ng-template>
-        </mat-tab>
-        <mat-tab label="Model Form" *ngIf="roleService.checkSubtabExists('Models','Model-Form')">
-            <ng-template matTabContent>
-                <app-model-form></app-model-form>
-            </ng-template>
-        </mat-tab>
-        <mat-tab label="Preprocessor" *ngIf="roleService.checkSubtabExists('Models','Preprocessor')">
-            <ng-template matTabContent>
-                <app-vector-form></app-vector-form>
-            </ng-template>
-        </mat-tab>
-    </mat-tab-group>
+<mat-tab-group dynamicHeight dynamicWidth color="primary" class="workbenchContainer">
+    <mat-tab label="Data Form" *ngIf="roleService.checkSubtabExists('Models','Model-Form')">
+        <ng-template matTabContent>
+            <app-data-form></app-data-form>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Model Form" *ngIf="roleService.checkSubtabExists('Models','Model-Form')">
+        <ng-template matTabContent>
+            <app-model-form></app-model-form>
+        </ng-template>
+    </mat-tab>
+    <mat-tab label="Preprocessor" *ngIf="roleService.checkSubtabExists('Models','Preprocessor')">
+        <ng-template matTabContent>
+            <app-vector-form></app-vector-form>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>
 </div>

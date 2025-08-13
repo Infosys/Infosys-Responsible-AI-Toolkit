@@ -14,7 +14,6 @@
     - [Decisive Audit:](#decisive-audit)
     - [Generic Audit:](#generic-audit)
   - [Workbench APIs](#workbench-apis)
-      - [Bug Fix](#bug-fix)
 
 ## Fairness Analysis in Unstructured Text and Images
 
@@ -177,23 +176,6 @@ This api will download the report once the operation has completed successfully.
 1. BatchId: Entered same BatchId which is used in /**fairness/wrapper/batchId** endpoint<br>
    
 **Response:** Report for corresponding operations.
-
-#### Bug Fix
-- Users who are using UI may experience problems downloading reports for analyze and audit functions when connected to MongoDB.
-- Add the following code block in the `read_file` function within the MongoDB block, just before the return statement:
-
-```python
-if file_metadata.content_type == "application/pdf":
-    file_name = f"file_{str(unique_id)}.pdf"
-    extension = "pdf"
-    return {
-        "data": file_content,
-        "name": file_name,
-        "extension": extension,
-        "contentType": file_metadata.content_type
-    }
-  ```
-
 
 **Note:** One required the following services to run the workbench apis 
 1. Reporting Tool: For report generation.

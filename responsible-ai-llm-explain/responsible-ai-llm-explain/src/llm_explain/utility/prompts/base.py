@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
@@ -47,29 +47,53 @@ class Prompt:
             """
         return template
         
-    def get_local_explanation_prompt(prompt, response):
+    def get_local_explanation_prompt(prompt, response, context=None):
 
-        template = f'''
-            You are a Responsible AI expert with extensive experience in Explainable AI for Large Language Models. Your role is to clearly generate explanations for why the Large Language Model has generated a certain response for the given prompt.
+        if context:
 
-            You are a helpful assistant. Do not fabricate information or provide assumptions in your response.
+            template = f'''
+                You are a Responsible AI expert with extensive experience in Explainable AI for Large Language Models. Your role is to clearly generate explanations for why the Large Language Model has generated a certain response for the given prompt.
 
-            Given the following prompt-response pair:
+                You are a helpful assistant. Do not fabricate information or provide assumptions in your response.
 
-            Prompt: {prompt}
-            Response: {response}
+                Given the following prompt-response pair and the associated context:
 
-            Please assess the following metrics:
+                Prompt: {prompt}
+                Response: {response}
+                Context: {context}
 
-            1. Uncertainty: Evaluate the uncertainty associated with the response for the given prompt using a score between 0 (certain) and 95 (highly uncertain). Additionally, explain your reasoning behind the assigned score.
-            2. Coherence: Evaluate the logical flow and coherence of the response using a score between 0 (incoherent) and 95 (highly coherent). Additionally, explain your reasoning behind the assigned score.
+                Please assess the following metrics by considering both the context and the prompt-response pair:
 
-            Based on the score and explanation for each metric, provide a recommendation for how to change the input prompt so that the response will be better and the scores will improve. Ensure that each recommendation is concrete and actionable. If a metric has a perfect score, provide positive reinforcement or suggest maintaining the current quality.
+                1. Uncertainty: Evaluate the uncertainty associated with the response using a score between 0 (certain) and 95 (highly uncertain). Consider both the provided context and how well the response aligns with it. Additionally, explain your reasoning behind the assigned score.
+                2. Coherence: Evaluate the logical flow and coherence of the response using a score between 0 (incoherent) and 95 (highly coherent). Consider how well the response maintains consistency with the given context. Additionally, explain your reasoning behind the assigned score.
 
-            Return the output only in the following JSON format. Do not output anything other than this JSON object:
-            {output_format_local_explanation}
-            
-        '''
+                Based on the score and explanation for each metric, provide a recommendation for how to change the input prompt so that the response will be better aligned with the context and the scores will improve. Ensure that each recommendation is concrete and actionable. If a metric has a perfect score, provide positive reinforcement or suggest maintaining the current quality.
+
+                Return the output **only** in the following JSON format. Do not include anything else in your response. Ensure that only one JSON object is returned:
+                {output_format_local_explanation}
+            '''
+        else:
+
+            template = f'''
+                You are a Responsible AI expert with extensive experience in Explainable AI for Large Language Models. Your role is to clearly generate explanations for why the Large Language Model has generated a certain response for the given prompt.
+
+                You are a helpful assistant. Do not fabricate information or provide assumptions in your response.
+
+                Given the following prompt-response pair:
+
+                Prompt: {prompt}
+                Response: {response}
+
+                Please assess the following metrics:
+
+                1. Uncertainty: Evaluate the uncertainty associated with the response for the given prompt using a score between 0 (certain) and 95 (highly uncertain). Additionally, explain your reasoning behind the assigned score.
+                2. Coherence: Evaluate the logical flow and coherence of the response using a score between 0 (incoherent) and 95 (highly coherent). Additionally, explain your reasoning behind the assigned score.
+
+                Based on the score and explanation for each metric, provide a recommendation for how to change the input prompt so that the response will be better and the scores will improve. Ensure that each recommendation is concrete and actionable. If a metric has a perfect score, provide positive reinforcement or suggest maintaining the current quality.
+
+                Return the output **only** in the following JSON format. Do not include anything else in your response. Ensure that only one JSON object is returned:
+                {output_format_local_explanation}   
+            '''
         return template
 
     def get_token_importance_prompt(prompt):
@@ -86,8 +110,11 @@ class Prompt:
             score between 0 (low importance) and 1 (high importance). Provide all the tokens as a list. Ensure that you give an importance score for all tokens,
             and there are no empty spaces or inconsistencies in the output, which might cause issues while parsing. Make your analysis consistent so that if given
             the same input again, you produce a similar output.
- 
-            Return the output only in the following JSON format. Do not output anything other than this JSON object:
+
+            Example Data:
+            {one_shot_token_importance}
+
+            Return the output **only** in the following JSON format. Do not include anything else in your response. Ensure that only one JSON object is returned:
             {output_format_token_importance}
         '''
         return template
@@ -280,3 +307,166 @@ class Prompt:
         """
 
         return SUMMARIZATION_PROMPT_TEMPLATE
+    
+    def reread_thot(prompt):
+        
+        template = f"""You should be a responsible Assistant and should not generate harmful or misleading content! 
+            Please answer the following user query in a responsible way. 
+            Walk me through this context in manageable parts step by step, summarising and analysing as we go.
+            Engage in a step-by-step thought process to explain how the answer was derived. 
+            Additionally, associate the source with the answer using the format:
+            Result: "answer"
+            Explanation: "step-by-step reasoning"
+            question : {prompt} Read the question again : {prompt} 
+
+            Return the output only in the following JSON format. Do not output anything other than this JSON object format:
+            {output_format_thot}
+
+            """
+        return template
+    
+    def thot(prompt):
+        
+        template = f"""You should be a responsible Assistant and should not generate harmful or misleading content! 
+            Please answer the following user query in a responsible way. 
+            Walk me through this context in manageable parts step by step, summarising and analysing as we go.
+            Engage in a step-by-step thought process to explain how the answer was derived. 
+            Additionally, associate the source with the answer using the format:
+            Result: "answer"
+            Explanation: "step-by-step reasoning"
+            User Query: {prompt}
+
+            Return the output **only** in the following JSON format. Do not include anything else in your response. Ensure that only one JSON object is returned:
+            {output_format_thot}
+
+            """
+        return template
+    
+    def cot(prompt):
+            
+        template = f"""You should be a responsible Assistant and should not generate harmful or 
+            misleading content! Please answer the following user query in a responsible way. 
+            Let's think the answer step by step and explain step by step how you got the answer. 
+            Please provide website link as references if you are refering from internet to get the answer.
+            User Query : {prompt}
+
+            Return the output **only** in the following JSON format. Do not include anything else in your response. Ensure that only one JSON object is returned:
+            {output_format_cot}
+
+            """
+        return template
+    
+
+    def lot_phase1(prompt):
+        template = f"""
+        You are a meticulous LLM with expertise in formal logical reasoning. Your task is to break down the input context into its logical components by extracting key propositions.
+
+        INSTRUCTIONS:
+        1. Carefully extract the key propositions from the input context. Use uppercase English letters such as A, B, C, etc., to represent each distinct proposition.
+        2. Do not include negations or subjective modifiers like "not," "never," or "cannot" in the propositions. For example, the sentence "It is not boring" should result in "A: boring," rather than introducing the word "not."
+        3. for each proposition, use the symbol to represent its negative form. For example, the negative form of proposition A can be expressed as ~A.
+        4. Translate each proposition and its negation into a formal logical expression, based on the context provided.
+        5. Ensure that propositions are abstracted from the input and do not simply copy statements verbatim. Focus on extracting meaningful logical components that can be used to construct formal reasoning.
+        6. Your final output should contain **only one** logical expression that best represents the entire input, combining the propositions you have identified.
+        
+        INPUT:
+        [Prompt]: {prompt}
+
+        OUTPUT FORMAT:
+        Please return the output **only** in the following JSON format. Do not include anything else in your response. Ensure that only one JSON object is returned:
+        {output_format_lot_phase1}
+
+        Example Output.
+        {LOT_FEW_SHOT_PHASE1}
+        """
+        return template
+
+    def lot_phase2(prompt):
+        template = f"""
+        You are a detail-oriented LLM with expertise in logical reasoning. Your task is to extend the logical expression using appropriate logical laws.
+
+        INSTRUCTIONS:
+        You will be given logical expressions, extend the logical expression using appropriate logical laws. Below are some of the common logical reasoning laws that you may need to apply:
+        1. Law of Identity: A = A (Everything is identical to itself)
+        2. Law of Non-Contradiction: ~ (A ∧ ~A) (Nothing can both be and not be at the same time)
+        3. Law of the Excluded Middle: A ∨ ~A (Either A is true or A is false)
+        4. Modus Ponens: (A → B), A ⊢ B (If A then B, and A is true, then B is true)
+        5. Modus Tollens: (A → B), ~B ⊢ ~A (If A then B, and B is false, then A is false)
+        6. Disjunctive Syllogism: (A ∨ B), ~A ⊢ B (Either A or B is true, and A is false, so B is true)
+        7. Hypothetical Syllogism: (A → B), (B → C) ⊢ (A → C) (If A implies B and B implies C, then A implies C)
+        8. Contrapositive: (A → B) ≡ (~B → ~A) (If A implies B, then not B implies not A)
+        9. Double Negation: ~~A ≡ A (Not not A is the same as A)
+        10. Distributive Law: A ∧ (B ∨ C) ≡ (A ∧ B) ∨ (A ∧ C) (Distribute conjunction over disjunction)
+        11. Commutative Law: A ∧ B ≡ B ∧ A (The order of "and" or "or" operations does not affect the result)
+        12. Associative Law: (A ∧ B) ∧ C ≡ A ∧ (B ∧ C) (Grouping does not affect the outcome of "and" or "or" operations)
+        13. Idempotent Law: A ∧ A ≡ A, A ∨ A ≡ A (A combined with itself equals A)
+        14. De Morgan's Laws: ~(A ∧ B) ≡ ~A ∨ ~B, ~(A ∨ B) ≡ ~A ∧ ~B (Negation of conjunction or disjunction can be rewritten)
+        15. Tautology: A ∨ ~A (A is either true or false, always true)
+        return the extended logical expression with law used and it's explanation used in a single line.
+
+        INPUT:
+        [Prompt]: {prompt}
+
+        OUTPUT FORMAT:
+        Return the output **only** in the following JSON format. Do not include anything else in your response. Ensure that only one JSON object is returned:
+        {output_format_lot_phase2}
+
+        Example Output.
+        {LOT_FEW_SHOT_PHASE2}
+        """
+        return template
+
+    def lot_phase3(prompt1, prompt2):
+        template = f"""
+        You are a detail-oriented LLM with expertise in logical reasoning. Your task is to translate the logical expression into a sentence that reflects the logical relationship between the propositions.
+
+        INSTRUCTIONS:
+        1. Please use the provided propositions to translate each expression into a complete sentence.
+            - ~A represents the negation of proposition A (e.g., "not A").
+            - The arrow (→) represents the causal relationship (e.g., "If A, then B").
+            - ∧ represents the logical "AND" (e.g., "A and B").
+            - ∨ represents the logical "OR" (e.g., "A or B").
+            - ↔ represents "if and only if" (e.g., "A if and only if B").
+            - →, as mentioned, represents the conditional "if-then" statement.
+            - Parentheses may be used to group multiple propositions in complex logical expressions.
+        2. Translate the logical expression into a sentence that reflects the logical relationship between the propositions.
+        3. Ensure that the sentence is clear, concise, and accurately represents the logical relationship.
+
+        INPUT:
+        [Propositions]: {prompt1}
+        [Logical Expression]: {prompt2}
+
+        OUTPUT FORMAT:
+        In the response, the value in dict should be single paragraph without any new lines.
+        Return the output **only** in the following JSON format. Do not include anything else in your response. Ensure that only one JSON object is returned:
+        {output_format_lot_phase3}
+        
+        EXAMPLE OUTPUT:
+        {LOT_FEW_SHOT_PHASE3}
+        """
+
+        return template
+    
+    def lot_phase4(prompt):
+        template = f"""
+            You are a detail-oriented LLM with expertise in logical reasoning. Your task is to analyse the given input context carefully and provide the correct answer with explanation.
+        
+            INSTRUCTIONS:
+            1. Analyse the context carefully and provide the correct answer as expected and give explanation.
+            2. walk me through this context in manageable parts step by step, summarising and analysing as we go.
+            4. Ensure that the explanation is simple and easy to understand, avoiding any technical terms.
+            5. Keep the response concise, clear, and free from special characters or excessive punctuation.
+            6. Ensure that the explanation shouldn't have nested structures or sub-sections. Do not use sub-dictionaries, dictionaries or break the explanation into multiple parts.
+            7. In the response, the value should be single paragraph without any new lines,special characters or excessive punctuation, dictionary, sub dictionary.
+            8. Return the output **only** in this JSON format. Do not include anything else in your response. Ensure that only one JSON object is returned.
+
+            INPUT:
+            [Prompt]: {prompt}
+
+            OUTPUT FORMAT:
+            {output_format_lot4}
+    
+            EXAMPLE OUTPUT:
+            {LOT_FEW_SHOT_PHASE4}
+            """
+        return template

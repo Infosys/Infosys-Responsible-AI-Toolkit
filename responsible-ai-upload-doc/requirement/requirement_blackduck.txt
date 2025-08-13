@@ -7,4 +7,3 @@ PyYAML
 pymongo
 python-dotenv
 python-multipart
-../lib/aicloudlibs-0.1.0-py3-none-any.whl

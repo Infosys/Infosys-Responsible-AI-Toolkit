@@ -1,53 +1,55 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div style="display: flex; margin-top: 3.5rem;">
     <div style="flex: 1">
         <div class="dataTable-container">
             <label class="HeadingLabel">MODELS</label>
             <div class="d-flex align-items-center">
-                <button (click)="getBatches()" class="rfrshBtn mr-2">
+                <button (click)="getBatches()" class="rfrshBtn me-2">
                     <mat-icon>refresh</mat-icon>
                   </button>
                 <button class="addDataBtn" (click)="openRightSideModal(0)">ADD MODEL</button>
             </div>
         </div>
         <div *ngIf="isLoadingTable">
-            <ngx-skeleton-loader count="5" appearance="line" [theme]="{ 'border-radius': '20px', height: '30px', width:'900px'}">
-            </ngx-skeleton-loader>
+          <ngx-skeleton-loader count="5" appearance="line"
+            [theme]="{ 'border-radius': '20px', height: '30px', width:'900px'}">
+          </ngx-skeleton-loader>
         </div>
         <div *ngIf="!isLoadingTable">
-            <table class="styled-table">
-                <tr>
-                    <th class="header">Model Id</th>
-                    <th class="header">MODEL Name</th>
-                    <th class="header">Update Action</th>
-                    <th class="header">Delete</th>
-                </tr>
-                <tr *ngFor="let element of dataSource_getBatches| paginate : pagingConfig; let i = index">
-                    <td>{{element.modelId}}</td>
-                    <td>{{element.modelName}} </td>
-                    <td>
-                        <button class="actionBtn" matTooltip="Update" (click)="openRightSideModal(element.modelId)">
+        <table class="styled-table">
+            <tr>
+                <th class="header">Model Id</th>
+                <th class="header">MODEL Name</th>
+                <th class="header">Update Action</th>
+                <th class="header">Delete</th>
+            </tr>
+            <tr *ngFor="let element of dataSource_getBatches| paginate : pagingConfig; let i = index">
+                <td>{{element.modelId}}</td>
+                <td>{{element.modelName}} </td>
+                <td>
+                    <button class="actionBtn" matTooltip="Update" (click)="openRightSideModal(element.modelId)">
                         <mat-icon [inline]="true">update</mat-icon>
                       </button>
-                    </td>
-                    <td>
-                        <button class="deleteButton" matTooltip="Delete" (click)="deleteConfirmationModel(element.modelId)">
+                </td>
+                <td>
+                    <button class="deleteButton" matTooltip="Delete" (click)="deleteConfirmationModel(element.modelId)">
                         <mat-icon [inline]="true">delete</mat-icon>
                       </button>
-                    </td>
-                </tr>
-            </table>
-            <div class="d-flex justify-content-between mt-3">
-                <div class="pagination-info">
-                    Showing {{ pagingConfig.totalItems
-                    < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }} </div>
-                        <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
-                        </pagination-controls>
-                </div>
-            </div>
+                </td>
+            </tr>
+        </table>
+        <div class="d-flex justify-content-between mt-3">
+          <div class="pagination-info">
+            Showing {{ pagingConfig.totalItems < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }}
+          </div>
+            <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+            </pagination-controls>
         </div>
+      </div>
     </div>
+</div>

@@ -1,6 +1,5 @@
 pyyaml
 regex
-textstat
 python-dotenv
 pymongo
 sqlalchemy
@@ -24,6 +23,7 @@ pytest
 grapheme
 wheel==0.38.1
 aiohttp==3.10.2
+fkscore
 ../lib/aicloudlibs-0.1.0-py3-none-any.whl
 ../lib/better_profanity-2.0.0-py3-none-any.whl
 ../lib/privacy-1.0.9-py3-none-any.whl

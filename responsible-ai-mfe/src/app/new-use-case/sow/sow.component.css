@@ -1,0 +1,123 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.card-width {
+    max-width: 800px;    
+    margin: 20px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .align-left {
+    margin-left: 170px; /* Adjust the left margin as needed */
+  }
+
+  .txtArea {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 115px;
+    padding-right: 110px;
+    /* padding-top: 30px;
+    padding-bottom: 30px; */
+  }
+  
+  .elevated-card {
+    background-color: #f5f5f5; /* Light grey background color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Elevated shadow */
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .mainLabel2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+    color: #7E7E7E;
+    text-transform: uppercase;
+    font-family: 'Segoe UI';
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.75rem; /* Match the font size of dropdowns in Recognizers.component */
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .buttonMain {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: 0.75rem;
+    height: 28px;
+    min-width: fit-content;
+    width: max-content;
+  }
+  
+  .primary1 {
+    background-color: #000000; /* Replace with the actual primary1 color used in your project */
+    color: white;
+  }
+  
+  .primary1:hover {
+    background-color: #1a1f25; /* Darker shade for hover state */
+  }
+  
+  .mainLabel {
+    color: #382261;
+    opacity: 70%;
+    padding: 0px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+  }
+  
+  .mainLabel-margin {
+    margin-bottom: 10px;
+  }
+
+  /*  */
+
+  .fileContainer {
+    width: 158px;
+  }
+  
+  .HeadingLabelSM {
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    letter-spacing: 0px;
+    color: #382261;
+    text-transform: uppercase;
+  }
+  
+  .cancel-button {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+  }
+  
+  .cancel-button mat-icon {
+    color: white;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+  }

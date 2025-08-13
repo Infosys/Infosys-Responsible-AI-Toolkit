@@ -1,9 +1,9 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .inputMat {
     margin-top: 5px;
     margin-left: 1rem;
@@ -19,7 +19,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     background-color: #faf2ff;
 }
 
-
 /* .inputMat1 {
     margin-top: 5px;
     margin-left: 1rem;
@@ -31,43 +30,44 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-size: 1.3rem;
 } */
 
+
 .inputMat1 {
     /* top: 329px;
 left: 78px; */
-    width: 450px;
-    height: 61px;
-    /* UI Properties */
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    border: 0.30000001192092896px solid #707070;
-    border-radius: 4px;
-    opacity: 1;
+width: 450px;
+height: 61px;
+/* UI Properties */
+background: #FFFFFF 0% 0% no-repeat padding-box;
+border: 0.30000001192092896px solid #707070;
+border-radius: 4px;
+opacity: 1;
 }
-
 
 /* .inputTable{
 
 } */
 
-
 /* .inputMat1:hover {
     background-color: #faf2ff;
 } */
 
-.textFontCss {
+
+.textFontCss{
     top: 310px;
-    left: 78px;
-    width: 93px;
-    height: 288px;
-    /* UI Properties */
-    text-align: left;
-    font: normal normal normal 12px/16px Segoe UI;
-    letter-spacing: 0px;
-    color: #7E7E7E;
-    font-weight: 650;
-    opacity: 1;
+left: 78px;
+width: 93px;
+height: 288px;
+/* UI Properties */
+text-align: left;
+font: normal normal normal 12px/16px Segoe UI;
+letter-spacing: 0px;
+color: #7E7E7E;
+font-weight: 650;
+opacity: 1;
 }
 
-.textareaPrompt {
+
+.textareaPrompt{
     font-family: 'Segoe UI';
     font-size: 11px;
     /* width: 320px;
@@ -81,18 +81,19 @@ left: 78px; */
     border-radius: 50%;
     color: #8626C3;
     margin: 0.5rem;
-}
-
-.btnRound i {
+  }
+  
+  .btnRound i {
     font-size: medium;
     padding: 4px;
-}
+  }
 
-.non-clickable-icon {
+  .non-clickable-icon {
     pointer-events: none;
-}
+  }
 
-.disabled {
+  
+  .disabled {
     pointer-events: none;
     opacity: 0.6;
-}
+  }

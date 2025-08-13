@@ -24,6 +24,8 @@ class Auth:
     def is_env_vars_present():
         if os.getenv("AUTH_URL")=="":
             return None
+        else:
+            return 1
 
 
     def get_bearer_token():

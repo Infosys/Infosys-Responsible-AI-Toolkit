@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div style="display: flex; margin-top: 2rem;">
     <div style="flex: 1;" class="border-div">
@@ -10,32 +11,50 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <div class="d-flex">
             <!-- drop zone file upload -->
             <div class="d-flex flex-column">
-                <div class="drop-zone">
+            <div class="drop-zone">
 
-                    <mat-icon class="material-icons browse-logo ">cloud_upload</mat-icon>
-                    <p class="dnd-lable">Drag & drop files here <br>or<span class="high-light"> browse</span></p>
+                <mat-icon class="material-icons browse-logo ">cloud_upload</mat-icon>
+                <p class="dnd-lable">Drag & drop files here <br>or<span class="high-light"> browse</span></p>
 
-                    <input type="file" (change)="fileHandler.fileBrowseHandler($event)">
-                </div>
-                <span class="validation-message text-danger warn">{{ fileHandler.validationMessage }}</span>
-                <div class="button-container mt-4">
-                    <button mat-raised-button class="buttonMain" style="margin-right: 1rem;" (click)="reset()" color="reset">Reset</button>
-                    <button mat-raised-button class="buttonMain" color="black" (click)="submit()">
+                <input type="file" (change)="fileHandler.fileBrowseHandler($event)">
+            </div>
+            <span class="validation-message text-danger warn">{{ fileHandler.validationMessage }}</span>
+
+            <!--  -->
+            <div class="label-container mt-2">
+              <p class="HeadingLabel2">*right click to download sample file</p>
+            </div>
+            <div class="image-container">
+              <div class="card imgcardsize me-2" [class.radio-checked-img]="favoriteSeason == sampleFile1"
+                (click)="onClick(sampleFile1)" (contextmenu)="downloadFile(sampleFile1, $event)" style="margin-bottom: 10px;">
+                <!-- <img src="..." class="card-img-top" alt="..."> -->
+                <label>
+                  <input (click)="viewchange()" class="imgcardsize" type="radio" style="display: none;" [(ngModel)]="favoriteSeason"
+                    name="option" value={{sampleFile1}} checked>
+                  <img class="imgcardsize" src={{sampleSrc1}} matTooltip="Sample File">
+                  <!-- <i class="material-icons imgcardsize" style="font-size: 25px;">insert_drive_file</i> -->
+                </label>
+              </div>
+            </div>
+            <!--  -->
+            <div class="button-container">
+                <button mat-raised-button class="buttonMain" style="margin-right: 1rem;"  (click)="reset()" color="reset">Reset</button>
+                <button mat-raised-button class="buttonMain" color="black" (click)="submit()">
                     <div class="spinner-border text-light" style="font-size: 10px;width: 15px;height: 15px;"
                             role="status" *ngIf="showSpinner1">
                             <span class="sr-only">Loading...</span>
                         </div>
                         <span *ngIf="!showSpinner1">Submit</span>
                 </button>
-                </div>
             </div>
-            <div class="mr-3 fileContainer ml-3" [hidden]="fileHandler.files.length ==0">
+        </div>
+            <div class="me-3 fileContainer ms-3" [hidden]="fileHandler.files.length ==0">
                 <p class="HeadingLabelSM" *ngIf="fileHandler.files[0]">File</p>
                 <div class="file-upload" *ngIf="fileHandler.files[0]">
                     <p style="margin: 0px; font-size: x-small;">{{ fileHandler.files[0].name }}</p>
                     <div class="d-flex align-items-center mt-1">
-                        <mat-progress-bar class="mr-1" mode="determinate" [value]="fileHandler.files[0]?.progress"></mat-progress-bar>
-                        <button class="cancel-button mr-2" (click)="fileHandler.removeFile()">
+                        <mat-progress-bar class="me-1" mode="determinate" [value]="fileHandler.files[0]?.progress"></mat-progress-bar>
+                        <button class="cancel-button me-2" (click)="fileHandler.removeFile()">
                       <mat-icon>close</mat-icon>
                     </button>
                     </div>
@@ -44,43 +63,44 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
 
     </div>
-    <div style="flex: 1; padding-left: 5rem;" [style.pointerEvents]="intialFromstatus ? 'auto' : 'none'" [style.opacity]="intialFromstatus ? '1' : '0.5'">
+    <div style="flex: 1; padding-left: 5rem;"      [style.pointerEvents]="intialFromstatus ? 'auto' : 'none'" 
+    [style.opacity]="intialFromstatus ? '1' : '0.5'">
         <!-- Second column content -->
         <form [formGroup]="form" class="d-flex flex-column" style="margin-top: 1.7rem;">
-            <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+          <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
             <mat-select multiple class="dropdown" placeholder="Suppression " formControlName="supressionList">
-                <mat-option *ngFor="let option of supressionList; " [value]="option">
-                    {{option}}
-                </mat-option>
+              <mat-option *ngFor="let option of supressionList; " [value]="option">
+                {{option}}
+              </mat-option>
             </mat-select>
             <span class="text-danger warn" *ngIf="form.get('supressionList')?.invalid && form.get('supressionList')?.touched">
                 Suppression is required
               </span>
             <mat-select multiple class="dropdown" placeholder="Noise " formControlName="noiseList" style="margin-top: 1rem;">
-                <mat-option *ngFor="let option of noiseList; " [value]="option" [disabled]="form.get('supressionList')?.value?.includes(option)">
-                    {{option}}
-                </mat-option>
+              <mat-option *ngFor="let option of noiseList; " [value]="option"  [disabled]="form.get('supressionList')?.value?.includes(option)">
+                {{option}}
+              </mat-option>
             </mat-select>
             <span class="text-danger warn" *ngIf="form.get('noiseList')?.invalid && form.get('noiseList')?.touched">
                 Noise is required
               </span>
-            <mat-select multiple class="dropdown" placeholder="Range" formControlName="rangeList" style="margin-top: 1rem;">
-                <mat-option *ngFor="let option of rangeList; let i = index" [value]="option" [disabled]="form.get('supressionList')?.value?.includes(option)">
-                    {{option}}
-                </mat-option>
+            <mat-select multiple class="dropdown" placeholder="Range" formControlName="rangeList" style="margin-top: 1rem;" >
+              <mat-option *ngFor="let option of rangeList; let i = index"[value]="option"  [disabled]="form.get('supressionList')?.value?.includes(option)">
+                {{option}}
+              </mat-option>
             </mat-select>
             <span class="text-danger warn" *ngIf="form.get('rangeList')?.invalid && form.get('rangeList')?.touched">
                 Range is required
               </span>
-            <mat-select multiple class="dropdown" placeholder="binaryList" formControlName="binaryList" style="margin-top: 1rem;">
-                <mat-option *ngFor="let option of binaryList; let i = index" [value]="option" [disabled]="form.get('supressionList')?.value?.includes(option)">
-                    {{option}}
-                </mat-option>
+            <mat-select multiple class="dropdown" placeholder="binaryList" formControlName="binaryList" style="margin-top: 1rem;" >
+              <mat-option *ngFor="let option of binaryList; let i = index"[value]="option"  [disabled]="form.get('supressionList')?.value?.includes(option)">
+                {{option}}
+              </mat-option>
             </mat-select>
             <span class="text-danger warn" *ngIf="form.get('binaryList')?.invalid && form.get('binaryList')?.touched">
                 Binary is required
               </span>
-            <div style="margin-top: 1rem;">
+            <div style="margin-top: 1rem;" >
 
                 <button mat-raised-button class="buttonMain" color="black" (click)="submitFrom()" [disabled]="showSpinner1">
                     <div class="spinner-border text-light" style="font-size: 10px;width: 15px;height: 15px;"
@@ -90,7 +110,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <span *ngIf="!showSpinner2">Download</span>
                 </button>
             </div>
-        </form>
+          </form>
 
     </div>
 </div>
@@ -99,4 +119,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 <div class="loading-overlay" *ngIf="isLoading">
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-</div>
+  </div>
+
+  <div style="height: 50px;">
+
+  </div>

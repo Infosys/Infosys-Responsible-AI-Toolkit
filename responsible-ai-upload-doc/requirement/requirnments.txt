@@ -1,10 +1,9 @@
-fastapi==0.100.1
-pydantic==1.10.11
-requests==2.31.0
-requests-file==1.5.1
+fastapi
+pydantic
+requests
+requests-file
 uvicorn
 PyYAML
 pymongo
 python-dotenv
-python-multipart
-#lib/aicloudlibs-0.1.0-py3-none-any.whl
+python-multipart==0.0.18

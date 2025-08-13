@@ -14,3 +14,12 @@ rouge_score
 pip-system-certs
 aiohttp
 pandas
+boto3
+azure-ai-translation-text==1.0.0b1
+langchain
+langchain-community
+langchain-openai
+langcodes
+python-multipart
+openpyxl
+google-generativeai          

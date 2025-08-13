@@ -1,74 +1,50 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .drop-zone {
-    border: 2px dashed #dcdcdc;
-    /* Dashed border */
+    border: 2px dashed #dcdcdc; /* Dashed border */
     border-radius: 5px;
     padding: 40px;
     text-align: center;
     color: #4a4a4a;
-    background-color: #FFFFFF;
+    background-color:#FFFFFF;
     cursor: pointer;
-    position: relative;
-    /* New */
-    overflow: hidden;
-    /* New */
+    position: relative; /* New */
+    overflow: hidden; /* New */
     width: 218px;
     height: 197px;
 }
 
+
 .drop-zone p {
-    margin-bottom: 20px;
-    /* New */
+    margin-bottom: 20px; /* New */
 }
 
 .drop-zone input[type="file"] {
-    position: absolute;
-    /* New */
-    width: 100%;
-    /* New */
-    height: 100%;
-    /* New */
-    top: 0;
-    /* New */
-    left: 0;
-    /* New */
-    opacity: 0;
-    /* New */
-    cursor: pointer;
-    /* New */
+    position: absolute; /* New */
+    width: 100%; /* New */
+    height: 100%; /* New */
+    top: 0; /* New */
+    left: 0; /* New */
+    opacity: 0; /* New */
+    cursor: pointer; /* New */
 }
-
 .drop-zone p {
-    margin-bottom: 20px;
-    /* New */
+    margin-bottom: 20px; /* New */
 }
-
 .drop-zone input[type="file"] {
-    position: absolute;
-    /* New */
-    width: 100%;
-    /* New */
-    height: 100%;
-    /* New */
-    top: 0;
-    /* New */
-    left: 0;
-    /* New */
-    opacity: 0;
-    /* New */
-    cursor: pointer;
-    /* New */
+    position: absolute; /* New */
+    width: 100%; /* New */
+    height: 100%; /* New */
+    top: 0; /* New */
+    left: 0; /* New */
+    opacity: 0; /* New */
+    cursor: pointer; /* New */
 }
-
-
 /* css for button */
-
-
 /* :host ::ng-deep .mat-mdc-raised-button.mat-primary {
     --mdc-protected-button-container-color: #231F20;
     --mdc-protected-button-label-text-color: #fff;
@@ -83,13 +59,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     justify-content: right;
 }
 
-
 /* FILE CONTAINER */
-
 .fileContainer {
     width: 158px;
 }
-
 .HeadingLabelSM {
     font-weight: 700;
     font-size: 12px;
@@ -98,7 +71,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     color: #382261;
     text-transform: uppercase;
 }
-
 .cancel-button {
     background-color: black;
     color: white;
@@ -120,19 +92,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-size: 10px;
 }
 
-
 /* table */
 
 .styled-table {
+   
     width: 95%;
     border-collapse: collapse;
 }
 
+
 .button-container2 {
     display: flex;
-    justify-content: space-between;
-    /* Distributes items along the main axis */
+    justify-content: space-between; /* Distributes items along the main axis */
 }
+
 
 
 /* .mat-raised-button{
@@ -140,17 +113,15 @@ width: 70px;
 height: 28px;
 } */
 
-
 /* drag and drop text */
-
-.paragraph_dnd {
+.paragraph_dnd{
     color: #9C9C9C;
     opacity: 70%;
     font-family: 'Segoe UI';
     font-weight: regular;
     font-size: 12px;
-}
 
+}
 .dnd-lable {
     /* Segoe UI, Regular .75rem */
     color: #9C9C9C;
@@ -158,6 +129,7 @@ height: 28px;
     font-family: 'Segoe UI';
     font-weight: 500;
     font-size: .65rem;
+
 }
 
 .high-light {
@@ -168,31 +140,29 @@ height: 28px;
     color: #061838 !important;
     opacity: 90% !important;
 }
-
 .browse-logo {
     opacity: 70%;
     font-size: 3rem;
     width: 3rem;
     height: 3rem;
 }
-
-
 /* complet text */
-
 .gereen-text {
     color: #12A108 !important;
 }
-
-
 /* pagination */
 
 
 /* arjun css */
-
 .mat-primary2 {
     color: #8626C3;
     /* background-color:#BFBFBF; */
 }
+
+
+
+
+
 
 .mat-black {
     color: white !important;
@@ -225,17 +195,16 @@ height: 28px;
     color: #7E7E7E;
     padding: 0px;
     margin-bottom: 15px;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 12px;
     font-family: 'Segoe UI';
     text-transform: uppercase;
     /* margin-top: 1.8rem; */
 }
 
-.mdc-checkbox {
+.mdc-checkbox{
     height: 16px !important;
 }
-
 .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
 .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
 .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background {
@@ -286,11 +255,12 @@ height: 28px;
     margin: 1rem 0rem;
 }
 
+
+
 .batchTable-container {
     display: flex;
     justify-content: space-between;
 }
-
 
 /* .styled-table {
 
@@ -310,7 +280,9 @@ height: 28px;
     color: #382261;
     opacity: 70%;
     text-transform: uppercase;
+
 }
+
 
 .styled-table td {
     /* Segoe UI, regular */
@@ -324,9 +296,7 @@ height: 28px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-
 /* Icon Styling */
-
 app-video .mat-mdc-icon-button.mat-mdc-button-base {
     width: 25px;
     height: 25px;
@@ -338,9 +308,7 @@ app-video .mat-mdc-icon-button.mat-mdc-button-base {
     font-size: 16px;
 }
 
-
 /* -----Pagination------- */
-
 .ngx-pagination .current {
     background: #8626C3;
 }
@@ -355,7 +323,6 @@ app-video .mat-mdc-icon-button.mat-mdc-button-base {
     font-size: .60rem;
     margin-right: 50px;
 }
-
 .pagination-info {
     font-family: 'Segoe UI';
     font-weight: 500 !important;
@@ -368,7 +335,8 @@ app-video .mat-mdc-icon-button.mat-mdc-button-base {
     /* Adjust if needed */
 }
 
-.smallButton {
+
+.smallButton{
     font-size: smaller !important;
     width: 65px !important;
     height: 30px !important;
@@ -378,32 +346,51 @@ app-video .mat-mdc-icon-button.mat-mdc-button-base {
     position: absolute;
     right: 15px;
     margin-top: 15px;
-}
+  }
 
-.file-name-preview {
+ .file-name-preview{
     color: #333333d0;
     font-size: 20px;
     margin-left: 25px;
     margin-top: 25px;
-}
-
-.file-name-preview button {
+ }
+ .file-name-preview button {
     float: right;
     margin-right: 35px;
-}
-
-.form-select {
+  }
+  .form-select {
     padding: 5px;
 }
-
 .custom-select-wrapper {
-    border: 1px solid #ccc;
+    /* border: 1px solid #ccc;
     padding: 5px;
-    border-radius: 5px;
+    border-radius: 5px;  */
     width: 200px;
 }
-
 .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
 .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
     background: #8626C3 !important;
+}
+.activeTab {
+    color: #8626C3;
+    position: relative;
+}
+
+.activeTab::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 35%;
+    border-bottom: 2px solid #8626C3;
+}
+.HeadingLabel1 {
+    color: #7E7E7E;
+    padding: 5px 0px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+    transition: color 0.3s ease;
 }

@@ -21,7 +21,7 @@ Different types of attacks are supported as:-
 ## Installation
 To run the application, first we need to install Python and the necessary packages:
 
-1. Install Python (version >= 3.9) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
+1. Install Python (version == 3.11.4) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
 
 2. Install MongoDB by following the instructions on the [official MongoDB website](https://docs.mongodb.com/manual/installation/).
 
@@ -47,14 +47,14 @@ To run the application, first we need to install Python and the necessary packag
         source venv/bin/activate
         ```
 
-7. Navigate to the `responsible-ai-security` directory:
+7. Navigate to the `Responsible-AI-Security-API` directory:
     ```sh
-    cd responsible-ai-security
+    cd Responsible-AI-Security-API
     ```
 
 8. Navigate to `src` directory:
     ```sh
-    cd wrapper\src
+    cd wrapper\app\src 
     ```
 
 9. Go to the `requirements` directory where the `requirement.txt` file is present
@@ -106,11 +106,11 @@ Once we have completed all the aforementioned steps, we can start the service.
     python main.py
     ```
 
-2. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: 
-    `http://localhost:<portno>/rai/v1/security_workbench/docs`
+2. Open the following URL in your browser:
+    [http://localhost:80/rai/v1/security_workbench/docs](http://localhost:80/rai/v1/security_workbench/docs)
 
 ## License
-The source code for the project is licensed under MIT license, which you can find in the [LICENSE.md](License.md) file.
+The source code for the project is licensed under MIT license, which you can find in the [LICENSE.md](LICENSE.md) file.
 
 ## Open Source tools Used:
 adversarial-robustness-toolbox : https://github.com/Trusted-AI/adversarial-robustness-toolbox

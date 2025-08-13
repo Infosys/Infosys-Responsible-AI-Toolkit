@@ -229,9 +229,12 @@ class InfosysRAI:
                     # Extract all files
                     zipf.extractall(path='temp')
 
-                with open('temp/output/explanationreport.html', 'r') as f:
+                with open('temp/output/explanationreport.html', 'r', encoding='utf-8') as f:
                     html_content = f.read()
 
+                has_global_explanation = 'global-explanation' in html_content
+                has_local_explanation = 'local-explanation' in html_content
+              
                 # Add CSS to prevent page breaks inside tables and graphs
                 css = """
                 <style>
@@ -240,9 +243,6 @@ class InfosysRAI:
                     }
                     td {
                         padding-right: 20px;
-                    }
-                    .local-explanation{
-                        page-break-before: always;
                     }
                     td, p {
                         font-size: 20px; /* Adjust font size as needed */
@@ -255,6 +255,15 @@ class InfosysRAI:
                     }
                 </style>
                 """
+                # Add additional CSS if both global and local explanations exist
+                if has_global_explanation and has_local_explanation:
+                    css += """
+                    <style>
+                        .local-explanation {
+                            page-break-before: always;
+                        }
+                    </style>
+                    """
 
                 # Insert the CSS into the HTML content
                 html_content = css + html_content

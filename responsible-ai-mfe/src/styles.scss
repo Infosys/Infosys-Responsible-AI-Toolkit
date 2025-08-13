@@ -1,24 +1,32 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
-
 @use '@angular/material' as mat;
+
 @include mat.core();
 @import "node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css";
+
+
 $my-primary: mat.define-palette(mat.$purple-palette, 500);
 $my-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 // $my-test: mat.define-palette(mat.$deep-purple-palette, 200);
-$my-theme: mat.define-light-theme(( color: ( primary: $my-primary, accent: $my-accent, )));
+
+$my-theme: mat.define-light-theme((
+ color: (
+   primary: $my-primary,
+   accent: $my-accent,
+ )
+));
+
 @include mat.core-theme($my-theme);
+
 @include mat.button-theme($my-theme);
+
 // @import '~@angular/material/theming';
+
 // $custom-colors: (
 //   custom-color-a: mat-color(mat.$deep-purple-palette, 200),
 // //   custom-color-b: mat-color($mat-red, 400),
 // );
 // $theme: map-merge($theme, (custom-colors: $custom-colors));
+
 // .test {
 //     --mdc-radio-disabled-selected-icon-color: #000;
 //     --mdc-radio-disabled-unselected-icon-color: #000;
@@ -33,3 +41,4 @@ $my-theme: mat.define-light-theme(( color: ( primary: $my-primary, accent: $my-a
 //     --mat-mdc-radio-ripple-color: #000;
 //     --mat-mdc-radio-checked-ripple-color: #D1C4E9;
 // }
+

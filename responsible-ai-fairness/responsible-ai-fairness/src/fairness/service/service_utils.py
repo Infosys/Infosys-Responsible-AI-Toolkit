@@ -1,15 +1,12 @@
 """
-Copyright 2024 Infosys Ltd.”
-
-Use of this source code is governed by MIT license that can be found in the LICENSE file or at
-MIT license https://opensource.org/licenses/MIT
+# SPDX-License-Identifier: MIT
+# Copyright 2024 - 2025 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
+ 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 """
 
 import json
@@ -915,3 +912,18 @@ class Utils:
                 i += 1
         return priv_list
     
+    def is_time_difference_12_hours(self, creation_time, expiration_time):
+        """
+        Checks if the time difference between current time and creation time is 12 hours.
+        Args:
+            creation_time (datetime.datetime): The time the item was created.
+            expiration_time (int): The expiration time in hours.
+        Returns:
+            bool: True if the time difference is 12 hours, False otherwise.
+        """
+        time_difference = datetime.now() - creation_time
+        log.info(f"time diff : {time_difference}")
+        log.info(f"time diff total hours : {time_difference.total_seconds() / 3600}")
+
+        # Check if difference is exactly 12 hours, accounting for minutes and seconds
+        return (time_difference.total_seconds() / 3600) < expiration_time

@@ -1,0 +1,520 @@
+<div>
+    <label class="topHeading">Compliance  Check</label>
+</div>
+<div class="grid-container">
+    <!-- Upload section -->
+    <div class="grid-item">
+        <div class="card upload-card mt-3 ms-3 p-3">
+            <h5 class="card-title">Upload Files</h5>
+            <div class="drop-zone mt-2">
+                <mat-icon class="material-icons browse-logo">cloud_upload</mat-icon>
+                <p class="paragraph_dnd">Drag and drop files here <br>or<span class="high-light"> browse</span></p>
+                <input #fileInput type="file" (change)="onFileChange($event)" multiple>
+                <p class="dnd-lable">.zip, .pdf, .doc, .docx, .txt, .rtf files up to 20 MB are supported</p>
+                <p class="dnd-lable">example: Compliance questionaries or AI Enterprise documents like AI Policy, AI SDLC document etc.</p>
+            </div>
+
+            <div class="file-list mt-3" *ngIf="files.length > 0">
+                <h6 class="file-list-title">Uploaded Files</h6>
+                <div *ngFor="let file of files; let i = index" class="file-upload">
+                    <p style="margin: 0px; font-size: x-small;">{{ file.name }}</p>
+                    <div class="d-flex align-items-center mt-1">
+                        <mat-progress-bar class="me-1" mode="determinate" [value]="100"></mat-progress-bar>
+                        <button class="cancel-button me-2" (click)="removeFile(i)">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="button-container">
+                <button mat-raised-button class="mainBtn resetButton" (click)="resetAll()" color="reset">Reset</button>
+                <button mat-raised-button (click)="submit()" class="mainBtn" style="margin-left: .5rem;" color="black">Submit</button>
+            </div>
+        </div>
+    </div>
+    <!-- <img src={{image1}} alt="loading..."> -->
+
+    <!-- Chart section: Combined Grid -->
+    <!-- Compliance Analysis Result -->
+    <div *ngIf="fileLoading" class="dynamic-loader">
+        <div class="loader-content">
+            <div class="image-container">
+                <!-- <img *ngFor="let image of loaderImages" [src]="image" alt="Loading..." class="loader-image"> -->
+                <img src={{dynamicImage}} alt="loading..." class="loader-image" matTooltip="Loading">
+            </div>
+            <p>Loading, please wait...</p>
+        </div>
+        
+        <!-- <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'border-radius': '20px', height: '20rem', width:'50%'}">
+        </ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'border-radius': '20px', height: '20rem', width:'50%'}">
+        </ngx-skeleton-loader> -->
+     </div>
+    <div *ngIf="!fileLoading && dataReceived" class="card combined-grid flex-column">
+        <!-- Compliance Analysis Result Label -->
+        <div class="card-header">
+            <div class="col-12">
+                <label class="topHeading d-block text-center">Compliance Analysis Result</label>
+            </div>
+        </div>
+        <div class="row card-body">
+            <!-- Compliance Summary Column -->
+            <div class="col-md-6">
+                <div class="card compliance-summary-card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Compliance Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="compliance-center">
+                            <p class="compliance-percentage">EU Compliance Score {{avgEuAiScore}}</p>
+                            <p class="compliance-percentage">ISO Compliance Score {{avgIsoScore}}</p>
+                            <!-- <p class="compliance-status">Compliant</p> -->
+                            <hr class="divider" />
+                        </div>
+                        <!-- <div class="compliance-details-row">
+                            <p><strong>Critical Issues:</strong>
+                                <span class="d-flex justify-content-center">{{complianceGapsCriticalData.length}}</span></p>
+                            <p><strong>Significant Issues:</strong>
+                                <span class="d-flex justify-content-center">{{complianceGapsSignificantData.length}}</span></p>
+                            <p><strong>Minor Issues:</strong>
+                                <span class="d-flex justify-content-center">{{complianceGapsMinorData.length}}</span></p>
+                        </div> -->
+                        <!--  -->
+                        <div class="compliance-summary-section">
+                            <h5 class="section-title">Overall Compliance Summary</h5>
+                            <div class="compliance-values-row">
+                                <div class="compliance-item">
+                                    <span class="compliance-key">Fully Compliant:</span>
+                                    <span class="compliance-value">
+                                        {{ compliance.eu.compliant + compliance.iso.compliant }}
+                                    </span>
+                                </div>
+                                <div class="compliance-item">
+                                    <span class="compliance-key">Partial Compliant:</span>
+                                    <span class="compliance-value">
+                                        {{ compliance.eu.partial + compliance.iso.partial }}
+                                    </span>
+                                </div>
+                                <div class="compliance-item">
+                                    <span class="compliance-key">Non Compliant:</span>
+                                    <span class="compliance-value">
+                                        {{ compliance.eu.missing + compliance.iso.missing }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- to be used -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pie Chart Column -->
+            <div class="col-md-6">
+                <div class="card compliance-chart-card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Overall Compliance Status</h5>
+                    </div>
+                    <div class="d-flex ps-2 pt-1">
+                        <!-- EU-AI -->
+                        <p class="headingLabel d-flex flex-column" role="button" [ngClass]="{ 'activeTab': activeChartTab === 'EU-AI' }" 
+                            (click)="onChartTab('EU-AI')">EU AI</p>
+                        <!-- ISO -->
+                        <p class="headingLabel d-flex flex-column" role="button" [ngClass]="{ 'activeTab': activeChartTab === 'ISO'}" 
+                            (click)="onChartTab('ISO')">ISO</p>
+                    </div>
+                    <div class="card-body d-flex justify-content-center">
+                        <div class="d-flex justify-content-center" *ngIf="activeChartTab == 'EU-AI'">
+                            <canvas id="complianceEuAiPieChart"></canvas>
+                        </div>
+                        <div class="d-flex justify-content-center" *ngIf="activeChartTab == 'ISO'">
+                            <canvas id="complianceIsoPieChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- section: Compliance Status -->
+<div *ngIf="fileLoading">
+
+    <ngx-skeleton-loader count="4" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px', width:'100%'}">
+    </ngx-skeleton-loader>
+
+    <!-- <ngx-skeleton-loader count="4" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px', width:'100%'}">
+    </ngx-skeleton-loader>
+
+    <ngx-skeleton-loader count="4" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px', width:'100%'}">
+    </ngx-skeleton-loader> -->
+</div>
+<div *ngIf="!fileLoading && dataReceived">
+    <div class="card d-flex mb-2">
+        <div class="card-header d-flex align-items-center p-0">
+            <!-- Collapse Button -->
+            <button mat-icon-button (click)="isTableCollapsed = !isTableCollapsed">
+                <mat-icon>{{ isTableCollapsed ? 'expand_more' : 'expand_less' }}</mat-icon>
+            </button>
+            <p class="fw-medium mb-0">Compliance Status</p>
+        </div>
+    
+        
+        <div *ngIf="!isTableCollapsed">
+            <div class="d-flex ps-5 pt-1">
+                <!-- EU-AI -->
+                <p class="headingLabel d-flex flex-column" role="button" [ngClass]="{ 'activeTab': activeTableTab === 'EU-AI' }" 
+                    (click)="onChangeTab('EU-AI')">EU AI
+                </p>
+            
+                <!-- ISO -->
+                <p class="headingLabel d-flex flex-column" role="button" [ngClass]="{ 'activeTab': activeTableTab === 'ISO'}" 
+                    (click)="onChangeTab('ISO')">ISO
+                </p>
+            </div>
+    
+            <div class="card-body mb-2" [hidden]="activeTableTab !== 'EU-AI'" style="max-height: 14rem; overflow-y: auto;">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Chapter</th>
+                            <th>Articles</th>
+                            <th>Compliance</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="loader">
+                        <tr>
+                            <td colspan="12">
+                                <ngx-skeleton-loader count="4" appearance="line"
+                                    [theme]="{ 'border-radius': '20px', height: '20px', width:'100%'}">
+                                </ngx-skeleton-loader>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!loader && complianceEuAiData.length > 0">
+                        <tr *ngFor="let item of complianceEuAiData">
+                            <!-- <tr *ngFor="let item of EuAiDataKeys | paginate : pagingEuAiConfig"> -->
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.articles }}</td>
+                            <td class="compCol" [ngClass]="{
+                                'redLabel': item.score == 0,
+                                'amberLabel': item.score >= 1 && item.score <= 4,
+                                'greenLabel': item.score == 5}">
+                                {{ item.score === 0 ? 'Non Compliant' : (item.score >= 1 && item.score <= 4 ? 'Partially Compliant'
+                                    : 'Fully Compliant' ) }} </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!loader && EuAiDataKeys.length === 0">
+                        <tr>
+                            <td>No Compliance EU-AI Data identified</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- <div class="d-flex justify-content-between mt-3" >
+                    <div class="pagination-info">
+                        Showing {{ pagingEuAiConfig.totalItems < pagingEuAiConfig.itemsPerPage ? 
+                        pagingEuAiConfig.totalItems : pagingEuAiConfig.itemsPerPage }} of {{ pagingEuAiConfig.totalItems }} </div>
+                    <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableEuAiChange($event)"></pagination-controls>
+                </div> -->
+            </div>
+            
+            <div class="card-body mb-2" [hidden]="activeTableTab !== 'ISO'" style="max-height: 14rem; overflow-y: auto;">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Control ID</th>
+                            <th>Control Name</th>
+                            <th>Compliance </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="loader">
+                        <tr>
+                            <td colspan="12">
+                                <ngx-skeleton-loader count="4" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px', width:'100%'}">
+                                </ngx-skeleton-loader>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!loader && complianceIsoData.length > 0">
+                        <tr *ngFor="let item of complianceIsoData">
+                            <td>{{ item.id }}</td>
+                            <td>{{ item.title }}</td>
+                            <td class="compCol" [ngClass]="{
+                            'redLabel': item.score == 0,
+                            'amberLabel': item.score >= 1 && item.score <= 4,
+                            'greenLabel': item.score == 5}">
+                                {{ item.score === 0 ? 'Non Compliant' : (item.score >= 1 && item.score <= 4 ? 'Partially Compliant'
+                                    : 'Fully Compliant' ) }} </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!loader && IsoDataKeys.length === 0">
+                        <tr><td>No Compliance ISO Data identified</td></tr>
+                    </tbody>
+                </table>
+                <!-- <div class="d-flex justify-content-between mt-3" >
+                    <div class="pagination-info">
+                        Showing {{ pagingIsoConfig.totalItems < pagingIsoConfig.itemsPerPage ? 
+                        pagingIsoConfig.totalItems : pagingIsoConfig.itemsPerPage }} of {{ pagingIsoConfig.totalItems }} </div>
+                    <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableIsoChange($event)"></pagination-controls>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- section: Compliance Gaps  not being used any more class="card d-flex mb-2"  -->
+    <div  style="display: none;">
+        <div class="card-header d-flex align-items-center p-0">
+            <!-- Collapse Button -->
+            <button mat-icon-button (click)="isGapsCollapsed = !isGapsCollapsed">
+                <mat-icon>{{ isGapsCollapsed ? 'expand_more' : 'expand_less' }}</mat-icon>
+            </button>
+            <p class="fw-medium mb-0">Compliance Gaps</p>
+        </div>
+    
+        <div *ngIf="!isGapsCollapsed">
+            <div class="d-flex ps-5 pt-1">
+                <!-- Critical -->
+                <p class="headingLabel d-flex flex-column" role="button" [ngClass]="{ 'activeTab': activeGapsTab === 'Critical' }" 
+                    (click)="onChangeGapsTab('Critical')">Critical</p>
+            
+                <!-- Significant -->
+                <p class="headingLabel d-flex flex-column" role="button" [ngClass]="{ 'activeTab': activeGapsTab === 'Significant'}" 
+                    (click)="onChangeGapsTab('Significant')">Significant</p>
+    
+                <!-- Minor -->
+                <p class="headingLabel d-flex flex-column" role="button" [ngClass]="{ 'activeTab': activeGapsTab === 'Minor'}" 
+                    (click)="onChangeGapsTab('Minor')">Minor</p>
+            </div>
+    
+            <div class="card-body mb-2" *ngIf="activeGapsTab === 'Critical'" style="max-height: 14rem; overflow-y: auto;">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Control ID</th>
+                            <th>Control Name</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="loader">
+                        <tr>
+                            <td colspan="12">
+                                <ngx-skeleton-loader count="4" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px', width:'100%'}">
+                                </ngx-skeleton-loader>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!loader && complianceGapsCriticalData.length > 0">
+                        <tr *ngFor="let control of complianceGapsCriticalData | paginate : pagingCritical">
+                            <td>{{ control.control_id }}</td>
+                            <td>{{ control.name }}</td>
+                            <td>
+                                {{ control.score }}% <p class="custom-span"><span class="custom-span-score" [ngStyle]="{ 'width': control.score + '%' }"></span></p>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!loader && complianceGapsCriticalData.length === 0">
+                        <tr><td>No Critical Data identified</td></tr>
+                    </tbody>
+                </table>
+                <!-- <div class="d-flex justify-content-between mt-3">
+                    <div class="pagination-info">
+                        Showing {{ pagingCritical.totalItems < pagingCritical.itemsPerPage ? 
+                        pagingCritical.totalItems : pagingCritical.itemsPerPage }} of {{ pagingCritical.totalItems }} </div>
+                    <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableCriticalChange($event)"></pagination-controls>
+                </div> -->
+            </div>
+            
+            <div class="card-body mb-2" *ngIf="activeGapsTab === 'Significant'" style="max-height: 14rem; overflow-y: auto;">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Control ID</th>
+                            <th>Control Name</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="loader">
+                        <tr>
+                            <td colspan="12">
+                                <ngx-skeleton-loader count="4" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px', width:'100%'}">
+                                </ngx-skeleton-loader>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!loader && complianceGapsSignificantData.length > 0">
+                        <tr *ngFor="let control of complianceGapsSignificantData | paginate : pagingSig">
+                            <td>{{ control.control_id }}</td>
+                            <td>{{ control.name }}</td>
+                            <td>
+                                {{ control.score }}% <p class="custom-span"><span class="custom-span-score" [ngStyle]="{ 'width': control.score + '%' }"></span></p>
+                            </td>                    </tr>
+                    </tbody>
+                    <tbody *ngIf="!loader && complianceGapsSignificantData.length === 0">
+                        <tr><td>No Significant Data identified</td></tr>
+                    </tbody>
+                </table>
+                <!-- <div class="d-flex justify-content-between mt-3">
+                    <div class="pagination-info">
+                        Showing {{ pagingSig.totalItems < pagingSig.itemsPerPage ? 
+                        pagingSig.totalItems : pagingSig.itemsPerPage }} of {{ pagingSig.totalItems }} </div>
+                    <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableSignificantChange($event)"></pagination-controls>
+                </div> -->
+            </div>
+    
+            <div class="card-body mb-2" *ngIf="activeGapsTab === 'Minor'" style="max-height: 14rem; overflow-y: auto;">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>Control ID</th>
+                            <th>Control Name</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="loader">
+                        <tr>
+                            <td colspan="12">
+                                <ngx-skeleton-loader count="4" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px', width:'100%'}">
+                                </ngx-skeleton-loader>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="!loader && complianceGapsMinorData.length > 0">
+                        <tr *ngFor="let control of complianceGapsMinorData | paginate : pagingMinor">
+                            <td>{{ control.control_id }}</td>
+                            <td>{{ control.name }}</td>
+                            <td>
+                                {{ control.score }}% <p class="custom-span"><span class="custom-span-score" [ngStyle]="{ 'width': control.score + '%' }"></span></p>
+                            </td>                    </tr>
+                    </tbody>
+                    <tbody *ngIf="!loader && complianceGapsMinorData.length === 0">
+                        <tr><td>No Minor Data identified</td></tr>
+                    </tbody>
+                </table>
+                <!-- <div class="d-flex justify-content-between mt-3">
+                    <div class="pagination-info">
+                        Showing {{ pagingMinor.totalItems < pagingMinor.itemsPerPage ? 
+                        pagingMinor.totalItems : pagingMinor.itemsPerPage }} of {{ pagingMinor.totalItems }} </div>
+                    <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableMinorChange($event)"></pagination-controls>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- section: Recommendation -->
+    <div class="card d-flex mb-5">
+        <div class="card-header d-flex align-items-center p-0">
+            <!-- Collapse Button -->
+            <button mat-icon-button (click)="isRecommendationCollapsed = !isRecommendationCollapsed">
+                <mat-icon>{{ isRecommendationCollapsed ? 'expand_more' : 'expand_less' }}</mat-icon>
+            </button>
+            <p class="fw-medium mb-0">Recommendation</p>
+            <span 
+                class="status-label ms-auto" 
+                [ngClass]="{
+                    'status-in-progress': recommendations?.status === 'inProgress',
+                    'status-completed': recommendations?.status === 'completed'
+                }">
+                {{ recommendations?.status === 'completed' ? 'Completed' : 'In Progress' }}
+            </span>
+        </div>
+    
+        <div *ngIf="!isRecommendationCollapsed">
+            <div class="d-flex ps-5 pt-1">
+                <!-- EU-AI -->
+                <p class="headingLabel d-flex flex-column" role="button" [ngClass]="{ 'activeTab': activeRecommendationTab === 'EU-AI' }" 
+                    (click)="onChangeRecommendationTab('EU-AI')">EU AI Act Recommendations</p>
+    
+                <!-- ISO -->
+                <p class="headingLabel d-flex flex-column" role="button" [ngClass]="{ 'activeTab': activeRecommendationTab === 'ISO'}" 
+                    (click)="onChangeRecommendationTab('ISO')">ISO Controls Recommendations</p>
+            </div>
+    
+            <!-- EU-AI Recommendations -->
+            <div class="card-body mb-2 recommendation-card-body" *ngIf="activeRecommendationTab == 'EU-AI'">
+                <div *ngIf="loader">
+                    <ngx-skeleton-loader count="4" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px', width:'100%'}">
+                    </ngx-skeleton-loader>
+                </div>
+                <div *ngIf="!loader && !recommendations?.euScore">
+                    <div class="d-flex justify-content-center mt-3">
+                        <p>Checks are in progress</p>
+                    </div>
+                </div>
+                <div *ngIf="!loader && recommendations.euScore.length === 0">
+                    <div class="d-flex justify-content-center mt-3">
+                        <p>No EU AI Act Recommendations identified</p>
+                    </div>
+                </div>
+                <div *ngIf="!loader && recommendations.euScore.length > 0">
+                    <div class="card mb-2" *ngFor="let recc of recommendations.euScore">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div style="width: 90%;">
+                                    <span class="badge text-bg-secondary">{{ recc.references[0] }}</span> &nbsp;&nbsp;
+                                    <span>{{ recc.title }}</span>
+
+                                    <div class="mt-2">
+                                        <mat-accordion>
+                                            <mat-expansion-panel (opened)="panelOpenStateEuAi = true" (closed)="panelOpenStateEuAi = false" style="width: 90%;">
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title> Recommended Actions </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <div class="d-flex mt-2">
+                                                    <p>{{ recc.description }}</p>
+                                                </div>
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- ISO Recommendations -->
+            <div class="card-body mb-2 recommendation-card-body" *ngIf="activeRecommendationTab == 'ISO'">
+                <div *ngIf="loader">
+                    <ngx-skeleton-loader count="4" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px', width:'100%'}">
+                    </ngx-skeleton-loader>
+                </div>
+                <div *ngIf="!loader && !recommendations?.isoScore">
+                    <div class="d-flex justify-content-center mt-3">
+                        <p>Checks are in progress</p>
+                    </div>
+                </div>
+                <div *ngIf="!loader && recommendations.isoScore.length === 0">
+                    <div class="d-flex justify-content-center mt-3">
+                        <p>No ISO Recommendations identified</p>
+                    </div>
+                </div>
+                <div *ngIf="!loader && recommendations.isoScore.length > 0">
+                    <div class="card mb-2" *ngFor="let recc of recommendations.isoScore" [ngClass]="getBorderClass(recc.priority)">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div style="width: 90%;">
+                                    <span class="badge text-bg-secondary">{{ recc.references[0] }}</span> &nbsp;&nbsp;
+                                    <span>{{ recc.title }}</span>
+                                    <div class="mt-2">
+                                        <mat-accordion>
+                                            <mat-expansion-panel (opened)="panelOpenStateIso = true" (closed)="panelOpenStateIso = false" style="width: 90%;">
+                                                <mat-expansion-panel-header>
+                                                    <mat-panel-title> Recommended Actions </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <div class="d-flex mt-2">
+                                                    <p>{{ recc.description }}</p>
+                                                </div>
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+                                </div>
+                                <div [ngClass]="getPriorityClass(recc.priority)" class="priority-badge">
+                                    {{ recc.priority }} priority
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

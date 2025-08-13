@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="d-flex mt-3 mb-0 w-100">
     <div class="select-contatiner2 w-100">
@@ -9,8 +10,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '200px', width: '400px'}">
             </ngx-skeleton-loader>
         </ng-container>
-        <div *ngIf="!isLoadingPrompt" class="mr-5 w-100">
-            <label class="HeadingLabelsm">Enter Prompt <span *ngIf="isExplainabilitySelected && isImageFileUploaded" class="text-muted ml-2">(optional)</span></label>
+        <div *ngIf="!isLoadingPrompt" class="me-5 w-100">
+            <label class="HeadingLabelsm">Enter Prompt <span *ngIf="isExplainabilitySelected && isImageFileUploaded" class="text-muted ms-2">(optional)</span></label>
             <form #form="ngForm" (ngSubmit)="onSubmit(form)">
                 <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
                 <div class="position-relative">
@@ -30,22 +31,42 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </div>
                 </div>
                 <!--  -->
+                <div>
+                    <div style="width: 50%;">
+                        <ul class="item-list" *ngIf="selectedButton === 'Safety'  && isListVisible">
+                            <li class="list-item" *ngFor="let item of safetyItems"  (click)="addToPrompt(item)">{{ item }}</li>
+                        </ul>
+                        <ul class="item-list" *ngIf="selectedButton === 'Explainability'  && isListVisible">
+                            <li class="list-item" *ngFor="let item of explainabilityItems" (click)="addToPrompt(item)">{{ item }}</li> 
+                        </ul>
+                        <ul class="item-list" *ngIf="selectedButton === 'Fairness'  && isListVisible">
+                            <li class="list-item" *ngFor="let item of fairnessItems" (click)="addToPrompt(item)">{{ item }}</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <div>
+                            <button type="button" class="pill-button " [ngClass]="{'active': selectedButton === 'Safety'}" (click)="showData('Safety')">Safety</button>
+                            <button type="button" class="pill-button " [ngClass]="{'active': selectedButton === 'Explainability'}" (click)="showData('Explainability')">Explainability</button>
+                            <button type="button" class="pill-button " [ngClass]="{'active': selectedButton === 'Fairness'}" (click)="showData('Fairness')">Fairness</button>
+                        </div>
+                    </div>
+                </div>
                 <div style="align-items: end;display: flex; flex-direction: column;" *ngIf="imageFiles.length != 0" class="mt-2">
                     <!-- <div style="height: 35px; width: 35px; border-radius: 8px;" class="position-relative mb-1">
                             <img src={{imgShowUrl}} style="height: 35px; width: 35px;">
                         </div> -->
                     <div style="display: flex; justify-content: flex-start;">
                         <p class="mainLabel2 mainLabelSM2" style="margin: 0px; font-weight: 500; color:grey; font-size: 0.65rem;">{{ selectedImageFileName }}</p>
-                        <button type="button" class="cancel-button ml-1" (click)="removeImageFile();">
+                        <button type="button" class="cancel-button ms-1" (click)="removeImageFile();">
                             <mat-icon>close</mat-icon>
                         </button>
-                        <p class="mainLabel2 mainLabelSM2 ml-2 cursor" style="text-decoration: underline; font-size: 0.6rem;" (click)="openDialog(imgShowUrl)">
+                        <p class="mainLabel2 mainLabelSM2 ms-2 cursor" style="text-decoration: underline; font-size: 0.6rem;" (click)="openDialog(imgShowUrl)">
                             (Preview)</p>
                     </div>
                 </div>
                 <!--  -->
                 <!-- <div class="d-flex justify-content-end mt-2">
-                    <button mat-raised-button color="reset" type="reset" class="btnMain rstButton mr-2" (click)="reset()">Reset</button>
+                    <button mat-raised-button color="reset" type="reset" class="btnMain rstButton me-2" (click)="reset()">Reset</button>
                     <button mat-raised-button color="black" [disabled]="showSpinner" type="submit" class="btnMain">
                 
                     <span class="sr-only">Loading...</span>
@@ -57,9 +78,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
         <!-- <button class="actionBtn"  (click)="openExplRightSideModal()"> <mat-icon>description</mat-icon> </button> -->
     </div>
-    <div class="select-contatiner1 ml-4">
+    <div class="select-contatiner1 ms-4">
         <div style="display: flex; align-items: center; justify-content: space-between;">
-            <h3 *ngIf="!isCollapsed" class="HeadingCheckBoxLabel pl-0 ">Select Type</h3>
+            <h3 *ngIf="!isCollapsed" class="HeadingCheckBoxLabel ps-0 ">Select Type</h3>
             <button type="button" class="toggle-button " (click)="togglePanel()">
             <mat-icon [inline]="true">menu</mat-icon>
             </button>
@@ -73,21 +94,27 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div *ngIf="!isLoadingSelectType" class="checkbox-container ">
                 <div class="d-flex align-items-center">
                     <input type="radio" id="safety" name="safety" value="safety" [(ngModel)]="selectType" (ngModelChange)="onExplainabilityChange($event)">
-                    <label for="safety" class="HeadingCheckBoxLabel fw-medium m-0 pl-2">Safety</label>
+                    <label for="safety" class="HeadingCheckBoxLabel fw-medium m-0 ps-2">Safety</label>
                 </div>
                 <div class="d-flex align-items-center">
                     <input type="radio" id="explainability" name="explainability" value="explainability" [(ngModel)]="selectType" (ngModelChange)="onExplainabilityChange($event)">
-                    <label for="explainability" class="HeadingCheckBoxLabel fw-medium m-0 pl-2">Explainability</label>
+                    <label for="explainability" class="HeadingCheckBoxLabel fw-medium m-0 ps-2">Explainability</label>
                 </div>
                 <div class="d-flex align-items-center">
                     <input type="radio" id="Fairness" name="Fairness" value="Fairness" [(ngModel)]="selectType" (ngModelChange)="onExplainabilityChange($event)">
-                    <label for="Fairness" class="HeadingCheckBoxLabel fw-medium m-0 pl-2">Fairness</label>
+                    <label for="Fairness" class="HeadingCheckBoxLabel fw-medium m-0 ps-2">Fairness</label>
                 </div>
                 <!-- <mat-checkbox class="custom-frame" (change)="viewoptions()" color="primary" *ngFor="let option of options" [(ngModel)]="selectedOptions[option]">{{option}}</mat-checkbox> -->
             </div>
             <div *ngIf="selectType == 'safety'">
-                <input type="text" class="form-control shadow-none inputField mb-1" name="portfolioName" [(ngModel)]="portfolioName" placeholder="Portfolio Name">
-                <input type="text" class="form-control shadow-none inputField" name="accountName" [(ngModel)]="accountName" placeholder="Account Name">
+                <div class="position-relative">
+                    <label class="optional-label">(Optional)</label>
+                    <input type="text" class="form-control shadow-none inputField mb-1" name="portfolioName" [(ngModel)]="portfolioName" placeholder="Portfolio Name">
+                </div>
+                <div class="position-relative" style="padding-top: 15px;">
+                    <label class="optional-label2">(Optional)</label>
+                    <input type="text" class="form-control shadow-none inputField" name="accountName" [(ngModel)]="accountName" placeholder="Account Name">
+                </div>
             </div>
         </div>
     </div>
@@ -95,7 +122,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <div *ngIf="showSpinner" class="shimmer-loader"></div>
 <p class="HeadingLabel activeTab mt-0 mb-1" [ngClass]="{'mt-0': selectedOptions['safety'], 'mt-3': !selectedOptions['safety']}" *ngIf="imageOutput==true || fairnessRes.status == true" role="button">Result</p>
 <div class="d-flex">
-    <div class="mr-3 ml-4" *ngIf="imageOutput==true && selectType != 'explainability'">
+    <div class="me-3 ms-4" *ngIf="imageOutput==true && selectType != 'explainability'">
         <label class="HeadingLabelsm">Original Image
             <!-- <button class="actionBtn" *ngIf="redactedImg==false" (click)="openExplRightSideModal()" style="font-size: 5px;margin-top: -7px;"> <mat-icon>description</mat-icon> </button> -->
         </label>
@@ -107,7 +134,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
     </div>
     <div>
-        <div class="mr-3" *ngIf="imageOutput==true && selectType == 'safety'">
+        <div class="me-3" *ngIf="imageOutput==true && selectType == 'safety'">
             <label class="HeadingLabelsm">Redacted Image
             <!-- <button class="actionBtn" (click)="openRightSideModal()" style="font-size: 5px;margin-top: -7px;"> <mat-icon>description</mat-icon> </button> -->
         </label>
@@ -121,21 +148,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </div>
     <div class="card outerResultCard mt-4 " *ngIf="imageOutput==true && selectType == 'safety'">
         <div class="card-header pb-0 card-header-outerResultCard">
-            <h5 class="mainLabel d-flex mt-2 ml-2" style="font-size: 1rem; color: #303030;">
+            <h5 class="mainLabel d-flex mt-2 ms-2" style="font-size: 1rem; color: #303030;">
                 Analysis
             </h5>
         </div>
         <div class="card-body d-flex flex-wrap mt-4">
-            <div *ngFor="let key of ['drawings','hentai','neutral','porn','sexy']; let i = index" class="card flex-1 mr-1 ml-1 mb-1" style="height: 125px; flex-grow: 1; min-width: 120px;">
+            <div *ngFor="let key of ['drawings','hentai','neutral','porn','sexy']; let i = index" class="card flex-1 me-1 ms-1 mb-1" style="height: 125px; flex-grow: 1; min-width: 120px;">
                 <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
                     <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 14px; color: #303030;">
                         {{key | titlecase}}
-                        <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="tooltips[i]" matTooltipPosition="above">info</mat-icon>
+                        <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="tooltips[i]" matTooltipPosition="above">info</mat-icon>
                     </h5>
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <div class="cardA mr-2 flex-fill">
+                        <div class="cardA me-2 flex-fill">
                             <div>
                                 <p class="mainLabel" style="color: #232323; margin: 0px; font-size: 14px;">
                                     {{ analyzeData[key] | number:'0.0-2' }}
@@ -168,11 +195,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <mat-icon>fullscreen</mat-icon>
                 </button>
             </div>
+            <div>
+                <label class="HeadingLabelsm" style="margin-top: .5rem;margin-left: .5rem;">SuperPixel Image </label>
+                <div class="card position-relative">
+                    <img src="{{image}}" class="card-img1" alt="Redacted Image">
+                    <button mat-icon-button class="expand-button position-absolute top-0 end-0" (click)="openDialog(rawimg)">
+                            <mat-icon>fullscreen</mat-icon>
+                        </button>
+                </div>
+            </div>
         </div>
         <!-- card output -->
         <div class="card outerResultCard" *ngIf="imageOutput == true && selectType == 'explainability'">
             <div class="card-header pb-0 card-header-outerResultCard">
-                <h5 class="mainLabel d-flex mt-2 ml-2" style="font-size: 1rem; color: #303030;">
+                <h5 class="mainLabel d-flex mt-2 ms-2" style="font-size: 1rem; color: #303030;">
                     Analysis
                 </h5>
             </div>
@@ -191,11 +227,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </p>
             </div>
             <div class="card-body d-flex flex-wrap mt-1">
-                <div class="card  mr-2 ml-2 mb-2" style="height: auto; flex-grow: 1; min-width: 120px;">
+                <div class="card  me-2 ms-2 mb-2" style="height: auto; flex-grow: 1; min-width: 120px;">
                     <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
                         <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 14px; color: #303030;">
                             Insights
-                            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="tooltipContentInsights" matTooltipPosition="above">info</mat-icon>
+                            <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="tooltipContentInsights" matTooltipPosition="above">info</mat-icon>
                         </h5>
                     </div>
                     <!--  -->
@@ -213,7 +249,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <div class="custom-card">
                             <div class="custom-card-header">
                                 <h5 class="mainLabel custom-card-title">Bias Type
-                                    <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="explain_analyse_res.insights.bias_analysis" matTooltipPosition="above">auto_fix_high</mat-icon>
+                                    <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="explain_analyse_res.insights.bias_analysis" matTooltipPosition="above">auto_fix_high</mat-icon>
 
                                 </h5>
                             </div>
@@ -224,7 +260,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <div class="custom-card">
                             <div class="custom-card-header">
                                 <h5 class="mainLabel custom-card-title">Style
-                                    <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="explain_analyse_res.insights.style_analysis" matTooltipPosition="above" matTooltipClass="custom-tooltip">auto_fix_high</mat-icon>
+                                    <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="explain_analyse_res.insights.style_analysis" matTooltipPosition="above" matTooltipClass="custom-tooltip">auto_fix_high</mat-icon>
                                 </h5>
                             </div>
                             <div class="custom-card-body">
@@ -237,14 +273,23 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <!-- <strong>Style Analysis:</strong> {{ explain_analyse_res.insights.style_analysis }} -->
                     <!--  not being used currently  -->
                 </div>
-                <div class="card mr-2 ml-2 mb-2" style="height: auto; flex-grow: 1; min-width: 200px;">
+                <div class="card me-2 ms-2 mb-2" style="height: auto; flex-grow: 1; min-width: 200px;">
                     <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
                         <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 14px; color: #303030;">
                             Metrics
-                            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="tooltipContentMetrics" matTooltipClass="custom-tooltip" matTooltipPosition="above">info</mat-icon>
+                            <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="tooltipContentMetrics" matTooltipClass="custom-tooltip" matTooltipPosition="above">info</mat-icon>
                         </h5>
                     </div>
                     <div class="custom-card-container d-flex">
+                        <div class="custom-card">
+                            <div class="custom-card-header d-flex justify-content: space-between">
+                                <h5 class="mainLabel custom-card-title">Certainity</h5>
+                                <span class="custom-span">Score : {{ explain_analyse_res.metrics.certainity_score }}</span>
+                            </div>
+                            <div class="custom-card-body">
+                                <p class="custom-card-text mainLabel mainLabelSM">{{ explain_analyse_res.metrics.certainity_label }}</p>
+                            </div>
+                        </div>
                         <div class="custom-card">
                             <div class="custom-card-header d-flex justify-content: space-between">
                                 <h5 class="mainLabel custom-card-title">Creativity</h5>
@@ -252,6 +297,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </div>
                             <div class="custom-card-body">
                                 <p class="custom-card-text mainLabel mainLabelSM">{{ explain_analyse_res.metrics.creativity_label }}</p>
+                            </div>
+                        </div>
+                        <div class="custom-card" *ngIf="explain_analyse_res?.metrics?.coherence_score">
+                            <div class="custom-card-header d-flex justify-content: space-between">
+                                <h5 class="mainLabel custom-card-title"> Coherence</h5>
+                                <span class="custom-span">Score : {{ explain_analyse_res.metrics.coherence_score }}</span>
+                            </div>
+                            <div class="custom-card-body">
+                                <p class="custom-card-text mainLabel mainLabelSM">{{ explain_analyse_res.metrics.coherence_label }}</p>
                             </div>
                         </div>
                         <div class="custom-card" *ngIf="this.promptControl.valid && explain_analyse_res?.metrics?.relevance_score">
@@ -270,20 +324,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <!-- <strong>Relevance Score:</strong> {{ explain_analyse_res.metrics.relevance_score }}<br>
 <strong>Relevance Label:</strong> {{ explain_analyse_res.metrics.relevance_label }} -->
     </div>
-    <div style="margin-left:100px;" *ngIf="selectType == 'Fairness'">
+    <div style="margin-right:100px;" *ngIf="selectType == 'Fairness'">
         <div *ngIf="fairnessRes.status == true">
             <label class="HeadingLabelsm">Generated Image
             <!-- <button class="actionBtn" (click)="openFairnessSideModal()" style="font-size: 5px;margin-top: -7px;"> <mat-icon>description</mat-icon> </button> -->
         </label>
             <div class="d-flex justify-content-between ">
-                <div class="card position-relative">
+                <div class="card position-relative explain-img-card">
                     <img src="{{'data:image/jpg;base64,' + fairnessRes?.generatedImage}}" class="card-img1" alt="Redacted Image">
                     <button mat-icon-button class="expand-button position-absolute top-0 end-0" (click)="openDialog(fairnessRes?.generatedImage)">
                     <mat-icon>fullscreen</mat-icon>
                 </button>
                 </div>
-                <div style="margin-left: 75px;">
-                </div>
+                <!-- <div style="margin-left: 75px;">
+                </div> -->
                 <div class="h-100">
                     <div class="row">
                         <div class="pb-3">
@@ -301,7 +355,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                                 <span>{{ fairnessRes.report['Bias score'] }}</span>
                                             </div>
                                         </div>
-                                        <div *ngIf="fairnessRes.report['Bias score'] === 'Neutral' || fairnessRes.report['Bias score'] === 'NA'" class="custom-badge mr-2" style="font-size: 0.85rem;">
+                                        <div *ngIf="fairnessRes.report['Bias score'] === 'Neutral' || fairnessRes.report['Bias score'] === 'NA'" class="custom-badge me-2" style="font-size: 0.85rem;">
                                             {{fairnessRes.report['Bias score']}}
                                         </div>
                                     </div>

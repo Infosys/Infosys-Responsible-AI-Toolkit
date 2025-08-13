@@ -1,88 +1,94 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="chatbot">
     <button class="chatbot-icon" (click)="toggleChat()" *ngIf="!isChatOpen">
-    <mat-icon style="color: white;">android</mat-icon>
-  </button>
-    <!-- <button mat-raised-button color="primary"  (click)="toggleChat()" *ngIf="!isChatOpen">
-    <mat-icon>face</mat-icon></button> -->
-    <!-- <div class="chatbot-chat card" *ngIf="isChatOpen"> -->
+        <mat-icon style="color: white;">android</mat-icon>
+    </button>
+
     <div *ngIf="isChatOpen">
-        <!-- <div class="card-header">
-        <mat-icon class="chatbot-close-icon" (click)="toggleChat()">close</mat-icon>
-        Chat
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">User 1: Hello</li>
-        <li class="list-group-item">User 2: Hi</li>
-        More messages go here
-      </ul>
-      <div class="card-body">
-        <input type="text" class="form-control" placeholder="Type a message">
-        <button class="btn btn-primary mt-2">Send</button>
-      </div> -->
-        <!--  -->
-        <!-- <section class="msger">
-      <header class="msger-header">
-        <div class="msger-header-title">
-          <i class="fas fa-comment-alt"></i> RAI Assistant
-        </div>
-        <div class="msger-header-options">
-          <span><i class="fas fa-cog"></i></span>
-        </div>
-      </header>
-
-      <main class="msger-chat">
-        <div class="msg left-msg">
-          <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/327/327779.svg)"></div>
-
-          <div class="msg-bubble">
-            <div class="msg-info">
-              <div class="msg-info-name">BOT</div>
-              <div class="msg-info-time">12:45</div>
-            </div>
-
-            <div class="msg-text">
-              Hi, welcome to RAI Assistant! Go ahead and send me a message. 😄
-            </div>
-          </div>
-        </div>
-
-        <div class="msg right-msg">
-          <div class="msg-img" style="background-image: url(https://image.flaticon.com/icons/svg/145/145867.svg)"></div>
-
-          <div class="msg-bubble">
-            <div class="msg-info">
-              <div class="msg-info-name">Sajad</div>
-              <div class="msg-info-time">12:46</div>
-            </div>
-
-            <div class="msg-text">
-              You can change your name in JS section!
-            </div>
-          </div>
-        </div>
-      </main>
-
-      <form class="msger-inputarea">
-        <input type="text" class="msger-input" placeholder="Enter your message...">
-        <button type="submit" class="msger-send-btn">Send</button>
-      </form>
-    </section> -->
         <section class="msger">
-            <header class="msger-header">
-                <div class="msger-header-title">
-                    <i class="fas fa-comment-alt"></i> RAI Assistant
+
+            <!-- Left Navigation Panel -->
+            <div class="left-nav-panel" [ngClass]="{'open': isNavOpen}">
+                <div class="nav-toggle-container">
+                    <button class="nav-toggle-btn" (click)="toggleNav()">
+                        <i class="material-icons" style="padding-top: 3px;">close</i>
+                    </button>
                 </div>
-                <div class="msger-header-options" (click)="toggleChat()">
-                    <i class="material-icons hover">close</i>
+                <div class="example-tree">
+                    <div *ngFor="let group of treeData">
+                        <div class="tree-node">
+                            <mat-checkbox class="checklist-leaf-node" [checked]="group.checked"
+                                (change)="toggleSelection(group, $event.checked)">
+                                {{ group.label }}
+                            </mat-checkbox>
+                            <button class="expand-btn" (click)="toggleExpand(group)">
+                                <mat-icon class="mat-icon-rtl-mirror">
+                                    {{ group.expanded ? 'expand_more' : 'chevron_right' }}
+                                </mat-icon>
+                            </button>
+                        </div>
+                        <div [ngClass]="{ 'tree-children': true, expanded: group.expanded }">
+                            <div *ngFor="let subGroup of group.children" class="tree-node">
+                                <mat-checkbox class="checklist-leaf-node" [checked]="subGroup.checked"
+                                    (change)="toggleSelection(subGroup, $event.checked)">
+                                    {{ subGroup.label }}
+                                </mat-checkbox>
+                                <button class="expand-btn" (click)="toggleExpand(subGroup)">
+                                    <mat-icon class="mat-icon-rtl-mirror">
+                                        {{ subGroup.expanded ? 'expand_more' : 'chevron_right' }}
+                                    </mat-icon>
+                                </button>
+                                <div [ngClass]="{ 'tree-children': true, expanded: subGroup.expanded }">
+                                    <div *ngFor="let option of subGroup.children" class="tree-node">
+                                        <mat-checkbox class="checklist-leaf-node" [checked]="option.checked"
+                                            (change)="toggleSelection(option, $event.checked)">
+                                            {{ option.label }}
+                                        </mat-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <header class="msger-header">
+                <div class="d-flex">
+                    <!-- Left Navigation Toggler -->
+                    <div class="left-nav-toggler" (click)="toggleNav()" *ngIf="isFMMode">
+                        <i class="material-icons">menu</i>
+                    </div>
+
+                    <div class="msger-header-title">
+                        <i class="fas fa-comment-alt"></i> RAI Assistant
+                    </div>
+                </div>
+                <div class="msger-header-options">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <mat-label
+                                [ngClass]="{ 'toggleLableOn': isChatbotMode, 'toggleLableOff': !isChatbotMode }">Chatbot</mat-label>
+                            <span class="switch1">
+                                <input id="switch1-rounded" type="checkbox" [checked]="isFMMode"
+                                    (change)="toggleMode($event)" />
+                                <label for="switch1-rounded"></label>
+                            </span>
+                            <mat-label
+                                [ngClass]="{ 'toggleLableOn': isFMMode, 'toggleLableOff': !isFMMode }">FM</mat-label>
+                        </div>
+                        <div class="msger-header-options close" (click)="toggleChat()">
+                            <i class="material-icons hover">close</i>
+                        </div>
+                    </div>
                 </div>
             </header>
 
-            <main class="msger-chat">
+            <main class="msger-chat" *ngIf="isChatbotMode">
                 <div *ngFor="let message of userMessages; let i = index">
                     <div class="msg right-msg">
                         <i class="material-icons align-content-center icon-background">person</i>
@@ -115,21 +121,213 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </div>
             </main>
 
-            <div class="sample-questions d-flex justify-content-between mb-2" *ngIf="!isLoading">
-                <div class="bubble" (click)="onBubbleClick(sample1)">{{ sample1 }}</div>
-                <div class="bubble" (click)="onBubbleClick(sample2)">{{ sample2 }}</div>
-                <div class="bubble" (click)="onBubbleClick(sample3)">{{ sample3 }}</div>
+
+            <div *ngIf="isChatbotMode">
+                <div class="sample-questions d-flex justify-content-between mb-2" *ngIf="!isLoading">
+                    <div class="bubble" (click)="onBubbleClick(sample1)">{{ sample1 }}</div>
+                    <div class="bubble" (click)="onBubbleClick(sample2)">{{ sample2 }}</div>
+                </div>
+
+                <form class="msger-inputarea">
+                    <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                    <div class="position-relative" style="width: 100%;">
+
+                        <textarea class="form-control w-100 txtArea shadow-none" rows="3" name="chatbotPrompt"
+                            [(ngModel)]="chatbotPrompt" placeholder="Enter Prompt" [disabled]="isLoading"></textarea>
+                        <button type="submit" class="border-0 position-absolute m-2 sendIcon" (click)="send()"
+                            [disabled]="isLoading">
+                            <i class="material-icons">send</i>
+                        </button>
+
+                    </div>
+                </form>
             </div>
 
-            <form class="msger-inputarea">
-                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
-                <div class="position-relative" style="width: 100%;">
-                    <textarea class="form-control w-100 txtArea shadow-none" rows="3" name="prompt" [(ngModel)]="prompt" placeholder="Enter Prompt" [innerHTML]="safeTemplateData"></textarea>
-                    <button type="submit" class="border-0 position-absolute m-2 sendIcon" (click)="send()">
-            <i class="material-icons">send</i>
-          </button>
+            <main class="msger-chat" *ngIf="isFMMode">
+
+
+
+                <div *ngFor="let message of fmUserMessages; let i = index">
+                    <div class="msg right-msg">
+                        <i class="material-icons align-content-center icon-background">person</i>
+                        <div class="msg-bubble">
+                            <div class="msg-text">
+                                {{ message }}
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="isLoading && i === fmUserMessages.length - 1" class="msg left-msg mb-2" style="display:none">
+                        <i class="material-icons align-content-center icon-background">android</i>
+                        <div class="msg-bubble">
+                            <div class="msg-text">
+                                <div class="three-dots-spinner">
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                    <div class="dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="fmBotResponses[i]" class="msg left-msg mb-2">
+                        <i class="material-icons align-content-center icon-background">android</i>
+                        <div class="msg-bubble">
+                            <div class="msg-text">
+                                {{ fmBotResponses[i] }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </main>
+
+            <div *ngIf="isFMMode">
+                <mat-card *ngIf="totalModerationChecks <= 0 && submitted" class="skeleton-container">
+                    <div class="skeleton-wrapper">
+                        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 
+                          'border-radius': '10px', 
+                          'height': '82px', 
+                          'width': 'calc(100% - 20px)', 
+                          'margin-bottom': '10px', 
+                          'margin-left': '10px', 
+                          'margin-right': '10px' 
+                        }">
+                        </ngx-skeleton-loader>
+                        <div class="loading-text">Loading...</div>
+                    </div>
+                </mat-card>
+                <main class="msger-chat chatbot-accordion" *ngIf="totalModerationChecks ?? 0  > 0">
+
+                    <mat-card>
+                        <mat-accordion>
+                            <!-- ...existing code... -->
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title class="accordion-title">
+                                        <span class="check-status">
+                                            {{ totalPassedChecks }} out of {{ totalModerationChecks }} checks have <span
+                                                class="status-passed">Passed</span>
+                                        </span>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="custom-card-container">
+                                    <!-- Model-Based Guardrails Passed Checks -->
+                                    <div class="custom-card passed-card" *ngIf="displayModelPassed">
+                                        <div class="custom-card-header d-flex flex-column">
+                                            <p class="custom-card-title">Model-Based Guardrails</p>
+                                            <span class="check-status-div">
+                                                {{ getPassedModerationChecksCount() }} out of {{
+                                                getTotalModerationChecksCount() }} checks have <span
+                                                    class="status-passed-div">Passed</span>
+                                            </span>
+                                        </div>
+                                        <div class="custom-card-body">
+                                            <ul>
+                                                <ng-container *ngFor="let item of getPassedModerationChecks()">
+                                                    <li class="custom-card-text">
+                                                        {{ item.checkName }}
+                                                    </li>
+                                                </ng-container>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- Template-Based Guardrails Passed Checks -->
+                                    <div class="custom-card passed-card" *ngIf="displayTemplatePassed">
+                                        <div class="custom-card-header d-flex flex-column">
+                                            <p class="custom-card-title">Template-Based Guardrails</p>
+                                            <span class="check-status-div">
+                                                {{ passedChecksCount }} out of {{ totalChecksCount }} checks have <span
+                                                    class="status-passed-div">Passed</span>
+                                            </span>
+                                        </div>
+                                        <div class="custom-card-body">
+                                            <ul>
+                                                <ng-container *ngFor="let item of globalTemplateResponses">
+                                                    <ng-container *ngIf="item.result === 'PASSED'">
+                                                        <li class="custom-card-text">
+                                                            {{ item.templateName }}
+                                                        </li>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+
+                            <mat-expansion-panel>
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title class="accordion-title">
+                                        <span class="check-status">
+                                            {{ totalFailedChecks }} out of {{ totalModerationChecks }} checks have <span
+                                                class="status-failed">Failed</span>
+                                        </span>
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <div class="custom-card-container">
+                                    <!-- Model-Based Guardrails Failed Checks -->
+                                    <div class="custom-card failed-card" *ngIf="displayModelFailed">
+                                        <div class="custom-card-header d-flex flex-column">
+                                            <p class="custom-card-title">Model-Based Guardrails</p>
+                                            <span class="check-status-div">
+                                                {{ getFailedModerationChecksCount() }} out of {{
+                                                getTotalModerationChecksCount() }} checks have <span
+                                                    class="status-failed-div">Failed</span>
+                                            </span>
+                                        </div>
+                                        <div class="custom-card-body">
+                                            <ul>
+                                                <ng-container *ngFor="let item of getFailedModerationChecks()">
+                                                    <li class="custom-card-text">
+                                                        {{ item.checkName }}
+                                                    </li>
+                                                </ng-container>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- Template-Based Guardrails Failed Checks -->
+                                    <div class="custom-card failed-card" *ngIf="displayTemplateFailed">
+                                        <div class="custom-card-header d-flex flex-column">
+                                            <p class="custom-card-title">Template-Based Guardrails</p>
+                                            <span class="check-status-div">
+                                                {{ failedChecksCount }} out of {{ totalChecksCount }} checks have <span
+                                                    class="status-failed-div">Failed</span>
+                                            </span>
+                                        </div>
+                                        <div class="custom-card-body">
+                                            <ul>
+                                                <ng-container *ngFor="let item of globalTemplateResponses">
+                                                    <ng-container *ngIf="item.result === 'FAILED'">
+                                                        <li class="custom-card-text">
+                                                            {{ item.templateName }}
+                                                        </li>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                            <!-- ...existing code... -->
+                        </mat-accordion>
+                    </mat-card>
+                </main>
+
+                <div class="fmMode" *ngIf="isFMMode">
+
+                    <form class="msger-inputarea1">
+                        <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                        <div class="position-relative" style="width: 100%;">
+                            <textarea class="form-control w-100 txtArea1 shadow-none" rows="3" name="prompt"
+                                [(ngModel)]="fmPrompt" placeholder="Type" [disabled]="isLoading"></textarea>
+                            <button type="submit" class="border-0 position-absolute m-2 sendIcon"
+                                (click)="submitchatbot()" [disabled]="isLoading">
+                                <i class="material-icons">send</i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </section>
     </div>
 </div>

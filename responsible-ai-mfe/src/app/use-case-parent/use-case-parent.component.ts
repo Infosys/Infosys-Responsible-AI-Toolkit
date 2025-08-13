@@ -1,9 +1,10 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild,Input } from '@angular/core';
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild,Input, EventEmitter, Output  } from '@angular/core';
 import { UseCaseServiceService } from './use-case-service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
@@ -22,6 +23,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./use-case-parent.component.css']
 })
 export class UseCaseParentComponent {
+  @Output() closeEvent = new EventEmitter<void>();
+  // Emits the close event
+  onClose() {
+    this.closeEvent.emit();
+  }
   // private stepper: Stepper;
 
   // next() {
@@ -62,12 +68,13 @@ export class UseCaseParentComponent {
     this.currentScreen=1
   }
 
-
-  onChildDataChanged(data: any) {
+    // Updates the child data when it changes
+    onChildDataChanged(data: any) {
     this.childData = data
 
   }
 
+  // Opens a reference document in a new tab
   showNewTab(){
     // const newTabUrl = environment.imagePathurl + '/assets/image/sampleImage1.png';/// Replace with your content URL
     const newTabUrl=environment.imagePathurl + '/assets/Referrence_doc.pdf'
@@ -75,18 +82,21 @@ export class UseCaseParentComponent {
     window.open(newTabUrl, '_blank');
   }
 
+  // Retrieves data from the child component
   getDataFromChild() {
     this.useCaseService.getAiCanvas.subscribe(msg => this.aiCanvasData = msg)
     console.log("data from aiCanvasData 43child===", this.aiCanvasData)
     console.log("data from child===", this.childData)
   }
 
+  // Updates the RAI canvas data when it changes
   onRaiCanvasChildDataChanged(data: any) {
     console.log("data from onRaiCanvasChildDataChanged 43child===", data)
     this.raiCanvasDatDetail = data
 
   }
 
+  // Retrieves RAI canvas data from the child component
   getRaiCanvasDataFromChild() {
     this.useCaseService.getRaiCanvas.subscribe(msg => this.raiCanvasDatDetail = msg)
     console.log("data from raiCanvasDatDetail 43child===", this.raiCanvasDatDetail)
@@ -105,7 +115,10 @@ export class UseCaseParentComponent {
   thirdFormGroup = this._formBuilder.group({
     thirdCtrl: ['', Validators.required],
   });
+
   currentScreen: any=1;
+
+   // Navigates to the next screen
   nextScreen() {
     this.showRaiCanas=true
     if (this.currentScreen < 3) {
@@ -116,12 +129,15 @@ export class UseCaseParentComponent {
     }
   }
 
+  // Navigates to the previous screen
   previousScreen() {
     if (this.currentScreen > 1) {
       this.currentScreen--;
       this.useCaseService.setMessage(this.currentScreen)
     }
   }
+
+  // Navigates to the previous step in the stepper
   goToPreviousStep() {
     if (this.stepper) {
       this.stepper.previous();
@@ -145,6 +161,7 @@ export class UseCaseParentComponent {
     this.useCaseService.setUseCaseName(this.useCaseName)
   }
 
+  // Submits the use case data
   submit() {
 
 
@@ -226,22 +243,8 @@ export class UseCaseParentComponent {
 
       console.log("payload=====", payload["UserId"])
 
-
-
-
-
-
-
-
-
-
-
     }
-
-
-
     console.log("RaiCanvaspayload182===========", this.raiCanvasDatDetail)
-
 
     this.creatUsecsse(payload, aiCanvaspayload, raiCanvasPayload, this.questionPayload)
 
@@ -249,6 +252,7 @@ export class UseCaseParentComponent {
 
   }
 
+  // Sets the API endpoints for the component
   setApilist(ip_port: any) {
     // this.getFile = ip_port.result.DocProcess + ip_port.result.DocProcess_getFiles  // + environment.getFile
     // this.uploadFile = ip_port.result.DocProcess + ip_port.result.DocProcess_uploadFile   //+ environment.uploadFile
@@ -260,6 +264,7 @@ export class UseCaseParentComponent {
     this.submit_Response = ip_port.result.Questionnaire + ip_port.result.submitResponse
   }
 
+  // Retrieves the logged-in user from local storage
   getLogedInUser() {
     if (localStorage.getItem("userid") != null) {
       const x = localStorage.getItem("userid")
@@ -273,6 +278,8 @@ export class UseCaseParentComponent {
       console.log("userId", this.userId)
     }
   }
+
+   // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
     if (localStorage.getItem("res") != null) {
@@ -284,7 +291,7 @@ export class UseCaseParentComponent {
   }
 
   parentPageValue: any;
-
+// Updates the parent page value when the child value changes
   onChildValueChange(newValue: any) {
     console.log("Inside value changes======")
     this.parentPageValue = newValue;
@@ -292,6 +299,7 @@ export class UseCaseParentComponent {
     console.log("parentPageValue===", this.parentPageValue)
   }
 
+   // Initializes the component and sets up API endpoints
   ngOnInit() {
     console.log("cureent===", this.currentScreen);
     
@@ -313,6 +321,7 @@ export class UseCaseParentComponent {
 
   }
 
+  // Creates a new use case
   creatUsecsse(payload: any, aiCanvaspayload: any, raiCanvasPayload: any, quesPayload: any) {
     this.https.post(this.createUseCase, payload).subscribe(
 
@@ -325,15 +334,11 @@ export class UseCaseParentComponent {
 
         }
 
-
         const element = document.getElementById('aicanvasTab');
         if (element) {
           console.log("Inside element click")
           element.click();
         }
-
-
-
 
       }, error => {
         console.log(error.status);
@@ -350,6 +355,7 @@ export class UseCaseParentComponent {
     )
   }
 
+   // Submits the AI canvas data
   aiCanvasSubmit(aiCanvaspayload: any, raiCanvasPayload: any, quesPayload: any) {
     this.https.post(this.aiCanvasSubmitResponse, aiCanvaspayload).subscribe(
       (res: any) => {
@@ -403,6 +409,7 @@ export class UseCaseParentComponent {
     )
   }
 
+  // Submits the RAI canvas data
   raiCanvasSubmit(raiCanvasPayload: any, quesPayload: any) {
     this.https.post(this.raiCanvasSubmitResponse, raiCanvasPayload).subscribe(
       (res: any) => {
@@ -453,6 +460,7 @@ export class UseCaseParentComponent {
     );
   }
 
+  // Submits the questionnaire data
   questionnaireSubmit(payload: any) {
     const payload1 = {
       // "data":this.questionPayload
@@ -469,14 +477,9 @@ export class UseCaseParentComponent {
           this.useCaseService.setAiCanvas("")
           this.useCaseService.setRaiCanvas("")
 
-
-
         }
 
         console.log("res========76", res)
-
-
-
 
       }, error => {
         const message = (error && error.error && (error.error.detail || error.error.message)) || "The Api has failed"

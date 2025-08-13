@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { PagingConfig } from '../_models/paging-config.model';
@@ -218,7 +219,7 @@ export class StructuredTextComponent implements OnInit {
   listShowlistForLabelDummy = new Set();
   listShowlistForFO = new Set();
 
-
+// Initializes the component and fetches initial data
   ngOnInit(): void {
     // make is loading false after 3 seconds
     // setTimeout(() => {
@@ -260,6 +261,8 @@ export class StructuredTextComponent implements OnInit {
     this.deleteBatch = ip_port.result.Workbench + ip_port.result.Workbench_deleteBatch;
     this.explanation_visualization = ip_port.result.explanation_visualization;
   }
+
+  // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
     if (localStorage.getItem("res") != null) {
@@ -270,6 +273,7 @@ export class StructuredTextComponent implements OnInit {
     }
   }
 
+  // Checks if the given data indicates a completed status
   isCompleted(data: any): boolean {
     return true ? data == "Completed" : false
   }
@@ -339,28 +343,46 @@ export class StructuredTextComponent implements OnInit {
   // }
 
   //-----------------HANDLE REPORT FILE------------------------
-  downloadReport(batch: any) {
+  downloadReport1(batch: any) {
     const id = batch.BatchId;
     //const form = new FormData();
     //form.append('batchId', id);
     const body = new URLSearchParams();
     
     if (batch.TenetId == 2.2) {
-      const payload = {'Batch_id': id}
-        this.https.post(this.FairnessWrapDownload, payload ,{ responseType: 'blob',observe: 'response' }).subscribe(
-          (res: any) => {
-            let filename = this.genFile();
-        const contentDisposition = res.headers.get('Content-Disposition');
-        if (contentDisposition && contentDisposition.indexOf('filename=') !== -1) {
-          filename = contentDisposition.split('filename=')[1].trim().replace(/"/g, '');
-        }
-        this.downloadFile(res.body, filename);
-          }, error => {
-            console.log(error)
-            const message = error.error.detail
-            const action = "Close"
-          })
-      } else {
+    const payload = {'Batch_id': id}
+      this.https.post(this.FairnessWrapDownload, payload ,{ responseType: 'blob',observe: 'response' }).subscribe(
+        (res: any) => {
+          let filename = this.genFile();
+      //   const contentType = res.type;
+      //   const urlCreator = window.URL || window.webkitURL;
+      //   const a = document.createElement('a');
+      //   let downloadUrl!: any;
+      // if (contentType == 'application/pdf') {
+      //  downloadUrl = urlCreator.createObjectURL(res);
+
+      // } else if (contentType == 'application/octet-stream') {
+      //     const blob = new Blob([res], { type: 'text/csv;charset=utf-8' });
+      //      downloadUrl = urlCreator.createObjectURL(blob);
+      // }
+      // a.href = downloadUrl;
+      // a.download = filename;
+      // document.body.appendChild(a);
+      // a.click();
+      // a.remove();
+      // urlCreator.revokeObjectURL(downloadUrl);
+
+      const contentDisposition = res.headers.get('Content-Disposition');
+      if (contentDisposition && contentDisposition.indexOf('filename=') !== -1) {
+        filename = contentDisposition.split('filename=')[1].trim().replace(/"/g, '');
+      }
+      this.downloadFile(res.body, filename);
+        }, error => { 
+          console.log(error)
+          const message = error.error.detail
+          const action = "Close"
+        })
+    } else {
       body.set('batchId', id.toString());
       this.https.post(this.ReportDownload, body, { responseType: 'blob', headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded') }).subscribe(
         (res: Blob) => {
@@ -379,11 +401,9 @@ export class StructuredTextComponent implements OnInit {
     }
 
   }
-  genFile(): string {
-    const timestamp = new Date().getTime();
-    return `file_${timestamp}`;
-  }
-  downloadFile(data: Blob, filename: string) {
+
+  // Downloads a file with the given data and filename
+  downloadFile1(data: Blob, filename: string) {
     const blob = new Blob([data], { type: data.type });
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -394,6 +414,13 @@ export class StructuredTextComponent implements OnInit {
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
   }
+  
+// Generates a unique filename with a timestamp
+  genFile(): string {
+    const timestamp = new Date().getTime();
+    return `file_${timestamp}`;
+  }
+
   // ------------------------Handle Model and Data File Selection Change--------------------------
   // selectDataMethod(data: any) {
   //   let selectedOptionIndex = data.options['selectedIndex']
@@ -864,7 +891,61 @@ export class StructuredTextComponent implements OnInit {
   //   this.modalService.dismissAll();
 
   // }
+
+   // Opens the explanation visualization in a new tab
   visualization(){
     window.open(this.explanation_visualization, "_blank");
+  }
+  downloadReport(batch: any) {
+    const id = batch.BatchId;
+    //const form = new FormData();
+    //form.append('batchId', id);
+    const body = new URLSearchParams();
+   
+    if (batch.TenetId == 2.2) {
+    const payload = {'Batch_id': id}
+      this.https.post(this.FairnessWrapDownload, payload ,{ responseType: 'blob',observe: 'response' }).subscribe(
+        (res: any) => {
+          let filename = this.genFile();
+      const contentDisposition = res.headers.get('Content-Disposition');
+      if (contentDisposition && contentDisposition.indexOf('filename=') !== -1) {
+        filename = contentDisposition.split('filename=')[1].trim().replace(/"/g, '');
+      }
+      this.downloadFile(res.body, filename);
+        }, error => {
+          console.log(error)
+          const message = error.error.detail
+          const action = "Close"
+        })
+    } else {
+      body.set('batchId', id.toString());
+      this.https.post(this.ReportDownload, body, { responseType: 'blob', headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded') }).subscribe(
+        (res: Blob) => {
+          const filename = this.genFile();
+          saveAs(res, filename);
+        }, error => {
+          console.log(error)
+          const message = error.error.detail
+          const action = "Close"
+          // this._snackBar.open(message, action, {
+          //   duration: 3000,
+          //   horizontalPosition: 'center',
+          //   panelClass: ['le-u-bg-black'],
+          // });
+        })
+    }
+ 
+  }
+    // Downloads a file with the given data and filename
+  downloadFile(data: Blob, filename: string) {
+    const blob = new Blob([data], { type: data.type });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(a);
   }
 }

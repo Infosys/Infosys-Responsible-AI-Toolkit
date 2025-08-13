@@ -52,13 +52,20 @@ class PIIImageEntity(BaseModel):
 
 class PIIAnalyzeRequest(BaseModel):
     inputText: str = Field(example="John Smith's SSN is 012884567")
+    nlp: Optional[str] = Field(default=None,example="basic/good/roberta/ranha",description="basic,good,better")
     # entity_type: Optional[str] = Field(example="COMPANY_NAME")
-    portfolio:Optional[str] = Field(example="string")
-    account:Optional[str] = Field(example="string")
-    piiEntitiesToBeRedacted: Optional[list] = Field(example=["US_SSN"])
-    exclusionList:Optional[str] = Field(example="Karan,Infosys")
-    user: Optional[str] = Field(None)
-    lotNumber:Optional[str] = Field(None)
+    # portfolio:Optional[str] = Field(example="string")
+    # account:Optional[str] = Field(example="string")
+    # piiEntitiesToBeRedacted: Optional[list] = Field(example=["US_SSN"])
+    # exclusionList:Optional[str] = Field(example="Karan,Infosys")
+    # user: Optional[str] = Field(None)
+    # lotNumber:Optional[str] = Field(None)
+    portfolio:Optional[str] = Field(default=None)
+    account:Optional[str] = Field(default=None)
+    piiEntitiesToBeRedacted: Optional[list] = Field(default=None)
+    exclusionList:Optional[str] = Field(default=None)
+    user: Optional[str] = Field(default=None)
+    lotNumber:Optional[str] =Field(default=None)
     
 class PIIEncryptResponse(BaseModel):
     text: str = Field(example="John Smith's SSN is 012884567")
@@ -80,13 +87,14 @@ class PIIAnalyzeResponse(BaseModel):
 
 class PIIAnonymizeRequest(BaseModel):
     inputText: str = Field(example="John Smith's SSN is 012884567")
-    portfolio:Optional[str] = Field(example="string")
-    account:Optional[str] = Field(example="string")
-    exclusionList:Optional[str] = Field(example="Karan,Infosys")
-    piiEntitiesToBeRedacted: Optional[list] = Field(example=["US_SSN"])
-    redactionType: Optional[str] = Field(example='replace')
-    user: Optional[str] = Field(example = None)
-    lotNumber:Optional[str] = Field(example = None)
+    nlp: Optional[str] = Field(default=None,example="basic/good/roberta/ranha",description="basic,good,better")
+    portfolio:Optional[str] =Field(default=None)
+    account:Optional[str] =Field(default=None)
+    exclusionList:Optional[str] = Field(default=None)
+    piiEntitiesToBeRedacted: Optional[list] = Field(default=None)
+    redactionType: Optional[str] = Field(default=None)
+    user: Optional[str] = Field(default=None)
+    lotNumber:Optional[str] = Field(default=None)
     fakeData: Optional[bool] = Field(example = False)
 
 
@@ -140,8 +148,8 @@ class PIIMultipleImageAnalyzeResponse(BaseModel):
 class PIIPrivacyShieldRequest(BaseModel):
     inputText: str = Field(example="John Smith's SSN is 012884567")
     # entity_type: Optional[str] = Field(example="COMPANY_NAME")
-    portfolio:Optional[str] = Field(example="string")
-    account:Optional[str] = Field(example="string")
+    portfolio:Optional[str] =Field(default=None)
+    account:Optional[str] =Field(default=None)
 
     
 

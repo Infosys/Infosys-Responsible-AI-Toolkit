@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
@@ -36,6 +37,7 @@ export class UseCaseReportComponent {
 
   }
 
+   // Submits the request to fetch the risk dashboard data
   onSubmit() {
     console.log("the user id ", this.userId)
     // this.https.get(this.getRiskDash+this.userId).subscribe
@@ -93,11 +95,13 @@ export class UseCaseReportComponent {
     this.cdr.detectChanges();
   }
 
+  // Sets the API endpoints for the component
   setApilist(ip_port: any) {
     
  this.Ques_Risk_Dashboard = ip_port.result.Questionnaire + ip_port.result.Ques_Risk_Dashboard
   }
 
+   // Retrieves the logged-in user from local storage
   getLogedInUser() {
     if (localStorage.getItem("userid") != null) {
       const x = localStorage.getItem("userid")
@@ -111,6 +115,8 @@ export class UseCaseReportComponent {
       console.log("userId", this.userId)
     }
   }
+
+  // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
     if (localStorage.getItem("res") != null) {
@@ -121,6 +127,7 @@ export class UseCaseReportComponent {
     }
   }
 
+  // Navigates to the next screen
   currentScreen:any;
   nextScreen() {
     if (this.currentScreen < 3 ) {
@@ -133,6 +140,7 @@ export class UseCaseReportComponent {
     }
   }
 
+  // Navigates to the previous screen
 previousScreen() {
   if (this.currentScreen > 1) {
     this.currentScreen--;
@@ -140,11 +148,14 @@ previousScreen() {
   }
 }
 
+// Navigates to the main use case page
 useCaseMainPage(){
   this.useCasePage=true
   this.useCaseService.getGenerateReport.subscribe(msg => this.useCaseReport = msg)
   console.log("this.usecaseReport139=====",this.useCaseReport)
 }
+
+ // Initializes the component and sets up API endpoints
   ngOnInit(){
     // this.qutionnaireForm=this._formBuilder.group({})
     // console.log("cureent===",this.currentScreen)

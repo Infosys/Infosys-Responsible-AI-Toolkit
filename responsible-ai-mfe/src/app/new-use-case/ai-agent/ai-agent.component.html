@@ -1,0 +1,618 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<form [formGroup]="useCase" class="pb-5">
+    <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+
+    <!-- <mat-horizontal-stepper linear="false">
+	<mat-step *ngFor="let step of steps; let i = index" optional>
+		<ng-template matStepLabel>{{ step }}</ng-template>
+		<p>{{ step.file_name }}</p>
+	</mat-step>
+	</mat-horizontal-stepper>
+	<mat-horizontal-stepper [linear]="true" #stepper>
+		<mat-step [completed]="isStartCompleted">
+			<ng-template matStepLabel>Start</ng-template>
+			<p>This is the start step.</p>
+			<button mat-button (click)="completeStart()">Complete Start</button>
+		</mat-step>
+		<mat-step [completed]="isInProgressCompleted">
+			<ng-template matStepLabel>In Progress</ng-template>
+			<p>This is the in-progress step.</p>
+			<button mat-button (click)="completeInProgress()">Complete In Progress</button>
+		</mat-step>
+		<mat-step>
+			<ng-template matStepLabel>Completed</ng-template>
+			<p>This is the completed step.</p>
+		</mat-step>
+	</mat-horizontal-stepper> -->
+
+
+
+
+    <div style="display: flex;" class="pt-4">
+        <div style="margin-right: 30px;" class="class='form-group'">
+            <h3 style="display:flex;">
+                <mat-label [ngStyle]="{'color': !switch ? '#8626C3' : 'inherit'}">Upload File(s)</mat-label>
+                <span class="switch">
+						<input id="switch-rounded" type="checkbox" (change)="onToggleSwitch($event)" />
+						<label for="switch-rounded"></label>
+					</span>
+                <mat-label [ngStyle]="{'color': switch ? '#8626C3' : 'inherit'}">Use Case</mat-label>
+            </h3>
+            <div class="d-flex mt-4">
+                <div class="me-3">
+                    <div class="inputText" *ngIf="!switch">
+                        <div>
+                            <input type="text" class="form-control shadow-none inputField w-100" formControlName="useCaseName" placeholder="Use Case Name">
+                            <select formControlName="option" class="form-select shadow-none w-100" aria-label="Default select example" (change)="onSelectChange($event)">
+									<option value="" disabled selected>Usecase Type</option>
+									<option *ngFor="let option of options" [value]="option.value">{{option.viewValue}}
+									</option>
+								</select>
+                        </div>
+                        <mat-select #select2 multiple id="selectApplicableAttacks" class="dropdown customMultiselect mb-3" placeholder="Usage Location">
+                            <mat-option (click)="onJurisdictionChange($event)" class="dropdownOptions" *ngFor="let data of jurisdictionOptions" [value]="data.value">
+                                {{data.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                        <!-- <div *ngFor="let option of jurisdictionOptions">
+									<input type="checkbox" [value]="option.value" (change)="onJurisdictionChange($event)">
+									<label>{{option.viewValue}}</label>
+								</div> -->
+                    </div>
+                    <div class="drop-zone" *ngIf="!switch">
+                        <mat-icon class="material-icons browse-logo ">cloud_upload</mat-icon>
+                        <p class="dnd-lable">Drag & drop files here <br>or<span class="high-light"> browse</span></p>
+                        <p class="m-0" style="font-size: 10px; font-weight: 400;color: #989898;">
+                            .pdf & .txt files are supported</p>
+                        <input type="file" (change)="onFileChange($event)" (change)="fileBrowseHandler($event)" formControlName="fileData">
+                    </div>
+                    <span *ngIf="useCase.get('fileData')?.invalid && useCase.get('fileData')?.touched" class="text-danger">
+							{{ getErrorMessage(useCase.get('fileData')!) }}
+						</span>
+                    <div class="me-3 fileContainer" *ngIf="!switch">
+                        <p class="HeadingLabelSM" *ngIf="files[0]">File</p>
+                        <div class="file-upload" *ngIf="files[0]">
+                            <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
+                            <div class="d-flex align-items-center mt-1">
+                                <mat-progress-bar class="me-1" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
+                                <button class="cancel-button me-2" (click)="deleteFile()">
+										<mat-icon>close</mat-icon>
+									</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-0" *ngIf="switch">
+                        <label class="HeadingLabel mb-2">Select Usecase</label>
+                        <div class="d-flex align-items-center">
+                            <select formControlName="option" (change)="selectOption($event.target)" class="form-select shadow-none" aria-label="Default select example">
+									<option value="" disabled selected>Use Cases</option>
+									<option *ngFor="let option of usecasesList" [value]="option.usecaseName">
+										{{option.usecaseName}}</option>
+								</select>
+                            <mat-icon class="addIcon ms-2 mb-4" matTooltip="New UseCase" (click)="toggleUcSwitch()">add</mat-icon>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <button mat-raised-button class="buttonMain me-1" color="reset" (click)="reset()">Reset</button>
+                        <button mat-raised-button class="buttonMain" color="black" (click)="submit()">
+								<div class="spinner-border text-light" style="font-size: 10px;width: 15px;height: 15px;"
+									role="status" *ngIf="showSpinner1">
+									<span class="sr-only">Loading...</span>
+								</div>
+								<span *ngIf="!showSpinner1">Submit</span>
+							</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="flex: 1; max-width: 70%;" *ngIf="UcSwitch">
+            <mat-card class="form-card">
+                <!-- Buttons on top -->
+                <div class="card-header" style="display: flex; justify-content: space-between;">
+                    <button mat-raised-button class="buttonMain1 me-2" color="reset" (click)="toggleUcSwitch()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+
+                    <button mat-raised-button class="buttonMain1" color="black" (click)="handleCreateUsecase()">
+                      <div class="spinner-border text-light" style="font-size: 10px; width: 15px; height: 15px;" role="status" *ngIf="showSpinner1">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                      <span *ngIf="!showSpinner1">Create</span>
+                    </button>
+                </div>
+                <!-- Form content inside the card -->
+                <div class="inputText" style="display: flex; flex-wrap: wrap; gap: 10px; padding: 20px;">
+                    <!-- First Row: 3 Inputs/Select Elements -->
+                    <input type="text" class="form-control shadow-none inputField" formControlName="useCaseName" placeholder="Enter Use Case name" style="flex: 1 1 30%; min-width: 200px;">
+
+                    <select formControlName="option" class="form-select shadow-none" aria-label="Default select example" (change)="onSelectChange($event)" style="flex: 1 1 30%; min-width: 150px;">
+                        <option value="" disabled selected>Usecase Type</option>
+                        <option *ngFor="let option of options" [value]="option.value">{{option.viewValue}}</option>
+                    </select>
+
+                    <mat-select #select2 multiple id="selectApplicableAttacks" class="dropdown customMultiselect" placeholder="Usage Location" style="flex: 1 1 30%">
+                        <mat-option (click)="onJurisdictionChange($event)" class="dropdownOptions" *ngFor="let data of jurisdictionOptions" [value]="data.value">
+                            {{data.viewValue}}
+                        </mat-option>
+                    </mat-select>
+
+                    <!-- Second Row: New Input and Textarea -->
+                    <input type="text" formControlName="usecaseDescription" class="form-control shadow-none inputField" placeholder="Dataset Analyze" style="flex: 1 1 48%; min-width: 200px; margin-top: 10px;">
+                    <textarea formControlName="datasetAnalyze" class="form-control shadow-none" placeholder="UseCase Description" style="flex: 1 1 48%; min-width: 200px; margin-top: 10px;"></textarea>
+                </div>
+
+                <!--Stepper-->
+                <div style="display: flex; justify-content: space-between">
+                    <div style="width: 100%;">
+                        <mat-horizontal-stepper #stepper>
+                            <mat-step>
+                                <ng-template matStepLabel>AI CANVAS</ng-template>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>RAI CANVAS</ng-template>
+                            </mat-step>
+                            <mat-step>
+                                <ng-template matStepLabel>MODEL DETAIL</ng-template>
+                            </mat-step>
+                        </mat-horizontal-stepper>
+                    </div>
+                    <!-- <div style="width: 30%; margin-left: 325px; margin-top: 15px;">
+						<button type="submit" class="border-0 sendIcon">
+							<i class="material-icons" matTooltip="Create UseCase" (click)="handleCreateUsecase()">send</i>
+						</button>
+					</div> -->
+                </div>
+                <div *ngIf="isAICanvasActive(stepper)">
+                    <form [formGroup]="aiCanvasForm">
+                        <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                        <div style="display: flex;">
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                                <span class="textFontCss">Business Problem</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="BusinessProblem"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">Data Strategy</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="DataStrategy"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">Business Value</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="BusinessValue"></textarea><br>
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                                <span class="textFontCss">Modelling Approach</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="ModellingApproach"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">End User Value</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="EndUserValue"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">Model Training</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="ModelTraining"></textarea><br>
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                                <span class="textFontCss">Objective Function</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="ObjectiveFunction"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">AI Cloud & Engineering Services</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="AICloudEngineeringServices"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">Responsible AI Approach</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="ResponsibleAIApproach"></textarea><br>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div *ngIf="isRAICanvasActive(stepper)">
+                    <form [formGroup]="raiCanvasForm">
+                        <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                        <div style="display: flex;">
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                                <span class="textFontCss">Accountability</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Accountability"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">Drift</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Drift"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">Security Vulnerabilities</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="SecurityVulnerabilities"></textarea><br>
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                                <span class="textFontCss">Human Touch Points</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="HumanTouchPoints"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">Explainability</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Explainability"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">Robustness And Risks</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="RobustnessAndRisks"></textarea><br>
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                                <span class="textFontCss">Standard MLops Practices</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="StandardMLopsPractices"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">Privacy</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Privacy"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">Fairness</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Fairness"></textarea><br>
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <!-- <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                            <span class="textFontCss">Audit</span>
+                            <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Audit"></textarea><br>
+                        </div>
+                        <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                            <span class="textFontCss">Validation</span>
+                            <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="Validation"></textarea><br>
+                        </div> -->
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                                <span class="textFontCss">Vulnerable Groups</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="VulnerableGroups"></textarea><br>
+                            </div>
+                            <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                <span class="textFontCss">IP Protection and IP Infringement</span>
+                                <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="IPProtectionandIPInfringement"></textarea><br>
+                            </div>
+                        </div>
+                        <div style="display: flex;">
+                            <!-- <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                            <span class="textFontCss">IP Protection and IP Infringement</span>
+                            <textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="IPProtectionandIPInfringement"></textarea><br>
+                        </div> -->
+                            <!-- <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+								<span class="textFontCss">Solution Impact</span>
+								<textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="SolutionImpact"></textarea><br>
+							</div>
+							<div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+								<span class="textFontCss">Data Quality</span>
+								<textarea name="inputText" matInput required class="inputMat1 textareaPrompt" formControlName="DataQuality"></textarea><br>
+							</div> -->
+                        </div>
+                    </form>
+                </div>
+                <div *ngIf="isModelDetailActive(stepper)">
+                    <div style="display: flex; justify-content: flex-start; margin-bottom: 20px;">
+                        <label for="modelDropdown" style="margin-right: 10px;">Select Model:</label>
+                        <select id="modelDropdown" class="form-select shadow-none" style="width: 150px;" [(ngModel)]="selectedModel" [ngModelOptions]="{standalone: true}" (change)="updateModelForms()">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+                    </div>
+                    <mat-accordion class="custom-accordion">
+                        <mat-expansion-panel *ngFor="let model of displayedModels">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    Model {{ model }} Details
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <form [formGroup]="modelDetailForm[model]">
+                                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                                <div style="display: flex;">
+                                    <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                                        <span class="textFontCss">Type of AI Model planned to be used </span>
+                                        <select class="form-select shadow-none" formControlName="TypeOfAIModel">
+                                <option value="Generative AI">Generative AI</option>
+                                <option value="ML/DL">ML/DL</option>
+                                <option value="Not Decided">Not Decided</option>
+                            </select>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 15px;">
+                                        <span class="textFontCss">Model-Input</span>
+                                        <select class="form-select shadow-none" formControlName="ModelInput">
+                                <option value="Text">Text</option>
+                                <option value="Audio">Audio</option>
+                                <option value="Video">Video</option>
+                                <option value="Image">Image</option>
+                                <option value="Software code">Software code</option>
+                                <option value="Others">Others</option>
+                                <option value="Not Decided">Not Decided</option>
+                            </select>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                        <span class="textFontCss">Model-Output</span>
+                                        <select class="form-select shadow-none" formControlName="ModelOutput">
+                                <option value="Text">Text</option>
+                                <option value="Audio">Audio</option>
+                                <option value="Video">Video</option>
+                                <option value="Image">Image</option>
+                                <option value="Software code">Software code</option>
+                                <option value="Others">Others</option>
+                                <option value="Not Decided">Not Decided</option>
+                            </select>
+                                    </div>
+                                </div>
+                                <div style="display: flex;">
+                                    <div class="col-lg-4 col-md-4 le-u-mar-b-16">
+                                        <span class="textFontCss">Other Model Input</span>
+                                        <input type="text" matInput required class="inputMat2" formControlName="OtherModelInput" value="None" />
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                        <span class="textFontCss">Other Model Output</span>
+                                        <input type="text" matInput required class="inputMat2" formControlName="OtherModelOutput" value="None" />
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                                        <span class="textFontCss">Model-Description</span>
+                                        <textarea name="inputText" matInput required class="inputMat2 textareaPrompt" formControlName="ModelDescription"></textarea><br>
+                                    </div>
+                                </div>
+                            </form>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+            </mat-card>
+        </div>
+
+        <div style="flex: 1; max-width: 80%;" *ngIf="!UcSwitch">
+            <div class="report-container">
+                <label class="HeadingLabel">Report</label>
+                <div class="d-flex align-items-center">
+                    <button mat-icon-button color="primary2" (click)="getAllData()">
+							<mat-icon class="actionBtn">refresh</mat-icon>
+						</button>
+                </div>
+            </div>
+            <div *ngIf="isLoadingTable">
+                <ngx-skeleton-loader count="5" appearance="line" [theme]="{ 'border-radius': '20px', height: '30px', width:'700px'}">
+                </ngx-skeleton-loader>
+            </div>
+            <div *ngIf="!isLoadingTable">
+                <table class="styled-table">
+                    <tr>
+                        <th class="header">Usecase Name</th>
+                        <th class="header">Region</th>
+                        <th class="header">Created On</th>
+                        <th class="header">Risk Classification</th>
+                        <th class="header">RAI IMPACT Assessment </th>
+                        <th class="header">Impact Guardrail Recommendation</th>
+                        <th class="header">Regulatory Compliance Report</th>
+                        <th class="header">Compliance Guardrail Recommendation</th>
+                        <th class="header">Recommendations</th>
+                        <th class="header">Actions</th>
+                    </tr>
+                    <tr *ngFor="let element of dataSource | paginate : pagingConfig; let i = index">
+                        <td>
+                            <span *ngIf="element.usecase_data">{{element?.usecase_data?.usecase_name}}</span>
+                            <span *ngIf="!element.usecase_data">-</span>
+                        </td>
+                        <td>{{element?.usecase_data?.jurisdiction}}</td>
+                        <td>{{element.created_at }}</td>
+                        <td>{{element?.predicted_risk}}
+                            <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="element?.risk_justification" matTooltipPosition="above">info</mat-icon>
+
+                        </td>
+                        <!--RAI IMPACT Assessment: impact_assessment_pdf_report_url-->
+                        <td>
+                            <div [ngSwitch]="element.impact_assessment_data.status">
+                                <span *ngSwitchCase="'Completed'">
+										<span style="color: #8626C3; cursor: pointer; text-decoration: underline;" (click)="getfileContent(element?.impact_assessment_data?.impact_assessment_pdf_report_url)">Click to Download</span>
+                                </span>
+                                <span *ngSwitchCase="'Failed'">
+										<span >
+											<span style="color: #8626C3; cursor: pointer; text-decoration: underline;" (click)="generateImpactReport(element._id)">FAILED - Click to Retry</span>
+                                </span>
+                                </span>
+                                <span *ngSwitchCase="'Use case info required'">
+										<span style="color: #8626C3; cursor: pointer; text-decoration: underline;" (click)="getfileContent(element?.impact_assessment_data?.unanswered_questions_pdf_report_url)">Use case info required</span>
+                                </span>
+                                <span *ngSwitchDefault>
+										{{ element.impact_assessment_data.status }}
+									</span>
+                            </div>
+                        </td>
+                        <!-- Impact Guardrail Recommendation report-->
+                        <td>
+                            <div [ngSwitch]="element.impact_assessment_data.status">
+                                <span *ngSwitchCase="'Completed'">
+                                    <span style="color: #8626C3; cursor: pointer; text-decoration: underline;" (click)="getfileContent(element?.impact_assessment_data?.excel_report_url)">Click to Download</span>
+                                </span>
+                                <span *ngSwitchCase="'Failed'">
+                                    <span >
+                                        <span style="color: #8626C3; cursor: pointer; text-decoration: underline;" (click)="generateComplianceReport(element._id)">FAILED - Click to Retry</span>
+                                </span>
+                                </span>
+                                <span *ngSwitchDefault>
+                                     {{ element.impact_assessment_data.status }}
+                                </span>
+                            </div>
+                        </td>
+                        <!--Regulatory Compliance Report : report_url-->
+                        <td>
+                            <span *ngIf="element.compliance_data.status">
+									<!-- <span *ngIf="element.risk === 'Prohibited' || element.risk === 'High-Risk'; else handleRestCases">
+										<span *ngIf="element.risk === 'Prohibited'">Not Applicable</span>
+                            <span *ngIf="element.risk === 'High-Risk'">Pending for approval</span>
+                            </span> -->
+                            <div [ngSwitch]="element.compliance_data.status">
+                                <span *ngSwitchCase="'Completed'">
+											<span style="color: #8626C3; cursor: pointer; text-decoration: underline;" (click)="getfileContent(element?.compliance_data.report_url)">Click to Download</span>
+                                </span>
+                                <span *ngSwitchCase="'Failed'">
+											<span >
+												<span style="color: #8626C3; cursor: pointer; text-decoration: underline;" (click)="generateComplianceReport(element._id)">FAILED - Click to Retry</span>
+                                </span>
+                                </span>
+                                <span *ngSwitchDefault>
+                                    {{ element.compliance_data.status }}
+                                </span>
+                            </div>
+                            </span>
+                            <span *ngIf="!element.compliance_data.status">-</span>
+                        </td>
+                        <!--Compliance Guardrail Recommendation report-->
+                        <td>
+                            <span *ngIf="element.compliance_data.status">
+                                <div [ngSwitch]="element.compliance_data.status">
+                                    <span *ngSwitchCase="'Completed'">
+                                        <span style="color: #8626C3; cursor: pointer; text-decoration: underline;" (click)="getfileContent(element?.compliance_data.guadrail_recommendation_pdf)">Click to Download</span>
+                            </span>
+                            <span *ngSwitchCase="'Failed'">
+                                        <span >
+                                        <span style="color: #8626C3; cursor: pointer; text-decoration: underline;" (click)="generateComplianceReport(element._id)">FAILED - Click to Retry</span>
+                            </span>
+                            </span>
+                            <span *ngSwitchDefault>
+                                             {{ element.compliance_data.status }}
+                                    </span>
+            </div>
+            </span>
+            </td>
+            <!-- Recommendation Column : recommendations_url-->
+            <td class="text-center">
+                <!-- <span *ngIf='isEuropeanRegion(element.jurisdiction)'>
+									<button class="actionBtn" matTooltip="Not Available" [class.disabled]="true">
+										<mat-icon>download</mat-icon>
+									</button>
+								</span> -->
+                <span>
+									<span>
+										<button class="actionBtn" matTooltip="Download Report" (click)="downloadRecomedationReport(element._id,element)" [class.disabled]="!(element.impact_assessment_data.status == 'Completed' || element.compliance_data.status == 'Completed')">
+											<mat-icon>download</mat-icon>
+										</button>
+									</span>
+                <!-- <span *ngIf="element.status != 'Completed' ">
+										<button class="actionBtn" matTooltip="Pending Compliance Record" [class.disabled]="true">
+											<mat-icon>download</mat-icon>
+										</button>
+									</span> -->
+                </span>
+            </td>
+            <td>
+                <button class="actionBtn" matTooltip="Delete" (click)="delete(element._id)">
+									<mat-icon>delete</mat-icon>
+								</button>
+            </td>
+            </tr>
+            </table>
+            <div class="d-flex justify-content-between mt-3">
+                <div class="pagination-info">
+                    Showing {{ pagingConfig.totalItems
+                    < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }} </div>
+                        <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                        </pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #businessJustificationDialog let-dialogRef="dialogRef">
+        <div class="dialog-container">
+            <h1 mat-dialog-title>BUSINESS JUSTIFICATION <span class="red-asterisk"> *</span>
+                <p style="font-size: 11px;">Your usecase is predicted as an high-risk. Kindly provide the business justification to process further.</p>
+            </h1>
+            <!-- <div mat-dialog-content style="margin-bottom: 0px;">
+					<textarea class="form-control w-100 txtArea shadow-none" matInput placeholder="Please Enter Business Justification" [(ngModel)]="busninessJustification" [ngModelOptions]="{standalone: true}"></textarea>
+					</div> -->
+            <form [formGroup]="BusinessJustificationForm">
+                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                <div style="display: flex;">
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Objective</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="A brief overview of the AI use case and its primary objectives" formControlName="Objective"></textarea><br>
+                    </div>
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Alignment With Business Goals</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="How this AI initiative aligns with company's strategic objectives" formControlName="AlignmentWithBusinessGoals"></textarea><br>
+                    </div>
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Current Challenges</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="Clearly define the business problems or inefficiencies the AI solution aims to address" formControlName="CurrentChallenges"></textarea><br>
+                    </div>
+                </div>
+                <div style="display: flex;">
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Impact Of The Problem</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="Quantify the impact of the current challenges in terms of cost, time, revenue loss, or customer satisfaction" formControlName="ImpactOfTheProblem"></textarea><br>
+                    </div>
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Proposed Solution</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="Describe the AI technology or solution being proposed (e.g., machine learning, natural language processing, computer vision" formControlName="ProposedSolution"></textarea><br>
+                    </div>
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">How It Works</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="A high-level explanation of how the AI solution will work within the business process" formControlName="HowItWorks"></textarea><br>
+                    </div>
+                </div>
+                <div style="display: flex;">
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Quantifiable Benefits</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="Expected improvements in efficiency, cost savings, revenue growth, or other KPIs" formControlName="QuantifiableBenefits"></textarea><br>
+                    </div>
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Intangible Benefits</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="Improvements in customer experience, brand reputation, employee satisfaction, etc" formControlName="IntangibleBenefits"></textarea><br>
+                    </div>
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Competitive Advantage</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="How the AI solution will provide a competitive edge in the market" formControlName="CompetitiveAdvantage"></textarea><br>
+                    </div>
+                </div>
+                <div style="display: flex;">
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Initial Costs</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="Breakdown of costs for development, deployment, and integration" formControlName="InitialCosts"></textarea><br>
+                    </div>
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Ongoing Costs</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="Maintenance, updates, and potential scaling costs" formControlName="OngoingCosts"></textarea><br>
+                    </div>
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Return On Investment</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="Projected ROI over a specific period, including payback period" formControlName="ReturnOnInvestment"></textarea><br>
+                    </div>
+                </div>
+                <div style="display: flex;">
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Stakeholders Involved</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="Identify all stakeholders and their roles (e.g., IT, operations, finance, marketing)" formControlName="StakeholdersInvolved"></textarea><br>
+                    </div>
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Change Management</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="How the AI solution will impact various stakeholders and how these changes will be managed" formControlName="ChangeManagement"></textarea><br>
+                    </div>
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">KPIs</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="Specific key performance indicators that will measure the success of the AI initiative" formControlName="KPIs"></textarea><br>
+                    </div>
+                </div>
+                <div style="display: flex;">
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">Monitoring And Evaluation</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="How the solution’s performance will be tracked and evaluated post-implementation" formControlName="MonitoringAndEvaluation"></textarea><br>
+                    </div>
+                    <div class="col-lg-4 col-md-4 le-u-mar-b-16" style="margin-left: 10px;">
+                        <span class="textFontCss">End of Life</span>
+                        <textarea name="inputText" matInput required class="inputMat textareaPrompt" placeholder="Do you have any plan to retire this AI solution and by When?" formControlName="EndOfLife"></textarea><br>
+                    </div>
+                </div>
+            </form>
+            <div mat-dialog-actions style="justify-content: flex-end; margin-top: 0px;">
+                <button mat-raised-button class="buttonMain me-3" color="black" (click)="onDialogSubmit(dialogRef)">Submit</button>
+            </div>
+        </div>
+    </ng-template>
+</form>

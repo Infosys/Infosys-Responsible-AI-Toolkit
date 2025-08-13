@@ -19,7 +19,6 @@ from privacy.service.easy import EasyOCR
 from privacy.service.azureComputerVision import ComputerVision
 # from privacy.dao.TelemetryFlagDb import TelemetryFlag
 from privacy.mappers.mappers import *
-import secrets
 import os
 # from privacy.dao.privacy.PrivacyException import ExceptionDb
 import httpx
@@ -1038,7 +1037,7 @@ class FakeDataGenerate:
                 random_data=""
                 while True:
                     if text in entValue:
-                        random_data = secrets.choice(entValue)
+                        random_data = random.choice(entValue)
                         print("RNDAOM dATA 348===",random_data)
                         if random_data.lower() != str(inputText[i.start:i.end]).lower()  :
                             fakeData_Dict.update({i.entity_type: OperatorConfig("replace", {"new_value": random_data})})

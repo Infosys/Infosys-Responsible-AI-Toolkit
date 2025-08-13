@@ -9,12 +9,10 @@
 - [Running the Application](#running-the-application)
 - [License](#license)
 - [Contact](#contact)
-- [Issues](#issues)
 
 ## Introduction
 
-**LLM Explain APIs** provides explanations for Large Language Models using methods such as Token Importance, Graph of Thoughts, Chain of Thought (CoT), Search Augmentation, Chain of Verification (CoV), and Thread of Thoughts (Thot). It evaluates the responses with metrics including uncertainty, relevancy, and coherence to ensure the reliability and clarity of Generative AI models' outputs.
-
+**LLM Explain** provides explanations for Large Language Models using methods such as token importance, Graph of Thoughts, Logic of Thought, Thread of Thought , Chain of Thought and Search Augmentation. It evaluates the responses with metrics including uncertainty, relevancy, and coherence to ensure the reliability and clarity of Generative AI models' outputs.
 
 ## Features
 - **Sentiment Analysis**
@@ -24,7 +22,7 @@
 
     Token importance in large language models identifies which words or parts of words in a prompt are crucial for shaping the model's response. It helps us understand which tokens significantly influence the output, providing insights into how the model interprets and generates its responses.
 
-- **Graph of Thoughts**
+- **Graph of Thought**
 
     The Graph of Thoughts reasoning process in large language models is a way to visualize how the model thinks. Imagine the model's ideas as dots, and the connections between them as lines. This method creates a map of these dots and lines to show how the model connects different pieces of information to come up with its answers. It helps us understand the model's logical flow and ensures that its reasoning makes sense, like how a human would think through a problem step-by-step.
 
@@ -57,16 +55,17 @@
     Chain of Thought for RAG (Retrieval-Augmented Generation) outlines the reasoning steps an LLM takes to generate a response, combining the input prompt with relevant context retrieved from external sources. The model explains how it integrates both the prompt and the additional information to form a coherent answer. In a RAG-based system, context is retrieved from vector storage and used to enrich the response. This approach ensures the model's response is grounded in relevant, factual data. It also provides transparency into the reasoning behind the response, clarifying which details were prioritized.
 
 **Note:** 
-- `Chain of Thought for RAG` `Chain of Verification` `Thread of Thoughts` `Chain of Thought` These features are available under **Moderation Layer** (responsible-ai-moderationLayer) repository.
+- `Chain of Thought for RAG`This feature is available under **Moderation Layer** (responsible-ai-moderationLayer) repository.
 Please follow the setup instructions in the README file of the moderation layer repository to configure them. Ensure that the service is up and running to execute.
 
-- For generating explanations, use GPT4 or earlier model versions in **llm-explain** (responsible-ai-llm-explain) repository.
+- Currently not added Gemini support for `Graph of Thought`. Except GOT all features have Gemini Support.
 
+- For `Bulk Processing` current version not supporting (Evaluation Metrices, Sentiment, Safesearch, All) methods.
 
 ## Installation
 To run the application, first we need to install Python and the necessary packages:
 
-1. Install Python (version >= 3.9 and <= 3.12) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
+1. Install Python (version 3.11.x) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
 
 2. Clone the repository:
     ```sh
@@ -84,7 +83,7 @@ To run the application, first we need to install Python and the necessary packag
         .\venv\Scripts\activate
          ```
 
-5. Upgrade `pip`:
+5. Upgrade pip:
     ```sh
     python -m pip install --upgrade pip
     ```
@@ -118,22 +117,28 @@ After installing all the required packages, configure the variables necessary to
     AZURE_DEPLOYMENT_ENGINE = "${engine}"       # [Mandatory]
     SERPER_KEY = "${serperkey}"                 # [Mandatory]
     ALLOWED_ORIGINS = "${allowedorigins}"       # [Mandatory]
+    PERPLEXITY_API_KEY = "${perplexity_api_key}" # [Mandatory]
+    PERPLEXITY_MODEL = "${perplexity_model}"     # [Mandatory]
+    PERPLEXITY_URL = "${perplexity_url}"         # [Mandatory]
     ERROR_LOG_TELEMETRY_URL = "${errorlogtelemetryurl}" # [Optional]
     TELEMETRY_FLAG = "${telemetryflag}"         # [Optional]
-    ```
+    LLAMA_ENDPOINT =  "${llamaendpoint}"        # [Optional]
+    BULK_TELEMETRY_URL = "${bulk_telemetry_url}" #[Optional]
+    GEMINI_MODEL_NAME_PRO ="${gemini_model_name_pro}" #[Optional]
+    GEMINI_MODEL_NAME_FLASH = "${gemini_model_name_flash}" #[Optional]
+    GEMINI_API_KEY = "${gemini_api_key}"         #[Optional]
+    AWS_KEY_ADMIN_PATH = "${aws_key_admin_path}" #[Optional]
+    ANTHROPIC_VERSION = "${anthropic_version}"   #[Optional]
+    CONTENTTYPE = "${contenttype}"               #[Optional]
+    ACCEPT = "${accept}"                         #[Optional]
+    AWS_MODEL_ID  = "${aws_model_id}"            #[Optional]
+    REGION_NAME= "${region_name}"                #[Optional]
+    AWS_SERVICE_NAME = "${aws_service_name}"     #[Optional]
+        ```
     ```sh
     ALLOWED_ORIGINS = "${allowed_origins}"     # ALLOWED_ORIGINS ="*"         
     To allow access to all sites, use the value *. Alternatively, you can specify a list of sites that should have access.
     ```
-    ```sh
-    SERPER_KEY = "${serperkey}"            
-    Steps to get serper key:
-    1. Signup to "https://serper.dev/" with required details.
-    2. Signin into account. go to the "API Keys" section in your account dashboard.
-    3. Click on generate button to create new API key.
-    3. Copy and assign it to SERPER_KEY variable in configuration.
-    ```
-    
 
 3. Replace the placeholders with your actual values.
 
@@ -151,10 +156,24 @@ Once we have completed all the aforementioned steps, we can start the service.
     python main.py
     ```
 
-3. Steps to form swagger url:
-    1. Use the Port No that is mentioned in `main.py` file. Open the swagger URL in browser once server is running: `http://localhost:Port_No/rai/v1/llm-explainability/docs`
+3. Open the following URL in your browser:
+
+    [http://localhost:8002/rai/v1/llm-explainability/docs](http://localhost:8002/rai/v1/llm-explainability/docs)
 
 For API calls, please refer to the [API Documnet](responsible-ai-llm-explain/docs/API_Doc.pdf)
+
+
+## Referred Citations
+```
+@misc{besta2023got,
+  title = {{Graph of Thoughts: Solving Elaborate Problems with Large Language Models}},
+  author = {Besta, Maciej and Blach, Nils and Kubicek, Ales and Gerstenberger, Robert and Gianinazzi, Lukas and Gajda, Joanna and Lehmann, Tomasz and Podstawski, Micha{\l} and Niewiadomski, Hubert and Nyczyk, Piotr and Hoefler, Torsten},
+  year = 2023,
+  eprinttype = {arXiv},
+  eprint = {2308.09687}
+}
+
+```
 
 ## License
 
@@ -164,6 +183,4 @@ The source code for the project is licensed under MIT license, which you can fin
 
 If you have more questions or need further insights, feel free to Connect with us @ infosysraitoolkit@infosys.com
 
-## Issues
 
-- Graph of Thought currently supports GPT-3.5-Turbo and GPT-4 models, requiring deployment names as `gpt-35-turbo` or `gpt4`; ensure `AZURE_DEPLOYMENT_ENGINE` in the .env file and `modelName` in API payload match. Support for additional models and deployment name issues planned for a future release.

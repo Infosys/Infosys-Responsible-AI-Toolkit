@@ -1,7 +1,4 @@
-
-fastapi
-pydantic
-#pymongo
+pydantic==2.4.0
 Xeger
 Faker
 python-dotenv
@@ -9,19 +6,18 @@ uvicorn
 pandas
 openpyxl
 xlsxwriter
-presidio-anonymizer>=2.2.355
+presidio-anonymizer==2.2.355
 presidio_image_redactor==0.0.48
 python-multipart
 pyyaml
 regex
 opencv-python-headless
 Faker
-ultralytics
 omegaconf
 anyio
 blis
 catalogue
-certifi
+certifi==2024.7.4
 charset-normalizer
 click
 colorama
@@ -32,12 +28,12 @@ cymem
 fastapi
 FastAPI-SQLAlchemy
 filelock
-fonttools
+fonttools==4.43.0
 diffprivlib
 greenlet
 h11
-idna
-Jinja2
+idna==3.7
+Jinja2==3.1.5
 kiwisolver
 langcodes
 MarkupSafe
@@ -50,17 +46,16 @@ phonenumbers
 Pillow
 pip
 preshed
-#presidio-analyzer
-presidio-analyzer>=2.2.355
+presidio-analyzer==2.2.355 
 presidio-image-redactor==0.0.48
-pycryptodome
+pycryptodome==3.19.1
 pydantic
 pydicom
 pyparsing
 pypng
 pytesseract
 python-dateutil
-python-multipart
+python-multipart==0.0.18
 PyYAML
 regex
 requests
@@ -74,95 +69,42 @@ spacy-legacy
 spacy-loggers
 SQLAlchemy
 srsly
-starlette
+starlette==0.40.0
 thinc
 tldextract
-tqdm
+tqdm==4.66.3
 typer
 typing_extensions
-urllib3
+urllib3==2.2.2
 uvicorn
 wasabi
 httpx
 opencv-python-headless
 numpy
-# numpy>=1.18.5
-# opencv-python>=4.1.1
-# Pillow>=7.1.2
 PyYAML>=5.3.1
-requests>=2.23.0
+requests==2.32.0
 scipy>=1.4.1
-torch>=1.7.0,!=1.12.0
+torch>=2.6.0
 torchvision>=0.8.1,!=0.13.0
 tqdm>=4.41.0
-protobuf<4.21.3
-# Logging -------------------------------------
+protobuf==4.21.6
 tensorboard>=2.4.1
-# wandb
-
-# Plotting ------------------------------------
-# pandas>=1.1.4
 seaborn>=0.11.0
-
-# Export --------------------------------------
-# coremltools>=4.1  # CoreML export
-# onnx>=1.9.0  # ONNX export
-# onnx-simplifier>=0.3.6  # ONNX simplifier
-# scikit-learn==0.19.2  # CoreML quantization
-# tensorflow>=2.4.1  # TFLite export
-# tensorflowjs>=3.9.0  # TF.js export
-# openvino-dev  # OpenVINO export
-
-# Extras --------------------------------------
-# ipython  # interactive notebook
-# psutil  # system utilization
-thop  # FLOPs computation
-#https://huggingface.co/spacy/en_core_web_lg/resolve/main/en_core_web_lg-any-py3-none-any.whl
-# lib/presidio_analyzer-4.1.0-py3-none-any.whl
-lib/en_core_web_lg-3.7.1-py3-none-any.whl
-
-presidio_analyzer
-# Usage: pip install -r requirements.txt
+thop 
+presidio_analyzer[transformers]
 easyocr
-# Base ----------------------------------------
-# matplotlib>=3.2.2
 numpy>=1.18.5
-# opencv-python>=4.1.1
-# Pillow>=7.1.2
 PyYAML>=5.3.1
 requests>=2.23.0
 scipy>=1.4.1
 torch>=1.7.0,!=1.12.0
 torchvision>=0.8.1,!=0.13.0
 tqdm>=4.41.0
-protobuf<4.21.3
-
-# Logging -------------------------------------
+#lib/en_core_web_lg-3.8.0-py3-none-any.whl
+#lib/en_core_web_trf-3.8.0-py3-none-any.whl
 tensorboard>=2.4.1
-# wandb
-
-# Plotting ------------------------------------
-# pandas>=1.1.4
 seaborn>=0.11.0
-
-# Export --------------------------------------
-# coremltools>=4.1  # CoreML export
-# onnx>=1.9.0  # ONNX export
-# onnx-simplifier>=0.3.6  # ONNX simplifier
-# scikit-learn==0.19.2  # CoreML quantization
-# tensorflow>=2.4.1  # TFLite export
-# tensorflowjs>=3.9.0  # TF.js export
-# openvino-dev  # OpenVINO export
-
-# Extras --------------------------------------
-# ipython  # interactive notebook
-# psutil  # system utilization
-thop  # FLOPs computation
-# albumentations>=1.0.3
-# pycocotools>=2.0  # COCO mAP
-# roboflow
-
-# code pii
+thop  
 regex
 tqdm
 pandas
@@ -179,16 +121,9 @@ transformers
 evaluate
 seqeval
 autopep8
-
-# face detection
-# tensorflow
-
 opencv-python
 pyjwt
 python-jose[cryptography]
-
-
-unidecode
-
 python-pptx
 python-docx
+ 

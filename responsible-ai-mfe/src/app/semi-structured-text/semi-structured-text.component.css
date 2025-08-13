@@ -1,8 +1,33 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.position-relative {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.optional-label {
+    padding-bottom: 7px;
+    position: absolute;
+    top: -14px;
+    right: 0;
+    font-size: 10px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+}
+
+.HeadingLabel2 {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-size: 8px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
 
 .HeadingCheckBoxLabel {
     color: #7E7E7E;
@@ -20,7 +45,7 @@ input[type='radio'] {
 
 .drop-zone {
     width: 180px;
-    height: 155px;
+    height: 160px;
     border: 2px dashed #dcdcdc;
     /* Dashed border */
     border-radius: 5px;
@@ -122,7 +147,6 @@ input[type='radio'] {
     width: 11rem;
     height: 1.8rem;
     font-size: 0.75rem;
-    margin-bottom: 1.1rem;
 }
 
 :host ::ng-deep.cdk-overlay-backdrop.custom-backdrop {
@@ -219,4 +243,80 @@ input[type='radio'] {
 
 .mainLabelSM2 {
     font-size: 12px;
+}
+
+
+/* .form-select {
+    margin-top: 5px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: 10px;
+    height: 70px;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.3rem;
+  } */
+
+.shadow-none {
+    box-shadow: none;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+ ::ng-deep.dropdown1 {
+    max-width: 11rem;
+    width: 100%;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    padding: 0px 10px;
+    font-size: smaller;
+}
+
+::ng-deep.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+    background: #8626C3;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    /* Vertically center the items */
+    gap: 8px;
+    /* Optional: Adds spacing between the icon and the dropdown */
+}
+
+.smallIcon {
+    -webkit-user-select: none;
+    user-select: none;
+    background-repeat: no-repeat;
+    display: inline-block;
+    fill: currentColor;
+    overflow: hidden;
+    margin-top: 2px;
+    /* Optional: Adds space between the icon and the dropdown */
+}
+
+.icon-dropdown-container {
+    display: flex;
+    flex-direction: column;
+    /* Align elements vertically */
+    align-items: flex-end;
+    /* Align items to the right */
+    width: 100%;
+    /* Ensure the container spans the full width */
+}
+
+.optional-label2 {
+    font-size: 10px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+    margin-right: 5px;
+    /* Adjust the spacing as needed */
 }

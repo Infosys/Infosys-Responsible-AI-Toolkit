@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
@@ -17,12 +17,15 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 from llm_explain.config.logger import CustomLogger
 from sklearn.metrics.pairwise import cosine_similarity
+from fastapi import HTTPException
 from openai import AzureOpenAI
 from tenacity import retry
 from tqdm import tqdm
 import numpy as np
 import asyncio
 import os
+import tiktoken
+import requests
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -42,7 +45,7 @@ class Utils:
         if norm == 0:
             return v
         return v / norm
-
+    
     def calculate_normalized_entropy(logprobs):
         """
         Calculate the normalized entropy of a list of log probabilities.
@@ -233,12 +236,32 @@ class Utils:
         model (str): Model name (Ex: gpt4)
         '''
 
+        if 'gpt-4o' in model:
+            model = 'gpt-4o'
         # Example pricing (this should be replaced with actual pricing from Azure documentation)
         prompt_price_per_1000_tokens, response_price_per_1000_tokens = Utils.get_price_details(model)
-
+        
         # Calculate cost
         total_cost = ((input_tokens / 1000) * prompt_price_per_1000_tokens) + ((output_tokens / 1000) * response_price_per_1000_tokens)
-
-        return {
-            "total_cost": total_cost
-        }
+        return round(total_cost, 3)
+    
+    def calculate_token_count(text: str, model_name: str = "text-embedding-ada-002") -> int:
+        # Load the appropriate tokenizer for the model
+        tokenizer = tiktoken.encoding_for_model(model_name)
+        # Encode the text into tokens
+        tokens = tokenizer.encode(text)
+        # Return the token count
+        return len(tokens)
+    
+    def send_telemetry_request(explainability_telemetry_request, url):
+        try:
+            response = requests.post(url, json=explainability_telemetry_request)
+            response.raise_for_status()
+            response_data = response.json()
+            log.info(f"Telemetry response: {response_data}")
+        except Exception as e:
+            log.error(str(e))
+            raise HTTPException(
+                status_code=500,
+                detail="Please check with administration!!",
+                headers={"X-Error": "Please check with administration!!"})

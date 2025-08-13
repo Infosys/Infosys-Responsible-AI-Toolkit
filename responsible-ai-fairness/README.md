@@ -17,16 +17,15 @@
     - [Bug Fixes](#bug-fixes)
     - [Changes:](#changes)
   - [Limitations](#limitations)
-  - [Known Issues](#known-issues)
   - [Telemetry](#telemetry)
   - [Roadmap](#roadmap)
-  - [Contact](#contact)
+  - [Building and Distributing the Python Package as a Wheel (WHL) File](#building-and-distributing-the-python-package-as-a-wheel-whl-file)
 
 ## Introduction
 Responsible-ai-fairness offers solutions for Traditional AI and LLM's fairness and bias evaluations. For traditional classification problems, the training datasets and model's predictions can be analyzed and mitigated for Group Fairness. Individual Fairness analysis is also supported to get a comprehensive analysis. For Large Language Models, given text is evaluated for bias context and highlights the affected groups and bias types using GPT-4.
 
 ## Requirements
-1. Python 3.9 and Python 3.10
+1. Python >= 3.11
 2. pip
 3. Mongo DB
 4. VSCode
@@ -88,9 +87,6 @@ and activate it by going to
       ```bash 
          pip install -r requirements.txt.
       ```
-      ```bash
-         pip install matplotlib==3.9.4
-      ```
       2. if you are on windows, please add **../** in front to .whl file in requirements.txt to install without any errors.
 5. Add required configurations provided below in .env file.
 6. Run the application using below steps:
@@ -99,7 +95,7 @@ and activate it by going to
       ```bash 
          python main_api.py 
       ```
-7. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: `http://localhost:<portno>/api/v1/fairness/docs#/`
+7. Once server is running successfully, go to [http://localhost:8000/api/v1/fairness/docs](http://localhost:8000/api/v1/fairness/docs#/)
    
 ## Configurations
  1. Add required environment variables.
@@ -124,7 +120,7 @@ and activate it by going to
 |-------------------------|-------------------------|------------------|----------|
 | allow_methods           | "${allow_methods}"      |       '["GET", "POST"]'           | Optional |
 | allow_origin            | "${allow_origin}"       |       ["*"]            | optional |
-| content_security_policy | "${content_security_policy}"|  "default-src 'self';img-src data: https:;object-src 'none'; script-srchttps://cdn.jsdelivr.net/npm/swagger-ui-dist@5.9.0/swagger-ui-bundle.js'self' 'unsafe-inline';style-srchttps://cdn.jsdelivr.net/npm/swagger-ui-dist@5.9.0/swagger-ui.css'self' 'unsafe-inline'; upgrade-insecure-requests;"    | optional |
+| content_security_policy | "${content_security_policy}"|  "default-src 'self'; img-src data: https:; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net"    | optional |
 | cache_control           | "${cache_control}"      |      no-cache; no-store; must-revalidate            | Optional |
 | XSS_header              | "${xss_header}"         |    1; mode=block               | Optional |
 | Vary_header             | "${vary_header}"        |         Origin         | Optional |
@@ -145,17 +141,24 @@ and activate it by going to
 | ZIP_CONTAINER_NAME                | "${rai-zip-files}"               |                  | Optional |
 | AZURE_UPLOAD_API                   | "${azure_upload_api}"                 |                  | Optional |
 | AZURE_GET_API                      | "${azure_get_api}"                    |                  | Optional |
+| GCP_UPLOAD_API                     | "${gcp_upload_api}"                   |                  | Optional |
+| GCP_GET_API                        | "${gcp_get_api}"                      |                  | Optional |
+| AWS_UPLOAD_API                     | "${aws_upload_api}"                   |                  | Optional |
+| AWS_GET_API                        | "${aws_get_api}"                      |                  | Optional |
 | tel_Falg                           | "${tel_Falg}"                         |                  | Optional |
 | MIXTRAL_URL                        | "${mixtral_url}"                      |                  | Optional |
 | MIXTRAL_ACCESS_TOKEN               | "${mixtral_access_token}"             |                  | Optional |
 | FAIRNESS_TELEMETRY_URL             | "${fairness_telemetry_url}"           |                  | Optional |
 | REPORT_URL                         | "${reporturl}"                        |                  | Optional |
-| GEMINI_API_KEY                     | "${gemini_api_key}"                   |                  | Optional |
+| GEMINI_API_KEY                     | "${gemini_api_key}"                   |  gemini_key      | Yes |
+| GEMINI_FLASH_MODEL_NAME            | "${gemini_flash_model_name}"          |  gemini_flash_model_name  | Yes |
+GEMINI_PRO_MODEL_NAME                | "${gemini_pro_model_name}"            |  gemini_pro_model_name               | Yes 
 | OPENAI_API_KEY                     | "${openai_api_key}"                   |      open_ai_key            | Yes |
-| OPENAI_API_BASE                     | "${openai_api_base}"                   |      open_ai_base/endpoint            | Yes |
-| OPENAI_API_TYPE                     | "${openai_api_type}"                   |      open_ai_type            | Yes |
-| OPENAI_API_VERSION                     | "${openai_api_version}"                   |      open_ai_version            | Yes |
-| OPENAI_ENGINE_NAME                     | "${openai_engine_name}"                   |      open_ai_engine_name           | Yes |
+| OPENAI_API_BASE                    | "${openai_api_base}"                  |      open_ai_base/endpoint            | Yes |
+| OPENAI_API_TYPE                    | "${openai_api_type}"                  |      open_ai_type            | Yes |
+| OPENAI_API_VERSION                 | "${openai_api_version}"               |      open_ai_version            | Yes |
+| OPENAI_ENGINE_NAME                 | "${openai_engine_name}"               |      open_ai_engine_name           | Yes |
+| ACTIVE_LLM | "${active_llm}" | Options: azureopenai, gemini-2.5-flash, gemini-2.5-pro, aws | Yes |
 | AUTH_TYPE                          | "${authtype}"                         | "none"           | Yes      |
 | SECRET_KEY                         | "${secretkey}"                        |                  | Optional |
 | AZURE_CLIENT_ID                    | "${azureclientid}"                    |                  | Optional |
@@ -164,9 +167,17 @@ and activate it by going to
 | Analyse_url                        | "${analyse_url}"                      |                  | Optional |
 | Mitigate_url                       | "${mitigate_url}"                     |                  | Optional |
 | Analyse_dowl_url                   | "${analyse_dowl_url}"                 |                  | Optional |
+| AWS_SERVICE_NAME | "${awsservicename}" | | Yes |
+|AWS_KEY_ADMIN_PATH | "${awsadminpath}"| | Yes |
+|AWS_MODEL_ID | "${awsmodelid}"| | Yes |
+|REGION_NAME | "${region_name}" | | Yes |
+|ACCEPT | "${accept}" | | Yes |
+|CONTENTTYPE | "${contentType}" ||  Yes |
+|ANTHROPIC_VERSION | "${anthropicversion}" | | Yes |
+| VERIFY_SSL | "${verify_ssl}" | Options: True, False | Yes |
 
 ## Features
-For more details refer our [API Documentation](responsible-ai-fairness/README.md)
+For more details refer our [API Documentation](responsible-ai-fairness\docs\FAIRNESS_API_DOCUMENTATION.pdf)
 
 | Model Type                      | Phase         | Function  | Description                                                                 |
 |---------------------------------|---------------|-----------|-----------------------------------------------------------------------------|
@@ -174,7 +185,7 @@ For more details refer our [API Documentation](responsible-ai-fairness/README.md
 | Traditional Binary classification | Posttrain     | Analyze   | Analyze for bias in structured dataset based on model's predictions         |
 | Traditional Binary classification | Pretrain      | Mitigation | Mitigate the bias in the pretrain dataset                                   |
 | Traditional Binary classification | Individual Metric | Analyze   | Analyze for bias in structured dataset based on individuals in the dataset   |
-| Large Language Model            | NA            | Analyze   | Analyze bias in given unstructured text and images using Open AI GPT model.(For this please add required openai credentials in env)|
+| Large Language Model            | NA            | Analyze   | Analyze bias in given unstructured text and images using Open AI GPT model, Gemini 2.5 flash model, Gemini 2.5 pro model and AWS claud anthropic model.(For this please add required credentials in env)|
 
 ## License
 The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.md](LICENSE.md) file.
@@ -188,44 +199,41 @@ The source code for the project is licensed under the MIT license, which you can
 | Facebook BART model    | https://huggingface.co/facebook/bart-large-mnli |
 
 ## Changelog
-### Bug Fixes
-- **NumPy Version Compatibility**: 
-  - Resolved compatibility issues with NumPy versions affecting Posttrain_analyze and in-processing modules
- 
-- **Import Error Resolution**: 
-  - Fixed critical import error in pretrainMitigate module
-  - Improved module import handling to prevent runtime exceptions
+1. Introduced ACTIVE_LLM Environment Variable:
+    A new environment variable ACTIVE_LLM has been added to define the default Large Language Model (LLM) used for bias analysis when the evaluator parameter is not provided by the user.
 
-- **OpenAI Configuration Flexibility**: 
-  - Made OpenAI engine_name configurable via environment variables
+    This applies to the following endpoints:
+        Bias analysis in Text
+        Bias analysis in Image
 
-### Changes:
-- **DB Dependency**:
-  - Removed DB Dependency for bias analysis for unstructured text. 
+    This variable is also used to determine the LLM for bias evaluation in structured text scenarios.
 
-  
+    Supported Values for ACTIVE_LLM:
+        The following values can now be set for the ACTIVE_LLM environment variable (refer to the Configurations section for usage):
+
+            azureopenai
+            gemini_2.5_flash
+            gemini_2.5_pro
+            aws
+
+2. Evaluator Parameter Made Optional:
+    The evaluator parameter is now optional for the Bias analysis in Text and Bias analysis in Image endpoints.If omitted, the value from ACTIVE_LLM will be used instead, enabling more flexible configuration between user request scope (evaluator) and application scope (ACTIVE_LLM).
+
+    Added Support for New Evaluators:
+        The following evaluator strings are now supported:
+            GPT_4O
+            GEMINI_2.5_FLASH
+            GEMINI_2.5_PRO
+            AWS_CLAUDE_V3_5
+
+
 ## Limitations
 1. As of now analysing bias for classification models for traditional AI.
 2. Data mitigation for preprocessing: 
    1. Reweighting can lead to overfitting on minority groups, potentially reducing overall model performance on the dataset.
    2. Adjusting weights can distort the original data distribution, leading to a loss of valuable information and potential misrepresentation of the data.
 3. As of now mitigating bias for preprocessing dataset.
-
-## Known Issues
-**MongoDB Report Download Issue When Connected to UI**
-**Impact**: Users who are using UI may experience problems downloading reports for analyze and audit functions when connected to MongoDB.
-
-**Current Status**: This is a known issue requiring code changes in `src\fairness\dao\workbench\FileStoreDb.py`.
-
-**Workarounds**:
-1. Azure Services Alternative:
-   - Use Azure Cosmos DB as your database
-   - Configure Azure Blob Storage for file storage
-   - This combination provides full report download functionality
-2. Manual Fix:
-   - If you need to maintain MongoDB connectivity, you can modify `FileStoreDb.py` 
-   - Refer to [API Documentation](responsible-ai-fairness/README.md#workbench-apis####BugFix)
-
+4. As of now, we are generating token from an endpoint which is not open-sourced.
 
 ## Telemetry
 1. Make tel_Falg as True.
@@ -236,5 +244,32 @@ The source code for the project is licensed under the MIT license, which you can
 1. Unstructured text training data validation for Bias.
 2. REST call support for text validationt to support ollama or similar model hosting.
 
-## Contact
-If you have more questions or need further insights, feel free to Connect with us @ infosysraitoolkit@infosys.com
+## Building and Distributing the Python Package as a Wheel (WHL) File
+
+This section outlines the steps to create a distributable Wheel (WHL) file for the `infosys_responsible_ai_python_package` and integrate it into the `responsible_ai_fairness/lib` directory.
+
+**Steps:**
+
+1.  **Install `wheel` and `setuptools`:**
+    ```bash
+    pip install wheel setuptools
+    ```
+2.  **Navigate to the Package Directory:**
+    ```bash
+    cd infosys_responsible_ai_python_package
+    ```
+3.  **Build the Wheel File:**
+    ```bash
+    python setup.py bdist_wheel --universal
+    ```
+4.  **Locate and Copy the Wheel File:**
+    Navigate to `dist` and copy the `.whl` file.
+5.  **Paste the Wheel File into the `lib` Directory:**
+    Navigate to `responsible_ai_fairness/lib` and paste.
+6.  **Update `requirements.txt`:**
+    Replace the package entry with the `.whl` filename.
+
+**Note:**
+* Ensure `setup.py` version is correct.
+* `--universal` is optional.
+* Update `requirements.txt` with the `.whl` filename.

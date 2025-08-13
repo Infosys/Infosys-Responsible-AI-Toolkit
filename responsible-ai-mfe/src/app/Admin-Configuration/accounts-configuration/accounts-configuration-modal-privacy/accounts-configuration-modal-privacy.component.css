@@ -1,13 +1,30 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.btn-close {
+  width: .75rem; /* Adjust the width as needed */
+  height: .75rem; /* Adjust the height as needed */
+  padding: 0.25rem;
+}
+
+.btn-close::before {
+  font-size: .75rem; /* Adjust the font size as needed */
+}
+
+.btn-close:focus {
+  box-shadow: none;
+  outline: none;
+}
 
 :host {
     height: 100%;
     width: 100%;
-}
+  }
+
+
 
 .mat-black {
     color: white !important;
@@ -19,46 +36,45 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     background-color: #BFBFBF !important;
 }
 
+
+
 .HeadingLabel {
     color: #7E7E7E;
     /* padding-top: 7px; */
+    
     font-weight: 600;
     font-size: 12px;
     font-family: 'Segoe UI';
     text-transform: uppercase;
 }
-
-
 /* pagination */
-
 :host ::ng-deep .ngx-pagination .current {
     background: #8626C3;
-}
-
- :host ::ng-deep .ngx-pagination a {
+  }
+  :host ::ng-deep .ngx-pagination a{
     text-decoration: none;
     font-weight: 500;
-}
+  }
 
-.ngx-pagination .current {
+  .ngx-pagination .current {
     padding: .1875rem .625rem;
     /* background: #2199e8; */
     background: #8626C3 !important;
     color: #fefefe;
     cursor: default;
-}
-
-.ngx-pagination a {
+  }
+  
+  .ngx-pagination a {
     text-decoration: none;
-}
-
-.pagination-label {
+  }
+  
+  .pagination-label {
     font-family: 'Segoe UI';
     font-weight: 500 !important;
     font-size: .60rem;
-}
+  }
 
- ::ng-deep.mat-mdc-slider.mat-primary {
+  ::ng-deep.mat-mdc-slider.mat-primary {
     --mdc-slider-handle-color: #8626C3;
     --mdc-slider-focus-handle-color: #8626C3;
     --mdc-slider-hover-handle-color: #8626C3;
@@ -74,7 +90,28 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .mat-primary3 {
     color: #B10000;
     /* background-color:#BFBFBF; */
-}
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .batchTable-container {
     width: 95%;
@@ -101,7 +138,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     color: #382261;
     opacity: 70%;
     text-transform: uppercase;
+
 }
+
 
 .styled-table td {
     /* Segoe UI, regular */
@@ -115,17 +154,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-
 /* Icon Styling */
+
 
 .matIcon {
     margin-left: 25px;
     font-size: 16px;
 }
 
-
 /* -----Pagination------- */
-
 .ngx-pagination .current {
     background: #8626C3;
 }
@@ -140,10 +177,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-size: .60rem;
 }
 
-
 /*  */
-
-
 /* .align-bottom {
     vertical-align: bottom;
 } */
@@ -160,111 +194,108 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     height: 100%;
 }
 
-
 /*  */
-
 .custom-panel .card-body {
-    height: 100px;
-    /* adjust as needed */
-    overflow-y: auto;
-    /* add scrollbar if content is taller than height */
-}
+    height: 100px; /* adjust as needed */
+    overflow-y: auto; /* add scrollbar if content is taller than height */
+  }
 
 .form-select1 {
-    width: 10rem;
-    height: 1.813rem;
-    font-size: 0.75rem;
-    margin-bottom: 1.10rem;
+  width: 10rem;
+  height: 1.813rem;
+  font-size: 0.75rem;
+  margin-bottom: 1.10rem;
 }
+
 
 .btnRound {
-    cursor: pointer;
-    border: 1px solid;
-    border-radius: 50%;
-    color: #8626C3;
-    margin: 0.5rem;
+  cursor: pointer;
+  border: 1px solid;
+  border-radius: 50%;
+  color: #8626C3;
+  margin: 0.5rem;
 }
-
 .btnRound i {
-    font-size: medium;
-    padding: 4px;
+  font-size: medium;
+  padding: 4px;
 }
 
-.addBtn {
-    padding: 0px 8px 4px 7px;
-    font-weight: 500;
+.addBtn{
+  padding: 0px 8px 4px 7px;
+  font-weight: 500;
 }
 
-.InputPop {
-    height: 1.2rem !important;
-    font-size: 0.75rem!important;
-    font-family: 'Segoe UI' !important;
-    color: #7E7E7E !important;
+.InputPop{
+  height: 1.2rem !important;
+  font-size: 0.75rem!important;
+  font-family: 'Segoe UI' !important;
+  color: #7E7E7E !important;
 }
 
 .HeadingLabelSM {
-    color: #7E7E7E;
-    padding: 0px;
-    font-weight: 600;
-    font-size: 12px;
-    font-family: 'Segoe UI';
-    text-transform: uppercase;
-    /* margin-top: 1.8rem; */
+  color: #7E7E7E;
+  padding: 0px;
+  font-weight: 600;
+  font-size: 12px;
+  font-family: 'Segoe UI';
+  text-transform: uppercase;
+  /* margin-top: 1.8rem; */
 }
 
 :host .dropdown {
-    max-width: 15rem;
-    width: 100%;
-    border: 1px solid #dee2e6;
-    border-radius: 3px;
-    padding: 0px 10px;
-    font-size: smaller;
+  max-width: 15rem;
+  width: 100%;
+  border: 1px solid #dee2e6;
+  border-radius: 3px;
+  padding: 0px 10px;
+  font-size: smaller;
 }
 
-.marginDiv {
-    margin: .5rem
+.marginDiv{
+  margin:.5rem
+}
+.mainLabel{
+  width: 100%;
+  color: #382261;
+  opacity: 70%;
+  padding: 0px;
+  font-weight: 700;
+  font-size: 12px;
+  font-family: 'Segoe UI';
+  text-transform: uppercase;
 }
 
-.mainLabel {
-    width: 100%;
-    color: #382261;
-    opacity: 70%;
-    padding: 0px;
-    font-weight: 700;
-    font-size: 12px;
-    font-family: 'Segoe UI';
-    text-transform: uppercase;
-}
 
 
 /* 
 
  */
 
-.mainLabel2 {
-    color: #7E7E7E;
-    padding: 0px;
-    font-weight: 500;
-    font-size: 13px;
-    font-family: 'Segoe UI';
-    margin-bottom: 0px;
+ .mainLabel2 {
+  color: #7E7E7E;
+  padding: 0px;
+  font-weight: 500;
+  font-size: 13px;
+  font-family: 'Segoe UI';
+  margin-bottom: 0px;
 }
 
-.mainLabelSM {
-    font-size: 12px;
+.mainLabelSM{
+  font-size: 12px;
 }
 
-.mainLabelLight {
-    font-weight: 400;
+.mainLabelLight{
+  font-weight: 400;
 }
 
-.fixed-height-card {
-    height: 100px;
-    overflow-y: auto;
+.fixed-height-card{
+  height: 100px;
+  overflow-y: auto;
 }
 
-.cursor {
-    cursor: pointer;
+
+.cursor{
+  cursor: pointer;
 }
 
 .buttonMain {
@@ -273,17 +304,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-size: .75rem;
     height: 28px;
     min-width: fit-content;
-}
-
+  }
 .buttonMain2 {
     font-family: 'Segoe UI';
     font-weight: semi-bold;
     font-size: .75rem;
     height: fit-content;
     min-width: fit-content;
-}
+  }
 
- ::ng-deep.mat-mdc-slide-toggle.mat-accent {
+  ::ng-deep.mat-mdc-slide-toggle.mat-accent {
     --mdc-switch-selected-focus-state-layer-color: #8626C3;
     --mdc-switch-selected-handle-color: #8626C3;
     --mdc-switch-selected-hover-state-layer-color: #8626C3;
@@ -297,19 +327,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     --mdc-switch-selected-track-color: #E0DCEC;
 }
 
-::ng-deep.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
-.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+::ng-deep.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full, .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
     background: #8626C3;
 }
 
 .HeadingLabel2 {
-    color: #7E7E7E;
-    padding: 5px 0px;
-    margin-bottom: 0px;
-    font-weight: 600;
-    font-size: 16px;
-    margin-right: 1.7rem;
-    font-family: 'Segoe UI';
-    text-transform: uppercase;
-    transition: color 0.3s ease;
+  color: #7E7E7E;
+  padding: 5px 0px;
+  margin-bottom: 0px;
+  font-weight: 600;
+  font-size: 16px;
+  margin-right: 1.7rem;
+  font-family: 'Segoe UI';
+  text-transform: uppercase;
+  transition: color 0.3s ease;
 }

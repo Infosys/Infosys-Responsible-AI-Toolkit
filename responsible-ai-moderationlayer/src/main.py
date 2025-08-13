@@ -11,7 +11,11 @@ import json
 from werkzeug.exceptions import HTTPException,BadRequest,UnprocessableEntity,InternalServerError
 from flask import Flask
 from router.router import app
-from waitress import serve
+# from waitress import serve
+# import gunicorn
+from hypercorn.asyncio import serve
+from hypercorn.config import Config
+
 import os
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask_cors import CORS
@@ -19,6 +23,7 @@ from config.logger import CustomLogger, request_id_var
 # import os
 from dotenv import load_dotenv
 load_dotenv()
+log = CustomLogger()
 request_id_var.set("StartUp")
 SWAGGER_URL = '/rai/v1/moderations/docs'  # URL for exposing Swagger UI (without trailing '/')
 # API_URL = '/static/metadata.json'  # Our API url (can of course be a local resource)
@@ -92,9 +97,30 @@ def validation_error_handler(exc):
         response.content_type = "application/json"
         return response
 
+
+# def run_gunicorn_server():
+#     gunicorn.run(app, bind='0.0.0.0:5000')
+
+ 
+async def main():
     
+    config = Config()
+    config.bind = ['0.0.0.0:'+os.getenv("PORT","8000")]
+    config.loglevel = 'INFO'
+    config.access_log_format = "%(R)s %(s)s %(D)s"
+    config.worker_class = 'asyncio'
+    config.workers = int(os.getenv('THREADS',6))
+    log.info("Server starting with %d workers", config.workers)
+    await serve(app1, config=config)
 if __name__ == "__main__":
-   request_id_var.set("StartUp")
-   serve(app1, host='0.0.0.0', port=int(os.getenv("PORT")), threads=int(os.getenv('THREADS',6)),connection_limit=int(os.getenv('CONNECTION_LIMIT',500)), channel_timeout=int(os.getenv('CHANNEL_TIMEOUT',120)))
+    # uvicorn.run(app, host="0.0.0.0", port=8000)
+    
+    import asyncio
+    asyncio.run(main())    
+# if __name__ == "__main__":
+#    request_id_var.set("StartUp")
+#    print(os.getenv("THREADS"))
+#    run_gunicorn_server()
+#    serve(app1, host='0.0.0.0', port=int(os.getenv("PORT")), threads=int(os.getenv('THREADS',6)),connection_limit=int(os.getenv('CONNECTION_LIMIT',500)), channel_timeout=int(os.getenv('CHANNEL_TIMEOUT',120)))
 
 

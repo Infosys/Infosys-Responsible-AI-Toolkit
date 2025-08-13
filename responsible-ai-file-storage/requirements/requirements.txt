@@ -1,4 +1,4 @@
-fastapi==0.110.1
+fastapi==0.115.11
 cvxpy
 uvicorn 
 pyyaml
@@ -9,4 +9,5 @@ joblib
 pyarrow
 azure-storage-blob 
 azure-identity
-lib/aicloudlibs-0.1.0-py3-none-any.whl
+google-cloud-storage
+boto3

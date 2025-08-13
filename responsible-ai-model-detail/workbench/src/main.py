@@ -31,8 +31,10 @@ from fastapi import Depends, FastAPI, Request, Response
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
 from fastapi.responses import JSONResponse
-from aicloudlibs.utils.global_exception import UnSupportedMediaTypeException
-from aicloudlibs.utils import global_exception_handler
+# from aicloudlibs.utils.global_exception import UnSupportedMediaTypeException
+# from aicloudlibs.utils import global_exception_handler
+from app.exception.global_exception import UnSupportedMediaTypeException
+from app.exception import global_exception_handler
 
 log=CustomLogger()
 ## initialize the app with openapi and docs url

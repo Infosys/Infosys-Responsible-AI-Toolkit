@@ -2,12 +2,12 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.9.
 
-## Development
+## Prerequisite 
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
 1.	Install Node.js
-    Ensure that Node.js version is higher than v18 (preferably the latest stable version).
+    Ensure that Node.js version is higher than v18 (preferably the latest stable version. v22.5.1 when developed).
 2.	Install Angular CLI
     Install Angular CLI v15.2.9 to align with the application's version:
             ```
@@ -26,14 +26,14 @@ After installing Node & following above steps, you should be able to run the fol
         After cloning, inspect the package.json file. It contains the list of dependencies required for the application along with their specific versions.
 
 2.	Install Dependencies
-        Navigate to the root folder of the project and run the following command to install all necessary dependencies:
+        Navigate to the root folder of the project(e.g., D:\Infosys-Responsible-AI-Toolkit\responsible-ai-shell) and run the following command to install all necessary dependencies:
   	```
   	npm install
     ```
 
     You will only need to run this command  also whenever dependencies change in [package.json] (package.json).
 
-4.	Node Modules Folder
+4.	Node Modules Folder : 
         Once dependencies are installed, a node_modules folder will be created containing all direct and indirect dependencies. The versions of dependencies will be aligned with the lockfile (package-lock.json).
 
 5.	Configure start.js File
@@ -66,11 +66,11 @@ After installing Node & following above steps, you should be able to run the fol
      fetches configuration values from Nginx during server deployment.
 
 7.	Start the Application
-        In the root folder, run the following command to start the application:
+        In the root folder(e.g., D:\Infosys-Responsible-AI-Toolkit\responsible-ai-shell), run the following command to start the application:
     ```
   	npm start
     ```
-       The application is available at `http://localhost:30010`. Initially it will show login form if SSO_BASED_LOGIN is set to true.To login & continue your MFE & backend should be up & running.
+       The application is available at `http://localhost:30010`. Initially it will show login form if SSO_BASED_LOGIN is set to true.To login & continue , your MFE & backend should be up & running.
        Login & authentication is handled by Backend module.
        Once you login , internally its configured to call your mfe which is running in localhost:30055.
     
@@ -125,5 +125,6 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Dependency
  As these are frontend modules , they have dependency on these modules
-1. responsible-ai-backend
-2.	responsible-ai-admin
+1. responsible-ai-mfe
+2. responsible-ai-admin
+3. responsible-ai-backend

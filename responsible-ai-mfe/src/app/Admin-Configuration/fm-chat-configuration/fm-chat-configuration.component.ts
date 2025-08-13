@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, UntypedFormBuilder, ValidationErrors, Validators } from '@angular/forms';
@@ -23,7 +24,7 @@ export class FMChatConfigurationComponent {
 
   form!: FormControl;
   createNewEmbeddingsform!: FormGroup;
-  constructor(private _fb: UntypedFormBuilder, public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog,private fb: FormBuilder,private validationService:UserValidationService,public nonceService:NonceService) {
+  constructor(private _fb: UntypedFormBuilder, public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog,private fb: FormBuilder,public nonceService:NonceService,private validationService:UserValidationService) {
     this.form = new FormControl(null, this.fileSelectedValidator);
     this.formCreation()
     this.pagingConfig = {
@@ -58,7 +59,7 @@ export class FMChatConfigurationComponent {
   Admin_LLmExplain_deleteFile = ""
   formBased= false
 
-
+// Validates if a file is selected
   fileSelectedValidator(control: AbstractControl): ValidationErrors | null {
     if (control.value == null || control.value.length === 0) {
       return { 'noFileSelected': true };
@@ -66,6 +67,7 @@ export class FMChatConfigurationComponent {
     return null;
   }
 
+  // Handles file input change
   onFileChange(event: any) {
     const reader = new FileReader();
     reader.onload = (e: any) => {
@@ -75,29 +77,31 @@ export class FMChatConfigurationComponent {
     reader.readAsText(event.target.files[0]);
   }
 
+  // Handles file browsing and validates file type
   fileBrowseHandler(imgFile: any) {
+    const allowedTypes = ['application/pdf'];
+    console.log("fileBrowseHandler", imgFile.target.files[0].type)
+    if (!allowedTypes.includes(imgFile.target.files[0].type)) {
+      this._snackBar.open('Please select a valid file type', '✖', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        duration: 3000,
+      }); 
+      // return;
+    }else{
     // this.browseFilesLenth = imgFile.target.files.length;
     this.files = [];
     this.demoFile = [];
     this.prepareFilesList(imgFile.target.files);
     this.demoFile = this.files;
     this.file = this.files[0];
-     // to validate file SAST
-     const allowedTypes = ['application/pdf'];
-     for(let i =0; i< this.files.length; i++){
-       if (!allowedTypes.includes(this.files[i].type)) {
-        alert('Please upload a valid file');
-         this.files = [];
-         this.demoFile = [];
-         this.file = '';
-         return ;
-       }
-     }
     this.form.setValue(this.files);
     // this.uploadDocument(this.file);
     //  console.log("on choosing")
   }
+}
 
+// Prepares the list of files for upload
   prepareFilesList(files: Array<any>) {
     for (const item of files) {
       // item.progress = 0;
@@ -105,6 +109,8 @@ export class FMChatConfigurationComponent {
     }
     this.uploadFilesSimulator(0, this.files);
   }
+
+  // Simulates file upload progress
   uploadFilesSimulator(index: number, files: any) {
     setTimeout(() => {
       console.log(this.files[0].name)
@@ -123,6 +129,7 @@ export class FMChatConfigurationComponent {
     }, 1000);
   }
 
+  // Deletes the selected file
   deleteFile() {
     this.files = [];
     this.demoFile = [];
@@ -141,7 +148,7 @@ export class FMChatConfigurationComponent {
   event1: any;
   c1: boolean = false;
 
-  // select 1
+  // select 1-  Toggles all selections for the dropdown
   toggleAllSelection1(event: any) {
     this.event1 = event;
     this.c1 = event.checked;
@@ -164,6 +171,8 @@ export class FMChatConfigurationComponent {
       });
     }
   }
+
+  // Updates the selection status for the dropdown
   selectRecognizertype() {
     let newStatus = true;
     this.select1.options.forEach((item: MatOption) => {
@@ -178,13 +187,15 @@ export class FMChatConfigurationComponent {
     this.allSelectedInput = newStatus;
   }
 
-
+// Submits the form and uploads the file
   submit() {
     console.log('Form Submitted');
     this.formBased = true
     this.upload_file()
     
   }
+
+   // Submits the embeddings form
   submit2() {
     if (this.createNewEmbeddingsform.valid) {
       this.formBased = true
@@ -200,6 +211,8 @@ export class FMChatConfigurationComponent {
     this.setcache(name ,list)
     }
   }
+
+   // Sets the cache for embeddings
   setcache(name: any, list: any) {
     
       console.log("list value",name)
@@ -207,7 +220,7 @@ export class FMChatConfigurationComponent {
   
       let userIdvalue = this.getLogedInUser()
       let body = new URLSearchParams();
-      body.set('userId', userIdvalue!.toString());
+      body.set('userId', userIdvalue.toString());
       body.set('embName', name);
       body.set('docid', list);
 
@@ -230,10 +243,9 @@ export class FMChatConfigurationComponent {
   
           
         })
-  
-    
   }
 
+  // Initializes the component and fetches data
   ngOnInit(): void {
     let ip_port: any
 
@@ -244,6 +256,8 @@ export class FMChatConfigurationComponent {
     this.getembeddigns()
     this.getFilestList()
   }
+
+  // Retrieves the logged-in user from local storage
   getLogedInUser(): any {
     if (window && window.localStorage && typeof localStorage !== 'undefined') {
       const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
@@ -254,15 +268,19 @@ export class FMChatConfigurationComponent {
       return this.userId;
     }
   }
+
+  // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
-    if (localStorage.getItem("res") != null) {
-      const x = localStorage.getItem("res")
-      if (x != null) {
-        return ip_port = JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+      if(res != null){
+        return ip_port = JSON.parse(res)
       }
     }
   }
+
+  // Sets the API list URLs
   setApilist(ip_port: any) {
     this.Admin_uploadFile = ip_port.result.Admin_Rag + ip_port.result.Admin_uploadFile;
     this.Admin_getFiles = ip_port.result.Admin_Rag + ip_port.result.Admin_getFiles;
@@ -273,6 +291,7 @@ export class FMChatConfigurationComponent {
   dataSource: any = []
   listofDoccuments: any = []
 
+  // Fetches the list of files
   getFilestList() {
     let userIdvalue = this.getLogedInUser()
     let body = new URLSearchParams();
@@ -295,6 +314,7 @@ export class FMChatConfigurationComponent {
   }
 
   dataSource1: any = []
+  // Fetches the list of embeddings
   getembeddigns() {
     let userIdvalue = this.getLogedInUser()
     let body = new URLSearchParams();
@@ -316,6 +336,7 @@ export class FMChatConfigurationComponent {
       })
   }
 
+  // Creates the form for embeddings
   formCreation(){
     this.createNewEmbeddingsform = new FormGroup({
       embeddingName: new FormControl('',Validators.required),
@@ -323,6 +344,7 @@ export class FMChatConfigurationComponent {
     });
   }
 
+   // Uploads the selected file
   upload_file() {
     let userId = this.getLogedInUser()
     const fileData = new FormData();
@@ -330,8 +352,9 @@ export class FMChatConfigurationComponent {
       fileData.append('file', this.selectedFile);
       fileData.append('userId', userId)
       this.uploadFileApiCall(fileData)
-  
   }
+
+  // Makes the API call to upload the file
   uploadFileApiCall(fileData: any) {
     this.https.post(this.Admin_uploadFile, fileData).subscribe((res: any) => {
       this.formBased = false
@@ -354,19 +377,22 @@ export class FMChatConfigurationComponent {
     })
   }
 
-
+// Handles table pagination
   onTableDataChange(event: any) {
     this.currentPage = event;
     this.pagingConfig.currentPage = event;
     this.pagingConfig.totalItems = this.dataSource.length;
 
   }
+
+   // Handles table size changes
   onTableSizeChange(event: any): void {
     this.pagingConfig.itemsPerPage = event.result.value;
     this.pagingConfig.currentPage = 1;
     this.pagingConfig.totalItems = this.dataSource.length;
   }
 
+  // Deletes a file from the database
   deleteFileFromDB(status:any,fileId:any){
     // this.fileIdtobedeleted=fileId
     console.log("is cache status",status)
@@ -375,7 +401,7 @@ export class FMChatConfigurationComponent {
     body.set('userid', userIdvalue.toString());
     body.set('docid', fileId.toString());
     if(status == "N"){
-      // this.https.delete("https://rai-toolkit-rai.az.ad.idemo-ppc.com/api/v1/rai/admin/deleteFile",{body,headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')}).subscribe
+      // this.http.delete("https://rai-toolkit-rai.az.ad.idemo-ppc.com/api/v1/rai/admin/deleteFile",{body,headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')}).subscribe
       this.https.delete(this.Admin_LLmExplain_deleteFile,{body,headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')}).subscribe
       ((res: any) => {
         if (res.status == "Document Deleted Successfully") {
@@ -395,7 +421,7 @@ export class FMChatConfigurationComponent {
 
         }
 
-        // this.https.get(this.admin_list_AccountMaping_AccMasterList).subscribe
+        // this.http.get(this.admin_list_AccountMaping_AccMasterList).subscribe
         this.getFilestList()
 
       }, error => {

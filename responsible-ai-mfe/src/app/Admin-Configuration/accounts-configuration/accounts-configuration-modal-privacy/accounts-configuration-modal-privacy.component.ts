@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Inject, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -40,9 +41,9 @@ export class AccountsConfigurationModalPrivacyComponent {
     console.log('Popover is closed');
   }
 
-  
+
 }
-  isLoading = false;
+  isLoading = true;
 
   edited: any = false;
   autoTicks = false;
@@ -73,7 +74,7 @@ export class AccountsConfigurationModalPrivacyComponent {
 
   @ViewChild('select1') select1!: MatSelect;
 
-// SCREEN TWO ADD DATA  
+// SCREEN TWO ADD DATA
 //--------------VARIABLES-----------SECURITY
 
 allSelected1: any;
@@ -82,7 +83,7 @@ allSelectedInput = false;
 event1: any;
 c1: boolean = false;
 
-// select 1
+// select 1 -  Toggles all selections for the dropdown
 toggleAllSelection1(event: any) {
   this.event1 = event;
   this.c1 = event.checked;
@@ -105,6 +106,7 @@ toggleAllSelection1(event: any) {
     });
   }
 }
+  // Updates the selection status for the dropdown
 selectRecognizertype() {
   let newStatus = true;
   this.select1.options.forEach((item: MatOption) => {
@@ -119,7 +121,7 @@ selectRecognizertype() {
   this.allSelectedInput = newStatus;
 }
 
-
+  // Initializes the component and sets up API lists
   ngOnInit(): void {
     this.thresholdDisplay = this.data.ThresholdScore
     this.resThresholdScore = this.data.ThresholdScore
@@ -134,10 +136,9 @@ selectRecognizertype() {
 
     this.getAccountMasterEntryList()
 
-
-
   }
   userId: any
+    // Retrieves the logged-in user from local storage
   getLogedInUser() {
     if (localStorage.getItem("userid") != null) {
       const x = localStorage.getItem("userid")
@@ -151,6 +152,8 @@ selectRecognizertype() {
       console.log("userId", this.userId)
     }
   }
+
+    // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
     if (localStorage.getItem("res") != null) {
@@ -166,15 +169,18 @@ selectRecognizertype() {
   admin_list_AccountMaping_AccMasterList_Update_Data=""
   admin_list_AccountMaping_AccMasterList_dataList=""
   admin_list_AccountMaping_AccMasterList_Delete_Data=""
+
+  // Sets the API list URLs
   setApilist(ip_port: any) {
     this.admin_list_AccountMaping_Acc_PrivacyEncrypt = ip_port.result.Admin + ip_port.result.Admin_PrivacyEncrypt
     this.admin_list_AccountMaping_Acc_ThresholdUpdate = ip_port.result.Admin + ip_port.result.Admin_ThresholdUpdate
-    this.admin_list_rec_get_list = ip_port.result.Admin + ip_port.result.Admin_DataRecogGrplist     
-    this.admin_list_AccountMaping_AccMasterList_Update_Data = ip_port.result.Admin + ip_port.result.Admin_AccEntityAdd  
+    this.admin_list_rec_get_list = ip_port.result.Admin + ip_port.result.Admin_DataRecogGrplist
+    this.admin_list_AccountMaping_AccMasterList_Update_Data = ip_port.result.Admin + ip_port.result.Admin_AccEntityAdd
     this.admin_list_AccountMaping_AccMasterList_dataList = ip_port.result.Admin + ip_port.result.Admin_AccDataList
-    this.admin_list_AccountMaping_AccMasterList_Delete_Data = ip_port.result.Admin + ip_port.result.Admin_AccDataDelete      
+    this.admin_list_AccountMaping_AccMasterList_Delete_Data = ip_port.result.Admin + ip_port.result.Admin_AccDataDelete
   }
 
+  // Updates the active status of a recognizer
   updateActiveStatus(element: any, RecogId: any) {
 
     // this.resAccMasterid
@@ -208,21 +214,49 @@ selectRecognizertype() {
       })
 
   }
+  isDataEmpty: boolean = false;
+
+  // Fetches the account master entry list
   getAccountMasterEntryList() {
     let payload = {
       accMasterId: this.data.id
-    }
-    this.https.post(this.admin_list_AccountMaping_AccMasterList_dataList, payload).subscribe((response: any) => {
-      console.log(response);
-      this.isLoading = false;
+    };
+    this.https.post(this.admin_list_AccountMaping_AccMasterList_dataList, payload).subscribe(
+      (response: any) => {
+        console.log(response);
 
-      this.dataSource1 = response;
-      this.dataSource2 = response.dataList
-    });
+
+        if (!response || response.dataList.length === 0) {
+          this.isDataEmpty = true;
+          this.isLoading = false;
+          this._snackBar.open('Value is not set. Create a mapping first.', 'Close', {
+            duration: 3000,
+            horizontalPosition: 'left',
+            panelClass: ['le-u-bg-black'],
+          });
+        }  else {
+          this.isDataEmpty = false;
+          this.isLoading = false;
+          this.dataSource1 = response;
+          this.dataSource2 = response.dataList;
+        }
+      },
+      (error) => {
+        console.log(error.status);
+        this.isLoading = false;
+        const message = (error.error && (error.error.detail || error.error.message)) || 'The Api has failed';
+        const action = 'Close';
+        this._snackBar.open(message, action, {
+          duration: 3000,
+          horizontalPosition: 'left',
+          panelClass: ['le-u-bg-black'],
+        });
+      }
+    );
   }
 
   public thresholdDisplay: any = 0;
-
+// Sets the threshold value
   setThreshold(e: any,valuex:any) {
     this.thresholdDisplay = valuex
     console.log("slide value",valuex)
@@ -239,7 +273,7 @@ selectRecognizertype() {
           });
 
           //
-          
+
           //
         } else if (res.status === "False") {
           // this.showSpinner1 = false;
@@ -283,11 +317,9 @@ selectRecognizertype() {
         }
       })
 
-      
-
   }
 
-  // 
+  // Adds a recognizer to the list
   editReconList:any[] = []
   addRecognizerInList() {
     this.https.get(this.admin_list_rec_get_list).subscribe
@@ -332,11 +364,10 @@ selectRecognizertype() {
       });
     }
     // this.listShowlist1 = new Set()
-   
+
   }
 
-
-
+ // Computes the difference between two arrays
   getDifference(array1: any[], array2: any[]) {
     return array1.filter((object1: { RecogId: any; }) => {
       return !array2.some((object2: { RecogId: any; }) => {
@@ -344,19 +375,16 @@ selectRecognizertype() {
       });
     });
   }
-   
-  // 
-
-  
 
   accountUpdateForm!: FormGroup;
-
+// Initializes the form for account updates
   formCreation(){
     this.accountUpdateForm = new FormGroup({
       updateRecList: new FormControl([], [Validators.required]),
     });
   }
 
+  // Updates the recognizer list
   updateRecList(){
     console.log("updateRecList")
     console.log(this.accountUpdateForm.value)
@@ -427,6 +455,7 @@ selectRecognizertype() {
       })
   }
 
+  // Deletes account data
   deleteAccounttData(id: any) {
 
     const options = {
@@ -488,16 +517,15 @@ selectRecognizertype() {
 
         }
       })
-
-      
-
   }
 
-
+ // Handles table pagination
   onTableDataChange(event: any) {
     this.pagingConfig.currentPage = event;
     this.pagingConfig.totalItems = this.dataSource1.length;
   }
+
+  // Handles table size changes
   onTableSizeChange(event: any): void {
     this.pagingConfig.itemsPerPage = event.result.value;
     this.pagingConfig.currentPage = 1;

@@ -1,17 +1,16 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NgForm, FormControl, Validators } from '@angular/forms';
-import { ImageReportChartComponent } from
-  '../image-report-chart/image-report-chart.component'
-  ;
+import { ImageReportChartComponent } from '../image-report-chart/image-report-chart.component';
 import { RoleManagerService } from '../services/role-maganer.service';
 import { FairnessSideModalComponent } from './fairness-side-modal/fairness-side-modal.component';
 import { MatTooltip } from '@angular/material/tooltip';
@@ -24,21 +23,18 @@ import { NonceService } from '../nonce.service';
 })
 export class ImageGenerateComponent implements AfterViewInit {
   @ViewChild('form') form: NgForm | undefined;
+  @ViewChild('tooltip', { static: false }) tooltip!: MatTooltip;
+
   // FOR SHIMMER EFFECT
   isLoadingSelectType = true;
   isLoadingPrompt = true;
   /////
-
   promptControl = new FormControl('', Validators.required);
-
   imageGenerateUrl: any = ""
   public ip_port: any
   showSpinner: boolean = false;
-
   public prompt: string = '';
-
   imageOutput: any = false;
-
   imageBlurred = ""
   imageAnalysePath = ""
   imagePath: string = "";
@@ -51,11 +47,13 @@ export class ImageGenerateComponent implements AfterViewInit {
   hasError: boolean = false;
   imgExpl: any
   userId = ""
+  image: any;
   imageExplainabilityUrl: any;
   selectType: any = 'safety';
   fairness_image: any = '';
   imageGenerateModeration: any;
   image_explainability_analyze: any;
+  image_superpixel_segment_image: any;
   portfolioName = '';
   accountName = '';
   fairnessRes: any = {
@@ -63,7 +61,6 @@ export class ImageGenerateComponent implements AfterViewInit {
     generatedImage: '',
     report: {}
   }
-
   analyzeData: any = []
   tooltips: string[] = [
     'Harmless art, or picture of art',
@@ -81,6 +78,33 @@ export class ImageGenerateComponent implements AfterViewInit {
   genderBias= '';
   watermark= false;
   explain_analyse_res: any;
+    // method to call explainability api
+    imageUrl: string | null = null;
+    rawimg:any =""
+      explainImagetype=""
+      isCollapsed: boolean = false;
+        // FILE UPLOAD
+  imageFileList: any = [];
+  imageFile: any = '';
+  selectedImageFileName: any = '';
+  imageFiles: any = [];
+  imgShowUrl: any = '';
+  isImageFileUploaded: boolean = false; // Flag to indicate successful file upload
+  isExplainabilitySelected: boolean = false;
+  selectedButton: string = '';
+  isListVisible: boolean = true;
+  safetyItems: string[] = [
+    'Man flexing his body Infront of mirror',
+    'Person in Swim Suite posing for photo'
+  ];
+  explainabilityItems: string[] = [
+    'Create a museum image of a nomad yurt, 5th century AD, black fabric background, realistic, 4k, correct anatomy, good detail',
+    'Photographic portrait of a real life dragon resting peacefully in a zoo, curled up next to its pet sheep. Cinematics movie still, high quality DSLR photo'
+  ];
+  fairnessItems: string[] = [
+    'Image of theoretical physicist from from Cal Tech university',
+     'Chef\'s team from The Marriot hotel.'
+  ];
 
   //   imgExpl = {  "Score": {    "Aesthetics": {      "Description": "Creativity Score of image generated ,less creative being:0 and highly creative being:10`",      "Aesthetics": "LessCreative",      "AestheticsScore": 2.8177390098571777,      "FractalDimensionScore": 1.524390939460225     },    "Image_Alignment": {      "Probability": 24.964637756347656,      "AlignmentValue": "LowText-ImageAlignment"     },    "Bias": {      "Gender": {        "Male_Score": 17.568363189697266,        "Female_Score": 17.344619750976562,        "GenderBias": "NoGenderBias"       }    },    "Originality": {      "Has_WaterMark": true,      "Probability": 0.6004298329353333,
   //   "Description": "Probability Of Being Copy Of Trained Image0.6004298329353333"     }
@@ -93,19 +117,36 @@ export class ImageGenerateComponent implements AfterViewInit {
 
   constructor(public roleService: RoleManagerService, public https: HttpClient, public _snackBar: MatSnackBar, private dialog: MatDialog,public nonceService:NonceService) { }
 
+    // Initializes the component and sets up API configurations
+  ngOnInit() {
+    this.options = this.roleService.getSelectedTypeOptions("Workbench", "Image", "Generative-AI")
+    if (localStorage.getItem("res") != null) {
+      const x = localStorage.getItem("res")
+      if (x != null) {
+        this.ip_port = JSON.parse(x)
+      }
+    }
+    let ip_port: any
+    let user = this.getLogedInUser()
+    ip_port = this.getLocalStoreApi()
+    this.setApilist(ip_port)
+    this.isLoadingSelectType = false;
+    this.isLoadingPrompt = false;
+  }
+
+  // Retrieves the logged-in user from local storage
   getLogedInUser() {
     if (localStorage.getItem("userid") != null) {
       const x = localStorage.getItem("userid")
       if (x != null) {
-
         this.userId = JSON.parse(x)
-        console.log(" userId", this.userId)
         return JSON.parse(x)
       }
-
       console.log("userId", this.userId)
     }
   }
+
+  // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
     if (localStorage.getItem("res") != null) {
@@ -116,58 +157,53 @@ export class ImageGenerateComponent implements AfterViewInit {
     }
   }
 
-
+  // Sets the API list based on the configuration
   setApilist(ip_port: any) {
+    // generate apis
+    this.imageGenerateUrl = ip_port.result.Profanity + this.ip_port.result.Profan_Image_Generate;
+    this.imageGenerateModeration = ip_port.result.FairnessAzure + ip_port.result.GenerateImage;
+    // Analyze apis
     this.imageExplainabilityUrl = ip_port.result.Image_Explain + ip_port.result.ImageGen_Explain
     this.fairness_image = ip_port.result.FairnessAzure + ip_port.result.FairnessImage;
-    this.imageGenerateModeration = ip_port.result.FairnessAzure + ip_port.result.raimoderationmodelsImageGenerate;
     this.image_explainability_analyze = ip_port.result.ExplainabilityAzure + ip_port.result.image_explainability_analyze;
-
+    this.image_superpixel_segment_image = ip_port.result.image_superpixel_segment_image_ip + ip_port.result.image_superpixel_segment_image;
   }
 
-  ngOnInit() {
-    this.options = this.roleService.getSelectedTypeOptions("Workbench", "Image", "Generative-AI")
-    if (localStorage.getItem("res") != null) {
-      const x = localStorage.getItem("res")
-      if (x != null) {
-        this.ip_port = JSON.parse(x)
-      }
-    }
-    let ip_port: any
-
-    let user = this.getLogedInUser()
-
-    ip_port = this.getLocalStoreApi()
-    this.setApilist(ip_port)
-    this.imageGenerateUrl = this.ip_port.result.Profanity + this.ip_port.result.Profan_Image_Generate
-
-    this.isLoadingSelectType = false;
-    this.isLoadingPrompt = false;
-
-
-
-  }
-
-  handleError(error: any, customErrorMessage?: any) {
-    console.log(error)
-    console.log(error.status);
-    let message
-    if (error.status === 500) {
-      message = "Internal Server Error. Please try again later.";
-    } else {
-      message = error.error.detail || error.error.details || error.error.message || "API has failed";
-    }
+// Handles API errors and displays a snackbar message
+  handleError(error: any, customErrorMessage?: string) {
+    console.error('Error:', error);
+  
+    const message = error.status === 500
+      ? "Internal Server Error. Please try again later."
+      : error.error?.detail || error.error?.details || error.error?.message || customErrorMessage || "API has failed";
+  
     this.showSpinner = false;
-    const action = 'Close';
-    this.openSnackBar(message, action);
+    this.openSnackBar(message);
   }
-  openSnackBar(message: string, action: string) {
+
+  // Opens a snackbar with a custom message
+  openSnackBar(message: string, action: string = 'Close') {
     this._snackBar.open(message, action, {
       duration: 3000,
       panelClass: ['le-u-bg-black'],
     });
   }
 
+  // Displays data based on the selected button
+  showData(button: string) {
+    this.selectedButton = button;
+    this.isListVisible = true;
+  }
+
+   // Adds a selected item to the prompt
+  addToPrompt(data:any){
+    console.log("data==",data);
+    this.isListVisible = false;
+    this.promptControl.setValue(data);
+    this.selectedButton = '';
+  }
+
+  // Calls the image explainability API
   imageExplainability(fileData: any) {
     const localImageExplainabilityUrl = "http://10.68.120.142:31016/api/v1/rai/helm/imageGenerate"
     this.https.post(this.imageExplainabilityUrl, fileData).subscribe((data: any) => {
@@ -191,9 +227,7 @@ export class ImageGenerateComponent implements AfterViewInit {
 
   }
 
-
-
-
+  // Opens the right-side modal for safety analysis
   openRightSideModal() {
     const dialogRef = this.dialog.open(ImageReportChartComponent, {
       width: '52vw',
@@ -210,6 +244,7 @@ export class ImageGenerateComponent implements AfterViewInit {
     });
   }
 
+  // Opens the fairness side modal
   openFairnessSideModal() {
     const dialogRef = this.dialog.open(FairnessSideModalComponent, {
       width: '52vw',
@@ -223,7 +258,7 @@ export class ImageGenerateComponent implements AfterViewInit {
     });
   }
 
-
+   // Opens the explainability right-side modal
   openExplRightSideModal() {
     const dialogRef = this.dialog.open(ImageReportChartComponent, {
       width: '52vw',
@@ -240,7 +275,8 @@ export class ImageGenerateComponent implements AfterViewInit {
       }
     });
   }
-  explainImagetype=""
+
+  // Handles the form submission
   async onSubmit(data: any) {
     console.log(data);
     console.log(data.value);
@@ -258,8 +294,6 @@ export class ImageGenerateComponent implements AfterViewInit {
     this.imageOutput = false;
     this.redactedImg = true
     let { prompt, portfolioName, accountName } = data.value
-    console.log(prompt, portfolioName, accountName)
-    console.log("selectedOptions===", this.tenantarr)
     this.showSpinner = true
     // const config = '{"drawings":0.5,"hentai":0.25,"neutral":0.5,"porn":0.25,"sexy":0.25}'
     // const payload = {
@@ -275,13 +309,14 @@ export class ImageGenerateComponent implements AfterViewInit {
     if(this.accountName!=''){
     fileData.append('account', this.accountName)
     }
+    
     if (this.selectType == 'explainability') {
       let queryFlag = false;
       const fileDataExp = new FormData();
       fileDataExp.append('prompt', prompt);
       if (this.isImageFileUploaded) {
         console.log("Image file uploaded",this.explainImagetype)
-        queryFlag = true;
+         queryFlag = prompt.length > 0 ? true : false;
         this.explainImagetype = "Uploaded Image"
         const fileName = this.imageFile.name;
         this.imageUrl = URL.createObjectURL(this.imageFile);
@@ -290,6 +325,7 @@ export class ImageGenerateComponent implements AfterViewInit {
     const base64String = await this.convertImageToBase64(this.imageFile);
     this.rawimg = base64String.replace(/^data:image\/[a-z]+;base64,/, '');
         this.imageFileExplainAnalyse(this.imageFile, prompt,fileName,queryFlag);
+        this.triggerSegmentImage2(this.imageFile,fileName)
       } else {
         this.explainImagetype = "Generated Image"
         console.log("Image file not uploaded only prompt",this.explainImagetype)
@@ -300,6 +336,7 @@ export class ImageGenerateComponent implements AfterViewInit {
       // this.imageExplainability(fileDataExp);
     }
     if (this.selectType == 'safety') {
+    
       this.imageProfanity(fileData)
     }
     if(this.selectType == 'Fairness'){
@@ -308,8 +345,10 @@ export class ImageGenerateComponent implements AfterViewInit {
 
   }
 
+  // Calls the image profanity API
   imageProfanity(fileData: any) {
     this.https.post(this.imageGenerateUrl, fileData).subscribe((data: any) => {
+    // this.https.post("http://localhost:8001/api/v1/safety/profanity/imageGenerate", fileData).subscribe((data: any) => {
       this.imageOutput = true
       this.imagePath = data.img;
       this.analyze = data.analyze
@@ -329,31 +368,30 @@ export class ImageGenerateComponent implements AfterViewInit {
     })
   }
 
-  imageFairness(prompt: any) {
+  // Calls the image fairness API
+  imageFairness(prompt: any) {  
     const fileData = new FormData();
     fileData.append('prompt', prompt);
-    this.https.post(this.imageGenerateModeration, fileData, { responseType: 'text' }).subscribe((data: string) => {
+    this.https.post(this.imageGenerateModeration, { prompt: prompt,model: "DALL-E-2"}).subscribe((data: any) => {
       // console.log(typeof data)
       // this.imagePath = data;
       // this.imageOutput = true
       // this.imageAnalysePath = data;
-      this.fairnessRes.generatedImage = data;
-      this.callFairnessAnalysis(data, prompt)
+      this.fairnessRes.generatedImage = data.image;
+      this.callFairnessAnalysis(data.image, prompt)
     }, error => {
       this.handleError(error)
     })
   }
 
+  // Calls the fairness analysis API
   callFairnessAnalysis(img: any,prompt: any) {
+    console.log("data.image::",img)
     try {
       const byteCharacters = atob(img);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);   
+      const byteNumbers = Array.from(byteCharacters, char => char.charCodeAt(0));
+      const byteArray = new Uint8Array(byteNumbers);
       const blob = new Blob([byteArray], { type: 'image/jpeg' });
-
 
       const formPayload = new FormData();
       formPayload.append('prompt', prompt);
@@ -371,6 +409,8 @@ export class ImageGenerateComponent implements AfterViewInit {
       console.log(error)
     }
   }
+
+  // Filters selected options and updates the tenant array
   viewoptions() {
     // console.log("Array===",this.selectedOptions)
     // [Privacy: true, Profanity: true, Explainability: true, FM-Moderation: true]
@@ -379,13 +419,14 @@ export class ImageGenerateComponent implements AfterViewInit {
     const filteredKeys = this.filterKeysByBoolean(myObject);
     console.log("only keys", filteredKeys);
     this.tenantarr = filteredKeys
-
-
   }
+
+  // Filters keys in an object based on boolean values
   filterKeysByBoolean(obj: Record<string, boolean>): string[] {
     return Object.keys(obj).filter((key) => obj[key]);
   }
 
+  // Resets the form and clears all fields
   reset() {    
     this.prompt = '';
     this.portfolioName = '';
@@ -398,6 +439,8 @@ export class ImageGenerateComponent implements AfterViewInit {
     this.showSpinner = false;
     this.tenantarr = []
     this.promptControl.reset();
+    this.selectedButton = '';
+    this.isListVisible = false;
     this.resetValuesofFileupload();
     this.form?.reset();
     for (let option in this.selectedOptions) {
@@ -406,6 +449,8 @@ export class ImageGenerateComponent implements AfterViewInit {
       }
     }
   }
+
+  // Resets the result-related fields
   resetResult() {
     this.imageOutput = false;
     this.imagePath = '';
@@ -421,26 +466,26 @@ export class ImageGenerateComponent implements AfterViewInit {
     
   }
 
+  // Opens a dialog to display an image
   openDialog(data: any) {
     console.log("data===", data)
+    let imageData = data;
+    if (!data.startsWith('data:image/')) {
+      imageData = `data:image/png;base64,${data}`; 
+    }
+    console.log("imageData", imageData)
     this.dialog.open(ImageDialogComponent, {
-      data: { image: data, flag: true },
-      backdropClass: 'custom-backdrop'
+      data: { image: imageData, flag: true},
+       backdropClass: 'custom-backdrop'
     });
   }
-  isCollapsed: boolean = false;
 
+  // Toggles the collapse state of a panel
   togglePanel(): void {
     this.isCollapsed = !this.isCollapsed;
   }
-  // FILE UPLOAD
-  imageFileList: any = [];
-  imageFile: any = '';
-  selectedImageFileName: any = '';
-  imageFiles: any = [];
-  imgShowUrl: any = '';
-  isImageFileUploaded: boolean = false; // Flag to indicate successful file upload
-  
+
+  // Handles image file selection for upload
   async fileBrowseHandlerImageFile(file: any) {
     console.log("FILE HANDLER IMAGE FILE")
     this.prepareImageFileList(file.target.files);
@@ -477,18 +522,19 @@ export class ImageGenerateComponent implements AfterViewInit {
     // this.hallucinationSwitchCheck = false // making file upload as false
   }
   
+  // Prepares the list of image files for upload
   prepareImageFileList(files: Array<any>) {
-    this.imageFiles = [];
-    for (const item of files) {
-      this.imageFiles.push(item);
-    }
+    this.imageFiles = Array.from(files);
   }
   
+  // Removes the selected image file
   removeImageFile() {
     console.log("REMOVE IMAGE FILE")
     this.imageFiles = [];
     this.isImageFileUploaded = false; // Reset flag when the file is removed
   }
+
+   // Resets the values related to file upload
   resetValuesofFileupload() {
     this.imageFileList = [];
     this.imageFile = '';
@@ -498,10 +544,6 @@ export class ImageGenerateComponent implements AfterViewInit {
     this.isImageFileUploaded = false;
   }
 // to check if explainability is slected in the radio if slected then only show the image file upload options
-
-
-@ViewChild('tooltip', { static: false }) tooltip!: MatTooltip;
-  isExplainabilitySelected: boolean = false;
 
   toggleTooltip() {
     this.tooltip.show();
@@ -523,18 +565,17 @@ export class ImageGenerateComponent implements AfterViewInit {
     }
     this.resetResult();
   }
-  // method to call explainability api
-  imageUrl: string | null = null;
-  rawimg:any =""
-  imageExplainability2(body: any,prompt:any,queryFlag:any) {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
-      'accept': 'application/json'
-    });
 
-    this.https.post(this.imageGenerateModeration, body.toString(), { headers, responseType: 'text' })
+  // Calls the image explainability API with additional parameters
+  imageExplainability2(body: any,prompt:any,queryFlag:any) {
+    // const headers = new HttpHeaders({
+    //   'Content-Type': 'application/x-www-form-urlencoded',
+    //   'accept': 'application/json'
+    // });
+
+    this.https.post(this.imageGenerateModeration,{ prompt: prompt,model: "DALL-E-2"})
       .subscribe({
-        next: (data: string) => {
+        next: (data: any) => {
           // Assuming the response is an HTML document, parse it to extract the image URL
           this._snackBar.open('Image generated successfully.', '✖', {
             horizontalPosition: 'center',
@@ -542,14 +583,62 @@ export class ImageGenerateComponent implements AfterViewInit {
             duration: 3000,
             panelClass: ['custom-snackbar']
           });
-          this.rawimg = data; // Assign the base64 string to x
+          this.rawimg = data.image; // Assign the base64 string to x
           
-          this.imageUrl = `data:image/png;base64,${data}`; // Assuming the image is a PNG. Adjust the MIME type if necessary.
-          let imgblob = this.base64ToBlob(data, 'image/png');
+          this.imageUrl = `data:image/png;base64,${data.image}`; // Assuming the image is a PNG. Adjust the MIME type if necessary.
+          let imgblob = this.base64ToBlob(data.image, 'image/png');        
           this.imageFileExplainAnalyse(imgblob, prompt,"image.png",queryFlag);
+          this.triggerSegmentImage(this.rawimg);  // Call the second API function
         }, error: (error) => {
+          console.error('Error:', error);
         }
       });
+  }
+
+  // Triggers the superpixel segmentation API
+  triggerSegmentImage(base64Image:string) {
+    // Prepare the base64 string as a file
+    const byteCharacters = atob(base64Image);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const file = new Blob([byteArray], { type: 'image/png' }); // Adjust the MIME type as needed
+
+    // Create FormData and append the file
+    const formData = new FormData();
+    formData.append('file', file, 'image.png'); 
+
+    // Call the Second API
+    this.https.post(this.image_superpixel_segment_image, formData)
+    .subscribe({
+      next: (response:any) => {
+        this.image = `data:image/png;base64,${response.superpixel_data}`;
+        console.log('Response:', this.image);
+      }, error: (error) =>{
+        console.error('Error:', error);
+      }
+    });
+  }
+  triggerSegmentImage2(file:any,name:any) {
+    // Prepare the base64 string as a file
+    
+
+    // Create FormData and append the file
+    const formData = new FormData();
+    formData.append('file', file, name); 
+
+    // Call the Second API
+    this.https.post(this.image_superpixel_segment_image, formData)
+    .subscribe({
+      next: (response:any) => {
+        this.image = `data:image/png;base64,${response.superpixel_data}`;
+        console.log('Response:', this.image);
+      }, error: (error) =>{
+        console.error('Error:', error);
+      }
+    });
   }
 
   // Method to handle image file explain anazlyse
@@ -579,6 +668,7 @@ export class ImageGenerateComponent implements AfterViewInit {
         },
         error: (error) => {
           this.showSpinner = false;
+          console.error('Error:', error);
           this._snackBar.open('Image analysis failed.', '✖', {
             horizontalPosition: 'center',
             verticalPosition: 'top',
@@ -588,16 +678,16 @@ export class ImageGenerateComponent implements AfterViewInit {
         }
       });
   }
+
+  // Converts a base64 string to a Blob object
   base64ToBlob(base64: string, mimeType: string): Blob {
     const byteCharacters = atob(base64);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
+    const byteNumbers = Array.from(byteCharacters, char => char.charCodeAt(0));
     const byteArray = new Uint8Array(byteNumbers);
     return new Blob([byteArray], { type: mimeType });
   }
 
+  // Converts an image file to a base64 string
   convertImageToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -613,6 +703,7 @@ export class ImageGenerateComponent implements AfterViewInit {
       console.log('Base64 String:', base64String);
       // You can now use the base64String as needed
     } catch (error) {
+      console.error('Error converting image to Base64:', error);
     }
   }
 }

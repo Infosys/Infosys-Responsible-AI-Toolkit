@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
@@ -28,7 +28,14 @@ one_shot_sentiment_analysis = """
                                     ]
     }
 """
-
+# TokenImportance
+one_shot_token_importance = """
+    {
+        "Token": ["Who", "are", "the", "co-founders", "of", "Infosys?"],
+        "Importance Score": [1, 0.5, 0.5, 1, 0.5, 1],
+        "Position": [0, 1, 2, 3, 4, 5]
+    }
+"""
 # Tone Analysis
 few_shot_examples_tone_analysis = """
     [Response]: Absolutely! I'm thrilled about the opportunity and eager to learn more about the position.
@@ -206,4 +213,33 @@ FACT_FILTER_FEW_SHOT = """
     "Exercise helps maintain a healthy weight.",
     "Exercise can reduce the risk of chronic diseases."
 ]
+"""
+
+LOT_FEW_SHOT_PHASE1 = """
+"Propositions": {
+        "A": "have keyboarding skills"; 
+        "B": "be able to use a computer"; 
+        "C": "be able to write your essays using a word processing program"
+    },
+    "Logical Expression": "¬A → ¬B , ¬B →¬C"
+}
+"""
+
+LOT_FEW_SHOT_PHASE2 = """
+{
+    "Extended Logical Expression" : "C → A",
+    "Law Used": "Law of Conjunction.The Double Negation Law states that the negation of the negation of a proposition is logically equivalent to the proposition itself (¬(¬𝑃)≡𝑃¬(¬P)≡P)"
+}
+"""
+
+LOT_FEW_SHOT_PHASE3 = """
+{
+    "Extended Logical Information": "If you are able to write your essays using a word processing program,then you have keyboarding skills."
+}
+"""
+
+LOT_FEW_SHOT_PHASE4 = """
+{
+    "Explanation": "If you are able to write your essays using a word processing program, then you have at least some keyboarding skills"
+}
 """

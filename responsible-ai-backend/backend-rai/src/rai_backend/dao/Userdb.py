@@ -1,13 +1,13 @@
-'''
-MIT license https://opensource.org/licenses/MIT
-Copyright 2024 Infosys Ltd
- 
+"""
+# SPDX-License-Identifier: MIT
+# Copyright 2024 - 2025 Infosys Ltd.
+
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-'''
+"""
 
 import datetime
 import json
@@ -30,10 +30,14 @@ class AttributeDict(dict):
 mydb=DB.connect()
 
 class UserDb:
+    if 'UserConsent' not in mydb.list_collection_names():
+        mydb.create_collection('UserConsent')
+    
     mycol = mydb['User']
     myuserauth = mydb['UserAuthRel']
     myAuth = mydb['Authority']
     myCount = mydb['UserLimit']
+    myConsent = mydb['UserConsent']
     def findOne(id):
         try:
             user=UserDb.mycol.find_one({'id':id},{'_id':0})
@@ -96,7 +100,7 @@ class UserDb:
                         "login":newUser.login, 
                         "firstName":newUser.login, 
                         "langKey":newUser.langKey,
-                        "passwordHash":generate_password_hash(newUser.cred, method='sha256'),
+                        "passwordHash":generate_password_hash(newUser.cred, method='pbkdf2:sha256'),
                         "activated":True, 
                         "createdDate":datetime.datetime.now(), 
                         "createdBy":'system',
@@ -191,9 +195,9 @@ class UserDb:
         user=list(UserDb.mycol.find({},{"_id":0}))
         if(len(user)==0):
             admin_user = {"id":1, "login":"admin", "firstName":"Admin", "langKey":'en', "passwordHash":generate_password_hash(
-            'admin', method='sha256'), "activated":True, "createdDate":datetime.datetime.now(), "lastModifiedBy":'system', "lastModifiedDate":datetime.datetime.now(), "createdBy":'system',"authorities":["ROLE_ADMIN","ROLE_USER"]}
+            'admin', method='pbkdf2:sha256'), "activated":True, "createdDate":datetime.datetime.now(), "lastModifiedBy":'system', "lastModifiedDate":datetime.datetime.now(), "createdBy":'system',"authorities":["ROLE_ADMIN","ROLE_USER"]}
             user_user = {"id":2, "login":"user", "firstName":"User", "langKey":'en', "passwordHash":generate_password_hash(
-            'user', method='sha256'), "activated":True, "createdDate":datetime.datetime.now(), "lastModifiedBy":'system', "lastModifiedDate":datetime.datetime.now(), "createdBy":'system',"authorities":["ROLE_USER"]}
+            'user', method='pbkdf2:sha256'), "activated":True, "createdDate":datetime.datetime.now(), "lastModifiedBy":'system', "lastModifiedDate":datetime.datetime.now(), "createdBy":'system',"authorities":["ROLE_USER"]}
             UserDb.mycol.insert_many([admin_user, user_user])
             UserDb.myuserauth.insert_many([{"user_id":admin_user["id"],"authority_name":"ROLE_ADMIN"},{"user_id":admin_user["id"],"authority_name":"ROLE_USER"},{"user_id":user_user["id"],"authority_name":"ROLE_USER"}])
         userLimit = list(UserDb.myCount.find({},{"_id":0}))
@@ -232,6 +236,31 @@ class UserDb:
                 return {"message": "Error creating new role", "status_code": 500}
         else:
             return {"message": "Role already exists", "status_code": 500} 
+    
+    
+    def set_user_consent(userId, userConsentStatus):
+        try:
+            existing_user = UserDb.myConsent.find_one({'userId': userId})
+            if existing_user:
+                UserDb.myConsent.update_one({'userId': userId}, {'$set': {'userConsentStatus': userConsentStatus}})
+            else:
+                UserDb.myConsent.insert_one({'userId': userId, 'userConsentStatus': userConsentStatus})
+            return {"message": "User consent updated successfully", "status_code": 200}
+        except Exception as e:
+            log.error(e)
+            return {"message": "An error occurred", "status_code": 500}
+    
+
+    
+    def get_user_consent(userId):
+        try:
+            user_consent = UserDb.myConsent.find_one({'userId': userId}, {'_id': 0, 'userConsentStatus': 1})
+            if user_consent:
+                return user_consent['userConsentStatus']
+            return False
+        except Exception as e:
+            log.error(e)
+            return False
         
        
             

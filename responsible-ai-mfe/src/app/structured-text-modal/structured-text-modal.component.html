@@ -1,14 +1,13 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="p-3 px-4 h-100">
     <div class="d-flex justify-content-between align-items-center pb-4">
         <p class="headingTop">Add Data</p>
-        <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
     </div>
     <div class="d-flex flex-column justify-content-between" style="height:90%;">
         <div>
@@ -26,8 +25,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </select>
                     <select class="form-select shadow-none" style="width: 8rem;" [disabled]="!allVectors" (change)="selectVectorMethod($event.target)">
                         <option selected disabled>Preprocessor</option>
-                        <option *ngFor="let option of allVectors" [value]="option.PreprocessorId">
-                            {{option.PreprocessorName}}</option>
+                        <option *ngFor="let option of allVectors" [value]="option.preprocessorId">
+                            {{option.preprocessorName}}</option>
                     </select>
                 </div>
                 <div class="w-75">
@@ -44,7 +43,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <h3 class="HeadingLabelSM">Security</h3>
                     <mat-select #select2 multiple id="selectApplicableAttacks" class="dropdown" [(ngModel)]="selectedApplicableAttack" placeholder="Choose Option">
                         <div class="select-all">
-                            <mat-checkbox (change)="toggleAllSelection1($event)" color="primary">Select All
+                            <mat-checkbox (change)="toggleAllSelection1($event)" [(ngModel)]="allSelected1" color="primary">Select All
                             </mat-checkbox>
                         </div>
                         <mat-option (click)="selectApplicableAttackSecurity()" class="dropdownOptions" *ngFor="let data of applicableAttack" [value]="data">
@@ -72,15 +71,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             <div class="d-flex justify-content-between w-60">
                                 <div class="d-flex align-items-center">
                                     <input type="radio" id="preprocessing" name="fairnessType" value="preprocessing" [(ngModel)]="fairnessType">
-                                    <label for="fairnessType" class="LabelSM ml-1 fw-normal">Preprocessing</label><br>
+                                    <label for="fairnessType" class="LabelSM ms-1 fw-normal">Preprocessing</label><br>
                                 </div>
                                 <div class="d-flex align-items-center">
                                     <input type="radio" id="postprocessing" name="fairnessType" value="postprocessing" [(ngModel)]="fairnessType">
-                                    <label for="fairnessType" class="LabelSM ml-1 fw-normal">Postprocessing</label><br>
+                                    <label for="fairnessType" class="LabelSM ms-1 fw-normal">Postprocessing</label><br>
                                 </div>
                                 <div class="d-flex align-items-center">
                                     <input type="radio" id="inprocessing" name="fairnessType" value="inprocessing" [(ngModel)]="fairnessType" (ngModelChange)="onChange($event)">
-                                    <label for="fairnessType" class="LabelSM ml-1 fw-normal">InProcessing</label><br>
+                                    <label for="fairnessType" class="LabelSM ms-1 fw-normal">InProcessing</label><br>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <input type="radio" id="audit" name="fairnessType" value="audit" [(ngModel)]="fairnessType">
+                                    <label for="fairnessType" class="LabelSM ms-1 fw-normal">Audit</label><br>
                                 </div>
                             </div>
                         </div>
@@ -150,12 +153,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                     </mat-select>
                                 </div>
                             </div>
+                            <select class="form-select shadow-none dropdownSelect w-58" [(ngModel)]="selectTypeAudit" *ngIf="fairnessType == 'audit'">
+                                <option value="" selected disabled>Select Type</option>
+                                <option value ="Decisive">  Decisive Audit </option>
+                                <option value ="Generic">  Generic Audit </option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
             <div [hidden]="!(currentScreen === 3)">
-                <div class="d-flex justify-content-between mb-3">
+                <div class="d-flex justify-content-between mb-3" *ngIf="fairnessType != 'audit'">
                     <div class="d-flex align-items-center">
                         <h3 class="LabelSM">Label:</h3>
                         <select class="form-select shadow-none mb-0" name="label" (change)="optionClickFromLabel($event.target)">
@@ -187,7 +195,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         </select>
                     </div>
                 </div> -->
-                <div style="max-height: 320px; overflow-y: auto;">
+                <div style="max-height: 320px; overflow-y: auto;" *ngIf="fairnessType != 'audit'">
                     <div class="d-flex justify-content-between mb-3" *ngFor="let row of rows; let i = index">
                         <div class="d-flex align-items-center">
                             <h3 class="LabelSM">Protected Attribute:</h3>
@@ -227,6 +235,31 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </div>
                     <div *ngIf="rows.length > 0 && rows[rows.length - 1].priv && rows[rows.length - 1].priv.length > 0" class="d-flex justify-content-end">
                         <span (click)="addRow()" class="btnRound addBtn">+</span>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between mb-3" *ngIf="fairnessType == 'audit'">
+                    <div class="d-flex align-items-center">
+                        <h3 class="LabelSM" *ngIf="selectTypeAudit=='Decisive'">Model's Prediction Column Name:</h3>
+                        <h3 class="LabelSM" *ngIf="selectTypeAudit=='Generic'">Model Output Column:</h3>
+                        <!-- <input class="form-control w-75 shadow-none" type="text" placeholder="Label" aria-label="label" [(ngModel)]="selectedLabel"> -->
+                        <select class="form-select shadow-none mb-0" name="label" (change)="optionClickFromLabel($event.target)">
+                            <option value="" disabled selected>Choose option</option>
+                            <option *ngFor="let label of resultLabel" [value]="label">{{label}}</option>
+                        </select>
+                    </div>
+                    <div class="d-flex align-items-center" *ngIf="selectTypeAudit=='Decisive'">
+                        <h3 class="LabelSM">Favourable Outcome:</h3>
+                        <input class="form-control w-75 shadow-none" type="text" placeholder="Favourable Outcome" aria-label="favorableOutcome" [(ngModel)]="selectedFO">
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between mb-3" *ngIf="fairnessType == 'audit'">
+                    <div class="d-flex align-items-center" *ngIf="selectTypeAudit=='Decisive'">
+                        <h3 class="LabelSM">Attributes for analysis:</h3>
+                        <mat-select #selectRef multiple class="dropdown" [(ngModel)]="categoricalAttribute">
+                            <mat-option *ngFor="let data of resultLabel" [value]="data">
+                                {{data}}
+                            </mat-option>
+                        </mat-select>
                     </div>
                 </div>
 

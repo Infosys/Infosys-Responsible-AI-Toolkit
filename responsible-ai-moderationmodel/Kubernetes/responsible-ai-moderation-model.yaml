@@ -53,6 +53,8 @@ spec:
             capabilities:
               drop:
                 - ALL  # Drop all capabilities
+            seccompProfile:
+              type: RuntimeDefault
           resources:
             limits:
                 #cpu: '2'

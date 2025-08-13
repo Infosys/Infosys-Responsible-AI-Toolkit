@@ -1,16 +1,15 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .form-select {
     width: 100%;
     height: 1.813rem;
     font-size: 0.75rem;
     margin-bottom: 1.10rem;
 }
-
 .form-InputText {
     width: 100%;
     height: 1.813rem;
@@ -27,7 +26,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     text-transform: uppercase;
     opacity: 70%;
 }
-
 .tempInputBox {
     width: 45px;
     font-size: 10px;
@@ -42,19 +40,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-family: 'Segoe UI';
     text-transform: uppercase;
     /* margin-top: 1.8rem; */
-}
+  }
 
- :host .dropdown {
+  :host .dropdown {
     max-width: 15rem;
     width: 100%;
     border: 1px solid #dee2e6;
     border-radius: 3px;
     padding: 0px 10px;
     font-size: smaller;
-}
+  }
 
-.marginDiv {
-    margin: .5rem
+.marginDiv{
+    margin:.5rem
 }
 
 
@@ -62,27 +60,30 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
  */
 
-.mainLabel {
+ .mainLabel {
     color: #7E7E7E;
     padding: 0px;
     font-weight: 500;
     font-size: 13px;
     font-family: 'Segoe UI';
     margin-bottom: 0px;
-}
+  }
 
-.mainLabelSM {
+.mainLabelSM{
     font-size: 12px;
 }
 
-.mainLabelLight {
+.mainLabelLight{
     font-weight: 400;
 }
 
-.fixed-height-card {
+.fixed-height-card{
     height: 100px;
     overflow-y: auto;
 }
+
+
+
 
 .HeadingLabel {
     color: #7E7E7E;
@@ -110,17 +111,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     border-bottom: 2px solid #8626C3;
 }
 
-.hyperLink {
+.hyperLink{
     color: #8626C3;
     cursor: pointer;
     text-decoration: underline;
 }
 
-.cursor {
+.cursor{
     cursor: pointer;
 }
 
-.snackBar-custom {
+.snackBar-custom{
     background-color: white;
 }
 
@@ -130,43 +131,46 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-size: .75rem;
     height: 28px;
     min-width: fit-content;
-}
+  }
 
-.mat-black {
+  .mat-black {
     color: white !important;
     background-color: #231F20 !important;
-}
+  }
 
+  /*  */
 
-/*  */
-
-.labelSM {
+  .labelSM{
     font-weight: 600;
     font-size: 11px;
 }
 
+
 input[type='range'] {
     -webkit-appearance: none !important;
-    background: #D8D8D8;
-    height: 3px;
+    background:#D8D8D8;
+    height:3px;
     width: 100%;
 }
-
 input[type='range']::-webkit-slider-thumb {
     -webkit-appearance: none !important;
-    background: #8626C3;
-    height: 13px;
-    width: 13px;
+    background:#8626C3;
+    height:13px;
+    width:13px;
     border-radius: 50%;
 }
 
-.tempInputBox {
+.tempInputBox{
     width: 45px;
     font-size: 10px;
     text-align: center;
 }
+.tempInputBox2{
+    width: 50px;
+    font-size: 10px;
+    text-align: center;
+}
 
-::ng-deep.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
-.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+::ng-deep.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full, .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
     background: #8626C3;
 }

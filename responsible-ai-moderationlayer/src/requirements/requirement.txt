@@ -1,6 +1,5 @@
 pyyaml
 regex
-textstat
 python-dotenv
 pymongo
 sqlalchemy
@@ -8,7 +7,7 @@ openai
 hvac
 azure-keyvault-secrets
 azure-identity
-nltk==3.8
+# nltk==3.9
 langchain-community
 langchain-openai
 setuptools==70.0.0
@@ -17,6 +16,7 @@ flask[async]
 flask-cors
 azure-ai-translation-text==1.0.0b1
 waitress
+hypercorn
 flask-swagger-ui
 langcodes
 Pillow
@@ -24,6 +24,11 @@ demoji
 pytest
 grapheme
 wheel==0.38.1
-aiohttp==3.10.11
+aiohttp
+nltk==3.9.1
+boto3
+langchain-aws
+google-generativeai
+fkscore
 ../lib/better_profanity-2.0.0-py3-none-any.whl
-
+../lib/en_core_web_lg-3.7.1-py3-none-any.whl

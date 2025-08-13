@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup ,ReactiveFormsModule, Validators} from '@angular/forms';
@@ -88,7 +89,8 @@ export class QuestionnaireUsecaseComponent {
     private _formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
     public https: HttpClient, private router: Router,
-    private useCaseService:UseCaseServiceService,public nonceService:NonceService,
+    private useCaseService:UseCaseServiceService,
+    public nonceService:NonceService,
     private validationService:UserValidationService
   ) {}
   // private stepper:MatStepper
@@ -108,11 +110,13 @@ export class QuestionnaireUsecaseComponent {
     Ques_Risk_Dashboard=""
     Ques_selectedResponse=""
     
+    // Emits the current screen page value to the parent component
     onChildValueChange() {
       this.pageValueChange.emit(this.currentScreenPage);
       console.log("this.currentScreenPage90===",this.currentScreenPage)
     }
     
+    // Selects the specified tab and updates the UI
   selectTab(tab: any) {
 
     console.log("FirstFormGroup====",this.firstFormGroup.value)
@@ -121,6 +125,7 @@ export class QuestionnaireUsecaseComponent {
     this.cdr.detectChanges();
   }
 
+  // Navigates to the next screen in the questionnaire
   currentScreenPage:any=1;
       nextScreen() {
         console.log("inside nexscreen()========")
@@ -135,6 +140,7 @@ export class QuestionnaireUsecaseComponent {
         }
       }
   
+      // Navigates to the previous screen in the questionnaire
     previousScreen() {
       // this.stepper.previous()
       if (this.currentScreenPage > 1) {
@@ -144,6 +150,7 @@ export class QuestionnaireUsecaseComponent {
       }
     }
 
+    // Sets the API endpoints for the component
     setApilist(ip_port: any) {
       this.createUseCase = ip_port.result.Questionnaire + ip_port.result.Questionnaire_createUsecase
     this.aiCanvasSubmitResponse = ip_port.result.Questionnaire + ip_port.result.Ai_Canvas_Submit
@@ -155,6 +162,7 @@ export class QuestionnaireUsecaseComponent {
    this.Ques_selectedResponse = ip_port.result.Questionnaire + ip_port.result.Ques_selectedResponse
     }
 
+     // Retrieves the logged-in user ID from local storage
     getLogedInUser() {
       if (window && window.localStorage && typeof localStorage !== 'undefined') {
         const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
@@ -165,16 +173,19 @@ export class QuestionnaireUsecaseComponent {
         return this.userId;
       }
     }
+
+    // Retrieves API configuration from local storage
     getLocalStoreApi() {
       let ip_port
-      if (localStorage.getItem("res") != null) {
-        const x = localStorage.getItem("res")
-        if (x != null) {
-          return ip_port = JSON.parse(x)
-        }
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+      if(res != null){
+        return ip_port = JSON.parse(res)
       }
     }
+    }
 
+    // Moves to the next step in the stepper
     goToNextStep() {
       console.log("inside Rai next===")
       if (this.stepper2) {
@@ -187,6 +198,7 @@ export class QuestionnaireUsecaseComponent {
 
     }
   
+    // Moves to the previous step in the stepper
     goToPreviousStep() {
       console.log("inside Rai Prvious===")
       if (this.stepper2) {
@@ -237,6 +249,7 @@ export class QuestionnaireUsecaseComponent {
   }
 // getDetails()  closed ///
 
+ // Saves the user's responses to the questionnaire
 saveResponse(result:any){
     
   for(let i=0;i<result.length;i++){
@@ -258,8 +271,7 @@ saveResponse(result:any){
   
 }
 
-
-
+ // Stores the response data for a specific question
 responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_secore:any){
   this.userId = this.getLogedInUser()
   // console.log("Id====",Id,QuestionId,OptionsValue,this.userId,this.quesUseCaseName,Question_Weightage,RAI_secore)
@@ -281,9 +293,8 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
   //   throw new Error('Method not implemented.');
   // }
 
+   // Submits the questionnaire responses and related data
   submit() {
-
-
     this.useCaseService.getQuestionnaireResponse.subscribe((msg) => this.map1 = msg)
     console.log("map==========", this.map1)
     this.useCaseService.getUsecaseName.subscribe((msg) => (this.useCaseName = msg));
@@ -362,19 +373,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
 
       console.log("payload=====", payload["UserId"])
 
-
-
-
-
-
-
-
-
-
-
     }
-
-
 
     console.log("RaiCanvaspayload182===========", this.raiCanvasDatDetail)
 
@@ -385,7 +384,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
 
   }
 
-  
+  // Creates a new use case with the provided payloads
   creatUsecsse(payload: any, aiCanvaspayload: any, raiCanvasPayload: any, quesPayload: any) {
     this.https.post(this.createUseCase, payload).subscribe(
 
@@ -423,6 +422,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
     )
   }
 
+  // Submits the AI Canvas data to the API
   aiCanvasSubmit(aiCanvaspayload: any, raiCanvasPayload: any, quesPayload: any) {
     this.https.post(this.aiCanvasSubmitResponse, aiCanvaspayload).subscribe(
       (res: any) => {
@@ -476,6 +476,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
     )
   }
 
+  // Submits the RAI Canvas data to the API
   raiCanvasSubmit(raiCanvasPayload: any, quesPayload: any) {
     this.https.post(this.raiCanvasSubmitResponse, raiCanvasPayload).subscribe(
       (res: any) => {
@@ -526,6 +527,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
     );
   }
 
+   // Submits the questionnaire responses to the API
   questionnaireSubmit(payload: any) {
     const payload1 = {
       // "data":this.questionPayload
@@ -542,14 +544,9 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
           this.useCaseService.setAiCanvas("")
           this.useCaseService.setRaiCanvas("")
 
-
-
         }
 
         console.log("res========76", res)
-
-
-
 
       }, error => {
         const message = (error && error.error && (error.error.detail || error.error.message)) || "The Api has failed"
@@ -567,7 +564,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
     )
   }
 
-
+ // Fetches details for resubmitting the questionnaire
   getResubmitDetails(){
     
     // this.https.get(this.getUrl).subscribe
@@ -585,8 +582,6 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
       // console.log("result====",res)
       console.log("result1111====116====",res)
       this.cdr.detectChanges();
-  
-      
   
     }  , error => {
   
@@ -606,10 +601,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
     this.cdr.detectChanges();
   }
   
-
-  
-  
-  
+  // Initializes the component and sets up API calls
     ngOnInit(){
       this.qutionnaireForm=this._formBuilder.group({})
       console.log("cureent===",this.currentScreenPage)

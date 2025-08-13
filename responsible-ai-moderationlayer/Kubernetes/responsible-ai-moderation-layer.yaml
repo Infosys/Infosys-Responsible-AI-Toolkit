@@ -37,7 +37,6 @@ spec:
         app: responsible-ai-moderation-layer
         version: v1
     spec:
-      automountServiceAccountToken: false # Disable token mounting
       imagePullSecrets:
          - name: docker-secret
       containers:
@@ -50,11 +49,9 @@ spec:
         ports:
         - containerPort: 8000
         securityContext:
-            runAsUser: 1000  # Non-root user
-            runAsGroup: 1000
-            capabilities:
-              drop:
-                - ALL  # Drop all capabilities
+            runAsUser: 0
+            seccompProfile:
+              type: RuntimeDefault
         resources:
             limits:
                 cpu: '2'

@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { Component, OnInit } from '@angular/core';
 import { TemplateBasedGuardrailService } from '../template-based-guardrail/template-based-guardrail.service';
 import { FmModerationService } from 'src/app/services/fm-moderation.service';
@@ -17,7 +18,7 @@ export class MultiModalComponent implements OnInit {
   response: any = {}
   status: any = {}
 
-  templateList = ['Prompt Injection', 'Jailbreak', 'Toxicity', 'Profanity', 'Restricted Topic']
+  templateList = ['Image Prompt Injection Check', 'Image Jailbreak Check', 'Image Toxicity Check', 'Image Profanity Check', 'Image Restricted Topic Check']
   // templateList:any = [] to be used for dynamic template list
 
   constructor(private templateBasedService: TemplateBasedGuardrailService, public fmService: FmModerationService, private sharedDataService: SharedDataService) { }
@@ -43,17 +44,18 @@ export class MultiModalComponent implements OnInit {
       await Promise.all(batchPromises).then(results => {
         console.log('Batch completed', results);
       }).catch(error => {
+        console.error('Error in batch');
       });
     }
     console.log('All requests processed');
   }
 
+  // Function to check if an object is empty
   isEmptyObject(obj: any): boolean {
     return obj != null && typeof obj === 'object' && Object.keys(obj).length === 0;
   }
 
-
-
+// Function to call the multi-modal API
   callMultiModal(templateName: any, Context?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       if (this.status[templateName] === 'loading' || this.status[templateName] === 'done') {
@@ -78,8 +80,16 @@ export class MultiModalComponent implements OnInit {
       console.log(formPayload, "MultiModal Payload")
       this.templateBasedService.multiModal(formPayload).subscribe(
         (res: any) => {
-          console.log(res)
-          this.response[templateName] = res;
+          console.log(res,"RESPONSE FROM MULTIMODAL");
+
+          if(typeof res?.['moderationResults'] != 'object'){
+            this.status[templateName] = 'failed';
+            reject("Error in response from multiModal");
+            return 
+          }
+          this.response[templateName] = res?.['moderationResults'];
+          this.response[templateName]['description'] = res?.['description'];
+          this.response[templateName]['timetaken'] = res?.['timeTaken'];
           // this.response[templateName]['description'] = res?.['description'];
           let data = {
             'analysis': this.response[templateName].explanation,
@@ -94,7 +104,6 @@ export class MultiModalComponent implements OnInit {
         },
         error => {
           this.status[templateName] = 'failed';
-          console.log(error);
           reject(error); // Reject the promise with the error
         }
       );

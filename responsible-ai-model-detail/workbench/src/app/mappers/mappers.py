@@ -9,22 +9,23 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 '''
 
 from typing import Union,List, Optional
-from pydantic import BaseModel,Field
+from pydantic import BaseModel,Field,model_validator
 from fastapi import UploadFile
 import json
+from pydantic.class_validators import root_validator
 
 class TenetDataRequest(BaseModel):
     tenetName : str = "RAI"
     tenetId : float = "0.0"
 
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate_to_json
+    @model_validator(mode='before')
     @classmethod
     def validate_to_json(cls, value):
         if isinstance(value, str):
             return cls(**json.loads(value))
         return value
+    class Config:
+        from_attributes = True
 
 class GetModelPayloadRequest(BaseModel):
     modelName : str = "Cartoonclassification_Model"
@@ -38,14 +39,17 @@ class GetModelPayloadRequest(BaseModel):
     data: Optional[str] = Field(example="data")
     prediction : Optional[str] = Field(example="prediction")
 
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate_to_json
+    @model_validator(mode='before')
     @classmethod
     def validate_to_json(cls, value):
         if isinstance(value, str):
             return cls(**json.loads(value))
         return value
+    class Config:
+        from_attributes = True
+
+
+
     
 
 class GetModelRequest(BaseModel):
@@ -63,14 +67,14 @@ class UpdateModelPayloadRequest(BaseModel):
     prediction : Optional[str] = Field(example="prediction")
 
     
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate_to_json
+    @model_validator(mode='before')
     @classmethod
     def validate_to_json(cls, value):
         if isinstance(value, str):
             return cls(**json.loads(value))
         return value
+    class Config:
+        from_attributes = True
 
 
 class GetDataPayloadRequest(BaseModel):
@@ -80,21 +84,21 @@ class GetDataPayloadRequest(BaseModel):
     groundTruthClassLabel : Optional[Union[str, list]] = Field(example="target") 
     
 
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate_to_json
+    @model_validator(mode='before')
     @classmethod
     def validate_to_json(cls, value):
         if isinstance(value, str):
             return cls(**json.loads(value))
         return value
+    class Config:
+        from_attributes = True
     
 
 class GetDataRequest(BaseModel):
     DataFile: Union[UploadFile] = None
 
-class GetGroundtruthFileRequest(BaseModel):
-    GroundTruthFile: Union[UploadFile] = None
+# class GetGroundtruthFileRequest(BaseModel):
+#     GroundTruthFile: Optional[Union[UploadFile]] = None
 
 
 class UpdateDataPayloadRequest(BaseModel):
@@ -102,21 +106,21 @@ class UpdateDataPayloadRequest(BaseModel):
     groundTruthClassNames : list = [0,1]
     groundTruthClassLabel: Optional[str] = Field(example="target")
 
-    @classmethod
-    def __get_validators__(cls):
-        yield cls.validate_to_json
+    @model_validator(mode='before')
     @classmethod
     def validate_to_json(cls, value):
         if isinstance(value, str):
             return cls(**json.loads(value))
         return value
+    class Config:
+        from_attributes = True
 
 ## FOR BATCH GENERATION MAPPER
 
 class GetBatchPayloadRequest(BaseModel):
     userId:Optional[str] = Field(example="admin")
     title:Optional[str] = Field(example="Preprocessor1")
-    modelId:Optional[float] = Field(example="1.1")
+    modelId:Optional[float] = Field(default=None, example=1.1)
     dataId:Optional[float] = Field(example="2.1")
     tenetName: Optional[List[str]]
     appAttacks: Optional[List[str]] = None

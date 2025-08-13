@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
@@ -22,7 +22,7 @@ description: Project management services helps to create Usecase and projects .
              This app handles the services for usecase module which perform CRUD operaions.
 """
 
-from llm_explain.routing.explain_router import explanation
+from llm_explain.routing.explain_router import explanation, reasoning
 from llm_explain.config.config import read_config_yaml
 from llm_explain.config.logger import CustomLogger
 from llm_explain.exception.global_exception import UnSupportedMediaTypeException
@@ -39,8 +39,7 @@ load_dotenv()
 
 log=CustomLogger()
 
-## initialize the app with openapi and docs url
-## reading metadata configuration from config file
+# reading metadata configuration from config file
 app = FastAPI(**read_config_yaml('../config/metadata.yaml'))
 
 """
@@ -64,13 +63,14 @@ class SecurityMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         response = await call_next(request)
         response.headers["X-XSS-Protection"] = "1; mode=block"
-        response.headers['Content-Security-Policy'] = "default-src 'self'; frame-ancestors 'self'; img-src data: https:; object-src 'none'; script-src https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui-bundle.js 'self' 'unsafe-inline';style-src https://cdn.jsdelivr.net/npm/swagger-ui-dist@5/swagger-ui.css 'self' 'unsafe-inline'; upgrade-insecure-requests;"
+        response.headers['Content-Security-Policy'] = "default-src 'self'; img-src data: https:; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net"
+        response.headers['X-Content-Type-Options'] = 'nosniff'
         response.headers['Cache-Control'] = 'no-cache; no-store; must-revalidate'
         response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
         response.headers['X-Frame-Options'] = 'SAMEORIGIN'
         response.headers['Pragma'] = 'no-cache'
         response.headers['vary'] = 'Origin'
-        content_type = response.headers.get('Content-Type')
+        content_type = response.headers.get('Content-Type', 'application/octet-stream')
 
         # Mask server information
         response.headers['Server'] = 'Hidden'
@@ -78,6 +78,11 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         # Set-Cookie attributes
         response.headers['Set-Cookie'] = 'HttpOnly; Secure; SameSite=Strict'
 
+        # Content-Type handling
+        if content_type == 'application/octet-stream':
+            response.headers['Content-Type'] = 'application/octet-stream'
+            response.headers['Content-Disposition'] = 'attachment; filename=default'
+            
         if 'charset=' not in content_type:
             response.headers['Content-Type'] = f"{content_type}; charset=utf-8"
         return response
@@ -109,6 +114,7 @@ async def http_exception_handler(request, exc):
 incude the routing details of service
 """
 app.include_router(explanation, prefix='/rai/v1', tags=["LLM-Explainability"])
+app.include_router(reasoning, prefix='/rai/v1', tags=["Reasoning"])
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8002)

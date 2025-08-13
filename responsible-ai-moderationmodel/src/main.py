@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -12,10 +12,11 @@ import os
 from flask import Flask,request,jsonify
 from flask_swagger_ui import get_swaggerui_blueprint
 from routing.router import router
+# from routing.safety_router import img_router
 from config.logger import CustomLogger,request_id_var
 from waitress import serve
 from werkzeug.exceptions import HTTPException,UnsupportedMediaType,BadRequest
-# from mapper.mapper import *
+from mapper.mapper import *
 
 SWAGGER_URL = '/rai/v1/raimoderationmodels/docs'  
 API_URL = '/static/swagger.json'
@@ -29,6 +30,7 @@ log=CustomLogger()
 app = Flask(__name__)
 app.register_blueprint(swaggerui_blueprint)
 app.register_blueprint(router,url_prefix='/rai/v1/raimoderationmodels')
+# app.register_blueprint(img_router,url_prefix='/rai/v1/raimoderationmodels')
 
 
 def handle_http_exception(exc):

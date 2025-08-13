@@ -1,3 +1,4 @@
+
 # MIT license https://opensource.org/licenses/MIT
 # Copyright 2024 Infosys Ltd
 # 
@@ -24,7 +25,7 @@ import threading
 import uuid
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE_TYPE
-from unidecode import unidecode
+import unicodedata
 import tempfile
 
 log = CustomLogger()
@@ -40,7 +41,7 @@ class PPTService:
                 return None
             imgd = io.BytesIO(img_bytes)
             payload["image"] = AttributeDict({"file": imgd})
-            payload["piiEntitiesToBeRedacted"] = None
+            # payload["piiEntitiesToBeRedacted"] = None
             resImage = ImagePrivacy.image_anonymize(AttributeDict(payload))
             resImg = base64.b64decode(resImage)
             img_stream = io.BytesIO(resImg)
@@ -73,11 +74,16 @@ class PPTService:
             request_id_var.set(uid)
             for shape in slide.shapes:
                 if shape.has_text_frame:
-                    text = unidecode(shape.text)
+                    text = unicodedata.normalize('NFKD', shape.text).encode('ascii', 'ignore').decode('ascii')
+                     
                     accDetails = None
                     if payload.portfolio is not None:
                         accDetails = AttributeDict({"portfolio": payload.portfolio, "account": payload.account})
-                    res = TextPrivacy.textAnalyze(text=text, accName=accDetails, exclusion=payload.exclusion.split(',') if payload.exclusion is not None else [])
+                    res = TextPrivacy.textAnalyze(text=text, accName=accDetails, exclusion=payload.exclusion.split(',') if payload.exclusion is not None else [],piiEntitiesToBeRedacted=payload.piiEntitiesToBeRedacted.split(",") if payload.piiEntitiesToBeRedacted is not None else [],nlp=payload.nlp)
+                     
+            
+                    if not isinstance(res, list):
+                        raise ValueError(f"Expected a list from textAnalyze, but got: {type(res)}")
                     res = anonymizer._remove_conflicts_and_get_text_manipulation_data(res, (ConflictResolutionStrategy.MERGE_SIMILAR_OR_CONTAINED))
                     res = anonymizer._merge_entities_with_whitespace_between(text, res)
                     resThreads = []
@@ -104,11 +110,11 @@ class PPTService:
                     table = shape.table
                     for row in table.rows:
                         for cell in row.cells:
-                            text = unidecode(cell.text)
+                            text = unicodedata.normalize('NFKD', cell.text).encode('ascii', 'ignore').decode('ascii') + " ,"
                             accDetails = None
                             if payload.portfolio is not None:
                                 accDetails = AttributeDict({"portfolio": payload.portfolio, "account": payload.account})
-                            res = TextPrivacy.textAnalyze(text=text, accName=accDetails, exclusion=payload.exclusion.split(',') if payload.exclusion is not None else [])
+                            res = TextPrivacy.textAnalyze(text=text, accName=accDetails, exclusion=payload.exclusion.split(',') if payload.exclusion is not None else [],piiEntitiesToBeRedacted=payload.piiEntitiesToBeRedacted.split(",") if payload.piiEntitiesToBeRedacted is not None else [],nlp=payload.nlp)
                             res = anonymizer._remove_conflicts_and_get_text_manipulation_data(res, (ConflictResolutionStrategy.MERGE_SIMILAR_OR_CONTAINED))
                             res = anonymizer._merge_entities_with_whitespace_between(text, res)
                             for i in res:
@@ -127,7 +133,7 @@ class PPTService:
             log.debug("payload:-" + str(payload))
             id = uuid.uuid4().hex
             request_id_var.set(id)
-
+            payload = AttributeDict(payload)
             if payload.portfolio is not None or payload.account is not None:
                 response_value = ApiCall.request(AttributeDict({"portfolio": payload.portfolio, "account": payload.account}))
                 if response_value is None:

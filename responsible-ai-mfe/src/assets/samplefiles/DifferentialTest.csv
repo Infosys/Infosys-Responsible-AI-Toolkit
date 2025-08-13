@@ -1,0 +1,10 @@
+Employee_ID,Gender,Age,Education_Level,Relationship_Status,Hometown,Unit,Decision_skill_possess,Time_of_service,Time_since_promotion,growth_rate,Travel_Rate,Post_Level,Pay_Scale,Compensation_and_Benefits,Work_Life_balance
+EID_22713,F,32,5,Single,Springfield,R&D,Conceptual,7,4,30,1,5,4,type2,1
+EID_9658,M,65,2,Single,Lebanon,IT,Directive,41,2,72,1,1,1,type2,1
+EID_22203,M,52,3,Married,Springfield,Sales,Directive,21,3,25,0,1,8,type3,1
+EID_7652,M,50,5,Single,Washington,Marketing,Analytical,11,4,28,1,1,2,type0,4
+EID_6516,F,44,3,Married,Franklin,R&D,Conceptual,12,4,47,1,3,2,type2,4
+EID_20283,F,22,4,Married,Franklin,IT,Behavioral,3,1,53,0,3,6,type2,1
+EID_21014,M,42,3,Married,Washington,Purchasing,Analytical,6,4,35,1,3,4,type2,1
+EID_7693,F,41,2,Married,Springfield,Sales,Conceptual,4,4,35,1,4,8,type2,1
+EID_13232,M,31,1,Single,Springfield,IT,Analytical,7,3,73,2,3,8,type2,3

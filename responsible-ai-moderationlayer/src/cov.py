@@ -41,9 +41,9 @@ class Cov:
             log.error(f"Exception: {e}")
             
         try:
-            llm_1 = AzureChatOpenAI(deployment_name=deployment_name,openai_api_version=openai_api_version,openai_api_key=openai_api_key,azure_endpoint=azure_endpoint,openai_api_type ='azure',temperature = 0)
-            llm_2 = AzureChatOpenAI(deployment_name=deployment_name, openai_api_version=openai_api_version, openai_api_key=openai_api_key, azure_endpoint=azure_endpoint,openai_api_type ='azure',temperature = 0.7)
-            llm_3 = AzureChatOpenAI(deployment_name=deployment_name, openai_api_version=openai_api_version, openai_api_key=openai_api_key, azure_endpoint=azure_endpoint,openai_api_type ='azure',temperature = 2)
+            llm_1 = AzureChatOpenAI(model=deployment_name,openai_api_version=openai_api_version,openai_api_key=openai_api_key,azure_endpoint=azure_endpoint,openai_api_type ='azure',temperature = 0)
+            llm_2 = AzureChatOpenAI(model=deployment_name, openai_api_version=openai_api_version, openai_api_key=openai_api_key, azure_endpoint=azure_endpoint,openai_api_type ='azure',temperature = 0.7)
+            llm_3 = AzureChatOpenAI(model=deployment_name, openai_api_version=openai_api_version, openai_api_key=openai_api_key, azure_endpoint=azure_endpoint,openai_api_type ='azure',temperature = 2)
 
         # except openai.InvalidRequestError as IR:
         #     # log.error(f"Exception: {IR}")

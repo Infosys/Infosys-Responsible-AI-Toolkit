@@ -25,6 +25,9 @@ evalLLMtelemetryurl=os.getenv("EVALLLMTELEMETRYPATH")
 
 log=CustomLogger()
 
+verify_ssl = os.getenv("VERIFY_SSL")
+sslv={"False":False,"True":True,"None":True}
+
 class telemetry:
     tel_flag=os.getenv("TEL_FLAG")
     log.info(f"TELEMETRY FLAG IN TELEMETRY METHOD--> {tel_flag}")
@@ -44,7 +47,7 @@ class telemetry:
                         moderation_telemetry_request["accountName"]="None"
                     moderation_telemetry_request['Moderation layer time'] = dict_timecheck
                     log.info(f"coupled data : {json.dumps(moderation_telemetry_request)}")
-                    response = requests.post(coupledtelemetryurl, json=moderation_telemetry_request)
+                    response = requests.post(coupledtelemetryurl, json=moderation_telemetry_request,verify=sslv[verify_ssl])
                     log.info(" ------------------ sending to telemetry ----------------- ")
                     response.raise_for_status()
                     log.info(" ------------------ sent to telemetry ----------------- ")
@@ -86,7 +89,7 @@ class telemetry:
                         moderation_telemetry_request["userid"]="None"
 
                     log.info(f"telemetry_request--->>> {moderation_telemetry_request}")
-                    response = requests.post(telemetryurl, json=moderation_telemetry_request)
+                    response = requests.post(telemetryurl, json=moderation_telemetry_request,verify=sslv[verify_ssl])
                     response.raise_for_status()
                     log.info("--------------- Sent from moderation Telemetry Azure ----------- ")
             elif tel_env == "ETA":
@@ -130,7 +133,7 @@ class telemetry:
                             headers=headers,
                             auth=HTTPBasicAuth(username,password),
                             data=json.dumps(payload),
-                            verify = False
+                            verify=sslv[verify_ssl]
                         )
 
                         if response.status_code >= 200 and response.status_code < 300:
@@ -335,7 +338,7 @@ class telemetry:
 
                     log.info(f"updated json ------ {json.dumps(telemetry_request)}")
 
-                    response = requests.post(evalLLMtelemetryurl, json=telemetry_request)
+                    response = requests.post(evalLLMtelemetryurl, json=telemetry_request, verify=sslv[verify_ssl])
                     log.info(" ------------------ sending to telemetry for EvalLLM ----------------- ")
                     response.raise_for_status()
                     log.info(" ------------------ sent to telemetry for EvalLLM----------------- ")

@@ -1,7 +1,7 @@
 import ipaddress
 import random
 from gibberish_detector import detector
-import secrets
+
 IGNORE = ["AMBIGUOUS", "USERNAME"]
 # List of random private IP addresses to use as replacements
 REPLACEMENTS_IP = {
@@ -78,11 +78,11 @@ def replace_ip(value, replacements_dict):
     """Replace an IP address with a synthetic IP address of the same format"""
     try:
         ipaddress.IPv4Address(value)
-        return secrets.choice(replacements_dict["IP_ADDRESS"]["IPv4"])
+        return random.choice(replacements_dict["IP_ADDRESS"]["IPv4"])
     except ValueError:
         try:
             ipaddress.IPv6Address(value)
-            return secrets.choice(replacements_dict["IP_ADDRESS"]["IPv6"])
+            return random.choice(replacements_dict["IP_ADDRESS"]["IPv6"])
         except ValueError:
             # this doesn't happen if we already use ipaddress filter in the detection
             print("Invalid IP address")
@@ -99,7 +99,7 @@ def is_secret_ip(ip):
     return ip.is_private
 
 
-def redact_pii_text(text, secret_data, replacements, add_references=False):
+def redact_pii_text(text, secrets, replacements, add_references=False):
     """Redact PII in a text
     Args:
         text (str): text to redact
@@ -111,15 +111,15 @@ def redact_pii_text(text, secret_data, replacements, add_references=False):
         text (str): new text with redacted secrets
     """
     modified = False
-    if secret_data:
-        secret_data = sorted(secret_data, key=lambda x: x["start"])
+    if secrets:
+        secrets = sorted(secrets, key=lambda x: x["start"])
         # store the secrets that were replaced here with their replacements
         replaced_secrets = {}
         subparts = []
         references = []
         step = 0
         last_text = text
-        for secret in secret_data:
+        for secret in secrets:
             # some post-processing 
             if secret["tag"] in IGNORE or not is_secret(secret["value"]):
                 continue
@@ -137,13 +137,14 @@ def redact_pii_text(text, secret_data, replacements, add_references=False):
             subtext = text[step : secret["start"]]
             subpart = subtext if subtext else " "
             subparts.append(subpart)
+            # if secret is already in replaced_secrets, use the same replacement
             if secret["value"] in replaced_secrets:
                 replacement = replaced_secrets[secret["value"]]
             else:
                 if secret["tag"] == "IP_ADDRESS":
                     replacement = replace_ip(secret["value"], replacements)
                 else:
-                    replacement = secrets.choice(replacements[secret["tag"]])
+                    replacement = random.choice(replacements[secret["tag"]])
                 replaced_secrets[secret["value"]] = replacement
             subparts.append(replacement)
             replaced_secrets[secret["value"]] = replacement

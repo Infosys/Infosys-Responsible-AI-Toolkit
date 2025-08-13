@@ -1,15 +1,12 @@
 """
-Copyright 2024-2025 Infosys Ltd.”
-
-Use of this source code is governed by MIT license that can be found in the LICENSE file or at
-MIT license https://opensource.org/licenses/MIT
+# SPDX-License-Identifier: MIT
+# Copyright 2024 - 2025 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
+ 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 """
 import datetime
 from io import BytesIO
@@ -17,13 +14,11 @@ from fastapi import HTTPException
 import numpy as np
 import pandas
 import openai
-from openai import AzureOpenAI
 import json
 import time
 import base64
 # from tenacity import retry, wait_random_exponential, stop_after_attempt
 import concurrent.futures
-import openai
 import backoff
 import requests
 from fairness.constants.llm_constants import PRIMARY_TEMPLATE, CORRECTION_PROMPT_TEMPLATE,SUCCESS_RATE_INFO
@@ -49,6 +44,9 @@ import uuid
 import os
 import datetime
 import textwrap
+from requests.exceptions import ChunkedEncodingError
+import re
+from fairness.dao.LlmConnection import create_llm_connection
 timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 log=logging.getLogger(__name__)
@@ -74,11 +72,6 @@ class FairnessAudit:
         self.dataAttributes = DataAttributes()
         self.dataAttributeValues = DataAttributeValues()
         self.report = Report()
-        self.client=AzureOpenAI(
-                api_version=os.getenv("OPENAI_API_VERSION"),
-                azure_endpoint=os.getenv("OPENAI_API_BASE"),
-                api_key=os.getenv("OPENAI_API_KEY")
-            )
         
     def get_dataframe(extension,file):
         if extension == "csv":
@@ -101,31 +94,40 @@ class FairnessAudit:
         
     @backoff.on_exception(backoff.expo, exception=(openai.RateLimitError,json.decoder.JSONDecodeError), max_tries=10,backoff_log_level=logging.INFO)        
     def correct_respnse(self,response,errors,input_text):
+
+        llm_connection = create_llm_connection()
+        # Get the active LLM name and instance
+        active_llm_name = llm_connection.get_active_llm()
+        llm_instance = llm_connection.llm_instance 
+
         #Create error string numberd list
         try:
-            model_name=os.getenv("OPENAI_ENGINE_NAME")
+            # model_name=os.getenv("OPENAI_ENGINE_NAME")
             log.info("Correction Required, Correcting the response")
             errors=[f"{i+1}. {error}" for i,error in enumerate(errors)]
             errors_string='\n'.join(errors)
             correction_template=CORRECTION_PROMPT_TEMPLATE.format(bias_json_placeholder=json.dumps(bias_types),original_response=json.dumps(response),specific_errors=errors_string,input_text=input_text)
-            response=self.client.chat.completions.create(
-                model=model_name,
-                messages=[
-                    {"role": "user", "content": correction_template},
-                    ],
-                    temperature=0.7,
-                    max_tokens=800,
-                    top_p=0.95,
-                    frequency_penalty=0,
-                    presence_penalty=0,
-                    stop=None,
+            # response=self.client.chat.completions.create(
+            #     model=model_name,
+            #     messages=[
+            #         {"role": "user", "content": correction_template},
+            #         ],
+            #         temperature=0.7,
+            #         max_tokens=800,
+            #         top_p=0.95,
+            #         frequency_penalty=0,
+            #         presence_penalty=0,
+            #         stop=None,
                     
-                )
-            generated_report = response.choices[0].message.content
-            json_string=generated_report[generated_report.find('['): generated_report.rfind(']')+1]
-            json_string=json_string.replace("\n","").replace("\t","").replace("\r","").strip()
-            json_response=json.loads(json_string)
-            return json_response
+            #     )
+            generated_report = llm_instance.get_chat_completion(correction_template, input_text)
+            if generated_report is not None:
+                json_string=generated_report[generated_report.find('['): generated_report.rfind(']')+1]
+                json_string=json_string.replace("\n","").replace("\t","").replace("\r","").strip()
+                json_response=json.loads(json_string)
+                return json_response
+            else:
+                log.info("Error: generated_report is None.")
         except json.decoder.JSONDecodeError as e:
             response=self.check_response([],input_text,errors=["JSONDecodeError: "+str(e)])
             return response['response']
@@ -177,8 +179,8 @@ class FairnessAudit:
                             errors.append(f"Invalid unprivileged_groups {response_dict['unprivileged_groups']}. Must be one of the following: {bias_types['groups']} for the bias_type {response_dict['bias_type']}")
                     
                     if "bias_indicator" in response_dict:
-                        if response_dict['bias_indicator'] not in ['Low', 'Medium', 'High']:
-                            errors.append(f"Invalid bias_indicator {response_dict['bias_indicator']}. Must be one of the following: Low, Medium, High")
+                        if response_dict['bias_indicator'] not in ['low', 'medium', 'high']:
+                            errors.append(f"Invalid bias_indicator {response_dict['bias_indicator']}. Must be one of the following: low, medium, high")
            
         if errors:
             response=self.correct_respnse(response,errors,input_text)
@@ -188,42 +190,81 @@ class FairnessAudit:
             'errors': errors,
             'response': response,
         }
-        
-    backoff.on_exception(backoff.expo, exception=(openai.RateLimitError,json.decoder.JSONDecodeError), max_tries=10)
-    def call_gpt(self,prompt_template,text_message,flag=True):
-        log.info("Analyzing the input text: "+str(text_message))
-        model=os.getenv("OPENAI_ENGINE_NAME")
+    # Function to extract JSON from response
+    def extract_json(self,response_text):
         try:
-            response = self.client.chat.completions.create(
-            model=model,
-                # engine="gpt-4-turbo",
-            messages=[
-                {"role": "system", "content": prompt_template},
-                {"role": "user", "content": text_message}
-                ],
-                temperature=0.7,
-                max_tokens=800,
-                top_p=0.95,
-                frequency_penalty=0,
-                presence_penalty=0,
-                stop=None,
+            extraction_methods = [
+                lambda x: json.loads(re.search(r'```json(.*?)```', x, re.DOTALL).group(1).strip()) if re.search(r'```json(.*?)```', x, re.DOTALL) else None,
+                lambda x: json.loads(re.search(r'\[.*\]', x, re.DOTALL).group(0)) if re.search(r'\[.*\]', x, re.DOTALL) else None,
+                lambda x: json.loads(re.findall(r'\[[^\[\]]*(?:\[[^\[\]]*\][^\[\]]*)*\]', x)[-1]) if re.findall(r'\[[^\[\]]*(?:\[[^\[\]]*\][^\[\]]*)*\]', x) else None
+]
+            for method in extraction_methods:
+                try:
+                    extracted_json = method(response_text)
+                    if extracted_json:
+                        return extracted_json
+                except Exception as e:
+                    continue
+            return None
+        except Exception as e:
+            return None    
+    backoff.on_exception(backoff.expo, exception=(openai.RateLimitError,json.decoder.JSONDecodeError,openai.BadRequestError), max_tries=15)
+    def call_llm(self,prompt_template,text_message,flag=True):
+        log.info("Analyzing the input text: "+str(text_message))
+        llm_connection = create_llm_connection()
+        # # Get the active LLM name and instance
+        active_llm_name = llm_connection.get_active_llm()
+        llm_instance = llm_connection.llm_instance  # Access the actual LLM instance
+        try:
+            # response = self.client.chat.completions.create(
+            # model=model,
+            #     # engine="gpt-4-turbo",
+            # messages=[
+            #     {"role": "system", "content": prompt_template},
+            #     {"role": "user", "content": text_message}
+            #     ],
+            #     temperature=0.7,
+            #     max_tokens=800,
+            #     top_p=0.95,
+            #     frequency_penalty=0,
+            #     presence_penalty=0,
+            #     stop=None,
                 
-            )
-            generated_report = response.choices[0].message.content
-            json_string=generated_report[generated_report.find('['): generated_report.rfind(']')+1]
-            json_string=json_string.replace("\n","").replace("\t","").replace("\r","").strip()
-            json_response=json.loads(json_string)
-            # json_response[0]['bias_type']="Education"
-            errors=self.check_response(json_response,text_message)
-            if errors['valid']:
+            # )
+            generated_report = llm_instance.get_chat_completion(prompt_template, text_message)
+            if generated_report is not None:
+                json_response=self.extract_json(generated_report)
                 return json_response
+                # errors=self.check_response(json_response,text_message)
+                # if errors['valid']:
+                #     return json_response
+                # else:
+                #     return errors['response']
             else:
-                return errors['response']
+                log.info("Error: generated_report is None.")
         except json.decoder.JSONDecodeError as e:
             log.error("JSONDecodeError: "+str(e))
             log.error(str(e.doc))
-            response=self.call_gpt(prompt_template,text_message)
+            response=self.call_llm(prompt_template,text_message)
             return response
+        except openai.BadRequestError as e:
+            # Handle the error
+            log.info(f"Error: {e}")
+            response_with_error = [{
+            'bias_type': 'Blocked By Azure',
+            'bias_indicator': 'high',
+            'privileged_groups': [],
+            'unprivileged_groups': [],
+            'bias_score': 100,
+            'explanation': 'This request was blocked by Azure. Immediate manual intervention required.'
+        }]
+        
+            # Log the error for future reference
+            log.error(f"BadRequestError encountered. Bias type set to 'Blocked By Azure' with a bias score of 100%.")
+            
+            return response_with_error
+        except openai.RateLimitError as e:
+            log.info(f"Rate limit exceeded: {e}")
         
     def image_to_pdf(image_paths, output_pdf, label=None):
         pdf = FPDF()
@@ -281,7 +322,7 @@ class FairnessAudit:
         
         # Save PDF
         pdf.output(output_pdf)
-        print(f"PDF created: {output_pdf}")
+        log.info(f"PDF created: {output_pdf}")
         
     def bias_type_bar_chart_visualize(df):
         try:
@@ -327,6 +368,8 @@ class FairnessAudit:
                     axes[2].set_ylabel('Frequency')
 
             # Bias Score Distribution
+            df['bias_score'] = pd.to_numeric(df['bias_score'], errors='coerce')  # Converts non-numeric to NaN
+            df = df.dropna(subset=['bias_score'])  # Drop rows with NaN in bias_score
             sns.histplot(df['bias_score'], color='skyblue', kde=True, ax=axes[3])
             axes[3].set_title('Distribution of Bias Scores in Responses')
             axes[3].set_xlabel('Bias Score')
@@ -364,6 +407,41 @@ class FairnessAudit:
             graph_path = os.path.join(OUTPUT_FOLDER, f'Frequency_of_Unprivileged_Groups_{times_stamp}.png')
             plt.savefig(graph_path)
             plt.close()
+
+            # Plot average bias score by bias level with threshhold and bias density
+            threshold = int(os.getenv('THRESHOLD'))
+            df["bias_score"] = pd.to_numeric(df["bias_score"], errors='coerce') # Converts non-numeric to NaN
+            bias_density = df["bias_score"].sum()/(len(df["bias_score"])) # concentration of bias across the dataset
+            # Group and sort data
+            mean_scores = df.groupby("bias_indicator")["bias_score"].mean().sort_values(ascending=False)
+            counts = df["bias_indicator"].value_counts()
+            # Convert to DataFrame
+            mean_scores = mean_scores.to_frame().reset_index()
+            # Define colors manually
+            color_map = {"high": "coral", "medium": "grey", "low": "skyblue"}
+            bar_colors = [color_map[b] for b in mean_scores["bias_indicator"]]
+            # Plot bar chart
+            fig,ax=plt.subplots(figsize=(8, 6))
+            sns.barplot(x=mean_scores["bias_indicator"], y=mean_scores["bias_score"], palette=bar_colors)
+            # Add threshold and bias_density lines
+            plt.axhline(threshold, color="red", linestyle="dashed", label=f"Threshold: {threshold}%")
+            plt.axhline(bias_density, color="blue", linestyle="dashed", label=f"Bias Density: {round(bias_density)}%")
+            for i, (count, y_value) in enumerate(zip(counts[mean_scores["bias_indicator"]], mean_scores["bias_score"])):
+                ax.text(i, y_value + 2, f'({str(count)})', ha='center', va='bottom', fontsize=12, color=bar_colors[i], fontweight='bold')
+            # Add legend for counts
+            for label,color in color_map.items():
+                ax.bar(0, 0, color=color, label=f'{label} Count: {counts.get(label, 0)}')
+            # Format axes
+            ax.set_title("Average Bias Score by Bias Level")
+            ax.set_xlabel("Bias Indicator (high, medium, low)")
+            ax.set_ylabel("Average Bias Score (%)")
+            ax.set_ylim(0, 110)
+            ax.set_yticks(range(0, 110, 10)) # Set Y-axis scale to 0, 10, 20, ..., 100
+            plt.legend()
+            plt.tight_layout()
+            times_stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+            graph_path = os.path.join(OUTPUT_FOLDER, f"bias_analysis_with_threshold_{times_stamp}.png")
+            plt.savefig(graph_path)
             graph_paths.append(graph_path)
             # Read the image file and encode it in base64
             FairnessAudit.image_to_pdf(graph_paths, os.path.join(LOCAL_PATH, pdf_filename))
@@ -439,6 +517,8 @@ class FairnessAudit:
                 axes[2].set_ylabel('Frequency')
 
         # Bias Score Distribution
+        df['bias_score'] = pd.to_numeric(df['bias_score'], errors='coerce')  # Converts non-numeric to NaN
+        df = df.dropna(subset=['bias_score'])  # Drop rows with NaN in bias_score
         sns.histplot(df['bias_score'], color='skyblue', kde=True, ax=axes[3])
         axes[3].set_title('Distribution of Bias Scores in Responses')
         axes[3].set_xlabel('Bias Score')
@@ -493,7 +573,55 @@ class FairnessAudit:
         with open(graph_path, "rb") as image_file:
             image_base64 = base64.b64encode(image_file.read()).decode('utf-8')
         html_content += f'<img src="data:image/png;base64,{image_base64}" alt="Frequency of Unprivileged Groups">'
+        
+        # Plot average bias score by bias level with threshhold and bias density
+        threshold = int(os.getenv('THRESHOLD'))
+        df.loc[:, "bias_score"] = pd.to_numeric(df["bias_score"], errors='coerce') # Converts non-numeric to NaN
 
+        # FIX: Normalize bias_indicator to lowercase before any processing
+        df.loc[:, "bias_indicator"] = df["bias_indicator"].str.lower()
+
+        bias_density = df["bias_score"].sum()/(len(df["bias_score"])) # concentration of bias across the dataset
+        # Group and sort data
+        mean_scores = df.groupby("bias_indicator")["bias_score"].mean().sort_values(ascending=False)
+        counts = df["bias_indicator"].value_counts()
+        # Convert to DataFrame
+        mean_scores = mean_scores.to_frame().reset_index()
+        # Define colors manually
+        color_map = {"high": "coral", "medium": "grey", "low": "skyblue"}
+        bar_colors = [color_map[b] for b in mean_scores["bias_indicator"]]
+        # Plot bar chart
+        fig,ax=plt.subplots(figsize=(8, 6))
+        sns.barplot(x=mean_scores["bias_indicator"], y=mean_scores["bias_score"], palette=bar_colors)
+        # Add threshold and bias_density lines
+        plt.axhline(threshold, color="red", linestyle="dashed", label=f"Threshold: {threshold}%")
+        plt.axhline(bias_density, color="blue", linestyle="dashed", label=f"Bias Density: {round(bias_density)}%")
+        for i, (count, y_value) in enumerate(zip(counts[mean_scores["bias_indicator"]], mean_scores["bias_score"])):
+            ax.text(i, y_value + 2, f'({str(count)})', ha='center', va='bottom', fontsize=12, color=bar_colors[i], fontweight='bold')
+        # Add legend for counts
+        for label,color in color_map.items():
+            ax.bar(0, 0, color=color, label=f'{label} Count: {counts.get(label, 0)}')
+        # Format axes
+        ax.set_title("Average Bias Score by Bias Level")
+        ax.set_xlabel("Bias Indicator (high, medium, low)")
+        ax.set_ylabel("Average Bias Score (%)")
+        ax.set_ylim(0, 110)
+        ax.set_yticks(range(0, 110, 10)) # Set Y-axis scale to 0, 10, 20, ..., 100
+        plt.legend()
+        # Save the plot
+        pdf.savefig(fig)
+        plt.tight_layout()
+        # Save the graph to a file
+        graph_path = os.path.join(OUTPUT_FOLDER, f'Average_Bias_Score_by_Bias_Level_{times_stamp}.png')
+        plt.savefig(graph_path)
+        plt.close()
+        # Add the graph path to a list for later reference
+        graph_paths.append(graph_path)
+        # Read the image file and encode it in base64
+        with open(graph_path, "rb") as image_file:
+            image_base64 = base64.b64encode(image_file.read()).decode('utf-8')
+        # Add the image to HTML content
+        html_content += f'<img src="data:image/png;base64,{image_base64}" alt="Average Bias Score by Bias Level">'
         pdf.close()
 
         # Define the HTML file path
@@ -525,7 +653,7 @@ class FairnessAudit:
         primary_template=primary_template.replace('\n','').replace('\t','').replace('\r','').strip()
         prompt=primary_template.format(bias_json_placeholder=json.dumps(bias_types),input_text="{input_text}")
         with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-            results=list(executor.map(self.call_gpt,[prompt]*len(inputs),inputs))
+            results=list(executor.map(self.call_llm,[prompt]*len(inputs),inputs))
         data['response']=results
         data['bias_type']=data['response'].apply(lambda x: x[0]['bias_type'] if isinstance(x, list) and len(x) > 0 else (x if isinstance(x, str) else 'NA'))
         data['bias_score']=data['response'].apply(lambda x: x[0]['bias_score'] if isinstance(x, list) and len(x) > 0 else (x if isinstance(x, str) else 'NA'))
@@ -578,14 +706,13 @@ class FairnessAudit:
             primary_template=primary_template.replace('\n','').replace('\t','').replace('\r','').strip()
             prompt=primary_template.format(bias_json_placeholder=json.dumps(bias_types),input_text="{input_text}")
             with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-                results=list(executor.map(self.call_gpt,[prompt]*len(inputs),inputs))
+                results=list(executor.map(self.call_llm,[prompt]*len(inputs),inputs))
             data['response']=results
             data['bias_type']=data['response'].apply(lambda x: x[0]['bias_type'] if isinstance(x, list) and len(x) > 0 else (x if isinstance(x, str) else 'NA'))
             data['bias_score']=data['response'].apply(lambda x: x[0]['bias_score'] if isinstance(x, list) and len(x) > 0 else (x if isinstance(x, str) else 'NA'))
             data['privileged_groups']=data['response'].apply(lambda x: x[0]['privileged_groups'] if isinstance(x, list) and len(x) > 0 else (x if isinstance(x, str) else 'NA'))  
             data['unprivileged_groups']=data['response'].apply(lambda x: x[0]['unprivileged_groups'] if isinstance(x, list) and len(x) > 0 else (x if isinstance(x, str) else 'NA'))
             data['bias_indicator']=data['response'].apply(lambda x: x[0]['bias_indicator'] if isinstance(x, list) and len(x) > 0 else (x if isinstance(x, str) else 'NA'))
-            
             data=data.replace('NA', pd.NA)
             csv_name='bias_audit_report_'+str(uuid.uuid4())+'.csv'
             data.to_csv(os.path.join(LOCAL_PATH,csv_name))
@@ -614,10 +741,13 @@ class FairnessAudit:
             "POST", url, data=payload, verify=False).json()
             
             report_id = self.report.find(batch_id=batchId)
-            print(report_id)
+            log.info(report_id)
             reportId = report_id['ReportFileId']
             reportName=report_id['ReportName']
-            content = self.fileStore.read_file(reportId,os.getenv("PDF_CONTAINER_NAME"))
+            try:
+                content = self.fileStore.read_file(reportId,os.getenv("PDF_CONTAINER_NAME"))
+            except:
+                content= self.fileStore.read_chunked_file(reportId,os.getenv("PDF_CONTAINER_NAME"))
             pdf_name=content['name']+"."+content['extension']
             #load csv and pdf and convert to bytes
             with open(os.path.join(LOCAL_PATH,csv_name), 'rb') as f:

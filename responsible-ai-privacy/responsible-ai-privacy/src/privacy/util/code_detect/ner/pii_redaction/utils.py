@@ -1,6 +1,5 @@
 import ipaddress
 import random
-import secrets
 from gibberish_detector import detector
 ## USERNAME IS IN IGNORE BECAUSE MODEL IS DETECTING FALSE POSITIVES
 ## It is given in ignore list, in starCoder repo itself
@@ -104,7 +103,7 @@ def is_secret_ip(ip):
     return ip.is_private
 
 
-def redact_pii_text(text, data, replacements, add_references=False):
+def redact_pii_text(text, secrets, replacements, add_references=False):
     """Redact PII in a text
     Args:
         text (str): text to redact
@@ -116,15 +115,15 @@ def redact_pii_text(text, data, replacements, add_references=False):
         text (str): new text with redacted secrets
     """
     modified = False
-    if data:
-        data = sorted(data, key=lambda x: x["start"])
+    if secrets:
+        secrets = sorted(secrets, key=lambda x: x["start"])
         # store the secrets that were replaced here with their replacements
         replaced_secrets = {}
         subparts = []
         references = []
         step = 0
         last_text = text
-        for secret in data:
+        for secret in secrets:
             print(f"Processing secret:")
 
             # some post-processing 
@@ -151,7 +150,7 @@ def redact_pii_text(text, data, replacements, add_references=False):
                 if secret["tag"] == "IP_ADDRESS":
                     replacement = replace_ip(secret["value"])
                 else:
-                    replacement = secrets.choice(replacements[secret["tag"]])
+                    replacement = random.choice(replacements[secret["tag"]])
                 replaced_secrets[secret["value"]] = replacement
             subparts.append(replacement)
             replaced_secrets[secret["value"]] = replacement

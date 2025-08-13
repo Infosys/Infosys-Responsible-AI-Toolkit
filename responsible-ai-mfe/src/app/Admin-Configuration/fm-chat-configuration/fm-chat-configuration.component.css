@@ -1,9 +1,9 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .drop-zone {
     border: 2px dashed #dcdcdc;
     /* Dashed border */
@@ -21,27 +21,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     height: 197px;
 }
 
-.drop-zone p {
-    margin-bottom: 20px;
-    /* New */
-}
-
-.drop-zone input[type="file"] {
-    position: absolute;
-    /* New */
-    width: 100%;
-    /* New */
-    height: 100%;
-    /* New */
-    top: 0;
-    /* New */
-    left: 0;
-    /* New */
-    opacity: 0;
-    /* New */
-    cursor: pointer;
-    /* New */
-}
 
 .drop-zone p {
     margin-bottom: 20px;
@@ -65,10 +44,29 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     /* New */
 }
 
+.drop-zone p {
+    margin-bottom: 20px;
+    /* New */
+}
+
+.drop-zone input[type="file"] {
+    position: absolute;
+    /* New */
+    width: 100%;
+    /* New */
+    height: 100%;
+    /* New */
+    top: 0;
+    /* New */
+    left: 0;
+    /* New */
+    opacity: 0;
+    /* New */
+    cursor: pointer;
+    /* New */
+}
 
 /* css for button */
-
-
 /* :host ::ng-deep .mat-mdc-raised-button.mat-primary {
     --mdc-protected-button-container-color: #231F20;
     --mdc-protected-button-label-text-color: #fff;
@@ -84,9 +82,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     justify-content: right;
 }
 
-
 /* FILE CONTAINER */
-
 .fileContainer {
     width: 158px;
 }
@@ -121,13 +117,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-size: 10px;
 }
 
-
 /* table */
 
 .styled-table {
+
     width: 95%;
     border-collapse: collapse;
 }
+
 
 .button-container2 {
     display: flex;
@@ -136,20 +133,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 
 
+
 /* .mat-raised-button{
 width: 70px;
 height: 28px;
 } */
 
-
 /* drag and drop text */
-
 .paragraph_dnd {
     color: #9C9C9C;
     opacity: 70%;
     font-family: 'Segoe UI';
     font-weight: regular;
     font-size: 12px;
+
 }
 
 .dnd-lable {
@@ -159,6 +156,7 @@ height: 28px;
     font-family: 'Segoe UI';
     font-weight: 500;
     font-size: .65rem;
+
 }
 
 .high-light {
@@ -177,23 +175,24 @@ height: 28px;
     height: 3rem;
 }
 
-
 /* complet text */
-
 .gereen-text {
     color: #12A108 !important;
 }
-
 
 /* pagination */
 
 
 /* arjun css */
-
 .mat-primary2 {
     color: #8626C3;
     /* background-color:#BFBFBF; */
 }
+
+
+
+
+
 
 .mat-black {
     color: white !important;
@@ -297,11 +296,12 @@ height: 28px;
     /* margin: 1rem 0rem; */
 }
 
+
+
 .batchTable-container {
     display: flex;
     justify-content: space-between;
 }
-
 
 /* .styled-table {
 
@@ -321,7 +321,9 @@ height: 28px;
     color: #382261;
     opacity: 70%;
     text-transform: uppercase;
+
 }
+
 
 .styled-table td {
     /* Segoe UI, regular */
@@ -335,9 +337,7 @@ height: 28px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-
 /* Icon Styling */
-
 .mat-mdc-icon-button.mat-mdc-button-base {
     width: 25px;
     height: 25px;
@@ -349,9 +349,7 @@ height: 28px;
     font-size: 16px;
 }
 
-
 /* -----Pagination------- */
-
 .ngx-pagination .current {
     background: #8626C3;
 }
@@ -366,7 +364,6 @@ height: 28px;
     font-size: .60rem;
     margin-right: 100px;
 }
-
 .pagination-info {
     font-family: 'Segoe UI';
     font-weight: 500 !important;
@@ -378,6 +375,7 @@ height: 28px;
     z-index: 1056 !important;
     /* Adjust if needed */
 }
+
 
 .smallButton {
     font-size: smaller !important;
@@ -404,13 +402,13 @@ height: 28px;
 .mat-primary3 {
     color: #B10000;
     /* background-color:#BFBFBF; */
-}
-
- :host ::ng-deep .ngx-pagination .current {
+  }
+  
+  :host ::ng-deep .ngx-pagination .current {
     background: #8626C3;
-}
-
- :host ::ng-deep .ngx-pagination a {
+  }
+  :host ::ng-deep .ngx-pagination a{
     text-decoration: none;
     font-weight: 500;
-}
+  }
+

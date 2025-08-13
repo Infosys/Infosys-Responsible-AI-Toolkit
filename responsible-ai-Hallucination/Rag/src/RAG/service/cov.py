@@ -1,4 +1,6 @@
 """
+SPDX-License-Identifier: MIT
+
 Copyright 2024 - 2025 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
@@ -13,18 +15,24 @@ from langchain_core.runnables import RunnablePassthrough
 from langchain.chat_models import AzureChatOpenAI
 import pickle
 from langchain.prompts import PromptTemplate
+from langchain.vectorstores.faiss import FAISS
 from RAG.service.service import show_score
 import re
 import os
 import time
 from RAG.config.logger import CustomLogger,request_id_var
-from RAG.service.service import cache,fs,MAX_CACHE_SIZE, dbtypename
+from RAG.service.service import cache,fs,MAX_CACHE_SIZE, dbtypename, select_embeddingmodel, select_llmtype
 from RAG.dao.AdminDb import collection
 import tiktoken
+import traceback
 log=CustomLogger()
 request_id_var.set("Startup")
 
-llm = AzureChatOpenAI(deployment_name=os.getenv("OPENAI_MODEL"), temperature=1)
+# Base directory for storing vectorstores
+VECTORSTORE_BASE_DIR = "../data/vectorstores/"
+embeddingmodelname=os.getenv("EMBEDDING_MODEL_NAME")
+
+# llm = AzureChatOpenAI(deployment_name=os.getenv("OPENAI_MODEL"), temperature=1)
 
 def get_price_details(model: str):
     '''
@@ -71,7 +79,7 @@ def get_token_cost(input_tokens: int, output_tokens: int, model: str):
         "total_cost": total_cost
     }
  
-def calculate_token_count(text: str, model_name: str = "text-embedding-ada-002") -> int:
+def calculate_token_count(text: str, model_name: str = embeddingmodelname) -> int:
     # Load the appropriate tokenizer for the model
     tokenizer = tiktoken.encoding_for_model(model_name)
     # Encode the text into tokens
@@ -79,25 +87,42 @@ def calculate_token_count(text: str, model_name: str = "text-embedding-ada-002")
     # Return the token count
     return len(tokens)
     
-def cov(text,fileupload,complexity,vectorestoreid=None):
+def cov(text,fileupload,complexity,llmtype,vectorestoreid=None):
+    """
+    Function to generate a Chain of Verification (COVe) response using the Langchain library and a vector store.
+    """
     starttime = time.time()     
     if fileupload==True:
         res = []
         log.info("Before llm calling")
         # with open("../data/docs/"+str(id)+"/DefaultVectorstore.pkl","rb") as file:
         #vectorstore =pickle.load(file)
-        if dbtypename=="mongo":
-            vectorstore = pickle.loads(fs.get_last_version(_id=vectorestoreid+"vectorstore",filename="vectorstore.pkl").read())
-        else:
-            ###############################
-            filter = {"id": vectorestoreid + "vectorstore"}
-            document = collection.find_one(filter)
-            if document:
-                vectorstore_binary = document["data"]
-                vectorstore = pickle.loads(vectorstore_binary)
-                print("Vectorstore retrieved successfully!")
+        if llmtype=="openai":
+            if dbtypename=="mongo":
+                vectorstore = pickle.loads(fs.get_last_version(_id=vectorestoreid+"vectorstore",filename="vectorstore.pkl").read())
             else:
-                print("Document not found!")
+                #########################
+                # Define the filter to retrieve the document
+                filter = {"id": vectorestoreid + "vectorstore"}
+                document = collection.find_one(filter)
+                if document:
+                    vectorstore_binary = document["data"]
+                    vectorstore = pickle.loads(vectorstore_binary)
+                    print("Vectorstore retrieved successfully!")
+                else:
+                    print("Document not found!")
+        else:
+            vectorstore_path = f"{VECTORSTORE_BASE_DIR}{vectorestoreid}/"
+            embedding_function = select_embeddingmodel(llmtype)
+        
+            # Load vectorstore using FAISS native method
+            vectorstore = FAISS.load_local(
+                vectorstore_path, 
+                embedding_function, 
+                allow_dangerous_deserialization=True
+            )
+            
+            print(f"Vectorstore loaded successfully from: {vectorstore_path}")
             ###############################
         log.info("Vectorstore loaded")
         retriever=vectorstore.as_retriever()
@@ -114,6 +139,7 @@ def cov(text,fileupload,complexity,vectorestoreid=None):
             
             vect=cache[int(vectorestoreid)]
             retriever=vect.as_retriever()
+    llm= select_llmtype(llmtype)
     
     BASELINE_PROMPT = """Answer the question based only on the following context:
     {context}

@@ -1,43 +1,44 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <!-- <p>magnify-image-report works!</p> -->
-<div class="p-3 px-4 h-100">
-    <div class="d-flex justify-content-between align-items-center pb-4">
-        <p class="headingTop">Image Analyze Report</p>
+<div class="p-3 px-4 h-100"  >
+<div class="d-flex justify-content-between align-items-center pb-4">
+    <p class="headingTop">Image Analyze Report</p>
 
-        <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
+    <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
         <span aria-hidden="true">&times;</span>
     </button>
-    </div>
-    <div class="card-title title">{{metric}}</div>
-    <div>
-
-        <canvas id="aestheticsMagnify">{{chart}}</canvas>
-        <!-- <button mat-icon-button class="expand-button" (click)="openDialogAesthetics()">
+</div>
+<div class="card-title title">{{metric}}</div>
+<div  >
+                    
+    <canvas id="aestheticsMagnify">{{chart}}</canvas>
+    <!-- <button mat-icon-button class="expand-button" (click)="openDialogAesthetics()">
         <mat-icon>fullscreen</mat-icon></button> -->
-    </div>
+</div>
 
-    <div [hidden]="metric!='Aesthetics'">
-        <label style="padding: 30px; padding-bottom: 2px;"><strong>Aesthetics : </strong><span> Aesthetics involves evaluating various aspects such as composition, coherence with the input text, style consistency, diversity, realism, and subjective appeal.</span></label>
-        <label style="padding: 30px; padding-bottom: 2px;"><strong>Aesthetics Score : </strong>
+<div [hidden]="metric!='Aesthetics'">
+    <label style="padding: 30px; padding-bottom: 2px;"><strong>Aesthetics : </strong><span> Aesthetics involves evaluating various aspects such as composition, coherence with the input text, style consistency, diversity, realism, and subjective appeal.</span></label>
+    <label style="padding: 30px; padding-bottom: 2px;"><strong>Aesthetics Score : </strong>
     <span>In order to calculate the aesthetics score, a pre-trained CLIP model is utilized. This CLIP model is designed to extract relevant features from images that are important for aesthetic judgment.The computed score indicates how aesthetically pleasing the model considers the image to be.</span></label><br>
-        <label style="padding: 30px; padding-bottom: 2px;"><strong>Score Range : </strong>
+    <label style="padding: 30px; padding-bottom: 2px;"><strong>Score Range : </strong>
         Minimum score: 0  (Less creativity) , Maximum score: 10 (High creativity)</label>
-        <!-- </label> -->
-    </div>
+    <!-- </label> -->
+</div>
 
-    <div [hidden]="metric!='originality'">
-        <label style="padding: 30px;"><strong>Originality : </strong><span>How a text-to-image model goes beyond simply replicating existing images and explores the creative space of visual representations for a given prompt.</span></label>
-        <label style="padding: 30px; "><span>A watermark model can be used to detect instances where the generated images closely resemble existing images, indicating a lack of originality. By comparing the generated images with a database of watermarked images, the watermark model helps identify potential replication or copying. This evaluation component ensures that the text-to-image model produces original and creative outputs rather than duplicating existing visual patterns.</span></label>
-    </div>
+<div [hidden]="metric!='originality'">
+    <label style="padding: 30px;"><strong>Originality : </strong><span>How a text-to-image model goes beyond simply replicating existing images and explores the creative space of visual representations for a given prompt.</span></label>
+    <label style="padding: 30px; "><span>A watermark model can be used to detect instances where the generated images closely resemble existing images, indicating a lack of originality. By comparing the generated images with a database of watermarked images, the watermark model helps identify potential replication or copying. This evaluation component ensures that the text-to-image model produces original and creative outputs rather than duplicating existing visual patterns.</span></label>
+</div>
 
 
 
-    <div class="p-3 px-4 h-100" [hidden]="metric!='Alignment'">
-        <!-- <table>
+<div class="p-3 px-4 h-100"  [hidden]="metric!='Alignment'">
+    <!-- <table>
         <tr>
             <th>Score</th>
             <th>Value</th>
@@ -70,81 +71,82 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </tr>
 
     </table> -->
-        <label style="padding: 30px;"> <Strong> Knowledge : </Strong> <span>How well a text-to-image model leverages its underlying knowledge to translate textual descriptions into visually accurate and meaningful representations.</span></label>
-        <table class="styled-table">
-            <tr>
-                <th class="header" style="padding-right: 25px;">Score</th>
-                <th class="header" style="padding-right: 25px;">Value</th>
-                <th class="header" style="padding-right: 25px;">Description</th>
-            </tr>
-            <tr>
-                <td>0-8</td>
-                <td>No Semantic</td>
-                <td>Similarity The generated image has almost no relation to the text prompt.</td>
-            </tr>
-            <tr>
-                <td>8.01-20</td>
-                <td>Low Semantic Similarity</td>
-                <td>The image shows some resemblance to the prompt, but there are significant inconsistencies or missing elements.</td>
-            </tr>
-            <tr>
-                <td>20.01-25</td>
-                <td>Moderate Semantic Similarity</td>
-                <td>The image partially reflects the concepts in the prompt, but there might be inaccuracies or a lack of detail.</td>
-            </tr>
-            <tr>
-                <td>25.01-30</td>
-                <td>High Semantic Similarity</td>
-                <td>The image captures the core meaning of the prompt with good accuracy, but might lack some specific details.</td>
-            </tr>
-            <tr>
-                <td>30.01-35</td>
-                <td>Excellent Semantic Similarity</td>
-                <td>The generated image exceptionally reflects the text prompt, potentially exceeding expectations with high detail and faithful representation.</td>
-            </tr>
-        </table>
+    <label style="padding: 30px;"> <Strong> Knowledge : </Strong> <span>How well a text-to-image model leverages its underlying knowledge to translate textual descriptions into visually accurate and meaningful representations.</span></label>
+    <table class="styled-table" >
+        <tr>
+            <th class="header" style="padding-right: 25px;">Score</th>
+            <th class="header" style="padding-right: 25px;">Value</th>
+            <th class="header" style="padding-right: 25px;">Description</th>
+        </tr>
+        <tr>
+            <td>0-8</td>
+            <td>No Semantic</td>
+            <td>Similarity The generated image has almost no relation to the text prompt.</td>
+        </tr>
+        <tr>
+            <td>8.01-20</td>
+            <td>Low Semantic Similarity</td>
+            <td>The image shows some resemblance to the prompt, but there are significant inconsistencies or missing elements.</td>
+        </tr>
+        <tr>
+            <td>20.01-25</td>
+            <td>Moderate Semantic Similarity</td>
+            <td>The image partially reflects the concepts in the prompt, but there might be inaccuracies or a lack of detail.</td>
+        </tr>
+        <tr>
+            <td>25.01-30</td>
+            <td>High Semantic Similarity</td>
+            <td>The image captures the core meaning of the prompt with good accuracy, but might lack some specific details.</td>
+        </tr>
+        <tr>
+            <td>30.01-35</td>
+            <td>Excellent Semantic Similarity</td>
+            <td>The generated image exceptionally reflects the text prompt, potentially exceeding expectations with high detail and faithful representation.</td>
+        </tr>
+    </table>
 
-        <label style="padding: 30px;"><strong>Alignment : </strong><span> This refers to how well the generated image reflects the core concepts, relationships, and semantics described in the text prompt.</span></label>
-        <table class="styled-table">
-            <tr>
-                <th class="header" style="padding-right: 25px;">Score</th>
-                <th class="header" style="padding-right: 25px;">Value</th>
-                <th class="header" style="padding-right: 25px;">Description</th>
-            </tr>
-            <tr>
-                <td>0-8</td>
-                <td>NoText-ImageAlignment</td>
-                <td>The generated image bears no relation to the text prompt.</td>
-            </tr>
-            <tr>
-                <td>8.01-20</td>
-                <td>LowText-ImageAlignment</td>
-                <td>There's a weak suggestion of the prompt's concept, but significant inconsistencies or missing elements exist.</td>
-            </tr>
-            <tr>
-                <td>20.01-25</td>
-                <td>ModerateText-ImageAlignment</td>
-                <td>The image partially reflects the prompt, but key details are inaccurate or poorly conveyed.</td>
-            </tr>
-            <tr>
-                <td>25.01-30</td>
-                <td>High Text-ImageAlignment</td>
-                <td>The image closely aligns with the prompt's meaning, accurately depicting the scene or objects with good detail.</td>
-            </tr>
-            <tr>
-                <td>30.01-35</td>
-                <td>Excellent Text-ImageAlignment</td>
-                <td>The generated image exceptionally reflects the text prompt, exceeding expectations with a high level of detail, style consistency, and accurate representation of the scene or objects described.</td>
-            </tr>
-        </table>
-    </div>
+    <label style="padding: 30px;"><strong>Alignment : </strong><span> This refers to how well the generated image reflects the core concepts, relationships, and semantics described in the text prompt.</span></label>
+    <table class="styled-table" >
+        <tr>
+            <th class="header" style="padding-right: 25px;">Score</th>
+            <th class="header" style="padding-right: 25px;">Value</th>
+            <th class="header" style="padding-right: 25px;">Description</th>
+        </tr>
+        <tr>
+            <td>0-8</td>
+            <td>NoText-ImageAlignment</td>
+            <td>The generated image bears no relation to the text prompt.</td>
+        </tr>
+        <tr>
+            <td>8.01-20</td>
+            <td>LowText-ImageAlignment</td>
+            <td>There's a weak suggestion of the prompt's concept, but significant inconsistencies or missing elements exist.</td>
+        </tr>
+        <tr>
+            <td>20.01-25</td>
+            <td>ModerateText-ImageAlignment</td>
+            <td>The image partially reflects the prompt, but key details are inaccurate or poorly conveyed.</td>
+        </tr>
+        <tr>
+            <td>25.01-30</td>
+            <td>High Text-ImageAlignment</td>
+            <td>The image closely aligns with the prompt's meaning, accurately depicting the scene or objects with good detail.</td>
+        </tr>
+        <tr>
+            <td>30.01-35</td>
+            <td>Excellent Text-ImageAlignment</td>
+            <td>The generated image exceptionally reflects the text prompt, exceeding expectations with a high level of detail, style consistency, and accurate representation of the scene or objects described.</td>
+        </tr>
+    </table>
+</div>
 
-    <div [hidden]="metric!='Bias'">
-        <label style="padding: 30px;"><strong>CLIP Score : </strong><span>Clip score is a metric used to evaluate the quality and relevance of text generated by language models.
+<div [hidden]="metric!='Bias'">
+    <label style="padding: 30px;"><strong>CLIP Score : </strong><span>Clip score is a metric used to evaluate the quality and relevance of text generated by language models.
         The score is calculated by comparing the text generated by the model with a set of reference texts using the CLIP (Contrastive Language-Image Pretraining) model, which is a large-scale image-text model. 
     </span></label>
-        <label style="padding: 30px;"><strong>Bias Score : </strong><span>CLIP scores can expose gender bias. Comparing scores between masculine and feminine prompts reveals if the model favors one gender.  
+    <label style="padding: 30px;"><strong>Bias Score : </strong><span>CLIP scores can expose gender bias. Comparing scores between masculine and feminine prompts reveals if the model favors one gender.  
     </span></label>
-    </div>
+</div>
 
 </div>
+

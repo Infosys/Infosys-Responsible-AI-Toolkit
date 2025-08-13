@@ -73,8 +73,7 @@
             "Traditional-AI": [
               "Privacy",
               "Safety",
-              "FM-Moderation",
-              "Explainability"
+              "FM-Moderation"
             ],
             "Generative-AI": [
               "Privacy",
@@ -191,8 +190,7 @@
             "Traditional-AI": [
               "Privacy",
               "Safety",
-              "FM-Moderation",
-              "Explainability"
+              "FM-Moderation"              
             ],
             "Generative-AI": [
               "Privacy",

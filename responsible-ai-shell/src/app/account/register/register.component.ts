@@ -1,15 +1,15 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
-
+import { NonceService } from 'src/app/nonce.service';
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from '../../../app/config/error.constants';
 import { RegisterService } from './register.service';
-import { NonceService } from 'src/app/nonce.service';
 
 @Component({
   selector: 'jhi-register',
@@ -24,7 +24,7 @@ export class RegisterComponent implements AfterViewInit {
   errorEmailExists = false;
   errorUserExists = false;
   success = false;
-
+  csrfToken: string;
   registerForm = this.fb.group({
     login: [
       '',
@@ -39,20 +39,23 @@ export class RegisterComponent implements AfterViewInit {
     password: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
     confirmPassword: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(50)]],
   });
-  csrfToken: string;
 
+  constructor(private registerService: RegisterService, private fb: UntypedFormBuilder,public nonceService:NonceService) {this.csrfToken = this.nonceService.getNonce();}
 
-  constructor(private registerService: RegisterService, private fb: UntypedFormBuilder,public nonceService: NonceService) 
-  {
-    this.csrfToken = this.nonceService.getNonce();
-  }
-
+  /**
+   * @description This function is used to initialize the register component
+   * @returns {void}
+   */
   ngAfterViewInit(): void {
     if (this.login) {
       this.login.nativeElement.focus();
     }
   }
 
+  /**
+   * @description This function is used to register the user
+   * @returns {void}
+   */
   register(): void {
     this.doNotMatch = false;
     this.error = false;
@@ -72,6 +75,11 @@ export class RegisterComponent implements AfterViewInit {
     }
   }
 
+  /**
+   * @description This function is used to process the error response from the server
+   * @param {HttpErrorResponse} response - The error response from the server
+   * @returns {void}
+   */
   private processError(response: HttpErrorResponse): void {
     if (response.status === 400 && response.error.type === LOGIN_ALREADY_USED_TYPE) {
       this.errorUserExists = true;

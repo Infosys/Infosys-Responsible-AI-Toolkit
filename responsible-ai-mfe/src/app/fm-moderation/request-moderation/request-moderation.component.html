@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="d-flex mb-n2">
     <p class="HeadingLabel d-flex flex-column" role="button" [ngClass]="{
@@ -12,7 +13,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </p>
     <p class="HeadingLabel d-flex flex-column" role="button" [ngClass]="{
         'activeTab': activeTab === 'Template-Based Guardrails'
-      }" (click)="changeTab('Template-Based Guardrails')" *ngIf="requestModerationTemplates.length != 0 && !hallucinationSwitchCheck">
+      }" (click)="changeTab('Template-Based Guardrails')" *ngIf="requestModerationTemplates.length != 0">
         Template-Based Guardrails
         <span class="text-center mt-n2" *ngIf="activeTab === 'Template-Based Guardrails'"><mat-icon>arrow_drop_down</mat-icon></span>
     </p>
@@ -33,100 +34,101 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 </div>
 <hr />
 <div class="mainContainerReqMod mb-2" [hidden]="activeTab != 'Model-Based Guardrails'">
-    <div class="card outerResultCard">
-        <div class="card-header pb-0 card-header-outerResultCard">
-            <h5 class="mainLabel d-flex mt-2 ml-2" style="font-size: 1rem; color: #303030;">
-                Prompt Analysis
-            </h5>
-        </div>
-        <div class="card-body">
-            <div class="d-flex">
-                <div class="card innerResultCard mr-2 flex-1">
-                    <div class="card-header d-flex justify-content-between border-0" style="background: none;">
-                        <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.9rem;
-                        color: #303030;">
-                            Prompt Injection Check
-                        </h5>
-                        <div class="d-flex">
-                            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Prompt Injection Check',type:'promptCheck'})">info</mat-icon>
-                            <div class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.promptInjectionCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.promptInjectionCheck?.['result'] == 'FAILED'">
-                                {{requestModerationResult?.promptInjectionCheck?.['result']}}</div>
-                        </div>
-                    </div>
-                    <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.["Prompt Injection Check"]}}</p>
-                    <div class="card-body">
-                        <div class="d-flex mt-1">
-                            <div class="cardA  mr-3 flex-1">
-                                <p class="mainLabel" style="    color: #232323;
-                                margin: 0px;
-                                font-size: x-large;">
-                                    {{requestModerationResult?.promptInjectionCheck?.['injectionConfidenceScore'] | number:'1.0-3'}}
-                                </p>
-                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Injection Score</p>
-                            </div>
-                            <div class="cardA flex-1">
-                                <p class="mainLabel" style="    color: #232323;
-                                margin: 0px;
-                                font-size: x-large;">
-                                    {{requestModerationResult?.promptInjectionCheck?.['injectionThreshold']}}
-                                </p>
-                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card innerResultCard mr-2 flex-1">
-                    <div class="card-header d-flex justify-content-between border-0" style="background: none;">
-                        <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
-                        color: #303030;">
-                            Jailbreak Check
-                        </h5>
-                        <div class="d-flex">
-                            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Jailbreak Check',type:'jailbreakCheck'})">info</mat-icon>
-                            <div style="margin-left: 7px;" class="custom-badge" [class.custom-badge-passed]="requestModerationResult?.jailbreakCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.jailbreakCheck?.['result'] == 'FAILED'">
-                                {{requestModerationResult?.jailbreakCheck?.['result']}}</div>
-                        </div>
-                    </div>
-                    <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Jailbreak Check']}}</p>
-                    <div class="card-body">
-                        <div class="d-flex mt-1">
-                            <div class="cardA  mr-3 flex-1">
-                                <p class="mainLabel" style="    color: #232323;
-                                margin: 0px;
-                                font-size: x-large;">
-                                    {{requestModerationResult?.jailbreakCheck?.['jailbreakSimilarityScore'] | number:'1.0-3'}}
-                                </p>
-                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Jailbreak Score</p>
-                            </div>
-                            <div class="cardA flex-1">
-                                <p class="mainLabel" style="    color: #232323;
-                                margin: 0px;
-                                font-size: x-large;">
-                                    {{requestModerationResult?.jailbreakCheck?.['jailbreakThreshold']}}</p>
-                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+    <div class="cardContainerTemp-model">
+        <div class="card outerResultCard">
+            <div class="card-header pb-0 card-header-outerResultCard">
+                <h5 class="mainLabel d-flex mt-2 ms-2" style="font-size: 1rem; color: #303030;">
+                    Prompt Analysis
+                </h5>
             </div>
-            <!-- <div class="mt-3 d-flex">
-                <div class="card innerResultCard mr-2 flex-1">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="card innerResultCard me-2 flex-1">
+                        <div class="card-header d-flex justify-content-between border-0" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.9rem;
+                        color: #303030;">
+                                Prompt Injection Check
+                            </h5>
+                            <div class="d-flex">
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Prompt Injection Check',type:'promptCheck'})">info</mat-icon>
+                                <div class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.promptInjectionCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.promptInjectionCheck?.['result'] == 'FAILED'">
+                                    {{requestModerationResult?.promptInjectionCheck?.['result']}}</div>
+                            </div>
+                        </div>
+                        <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.["Prompt Injection Check"]}}</p>
+                        <div class="card-body">
+                            <div class="d-flex mt-1">
+                                <div class="cardA  me-3 flex-1">
+                                    <p class="mainLabel" style="    color: #232323;
+                                margin: 0px;
+                                font-size: x-large;">
+                                        {{requestModerationResult?.promptInjectionCheck?.['injectionConfidenceScore'] | number:'1.0-3'}}
+                                    </p>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Injection Score</p>
+                                </div>
+                                <div class="cardA flex-1">
+                                    <p class="mainLabel" style="    color: #232323;
+                                margin: 0px;
+                                font-size: x-large;">
+                                        {{requestModerationResult?.promptInjectionCheck?.['injectionThreshold']}}
+                                    </p>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card innerResultCard me-2 flex-1">
+                        <div class="card-header d-flex justify-content-between border-0" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
+                        color: #303030;">
+                                Jailbreak Check
+                            </h5>
+                            <div class="d-flex">
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Jailbreak Check',type:'jailbreakCheck'})">info</mat-icon>
+                                <div style="margin-left: 7px;" class="custom-badge" [class.custom-badge-passed]="requestModerationResult?.jailbreakCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.jailbreakCheck?.['result'] == 'FAILED'">
+                                    {{requestModerationResult?.jailbreakCheck?.['result']}}</div>
+                            </div>
+                        </div>
+                        <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Jailbreak Check']}}</p>
+                        <div class="card-body">
+                            <div class="d-flex mt-1">
+                                <div class="cardA  me-3 flex-1">
+                                    <p class="mainLabel" style="    color: #232323;
+                                margin: 0px;
+                                font-size: x-large;">
+                                        {{requestModerationResult?.jailbreakCheck?.['jailbreakSimilarityScore'] | number:'1.0-3'}}
+                                    </p>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Jailbreak Score</p>
+                                </div>
+                                <div class="cardA flex-1">
+                                    <p class="mainLabel" style="    color: #232323;
+                                margin: 0px;
+                                font-size: x-large;">
+                                        {{requestModerationResult?.jailbreakCheck?.['jailbreakThreshold']}}</p>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- <div class="mt-3 d-flex">
+                <div class="card innerResultCard me-2 flex-1">
                     <div class="card-header d-flex justify-content-between border-0" style="background: none;">
                         <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.9rem;
                 color: #303030;">
                             Refusal Check
                         </h5>
                         <div class="d-flex">
-                            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Refusal Check',type:'TextRefusalDesciption'})">info</mat-icon>
+                            <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Refusal Check',type:'TextRefusalDesciption'})">info</mat-icon>
                             <div class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.refusalCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.refusalCheck?.['result'] == 'FAILED'">
                                 {{requestModerationResult?.refusalCheck?.['result']}}</div>
                         </div>
                         </div>
-                    <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Refusal Check']}}</p>
+                    <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Refusal Check']}}</p>
                     <div class="card-body">
                         <div class="d-flex mt-1">
-                            <div class="cardA  mr-3 flex-1">
+                            <div class="cardA  me-3 flex-1">
                                 <p class="mainLabel" style="    color: #232323;
                         margin: 0px;
                         font-size: x-large;">
@@ -144,18 +146,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         </div>
                     </div>
                 </div>
-                <div class="card innerResultCard mr-2 flex-1">
+                <div class="card innerResultCard me-2 flex-1">
                     <div class="card-header d-flex justify-content-between border-0" style="background: none;">
                         <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
                 color: #303030;">
                             Text Quality
-                            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Text Quality',type:'textQuality'})">info</mat-icon>
+                            <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Text Quality',type:'textQuality'})">info</mat-icon>
                         </h5>
                     </div>
-                    <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{ requestTime?.['Text Quality Check']}}</p>
+                    <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{ requestTime?.['Text Quality Check']}}</p>
                     <div class="card-body">
                         <div class="d-flex mt-1">
-                            <div class="cardA  mr-3 flex-1">
+                            <div class="cardA  me-3 flex-1">
                                 <p class="mainLabel" style="    color: #232323;
                         margin: 0px;
                         font-size: x-large;">{{requestModerationResult?.textQuality?.['readabilityScore'] | number:'1.0-3'}}
@@ -172,233 +174,396 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </div>
                 </div>
             </div> -->
-            <div class="mt-3 d-flex">
-                <div class="card innerResultCard mr-2 flex-1">
-                    <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
-                        <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
+                <div class="mt-3 d-flex">
+                    <div class="card innerResultCard me-2 flex-1">
+                        <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
                         color: #303030;">
-                            Privacy Check
-                        </h5>
-                        <div class="d-flex">
-                            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Privacy Check',type:'PrivacyDesciption'})">info</mat-icon>
-                            <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.privacyCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.privacyCheck?.['result'] == 'FAILED'">
+                                Privacy Check
+                            </h5>
+                            <div class="d-flex">
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Privacy Check',type:'PrivacyDesciption'})">info</mat-icon>
+                                <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.privacyCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.privacyCheck?.['result'] == 'FAILED'">
                                 {{requestModerationResult?.privacyCheck?.['result']}}</span>
-                        </div>
-                    </div>
-                    <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Privacy Check']}}</p>
-                    <div class="card-body">
-                        <div class="d-flex mt-1">
-                            <div class="cardA w-50 mr-3">
-                                <p *ngIf="requestModerationResult?.privacyCheck?.['entitiesConfiguredToBlock'] == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
-                                <div *ngIf="requestModerationResult?.privacyCheck?.['entitiesConfiguredToBlock'] != 0">
-                                    <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
-                                        {{requestModerationResult?.privacyCheck?.['entitiesConfiguredToBlock']}}
-                                    </p>
-                                </div>
-                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Entities Configured</p>
                             </div>
-                            <div class="cardA w-50">
-                                <p *ngIf="requestModerationResult?.privacyCheck?.['entitiesRecognised'].length == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
-                                <div *ngIf="requestModerationResult?.privacyCheck?.['entitiesRecognised'].length != 0">
-                                    <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
-                                        {{requestModerationResult?.privacyCheck?.['entitiesRecognised'] | slice:0:2}}...
-                                    </p>
-                                    <a class="mainLabel mainLabelSM mb-0 link" (click)="openRightSideModal({title:'Infosys Privacy Check',type:'privacyCheck', prompt:requestModerationResult?.text})">Show
+                        </div>
+                        <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Privacy Check']}}</p>
+                        <div class="card-body">
+                            <div class="d-flex mt-1">
+                                <div class="cardA w-50 me-3">
+                                    <p *ngIf="requestModerationResult?.privacyCheck?.['entitiesConfiguredToBlock'] == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                                    <div *ngIf="requestModerationResult?.privacyCheck?.['entitiesConfiguredToBlock'] != 0">
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{requestModerationResult?.privacyCheck?.['entitiesConfiguredToBlock']}}
+                                        </p>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Entities Configured</p>
+                                </div>
+                                <div class="cardA w-50">
+                                    <p *ngIf="requestModerationResult?.privacyCheck?.['entitiesRecognised'].length == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                                    <div *ngIf="requestModerationResult?.privacyCheck?.['entitiesRecognised'].length != 0">
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{requestModerationResult?.privacyCheck?.['entitiesRecognised'] | slice:0:2}}...
+                                        </p>
+                                        <a class="mainLabel mainLabelSM mb-0 link" (click)="openRightSideModal({title:'Infosys Privacy Check',type:'privacyCheck', prompt:requestModerationResult?.text})">Show
                                         Details({{requestModerationResult?.privacyCheck?.['entitiesRecognised'].length}}
                                         Recognised)</a>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Entities Recognised</p>
                                 </div>
-                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Entities Recognised</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card innerResultCard flex-1">
+                        <div class="card-header border-0  d-flex justify-content-between" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
+                        color: #303030;">
+                                Profanity Check
+                            </h5>
+                            <div class="d-flex">
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Profanity Check',type:'profanityDesciption'})">info</mat-icon>
+                                <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.profanityCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.profanityCheck?.['result'] == 'FAILED'">
+                                {{requestModerationResult?.profanityCheck?.['result']}}</span>
+                            </div>
+                        </div>
+                        <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Profanity Check']}}</p>
+                        <div class="card-body">
+                            <div class="d-flex mt-1 h-100">
+                                <div class="cardA flex-1">
+                                    <p *ngIf="requestModerationResult?.profanityCheck?.['profaneWordsIdentified'].length == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                                    <div *ngIf="requestModerationResult?.profanityCheck?.['profaneWordsIdentified'].length != 0">
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small; text-transform: capitalize;">
+                                            {{requestModerationResult?.profanityCheck?.['profaneWordsIdentified'] | slice:0:4}}...
+                                        </p>
+                                        <a class="mainLabel mainLabelSM mb-0 link" (click)="openRightSideModal({title:'Infosys Profanity Check',type:'profanityCheckReq', text:requestModerationResult?.text})">Show
+                                        Details({{requestModerationResult?.profanityCheck?.['profaneWordsIdentified'].length}}
+                                        Words)</a>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Profane Words Identified (Threshold: 1 Word)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- NEMO GAURDRAIL -->
+                <div class="mt-3" *ngIf="nemoChecksApiResponses?.nemoTopicalRailStatus">
+                    <div class="card innerResultCard flex-1">
+                        <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
+                        color: #303030;">
+                                Nemo Guardrail
+                            </h5>
+                        </div>
+                        <div class="card-body d-flex">
+                            <div class="card me-2 flex-1">
+                                <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                                    <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
+                                color: #303030;">
+                                        Nemo Guardrail's Jailbreak Check
+                                    </h5>
+                                    <span class="custom-badge" [class.custom-badge-passed]="nemoChecksApiResponses?.nemoJailbreakCheckStatus == 'Passed'" [class.custom-badge-failed]="nemoChecksApiResponses?.nemoJailbreakCheckStatus == 'Failed'">
+                                    {{nemoChecksApiResponses?.nemoJailbreakCheckStatus}}</span>
+                                </div>
+                                <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{nemoChecksApiResponses?.nemoJailbreakCheckTime | number:'1.0-3'}}s</p>
+                                <div class="card-body">
+                                </div>
+                            </div>
+                            <div class="card flex-1">
+                                <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                                    <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
+                                color: #303030;">
+                                        Nemo Guardrail's TopicalRail Check
+                                    </h5>
+                                    <span class="custom-badge" [class.custom-badge-passed]="nemoChecksApiResponses?.nemoTopicalRailStatus == 'Passed'" [class.custom-badge-failed]="nemoChecksApiResponses?.nemoTopicalRailStatus == 'Failed'">
+                                    {{nemoChecksApiResponses?.nemoTopicalRailStatus}}</span>
+                                </div>
+                                <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{nemoChecksApiResponses?.nemoTopicalRailTime | number:'1.0-3'}}s</p>
+                                <div class="card-body">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card innerResultCard flex-1">
-                    <div class="card-header border-0  d-flex justify-content-between" style="background: none;">
-                        <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
+                <div class="mt-3 d-flex">
+                    <div class="card innerResultCard me-2 flex-1">
+                        <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
                         color: #303030;">
-                            Profanity Check
-                        </h5>
-                        <div class="d-flex">
-                            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Profanity Check',type:'profanityDesciption'})">info</mat-icon>
-                            <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.profanityCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.profanityCheck?.['result'] == 'FAILED'">
-                                {{requestModerationResult?.profanityCheck?.['result']}}</span>
+                                Restricted Topic Check
+                            </h5>
+                            <div class="d-flex">
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Restricted Topic Check',type:'RestrictedTopicDesciption'})">info</mat-icon>
+                                <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.restrictedtopic?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.restrictedtopic?.['result'] == 'FAILED'">
+                                {{requestModerationResult?.restrictedtopic?.['result']}}</span>
+                            </div>
+                        </div>
+                        <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Restricted Topic Check']}}</p>
+                        <div class="card-body">
+                            <div class="d-flex mt-1">
+                                <div class="cardA w-50 me-3">
+                                    <p *ngIf="requestModerationResult?.restrictedtopic?.['topicTypesConfiguredToBlock'] == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                                    <div *ngIf="requestModerationResult?.restrictedtopic?.['topicTypesConfiguredToBlock'] != 0">
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{requestModerationResult?.restrictedtopic?.['topicTypesConfiguredToBlock']}}
+                                        </p>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Topics Configured</p>
+                                </div>
+                                <div class="cardA w-50">
+                                    <p *ngIf="requestModerationResult?.restrictedtopic?.['topicTypesRecognised'].length == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                                    <div *ngIf="requestModerationResult?.restrictedtopic?.['topicTypesRecognised'].length != 0">
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{requestModerationResult?.restrictedtopic?.['topicTypesRecognised']}}
+                                        </p>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Topics Recognised</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Profanity Check']}}</p>
-                    <div class="card-body">
-                        <div class="d-flex mt-1 h-100">
-                            <div class="cardA flex-1">
-                                <p *ngIf="requestModerationResult?.profanityCheck?.['profaneWordsIdentified'].length == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
-                                <div *ngIf="requestModerationResult?.profanityCheck?.['profaneWordsIdentified'].length != 0">
-                                    <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small; text-transform: capitalize;">
-                                        {{requestModerationResult?.profanityCheck?.['profaneWordsIdentified'] | slice:0:4}}...
-                                    </p>
-                                    <a class="mainLabel mainLabelSM mb-0 link" (click)="openRightSideModal({title:'Infosys Profanity Check',type:'profanityCheckReq', text:requestModerationResult?.text})">Show
-                                        Details({{requestModerationResult?.profanityCheck?.['profaneWordsIdentified'].length}}
-                                        Words)</a>
+                    <div class="card innerResultCard flex-1">
+                        <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
+                        color: #303030;">
+                                Toxicity Check
+                                <!-- <span *ngIf="requestModerationResult?.toxicityCheck?.['result'] == 'FAILED'"
+                            class="badge badge-danger ms-2">Failed</span>
+                            <span *ngIf="requestModerationResult?.toxicityCheck?.['result'] == 'PASSED'"
+                            class="badge badge-success ms-2">Passed</span> -->
+                            </h5>
+                            <div class="d-flex">
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Toxicity Check',type:'toxicityCheckReq' , prompt:prompt})">info</mat-icon>
+                                <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.toxicityCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.toxicityCheck?.['result'] == 'FAILED'">
+                                {{requestModerationResult?.toxicityCheck?.['result']}}</span>
+                            </div>
+                        </div>
+                        <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Toxicity Check']}}</p>
+                        <div class="card-body">
+                            <div class="d-flex mt-1">
+                                <div class="cardA w-50 me-3">
+                                    <p *ngIf="requestModerationResult?.toxicityCheck?.['toxicityTypesConfiguredToBlock'] == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                                    <div *ngIf="requestModerationResult?.toxicityCheck?.['toxicityTypesConfiguredToBlock'] != 0">
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{requestModerationResult?.toxicityCheck?.['toxicityTypesConfiguredToBlock']}}
+                                        </p>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">ToxicityTypes Configured</p>
                                 </div>
-                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Profane Words Identified (Threshold: 1 Word)</p>
+                                <div class="cardA w-50">
+                                    <p *ngIf="requestModerationResult?.toxicityCheck?.['toxicityTypesRecognised'].length == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                                    <div *ngIf="requestModerationResult?.toxicityCheck?.['toxicityTypesRecognised'].length != 0">
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{requestModerationResult?.toxicityCheck?.['toxicityTypesRecognised'] | slice:0:2}}...
+                                        </p>
+                                        <a class="mainLabel mainLabelSM mb-0 link" (click)="openRightSideModal({title:'Infosys Toxicity Check',type:'toxicityCheckReq', prompt:prompt})">Show
+                                        Details({{requestModerationResult?.toxicityCheck?.['toxicityTypesRecognised'].length}}
+                                        Recognised)</a>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">ToxicityTypes Recognised</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 w-100" *ngIf="requestModerationResult?.randomNoiseCheck?.['result'] != 'UNMODERATED'">
+                    <div class="card w-50">
+                        <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
+                        color: #303030;">
+                                Random Noise Check
+                            </h5>
+                            <div class="d-flex">
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Random Noise Check',type:'rndmNoiseCheck'})">info</mat-icon>
+                                <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.randomNoiseCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.randomNoiseCheck?.['result'] == 'FAILED'">
+                                {{requestModerationResult?.randomNoiseCheck?.['result']}}</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="mainLabel mainLabelSM mb-2 mt-n3 text-end" style="font-size: 0.7rem;">Time Taken:
+                                <span>{{requestTime?.['Random Noise Check']}}</span>
+                            </p>
+                            <div class="d-flex mt-1">
+                                <div class="cardA w-50 me-3">
+                                    <p *ngIf="!requestModerationResult?.randomNoiseCheck?.['smoothLlmScore']" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">NA</p>
+                                    <div *ngIf="requestModerationResult?.randomNoiseCheck?.['smoothLlmScore']">
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{requestModerationResult?.randomNoiseCheck?.['smoothLlmScore']}}
+                                        </p>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Score</p>
+                                </div>
+                                <div class="cardA w-50">
+                                    <p *ngIf="!requestModerationResult?.randomNoiseCheck?.['smoothLlmThreshold']" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">NA</p>
+                                    <div *ngIf="requestModerationResult?.randomNoiseCheck?.['smoothLlmThreshold']">
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{requestModerationResult?.randomNoiseCheck?.['smoothLlmThreshold']}}
+                                        </p>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- new cards -->
+                <div class="d-flex flex-wrap">
+                    <!-- Sentiment Check -->
+                    <div class="card innerResultCard flex-1 m-2">
+                        <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem; color: #303030;">
+                                Sentiment Check
+                            </h5>
+                            <div class="d-flex">
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Sentiment Check',type:'sentimentCheck'})">info</mat-icon>
+                                <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.sentimentCheck?.result == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.sentimentCheck?.result == 'FAILED'">
+                                {{requestModerationResult?.sentimentCheck?.result}}
+                            </span>
+                            </div>
+                        </div>
+                        <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Sentiment Check']}}</p>
+                        <div class="card-body">
+                            <div class="d-flex mt-1">
+                                <div class="cardA flex-1 me-3">
+                                    <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                                        {{requestModerationResult?.sentimentCheck?.score}}
+                                    </p>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Score</p>
+                                </div>
+                                <div class="cardA flex-1">
+                                    <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                                        {{requestModerationResult?.sentimentCheck?.threshold}}
+                                    </p>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Invisible Text Check -->
+                    <div class="card innerResultCard flex-1 m-2">
+                        <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem; color: #303030;">
+                                Invisible Text Check
+                            </h5>
+                            <div class="d-flex">
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Invisible Text Check',type:'invisibleTextCheck'})">info</mat-icon>
+                                <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.invisibleTextCheck?.result == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.invisibleTextCheck?.result == 'FAILED'">
+                                {{requestModerationResult?.invisibleTextCheck?.result}}
+                            </span>
+                            </div>
+                        </div>
+                        <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Invisible Text Check']}}</p>
+                        <div class="card-body">
+                            <div class="d-flex mt-1">
+                                <div class="cardA w-50 me-3">
+
+                                    <div>
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{dummyDataResult.BannedCategories}}
+                                        </p>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Configured</p>
+                                </div>
+                                <div class="cardA w-50">
+                                    <p *ngIf="!requestModerationResult?.invisibleTextCheck?.invisibleTextIdentified?.length" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                                    <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                        {{requestModerationResult?.invisibleTextCheck?.invisibleTextIdentified}}
+                                    </p>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Recognised</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
-            <!-- NEMO GAURDRAIL -->
-            <div class="mt-3" *ngIf="nemoChecksApiResponses?.nemoTopicalRailStatus">
-                <div class="card innerResultCard flex-1">
-                    <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
-                        <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
-                        color: #303030;">
-                            Nemo Guardrail
-                        </h5>
-                    </div>
-                    <div class="card-body d-flex">
-                        <div class="card mr-2 flex-1">
-                            <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
-                                <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
-                                color: #303030;">
-                                    Nemo Guardrail's Jailbreak Check
-                                </h5>
-                                <span class="custom-badge" [class.custom-badge-passed]="nemoChecksApiResponses?.nemoJailbreakCheckStatus == 'Passed'" [class.custom-badge-failed]="nemoChecksApiResponses?.nemoJailbreakCheckStatus == 'Failed'">
-                                    {{nemoChecksApiResponses?.nemoJailbreakCheckStatus}}</span>
-                            </div>
-                            <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{nemoChecksApiResponses?.nemoJailbreakCheckTime | number:'1.0-3'}}s</p>
-                            <div class="card-body">
+                <div class="d-flex flex-wrap">
+                    <!-- Gibberish Check -->
+                    <div class="card innerResultCard flex-1 m-2">
+                        <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem; color: #303030;">
+                                Gibberish Check
+                            </h5>
+                            <div class="d-flex">
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Gibberish Check',type:'gibberishCheck'})">info</mat-icon>
+                                <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.gibberishCheck?.result == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.gibberishCheck?.result == 'FAILED'">
+                                {{requestModerationResult?.gibberishCheck?.result}}
+                            </span>
                             </div>
                         </div>
-                        <div class="card flex-1">
-                            <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
-                                <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
-                                color: #303030;">
-                                    Nemo Guardrail's TopicalRail Check
-                                </h5>
-                                <span class="custom-badge" [class.custom-badge-passed]="nemoChecksApiResponses?.nemoTopicalRailStatus == 'Passed'" [class.custom-badge-failed]="nemoChecksApiResponses?.nemoTopicalRailStatus == 'Failed'">
-                                    {{nemoChecksApiResponses?.nemoTopicalRailStatus}}</span>
-                            </div>
-                            <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{nemoChecksApiResponses?.nemoTopicalRailTime | number:'1.0-3'}}s</p>
-                            <div class="card-body">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-3 d-flex">
-                <div class="card innerResultCard mr-2 flex-1">
-                    <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
-                        <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
-                        color: #303030;">
-                            Restricted Topic Check
-                        </h5>
-                        <div class="d-flex">
-                            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Restricted Topic Check',type:'RestrictedTopicDesciption'})">info</mat-icon>
-                            <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.restrictedtopic?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.restrictedtopic?.['result'] == 'FAILED'">
-                                {{requestModerationResult?.restrictedtopic?.['result']}}</span>
-                        </div>
-                    </div>
-                    <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Restricted Topic Check']}}</p>
-                    <div class="card-body">
-                        <div class="d-flex mt-1">
-                            <div class="cardA w-50 mr-3">
-                                <p *ngIf="requestModerationResult?.restrictedtopic?.['topicTypesConfiguredToBlock'] == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
-                                <div *ngIf="requestModerationResult?.restrictedtopic?.['topicTypesConfiguredToBlock'] != 0">
-                                    <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
-                                        {{requestModerationResult?.restrictedtopic?.['topicTypesConfiguredToBlock']}}
-                                    </p>
+                        <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Gibberish Check']}}</p>
+                        <div class="card-body">
+                            <div class="d-flex mt-1">
+                                <div class="cardA w-50 me-3">
+                                    <div>
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{dummyDataResult.GibberishLabels}}
+                                        </p>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Configured</p>
                                 </div>
-                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Topics Configured</p>
-                            </div>
-                            <div class="cardA w-50">
-                                <p *ngIf="requestModerationResult?.restrictedtopic?.['topicTypesRecognised'].length == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
-                                <div *ngIf="requestModerationResult?.restrictedtopic?.['topicTypesRecognised'].length != 0">
-                                    <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
-                                        {{requestModerationResult?.restrictedtopic?.['topicTypesRecognised'] | slice:0:2}}...
-                                    </p>
+                                <div class="cardA w-50 me-3">
+                                    <p *ngIf="!requestModerationResult?.gibberishCheck?.gibberishScore?.length" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                                    <div *ngIf="requestModerationResult?.gibberishCheck?.gibberishScore?.length">
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{requestModerationResult?.gibberishCheck?.gibberishScore[0].gibberish_label}}
+                                        </p>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Gibberish Recognised</p>
                                 </div>
-                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Topics Recognised</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card innerResultCard flex-1">
-                    <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
-                        <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
-                        color: #303030;">
-                            Toxicity Check
-                            <!-- <span *ngIf="requestModerationResult?.toxicityCheck?.['result'] == 'FAILED'"
-                            class="badge badge-danger ml-2">Failed</span>
-                            <span *ngIf="requestModerationResult?.toxicityCheck?.['result'] == 'PASSED'"
-                            class="badge badge-success ml-2">Passed</span> -->
-                        </h5>
-                        <div class="d-flex">
-                            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Toxicity Check',type:'toxicityCheckReq'})">info</mat-icon>
-                            <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.toxicityCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.toxicityCheck?.['result'] == 'FAILED'">
-                                {{requestModerationResult?.toxicityCheck?.['result']}}</span>
-                        </div>
-                    </div>
-                    <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Toxicity Check']}}</p>
-                    <div class="card-body">
-                        <div class="d-flex mt-1">
-                            <div class="cardA w-50 mr-3">
-                                <p *ngIf="requestModerationResult?.toxicityCheck?.['toxicityTypesConfiguredToBlock'] == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
-                                <div *ngIf="requestModerationResult?.toxicityCheck?.['toxicityTypesConfiguredToBlock'] != 0">
-                                    <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
-                                        {{requestModerationResult?.toxicityCheck?.['toxicityTypesConfiguredToBlock']}}
+                                <div class="cardA flex-1 me-3" *ngIf="requestModerationResult.gibberishCheck?.gibberishScore?.length">
+                                    <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                                        {{requestModerationResult?.gibberishCheck?.gibberishScore[0]?.gibberish_score | truncateDecimal:2}}
                                     </p>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Score</p>
                                 </div>
-                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">ToxicityTypes Configured</p>
-                            </div>
-                            <div class="cardA w-50">
-                                <p *ngIf="requestModerationResult?.toxicityCheck?.['toxicityTypesRecognised'].length == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
-                                <div *ngIf="requestModerationResult?.toxicityCheck?.['toxicityTypesRecognised'].length != 0">
-                                    <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
-                                        {{requestModerationResult?.toxicityCheck?.['toxicityTypesRecognised'] | slice:0:2}}...
-                                    </p>
-                                    <a class="mainLabel mainLabelSM mb-0 link" (click)="openRightSideModal({title:'Infosys Toxicity Check',type:'toxicityCheckReq', prompt:requestModerationResult?.text})">Show
-                                        Details({{requestModerationResult?.toxicityCheck?.['toxicityTypesRecognised'].length}}
-                                        Recognised)</a>
-                                </div>
-                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">ToxicityTypes Recognised</p>
+                                <!-- <div class="cardA flex-1">
+                                <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                                    {{requestModerationResult?.gibberishCheck?.threshold}}
+                                </p>
+                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
+                            </div> -->
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="mt-3 w-100" *ngIf="requestModerationResult?.randomNoiseCheck?.['result'] != 'UNMODERATED'">
-                <div class="card w-50">
-                    <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
-                        <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
-                        color: #303030;">
-                            Random Noise Check
-                        </h5>
-                        <div class="d-flex">
-                            <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Random Noise Check',type:'rndmNoiseCheck'})">info</mat-icon>
-                            <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.randomNoiseCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.randomNoiseCheck?.['result'] == 'FAILED'">
-                                {{requestModerationResult?.randomNoiseCheck?.['result']}}</span>
+
+                    <!-- Ban Code Check -->
+                    <div class="card innerResultCard flex-1 m-2">
+                        <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                            <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem; color: #303030;">
+                                Ban Code Check
+                            </h5>
+                            <div class="d-flex">
+                                <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Ban Code Check',type:'banCodeCheck'})">info</mat-icon>
+                                <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="requestModerationResult?.bancodeCheck?.result == 'PASSED'" [class.custom-badge-failed]="requestModerationResult?.bancodeCheck?.result == 'FAILED'">
+                                {{requestModerationResult?.bancodeCheck?.result}}
+                            </span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <p class="mainLabel mainLabelSM mb-2 mt-n3 text-end" style="font-size: 0.7rem;">Time Taken:
-                            <span>{{requestTime?.['Random Noise Check']}}</span>
-                        </p>
-                        <div class="d-flex mt-1">
-                            <div class="cardA w-50 mr-3">
-                                <p *ngIf="!requestModerationResult?.randomNoiseCheck?.['smoothLlmScore']" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">NA</p>
-                                <div *ngIf="requestModerationResult?.randomNoiseCheck?.['smoothLlmScore']">
-                                    <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
-                                        {{requestModerationResult?.randomNoiseCheck?.['smoothLlmScore']}}
-                                    </p>
+                        <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{requestTime?.['Ban Code Check']}}</p>
+                        <div class="card-body">
+                            <div class="d-flex mt-1">
+                                <div class="cardA w-50 me-3">
+                                    <p *ngIf="!requestModerationResult?.bancodeCheck?.label" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                                    <div *ngIf="requestModerationResult?.bancodeCheck && requestModerationResult?.bancodeCheck?.label">
+                                        <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                            {{requestModerationResult?.bancodeCheck?.label}}
+                                        </p>
+                                    </div>
+                                    <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Ban Code Recognised</p>
                                 </div>
+                                <!-- <div class="cardA w-50 me-3">
+                                <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                                    {{requestModerationResult?.bancodeCheck?.score?.length > 0 ? (requestModerationResult?.bancodeCheck?.score[0]?.score | truncateDecimal:2) : 'N/A'}}
+                                </p>
                                 <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Score</p>
                             </div>
-                            <div class="cardA w-50">
-                                <p *ngIf="!requestModerationResult?.randomNoiseCheck?.['smoothLlmThreshold']" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">NA</p>
-                                <div *ngIf="requestModerationResult?.randomNoiseCheck?.['smoothLlmThreshold']">
-                                    <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
-                                        {{requestModerationResult?.randomNoiseCheck?.['smoothLlmThreshold']}}
-                                    </p>
-                                </div>
+                            <div class="cardA flex-1">
+                                <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                                    {{requestModerationResult?.bancodeCheck?.threshold || 'N/A'}}
+                                </p>
                                 <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
+                            </div> -->
                             </div>
                         </div>
                     </div>
@@ -409,7 +574,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
     <div class="card mt-3 outerResultCard" *ngIf="privAnzOutput || analyze">
         <div class="card-header pb-0 card-header-outerResultCard">
-            <h5 class="mainLabel d-flex mt-2 ml-2" style="font-size: 1rem; color: #303030;">
+            <h5 class="mainLabel d-flex mt-2 ms-2" style="font-size: 1rem; color: #303030;">
                 Image Analysis
             </h5>
         </div>
@@ -427,7 +592,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <p class="mainLabel mb-2" style="font-size: 0.9rem; color:#727272">Entities Recognised</p>
                         <div class="d-flex flex-wrap">
                             <ng-container *ngIf="privAnzOutput.size == 0">
-                                <div class="cardA mr-3 flex-1" style="flex: 0 0 5%; margin-bottom: 5px;">
+                                <div class="cardA me-3 flex-1" style="flex: 0 0 5%; margin-bottom: 5px;">
                                     <p class="mainLabel" style="color: #232323; margin: 0px; font-size: 0.8rem;">
                                         None
                                     </p>
@@ -435,7 +600,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </ng-container>
                             <ng-container *ngIf="privAnzOutput.size != 0">
                                 <ng-container *ngFor="let entity of privAnzOutput">
-                                    <div class="cardA mr-3 flex-1" style="flex: 0 0 5%; margin-bottom: 5px;">
+                                    <div class="cardA me-3 flex-1" style="flex: 0 0 5%; margin-bottom: 5px;">
                                         <p class="mainLabel" style="color: #232323; margin: 0px; font-size: 0.8rem;">
                                             {{ entity }}
                                         </p>
@@ -464,14 +629,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         </ng-template>
                     </div>
                     <div class="card-body d-flex flex-wrap">
-                        <div *ngFor="let key of ['drawings','hentai','neutral','porn','sexy']" class="card flex-1 mr-1">
+                        <div *ngFor="let key of ['drawings','hentai','neutral','porn','sexy']" class="card flex-1 me-1">
                             <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
                                 <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
                         color: #303030;">{{key | titlecase}}</h5>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex mt-1">
-                                    <div class="cardA w-50 mr-2">
+                                    <div class="cardA w-50 me-2">
                                         <div>
                                             <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
                                                 {{analyze[key] | number:'1.0-2'}}
@@ -489,7 +654,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 </div>
                             </div>
                         </div>
-                        <!-- <div *ngFor="let key of ['drawings','hentai','neutral','porn','sexy']" class="cardA cardB mr-2 mb-2">
+                        <!-- <div *ngFor="let key of ['drawings','hentai','neutral','porn','sexy']" class="cardA cardB me-2 mb-2">
                     <p class="mainLabel m-0" style="color: #232323;font-size: x-large;">{{ analyze[key] | number:'1.0-2'
                         }}</p>
                     <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">{{key | titlecase}}</p>

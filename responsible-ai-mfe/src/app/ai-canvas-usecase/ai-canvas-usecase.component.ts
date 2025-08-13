@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output,OnChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup ,ReactiveFormsModule} from '@angular/forms';
@@ -37,6 +38,8 @@ export class AiCanvasUsecaseComponent implements OnChanges {
   postAICanvasEndPoint:any;
   editParameter: any;
   reload= false;
+  localPostUrl = "http://localhost:30080/v1/questionnaire/aicanvas/submitResponse"
+  localgetUrl = "http://localhost:30080/v1/questionnaire/aicanvas/getResponse/"
   UseCaseName=""
   AiUseCaseName=""
   RaiUseCaseName=""
@@ -69,11 +72,13 @@ export class AiCanvasUsecaseComponent implements OnChanges {
     }
     // private stepper:MatStepper
 
+    // Emits form data to the parent component
     emitDataToParent(){
       this.formDataChanged.emit(this.aiCanvasForm.value)
       this.useCaseService.setAiCanvas(this.aiCanvasForm.value)
     }
 
+    // Counts the number of words in a text field
     countWords(event:any,index:any){
       const text = event.target.value
       const words = text.trim().split(/\s+/);
@@ -100,12 +105,14 @@ export class AiCanvasUsecaseComponent implements OnChanges {
 
       }
 
+      // Checks if the form is valid for screen 2
       isScreen2Valid(){
         return this.aiCanvasForm.valid
         // return this.aiCanvasForm.get('BusinessProblem')?.valid && this.aiCanvasForm.get('BusinessValue')?.valid && this.aiCanvasForm.get('EndUserValue')?.valid
       }
 
       currentScreen:any;
+    // Navigates to the next screen
     nextScreen() {
       
       if (this.currentScreen < 3 ) {
@@ -138,6 +145,7 @@ export class AiCanvasUsecaseComponent implements OnChanges {
       }
     }
 
+  // Moves to the next step in the stepper
   goToNextStep() {
     if (this.stepper) {
       this.stepper.next();
@@ -154,6 +162,7 @@ export class AiCanvasUsecaseComponent implements OnChanges {
     console.log("Value 0f stepper in Ai =====",this.stepper)
   }
 
+  // Submits the form and emits data to the parent component
   onSubmit(){
     console.log("this.aiCanvasForm.value",this.aiCanvasForm.value)
     const formData: FormGroup<any> = this.aiCanvasForm;
@@ -166,6 +175,7 @@ export class AiCanvasUsecaseComponent implements OnChanges {
     // }
   }
 
+  // Handles changes in input properties
   ngOnChanges() {
     
       // this.editDataSet(this.aicanvasEditData)
@@ -190,6 +200,7 @@ export class AiCanvasUsecaseComponent implements OnChanges {
   //   console.log("editValue===",editValue)
   // }
 
+  // Edits the form data with the provided response
   editDataSet(res:any){
     console.log("res181editDataa========",res)
     this.aiCanvasForm.patchValue({
@@ -209,6 +220,7 @@ export class AiCanvasUsecaseComponent implements OnChanges {
     // this.useCaseService.setAiCanvas("")
   }
 
+   // Initializes the component and sets up data
   ngOnInit(){
     console.log("cureent===",this.currentScreen)
     this.useCaseService.getAiCanvas.subscribe(msg => this.aicanvasEditData = msg)

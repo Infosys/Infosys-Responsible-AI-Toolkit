@@ -1,36 +1,33 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .topHeading {
     color: #4D4D4D;
     font-weight: 400;
     font-size: 24px;
     font-family: 'Segoe UI';
 }
-
-h2 {
+h2{
     text-align: left;
     font: normal normal 600 16px/21px Segoe UI;
     letter-spacing: 0px;
     color: #382261;
     text-transform: uppercase;
     opacity: 1;
-    margin-top: 38px;
+    margin-top: 38px;    
 }
-
-h3 {
+h3{
     text-align: left;
     font: normal normal bold 14px/19px Segoe UI;
     letter-spacing: 0px;
     color: #7E7E7E;
     text-transform: uppercase;
-    opacity: 1;
-    margin-top: 28px;
+    opacity: 1;    
+    margin-top: 28px;   
 }
-
 .textarea-input {
     width: 620px;
     height: 225px;
@@ -45,7 +42,6 @@ h3 {
     margin-right: 56px;
     padding: 10px 35px 10px 15px;
 }
-
 .textarea-container {
     position: relative;
 }
@@ -63,25 +59,25 @@ h3 {
     top: 20px;
     color: white;
     background-color: #AEAEAE;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    border: none;
+    border-radius: 50%; 
+    width: 25px; 
+    height: 25px; 
+    border:none;
     padding: 0px 0px 0px 0px;
-    display: flex;
+    display: flex; 
     align-items: center;
-    justify-content: center;
+    justify-content: center; 
 }
 
-.reset {
+.reset{
     left: 400px;
-    top: 10px;
+    top: 10px; 
     color: white;
     background-color: #8626C3;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    border: none;
+    border-radius: 50%; 
+    width: 25px; 
+    height: 25px; 
+    border:none;
     padding: 0px;
 }
 
@@ -94,7 +90,6 @@ h3 {
     text-transform: uppercase;
     opacity: 1;
 }
-
 .table-header {
     text-align: left;
     font: normal normal 600 12px/16px Segoe UI;
@@ -105,17 +100,14 @@ h3 {
     padding-bottom: 10px;
     padding-right: 80px;
 }
-
-.divider {
+.divider { 
     border-bottom: 1px solid #7e7e7e70;
-    width: 100%;
+     width: 100%; 
 }
-
 .bordered-table {
     width: 537px;
     margin-top: 24px;
 }
-
 .table-row {
     text-align: left;
     font: normal normal normal 12px/16px Segoe UI;
@@ -124,14 +116,12 @@ h3 {
     color: #061838;
     opacity: 1;
 }
-
 .bordered-table tbody tr td {
     padding: 10px 0;
 }
-
 .shimmer-loader {
-    margin-top: 15px;
-    height: 225px;
+    margin-top:15px;
+    height: 225px; 
     width: 500px;
     background: #edeeef;
     background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #edeef1 60%, #f6f7f8 80%, #f6f7f8 100%);
@@ -145,15 +135,12 @@ h3 {
 
 @keyframes shimmer {
     0% {
-        background-position: -450px 0;
-        /* Start further out to the left */
+        background-position: -450px 0; /* Start further out to the left */
     }
     100% {
-        background-position: 300px 0;
-        /* End further out to the right */
+        background-position: 300px 0; /* End further out to the right */
     }
 }
-
 .mat-primary {
     color: #8626C3;
 }
@@ -166,8 +153,8 @@ h3 {
     font-weight: 500 !important;
     font-size: 0.75rem !important;
     margin-bottom: 0.2rem;
-}
 
+}
 .checkbox-text {
     opacity: 70% !important;
     color: #061838 !important;
@@ -175,7 +162,6 @@ h3 {
     font-weight: 500 !important;
     font-size: 0.75rem !important;
 }
-
 :host::ng-deep .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
 .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
 .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background {
@@ -185,64 +171,58 @@ h3 {
 :host::ng-deep.mat-mdc-checkbox .mdc-checkbox__background .mat-checkbox-frame {
     border-radius: 50%;
 }
-
 :host::ng-deep.mat-mdc-checkbox .mat-checkbox-frame {
     border-radius: 50%;
 }
 
 :host::ng-deep.mat-checkbox-background svg {
     display: none;
-}
+  }
 
 :host::ng-deep.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
     border-radius: 50%;
-}
-
-.outer-card {
+  }
+  .outer-card {
     margin: 0px;
-}
-
-.prediction-card {
+  }
+  
+  .prediction-card {
     border: 0.2px solid #7e7e7e70;
     height: 225px;
-    width: 575px;
+    width:575px;
     margin-top: 14px;
-}
-
-.inner-cards {
+  }
+  
+  .inner-cards {
     display: flex;
     gap: 20px;
     margin: 15px;
-    margin-top: 65px;
-}
-
-.score-card,
-.threshold-card {
-    background-color: #eaeaea;
+    margin-top:65px;
+  }
+  
+  .score-card, .threshold-card {
+    background-color: #eaeaea; 
     flex: 1;
-}
-
-.button_container {
+  }
+  .button_container {
     display: flex;
     margin-top: 20px;
-    gap: 20px;
-}
-
- ::ng-deep .custom_button {
+    gap: 20px; 
+  }
+  ::ng-deep .custom_button {
     background-color: #e0e0e0 !important;
     color: #000000cc !important;
     font-size: 12px !important;
-}
-
- ::ng-deep .custom_button:hover {
-    background-color: #d0d0d0 !important;
-}
-
-.header-container {
+  }
+  
+  ::ng-deep .custom_button:hover {
+    background-color: #d0d0d0 !important; 
+  }
+  .header-container {
     display: flex;
     align-items: center;
-}
-
-.spacer {
-    width: 575px;
-}
+  }
+  
+  .spacer {
+    width: 575px; 
+  }

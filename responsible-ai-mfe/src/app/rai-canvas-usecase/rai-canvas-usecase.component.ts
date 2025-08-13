@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup ,ReactiveFormsModule} from '@angular/forms';
@@ -78,7 +79,7 @@ export class RaiCanvasUsecaseComponent implements OnChanges{
   }
   // private stepper:MatStepper
 
-
+// Counts the number of words in the input text
     countWords(event:any,index:any){
       const text = event.target.value
       const words = text.trim().split(/\s+/);
@@ -90,6 +91,7 @@ export class RaiCanvasUsecaseComponent implements OnChanges{
   
     }
 
+    // Resets the word count for a specific feature
     resetFeatureCountWords(event:any,index:any){
       const text = event.target.value
       const words = text.trim().split(/\s+/);
@@ -110,11 +112,14 @@ export class RaiCanvasUsecaseComponent implements OnChanges{
     //   // Set the initial step based on the currentScreen value
     //   this.stepper.selectedIndex = this.currentScreen-1;
     // }
+
+    // Emits the RAI Canvas form data to the parent component
     emitRaiCanvasDataToParent(){
       this.formRaiCanvasDataChanged.emit(this.raiCanvasForm.value)
       this.useCaseService.setRaiCanvas(this.raiCanvasForm.value)
     }
 
+    // Handles changes to the input properties and updates the form
     ngOnChanges() {
     
       // this.editDataSet(this.aicanvasEditData)
@@ -136,7 +141,7 @@ export class RaiCanvasUsecaseComponent implements OnChanges{
     // this.useCaseService.setRaiCanvas("")
   }
 
-
+// Populates the form with existing data for editing
   editDataSet(res:any){
     console.log("res181editDataaRaiCanvas========",res)
     this.raiCanvasForm.patchValue({
@@ -161,6 +166,7 @@ export class RaiCanvasUsecaseComponent implements OnChanges{
 
       }
 
+       // Navigates to the next step in the stepper
       goToNextStep() {
         console.log("inside Rai next===")
         if (this.stepper) {
@@ -173,6 +179,7 @@ export class RaiCanvasUsecaseComponent implements OnChanges{
 
       }
     
+      // Navigates to the previous step in the stepper
       goToPreviousStep() {
         console.log("inside Rai Prvious===")
         console.log("curentscreen value95=====",this.currentScreen)
@@ -187,11 +194,14 @@ export class RaiCanvasUsecaseComponent implements OnChanges{
       // goToPreviousStep() {
         
       // }
+
+      // Validates the form for the second screen
       isScreen2Valid(){
         return this.raiCanvasForm.valid
         // return this.aiCanvasForm.get('BusinessProblem')?.valid && this.aiCanvasForm.get('BusinessValue')?.valid && this.aiCanvasForm.get('EndUserValue')?.valid
       }
 
+      // Navigates to the next screen in the RAI Canvas workflow
       currentScreen:any=1;
       nextScreen() {
         // if (this.raiCanvasForm.invalid) {
@@ -210,6 +220,7 @@ export class RaiCanvasUsecaseComponent implements OnChanges{
         }
       }
   
+      // Navigates to the previous screen in the RAI Canvas workflow
     previousScreen() {
       
       console.log("Inside previos==========113")
@@ -221,13 +232,14 @@ export class RaiCanvasUsecaseComponent implements OnChanges{
       }
     }
 
+     // Submits the RAI Canvas form data
     onSubmit(){
       console.log("this.raiCanvasForm.value",this.raiCanvasForm.value)
       this.useCaseService.setRaiCanvas(this.raiCanvasForm.value)
      
     }
   
-  
+  // Initializes the component and sets up API calls
     ngOnInit(){
       console.log("cureent===",this.currentScreen)
       this.useCaseService.getcurrentScreen.subscribe(msg => this.currentScreen = msg)

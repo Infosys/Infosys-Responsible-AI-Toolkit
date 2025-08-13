@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div>
     <div class="w-25 mb-4 mt-4">
@@ -9,16 +10,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <option *ngFor="let option of options" [value]="option.value">{{option.name}}</option>
         </select>
     </div>
+    <div class="w-25 mb-4 mt-4" *ngIf="activeTable=='interpretability'">
+        <select [(ngModel)]="anotherActiveTable" class="form-select shadow-none" style="font-size: 12px;" (change)="onAnotherActiveTableChange($event)">
+        <option *ngFor="let option of anotherOptions" [value]="option.value">{{option.name}}</option>
+      </select>
+    </div>
     <div *ngIf="isLoadingTable">
         <ngx-skeleton-loader count="5" appearance="line" [theme]="{ 'border-radius': '20px', height: '30px', width:'900px'}">
         </ngx-skeleton-loader>
     </div>
     <div *ngIf="!isLoadingTable">
-        <div class="d-flex justify-content-end my-3 pr-5 mr-5">
+        <div class="d-flex justify-content-end my-3 pe-5 me-5">
             <div style="background-color: #8626C3; width: 18px; height: 8px;" class="mt-2"></div>
-            <label class="ml-2" style="font-size: 14px;">Infosys Model</label>
+            <label class="ms-2" style="font-size: 14px;">Infosys Model</label>
         </div>
-        <table class="styled-table" *ngIf="activeTable=='Model Fairness'">
+        <table class="styled-table" *ngIf="activeTable=='Model Robustness'">
             <tr>
                 <th class="header">Model Name</th>
                 <th class="header">Sentiment Analysis (SST-2)</th>
@@ -310,7 +316,36 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <td class="center-align">{{ toString(item['overall']) | slice:0:5 }}</td>
             </tr>
         </table>
+        <div *ngIf="activeTable == 'interpretability'">
+            <table class="styled-table" *ngIf="activeTable == 'interpretability' && !hasError">
+                <!-- Table Headers -->
+                <tr>
+                    <th class="header">Ranking</th>
+                    <th *ngFor="let key of objectKeys(interpretabilityDatasource[0])" class="header">
+                        <ng-container *ngIf="key !== 'sub_category'">
+                            <div style="display: flex; align-items: center;">
+                                {{ formatHeader(key) }}
+                            </div>
+                        </ng-container>
+                    </th>
+                </tr>
+
+                <!-- Table Rows -->
+                <tr *ngFor="let item of interpretabilityDatasource; let i = index">
+                    <td class="center-align">{{ i + 1 }}</td>
+                    <td *ngFor="let key of objectKeys(item)" class="center-align">
+                        <ng-container *ngIf="key != 'sub_category'">
+                            <ngx-skeleton-loader *ngIf="isLoading" count="1" appearance="line"></ngx-skeleton-loader>
+                            <span *ngIf="!isLoading">{{ item[key] }}</span>
+                        </ng-container>
+                    </td>
+                </tr>
+            </table>
+            <div *ngIf="hasError" class="error-message">
+                <p>Error: Unable to load the table data.</p>
+            </div>
+        </div>
     </div>
     <div style="height: 50px;">
 
-    </div>>
+    </div>

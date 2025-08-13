@@ -1,6 +1,205 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
-<p>bulk-processing under Development</p>
+<label class="topHeading">RAI DATA CURATOR</label>
+<marquee class="testing" direction="left">This screen is created for POC purpose only &nbsp; &nbsp; We will intimate once its ready for Production.</marquee>
+
+<!-- Upload and Table Section -->
+<div class="mt-2 d-flex">
+
+    <!-- Upload PDF section -->
+    <div>
+        <label class="HeadingLabelSM mb-0 mt-2">Upload Files *</label>
+        <div class="drop-zone mt-2">
+            <mat-icon class="material-icons browse-logo">cloud_upload</mat-icon>
+            <p class="paragraph_dnd">Drag and drop files here<br> or <span class="high-light">Browse</span></p>
+            <input type="file" (change)="onFileChange($event)" accept=".pdf, .csv" multiple>
+            <p class="dnd-lable"> Multiple Files are supported</p>
+        </div>
+
+        <label class="HeadingLabelSM mb-0 mt-2" *ngIf="files.length > 0">File</label>
+        <div class="mt-1" *ngFor="let file of files; let i = index">
+            <div class="file-upload" *ngIf="file">
+                <p style="margin: 0px; font-size: x-small;">{{ file.name }}</p>
+                <div class="d-flex align-items-center mt-1">
+                    <mat-progress-bar class="me-1" mode="determinate" [value]="file?.progress"></mat-progress-bar>
+                    <button class="cancel-button me-2" (click)="removeFile(i)"><mat-icon>close</mat-icon></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-2">
+            <label class="HeadingLabelSM mb-0 mt-2">Select Options *</label>
+            <form [formGroup]="explainabilityForm">
+                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                <mat-select multiple class="dropdown1 mb-4" placeholder="options" [formControl]="anotherOptionControl" (selectionChange)="onSelectionChange($event)">
+                    <mat-option *ngFor="let option of anotherOptions" [value]="option">
+                        {{option | titlecase}}
+                    </mat-option>
+                </mat-select>
+            </form>
+
+            <div class="button-container">
+                <button mat-raised-button class="mainBtn resetButton" (click)="resetAll()" color="reset">Reset</button>
+                <button mat-raised-button class="mainBtn ms-2" color="black" (click)="submit()">
+                    <span *ngIf="!spinner">Submit</span>
+                    <div *ngIf="spinner" class="spinner-border spinner-border-sm" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="w-100 ms-4" [ngClass]="{'d-none': !showTable}">
+        <div class="d-flex align-items-center justify-content-end">
+            <button class="rfrshBtn me-4" (click)="getTableData()"><mat-icon>refresh</mat-icon></button>
+        </div>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th class="header">Job ID</th>
+                    <th class="header">Unprocessed Files</th>
+                    <th class="header">Processed Files</th>
+                    <th class="header">Total Files</th>
+                    <th class="header">Status</th>
+                    <th class="header">Load to RAG</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="!dataReceived">
+                <tr>
+                    <td colspan="12">
+                        <ngx-skeleton-loader count="8" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px', width:'100%'}">
+                        </ngx-skeleton-loader>
+                    </td>
+                </tr>
+            </tbody>
+            <tbody *ngIf="dataReceived">
+                <ng-container *ngFor="let row of tableData| paginate : pagingConfig; let i = index">
+                    <tr [ngClass]="{'subTable': row.isExpand}">
+                        <td><button mat-icon-button class="actionBtn" (click)="toggleRow(row)">
+                            <mat-icon *ngIf="row.isExpand">expand_less</mat-icon>
+                            <mat-icon *ngIf="!row.isExpand">expand_more</mat-icon></button></td>
+                        <td>{{row.DocDetId}}</td>
+                        <td>{{row.UnProc}}</td>
+                        <td>{{row.ProcDoc}}</td>
+                        <td>{{row.TotDoc}}</td>
+                        <td [ngClass]="{'green-label': row.Status == 'Completed'}">{{row.Status | uppercase}}</td>
+                        <td>
+                            <button mat-icon-button class="actionBtn" matTooltip="RAG" matTooltipPosition="right"
+                                (click)="triggerRAG(row.DocDetId, row.TotDoc)" [disabled]="row.Status !== 'Completed'">
+                                <mat-icon *ngIf="clickedDocDetId !== row.DocDetId || !spinnerTrigger">play_arrow</mat-icon>
+                                <div *ngIf="clickedDocDetId === row.DocDetId && spinnerTrigger" class="spinner-border spinner-border-sm" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </button>
+                        </td>
+                    </tr>
+
+                    <tr *ngIf="row.isExpand">
+                        <td colspan="12" class="expandTable">
+                            <table class="table table-sm indexTable">
+                                <thead>
+                                    <tr>
+                                        <th class="header w-50">File Name</th>
+                                        <th class="header w-25">Status</th>
+                                        <th class="header w-25">Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <div *ngIf="row.subTable.length === 0">
+                                        <ngx-skeleton-loader count="2" appearance="line" [theme]="{ 'border-radius': '20px', height: '10px', width:'100%'}">
+                                        </ngx-skeleton-loader>
+                                    </div>
+                                    <tr *ngFor="let row2 of row.subTable">
+                                        <td>{{ row2.DocName }}</td>
+                                        <td>{{ row2.Status }}</td>
+                                        <td><mat-icon (click)="dowloadFile(row2)">download</mat-icon></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+        
+        <div class="d-flex justify-content-between mt-3" *ngIf="pagingConfig.totalItems > 5">
+            <div class="pagination-info">
+                Showing {{ pagingConfig.totalItems < pagingConfig.itemsPerPage ? 
+                pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }} </div>
+            <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)"></pagination-controls>
+        </div>
+    </div>
+
+</div>
+
+<!-- Commenting below section, which is executed @ Home: fm-moderation component -->
+
+    <!-- Prompt Entry and Response Section -->
+    <!-- <div class="mt-4 ms-125">
+        <div *ngIf="triggerPrompt">
+            <label class="mainLabel">Enter Prompt</label>
+            <div class="position-relative">
+                <textarea class="w-100 txtArea shadow-none" rows="3" name="prompt" [(ngModel)]="promptText" placeholder="Enter your prompt here" #prompt="ngModel"></textarea>
+                <div class="border-0 position-absolute m-2 sendIcon">
+                    <button type="submit" class="border-0 sendIcon" (click)="sendPrompt()">
+                    <i class="material-icons">send</i>
+                </button>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- Prompt Response Section -->
+        <!-- <div *ngIf="promptResponse"> -->
+
+            <!-- Thot Response Section -->
+            <!-- <div class="fixed-height-card2">
+                <div class="card-header cursor border-bottom-0 bg-transparent">
+                    <div>
+                        <label role='button' class="mainLabel cursor d-flex">EXPLANATION</label>
+                    </div>
+                    <div class="col-md-10 text-end ">
+                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{thotTime}}s</span></p>
+                    </div>
+                </div>
+
+                <div class="card-body mainLabel mainLabelSM mainLabelLight p-2" *ngIf="thotResponse">
+                    <p class="mainLabel mainLabelSM mainLabelLight m-0"><strong>Result: </strong>{{thotResult}}</p>
+                    <p class="mainLabel mainLabelSM mainLabelLight m-0"><strong>Explaination: </strong>{{thotExplanation}}</p>
+                    <p class="mainLabel mainLabelSM mainLabelLight m-0"><strong>Source: </strong>{{thotSource}}</p>
+                </div>
+                <div *ngIf="!thotResponse">
+                    <ngx-skeleton-loader count="3" appearance="line" [theme]="{ 'border-radius': '20px', height: '30px', width:'100%'}">
+                    </ngx-skeleton-loader>
+                </div>
+            </div> -->
+
+            <!-- Cot Response Section -->
+            <!-- <div class="fixed-height-card2">
+                <div class="card-header cursor  border-bottom-0 bg-transparent">
+                    <div>
+                        <label role='button' class="mainLabel cursor d-flex">VERIFICATION</label>
+                    </div>
+                    <div class="col-md-10 text-end">
+                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{cotTime}}s</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="card-body mainLabel mainLabelSM mainLabelLight p-2" *ngIf="cotResponse">
+                    <p class="mainLabel mainLabelSM mainLabelLight m-0"><strong>Result: </strong>{{cotResult}}</p>
+                    <p class="mainLabel mainLabelSM mainLabelLight m-0"><strong>Explaination: </strong>{{cotExplanation}}</p>
+                    <p class="mainLabel mainLabelSM mainLabelLight m-0"><strong>Source: </strong>{{cotSource}}</p>
+                </div>
+                <div *ngIf="!cotResponse">
+                    <ngx-skeleton-loader count="3" appearance="line" [theme]="{ 'border-radius': '20px', height: '30px', width:'100%'}">
+                    </ngx-skeleton-loader>
+                </div>
+            </div>
+        </div>
+    </div> -->

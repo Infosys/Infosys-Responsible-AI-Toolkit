@@ -1,7 +1,8 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="d-flex mb-n2">
     <p class="HeadingLabel d-flex flex-column" role="button" [ngClass]="{
@@ -9,17 +10,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
       }" (click)="changeTab('Model-Based Guardrails')">Model-Based Guardrails
         <span class="text-center mt-n2" *ngIf="activeTab === 'Model-Based Guardrails'"><mat-icon>arrow_drop_down</mat-icon></span>
     </p>
-    <!-- <p class="HeadingLabel d-flex flex-column" role="button" [ngClass]="{
+    <p class="HeadingLabel d-flex flex-column" role="button" [ngClass]="{
         'activeTab': activeTab === 'Template-Based Guardrails'
       }" (click)="changeTab('Template-Based Guardrails')" *ngIf="responseModerationTemplates.length != 0">
         Template-Based Guardrails
         <span class="text-center mt-n2" *ngIf="activeTab === 'Template-Based Guardrails'"><mat-icon>arrow_drop_down</mat-icon></span>
-    </p> -->
+    </p>
 </div>
 <hr />
 <div [hidden]="activeTab != 'Model-Based Guardrails'">
     <div class="d-flex">
-        <div class="card mr-2 flex-1">
+        <div class="card me-2 flex-1">
             <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
                 <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
                 color: #303030;">
@@ -28,10 +29,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <span class="custom-badge" [class.custom-badge-passed]="responseModerationResult?.privacyCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="responseModerationResult?.privacyCheck?.['result'] == 'FAILED'">
                     {{responseModerationResult?.privacyCheck?.['result']}}</span>
             </div>
-            <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Privacy Check']}}</p>
+            <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Privacy Check']}}</p>
             <div class="card-body">
                 <div class="d-flex mt-1">
-                    <div class="cardA w-50 mr-3">
+                    <div class="cardA w-50 me-3">
                         <p *ngIf="responseModerationResult?.privacyCheck?.['entitiesConfiguredToBlock'].length == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
                         <div *ngIf="responseModerationResult?.privacyCheck?.['entitiesConfiguredToBlock'].length != 0">
                             <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
@@ -64,10 +65,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <span class="custom-badge" [class.custom-badge-passed]="responseModerationResult?.restrictedtopic?.['result'] == 'PASSED'" [class.custom-badge-failed]="responseModerationResult?.restrictedtopic?.['result'] == 'FAILED'">
                     {{responseModerationResult?.restrictedtopic?.['result']}}</span>
             </div>
-            <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Restricted Topic Check']}}</p>
+            <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Restricted Topic Check']}}</p>
             <div class="card-body">
                 <div class="d-flex mt-1">
-                    <div *ngFor="let topic of responseModerationResult?.restrictedtopic?.['topicScores'][0] | keyvalue" class="cardA  mr-3 flex-1">
+                    <div *ngFor="let topic of responseModerationResult?.restrictedtopic?.['topicScores'][0] | keyvalue" class="cardA  me-3 flex-1">
                         <p class="mainLabel" style="    color: #232323;
                         margin: 0px;
                         font-size: x-large;">{{topic.value}}
@@ -85,32 +86,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
     </div>
     <div class="mt-3 d-flex">
-        <div class="card mr-2 w-75">
+        <div class="card me-2 w-75">
             <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
                 <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem;
                 color: #303030;">
                     Toxicity Check
-                    <mat-icon class="ml-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Toxicity Check',type:'toxicityCheckRes', openai_result:openAIRes.text ,summaryStatus:summaryStatus})">info</mat-icon>
+                    <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Infosys Toxicity Check',type:'toxicityCheckRes', openai_result:openAIRes.text ,summaryStatus:summaryStatus})">info</mat-icon>
                 </h5>
                 <span class="custom-badge" [class.custom-badge-passed]="responseModerationResult?.toxicityCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="responseModerationResult?.toxicityCheck?.['result'] == 'FAILED'">
                     {{responseModerationResult?.toxicityCheck?.['result']}}</span>
             </div>
-            <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Toxicity Check']}}</p>
+            <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Toxicity Check']}}</p>
             <div class="card-body">
                 <div class="d-flex flex-wrap" *ngIf="responseModerationResult?.toxicityCheck?.['toxicityScore'].length != 0">
-                    <div *ngFor="let score of responseModerationResult?.toxicityCheck?.['toxicityScore'][0]['toxicScore']" class="cardA cardB mr-2 mb-2">
+                    <div *ngFor="let score of responseModerationResult?.toxicityCheck?.['toxicityScore'][0]['toxicScore']" class="cardA cardB me-2 mb-2">
                         <p class="mainLabel m-0" style="color: #232323;font-size: x-large;">{{score.metricScore | number:'1.0-3'}}
                         </p>
                         <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">{{score.metricName.replace('_', ' ') | titlecase}}</p>
                     </div>
-                    <div class="cardA cardB mr-2 mb-2">
+                    <div class="cardA cardB me-2 mb-2">
                         <p class="mainLabel m-0" style="color: #232323;font-size: x-large;">
                             {{responseModerationResult?.toxicityCheck?.['toxicitythreshold']}}</p>
                         <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
                     </div>
                 </div>
                 <div class="d-flex flex-wrap" *ngIf="responseModerationResult?.toxicityCheck?.['toxicityScore'].length == 0">
-                    <div class="cardA cardB mr-2 mb-2">
+                    <div class="cardA cardB me-2 mb-2">
                         <p class="mainLabel m-0" style="color: #232323;font-size: x-large;">NA</p>
                         <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Score</p>
                     </div>
@@ -130,7 +131,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <span class="custom-badge" [class.custom-badge-passed]="responseModerationResult?.profanityCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="responseModerationResult?.profanityCheck?.['result'] == 'FAILED'">
                     {{responseModerationResult?.profanityCheck?.['result']}}</span>
             </div>
-            <p class="mainLabel mainLabelSM m-0 text-end pr-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Profanity Check']}}</p>
+            <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Profanity Check']}}</p>
             <div class="card-body">
                 <div class="d-flex mt-1 h-100">
                     <div class="cardA flex-1">
@@ -145,6 +146,171 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         </div>
                         <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Profane Words Identified</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Existing cards -->
+
+    <div class="d-flex card mt-1 flex-wrap flex-row">
+        <!-- Sentiment Check -->
+        <div class="card innerResultCard flex-1 m-2">
+            <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem; color: #303030;">
+                    Sentiment Check
+                </h5>
+                <div class="d-flex">
+                    <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Sentiment Check',type:'sentimentCheck'})">info</mat-icon>
+                    <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="responseModerationResult?.sentimentCheck?.['result']  == 'PASSED'" [class.custom-badge-failed]="responseModerationResult?.sentimentCheck?.['result']  == 'FAILED'">
+                                    {{responseModerationResult?.sentimentCheck?.['result'] }}
+                                </span>
+                </div>
+            </div>
+            <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Sentiment Check']}}</p>
+            <div class="card-body">
+                <div class="d-flex mt-1">
+                    <div class="cardA flex-1 me-3">
+                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                            {{responseModerationResult?.sentimentCheck?.['score']}}
+                        </p>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Score</p>
+                    </div>
+                    <div class="cardA flex-1">
+                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                            {{responseModerationResult?.sentimentCheck?.['threshold']}}
+                        </p>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Invisible Text Check -->
+        <div class="card innerResultCard flex-1 m-2">
+            <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem; color: #303030;">
+                    Invisible Text Check
+                </h5>
+                <div class="d-flex">
+                    <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Invisible Text Check',type:'invisibleTextCheck'})">info</mat-icon>
+                    <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="responseModerationResult?.invisibleTextCheck?.['result']  == 'PASSED'" [class.custom-badge-failed]="responseModerationResult?.invisibleTextCheck?.['result']  == 'FAILED'">
+                                    {{responseModerationResult?.invisibleTextCheck?.['result'] }}
+                                </span>
+                </div>
+            </div>
+            <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Invisible Text Check']}}</p>
+            <div class="card-body">
+                <div class="d-flex mt-1">
+                    <div class="cardA w-50 me-3">
+                        <div>
+                            <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+
+                                {{dummyDataResult.BannedCategories}}
+                            </p>
+                        </div>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Configured</p>
+                    </div>
+                    <div class="cardA w-50">
+                        <p *ngIf="!responseModerationResult?.invisibleTextCheck?.['invisibleTextIdentified']?.length" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                        <div *ngIf="responseModerationResult?.invisibleTextCheck?.['invisibleTextIdentified']?.length">
+                            <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                {{responseModerationResult?.invisibleTextCheck?.['invisibleTextIdentified']}}
+                            </p>
+                        </div>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Invisible Text Recognised</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex card mt-1 flex-wrap flex-row">
+        <!-- Gibberish Check -->
+        <div class="card innerResultCard flex-1 m-2">
+            <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem; color: #303030;">
+                    Gibberish Check
+                </h5>
+                <div class="d-flex">
+                    <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Gibberish Check',type:'gibberishCheck'})">info</mat-icon>
+                    <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="responseModerationResult?.gibberishCheck?.['result'] == 'PASSED'" [class.custom-badge-failed]="responseModerationResult?.gibberishCheck?.['result'] == 'FAILED'">
+                                    {{responseModerationResult?.gibberishCheck?.['result']}}
+
+                                </span>
+                </div>
+            </div>
+            <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Gibberish Check']}}</p>
+            <div class="card-body">
+                <div class="d-flex mt-1">
+                    <div class="cardA w-50 me-3">
+                        <div>
+                            <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                {{dummyDataResult.GibberishLabels}}
+                            </p>
+                        </div>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Configured</p>
+                    </div>
+                    <div class="cardA w-50 me-3">
+                        <p *ngIf="responseModerationResult?.gibberishCheck?.gibberishScore.length == 0" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                        <div *ngIf="responseModerationResult?.gibberishCheck?.gibberishScore.length != 0">
+                            <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                {{responseModerationResult?.gibberishCheck?.gibberishScore[0].gibberish_label}}
+                            </p>
+                        </div>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Gibberish Recognised</p>
+                    </div>
+                    <div class="cardA flex-1 me-3" *ngIf="responseModerationResult?.gibberishCheck?.gibberishScore?.length">
+                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                            {{responseModerationResult?.gibberishCheck?.gibberishScore[0].gibberish_score | truncateDecimal:2}}
+                        </p>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Score</p>
+                    </div>
+                    <!-- <div class="cardA flex-1">
+                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                            {{responseModerationResult.gibberishCheck?.threshold}}
+                        </p>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Ban Code Check -->
+        <div class="card innerResultCard flex-1 m-2">
+            <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem; color: #303030;">
+                    Ban Code Check
+                </h5>
+                <div class="d-flex">
+                    <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" (click)="openRightSideModal({title:'Ban Code Check',type:'banCodeCheck'})">info</mat-icon>
+                    <span class="custom-badge" style="margin-left: 7px;" [class.custom-badge-passed]="responseModerationResult?.bancodeCheck?.['result']  == 'PASSED'" [class.custom-badge-failed]="responseModerationResult?.bancodeCheck?.['result']  == 'FAILED'">
+                                    {{responseModerationResult?.bancodeCheck?.['result'] }}
+                                </span>
+                </div>
+            </div>
+            <p class="mainLabel mainLabelSM m-0 text-end pe-3" style="font-size: 0.7rem;">Time Taken: {{responseTime?.['Ban Code Check']}}</p>
+            <div class="card-body">
+                <div class="d-flex mt-1">
+                    <div class="cardA w-50 me-3">
+                        <p *ngIf="!responseModerationResult?.bancodeCheck?.label" class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">None</p>
+                        <div *ngIf="responseModerationResult?.bancodeCheck?.label">
+                            <p class="mainLabel" style="color: #232323;margin: 0px; font-size: small;">
+                                {{responseModerationResult?.bancodeCheck?.['label']}}
+                            </p>
+                        </div>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Ban Code Recognised</p>
+                    </div>
+                    <!-- <div class="cardA flex-1 me-3" *ngIf="responseModerationResult?.bancodeCheck?.['score']?.length">
+                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                            {{responseModerationResult?.bancodeCheck?.score[0]?.['score'] | truncateDecimal:2}}
+                        </p>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Score</p>
+                    </div>
+                    <div class="cardA flex-1">
+                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                            {{responseModerationResult?.bancodeCheck?.['threshold']}}
+                        </p>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
+                    </div> -->
                 </div>
             </div>
         </div>

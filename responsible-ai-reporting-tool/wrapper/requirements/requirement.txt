@@ -1,19 +1,18 @@
-uvicorn
-pyyaml
-fastapi==0.99.1
-watchfiles
-requests==2.25
-python-multipart==0.0.5
-email-validator
-openpyxl
-pymongo
-python-dotenv
-pdfkit
-reportlab
-PyPDF2
-adversarial-robustness-toolbox
-#lib/aicloudlibs-0.1.0-py3-none-any.whl
+uvicorn==0.34.0
+pyyaml==6.0.2
+fastapi==0.115.12
+watchfiles==1.0.4
+requests==2.32.4
+python-multipart==0.0.18
+email-validator==2.2.0
+openpyxl==3.1.5
+pymongo==4.11.1
+python-dotenv==1.0.1
+pdfkit==1.0.0
+reportlab==4.3.1
+PyPDF2==3.0.1
+adversarial-robustness-toolbox==1.19.1
+starlette==0.40.0
 #lib/adversarial_robustness_toolbox-1.16.0-py3-none-any.whl
 #Un-Comment Below 2 lines and comment above 2 lines to run locally
-# ../lib/aicloudlibs-0.1.0-py3-none-any.whl  
 #../lib/adversarial_robustness_toolbox-1.16.0-py3-none-any.whl

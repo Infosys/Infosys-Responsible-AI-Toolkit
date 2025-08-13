@@ -14,6 +14,9 @@ spec:
 ---
 apiVersion: apps/v1
 kind: Deployment
+seccompProfile:
+type: "RuntimeDefault"
+automountServiceAccountToken: false
 metadata:
   name: responsible-ai-fairness-test
   namespace: irai-toolkit-test
@@ -38,13 +41,15 @@ spec:
       containers:
         - envFrom:
           - configMapRef:
-              name: fairness-test-config
+              name: fairness-config
           image: <Image Name>
           imagePullPolicy: Always
-          name: responsible-ai-fairness
+          name: responsible-ai-fairness-test
           ports:
             - containerPort: 8000
           securityContext:
+            seccompProfile:
+              type: "RuntimeDefault"
             runAsUser: 1000  # Non-root user
             runAsGroup: 1000
             capabilities:
@@ -52,5 +57,5 @@ spec:
                 - ALL  # Drop all capabilities
           resources:
             limits:
-                cpu: '1.5'
+                cpu: '2'
                 memory: '4Gi'

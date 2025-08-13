@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -34,6 +35,7 @@ export class ApplicationConfigurationsComponent implements OnInit {
   displayedColumns: string[] = ['role','isOpenAI','selfReminder'];
   dataSource: any;
 
+  // Toggles the OpenAI status for a specific role
   ontoggleOpen(e:any,roleV:any){
     this.OpenAitoogleNewValue = !e.target.checked;
     console.log(e.target.checked);
@@ -114,6 +116,8 @@ export class ApplicationConfigurationsComponent implements OnInit {
       this.cdr.detectChanges();
 
   }
+
+  // Toggles the self-reminder status for a specific role
   ontoggleReminder(e:any,roleV:any){
     this.OpenAitoogleNewValue = !e.target.checked;
     console.log(e.target.checked);
@@ -166,18 +170,15 @@ export class ApplicationConfigurationsComponent implements OnInit {
 
   }
 
+  // Initializes the component and sets up API configurations
   ngOnInit(): void {
-    if(localStorage.getItem("res") != null){
-      const x = localStorage.getItem("res")
-      if(x != null){
-
-        this.ip_port = JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+      if(res != null){
+        this.ip_port = JSON.parse(res);
         console.log("inside parse",this.ip_port.result)
       }
-      console.log("ip_port arr v",this.ip_port.result.Privacy)
-      console.log("ip_port",this.ip_port)
     }
-
     this.admin_fm_admin_get_OpenAiStatusandRoll =this.ip_port.result.Admin + this.ip_port.result.Admin_getOpenAI      // + environment.admin_fm_admin_get_OpenAiStatusandRoll
     this.admin_fm_admin_Update_OpenAiStatus =this.ip_port.result.Admin + this.ip_port.result.Admin_UpdateOpenAI       // + environment.admin_fm_admin_Update_OpenAiStatus
     this.admin_fm_admin_UserRole =this.ip_port.result.Admin + this.ip_port.result.Admin_userRole     //+ environment.admin_fm_admin_UserRole

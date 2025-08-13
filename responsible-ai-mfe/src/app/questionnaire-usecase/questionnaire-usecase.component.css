@@ -1,30 +1,28 @@
-/*  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
-
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 .btnRound {
     cursor: pointer;
     border: 1px solid;
     border-radius: 50%;
     color: #8626C3;
     margin: 0.5rem;
-}
-
-.btnRound i {
+  }
+  
+  .btnRound i {
     font-size: medium;
     padding: 4px;
-}
+  }
 
-
-/* .disabled {
+  /* .disabled {
     pointer-events: none;
     opacity: 0.6;
 } */
 
-
-/* .tabs-container {
+  /* .tabs-container {
     width: 16%;
     border-right: 1px solid gray;
   }
@@ -38,47 +36,49 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     background-color: #000; 
   } */
 
-.tabs {
+  .tabs {
     display: flex;
     flex-direction: column;
+   
     width: 200px;
-    height: 16px;
-    /* UI Properties */
-    text-align: left;
-    font: normal normal 600 12px/16px Segoe UI;
-    letter-spacing: 0px;
-    /* color: #8626C3; */
-    text-transform: uppercase;
+height: 16px;
+/* UI Properties */
+text-align: left;
+font: normal normal 600 12px/16px Segoe UI;
+letter-spacing: 0px;
+/* color: #8626C3; */
+text-transform: uppercase;
     /* background-color: #f2f2f2; */
-}
-
-.tabs div {
+  }
+  
+  .tabs div {
     padding: 20px;
     padding-left: 0px;
     padding-bottom: 2px;
     cursor: pointer;
-}
-
-.tabs div.active {
+  }
+  
+  .tabs div.active {
     color: #8626C3;
     /* background-color: #ddd; */
     /* background-color:#8626c3; */
-}
+  }
 
-.content-container {
+  .content-container {
     width: 80%;
-}
+  }
 
-.content {
+  
+  .content {
     margin-left: 0;
-}
+  }
 
-.wrapper {
+  .wrapper {
     display: flex;
     width: 100%;
-}
-
-.mainLabel {
+  }
+  
+  .mainLabel {
     color: #7E7E7E;
     padding: 0;
     padding-top: 6px;
@@ -89,8 +89,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     text-transform: uppercase;
 }
 
-.mainLabelQuestion {
-    color: #212529;
+.mainLabelQuestion{
+  color: #212529;
     padding: 0;
     padding-top: 6px;
     padding-bottom: 6px;
@@ -100,8 +100,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     /* text-transform: uppercase; */
 }
 
-.mainLabelOption {
-    color: #4e4d4d;
+.mainLabelOption{
+  color: #4e4d4d;
     padding: 0;
     padding-top: 6px;
     padding-bottom: 6px;
@@ -110,7 +110,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-family: 'Segoe UI';
     /* text-transform: uppercase; */
 }
-
 .labelSM {
     font-weight: 650;
     font-size: 11px;
@@ -123,61 +122,62 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     margin-left: 3px;
 }
 
-.radioBtn {
+.radioBtn{
     width: 211px;
-    height: 240px;
-    /* UI Properties */
-    text-align: left;
-    font: normal normal normal 12px/16px Segoe UI;
-    letter-spacing: 0px;
-    color: #7E7E7E;
-    opacity: 1;
+height: 240px;
+/* UI Properties */
+text-align: left;
+font: normal normal normal 12px/16px Segoe UI;
+letter-spacing: 0px;
+color: #7E7E7E;
+opacity: 1;
 }
 
 input[type='radio'] {
     accent-color: #8626C3;
 }
 
+
 .headLabel {
-    color: #7E7E7E;
-    padding: 0px;
-    font-weight: 700;
-    font-size: 16px;
-    font-family: 'Segoe UI';
-    text-transform: uppercase;
+  color: #7E7E7E;
+  padding: 0px;
+  font-weight: 700;
+  font-size: 16px;
+  font-family: 'Segoe UI';
+  text-transform: uppercase;
 }
 
 .buttonMain {
-    font-family: 'Segoe UI';
-    font-weight: semi-bold;
-    margin-top: 7px;
-    font-size: .75rem;
-    padding-left: 10px;
-    height: 28px;
-    width: 3.313rem;
+  font-family: 'Segoe UI';
+  font-weight: semi-bold;
+  margin-top: 7px;
+  font-size: .75rem;
+  padding-left: 10px;
+  height: 28px;
+  width: 3.313rem;
 }
 
 .button-container {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .mat-black {
-    color: white;
-    background-color: #231F20;
+  color: white;
+  background-color: #231F20;
 }
 
 .card1 {
-    margin-right: 50px;
-    margin-top: 10px;
-    margin-bottom: 20px;
-    /* Adjust the right margin as needed */
-    /* width: 200px;
+  margin-right: 50px;
+  margin-top: 10px; 
+  margin-bottom: 20px; /* Adjust the right margin as needed */
+  /* width: 200px;
   height: 140px; */
-    width: 95%;
-    background: #FFFFFF 0% 0% no-repeat padding-box;
-    box-shadow: 1px 3px 6px #707070;
-    /* border: 0.10000000149011612px solid #707070; */
-    border-radius: 4px;
-    opacity: 0.8
+  width: 95%;
+  
+  background: #FFFFFF 0% 0% no-repeat padding-box;
+  box-shadow: 1px 3px 6px #707070;
+  /* border: 0.10000000149011612px solid #707070; */
+  border-radius: 4px;
+  opacity: 0.8
 }

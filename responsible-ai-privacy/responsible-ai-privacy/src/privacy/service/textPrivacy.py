@@ -49,9 +49,9 @@ class TextPrivacy:
                 exclusionList=payload.exclusionList
 
             if(payload.portfolio== None):
-                results = TextPrivacy.textAnalyze(text=payload.inputText,piiEntitiesToBeRedacted=piiEntitiesToBeRedacted,exclusion=exclusionList)
+                results = TextPrivacy.textAnalyze(text=payload.inputText,piiEntitiesToBeRedacted=piiEntitiesToBeRedacted,exclusion=exclusionList,nlp=payload.nlp)
             else:
-                results = TextPrivacy.textAnalyze(text=payload.inputText,accName=payload,exclusion=exclusionList)
+                results = TextPrivacy.textAnalyze(text=payload.inputText,accName=payload,exclusion=exclusionList,nlp=payload.nlp)
             if results == None:
                 return None
             if( results== 404):
@@ -87,33 +87,42 @@ class TextPrivacy:
             raise Exception(e)
     # @profile
     
-    def textAnalyze(text: str,accName:any=None,exclusion:any=None,piiEntitiesToBeRedacted:any=None):
+    def textAnalyze(text: str,accName:any=None,exclusion:any=None,piiEntitiesToBeRedacted:any=None,nlp="basic"):
         result=[]
-        
-        
+       
+        analyzer,imageAnalyzerEngine,imageRedactorEngine,imagePiiVerifyEngine,encryptImageEngin=selectNlp(nlp)
+         
+        spRecog=None
+        if(nlp=="roberta"):
+            spRecog=[roberta_recog]
+        if(nlp=="ranha"):
+            # registry.add_recognizer(ranha_recog)
+            if(piiEntitiesToBeRedacted==None and  accName==None):
+                piiEntitiesToBeRedacted=list(set(ranha_recog.supported_entities+registry.get_supported_entities()))
+            spRecog=[ranha_recog]
         try:
             if(accName==None):
-                # print("result------",PIIAnalyzeRequest.language)
+                 
                 # ent_pattern=[]
                 if(piiEntitiesToBeRedacted == None):
-                    result = analyzer.analyze(text=text,language="en",allow_list=exclusion,return_decision_process = True)
+                    result = analyzer.analyze(text=text,language="en",allow_list=exclusion,return_decision_process = True,score_threshold=0.5,ad_hoc_recognizers=spRecog)
                     
                 else:
                     try:
-                        result = analyzer.analyze(text=text,language="en",entities=piiEntitiesToBeRedacted,allow_list=exclusion,return_decision_process = True)
-                        #print("result------",result)
+                        result = analyzer.analyze(text=text,language="en",entities=piiEntitiesToBeRedacted,allow_list=exclusion,return_decision_process = True, ad_hoc_recognizers=spRecog)
+                         
                     except Exception as e:
-                        #print("error 103===",e)
+                         
                         return 482
                         # raise Exception("An error occurred while analyzing the text", e)
 
-                # print("result------",result)
-                # print("result====192====",result)
+                 
+                 
 
                         
             #     #score_threshold reference
             #     # gc.collect()
-            #     print("ent_pattern list====",ent_pattern)
+             
 
             else:
                 preEntity=[]
@@ -126,11 +135,11 @@ class TextPrivacy:
                 if(response_value==None):
                     return None
                 if(response_value==404):
-                    # print( response_value)
+                     
                     return response_value
                 
                 entityType,datalist,preEntity=response_value
-                #print('=====',datalist)
+                 
                 for d in range(len(datalist)):
                     record=ApiCall.getRecord(entityType[d])
                     record=AttributeDict(record)
@@ -144,8 +153,8 @@ class TextPrivacy:
                             registry.add_recognizer(dataRecog)
                             # predefined_recognizers.data_recognizer.DataList.entity.append(entityType[d])
                             # predefined_recognizers.data_recognizer.DataList.setData(datalist[d])
-                            #print("EntityTye226===",entityType[d])
-                            #print("datalist===",datalist[d])
+                             
+                             
                             update_session_dict(entityType[d], datalist[d])
                             data = {entityType[d]: datalist[d]}
                             dataistEnt.append(data)
@@ -153,7 +162,7 @@ class TextPrivacy:
                     elif(record.RecogType=="Pattern" and record.isPreDefined=="No"):
                         contextObj=record.Context.split(',')
                         pattern="|".join(datalist[d])
-                        # print("=",pattern)
+                         
                         log.debug("pattern="+str(pattern))
                         patternObj = Pattern(name=entityType[d],
                                                        regex=pattern,
@@ -163,10 +172,10 @@ class TextPrivacy:
                         registry.add_recognizer(patternRecog)
 
                     # result.clear()
-                    # print(";;",entityType)
-                #print("type 164dataistEnt====",type(entityType+preEntity))
-                #print("164dataistEnt====",entityType+preEntity)
-                results = analyzer.analyze(text=text, language="en",entities=entityType+preEntity,allow_list=exclusion,score_threshold=admin_par[request_id_var.get()]["scoreTreshold"])
+                     
+                 
+                 
+                results = analyzer.analyze(text=text, language="en",entities=entityType+preEntity,allow_list=exclusion,score_threshold=admin_par[request_id_var.get()]["scoreTreshold"],ad_hoc_recognizers=spRecog)
                         # entityType.remove(preEntity)
                 result.extend(results)
                     # preEntity.clear()
@@ -185,11 +194,11 @@ class TextPrivacy:
             # del registry
             # ApiCall.encryptionList.clear()
             log.debug("result="+str(result))
-
+                
             return result
         except Exception as e:
             log.error(str(e))
-            # print("======================",error_dict)
+            
             log.error("Line No:"+str(e.__traceback__.tb_lineno))
             log.error(str(e.__traceback__.tb_frame))
             # ExceptionDb.create({"UUID":request_id_var.get(),"function":"textAnalyzeFunction","msg":str(e.__class__.__name__),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
@@ -201,8 +210,8 @@ class TextPrivacy:
         log.debug("Entering in anonymize function")
         try:
             # Data.encrypted_text.clear()  
-            # print("list",registry)
-            # print("list",registry.recognizers)
+            
+            
             # if(payload.piiEntitiesToBeRedacted != None):
             #     piiEntitiesToBeRedacted = payload.piiEntitiesToBeRedacted
             # else:
@@ -212,27 +221,27 @@ class TextPrivacy:
             else:
                 exclusionList=payload.exclusionList
             if(payload.portfolio== None):
-                results = TextPrivacy.textAnalyze(text=payload.inputText,exclusion=exclusionList,piiEntitiesToBeRedacted=piiEntitiesToBeRedacted)
-                # print("results213====",type(results))
+                results = TextPrivacy.textAnalyze(text=payload.inputText,exclusion=exclusionList,piiEntitiesToBeRedacted=piiEntitiesToBeRedacted,nlp=payload.nlp)
+                 
                 
                 # if(len(results)==2):
-                #     print("results====",results[0])
+                 
                 #     return results[0]
                 
                 
                     # obj_PIIAnonymizeResponse = PIIAnonymizeResponse
-                    # print("results====",results[1])
+                     
                     # obj_PIIAnonymizeResponse.anonymizedText = str(results[1])
                     # return obj_PIIAnonymizeResponse
             else: 
-                results = TextPrivacy.textAnalyze(text=payload.inputText,accName=payload,exclusion=exclusionList)
+                results = TextPrivacy.textAnalyze(text=payload.inputText,accName=payload,exclusion=exclusionList,nlp=payload.nlp)
                 
             ent_pattern=[]
             if results == None:
                 return None
 
             if(results==404):
-                    # print( response_value)
+                     
                     return results
                 
             if(results==482):
@@ -248,10 +257,10 @@ class TextPrivacy:
             if(payload.portfolio!= None ):
 
                 encryptionList=admin_par[request_id_var.get()]["encryptionList"]
-            # print("==============================",encryptionList)
+             
             if encryptionList is not None and len(encryptionList) >0 :
                 for entity in encryptionList:
-                    # print("---------------------------")
+                     
                     dict_operators.update({entity: OperatorConfig("hash", {"hash-type": 'md5'})})
             # else:
             #     dict_operators = None
@@ -288,9 +297,9 @@ class TextPrivacy:
             else:
                 exclusionList=payload.exclusionList
             if(payload.portfolio== None):
-                results = TextPrivacy.textAnalyze(text=payload.inputText,exclusion=exclusionList)
+                results = TextPrivacy.textAnalyze(text=payload.inputText,exclusion=exclusionList,nlp=payload.nlp)
             else: 
-                results = TextPrivacy.textAnalyze(text=payload.inputText,accName=payload,exclusion=exclusionList)
+                results = TextPrivacy.textAnalyze(text=payload.inputText,accName=payload,exclusion=exclusionList,nlp=payload.nlp)
                 
             if results == None:
                 return None
@@ -326,7 +335,7 @@ class TextPrivacy:
     def decryption(payload: PIIDecryptRequest):
         log.debug("Entering in decrypt function")
         # payload=AttributeDict(payload)
-        print("payload=====",payload)
+         
         try:
             anonymized_text = payload.text
             anonymized_entities = payload.items
@@ -375,7 +384,7 @@ class Shield:
             if(response_value==None):
                 return None
             if(response_value==404):
-                    # print( response_value)
+                     
                     
                     return response_value
             entityType,datalist,preEntity=response_value
@@ -394,7 +403,7 @@ class Shield:
             if(response_value==None):
                 return None
             if(response_value==404):
-                    # print( response_value)
+                     
                     return response_value
             entityType,datalist,preEntity=response_value
            

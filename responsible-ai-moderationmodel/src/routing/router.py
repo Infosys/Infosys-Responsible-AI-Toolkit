@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -17,7 +17,15 @@ from werkzeug.exceptions import HTTPException,UnprocessableEntity
 from tqdm.auto import tqdm
 # from fastapi.encoders import jsonable_encoder
 
-from service.service import *
+from service.injectionModel import *
+from service.EmbedingModel import *
+from service.topicModel import *
+from service.privacyModel import *
+from service.detoxifyModel import *
+from service.sentiment_service import *
+from service.invisibletext_service import *
+from service.gibberish_service import *
+from service.bancode_service import *
 from config.logger import CustomLogger ,request_id_var
 
 import uuid
@@ -265,43 +273,81 @@ def similarity_model():
         log.error(str(cie.__dict__))
         log.info("exit similarity_model routing method")
         raise UnprocessableEntity(**cie.__dict__)
+    
+@router.route("/sentimentmodel",methods=[ 'POST'])
+def sentimentmodel():
+    st=time.time()
+    log.info("Entered sentiment routing method")
+    try:
+        payload=request.get_json()
+        log.info("before invoking sentiment_model service ")
+        s = Sentiment()
+        response = s.scan(payload['text'])
+        log.info("after invoking sentiment_model service ")
+        log.debug("response : " + str(response))
+        log.info("exit sentiment_model routing method")
+        log.info(f"Time taken by Sentiment Check{time.time()-st}")
+        return jsonable_encoder(response)
+    except Exception as cie:
+        log.error(cie)
+        log.error(cie.__dict__)
+        log.info("exit sentiment_model routing method")
+        raise HTTPException()
+    
+@router.route("/invisibletextmodel",methods=[ 'POST'])
+def invisibletextmodel():
+    st=time.time()
+    log.info("Entered invisible_text routing method")
+    try:
+        payload=request.get_json()
+        log.info("before invoking invisible_text service ")
+        s = InvisibleText()
+        response = s.scan(payload['text'],payload['banned_categories'])
+        log.info("after invoking invisible_text service ")
+        log.debug("response : " + str(response))
+        log.info("exit secret_model routing method")
+        log.info(f"Time taken by Invisible Text Check{time.time()-st}")
+        return jsonable_encoder(response)
+    except Exception as cie:
+        log.error(cie)
+        log.error(cie.__dict__)
+        log.info("exit secret_model routing method")
+        raise HTTPException()
+    
+@router.route("/gibberishmodel",methods=[ 'POST'])
+def gibberishmodel():
+    st=time.time()
+    log.info("Entered gibberish routing method")
+    try:
+        payload=request.get_json()
+        log.info("before invoking gibberish_model service ")
+        gib = Gibberish()
+        response = gib.scan(payload)
+        log.info("after invoking gibberish_model service ")
+        log.debug("response : " + str(response))
+        log.info("exit gibberish_model routing method")
+        log.info(f"Time taken by Gibberish Check{time.time()-st}")
+        return jsonable_encoder(response)
     except Exception as cie:
         log.error(str(cie.__dict__))
-        log.info("exit similarity_model routing method")
+        log.info("exit gibberish_model routing method")
         raise HTTPException()
-         
-# @router.route("/callmodel",methods=[ 'POST'])
-# def ml():
-#     st=time.time()
-#     id=uuid.uuid4().hex
-#     request_id_var.set(id)
-#     log.info("Entered embedding_model routing method")
-
-#     try:
-        
-#         # id=uuid.uuid4().hex
-#         payload=request.get_json()
-#         # request_id_var.set(id)
-
-#         log.info("before invoking embedding_model service ")
-#         log_dict[request_id_var.get()]=[]
-#         # if payload['text'] is None or (payload['text'] is not None and len(payload['text'])==0):
-#         #     raise UnprocessableEntity("1021-Input Text should not be empty ")
-#         response = checkall(id,payload)
-#         log.info("after invoking embedding_model service ")
-#         er=log_dict[request_id_var.get()]
-#         logobj = {"_id":id,"error":er}
-#         if len(er)!=0:
-#             log.debug(str(logobj))
-#         del log_dict[id]
-#         # log.debug("response : " + str(response))
-#         # log.debug("response : " + str(response))
-#         log.info("exit embedding_model routing method")
-#         log.info(f"Time taken by Jailbreak {time.time()-st}")
-#         return jsonable_encoder(response)
-#     except Exception as cie:
-#         log.error(cie.__dict__)
-#         log.info("exit embedding_model routing method")
-#         raise HTTPException()
     
-    
+@router.route("/bancodemodel",methods=[ 'POST'])
+def bancodemodel():
+    st=time.time()
+    log.info("Entered ban topic routing method")
+    try:
+        payload=request.get_json()
+        log.info("before invoking bantopicmodel service ")
+        ban = BanCode()
+        response = ban.scan(payload)
+        log.info("after invoking bantopicmodel service ")
+        log.debug("response : " + str(response))
+        log.info("exit bantopicmodel routing method")
+        log.info(f"Time taken by Ban topic Check{time.time()-st}")
+        return jsonable_encoder(response)
+    except Exception as cie:
+        log.error(str(cie.__dict__))
+        log.info("exit bantopic_model routing method")
+        raise HTTPException()

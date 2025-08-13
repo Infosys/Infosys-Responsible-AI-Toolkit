@@ -25,15 +25,17 @@ This application is built using the Flask web framework.Leveraging the flexibili
 
 4. **Multimodal** : We are using multimodal functionality of GPT4o combined with our model based guardrail and template based guardrail to perform moderation checks like prompt injection, jailbreak etc. for text and image uploaded, respectively.
 
-5. **Response comparision** : We are also providing response comparision between just GPT output and output from GPT with our guardrails. 
+5. **Response comparision** : We are also providing response comparision between just LLM output and output from LLM with our guardrails. 
 
+6. **Multiple LLM Support** : We have provided support to various LLM models to generate response and perform template based checks, these include : gpt-4o-mini, gpt-35-turbo, GPT-4-Turbo, Llama3-70b, anthropic.claude-3-sonnet, gemini-2.5.pro and gemini-2.5-flash models. You should have support of atleast one of these models.
 
 ## Prerequisites
 
 1. Before installing the repo for Moderation Layer, first you need to install the repo for Moderation Models.
-Please find the link for **Moderation Model** repo : [moderationmodel](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-moderationmodel).
+Please find the link for **Moderation Model** repo : (https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/main/responsible-ai-ModerationModel).
+If you want to use template based guardrails then use **Admin Module** repo : (https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-admin)
 
-2. **Installation of Python** : To run the application, first we need to install Python and the necessary packages. Install Python **(version >= 3.9)** from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
+2. **Installation of Python** : Install Python (version 3.11.x) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
 
 
 3. **Installation of pip** :
@@ -118,41 +120,24 @@ If pip is installed correctly, you should see the installed version number displ
 ## Installation
 
 ### Steps for Installation :
-**Step 1**  : You need to install nltk of version 3.9. To do that, go to the path using `cd`   command in command line :
-```sh
-> cd C:\Users\<your username>
-```
-Type `python` to open the python terminal.
-```sh
-> python
-```
-You will get `>>` like this which signifies python terminal is running. Type the following :
-```sh
->> import nltk
->> nltk.download()
-```
-This will start downloading the latest nltk package (Version : 3.9). You will get a dialog box saying
-`Finished downloading collection 'all'` once everything gets downloaded.
-
-
-**Step 2**  : Clone the repository `responsible-ai-moderationlayer`:
+**Step 1**  : Clone the repository `responsible-ai-moderationLayer`:
 ```sh
 git clone <repository-url>
 ```
 
-**Step 3**  : Navigate to the `responsible-ai-moderationlayer` directory:
+**Step 2**  : Navigate to the `responsible-ai-moderationLayer` directory:
 ```sh
 cd responsible-ai-moderationLayer
 ```
 
-**Step 4**  : Use the below link to download `en_core_web_lg` whl file -
+**Step 3**  : Use the below link to download `en_core_web_lg` whl file -
 
 [Download Link](https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1-py3-none-any.whl)
 This will take 30-40 mins. 
-Once done, put this inside `lib` folder of the repo `responsible-ai-moderationlayer`.
+Once done, put this inside `lib` folder of the repo `responsible-ai-moderationLayer`.
 
 
-**Step 5**  : Activate the virtual environment for different OS.
+**Step 4**  : Activate the virtual environment for different OS.
 
 **Windows:**
 1. Open Command Prompt or PowerShell: Find and open the appropriate command-line interface
@@ -174,13 +159,13 @@ Let's say your virtual env. name is `myenv` and is located in `C:\Users\your_use
 
 **Linux:**
 1. Open a terminal: Find and open a terminal window.
-2. To create a virtual environment, install the relevant version of the `venv` module.Since we are using Python 3.9, install the 3.9 variant of the package, which is named python3.9-venv
+2. To create a virtual environment, install the relevant version of the `venv` module.Since we are using Python 3.11, install the 3.11 variant of the package, which is named python3.11-venv
 ```sh
-abc@demo:~/$ sudo apt install python3.9-venv
+abc@demo:~/$ sudo apt install python3.11-venv
 ```
 3. Create a Virtual env like this.
 ```sh
-abc@demo:~/Projects/MyCoolApp$ python3.9 -m venv <Name of your Virtual Environment>
+abc@demo:~/Projects/MyCoolApp$ python3.11 -m venv <Name of your Virtual Environment>
 ```
 Let's say your virtual env. name is `myenv`
 
@@ -206,21 +191,11 @@ source ./myenv/bin/activate
 ```
 
 
-**Step 6** : Go to the `requirements` directory where the `requirement.txt` file is present :
-
-Remember to change `../lib` to `lib`[ **Note :** Needed if you are cloning the repository in your local system ]
-
-For example :
-```sh
-../lib/better_profanity-2.0.0-py3-none-any.whl
-```
-change it to
-```sh
-lib/better_profanity-2.0.0-py3-none-any.whl
-```
+**Step 5** : Go to the `requirements` directory where the `requirement.txt` file is present :
 
 Now, install the requirements as shown below :
 ```sh
+cd requirements
 pip install -r requirement.txt
 ```
 
@@ -240,12 +215,17 @@ cd ..
 
 1. **Passing Moderation Model URLs** : We have following env variables for passing Moderation Models:
 ```sh
-SIMILARITYMODEL="${similaritymodel}"
-RESTRICTEDMODEL="${restrictedmodel}"
-DETOXIFYMODEL="${detoxifymodel}"
-PROMPTINJECTIONMODEL="${promptinjectionmodel}"
-JAILBREAKMODEL="${jailbreakmodel}"
-PRIVACY="${privacy}"
+SIMILARITYMODEL="${similaritymodel}" #[MANDATORY]
+RESTRICTEDMODEL="${restrictedmodel}" #[MANDATORY]
+DETOXIFYMODEL="${detoxifymodel}" #[MANDATORY]
+PROMPTINJECTIONMODEL="${promptinjectionmodel}" #[MANDATORY]
+JAILBREAKMODEL="${jailbreakmodel}" #[MANDATORY]
+PRIVACY="${privacy}" #[MANDATORY]
+SENTIMENT="${sentiment}" #[MANDATORY]
+INVISIBLETEXT="${invisibletext}" #[MANDATORY]
+GIBBERISH="${gibberish}" #[MANDATORY]
+BANCODE="${bancode}" #[MANDATORY]
+
 ```
 We need to pass the Model Urls in the same env file, which are nothing but apis for each Model that have been exposed in Moderation Model repo.
 
@@ -256,7 +236,10 @@ detoxifymodel=<Put the model url needed for toxicity>
 promptinjectionmodel=<Put the model url needed for prompt injection>
 jailbreakmodel=<Put the model url needed for jailbreak>
 privacy=<Put the model url needed for privacy>
-TARGETENVIRONMENT="azure"
+sentiment=<Put the model url needed for sentiment>
+invisibletext=<Put the model url needed for invisibletext>
+gibberish=<Put the model url needed for gibberish>
+bancode=<Put the model url needed for bancode>
 ```
 For example :
 ```sh
@@ -264,47 +247,92 @@ jailbreakmodel="https://loremipsum.io/generator"
 JAILBREAKMODEL="${jailbreakmodel}" 
 ```
 
-2. **Passing LLM Credentials** : 
+2. **Passing LLM Credentials** : Each LLM model is optional
 
-**GPT Credentials** :
+**GPT Credentials** : (Optional)
 
 For this, you need to have Azure OpenaAI service. For more details, you can refer [Azure OpenAI Pricing](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/openai-service/) for Pricing Details.
 
+**AWS Credentials** : (Optional)
 
-**Note**
-1. `apitype` signifies which Cloud Infrastaructure we want to use for Open AI services.
-2. We can set any value for apitype like 'azure','aws','google' which ensures that your requests are properly directed to particular cloud infrastructure, allowing you to leverage the powerful capabilities of the platform.
+To use Claude foundation model via AWS Bedrock, you'll need:
+1. An AWS account with Bedrock access
+2. IAM permissions to invoke Bedrock models
 
-```sh
-apitype=<Enter the apitype>
-```
-Here we are passing openAI creds in the env file as follows.
+For more information you can refer to
+[Amazon Bedrock Documentation](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-bedrock.html)
+[AWS Bedrock Pricing](https://aws.amazon.com/bedrock/pricing/)
 
-For gpt4 :
+**LLAMA** : (Optional)
+
+We have hosted the LLaMA 3-70B model on our own infrastructure. 
+You can interact with it by hosting your model on your own infrastructure.
+[LLaMA 3 Model Card (HuggingFace)](https://huggingface.co/meta-llama/Meta-Llama-3-70B)
+
+**Gemini** : (Optional)
+
+For the Gemini 2.5 Flash and Gemini 2.5 Pro models, we're using Google Generative AI SDK (google.generativeai). This only requires:
+1. The model name (e.g., "gemini-2.5-pro")
+2. Your Google API Key
+[Gemini API Quickstart (Python)](https://ai.google.dev/gemini-api/docs/quickstart?lang=python)
+[Google Generative AI Models List](https://ai.google.dev/gemini-api/docs/models)
+
+Here we are passing LLM creds in the env file as follows. You should have atleast one model deployment endpoint or key. Like if you have support for gemini-2.5-pro model then other model fields are optional and only gemini-2.5-pro model will be mandatory in that case.
+
+For gpt4o-mini : (Optional)
 ```sh
-apibase_gpt4=<Enter the Azure OpenAI endpoint for gpt4, your endpoint should look like the following  https://YOUR_RESOURCE_NAME.openai.azure.com>
-apiversion_gpt4=<Enter the Azure OpenAI version for gpt4>
-openaimodel_gpt4=<Enter the Model name for gpt4>
-apikey_gpt4=<Enter the Azure OpenAI API key for gpt4>
+apibase_gpt4=<Enter the Azure OpenAI endpoint for gpt4o-mini, your endpoint should look like the following  https://YOUR_RESOURCE_NAME.openai.azure.com> #[OPTIONAL]
+apiversion_gpt4=<Enter the Azure OpenAI version for gpt4o-mini> #[OPTIONAL]
+openaimodel_gpt4=<Enter the Model name for gpt4o-mini> #[OPTIONAL]
+apikey_gpt4=<Enter the Azure OpenAI API key for gpt4o-mini> #[OPTIONAL]
 ```
-For gpt3.5 Turbo :
+For gpt3.5 Turbo : (Optional)
 ```sh
-apibase_gpt3=<Enter the Azure OpenAI endpoint for gpt3.5 Turbo>
-apiversion_gpt3=<Enter the Azure OpenAI version for gpt3.5 Turbo>
-openaimodel_gpt3=<Enter the Model name for gpt3.5 Turbo>
-apikey_gpt3=<Enter the Azure OpenAI API key for gpt3.5 Turbo>
+apibase_gpt3=<Enter the Azure OpenAI endpoint for gpt3.5 Turbo> #[OPTIONAL]
+apiversion_gpt3=<Enter the Azure OpenAI version for gpt3.5 Turbo> #[OPTIONAL]
+openaimodel_gpt3=<Enter the Model name for gpt3.5 Turbo> #[OPTIONAL]
+apikey_gpt3=<Enter the Azure OpenAI API key for gpt3.5 Turbo> #[OPTIONAL]
 ```
-For gpt4O :
+For gpt4O for multimodal functionality: (Optional)
 ```sh
-api_base=<Enter the Azure OpenAI endpoint for gpt4O>
-api_key=<Enter the Azure OpenAI API key for gpt4O>
-api_version=<Enter the Azure OpenAI version for gpt4O>
-model=<Enter the Model name for gpt4O>
+api_base=<Enter the Azure OpenAI endpoint for gpt4o-mini> #[OPTIONAL]
+api_key=<Enter the Azure OpenAI API key for gpt4o-mini> #[OPTIONAL]
+api_version=<Enter the Azure OpenAI version for gpt4o-min> #[OPTIONAL]
+model=<Enter the Model name for gpt4o-mini> #[OPTIONAL]
+```
+
+For llama3-70b : (Optional)
+```sh
+llamaendpoint3_70b=<Enter the endpoint where you have hosted the llama model> #[OPTIONAL]
+aicloud_model_auth=<Give the endpoint to generate the authorization token> #[OPTIONAL]
+```
+
+For aws-anthropic bedrock model : (Optional)
+```sh
+awsservicename=<Enter the AWS service name> #[OPTIONAL]
+awsmodelid=<Enter the AWS model id you are using> #[OPTIONAL]
+accept=<You can give application/json> #[OPTIONAL]
+contentType=<You can give application/json> #[OPTIONAL]
+region_name=<Enter the region name for your service> #[OPTIONAL]
+anthropicversion=<Enter the AWS model version > #[OPTIONAL]
+AWS_KEY_ADMIN_PATH= <Enter the endpoint to generate the auth token to access the model> #[OPTIONAL]
+```
+
+For gemini-2.5-pro model : (Optional)
+```sh
+gemini_pro_model_name=<Enter the complete gemini model name here > #[OPTIONAL]
+gemini_pro_api_key=<Enter the API key> #[OPTIONAL]
+```
+
+For gemini-2.5-flash model : (Optional)
+```sh
+gemini_flash_model_name=<Enter the complete gemini model name here > #[OPTIONAL]
+gemini_flash_api_key=<Enter the API key> #[OPTIONAL]
 ```
 
 Using the above values here :
 ```sh
-OPENAI_API_BASE_GPT3 = "${apibase_gpt3}"
+OPENAI_API_BASE_GPT3 = "${apibase_gpt3}" 
 OPENAI_API_KEY_GPT3 = "${apikey_gpt3}"
 OPENAI_API_VERSION_GPT3 = "${apiversion_gpt3}"                
 OPENAI_MODEL_GPT3 = "${openaimodel_gpt3}"
@@ -316,23 +344,38 @@ OPENAI_API_BASE_GPT4_O = "${api_base}"
 OPENAI_API_KEY_GPT4_O = "${api_key}"
 OPENAI_API_VERSION_GPT4_O = "${api_version}"  
 OPENAI_MODEL_GPT4_O = "${model}"
-OPENAI_API_TYPE = "${apitype}"
+LLAMA_ENDPOINT3_70b = "${llamaendpoint3_70b}" 
+AICLOUD_MODEL_AUTH = "${aicloud_model_auth}"
+AWS_SERVICE_NAME = "${awsservicename}"
+AWS_MODEL_ID = "${awsmodelid}"
+ACCEPT = "${accept}"
+CONTENTTYPE = "${contentType}"
+REGION_NAME = "${region_name}"
+ANTHROPIC_VERSION = "${anthropicversion}" 
+GEMINI_PRO_MODEL_NAME = "${gemini_pro_model_name}" 
+GEMINI_PRO_API_KEY = "${gemini_pro_api_key}" 
+GEMINI_FLASH_MODEL_NAME = "${gemini_flash_model_name}" 
+GEMINI_FLASH_API_KEY = "${gemini_flash_api_key}" 
 ```
 
 3. **Passing DB Related details** : Here we need to pass config details related to DB.
 ```sh
-dbtype=<Mention as 'mongo' for Mongodb or 'psql' for Postgresql>
-APP_MONGO_HOST=<Hostname for MongoDB or PostgreSQL>
-username=<Enter the username for Database>
-password=<Enter the password for Database>
-APP_MONGO_DBNAME=<Enter Database name for Mongo/Postgresql>
+dbtype=<Mention as 'mongo' for Mongodb or 'psql' for Postgresql> #[OPTIONAL]
+APP_MONGO_HOST=<Hostname for MongoDB or PostgreSQL> #[OPTIONAL]
+username=<Enter the username for Database> #[OPTIONAL] 
+password=<Enter the password for Database> #[OPTIONAL]
+APP_MONGO_DBNAME=<Enter Database name for Mongo/Postgresql> #[OPTIONAL]
 
-APP_MONGO_HOST="${APP_MONGO_HOST}"
-APP_MONGO_DBNAME="${APP_MONGO_DBNAME}"
+APP_MONGO_DBNAME="${APP_MONGO_DBNAME}" #If you are using DB then this will be mandatory and mention the dbname
+DBTYPE="${dbtype}" #[MANDATORY]It will be mandatory if you will be using DB(values supported are mongo, psql , cosmos)
+
+#If you are giving the DB type as psql or mongo then you need to define the username. password and mongohost
+APP_MONGO_HOST="${APP_MONGO_HOST}" 
 DB_USERNAME="${username}"
 DB_PWD="${password}"
-DBTYPE="${dbtype}"
-MONGO_PATH="mongodb://${DB_USERNAME}:${DB_PWD}@${APP_MONGO_HOST}/"
+
+# If you are using Mongo DB then you need to define the mongo path
+MONGO_PATH="mongodb://${DB_USERNAME}:${DB_PWD}@${APP_MONGO_HOST}/" #[OPTIONAL]
 ```
 
 4. **Passing Cache details** : Pass the details for caching mechanism.
@@ -349,9 +392,9 @@ cache_ttl=<Time for which entries will be stored in cache, mention in seconds>
 cache_size=<Total entries in cache>
 cache_flag=<cache enablement flag , set it to True if caching to be applied,otherwise False>
 
-CACHE_TTL="${cache_ttl}"
-CACHE_SIZE="${cache_size}"
-CACHE_FLAG="${cache_flag}"
+CACHE_TTL="${cache_ttl}" #[MANDATORY]
+CACHE_SIZE="${cache_size}" #[MANDATORY]
+CACHE_FLAG="${cache_flag}" #[MANDATORY]
 ```
 
 5. **Setting Port No** : This will help to dynamically configure port no. for the Moderation layer Application.
@@ -361,25 +404,35 @@ As we know that this app is based on Flask, so you may give port no. as `5000` (
 Below are the entries for the same :
 ```sh
 ports=< Set your port no. here>
-PORT="${ports}"
+PORT="${ports}" #[MANDATORY]
 ```
 
 6. **Telemetry Related Details** : If you are setting up this application in your local, then mention as follows :
+```sh 
+TELEMETRY_ENVIRONMENT="${telemetryenviron}" #[MANDATORY]
+telemetryenviron=<set it as "AZURE">
+```
 ```sh
-TEL_FLAG="${tel_flag}"
+TEL_FLAG="${tel_flag}" #[MANDATORY]
 tel_flag=<set it as False>
 ```
 otherwise : If you are going to setup elasticsearch, kibana telemetry in your system, use the below configurations.
 telemetrypath -> moderation telemetry path URL
 coupledtelemetrypath --> coupled moderation telemetry path URL
-adminTemplatepath --> admin telemetry path URL
+adminTemplatepath --> admin telemetry path URL 
 evalllmtelemetrypath --> eval telemetry path URL
 ```sh
-tel_flag=<set it as True>
+tel_flag=<set it as True> 
 TELEMETRY_PATH="http://<host:PORT>/path/v1/telemtry/<moderation telemetry api url>" 
 COUPLEDTELEMETRYPATH="http://<host:PORT>/path/v1/telemtry/<coupled moderation telemetry api url>"
 ADMINTEMPLATEPATH="http://<host:PORT>/path/v1/telemtry/<admin telemetry api url>"
 EVALLLMTELEMETRYPATH="http://<host:PORT>/path/v1/telemtry/<eval moderation telemetry api url>"
+```
+
+7. **Target Environment** : Set the TARGETENVIRONMENT as azure 
+```sh
+TARGETENVIRONMENT="${environmentname}" #[MANDATORY]
+environmentname=<set it as azure>
 ```
 
 **Optional Parameters**
@@ -389,9 +442,9 @@ EVALLLMTELEMETRYPATH="http://<host:PORT>/path/v1/telemtry/<eval moderation telem
 
 Set azure translate details as follows :
 ```sh
-AZURE_TRANSLATE_KEY = "${azuretranslatekey}"
-AZURE_TRANSLATE_ENDPOINT = "${azuretranslateendpoint}"
-AZURE_TRANSLATE_REGION = "${azuretranslateregion}"
+AZURE_TRANSLATE_KEY = "${azuretranslatekey}" #[OPTIONAL]
+AZURE_TRANSLATE_ENDPOINT = "${azuretranslateendpoint}" #[OPTIONAL]
+AZURE_TRANSLATE_REGION = "${azuretranslateregion}" #[OPTIONAL]
 azuretranslatekey=<Enter Azure Translate Key>
 azuretranslateendpoint=<Enter Azure Translate Endpoint>
 azuretranslateregion=<Enter the Region for Azure Translate>
@@ -399,18 +452,18 @@ azuretranslateregion=<Enter the Region for Azure Translate>
 
 2. **BLOOM and LLama Credentials** : Mention the endpoints for Bloom or Llama models.
 ```sh
-BLOOM_ENDPOINT="${bloomendpoint}"
-LLAMA_ENDPOINT="${llamaendpoint}"
+BLOOM_ENDPOINT="${bloomendpoint}" #[OPTIONAL]
+LLAMA_ENDPOINT="${llamaendpoint}" #[OPTIONAL]
 bloomendpoint=<Mention Bloom endpoint>
 llamaendpoint=<Mention Llama endpoint>
 ```
 
 3. **Setting Details for OAuth2 authentication**: This is required to generate Bearer Token(for OAuth2), which is optional.
 ```sh
-TENANT_ID = "${tenant_id}"
-CLIENT_ID = "${client_id}"
-CLIENT_SECRET = "${client_secret}"
-AUTH_URL = "${auth_url}"
+TENANT_ID = "${tenant_id}" #[OPTIONAL]
+CLIENT_ID = "${client_id}" #[OPTIONAL]
+CLIENT_SECRET = "${client_secret}" #[OPTIONAL]
+AUTH_URL = "${auth_url}" #[OPTIONAL]
 auth_url=<Mention Authenticaion url for token generation>
 client_secret=<Client Secret key for token generation>
 client_id=<Client Id for token generation>
@@ -419,22 +472,22 @@ tenant_id=<Tenant Id for token generation>
 
 `SCOPE` is optional, this will be required only if we are using Microsoft or Google's support for token generation.
 ```sh
-SCOPE = "${scope}"
-scope=<Set the scope for Service Providers>
+SCOPE = "${scope}" #[OPTIONAL]
+scope=<Set the scope for Service Providers> 
 ```
 
 4. **EXE creation** : This is required for exe creation of application. Set the following variables as follows :
 ```sh
-exe_creation = <Set it to True or False based on user choice>
-EXE_CREATION = "${exe_creation}"
+exe_creation = <Set it to True or False based on user choice> #[OPTIONAL]
+EXE_CREATION = "${exe_creation}" 
 ```
 
 5. **Setting Vault** : This is required for setting up vault.
 
 For local setup :
 ```sh
-ISVAULT="${isvault}"
-isvault=<set it as False>
+ISVAULT="${isvault}" #[OPTIONAL]
+isvault=<set it as False> 
 ```
 Otherise :
 ```sh
@@ -451,11 +504,18 @@ log=<set it to false>
 ```
 Otherwise :
 ```sh
-log=<set it to true>
-LOGCHECK="${log}"
+log=<set it to true> 
+LOGCHECK="${log}" #[OPTIONAL]
 ```
 
-7. Rest all environment variables not mentioned above but are mentioned in `.env` file are completely optional and need not to be set.
+7. **SSL Verify** : If you want to by pass verify SSL check then set the variable value to False otherwise True:
+
+```sh
+verify_ssl=<set it to True or False as required> 
+VERIFY_SSL="${verify_ssl}" #[OPTIONAL]
+```
+
+8. Rest all environment variables not mentioned above but are mentioned in `.env` file are completely optional and need not to be set.
 
 
 ## Running the Application
@@ -625,7 +685,15 @@ which can be added as below :
       "PromptTemplate": "GoalPriority",
       "template_name": "PROMPT_INJECTION"  <---------->   template name as mentioned above
      }
-     ``` 
+     ```
+
+     **Note :** Change model_name in payload according to the model which you want to use:
+     gpt4 for GPT4o-mini or GPT4-Turbo model
+     gpt3 for GPT35-Turbo model
+     Llama3-70b for Llama3-70b model
+     AWS_CLAUDE_V3_5 for AWS Bedrock Claude model
+     Gemini-Pro for Gemini 2.5 Pro model
+     Gemini-Flash for Gemini 2.5 Flash model
   
 ## License
 The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.

@@ -74,8 +74,10 @@ def get_multimodal_response(template_name,modelName,messages):
 
 class ImageTemplateService:
     '''Encodes image using Base64 encoding'''
-    def encode_image(self,image):
+    def encode_image(self,images):
         try:
+            encoded_images=[]
+            for image in images:
                 im = Image.open(image)
                 buffered = BytesIO()
                 if im.format in ["JPEG","jpg","jpeg"]:
@@ -89,7 +91,9 @@ class ImageTemplateService:
                 im.save(buffered,format=format)
                 buffered.seek(0) 
                 encoded_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
-                return encoded_image
+                encoded_images.append(encoded_image)
+
+            return encoded_images
         except IOError as e:
             line_number = traceback.extract_tb(e.__traceback__)[0].lineno
             multimodal_log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
@@ -105,18 +109,16 @@ class ImageTemplateService:
             headers['id']=id
             multimodal_log_dict[request_id_var.get()]=[]
             userid = req['userid']
-            base64_image=self.encode_image(req['Image'])
+            base64_images=self.encode_image(req['Image'])
             vars = get_templates(req['TemplateName'],userid)
             args ={"detection_type":req['TemplateName'],
                     "evaluation_criteria":vars["evaluation_criteria"],
                     "few_shot":vars["few_shot_examples"],
                     "output_format":get_output_format(req['TemplateName'])}
             
-            messages = [{"role": "user", "content": 
-                        [
-                         {"type": "image_url","image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
-                        ]}
-                       ]
+            messages = [{"role": "user","content":[]}]
+            for image in base64_images:
+                messages[0]["content"].append({"type": "image_url","image_url": {"url": f"data:image/jpeg;base64,{image}"}})
             
             if req['Prompt'] != "":
                 messages[0]["content"].append({"type": "text", "text": req['Prompt']})

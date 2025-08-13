@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
@@ -34,20 +35,25 @@ export class RoleManagerService {
     }
     }
 
+    // Retrieves accessible pages from local storage
     getAccessiblePages(): any {
         console.log("PAGESS:::", localStorage.getItem('pages'))
         const pages = localStorage.getItem('pages');
         return pages ? JSON.parse(pages) : [];
     }
 
+    // Checks if the user can access a specific page
     canAccess(page: string): boolean {
         const accessiblePages = this.getAccessiblePages();
         return accessiblePages.includes(page);
     }
 
+    // Checks if a specific page exists in accessible pages
     checkPageExists(pageName: string): boolean {
         return this.accessiblePages.hasOwnProperty(pageName);
     }
+
+    // Checks if a specific subtab exists under a parent tab
     checkSubtabExists(parentTabName: string, subtabName: string): boolean {
         if (this.accessiblePages.hasOwnProperty(parentTabName)) {
             return this.accessiblePages[parentTabName].subtabs.hasOwnProperty(subtabName);
@@ -55,6 +61,7 @@ export class RoleManagerService {
         return false;
     }
 
+    // Checks if an active tab exists under a parent tab and subtab
     checkActiveTabExists(parentTabName: string, subtabName: string, activeTabName: string): boolean {
         if (this.accessiblePages[parentTabName]) {
             if (this.accessiblePages[parentTabName].subtabs && this.accessiblePages[parentTabName].subtabs[subtabName]) {
@@ -66,16 +73,19 @@ export class RoleManagerService {
         return false;
     }
     
+    // Retrieves selected type options for a specific tab
     getSelectedTypeOptions(parentTabName: string, subtabName: string, activeTabName: string) {
         try {
             if (this.accessiblePages[parentTabName] && this.accessiblePages[parentTabName].subtabs[subtabName] && this.accessiblePages[parentTabName].subtabs[subtabName].selectType[activeTabName]) {
                 return this.accessiblePages[parentTabName].subtabs[subtabName].selectType[activeTabName];
             }
         } catch (error) {
+            console.error('An error occurred:', error);
         }
         return [];
     }
 
+     // Checks if an accessible page exists for a specific parent tab and subtab
     checkAccessiblePageExists(parentTabName: string, subtabName: string, activeItemName: string): boolean {
         console.log(this.accessiblePages)
         if (this.accessiblePages.hasOwnProperty(parentTabName)) {
@@ -91,7 +101,7 @@ export class RoleManagerService {
         return false;
     }
 
-
+    // Retrieves the user's role from local storage
     getLocalStoreUserRole() {
         let userRole
         if (localStorage.getItem("role") != null) {
@@ -101,6 +111,8 @@ export class RoleManagerService {
             }
         }
     }
+
+    // Fetches pages accessible for the given roles from the API
     getPages(roles: string[]): Promise<string[]> {
         const promises = roles.map(role => {
           return this.https.get<any>(`${this.authorityAPI}?role=${role}`)
@@ -112,6 +124,7 @@ export class RoleManagerService {
               return Object.keys(response.pages);
             })
             .catch(error => {
+              console.error(`Error retrieving pages for role ${role}:`);
               return [];
             });
         });
@@ -122,6 +135,7 @@ export class RoleManagerService {
             return combinedPages;
           })
           .catch(error => {
+            console.error('Error combining pages:');
             return [];
           });
       }

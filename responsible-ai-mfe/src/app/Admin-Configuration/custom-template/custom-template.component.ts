@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
@@ -13,6 +14,7 @@ import { TemplateDataComponent } from '../template-data/template-data.component'
 import { PagingConfig } from 'src/app/_models/paging-config.model';
 import { SharedService } from '../configuration-parent/shared.service';
 import { NonceService } from 'src/app/nonce.service';
+import { UserValidationService } from 'src/app/services/user-validation.service';
 // PagingConfig
 
 @Component({
@@ -27,6 +29,7 @@ export class CustomTemplateComponent implements OnInit, PagingConfig {
   userId: any;
   result: any;
   dataSource_getBatches:any=[];
+  dataSource_getBatches_filter:any=[];
   spinner=false
   modeArr: any = ["Private","Public"]
   templateSubTypeArr: any = ["evaluation_criteria","prompting_instructions","few_shot_examples"]
@@ -59,6 +62,11 @@ export class CustomTemplateComponent implements OnInit, PagingConfig {
   category = false
   templateNameValidation = false
   templateDescValidation = false
+  // For search bar
+  searchQuery: string = '';
+  filteredItems: string[] = [];
+  isSearchOpen: boolean = false;
+  filteredUsers:any;
   
   
   options:any = ["Prompt Injection Check","Jailbreak Check","TOXICITY","PIIDETCT","REFUSAL","PROFANITY","RESTRICTTOPIC","Fairness and Bias Check"]
@@ -70,7 +78,7 @@ export class CustomTemplateComponent implements OnInit, PagingConfig {
   map = new Map<String, String>();
   loadTemplate: any;
 
-  constructor (public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog,private sharedService: SharedService,public nonceService:NonceService){
+  constructor (public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog,private sharedService: SharedService,public nonceService:NonceService,private validationService:UserValidationService){
     this.formCreation()
     this.pagingConfig = {
       itemsPerPage: this.itemsPerPage,
@@ -85,7 +93,7 @@ export class CustomTemplateComponent implements OnInit, PagingConfig {
 
   
   CustomTemplateForm!: FormGroup;
-
+// Creates the form for custom templates
   formCreation(){
       let role = localStorage.getItem('role');
       let v  = { value: '', disabled: false }
@@ -109,10 +117,6 @@ export class CustomTemplateComponent implements OnInit, PagingConfig {
   }
 
 
-  
-
-
-  
 viewoptions() {
   // console.log("Array===",this.selectedOptions)
   // [Privacy: true, Profanity: true, Explainability: true, FM-Moderation: true]
@@ -122,13 +126,14 @@ viewoptions() {
   console.log("only keys",filteredKeys);
   this.tenantarr = filteredKeys
   console.log("tenantarr===",this.selectedOptions)
-
-
 }
+
+// Filters keys from an object based on boolean values
 filterKeysByBoolean(obj: Record<string, boolean>): string[] {
   return Object.keys(obj).filter((key) => obj[key]);
 }
 
+// Resets the result data based on the selected template
 resetResultData(template:any){
   console.log("template===",template)
   this.CustomTemplateForm.patchValue({
@@ -156,6 +161,7 @@ resetResultData(template:any){
 
 }
 
+// Handles changes in the textarea and updates the map
 handleTextareaChange(event:any){
   const value = event.target.value;
   console.log("prompting_instructions===",this.prompt_instToggle)
@@ -172,7 +178,7 @@ handleTextareaChange(event:any){
   console.log("map===",this.map)
 }
 
-
+// Checks if a template name already exists
 isTemplateNameExists(templateName: string): boolean {
   if(this.formupdatedisbaled)
   return false
@@ -185,7 +191,7 @@ else
     console.log("this. tmeplateNmae Valeu=====",this.templateNameValue)
   }
 
-
+// Saves the custom template data
   save(){
     console.log("this.CustomTemplateForm.value===",this.CustomTemplateForm.value)
     if(this.CustomTemplateForm.get('category')?.invalid){
@@ -342,37 +348,24 @@ else
 
   }
 
+   // Retrieves the logged-in user from local storage
   getLogedInUser() {
     let role = localStorage.getItem('role');
-    console.log("role267===",role)
     if(role== '"ROLE_ADMIN"'){
       this.isRoleAdmin = true
     }
-   
-    // if (role == '"ROLE_ADMIN"') {
-    //   console.log("Insiode ROLE_ADMIN")
-    //   // this.CustomTemplateForm.value.mode.setValue({ value: 'Private', disabled: true })
-    //   console.log("this.CustomTemplateForm.value.mode===",this.CustomTemplateForm.value.mode)
-    //   this.CustomTemplateForm.patchValue({
-    //     mode: { value: 'Private', disabled: true }
-    //   });
-    //   console.log("After    this.CustomTemplateForm.value.mode===",this.CustomTemplateForm.value.mode)
-    // }else{
-    //   console.log("Insiode ROLE_USER")
-    // }
-    if (localStorage.getItem("userid") != null) {
-      const x = localStorage.getItem("userid")
-      if (x != null) {
 
-        this.userId = JSON.parse(x)
-        console.log(" userId", this.userId)
-        return JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
+      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
+        this.userId = x ;
       }
-
       console.log("userId", this.userId)
+      return this.userId;
     }
   }
 
+   // Loads template data from the server
   LoadTemplateData(){
     console.log("fd:",this.loadTemplate+this.userId)
     this.https.get(this.loadTemplate+this.userId).subscribe((res:any)=>{
@@ -398,16 +391,18 @@ else
     })
   }
 
+  // Retrieves API configuration from local storage
   getLocalStoreApi() {
     let ip_port
-    if (localStorage.getItem("res") != null) {
-      const x = localStorage.getItem("res")
-      if (x != null) {
-        return ip_port = JSON.parse(x)
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+      if(res != null){
+        return ip_port = JSON.parse(res)
       }
     }
   }
 
+   // Sets the API list URLs
   setApilist(ip_port: any) {
       this.customTemplatePostUrl=ip_port.result.Admin + ip_port.result.TemplateCreation 
       this.customTemplatePatchUrl_updateCustomeTemplate=ip_port.result.Admin + ip_port.result.customTemplatePatchUrl_updateCustomeTemplate 
@@ -423,6 +418,7 @@ else
     // this.Admin_LLmExplain_deleteFile = ip_port.result.Admin_Rag + ip_port.result.Admin_LLmExplain_deleteFile;
   }
 
+  // Deletes a template by ID
   deleteConfirmationModel(templateId: any){
     // const params = new URLSearchParams();
     // params.set('userId', this.user);
@@ -479,6 +475,7 @@ else
     );
   }
 
+  // Opens the right-side modal for template data
   openRightSideModal(templateData:any,templateName:any,mode:any,template_type:any,userId:any){
     console.log("templateData===",templateData)
     const dialogRef = this.dialog.open(TemplateDataComponent, {
@@ -555,8 +552,36 @@ else
     // TemplateDataComponent
 
   }
+//  for search bar
+toggleSearch() {
+  this.isSearchOpen = !this.isSearchOpen;
+  this.searchQuery = '';
+  this.filteredItems = [];
+}
 
+// Filters templates based on the search query
+search() {
+  if (this.searchQuery) {
+    console.log("serach query===",this.searchQuery)
+    console.log("this.dataSource_getBatches571===",this.dataSource_getBatches_filter.templates)
+    this.dataSource_getBatches = this.dataSource_getBatches_filter.templates.filter((temp: { templateName: string; }) =>
+      temp.templateName.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+    console.log(this.dataSource_getBatches, "Users Filtered")
+  } else {
+    this.dataSource_getBatches = this.dataSource_getBatches_filter.templates;
+  }
+  console.log(this.dataSource_getBatches_filter, "Users from backend")
+}
 
+ // Closes the search bar and resets the template list
+closeSearch() {
+  this.isSearchOpen = false;
+  this.searchQuery = '';
+  this.dataSource_getBatches = this.dataSource_getBatches_filter.templates;
+}
+
+ // Retrieves template details from the server
   getTemplateDetail(){
     // AllModel
     const params = new HttpParams()
@@ -572,6 +597,7 @@ else
        
         this.result = res
         this.dataSource_getBatches = res.templates;
+        this.dataSource_getBatches_filter=res;
         console.log("this.datasource===",this.dataSource_getBatches)
         this.templateNameArray=[]
         for(let i=0;i<this.dataSource_getBatches.length;i++){
@@ -646,6 +672,7 @@ else
     console.log("selectedPrompt===",this.selectedPrompt)
   }
 
+  // Resets the form and related data
   resetData(){
     
     this.showSpinner = false
@@ -677,6 +704,8 @@ else
     this.selectedPrompt = '';
     this.newTemplateName=""
   }
+
+  // Initializes the component and loads data
   ngOnInit(): void {
     let ip_port: any
 

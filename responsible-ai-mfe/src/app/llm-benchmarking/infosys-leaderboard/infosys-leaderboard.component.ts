@@ -1,8 +1,9 @@
-/**  MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/ 
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -22,13 +23,14 @@ export class InfosysLeaderboardComponent {
     private cdr: ChangeDetectorRef,
   ){}
 
+   // Initializes the component and sets up API calls
   ngOnInit(): void {
-    if (localStorage.getItem("res") != null) {
-      const x = localStorage.getItem("res")
-      if (x != null) {
-        this.ip_port = JSON.parse(x)
-      }
+  if (window && window.localStorage && typeof localStorage !== 'undefined') {
+    const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
+    if(res != null){
+    this.ip_port = JSON.parse(res)
     }
+  }
     this.securityLLM_getLeaderBoard = this.ip_port.result.SecurityLLMInfo +this.ip_port.result.SecurityLLMInfo_leadeboard;
     this.securityLLM_availableDatasets = this.ip_port.result.SecurityLLMInfo +this.ip_port.result.SecurityLLMInfo_datasets;
     this.securityLLMFairnesInfo_leaderboard = this.ip_port.result.SecurityLLMLeaderboard +this.ip_port.result.SecurityLLMInfoFairnessLScore;
@@ -46,6 +48,7 @@ export class InfosysLeaderboardComponent {
     this.isLoadingTable = false;
   }
 
+  // Handles API errors and displays a snackbar message
   handleError(error: any) {
     console.log(error)
     console.log(error.status);
@@ -59,6 +62,8 @@ export class InfosysLeaderboardComponent {
     const action = 'Close';
     this.openSnackBar(message, action);
   }
+
+  // Opens a snackbar with a custom message
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 3000,
@@ -94,6 +99,8 @@ export class InfosysLeaderboardComponent {
   dataSourceFairness: any[] = [];
   fairnessKeys:string[]=[]
   fairnessCol:string[]=[];
+
+  // Fetches leaderboard data from the API
   getLeaderboard(){
     this.https.get(this.securityLLM_getLeaderBoard).subscribe(
       (res: any) => {
@@ -106,6 +113,8 @@ export class InfosysLeaderboardComponent {
       }
     );
   }
+
+  // Fetches available datasets from the API
   getAvailableDataSets(){
     this.https.get(this.securityLLM_availableDatasets).subscribe(
       (res: any) => {
@@ -119,6 +128,8 @@ export class InfosysLeaderboardComponent {
         }
     )
   }
+
+   // Extracts the list of datasets from the API response
   getListOfDataSets(){
     try{
     for(let i=0;i<this.avaiableDataSetsVariable.length;i++){
@@ -129,6 +140,8 @@ export class InfosysLeaderboardComponent {
     console.log("getListOfDataSets method failed",error);
   }
   }
+
+  // Processes leaderboard data for display
   leaderboardMethod(){
     try{
     if(this.leaderboardModelLists.length!=0){
@@ -159,6 +172,8 @@ export class InfosysLeaderboardComponent {
   console.log("leaderboardMethod method failed",error);
 }
   }
+
+  // Fetches fairness leaderboard data from the API
   getFairnessLeaderboard(){
     this.https.get(this.securityLLMFairnesInfo_leaderboard).subscribe(
       (res: any) => {
@@ -171,6 +186,8 @@ export class InfosysLeaderboardComponent {
       }
     );
   }
+
+  // Processes fairness leaderboard data for display
   leaderboardFairnessMethod(){
     try{
     this.fairnessKeys = this.fairness.map((dict) => Object.keys(dict)[0]);
@@ -187,6 +204,8 @@ export class InfosysLeaderboardComponent {
   dataSourceSafety:any[]=[];
   dataSourcePrivacy:any[]=[];
   dataSourceMachineEthics:any[]=[]
+
+  // Fetches truthfulness scores from the API
   getTruthfullnessScore(){
     this.https.get(this.LLMLeaderboardTruthfullness).subscribe(
       (res: any) => {
@@ -199,6 +218,8 @@ export class InfosysLeaderboardComponent {
         }
     )
   }
+
+  // Fetches safety scores from the API
   getSafetyScore(){
     this.https.get(this.LLMleaderboardSafety).subscribe(
       (res: any) => {
@@ -212,6 +233,8 @@ export class InfosysLeaderboardComponent {
         }
     )
   }
+
+  // Fetches privacy scores from the API
   getPrivacyScore(){
     this.https.get(this.LLMleaderboardPrivacy).subscribe(
       (res: any) => {
@@ -224,6 +247,8 @@ export class InfosysLeaderboardComponent {
         }
     )
   }
+
+  // Fetches ethics scores from the API
   getEthicsScore(){
     this.https.get(this.LLMLeaderboardEthics).subscribe(
       (res: any) => {

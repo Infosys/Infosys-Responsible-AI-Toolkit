@@ -1,17 +1,19 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="d-flex pb-4">
     <ng-container class="selectTypeShimmer" *ngIf="isLoadingUpload">
-        <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '200px', width: '230px'}">
+        <ngx-skeleton-loader count="1" appearance="circle"
+            [theme]="{ 'border-radius': '10px', height: '200px', width: '230px'}">
         </ngx-skeleton-loader>
     </ng-container>
     <div *ngIf="!isLoadingUpload">
         <label class="HeadingLabel">Upload File(s)</label>
         <div class="d-flex">
-            <div class="mr-3">
+            <div class="me-3">
                 <div class="drop-zone">
                     <mat-icon class="material-icons browse-logo ">cloud_upload</mat-icon>
                     <p class="dnd-lable mb-1">Drag & drop files here <br>or<span class="high-light"> browse</span></p>
@@ -21,17 +23,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </div>
                 <div class="d-flex justify-content-between">
                     <div class="card imgcardsize">
-                        <img [src]="dicomThumb1" (click)="onClick(dicom1)" [class.highlight]="selectedImage === dicom1" class="card-img" alt="...">
+                        <img [src]="dicomThumb1" (click)="onClick(dicom1)" [class.highlight]="selectedImage === dicom1"
+                            class="card-img" alt="...">
                     </div>
                     <div class="card imgcardsize">
-                        <img [src]="dicomThumb2" (click)="onClick(dicom2)" [class.highlight]="selectedImage === dicom2" class="card-img" alt="...">
+                        <img [src]="dicomThumb2" (click)="onClick(dicom2)" [class.highlight]="selectedImage === dicom2"
+                            class="card-img" alt="...">
                     </div>
                     <div class="card imgcardsize">
-                        <img [src]="dicomThumb3" (click)="onClick(dicom3)" [class.highlight]="selectedImage === dicom3" class="card-img" alt="...">
+                        <img [src]="dicomThumb3" (click)="onClick(dicom3)" [class.highlight]="selectedImage === dicom3"
+                            class="card-img" alt="...">
                     </div>
                 </div>
                 <div class="d-flex justify-content-end mt-3">
-                    <button mat-raised-button class="buttonMain resetButton mr-2" color="reset" style="margin-right: 1rem;" (click)="Reset()">Reset</button>
+                    <button mat-raised-button class="buttonMain resetButton me-2" color="reset"
+                        style="margin-right: 1rem;" (click)="Reset()">Reset</button>
                     <button mat-raised-button class="buttonMain" [disabled]="spinner" color="black" (click)="Submit()">
                         <div class="spinner-border text-light" style="font-size: 10px;width: 15px;height: 15px;"
                             role="status" *ngIf="spinner">
@@ -41,36 +47,46 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </button>
                 </div>
             </div>
-            <div class="mr-3 fileContainer">
+            <div class="me-3 fileContainer">
                 <p class="HeadingLabelSM" *ngIf="files[0]">File</p>
-                <div class="file-upload" *ngIf="files[0]">
-                    <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
-                    <div class="d-flex align-items-center mt-1">
-                        <mat-progress-bar class="mr-1 progressBar" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
-                        <button class="cancel-button mr-2" (click)="cancelUpload()">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </div>
+                <div *ngIf="isLoadingFile">
+                  <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'width': '100%' }"></ngx-skeleton-loader>
                 </div>
-            </div>
+                <div class="file-upload" *ngIf="files[0] && !isLoadingFile">
+                  <p style="margin: 0px; font-size: x-small;">{{ files[0].name }}</p>
+                  <div class="d-flex align-items-center mt-1">
+                    <mat-progress-bar class="me-1 progressBar" mode="determinate" [value]="files[0]?.progress"></mat-progress-bar>
+                    <button class="cancel-button me-2" (click)="cancelUpload()">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
         </div>
     </div>
-    <div class="mr-4" [hidden]="!preview">
+    <div class="me-4" [hidden]="!preview">
         <label class="HeadingLabel">Preview</label>
         <div>
             <div class="dicom-container">
-                <dicom-viewer [enableViewerTools]="true" [enablePlayTools]="true" [maxImagesToLoad]="20" style="height:100%; width:100%;"></dicom-viewer>
+                <dicom-viewer [enableViewerTools]="true" [enablePlayTools]="true" [maxImagesToLoad]="20"
+                    style="height:100%; width:100%;"></dicom-viewer>
             </div>
         </div>
     </div>
-    <div *ngIf="table==true">
+    <div *ngIf="isLoadingOutput">
+        <ngx-skeleton-loader count="1" appearance="circle"
+        [theme]="{ 'border-radius': '10px', height: '200px', width: '400px'}">
+    </ngx-skeleton-loader>
+    </div>
+    <div *ngIf="!isLoadingOutput && table==true">
         <label class="HeadingLabel">Output</label>
         <div class="d-flex justify-content-between">
-            <div class="mr-2">
+            <div class="me-2">
                 <p class="outputLabel mb-1">Original Image</p>
                 <div class="card outputImageCard position-relative">
                     <img [src]="res1" class="card-img" alt="...">
-                    <button mat-icon-button class="expand-button position-absolute top-0 end-0" (click)="openDialog(res1)">
+                    <button mat-icon-button class="expand-button position-absolute top-0 end-0"
+                        (click)="openDialog(res1)">
                         <mat-icon>fullscreen</mat-icon>
                     </button>
                 </div>
@@ -79,16 +95,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <p class="outputLabel mb-1">Redacted Image</p>
                 <div class="card outputImageCard position-relative">
                     <img [src]="res2" class="card-img" alt="...">
-                    <button mat-icon-button class="expand-button position-absolute top-0 end-0" (click)="openDialog(res2)">
+                    <button mat-icon-button class="expand-button position-absolute top-0 end-0"
+                        (click)="openDialog(res2)">
                         <mat-icon>fullscreen</mat-icon>
                     </button>
                 </div>
             </div>
         </div>
     </div>
-    <!-- <div *ngIf="spinner==true" class="w-100 d-flex justify-content-center align-items-center" style="color: #8626C3;">
-        <div class="spinner-border" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div> -->
 </div>

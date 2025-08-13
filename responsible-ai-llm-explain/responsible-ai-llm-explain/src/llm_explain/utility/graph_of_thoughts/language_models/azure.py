@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2024 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
@@ -16,6 +16,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 '''
 import backoff
 import os
+import random
+import time
 from typing import List, Dict, Union
 
 from openai import AzureOpenAI
@@ -58,11 +60,7 @@ class ChatGPT(AbstractLanguageModel):
 
         self.api_version = os.getenv("AZURE_OPENAI_API_VERSION", "2023-05-15") # Default to "2023-05-15"
 
-        if model_name == 'gpt4':
-            deployment_name = 'gpt4'
-        else:
-            deployment_name = model_name
-        self.deployment_name = deployment_name
+        self.deployment_name = os.getenv("AZURE_DEPLOYMENT_ENGINE")
         if self.deployment_name is None:
             raise ValueError("Deployment name is not set.")
 
@@ -115,6 +113,7 @@ class ChatGPT(AbstractLanguageModel):
                     self.logger.warning(
                         f"Error in chatgpt: {e}, trying again with {next_try} samples"
                     )
+                    time.sleep(random.randint(1, 3))
                     total_num_attempts -= 1
 
         if self.cache:

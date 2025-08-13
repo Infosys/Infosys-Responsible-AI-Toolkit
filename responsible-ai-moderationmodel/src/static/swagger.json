@@ -413,6 +413,262 @@
           }
         }
       }
+    },
+    "/rai/v1/raimoderationmodels/sentimentmodel": {
+      "post": {
+        "security": [{
+            "my_auth": ["write:users"]
+        }],
+        "tags": [
+          "Infosys Responsible AI - LLM Moderation"
+        ],
+        "summary": "Sentiment Model",
+        "operationId": "sentiment_model_rai_v1_models_sentimentmodel_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentimentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401":
+          {
+            "description":"Unauthorized Access Error",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                }
+              }
+            }
+          },
+          "403":
+          {
+            "description":"Forbidden Access Error",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rai/v1/raimoderationmodels/invisibletextmodel": {
+      "post": {
+        "security": [{
+            "my_auth": ["write:users"]
+        }],
+        "tags": [
+          "Infosys Responsible AI - LLM Moderation"
+        ],
+        "summary": "Sentiment Model",
+        "operationId": "sentiment_model_rai_v1_models_invisibletextmodel_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InvisibleTextRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401":
+          {
+            "description":"Unauthorized Access Error",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                }
+              }
+            }
+          },
+          "403":
+          {
+            "description":"Forbidden Access Error",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rai/v1/raimoderationmodels/gibberishmodel": {
+      "post": {
+        "security": [{
+            "my_auth": ["write:users"]
+        }],
+        "tags": [
+          "Infosys Responsible AI - LLM Moderation"
+        ],
+        "summary": "Gibberish Model",
+        "operationId": "sentiment_model_rai_v1_models_gibberishmodel_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GibberishTextRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401":
+          {
+            "description":"Unauthorized Access Error",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                }
+              }
+            }
+          },
+          "403":
+          {
+            "description":"Forbidden Access Error",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rai/v1/raimoderationmodels/bancodemodel": {
+      "post": {
+        "security": [{
+            "my_auth": ["write:users"]
+        }],
+        "tags": [
+          "Infosys Responsible AI - LLM Moderation"
+        ],
+        "summary": "Ban Code Model",
+        "operationId": "sentiment_model_rai_v1_models_bancodemodel_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SentimentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401":
+          {
+            "description":"Unauthorized Access Error",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                }
+              }
+            }
+          },
+          "403":
+          {
+            "description":"Forbidden Access Error",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -479,6 +735,11 @@
             "title": "Text",
             "example": "Russia is the biggest country by area."
           },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "example": "distilroberta"
+          },
           "labels": {
             "items": {},
             "type": "array",
@@ -520,6 +781,131 @@
         },
         "type": "object",
         "title": "SimilarityRequest"
+      },
+      "SentimentRequest": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "SentimentRequest"
+      },
+      "InvisibleTextRequest":{
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "banned_categories": {
+            "items": {},
+            "type": "array",
+            "title": "Banned Categories",
+            "default": [
+              "Cf",
+              "Co",
+              "Cn",
+              "So",
+              "Sc"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "text",
+          "banned_categories"
+        ],
+        "title": "InvisibleTextRequest"
+      },
+      "GibberishTextRequest":{
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "labels": {
+            "items": {},
+            "type": "array",
+            "title": "Labels",
+            "default": [
+              "word salad", "noise", "mild gibberish","clean"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "text",
+          "labels"
+        ],
+        "title": "GibberishTextRequest"
+      },
+      "detoxifyRequest": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "example": "Russia is the biggest country by area."
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "detoxifyRequest"
+      },
+      "detoxifyResponse": {
+        "properties": {
+          "toxicScore": {
+            "items": {
+              "$ref": "#/components/schemas/profanityScore"
+            },
+            "type": "array",
+            "title": "Toxicscore"
+          }
+        },
+        "type": "object",
+        "required": [
+          "toxicScore"
+        ],
+        "title": "detoxifyResponse"
+      },
+      "privacyRequest": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "example": "Russia is the biggest country by area."
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "privacyRequest"
+      },
+      "profanityScore": {
+        "properties": {
+          "metricName": {
+            "type": "string",
+            "title": "Metricname",
+            "example": "toxicity"
+          },
+          "metricScore": {
+            "type": "number",
+            "title": "Metricscore",
+            "example": 0.78326
+          }
+        },
+        "type": "object",
+        "required": [
+          "metricName",
+          "metricScore"
+        ],
+        "title": "profanityScore"
       },
       "ValidationError": {
         "properties": {
@@ -619,70 +1005,6 @@
           "type"
         ],
         "title": "ForbiddenAccessError"
-      },
-      "detoxifyRequest": {
-        "properties": {
-          "text": {
-            "type": "string",
-            "title": "Text",
-            "example": "Russia is the biggest country by area."
-          }
-        },
-        "type": "object",
-        "required": [
-          "text"
-        ],
-        "title": "detoxifyRequest"
-      },
-      "detoxifyResponse": {
-        "properties": {
-          "toxicScore": {
-            "items": {
-              "$ref": "#/components/schemas/profanityScore"
-            },
-            "type": "array",
-            "title": "Toxicscore"
-          }
-        },
-        "type": "object",
-        "required": [
-          "toxicScore"
-        ],
-        "title": "detoxifyResponse"
-      },
-      "privacyRequest": {
-        "properties": {
-          "text": {
-            "type": "string",
-            "title": "Text",
-            "example": "Russia is the biggest country by area."
-          }
-        },
-        "type": "object",
-        "required": [
-          "text"
-        ],
-        "title": "privacyRequest"
-      },
-      "profanityScore": {
-        "properties": {
-          "metricName": {
-            "type": "string",
-            "title": "Metricname",
-            "example": "toxicity"
-          },
-          "metricScore": {
-            "type": "number",
-            "title": "Metricscore",
-            "example": 0.78326
-          }
-        },
-        "type": "object",
-        "required": [
-          "metricName",
-          "metricScore"
-        ],
-        "title": "profanityScore"
       }
     },
     "securitySchemes": {

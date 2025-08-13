@@ -1,13 +1,13 @@
-'''
-MIT license https://opensource.org/licenses/MIT
-Copyright 2024 Infosys Ltd
- 
+"""
+# SPDX-License-Identifier: MIT
+# Copyright 2024 - 2025 Infosys Ltd.
+
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-'''
+"""
 
 from functools import wraps
 from datetime import datetime
@@ -15,6 +15,7 @@ import os
 import time
 from venv import logger
 from fastapi import Response
+from fastapi.responses import JSONResponse
 
 from rai_backend.service.authenticatetelemetryservice import TelemetryContent
 from rai_backend.config.logger import CustomLogger
@@ -388,7 +389,15 @@ def createNewRole(payload:newRoleCreate):
     res = AuthService.newAuthority(payload.role)
     return res
 
+@router.post('/setUserConsent')
+def set_user_consent(payload: UserConsentCreate):
+    res = UserDb.set_user_consent(payload.userId, payload.userConsentStatus)
+    return res
 
+@router.get('/getUserConsent/{userId}')
+def get_user_consent(userId: str):
+    res = UserDb.get_user_consent(userId)
+    return JSONResponse(content={"userConsentStatus": res})
 
 
 

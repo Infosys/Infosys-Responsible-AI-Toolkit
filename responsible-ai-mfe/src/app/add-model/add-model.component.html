@@ -1,19 +1,19 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div class="p-3 px-4 h-100" *ngIf="isCreateModel == true">
     <div class="d-flex justify-content-between align-items-center pb-4">
         <p class="headingTop">Add Model</p>
-        <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
     </div>
     <form [formGroup]="SecurityFormModel">
         <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
         <div class="d-flex flex-column justify-content-between" style="height:90%;">
-            <input class="form-control" type="text" formControlName="modelName" placeholder="Model File Name" aria-label="DataFile Name">
+            <input class="form-control" type="text" formControlName="modelName" placeholder="Model File Name"
+                aria-label="DataFile Name">
 
             <select class="form-select shadow-none" formControlName="targetDataType" [disabled]="!target_Data_Type">
                 <option value="" disabled selected>Select Data Type</option>
@@ -26,30 +26,36 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div class="row mb-3">
                 <div class="col d-flex align-items-center">
                     <label class="mainLabel labelSM">Model End Point Available :</label>
-                    <mat-radio-group formControlName="modelEndPointAvailable" (change)="changeModelEndPointAvailable($event)" aria-label="Select an option">
+                    <mat-radio-group formControlName="modelEndPointAvailable"
+                        (change)="changeModelEndPointAvailable($event)" aria-label="Select an option">
                         <mat-radio-button value="Yes">Yes</mat-radio-button>
                         <mat-radio-button value="No">No</mat-radio-button>
                     </mat-radio-group>
                 </div>
             </div>
-            <input class="form-control" type="text" formControlName="modelEndPoint" placeholder="Model EndPoint" *ngIf="checkedValue=='Yes'">
+            <input class="form-control" type="text" formControlName="modelEndPoint" placeholder="Model EndPoint"
+                *ngIf="checkedValue=='Yes'">
             <select class="form-select shadow-none" formControlName="taskType" [disabled]="!taskType_list">
                 <option value="" disabled selected>Task Type</option>
                 <option *ngFor="let option of taskType_list" [value]="option.value">{{option.viewValue}}</option>
             </select>
-            <input class="form-control" type="text" formControlName="requestData" placeholder="API Request Parameter" *ngIf="checkedValue=='Yes'">
+            <input class="form-control" type="text" formControlName="requestData" placeholder="API Request Parameter"
+                *ngIf="checkedValue=='Yes'">
 
-            <input class="form-control" type="text" formControlName="predictionData" placeholder="API Response Parameter" *ngIf="checkedValue=='Yes'">
+            <input class="form-control" type="text" formControlName="predictionData"
+                placeholder="API Response Parameter" *ngIf="checkedValue=='Yes'">
             <div class="upload-button-section w-50 flex-column" *ngIf="checkedValue=='No'" style="display: flex;">
-                <input type="file" id="uploadFile" name="uploadFile" (change)="fileBrowseHandler($event)" class="uploadButton" formControlName="fileDropRef" />
+                <input type="file" id="uploadFile" name="uploadFile" (change)="fileBrowseHandler($event)"
+                    class="uploadButton" formControlName="fileDropRef" />
                 <label for="uploadFile">Upload</label>
                 <p class="dnd-lable">.pkl files are supported</p>
                 <div *ngFor="let file of files; let i = index">
                     <div class="file-upload mt-2 w-50">
                         <p style="margin: 0px; font-size: x-small;">{{ file?.name }}</p>
                         <div class="d-flex align-items-center mt-1">
-                            <mat-progress-bar class="mr-1" mode="determinate" [value]="file?.progress"></mat-progress-bar>
-                            <button class="cancel-button mr-2" (click)="deleteFile(i)">
+                            <mat-progress-bar class="me-1" mode="determinate"
+                                [value]="file?.progress"></mat-progress-bar>
+                            <button class="cancel-button me-2" (click)="deleteFile(i)">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </div>
@@ -62,7 +68,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
         <div class="button-container">
             <button mat-raised-button class="mainBtn resetButton" color="reset" (click)="resetForm()">Reset</button>
-            <button mat-raised-button class="mainBtn" (click)="createNew()" style="margin-left: .5rem;" color="black">Submit</button>
+            <button mat-raised-button class="mainBtn" (click)="createNew()" style="margin-left: .5rem;"
+                color="black">Submit</button>
         </div>
     </form>
     <div *ngIf="spinner==true" class="w-25 mt-2 d-flex justify-content-center align-items-center" style="color: #8626C3;">
@@ -75,9 +82,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <div class="p-3 px-4 h-100" *ngIf="isUpdateModel == true">
     <div class="d-flex justify-content-between align-items-center pb-4">
         <p class="headingTop">Update Model</p>
-        <button class="close pb-2" aria-label="Close" (click)="closeDialog()">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
     </div>
     <form [formGroup]="SecurityFormModelUpdate">
         <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
@@ -96,29 +101,35 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div class="row mb-3">
                 <div class="col d-flex align-items-center">
                     <label class="mainLabel labelSM">Model End Point Available :</label>
-                    <mat-radio-group formControlName="modelEndPointAvailable" (change)="changeModelEndPointAvailable($event)" aria-label="Select an option">
+                    <mat-radio-group formControlName="modelEndPointAvailable"
+                        (change)="changeModelEndPointAvailable($event)" aria-label="Select an option">
                         <mat-radio-button value="Yes">Yes</mat-radio-button>
                         <mat-radio-button value="No">No</mat-radio-button>
                     </mat-radio-group>
                 </div>
             </div>
-            <input class="form-control" type="text" formControlName="modelEndPoint" placeholder="Model EndPoint" *ngIf="checkedValue=='Yes'">
+            <input class="form-control" type="text" formControlName="modelEndPoint" placeholder="Model EndPoint"
+                *ngIf="checkedValue=='Yes'">
             <select class="form-select shadow-none" formControlName="taskType" [disabled]="!taskType_list">
                 <option value="" disabled selected>Task Type</option>
                 <option *ngFor="let option of taskType_list" [value]="option.value">{{option.viewValue}}</option>
             </select>
-            <input class="form-control" type="text" formControlName="requestData" placeholder="API Request Parameter" *ngIf="checkedValue=='Yes'">
+            <input class="form-control" type="text" formControlName="requestData" placeholder="API Request Parameter"
+                *ngIf="checkedValue=='Yes'">
 
-            <input class="form-control" type="text" formControlName="predictionData" placeholder="API Response Parameter" *ngIf="checkedValue=='Yes'">
+            <input class="form-control" type="text" formControlName="predictionData"
+                placeholder="API Response Parameter" *ngIf="checkedValue=='Yes'">
             <div class="upload-button-section w-50 flex-column" *ngIf="checkedValue=='No'" style="display: flex;">
-                <input type="file" id="uploadFile" name="uploadFile" formControlName="fileDropRef" (change)="fileBrowseHandler($event)" class="uploadButton" />
+                <input type="file" id="uploadFile" name="uploadFile" formControlName="fileDropRef" (change)="fileBrowseHandler($event)"
+                    class="uploadButton" />
                 <label for="uploadFile">Upload</label>
                 <div *ngFor="let file of files; let i = index">
                     <div class="file-upload mt-2 w-50">
                         <p style="margin: 0px; font-size: x-small;">{{ file?.name }}</p>
                         <div class="d-flex align-items-center mt-1">
-                            <mat-progress-bar class="mr-1" mode="determinate" [value]="file?.progress"></mat-progress-bar>
-                            <button class="cancel-button mr-2" (click)="deleteFile(i)">
+                            <mat-progress-bar class="me-1" mode="determinate"
+                                [value]="file?.progress"></mat-progress-bar>
+                            <button class="cancel-button me-2" (click)="deleteFile(i)">
                                 <mat-icon>close</mat-icon>
                             </button>
                         </div>
@@ -134,7 +145,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
         <div class="button-container">
             <button mat-raised-button class="mainBtn resetButton" color="reset" (click)="resetForm()">Reset</button>
-            <button mat-raised-button class="mainBtn" (click)="updateModel()" style="margin-left: .5rem;" color="black">Submit</button>
+            <button mat-raised-button class="mainBtn" (click)="updateModel()" style="margin-left: .5rem;"
+                color="black">Submit</button>
         </div>
     </form>
     <div *ngIf="spinner==true" class="w-25 mt-2 d-flex justify-content-center align-items-center" style="color: #8626C3;">

@@ -1,16 +1,19 @@
-<!-- MIT license https://opensource.org/licenses/MIT
-”Copyright 2024-2025 Infosys Ltd.”
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
 <div style="flex: 1; max-width: 100%; padding-right: 20px;">
     <div>
 
         <!--  -->
-        <div *ngIf="tab =='Privacy'">
-            <div id="accordionPri" class="mt-3">
+        <div *ngIf="tab =='Privacy'" hidden>
+            <div id="accordionPri" class="mt-3" >
                 <div class="card">
-                    <div class="card-header cursor" id="headingOne" data-toggle="collapse" data-target="#PRICollapse" aria-expanded="true" aria-controls="PRICollapse">
+                    <div class="card-header cursor" id="headingOne" data-toggle="collapse" data-target="#PRICollapse"
+
+                        aria-expanded="true" aria-controls="PRICollapse">
 
                         <h5 class="mb-0 mt-n2">
                             <label class="mainLabel2 cursor">
@@ -19,7 +22,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
                         </h5>
                     </div>
-                    <div id="PRICollapse" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionPri">
+                    <div id="PRICollapse" class="collapse show" aria-labelledby="headingOne"
+                        data-parent="#accordionPri">
                         <div class="card-body">
                             <div style="max-width: 100%;">
                                 <div class="d-flex flex-column ">
@@ -27,69 +31,84 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
                                     <div class="d-flex" style="margin-bottom: 1rem">
                                         <label class="mainLabel" style="margin-bottom: 2px;margin-right: 10px;">Category : </label>
-                                        <mat-select #select4 id="category" class="dropdown" (selectionChange)="categoryChange($event)" [(ngModel)]="category" placeholder="Select Request :">
+                                        <mat-select #select4 id="category" class="dropdown"  (selectionChange)="categoryChange($event)"
+                                        
+                                            [(ngModel)]="category" placeholder="Select Request :">
                                             <!-- <div class="select-all">
                                                 <mat-checkbox (change)="toggleAllSelection4($event)"
                                                     color="primary">Select
                                                     All</mat-checkbox>
                                             </div> -->
-                                            <mat-option (click)="selectRecognizertype4()" class="dropdownOptions" *ngFor="let attack of categoryList" [value]="attack.value">
+                                            <mat-option (click)="selectRecognizertype4()" class="dropdownOptions"
+                                                *ngFor="let attack of categoryList" [value]="attack.value">
                                                 {{attack.viewValue}}
                                             </mat-option>
                                         </mat-select>
                                     </div>
-                                    <div class="d-flex" style="margin-bottom: 1rem" *ngIf="categoryslected">
+                                    <div class="d-flex" style="margin-bottom: 1rem" *ngIf="categoryslected" >
                                         <label class="mainLabel" style="margin-bottom: 2px;margin-right: 10px;">Sub Category : </label>
-                                        <mat-select #select5 id="subcategory" class="dropdown" (selectionChange)="subcategoryChange($event)" [(ngModel)]="subcategory" placeholder="Select Request :" (ngModelChange)="onSubcategoryChange($event)">
+                                        <mat-select #select5 id="subcategory" class="dropdown" (selectionChange)="subcategoryChange($event)"
+                                            [(ngModel)]="subcategory" placeholder="Select Request :"
+                                            (ngModelChange)="onSubcategoryChange($event)">
                                             <!-- <div class="select-all">
                                                 <mat-checkbox (change)="toggleAllSelection5($event)"
                                                     color="primary">Select
                                                     All</mat-checkbox>
                                             </div> -->
-                                            <mat-option (click)="selectRecognizertype5()" class="dropdownOptions" *ngFor="let attack of subcategoryList" [value]="attack" [disabled]="disabledsubcategoryList.includes(attack)">
+                                            <mat-option (click)="selectRecognizertype5()" class="dropdownOptions"
+                                                *ngFor="let attack of subcategoryList" [value]="attack"
+                                                [disabled]="disabledsubcategoryList.includes(attack)">
                                                 {{attack}}
                                             </mat-option>
                                         </mat-select>
                                     </div>
-                                    <div class="d-flex" style="margin-bottom: 1rem " *ngIf="categoryslected && !bodydisabledSatatus">
+                                    <div class="d-flex" style="margin-bottom: 1rem "*ngIf="categoryslected && !bodydisabledSatatus">
                                         <label class="mainLabel" style="margin-bottom: 2px;margin-right: 10px;">Request : </label>
-                                        <mat-select #select1 multiple id="selectApplicableAttacks" class="dropdown" [(ngModel)]="selectedReclist" placeholder="Select Request :">
+                                        <mat-select #select1 multiple id="selectApplicableAttacks" class="dropdown"
+                                            [(ngModel)]="selectedReclist" placeholder="Select Request :">
                                             <div class="select-all">
-                                                <mat-checkbox (change)="toggleAllSelection1($event)" color="primary">Select All
-                                                </mat-checkbox>
+                                                <mat-checkbox (change)="toggleAllSelection1($event)"
+                                                    color="primary">Select
+                                                    All</mat-checkbox>
                                             </div>
-                                            <mat-option (click)="selectRecognizertype()" class="dropdownOptions" *ngFor="let attack of requestDropDownArr" [value]="attack">
+                                            <mat-option (click)="selectRecognizertype()" class="dropdownOptions"
+                                                *ngFor="let attack of requestDropDownArr" [value]="attack">
                                                 {{attack}}
                                             </mat-option>
                                         </mat-select>
                                     </div>
-                                    <div class="d-flex " style="margin-bottom: 1rem" *ngIf="categoryslected && !bodydisabledSatatus && showresponseDropdownforTemp">
+                                    <div class="d-flex " style="margin-bottom: 1rem"*ngIf="categoryslected && !bodydisabledSatatus && showresponseDropdownforTemp">
                                         <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Response : </label>
-                                        <mat-select #select2 multiple id="selectApplicableAttacks" class="dropdown" [(ngModel)]="selectedReclist2" placeholder="Select Response :">
+                                        <mat-select #select2 multiple id="selectApplicableAttacks" class="dropdown"
+                                            [(ngModel)]="selectedReclist2" placeholder="Select Response :">
                                             <div class="select-all">
-                                                <mat-checkbox (change)="toggleAllSelection2($event)" color="primary">Select All
-                                                </mat-checkbox>
+                                                <mat-checkbox (change)="toggleAllSelection2($event)"
+                                                    color="primary">Select
+                                                    All</mat-checkbox>
                                             </div>
-                                            <mat-option (click)="selectRecognizertype2()" class="dropdownOptions" *ngFor="let attack of resonseDropDownArr" [value]="attack">
+                                            <mat-option (click)="selectRecognizertype2()" class="dropdownOptions"
+                                                *ngFor="let attack of resonseDropDownArr" [value]="attack">
                                                 {{attack}}
                                             </mat-option>
                                         </mat-select>
                                     </div>
                                     <div hidden>
-                                        <div class="d-flex" style="margin-bottom: 1rem" *ngIf="categoryslected && !bodydisabledSatatus && showresponseDropdownforTemp">
-                                            <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Comparison : </label>
-                                            <mat-select #select3 multiple id="selectApplicableAttacks" class="dropdown" [(ngModel)]="selectedReclist3" placeholder="Select Comparison :">
-                                                <div class="select-all">
-                                                    <mat-checkbox (change)="toggleAllSelection3($event)" color="primary">Select All
-                                                    </mat-checkbox>
-                                                </div>
-                                                <mat-option (click)="selectRecognizertype3()" class="dropdownOptions" *ngFor="let attack of comparsionDropDownArr" [value]="attack">
-                                                    {{attack}}
-                                                </mat-option>
+                                    <div class="d-flex" style="margin-bottom: 1rem"*ngIf="categoryslected && !bodydisabledSatatus && showresponseDropdownforTemp">
+                                        <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Comparison : </label>
+                                        <mat-select #select3 multiple id="selectApplicableAttacks" class="dropdown"
+                                            [(ngModel)]="selectedReclist3" placeholder="Select Comparison :">
+                                            <div class="select-all">
+                                                <mat-checkbox (change)="toggleAllSelection3($event)"
+                                                    color="primary">Select
+                                                    All</mat-checkbox>
+                                            </div>
+                                            <mat-option (click)="selectRecognizertype3()" class="dropdownOptions"
+                                                *ngFor="let attack of comparsionDropDownArr" [value]="attack">
+                                                {{attack}}
+                                            </mat-option>
 
-                                            </mat-select>
-                                        </div>
-                                    </div>
+                                        </mat-select>
+                                    </div></div>
                                     <!-- <div class="d-flex flex-column" *ngIf="dropdownloader">
                                         <ngx-skeleton-loader count="1" appearance="line" [theme]="{ height: '20px', width:'400px', 'margin-bottom': '1rem' }"></ngx-skeleton-loader>
                                         <ngx-skeleton-loader count="1" appearance="line" [theme]="{ height: '20px', width:'400px','margin-bottom': '1rem' }"></ngx-skeleton-loader>
@@ -97,7 +116,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                         <ngx-skeleton-loader count="1" appearance="line" [theme]="{ height: '20px', width:'400px', 'margin-bottom': '1rem' }"></ngx-skeleton-loader>
                                     </div> -->
                                     <div class="d-flex justify-content-center align-items-center ps-3">
-                                        <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 0px;" color="black" (click)="submit()">Submit</button>
+                                        <button mat-raised-button class="buttonMain align-bottom"
+
+                                            style="margin-top: 0px;" color="black" (click)="submit()">Submit</button>
                                     </div>
                                 </div>
 
@@ -110,223 +131,235 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
         </div>
         <!-- new ui not yet approved -->
-        <div hidden>
+        <div >
             <div style="flex: 1; max-width: 100%; padding-right: 20px;">
                 <div>
                     <!-- Mat Expansion Panel -->
                     <mat-accordion>
                         <mat-expansion-panel [disabled]="isDisabled('SingleModel')">
                             <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    <mat-checkbox color="primary" [(ngModel)]="selectedCategories2['SingleModel']" (change)="onCheckboxChange2('SingleModel', $event)">
-                                        Single Model
-                                    </mat-checkbox>
-                                </mat-panel-title>
+                              <mat-panel-title>
+                                <mat-checkbox color="primary" [(ngModel)]="selectedCategories2['SingleModel']" (change)="onCheckboxChange2('SingleModel', $event)">
+                                  Single Model
+                                </mat-checkbox>
+                              </mat-panel-title>
                             </mat-expansion-panel-header>
                             <div>
-                                <!-- Empty body for Single Model -->
-                                <div class="d-flex flex-column" style="margin: .5rem;">
-                                    <div class="d-flex checkbox-container ml-1">
-                                        <div class="d-flex" *ngFor="let option of options">
-                                            <mat-checkbox style="width: max-content;" class="custom-frame" [(ngModel)]="selectedOptions[option]" color="primary" (change)="onCheckboxChange(option, $event)" [disabled]="disabledsubcategoryList.includes(option)">
-                                                {{option}}
-                                            </mat-checkbox>
-                                        </div>
-                                    </div>
-
-                                    <!-- Divs that display content based on checkbox selection -->
-                                    <div *ngIf="selectedOptions['Model']" class="card card-width">
-                                        <div class="card-body">
-                                            <h5 class="card-title mainLabel2">Model Details</h5>
-                                            <div>
-                                                <div class="d-flex" style="margin-bottom: 1rem;">
-                                                    <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
-                                                    <mat-select #selectModelRequest1 multiple id="selectModelRequest1" class="dropdown" [(ngModel)]="selectedModelRequest" placeholder="Select Request:">
-                                                        <div class="select-all">
-                                                            <mat-checkbox (change)="toggleAllSelectionModelRequest1($event)" color="primary">Select All</mat-checkbox>
-                                                        </div>
-                                                        <mat-option (click)="updateSelectionStatusModelRequest1()" class="dropdownOptions" *ngFor="let attack of RequestTextDropDownArr" [value]="attack">
-                                                            {{attack}}
-                                                        </mat-option>
-                                                    </mat-select>
-                                                </div>
-                                                <div class="d-flex" style="margin-bottom: 1rem;">
-                                                    <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
-                                                    <mat-select #selectModelResponse1 multiple id="selectModelResponse1" class="dropdown" [(ngModel)]="selectedModelResponse" placeholder="Select Response:">
-                                                        <div class="select-all">
-                                                            <mat-checkbox (change)="toggleAllSelectionModelResponse1($event)" color="primary">Select All</mat-checkbox>
-                                                        </div>
-                                                        <mat-option (click)="updateSelectionStatusModelResponse1()" class="dropdownOptions" *ngFor="let attack of ResponseTextDropDownArr" [value]="attack">
-                                                            {{attack}}
-                                                        </mat-option>
-                                                    </mat-select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div *ngIf="selectedOptions['Template']" class="card card-width">
-                                        <div class="card-body">
-                                            <h5 class="card-title mainLabel2">Template Details</h5>
-                                            <div>
-                                                <div class="d-flex" style="margin-bottom: 1rem;">
-                                                    <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
-                                                    <mat-select #selectTemplateRequest1 multiple id="selectTemplateRequest1" class="dropdown" [(ngModel)]="selectedTemplateRequest" placeholder="Select Request:">
-                                                        <div class="select-all">
-                                                            <mat-checkbox (change)="toggleAllSelectionTemplateRequest1($event)" color="primary">Select All</mat-checkbox>
-                                                        </div>
-                                                        <mat-option (click)="updateSelectionStatusTemplateRequest1()" class="dropdownOptions" *ngFor="let attack of RequestSingleTemplateDropDownArr" [value]="attack">
-                                                            {{attack}}
-                                                        </mat-option>
-                                                    </mat-select>
-                                                </div>
-                                                <div class="d-flex" style="margin-bottom: 1rem;">
-                                                    <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
-                                                    <mat-select #selectTemplateResponse1 multiple id="selectTemplateResponse1" class="dropdown" [(ngModel)]="selectedTemplateResponse" placeholder="Select Response:">
-                                                        <div class="select-all">
-                                                            <mat-checkbox (change)="toggleAllSelectionTemplateResponse1($event)" color="primary">Select All</mat-checkbox>
-                                                        </div>
-                                                        <mat-option (click)="updateSelectionStatusTemplateResponse1()" class="dropdownOptions" *ngFor="let attack of ResponseSingleTemplateDropDownArr" [value]="attack">
-                                                            {{attack}}
-                                                        </mat-option>
-                                                    </mat-select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Add more divs as needed for other options -->
-                                    <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 0px;" color="black" (click)="submitSingleModel()">Submit</button>
-                                </div>
-                            </div>
-                        </mat-expansion-panel>
-
-                        <mat-expansion-panel [disabled]="isDisabled('MultipleModel')">
-                            <mat-expansion-panel-header>
-                                <mat-panel-title>
-                                    <mat-checkbox color="primary" [(ngModel)]="selectedCategories3['MultipleModel']" (change)="onCheckboxChange2('MultipleModel', $event); oncheckboxChangeCategory()">
-                                        Multi Model
+                              <!-- Empty body for Single Model -->
+                              <div class="d-flex flex-column" style="margin: .5rem;">
+                                <div class="d-flex checkbox-container ms-1">
+                                  <div class="d-flex" *ngFor="let option of options">
+                                    <mat-checkbox 
+                                      style="width: max-content;" 
+                                      class="custom-frame" 
+                                      [(ngModel)]="selectedOptions[option]"
+                                      color="primary" 
+                                      (change)="onCheckboxChange(option, $event)"
+                                      [disabled]="disabledsubcategoryList.includes(option)">
+                                      {{option}}
                                     </mat-checkbox>
-                                </mat-panel-title>
+                                  </div>
+                                </div>
+                                
+                                <!-- Divs that display content based on checkbox selection -->
+                                <div *ngIf="selectedOptions['Model']" class="card card-width">
+                                  <div class="card-body">
+                                    <h5 class="card-title mainLabel2">Model Details</h5>
+                                    <div>
+                                      <div class="d-flex" style="margin-bottom: 1rem;">
+                                        <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                        <mat-select #selectModelRequest1 multiple id="selectModelRequest1" class="dropdown" [(ngModel)]="selectedModelRequest" placeholder="Select Request:">
+                                          <div class="select-all">
+                                            <mat-checkbox (change)="toggleAllSelectionModelRequest1($event)" color="primary">Select All</mat-checkbox>
+                                          </div>
+                                          <mat-option (click)="updateSelectionStatusModelRequest1()" class="dropdownOptions" *ngFor="let attack of RequestTextDropDownArr" [value]="attack">
+                                            {{attack}}
+                                          </mat-option>
+                                        </mat-select>
+                                      </div>
+                                      <div class="d-flex" style="margin-bottom: 1rem;">
+                                        <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
+                                        <mat-select #selectModelResponse1 multiple id="selectModelResponse1" class="dropdown" [(ngModel)]="selectedModelResponse" placeholder="Select Response:">
+                                          <div class="select-all">
+                                            <mat-checkbox (change)="toggleAllSelectionModelResponse1($event)" color="primary">Select All</mat-checkbox>
+                                          </div>
+                                          <mat-option (click)="updateSelectionStatusModelResponse1()" class="dropdownOptions" *ngFor="let attack of ResponseTextDropDownArr" [value]="attack">
+                                            {{attack}}
+                                          </mat-option>
+                                        </mat-select>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <div *ngIf="selectedOptions['Template']" class="card card-width">
+                                  <div class="card-body">
+                                    <h5 class="card-title mainLabel2">Template Details</h5>
+                                    <div>
+                                      <div class="d-flex" style="margin-bottom: 1rem;">
+                                        <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                        <mat-select #selectTemplateRequest1 multiple id="selectTemplateRequest1" class="dropdown" [(ngModel)]="selectedTemplateRequest" placeholder="Select Request:">
+                                          <div class="select-all">
+                                            <mat-checkbox (change)="toggleAllSelectionTemplateRequest1($event)" color="primary">Select All</mat-checkbox>
+                                          </div>
+                                          <mat-option (click)="updateSelectionStatusTemplateRequest1()" class="dropdownOptions" *ngFor="let attack of RequestSingleTemplateDropDownArr" [value]="attack">
+                                            {{attack}}
+                                          </mat-option>
+                                        </mat-select>
+                                      </div>
+                                      <div class="d-flex" style="margin-bottom: 1rem;">
+                                        <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
+                                        <mat-select #selectTemplateResponse1 multiple id="selectTemplateResponse1" class="dropdown" [(ngModel)]="selectedTemplateResponse" placeholder="Select Response:">
+                                          <div class="select-all">
+                                            <mat-checkbox (change)="toggleAllSelectionTemplateResponse1($event)" color="primary">Select All</mat-checkbox>
+                                          </div>
+                                          <mat-option (click)="updateSelectionStatusTemplateResponse1()" class="dropdownOptions" *ngFor="let attack of ResponseSingleTemplateDropDownArr" [value]="attack">
+                                            {{attack}}
+                                          </mat-option>
+                                        </mat-select>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <!-- Add more divs as needed for other options -->
+                                <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 0px;" color="black" (click)="submitSingleModel()">Submit</button>
+                              </div>
+                            </div>
+                          </mat-expansion-panel>
+                          
+                          <mat-expansion-panel [disabled]="isDisabled('MultipleModel')">
+                            <mat-expansion-panel-header>
+                              <mat-panel-title>
+                                <mat-checkbox color="primary" [(ngModel)]="selectedCategories3['MultipleModel']" (change)="onCheckboxChange2('MultipleModel', $event); oncheckboxChangeCategory()">
+                                  Multi Model
+                                </mat-checkbox>
+                              </mat-panel-title>
                             </mat-expansion-panel-header>
                             <div class="d-flex flex-column">
-                                <!-- Empty body for Multi Model -->
-                                <div class="d-flex checkbox-container ml-1">
-                                    <div class="d-flex" *ngFor="let option of options3">
-                                        <mat-checkbox style="width: max-content;" class="custom-frame" [(ngModel)]="selectedOptions3[option]" color="primary" (change)="onCheckboxChange3(option, $event)" [disabled]="disabledsubcategoryList.includes(option)">
-                                            {{option}}
-                                        </mat-checkbox>
-                                    </div>
+                              <!-- Empty body for Multi Model -->
+                              <div class="d-flex checkbox-container ms-1">
+                                <div class="d-flex" *ngFor="let option of options3">
+                                  <mat-checkbox 
+                                    style="width: max-content;" 
+                                    class="custom-frame" 
+                                    [(ngModel)]="selectedOptions3[option]" 
+                                    color="primary" 
+                                    (change)="onCheckboxChange3(option, $event)"
+                                    [disabled]="disabledsubcategoryList.includes(option)">
+                                    {{option}}
+                                  </mat-checkbox>
                                 </div>
-
-                                <!-- Divs that display content based on checkbox selection -->
-                                <div *ngIf="selectedOptions3['TextTemplate']" class="card card-width">
-                                    <div class="card-body">
-                                        <h5 class="card-title mainLabel2">TextTemplate Details</h5>
-                                        <div>
-                                            <div class="d-flex" style="margin-bottom: 1rem;">
-                                                <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
-                                                <mat-select #selectTextTemplateRequest1 multiple id="selectTextTemplateRequest1" class="dropdown" [(ngModel)]="selectedTextTemplateRequest" placeholder="Select Request:">
-                                                    <div class="select-all">
-                                                        <mat-checkbox (change)="toggleAllSelectionTextTemplateRequest1($event)" color="primary">Select All</mat-checkbox>
-                                                    </div>
-                                                    <mat-option (click)="updateSelectionStatusTextTemplateRequest1()" class="dropdownOptions" *ngFor="let attack of RequestSingleTemplateDropDownArr" [value]="attack">
-                                                        {{attack}}
-                                                    </mat-option>
-                                                </mat-select>
-                                            </div>
-                                            <div class="d-flex" style="margin-bottom: 1rem;">
-                                                <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
-                                                <mat-select #selectTextTemplateResponse1 multiple id="selectTextTemplateResponse1" class="dropdown" [(ngModel)]="selectedTextTemplateResponse" placeholder="Select Response:">
-                                                    <div class="select-all">
-                                                        <mat-checkbox (change)="toggleAllSelectionTextTemplateResponse1($event)" color="primary">Select All</mat-checkbox>
-                                                    </div>
-                                                    <mat-option (click)="updateSelectionStatusTextTemplateResponse1()" class="dropdownOptions" *ngFor="let attack of ResponseSingleTemplateDropDownArr" [value]="attack">
-                                                        {{attack}}
-                                                    </mat-option>
-                                                </mat-select>
-                                            </div>
+                              </div>
+                              
+                              <!-- Divs that display content based on checkbox selection -->
+                              <div *ngIf="selectedOptions3['TextTemplate']" class="card card-width">
+                                <div class="card-body">
+                                  <h5 class="card-title mainLabel2">TextTemplate Details</h5>
+                                  <div>
+                                    <div class="d-flex" style="margin-bottom: 1rem;">
+                                      <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                      <mat-select #selectTextTemplateRequest1 multiple id="selectTextTemplateRequest1" class="dropdown" [(ngModel)]="selectedTextTemplateRequest" placeholder="Select Request:">
+                                        <div class="select-all">
+                                          <mat-checkbox (change)="toggleAllSelectionTextTemplateRequest1($event)" color="primary">Select All</mat-checkbox>
                                         </div>
+                                        <mat-option (click)="updateSelectionStatusTextTemplateRequest1()" class="dropdownOptions" *ngFor="let attack of RequestSingleTemplateDropDownArr" [value]="attack">
+                                          {{attack}}
+                                        </mat-option>
+                                      </mat-select>
                                     </div>
-                                </div>
-
-                                <div *ngIf="selectedOptions3['TextModel']" class="card card-width">
-                                    <div class="card-body">
-                                        <h5 class="card-title mainLabel2">TextModel Details</h5>
-                                        <div>
-                                            <div class="d-flex" style="margin-bottom: 1rem;">
-                                                <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
-                                                <mat-select #selectTextModelRequest1 multiple id="selectTextModelRequest1" class="dropdown" [(ngModel)]="selectedTextModelRequest" placeholder="Select Request:">
-                                                    <div class="select-all">
-                                                        <mat-checkbox (change)="toggleAllSelectionTextModelRequest1($event)" color="primary">Select All</mat-checkbox>
-                                                    </div>
-                                                    <mat-option (click)="updateSelectionStatusTextModelRequest1()" class="dropdownOptions" *ngFor="let attack of RequestSingleModelDropDownArr" [value]="attack">
-                                                        {{attack}}
-                                                    </mat-option>
-                                                </mat-select>
-                                            </div>
-                                            <div class="d-flex" style="margin-bottom: 1rem;">
-                                                <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
-                                                <mat-select #selectTextModelResponse1 multiple id="selectTextModelResponse1" class="dropdown" [(ngModel)]="selectedTextModelResponse" placeholder="Select Response:">
-                                                    <div class="select-all">
-                                                        <mat-checkbox (change)="toggleAllSelectionTextModelResponse1($event)" color="primary">Select All</mat-checkbox>
-                                                    </div>
-                                                    <mat-option (click)="updateSelectionStatusTextModelResponse1()" class="dropdownOptions" *ngFor="let attack of ResponseSingleModelDropDownArr" [value]="attack">
-                                                        {{attack}}
-                                                    </mat-option>
-                                                </mat-select>
-                                            </div>
+                                    <div class="d-flex" style="margin-bottom: 1rem;">
+                                      <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
+                                      <mat-select #selectTextTemplateResponse1 multiple id="selectTextTemplateResponse1" class="dropdown" [(ngModel)]="selectedTextTemplateResponse" placeholder="Select Response:">
+                                        <div class="select-all">
+                                          <mat-checkbox (change)="toggleAllSelectionTextTemplateResponse1($event)" color="primary">Select All</mat-checkbox>
                                         </div>
+                                        <mat-option (click)="updateSelectionStatusTextTemplateResponse1()" class="dropdownOptions" *ngFor="let attack of ResponseSingleTemplateDropDownArr" [value]="attack">
+                                          {{attack}}
+                                        </mat-option>
+                                      </mat-select>
                                     </div>
+                                  </div>
                                 </div>
-
-                                <div *ngIf="selectedOptions3['ImageTemplate']" class="card card-width">
-                                    <div class="card-body">
-                                        <h5 class="card-title mainLabel2">ImageTemplate Details</h5>
-                                        <div>
-                                            <div class="d-flex" style="margin-bottom: 1rem;">
-                                                <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
-                                                <mat-select #selectImageTemplateRequest1 multiple id="selectImageTemplateRequest1" class="dropdown" [(ngModel)]="selectedImageTemplateRequest" placeholder="Select Request:">
-                                                    <div class="select-all">
-                                                        <mat-checkbox (change)="toggleAllSelectionImageTemplateRequest1($event)" color="primary">Select All</mat-checkbox>
-                                                    </div>
-                                                    <mat-option (click)="updateSelectionStatusImageTemplateRequest1()" class="dropdownOptions" *ngFor="let attack of RequestMultipleTemplateDropDownArr" [value]="attack">
-                                                        {{attack}}
-                                                    </mat-option>
-                                                </mat-select>
-                                            </div>
+                              </div>
+                              
+                              <div *ngIf="selectedOptions3['TextModel']" class="card card-width">
+                                <div class="card-body">
+                                  <h5 class="card-title mainLabel2">TextModel Details</h5>
+                                  <div>
+                                    <div class="d-flex" style="margin-bottom: 1rem;">
+                                      <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                      <mat-select #selectTextModelRequest1 multiple id="selectTextModelRequest1" class="dropdown" [(ngModel)]="selectedTextModelRequest" placeholder="Select Request:">
+                                        <div class="select-all">
+                                          <mat-checkbox (change)="toggleAllSelectionTextModelRequest1($event)" color="primary">Select All</mat-checkbox>
                                         </div>
+                                        <mat-option (click)="updateSelectionStatusTextModelRequest1()" class="dropdownOptions" *ngFor="let attack of RequestSingleModelDropDownArr" [value]="attack">
+                                          {{attack}}
+                                        </mat-option>
+                                      </mat-select>
                                     </div>
-                                </div>
-
-                                <div *ngIf="selectedOptions3['ImageModel']" class="card card-width">
-                                    <div class="card-body">
-                                        <h5 class="card-title mainLabel2">ImageModel Details</h5>
-                                        <div>
-                                            <div class="d-flex" style="margin-bottom: 1rem;">
-                                                <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
-                                                <mat-select #selectImageModelRequest1 multiple id="selectImageModelRequest1" class="dropdown" [(ngModel)]="selectedImageModelRequest" placeholder="Select Request:">
-                                                    <div class="select-all">
-                                                        <mat-checkbox (change)="toggleAllSelectionImageModelRequest1($event)" color="primary">Select All</mat-checkbox>
-                                                    </div>
-                                                    <mat-option (click)="updateSelectionStatusImageModelRequest1()" class="dropdownOptions" *ngFor="let attack of RequestMultipleImageModelDropDownArr" [value]="attack">
-                                                        {{attack}}
-                                                    </mat-option>
-                                                </mat-select>
-                                            </div>
+                                    <div class="d-flex" style="margin-bottom: 1rem;">
+                                      <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
+                                      <mat-select #selectTextModelResponse1 multiple id="selectTextModelResponse1" class="dropdown" [(ngModel)]="selectedTextModelResponse" placeholder="Select Response:">
+                                        <div class="select-all">
+                                          <mat-checkbox (change)="toggleAllSelectionTextModelResponse1($event)" color="primary">Select All</mat-checkbox>
                                         </div>
+                                        <mat-option (click)="updateSelectionStatusTextModelResponse1()" class="dropdownOptions" *ngFor="let attack of ResponseSingleModelDropDownArr" [value]="attack">
+                                          {{attack}}
+                                        </mat-option>
+                                      </mat-select>
                                     </div>
+                                  </div>
                                 </div>
-
-                                <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 0px;" color="black" (click)="submitMultiModel()">Submit</button>
+                              </div>
+                              
+                              <div *ngIf="selectedOptions3['ImageTemplate']" class="card card-width">
+                                <div class="card-body">
+                                  <h5 class="card-title mainLabel2">ImageTemplate Details</h5>
+                                  <div>
+                                    <div class="d-flex" style="margin-bottom: 1rem;">
+                                      <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                      <mat-select #selectImageTemplateRequest1 multiple id="selectImageTemplateRequest1" class="dropdown" [(ngModel)]="selectedImageTemplateRequest" placeholder="Select Request:">
+                                        <div class="select-all">
+                                          <mat-checkbox (change)="toggleAllSelectionImageTemplateRequest1($event)" color="primary">Select All</mat-checkbox>
+                                        </div>
+                                        <mat-option (click)="updateSelectionStatusImageTemplateRequest1()" class="dropdownOptions" *ngFor="let attack of RequestMultipleTemplateDropDownArr" [value]="attack">
+                                          {{attack}}
+                                        </mat-option>
+                                      </mat-select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div *ngIf="selectedOptions3['ImageModel']" class="card card-width">
+                                <div class="card-body">
+                                  <h5 class="card-title mainLabel2">ImageModel Details</h5>
+                                  <div>
+                                    <div class="d-flex" style="margin-bottom: 1rem;">
+                                      <label class="mainLabel" style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                      <mat-select #selectImageModelRequest1 multiple id="selectImageModelRequest1" class="dropdown" [(ngModel)]="selectedImageModelRequest" placeholder="Select Request:">
+                                        <div class="select-all">
+                                          <mat-checkbox (change)="toggleAllSelectionImageModelRequest1($event)" color="primary">Select All</mat-checkbox>
+                                        </div>
+                                        <mat-option (click)="updateSelectionStatusImageModelRequest1()" class="dropdownOptions" *ngFor="let attack of RequestMultipleImageModelDropDownArr" [value]="attack">
+                                          {{attack}}
+                                        </mat-option>
+                                      </mat-select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                          
+                              <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 0px;" color="black" (click)="submitMultiModel()">Submit</button>
                             </div>
-                        </mat-expansion-panel>
+                          </mat-expansion-panel>
                     </mat-accordion>
                 </div>
             </div>
         </div>
         <!-- will be used later  -->
-        <div hidden>
+        <div hidden> 
             <div style="flex: 1; max-width: 100%; padding-right: 20px;">
                 <div>
                     <!-- Mat Expansion Panel -->
@@ -334,18 +367,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <mat-expansion-panel [disabled]="roles === 'ROLE_ML'" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
-                                    <mat-checkbox class="custom-frame mt-n2" (click)="$event.stopPropagation()" color="primary" [disabled]="roles === 'ROLE_ML'">Single Model</mat-checkbox>
+                                    <mat-checkbox class="custom-frame mt-n2" (click)="$event.stopPropagation()" color="primary"  [disabled]="roles === 'ROLE_ML'">Single Model</mat-checkbox>
                                 </mat-panel-title>
                             </mat-expansion-panel-header>
                             <div class="panel-body">
                                 <!-- Empty body for Single Model -->
                                 <mat-checkbox class="custom-frame" (change)="viewoptions()" color="primary" *ngFor="let option of options" [(ngModel)]="selectedOptions[option]">
                                     {{option}}
-                                </mat-checkbox>
-
+                                  </mat-checkbox>
+                                 
                             </div>
                         </mat-expansion-panel>
-
+            
                         <mat-expansion-panel [disabled]="roles === 'ROLE_ML'" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
