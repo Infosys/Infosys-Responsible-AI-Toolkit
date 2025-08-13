@@ -1,0 +1,99 @@
+[{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d454"
+  },
+  "dataType": "Tabular",
+  "methods": "LIME-TABULAR",
+  "modelFramework": "Scikit-learn",
+  "scope": "LOCAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},
+{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d458"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-EXPLAINER",
+  "modelFramework": "Scikit-learn",
+  "scope": "GLOBAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},
+{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d45a"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-EXPLAINER",
+  "modelFramework": "Scikit-learn",
+  "scope": "GLOBAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},
+{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d45d"
+  },
+  "dataType": "Tabular",
+  "methods": "TS-LIME-TABULAR",
+  "modelFramework": "Scikit-learn",
+  "scope": "LOCAL",
+  "taskType": "TIMESERIESFORECAST",
+  "unsupportedModels": []
+},
+{
+  "_id": {
+    "$oid": "65d5a6e052ec4e3a88505538"
+  },
+  "dataType": "Tabular",
+  "methods": "LIME-TABULAR",
+  "modelFramework": "Scikit-learn",
+  "scope": "LOCAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},
+{
+  "_id": {
+    "$oid": "664da039c25a9afec6a8f733"
+  },
+  "dataType": "Text",
+  "methods": "TEXT-SHAP-EXPLAINER",
+  "modelFramework": "Scikit-learn",
+  "scope": "LOCAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},
+{
+  "_id": {
+    "$oid": "671ba95ceafd953e08901568"
+  },
+  "dataType": "Tabular",
+  "methods": "TS-KERNEL-EXPLAINER",
+  "modelFramework": "Scikit-learn",
+  "scope": "GLOBAL",
+  "taskType": "TIMESERIESFORECAST",
+  "unsupportedModels": []
+},
+{
+  "_id": {
+    "$oid": "671baa17eafd953e08901569"
+  },
+  "dataType": "Tabular",
+  "methods": "TS-KERNEL-EXPLAINER",
+  "modelFramework": "Statsmodels",
+  "scope": "GLOBAL",
+  "taskType": "TIMESERIESFORECAST",
+  "unsupportedModels": []
+},
+{
+  "_id": {
+    "$oid": "671baa6aeafd953e0890156a"
+  },
+  "dataType": "Tabular",
+  "methods": "TS-LIME-TABULAR",
+  "modelFramework": "Statsmodels",
+  "scope": "LOCAL",
+  "taskType": "TIMESERIESFORECAST",
+  "unsupportedModels": []
+}]
