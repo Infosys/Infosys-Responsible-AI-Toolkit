@@ -1,0 +1,6 @@
+uvicorn
+setuptools==70.0.0
+pyyaml
+fastapi
+python-dotenv
+openai

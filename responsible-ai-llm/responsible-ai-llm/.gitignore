@@ -1,0 +1,5 @@
+myenv/
+*.pyc
+*.pyo
+*.pyd
+model/
