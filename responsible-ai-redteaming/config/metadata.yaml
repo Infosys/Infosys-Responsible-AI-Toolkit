@@ -1,0 +1,18 @@
+openapi_url: /v1/redteaming/openapi.json
+docs_url: /v1/redteaming/docs
+title: Infosys Responsible AI - Red Teaming - OpenAPI 3.0
+summary: API specs for Infosys Responsible AI Red Teaming  in OpenAPI 3.0 format
+terms_of_service: https://www.infosys.com
+contact:
+    email: Impact@infosys.com
+license_info:
+    name: Infosys
+    url: https://www.infosys.com
+description: "Copyright \u00A9 2023 Infosys Limited | Internal Communications - HRD"
+version: v$version
+openapi_tags:
+    - name: Red Teaming
+      description: ""
+      externalDocs:
+        description: Find out more
+        url: https://www.infosys.com
