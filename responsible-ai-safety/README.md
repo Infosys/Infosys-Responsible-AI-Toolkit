@@ -116,7 +116,7 @@ Note: The '/api/v1/safety/profanity/imageGenerate' API is currently not working 
 
   
 ## License
-The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.
+The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](License.md) file.
 
 ## Open Source tools Used:
 1. Detoxify model for Unstructured text
