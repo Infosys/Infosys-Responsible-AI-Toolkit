@@ -156,7 +156,7 @@ To create an effective privacy monitoring dashboard:
 4. Apply filters to focus on specific tenants, date ranges, or high-confidence detections
 
 ## License
-The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.
+The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](License.md) file.
 
 ## Contact
 If you have more questions or need further insights please feel free to connect with us @ Infosysraitoolkit@infosys.com
