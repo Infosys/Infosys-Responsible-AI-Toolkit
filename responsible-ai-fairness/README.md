@@ -95,7 +95,7 @@ and activate it by going to
       ```bash 
          python main_api.py 
       ```
-7. Once server is running successfully, go to [http://localhost:8000/api/v1/fairness/docs](http://localhost:8000/api/v1/fairness/docs#/)
+7. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: `http://localhost:8000/api/v1/fairness/docs#/`
    
 ## Configurations
  1. Add required environment variables.
