@@ -105,7 +105,7 @@ Once we have completed all the aforementioned steps, we can start the service.
     python main.py
      ```
 
-3. Open the following URL in your browser: http://localhost:<port_no>/v1/rai/backend/docs
+3. Open the following URL in your browser: `http://localhost:<port_no>/v1/rai/backend/docs`
 
     User can also change the port which mentioned in main.py file
 
@@ -113,11 +113,11 @@ Note: v1/rai/backend/account endpoint is used by frontend module for verifying t
   
 ## License
 
-The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.md](LICENSE.md) file.
+The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.md](License.md) file.
 
 ## Contact
 
-If you have more questions or need further insights, feel free to Connect with us @ infosysraitoolkit@infosys.com
+If you have more questions or need further insights, feel free to Connect with us @infosysraitoolkit@infosys.com
 
 ## Issue Update
 Resolving Cosmos DB Error:
