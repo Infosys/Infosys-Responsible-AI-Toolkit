@@ -32,8 +32,8 @@ This application is built using the Flask web framework.Leveraging the flexibili
 ## Prerequisites
 
 1. Before installing the repo for Moderation Layer, first you need to install the repo for Moderation Models.
-Please find the link for **Moderation Model** repo : (https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/main/responsible-ai-ModerationModel).
-If you want to use template based guardrails then use **Admin Module** repo : (https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-admin)
+Please find the link for [Moderation Model](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/main/responsible-ai-ModerationModel).
+If you want to use template based guardrails then use [Admin Module](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-admin)
 
 2. **Installation of Python** : Install Python (version 3.11.x) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
 
