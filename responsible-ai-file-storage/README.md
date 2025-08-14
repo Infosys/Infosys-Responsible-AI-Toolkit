@@ -122,7 +122,7 @@ By abstracting away provider-specific implementations, the module delivers a str
   `GET /api/v1/s3/getObjectProperties`  
   Retrieves metadata and properties of a specific object in S3.
 
-For more details refer our [API Documentation](docs\File_Storage_API_Documentation.pdf)
+For more details refer our [API Documentation](docs\ File_Storage_API_Documentation.pdf)
 
 ## Installation
 1.	Clone the repository
@@ -147,7 +147,7 @@ and activate it by going to
       ```bash 
          python main.py 
       ```
-6. Once server is running successfully, go to [http://localhost:8000/api/v1/azureBlob/docs](http://localhost:8000/api/v1/azureBlob/docs#/)
+6. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: `http://localhost:8000/api/v1/azureBlob/docs#/`
 
 
 ## Configurations
