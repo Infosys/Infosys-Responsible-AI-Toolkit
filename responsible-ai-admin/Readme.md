@@ -114,8 +114,8 @@ Once we have completed all the aforementioned steps, we can start the service.
     ```sh
     python main.py
      ```
-3. Open the following URL in your browser:
-    [http://localhost:30016/api/v1/rai/admin/docs#/](http://localhost:30016/api/v1/rai/admin/docs#/)
+3. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: 
+    `http://localhost:<portnumber>/api/v1/rai/admin/docs#/)
 
     User can also change the port which is mentioned in main.py file
 
