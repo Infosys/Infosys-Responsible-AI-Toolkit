@@ -122,7 +122,7 @@ By abstracting away provider-specific implementations, the module delivers a str
   `GET /api/v1/s3/getObjectProperties`  
   Retrieves metadata and properties of a specific object in S3.
 
-For more details refer our [API Documentation](docs\ File_Storage_API_Documentation.pdf)
+For more details refer our [API Documentation]([docs\ File_Storage_API_Documentation.pdf](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/Release-2.2.0/responsible-ai-file-storage/docs/File_Storage_API_Documentation.pdf)
 
 ## Installation
 1.	Clone the repository
