@@ -156,11 +156,9 @@ Once we have completed all the aforementioned steps, we can start the service.
     python main.py
     ```
 
-3. Open the following URL in your browser:
+3. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: `http://localhost:8002/rai/v1/llm-explainability/docs`
 
-    [http://localhost:8002/rai/v1/llm-explainability/docs](http://localhost:8002/rai/v1/llm-explainability/docs)
-
-For API calls, please refer to the [API Documnet](responsible-ai-llm-explain/docs/API_Doc.pdf)
+For API calls, please refer to the [API Document](responsible-ai-llm-explain/docs/API_Doc.pdf)
 
 
 ## Referred Citations
