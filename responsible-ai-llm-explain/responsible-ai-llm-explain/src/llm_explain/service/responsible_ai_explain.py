@@ -27,6 +27,7 @@ from llm_explain.utility.cov import Cov
 from llm_explain.utility.cov_llama import CovLlama
 from llm_explain.utility.cov_aws import CovAWS
 from llm_explain.utility.translate import Translate
+from llm_explain.utility.chain_of_draft import ChainOfDraft
 from json.decoder import JSONDecodeError
 import pandas as pd
 import time
@@ -754,4 +755,48 @@ class ResponsibleAIExplain:
             return {"response": explanation, "time_taken": total_time, "token_cost": token_cost}
         except Exception as e:
             log.error(e,exc_info=True)
+            raise
+    @staticmethod
+    async def chain_of_draft(query: str, reasoning_text: str = None, modelName: str = None, 
+                           maxSteps: int = 10, modelEndpointUrl: str = None, 
+                           endpointInputParam: dict = None, endpointOutputParam: str = None):
+        try:
+            start_time = time.time()
+            token_cost = None
+            
+            # If reasoning text is not provided, generate it using the model
+            if reasoning_text is None or reasoning_text.strip() == "":
+                log.info("Reasoning text not provided, generating using LLM")
+                
+                # Generate reasoning based on the model
+                if modelEndpointUrl is not None and endpointInputParam is not None and endpointOutputParam is not None:
+                    prompt = Prompt.get_chain_of_draft_generation_prompt(query)
+                    reasoning_text = APIEndpoint.endpoint_calling(prompt, modelEndpointUrl, endpointInputParam, endpointOutputParam)
+                elif (modelName is not None and modelName != "" and modelName.lower().startswith(("gpt"))) and modelEndpointUrl is None:
+                    prompt = Prompt.get_chain_of_draft_generation_prompt(query)
+                    reasoning_text, input_tokens, output_tokens = Azure().generate(prompt, modelName)
+                    token_cost = Utils.get_token_cost(input_tokens, output_tokens, os.getenv("AZURE_DEPLOYMENT_ENGINE"))
+                else:
+                    # Fallback: use a basic prompt-based approach
+                    reasoning_text = f"Analyzing the query: {query}"
+            
+            # Generate Chain of Draft using the reasoning text
+            chain_of_draft_response = ChainOfDraft.generate_chain_of_draft(
+                query=query,
+                reasoning_text=reasoning_text,
+                max_steps=maxSteps
+            )
+            
+            end_time = time.time()
+            total_time = round(end_time - start_time, 3)
+            
+            # Add time and token cost to response
+            chain_of_draft_response["time_taken"] = total_time
+            chain_of_draft_response["token_cost"] = token_cost
+            
+            log.info(f"Chain of Draft generated with {chain_of_draft_response['step_count']} steps")
+            return chain_of_draft_response
+            
+        except Exception as e:
+            log.error(f"Error generating Chain of Draft: {e}", exc_info=True)
             raise

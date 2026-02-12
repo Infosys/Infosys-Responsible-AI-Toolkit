@@ -19,7 +19,7 @@ from llm_explain.mappers.mappers import UncertainityResponse, UncertainityReques
         TokenImportanceResponse, TokenImportanceRequest, GoTResponse, GoTRequest, \
         SafeSearchResponse, SafeSearchRequest, SentimentAnalysisRequest, SentimentAnalysisResponse, \
         rereadRequest, rereadResponse, openAIRequest, CoTResponse, CoVRequest, CoVResponse, FileUploadRequest, \
-        lotRequest, lotResponse
+        lotRequest, lotResponse, ChainOfDraftRequest, ChainOfDraftResponse
         
 from llm_explain.service.service import ExplainService as service
 from llm_explain.utility.utility import Utils
@@ -346,4 +346,29 @@ def bulk_processing_explanation(payload: FileUploadRequest,  file: UploadFile = 
         log.error(cie)
         telemetry_error_logging(cie, request_id_var, "/llm-explainability/bulk_processing")
         log.info("exit router excel upload method")
+        raise HTTPException(status_code=500, detail=str(cie))
+@reasoning.post('/llm-reasoning/chain-of-draft',
+                response_model = ChainOfDraftResponse,
+                summary = "Generate Chain of Draft for structured step-by-step reasoning")
+def chain_of_draft(payload: ChainOfDraftRequest):
+    id = uuid.uuid4().hex
+    request_id_var.set(id)
+    log.info("Entered Chain of Draft routing method")
+    try:
+        start_time = datetime.now()
+        log.info(f"start_time: {start_time}")
+        log.info("before invoking chain_of_draft service")
+        response = asyncio.run(service.chain_of_draft(payload))
+        log.info("after invoking chain_of_draft service")
+        log.info("exit Chain of Draft routing method")
+        end_time = datetime.now()
+        log.info(f"end_time: {end_time}")
+        total_time = end_time - start_time
+        log.info(f"total_time: {total_time}")
+        
+        return response
+    except Exception as cie:
+        log.error(cie)
+        telemetry_error_logging(cie, request_id_var, "/llm-reasoning/chain-of-draft")
+        log.info("exit router chain_of_draft method")
         raise HTTPException(status_code=500, detail=str(cie))

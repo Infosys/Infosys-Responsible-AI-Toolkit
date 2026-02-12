@@ -39,6 +39,7 @@ class Methods(str, Enum):
     LOT = "LoT"
     SAFE_SEARCH = "Safe-Search"
     SENTIMENT_ANALYSIS = "Sentiment-Analysis"
+    CHAIN_OF_DRAFT = "Chain-of-Draft"
 
 class ResponseTypes(str, Enum):
     JSON = "json"
@@ -215,6 +216,31 @@ class lotRequest(BaseModel):
 
 class lotResponse(BaseModel):
     response: dict = {}
+    time_taken: float = Field(example=0.5)
+    token_cost: Optional[float] = None
+
+    class Config:
+        from_attributes = True
+
+class ChainOfDraftRequest(BaseModel):
+    inputPrompt: str = Field(example="What are the steps to solve a complex problem?")
+    reasoningText: Optional[str] = Field(example="First, we need to understand the problem deeply. Then, we break it down into smaller parts. Next, we identify the key components. After that, we develop a solution strategy. Finally, we implement and verify the solution.")
+    modelName: Optional[str] = Field(example="GPT4")
+    maxSteps: Optional[int] = Field(default=10, example=10)
+    endpointDetails: Optional[EndPointRequest] = None
+
+    class Config:
+        from_attributes = True
+
+class ChainOfDraftResponse(BaseModel):
+    query: str = Field(example="What are the steps to solve a complex problem?")
+    steps: List[Dict] = Field(example=[
+        {"step_number": 1, "reasoning": "Understand problem deeply", "word_count": 3, "is_valid": True},
+        {"step_number": 2, "reasoning": "Break into smaller parts", "word_count": 4, "is_valid": True}
+    ])
+    step_count: int = Field(example=5)
+    consistency_metadata: Dict = Field(example={"input_hash": "abc123", "steps_hash": "def456", "step_count": 5, "is_deterministic": True, "consistency_level": "High"})
+    summary: str = Field(example="Chain of Draft reasoning completed successfully")
     time_taken: float = Field(example=0.5)
     token_cost: Optional[float] = None
 
