@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: responsible-ai-reporting-tool-sa
+  namespace: irai-toolkit-test
+automountServiceAccountToken: false
+apiVersion: v1
+kind: Service
+metadata:
+  name: responsible-ai-model-details
+  namespace: irai-toolkit-test
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+  labels:
+    app: responsible-ai-model-details
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: responsible-ai-model-details
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: responsible-ai-model-details
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-model-details
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: responsible-ai-model-details
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: responsible-ai-model-details
+        version: v1
+    spec:
+      automountServiceAccountToken: false # Disable token mounting
+      imagePullSecrets:
+         - name: docker-secret
+      containers:
+      - name: responsible-ai-model-details
+        envFrom:
+        - configMapRef:
+            name: model-details-cosmos-config
+        image: <Image Name>
+        imagePullPolicy: Always
+        name: responsible-ai-model-details
+        ports:
+        - containerPort: 80
+        securityContext:
+            runAsUser: 1000  # Non-root user
+            runAsGroup: 1000
+            capabilities:
+              drop:
+                - ALL  # Drop all capabilities
+            seccompProfile:
+              type: RuntimeDefault
+        resources:
+          limits:
+            cpu: '1'
+            memory: '2Gi'

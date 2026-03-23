@@ -1,0 +1,302 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+
+  .icon-circle {
+    position: absolute;
+    background-color: #8626C3;  
+    color: white;             
+    border-radius: 20px;       
+    width: 21px;             
+    height: 21px;            
+    display: flex;            
+    justify-content: center;  
+    align-items: center;      
+    font-size: 16px;  
+    top: 0px;
+    right: 9px;        
+    border: none;
+  }
+  .topHeading {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #4D4D4D;
+    font-weight: 400;
+    font-size: 24px;
+    font-family: 'Segoe UI';
+}
+.panel-container {
+    position: relative;
+    transition: width 0.3s ease;
+}
+
+/* .panel-container.collapsed {
+    width: 30px;
+} */
+
+.panel-content {
+    overflow: hidden;
+    transition: opacity 0.3s ease;
+}
+
+/* .panel-container.collapsed .panel-content {
+    opacity: 0;
+} */
+.mainLabel {
+    color: #7E7E7E;
+    font-weight: 700;
+    font-size: 14px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+/* .form-select {
+    width: 100%;
+    height: 1.813rem;
+    font-size: 0.65rem;
+    margin-bottom: 0.9rem;
+    padding-left: 10px;
+} */
+.switch {
+    display: inline-block;
+}
+
+.switch input {
+    display: none;
+}
+
+.switch label {
+    display: block;
+    width: 40px;
+    height: 18px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 3px;
+    background-color: #E0DCEC;
+    margin: 0px 5px;
+}
+
+.switch label::after {
+    content: "";
+    display: inherit;
+    width: 13px;
+    height: 13px;
+    border-radius: 12px;
+    transition: 0.3s;
+    background-color: #8626C3;
+    border: 1.5px solid white;
+}
+
+.switch input:checked~label {
+    border-color: #ffffff;
+    background-color: #8626C3;
+}
+
+.switch input:checked~label::after {
+    translate: 20px 0;
+    background: #8626C3;
+    background-color: #E0DCEC;
+}
+
+.switch input:disabled~label {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.switch input:disabled:checked~label {
+    background-color: #aaaaaa;
+}
+
+.switch input:disabled~label::after {
+    background-color: #bbbbbb;
+}
+
+.txtArea2 {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 100px;
+    padding-right: 15px;
+    padding-left:5px;
+}
+.resetIcon {
+    background: none;
+    color: #7E7E7E;
+    i {
+        font-size: 20px;
+    }
+}
+
+.black-button {
+    height: 26px;
+    width: 50px;
+}
+
+.styled-table {
+    border-collapse: separate;
+}
+
+.styled-table th.header {
+    font-size: 0.80rem;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    color: #382261;
+    opacity: 70%;
+    text-transform: uppercase;
+    position: sticky; /* Makes the header sticky */
+    top: 0; /* Fixes it to the top of the container */
+    background-color: white; /* Ensure the header stays visible */
+    z-index: 10; /* Makes sure the header stays on top of the scrollable content */
+}
+
+.styled-table td {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    color: #4D4D4D;
+    padding-top: 9px;
+}
+
+.fixed-column {
+    width: 310px; 
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: visible;
+    word-break: break-word; 
+}
+
+.content {
+    margin-bottom: 5px;
+    padding-bottom: 5px; 
+    line-height: 1.5;
+}
+
+
+/* new changes */
+.panelBorder {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-color: #c3c2c2;
+}
+
+.w-125 {
+    width: 12.5%;
+}
+
+.w-875 {
+    width: 87.5%;
+}
+
+textarea {
+    font-size: 12px;
+}
+
+.mainContainer {
+    box-shadow: 1px 0px 1px 0px grey;
+    border: 1px solid #e4e4e4;
+    border-radius: 6px;
+}
+
+.styled-table {
+    width: 99%;
+    border-collapse: collapse;
+}
+
+.styled-table th {
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    padding: 0px 10px 10px 0px;
+    color: #382261;
+    opacity: 70%;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+
+.styled-table td {
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    color: #061838;
+}
+
+.tabs {
+    font-size: 14px;
+    font-family: 'Segoe UI';
+    letter-spacing: 0px;
+    text-transform: uppercase;
+}
+
+.tabs div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.tabs div.active {
+    color: #8626C3;
+    font-weight: 600;
+    background: linear-gradient(to right, #e2e2e2, #ffffff);
+    border-radius: 6px;
+}
+
+.tabs-carousel {
+    height: 200px;
+    /* Adjust height as needed */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    scrollbar-width: thin;
+    /* For Firefox */
+}
+
+.carousel-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.carousel-item {
+    padding-bottom: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.card-header {
+    font-size: 14px;
+}
+
+.card>.card-body {
+    font-size: 13px;
+    min-height: 5rem;
+    max-height: 12rem;
+    overflow-y: auto;
+}
+
+.mat-mdc-form-field+.mat-mdc-form-field {
+    margin-left: 8px;
+}
+
+::ng-deep .mat-mdc-checkbox .mdc-form-field {
+    color: #382261;
+}
+
+::ng-deep .expandInput .mat-expansion-panel-header.mat-expanded {
+    height: 2.75rem;
+}
+
+::ng-deep .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background {
+    border-color: #8626C3;
+    background-color: #8626C3;
+}
+
+::ng-deep .expandInput .mat-expansion-panel-body {
+    padding: 0 24px 16px;
+}

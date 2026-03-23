@@ -1,0 +1,349 @@
+@import 'bootstrap-variables';
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+
+/* ==============================================================
+Bootstrap tweaks
+===============================================================*/
+
+h1,
+h2,
+h3,
+h4 {
+    font-weight: 300;
+}
+
+
+/* Increase contrast of links to get 100% on Lighthouse Accessability Audit. Override this color if you want to change the link color, or use a Bootswatch theme */
+
+a {
+    color: #533f03;
+    font-weight: bold;
+}
+
+a:hover {
+    color: #533f03;
+}
+
+
+/* override hover color for dropdown-item forced by bootstrap to all a:not([href]):not([tabindex]) elements in _reboot.scss */
+
+a:not([href]):not([tabindex]):hover.dropdown-item {
+    color: $dropdown-link-hover-color;
+}
+
+
+/* override .dropdown-item.active background-color on hover */
+
+.dropdown-item.active:hover {
+    background-color: mix($dropdown-link-hover-bg, $dropdown-link-active-bg, 50%);
+}
+
+a:hover {
+    /* make sure browsers use the pointer cursor for anchors, even with no href */
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    color: $dropdown-link-hover-color;
+}
+
+
+/* ==========================================================================
+Browser Upgrade Prompt
+========================================================================== */
+
+.browserupgrade {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+
+/* ==========================================================================
+Generic styles
+========================================================================== */
+
+.register {
+    font-weight: 500;
+    font-size: x-large;
+    line-height: var(--bs-modal-title-line-height);
+    border-bottom: 1px solid #dee2e6;
+    padding: 1rem 1rem;
+}
+
+.create-user {
+    font-weight: 500;
+    font-size: x-large;
+    line-height: var(--bs-modal-title-line-height);
+}
+
+.register-body {
+    margin-top: 40px;
+}
+
+
+/* Error highlight on input fields */
+
+.register-control-label {
+    font-weight: 500;
+    color: black;
+    padding-left: 0px;
+    margin-bottom: 5px;
+    font-size: large;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    display: inline-block;
+}
+
+.register-button {
+    background: #000 0% 0% no-repeat padding-box;
+    color: #fff;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1607843137);
+    border: 1px solid #000000;
+    border-radius: 8px;
+    opacity: 1;
+    margin-top: 25px;
+    cursor: pointer;
+    width: 100px;
+    height: 30px;
+}
+
+.cancel-button {
+    color: #000;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1607843137);
+    border: 1px solid #000000;
+    border-radius: 8px;
+    opacity: 1;
+    margin-top: 25px;
+    cursor: pointer;
+    width: 100px;
+    height: 30px;
+}
+
+.form-input-box {
+    display: block;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0.375rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    height: 40px;
+    width: 80%;
+    font-size: medium;
+}
+
+.ng-valid[required],
+.ng-valid.required {
+    border-left: 5px solid green;
+}
+
+// .ng-invalid:not(form) {
+//   border-left: 5px solid red;
+// }
+
+/* other generic styles */
+
+.jh-card {
+    padding: 1.5%;
+    margin-top: 20px;
+    border: none;
+}
+
+.error {
+    color: white;
+    background-color: red;
+}
+
+.pad {
+    padding: 10px;
+}
+
+.w-40 {
+    width: 40% !important;
+}
+
+.w-60 {
+    width: 60% !important;
+}
+
+.break {
+    white-space: normal;
+    word-break: break-all;
+}
+
+.form-control {
+    background-color: #fff;
+}
+
+.readonly {
+    background-color: #eee;
+    opacity: 1;
+}
+
+.footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.hand,
+[jhisortby] {
+    cursor: pointer;
+}
+
+
+/* ==========================================================================
+Custom alerts for notification
+========================================================================== */
+
+.alerts {
+    .alert {
+        text-overflow: ellipsis;
+        pre {
+            background: none;
+            border: none;
+            font: inherit;
+            color: inherit;
+            padding: 0;
+            margin: 0;
+        }
+        .popover pre {
+            font-size: 10px;
+        }
+    }
+    .jhi-toast {
+        position: fixed;
+        width: 100%;
+        &.left {
+            left: 5px;
+        }
+        &.right {
+            right: 5px;
+        }
+        &.top {
+            top: 55px;
+        }
+        &.bottom {
+            bottom: 55px;
+        }
+    }
+}
+
+@media screen and (min-width: 480px) {
+    .alerts .jhi-toast {
+        width: 50%;
+    }
+}
+
+
+/* ==========================================================================
+entity detail page css
+========================================================================== */
+
+.row-md.jh-entity-details {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 10px;
+    line-height: 1.5;
+}
+
+@media screen and (min-width: 768px) {
+    .row-md.jh-entity-details> {
+        dt {
+            float: left;
+            overflow: hidden;
+            clear: left;
+            text-align: right;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding: 0.5em 0;
+        }
+        dd {
+            border-bottom: 1px solid #eee;
+            padding: 0.5em 0;
+            margin-left: 0;
+        }
+    }
+}
+
+
+/* ==========================================================================
+ui bootstrap tweaks
+========================================================================== */
+
+.nav,
+.pagination,
+.carousel,
+.panel-title a {
+    cursor: pointer;
+}
+
+.thread-dump-modal-lock {
+    max-width: 450px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.dropdown-menu {
+    padding-left: 0px;
+}
+
+
+/* ==========================================================================
+angular-cli removes postcss-rtl processed inline css, processed rules must be added here instead
+========================================================================== */
+
+
+/* page-ribbon.component.scss */
+
+.ribbon {
+    left: -3.5em;
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+
+/* navbar.component.scss */
+
+.navbar {
+    ul.navbar-nav {
+        .nav-item {
+            margin-left: 0.5em;
+        }
+    }
+}
+
+body {
+    font-weight: 300;
+    height: inherit !important;
+}
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #212529;
+    --bs-btn-border-color: #212529;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #212529;
+    --bs-btn-hover-border-color: #212529;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #212529;
+    --bs-btn-active-border-color: #212529;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #212529;
+    --bs-btn-disabled-border-color: #212529;
+}
+
+
+/* jhipster-needle-scss-add-main JHipster will add new css style */

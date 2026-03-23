@@ -1,0 +1,451 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.position-relative {
+    position: relative;
+}
+
+.optional-label {
+    position: absolute;
+    top: -17px;
+    right: 0;
+    font-size: 10px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+}
+
+.mat-primary {
+    color: #8626C3;
+}
+
+.mainLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.mainLabelB {
+    color: #7E7E7E;
+    padding: 0px;
+    font-weight: 500;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    margin-bottom: 0px;
+}
+
+.mainLabelSM {
+    font-size: 12px;
+}
+
+.mainLabelLight {
+    font-weight: 400;
+}
+
+:host ::ng-deep.cdk-overlay-backdrop.custom-backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    top: 57px;
+    width: 100%;
+    height: calc(100% - 57px);
+}
+
+.checkbox-container {
+    margin-left: -10px;
+}
+
+.labelSM {
+    font-weight: 600;
+    font-size: 11px;
+}
+
+.labelXS {
+    font-weight: 600;
+    font-size: 10px;
+    margin: 0px;
+    margin-left: 3px;
+}
+
+.txtArea {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 115px;
+    padding-right: 110px;
+}
+
+.icon-pointer {
+    cursor: pointer;
+}
+
+.sendIcon {
+    padding: 0px !important;
+    background: none;
+    color: #8626C3;
+    bottom: 0;
+    right: 0;
+    i {
+        font-size: 22px;
+    }
+}
+
+.resetIcon {
+    padding: 0px !important;
+    background: none;
+    color: #7E7E7E;
+    i {
+        font-size: 20px;
+    }
+}
+
+input[type='range'] {
+    -webkit-appearance: none !important;
+    background: #D8D8D8;
+    height: 3px;
+    width: 100%;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    background: #8626C3;
+    height: 13px;
+    width: 13px;
+    border-radius: 50%;
+}
+
+.tempInputBox {
+    width: 45px;
+    font-size: 10px;
+    text-align: center;
+}
+
+/* Toggle Switch */
+.switch {
+    display: inline-block;
+}
+
+.switch input {
+    display: none;
+}
+
+.switch label {
+    display: block;
+    width: 40px;
+    height: 18px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 3px;
+    background-color: #E0DCEC;
+    margin: 0px 5px;
+}
+
+.switch label::after {
+    content: "";
+    display: inherit;
+    width: 13px;
+    height: 13px;
+    border-radius: 12px;
+    transition: 0.3s;
+    background-color: #8626C3;
+    border: 1.5px solid white;
+}
+
+.switch input:checked~label {
+    border-color: #ffffff;
+    background-color: #8626C3;
+}
+
+.switch input:checked~label::after {
+    translate: 20px 0;
+    background: #8626C3;
+    background-color: #E0DCEC;
+}
+
+.switch input:disabled~label {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.switch input:disabled:checked~label {
+    background-color: #aaaaaa;
+}
+
+.switch input:disabled~label::after {
+    background-color: #bbbbbb;
+}
+
+.inputSMfont {
+    font-size: 10px !important;
+}
+
+.uploadButton {
+    display: none;
+}
+
+.uploadButton+label {
+    width: 73px;
+    height: 27px;
+    background-color: #8626C3;
+    color: #FFFFFF;
+    letter-spacing: 0px;
+    border-radius: 3px;
+    border: none;
+    font-family: 'Segoe UI';
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    align-content: center;
+    font-weight: 400;
+}
+
+.uploadButton:active+label {
+    background-color: #8626C3;
+}
+
+.cancel-button {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.cancel-button mat-icon {
+    color: white;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+
+::ng-deep .mdc-linear-progress__bar-inner {
+    border-color: #8626C3 !important;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+.uneditable-input:focus {
+    border-color: #8626C3;
+}
+
+input[type='radio'] {
+    accent-color: #8626C3;
+}
+
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 5px 0px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    font-size: 13px;
+    margin-right: 1.7rem;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.activeTab {
+    color: #8626C3;
+    position: relative;
+}
+
+.activeTab::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 35%;
+    border-bottom: 2px solid #8626C3;
+}
+
+.mat-expansion-panel {
+    display: contents !important;
+}
+
+:host ::ng-deep.form-select {
+    width: 11rem;
+    height: 1.8rem;
+    font-size: 0.75rem;
+    margin-bottom: 1.1rem;
+}
+
+.mat-expansion-panel .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled=true]),
+.mat-expansion-panel .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled=true]),
+.mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true]) {
+    background: white;
+}
+
+.panel-body {
+    padding: 15px 0px 10px;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-color: #c3c2c2;
+}
+
+.mat-expansion-panel-header {
+    padding: 0px;
+    padding-right: 10px;
+    height: 30px;
+    align-items: baseline;
+}
+
+::ng-deep .mat-expansion-panel-body {
+    padding: 0 0px 5px 10px !important;
+}
+
+.panel-container {
+    position: relative;
+    width: 300px; /* Adjust the width as needed */
+    transition: width 0.3s ease;
+}
+
+.panel-container.collapsed {
+    width: 50px; /* Adjust the collapsed width as needed */
+}
+
+.panel-content {
+    overflow: hidden;
+    transition: opacity 0.3s ease;
+}
+
+.panel-container.collapsed .panel-content {
+    opacity: 0;
+}
+
+.toggle-button {
+    position: absolute;
+    top: -5px;
+    right: 15px;
+    cursor: pointer;
+    color: #8626C3;
+    background: none;
+    border: none;
+    font-size: larger;
+}
+
+.manage-access-btn {
+    background-color: #9C27B0;
+    /* Adjust color to match exact shade */
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-right: 20px;
+}
+
+.pill-button {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 4px 8px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    transition: color 0.3s ease;
+}
+
+.pill-button.active {
+    background-color: #8626c34a;
+    color: black;
+    font-weight: 600;
+}
+
+.item-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1.33px solid #ccc;
+}
+
+.item-list li:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #ddd;
+}
+
+.list-item {
+    padding: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'Segoe UI';
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-weight: 500;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #7e7e7e2e;
+}
+
+.list-item hr {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin-top: 2px;
+}
+
+.list-item:hover {
+    background-color: #8626c34a;
+    border-color: #8626c34a;
+}
+
+::ng-deep.dropdown {
+    width: 100%;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    padding: 0px 10px;
+    font-size: smaller;
+}
+
+::ng-deep.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+    background: #8626C3;
+}
+
+::ng-deep.mat-form-field {
+    width: 100%;
+}
+
+.smallIcon {
+    -webkit-user-select: none;
+    user-select: none;
+    background-repeat: no-repeat;
+    display: inline-block;
+    fill: currentColor;
+    overflow: hidden;
+    margin-top: 2px;
+}
+
+.icon-dropdown-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.optional-label2 {
+    font-size: 10px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+    margin-right: 5px; /* Adjust the spacing as needed */
+}

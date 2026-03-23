@@ -1,0 +1,22 @@
+[
+{
+  "TenetName": "Common",
+  "TenetId": 0.0,
+  "ProjectName" : "RAI"
+},
+{
+  "TenetName": "Explainability",
+  "TenetId": 1.1,
+  "ProjectName" : "RAI"
+},
+{
+  "TenetName": "Fairness",
+  "TenetId": 2.2,
+  "ProjectName" : "RAI"
+},
+{
+  "TenetName": "Security",
+  "TenetId": 3.3,
+  "ProjectName" : "RAI"
+}
+]

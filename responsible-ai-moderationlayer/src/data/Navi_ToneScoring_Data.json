@@ -1,0 +1,284 @@
+[
+    {
+        "word": "not able to",
+        "sentiment": "negative - disappointed",
+        "emotion": "user likely suppressed the emotion",
+        "Tone Score": 1
+    },
+    {
+        "word": "disheartening",
+        "sentiment": "negative -frustrated",
+        "emotion": "user expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "very disheartening",
+        "sentiment": "negative - frustrated",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "We missed it",
+        "sentiment": "negative - frustrated",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "It's sad to know that",
+        "sentiment": "negative - disappointed",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "not sure",
+        "sentiment": "negative - disappointed",
+        "emotion": "user likely suppressed the emotion",
+        "Tone Score": 1
+    },
+    {
+        "word": "I lost the track completely",
+        "sentiment": "negative - disappointed",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "doesn’t work",
+        "sentiment": "negative - disappointed",
+        "emotion": "user suppressed the emotion",
+        "Tone Score": 2
+    },
+    {
+        "word": "doesn’t work at all",
+        "sentiment": "negative - disappointed",
+        "emotion": "user definitely suppressed the emotion",
+        "Tone Score": 3
+    },
+    {
+        "word": "disappointed",
+        "sentiment": "negative - disappointed",
+        "emotion": "user expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "very disappointed",
+        "sentiment": "negative - disappointed",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "totally disappointed",
+        "sentiment": "negative - disappointed",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "completely disappointed",
+        "sentiment": "negative - disappointed",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "This is too much",
+        "sentiment": "negative - disappointed",
+        "emotion": "user likely suppressed the emotion",
+        "Tone Score": 3
+    },
+    {
+        "word": "This is not good enough",
+        "sentiment": "negative - disappointed",
+        "emotion": "user likely expressed the emotion",
+        "Tone Score": 3
+    },
+    {
+        "word": "This is not helping me",
+        "sentiment": "negative - disappointed",
+        "emotion": "user likely expressed the emotion",
+        "Tone Score": 2
+    },
+    {
+        "word": "how should I",
+        "sentiment": "neutral - neutral",
+        "emotion": "user tone emotion is neutral",
+        "Tone Score": 3
+    },
+    {
+        "word": "where to find",
+        "sentiment": "neutral - neutral",
+        "emotion": "user likely suppressed the emotion",
+        "Tone Score": 3
+    },
+    {
+        "word": "when do I",
+        "sentiment": "neutral - neutral",
+        "emotion": "user likely suppressed the emotion",
+        "Tone Score": 3
+    },
+    {
+        "word": "Could you provide me",
+        "sentiment": "neutral - neutral",
+        "emotion": "user tone emotion is neutral",
+        "Tone Score": 4
+    },
+    {
+        "word": "Can you help me",
+        "sentiment": "neutral - neutral",
+        "emotion": "user expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "I am interested in finding",
+        "sentiment": "neutral - neutral",
+        "emotion": "user likely expressed the emotion",
+        "Tone Score": 3
+    },
+    {
+        "word": "I need assistance",
+        "sentiment": "neutral - neutral",
+        "emotion": "user expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "Please provide",
+        "sentiment": "neutral - neutral",
+        "emotion": "user expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "Give me step-by-step instructions",
+        "sentiment": "neutral - neutral",
+        "emotion": "user likely expressed the emotion",
+        "Tone Score": 3
+    },
+    {
+        "word": "Not bad",
+        "sentiment": "Positive",
+        "emotion": "",
+        "Tone Score": 1
+    },
+    {
+        "word": "Thanks for the helpful info.",
+        "sentiment": "Positive - Happy",
+        "emotion": "user expressed the emotion",
+        "Tone Score": 3
+    },
+    {
+        "word": "Great!",
+        "sentiment": "Positive - Enthusiastic",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "Fantastic!",
+        "sentiment": "Positive - Enthusiastic",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "This is exactly what I was looking for",
+        "sentiment": "Positive - Happy",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "This is superb.",
+        "sentiment": "Positive - Happy",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "This is very easy",
+        "sentiment": "Positive - Happy",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "I love this",
+        "sentiment": "Positive - Joyful",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "I really like it",
+        "sentiment": "Positive - Happy",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "I appreciate",
+        "sentiment": "Positive - Happy",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "I'm really impressed",
+        "sentiment": "Positive - Joyful",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "I'm so glad I got this",
+        "sentiment": "Positive - Joyful",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "Great job",
+        "sentiment": "Positive - Happy",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "Nice job",
+        "sentiment": "Positive - Happy",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 3
+    },
+    {
+        "word": "This is relieving",
+        "sentiment": "Positive - Happy",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 3
+    },
+    {
+        "word": "That's wonderful!",
+        "sentiment": "Positive - Happy",
+        "emotion": "user definitely expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "The quality speaks for itself",
+        "sentiment": "Positive - Happy",
+        "emotion": "user suppressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "The results are remarkable",
+        "sentiment": "Positive - Happy",
+        "emotion": "user expressed the emotion",
+        "Tone Score": 4
+    },
+    {
+        "word": "This has made a significance difference",
+        "sentiment": "Positive - Happy",
+        "emotion": "user expressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "This is on track",
+        "sentiment": "Positive - Happy",
+        "emotion": "user suppressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "You've gone above and beyond",
+        "sentiment": "Positive - Happy",
+        "emotion": "user definitely suppressed the emotion",
+        "Tone Score": 5
+    },
+    {
+        "word": "Very detailed analysis",
+        "sentiment": "Positive - Happy",
+        "emotion": "user definitely suppressed the emotion",
+        "Tone Score": 5
+    }
+]

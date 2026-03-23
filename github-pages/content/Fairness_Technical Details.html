@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html><head></head><body><div class="main-panel wiki-content">
+<div class="description">
+<div class="header-wrapper" style="max-width: initial">
+<!-- breadcrumbs could be implemented and inserted here -->
+<div></div>
+
+</div>
+<div class="header-wrapper">
+<div class="title-wrapper">
+<div class="title">
+<h1 style="display: flex; align-items: center;">
+                                        Fairness &amp; Bias - Technical Essentials
+                                    </h1>
+</div>
+<div class="row" style="display: flex;padding: 0; ">
+
+</div>
+</div>
+</div>
+<div class="content-wrapper">
+<style>@media (prefers-color-scheme: dark) { }</style>
+<div class="toc-macro client-side-toc-macro conf-macro output-block" data-cssliststyle="none" data-hasbody="false" data-headerelements="H1,H2,H3" data-layout="default" data-local-id="d44d1721-9d67-4514-85ce-c99614aa8331" data-macro-id="29a8d0f2-ee69-4796-bea2-76e9320cb78f" data-macro-name="toc" data-numberedoutline="false" data-structure="list">
+<style>[data-colorid=yqparza3la]{color:#0747a6} html[data-color-mode=dark] [data-colorid=yqparza3la]{color:#5999f8}[data-colorid=x2dti7jggu]{color:#0747a6} html[data-color-mode=dark] [data-colorid=x2dti7jggu]{color:#5999f8}[data-colorid=eeqmwugh51]{color:#0747a6} html[data-color-mode=dark] [data-colorid=eeqmwugh51]{color:#5999f8}[data-colorid=drtuvqsoo9]{color:#0747a6} html[data-color-mode=dark] [data-colorid=drtuvqsoo9]{color:#5999f8}[data-colorid=vbesy5xogx]{color:#0747a6} html[data-color-mode=dark] [data-colorid=vbesy5xogx]{color:#5999f8}[data-colorid=bflva0esb9]{color:#0747a6} html[data-color-mode=dark] [data-colorid=bflva0esb9]{color:#5999f8}[data-colorid=vi7fsb0n4b]{color:#0747a6} html[data-color-mode=dark] [data-colorid=vi7fsb0n4b]{color:#5999f8}[data-colorid=mjvmqxfcxr]{color:#0747a6} html[data-color-mode=dark] [data-colorid=mjvmqxfcxr]{color:#5999f8}[data-colorid=ip6q1s47vu]{color:#0747a6} html[data-color-mode=dark] [data-colorid=ip6q1s47vu]{color:#5999f8}[data-colorid=nq5h2ai9tg]{color:#0747a6} html[data-color-mode=dark] [data-colorid=nq5h2ai9tg]{color:#5999f8}[data-colorid=ed9cum3viy]{color:#0747a6} html[data-color-mode=dark] [data-colorid=ed9cum3viy]{color:#5999f8}[data-colorid=mc8epvi7zv]{color:#0747a6} html[data-color-mode=dark] [data-colorid=mc8epvi7zv]{color:#5999f8}[data-colorid=q4hk1cba8s]{color:#0747a6} html[data-color-mode=dark] [data-colorid=q4hk1cba8s]{color:#5999f8}[data-colorid=mq1j1cgmch]{color:#0747a6} html[data-color-mode=dark] [data-colorid=mq1j1cgmch]{color:#5999f8}[data-colorid=e0f2e38xvn]{color:#0747a6} html[data-color-mode=dark] [data-colorid=e0f2e38xvn]{color:#5999f8}[data-colorid=p21zde6jam]{color:#0747a6} html[data-color-mode=dark] [data-colorid=p21zde6jam]{color:#5999f8}[data-colorid=tmm3r0awx5]{color:#0747a6} html[data-color-mode=dark] [data-colorid=tmm3r0awx5]{color:#5999f8}</style>
+<ul>
+<li><a class="not-blank" href="#FairnessBiasEvaluationsforLLMsUnstructuredData"><span data-colorid="x2dti7jggu">Fairness &amp; Bias Evaluations for LLMs [Unstructured Data]</span></a>
+<ul>
+<li><a class="not-blank" href="#PromptTemplatesforFBevaluation"><strong><span data-colorid="eeqmwugh51"><u>Prompt Templates for F&amp;B evaluation:</u></span></strong></a></li>
+</ul></li>
+<li><a class="not-blank" href="#FairnessBiasEvaluationsforTraditionalModelsStructuredData"><span data-colorid="q4hk1cba8s">Fairness &amp; Bias Evaluations for Traditional Models [Structured Data]</span></a>
+<ul>
+<li><a class="not-blank" href="#Metrics"><span data-colorid="p21zde6jam"><u>Metrics</u></span></a></li>
+<li><a class="not-blank" href="#ExponentiatedGradientReduction"><span data-colorid="ed9cum3viy"><u>Exponentiated Gradient Reduction</u></span></a></li>
+
+
+</ul></li>
+<li><a class="not-blank" href="#ExtendingBasicevaluationmechanismstousefultools"><span data-colorid="mc8epvi7zv">Extending Basic evaluation mechanisms to useful tools</span><strong><span data-colorid="mq1j1cgmch"> </span></strong></a>
+<ul>
+<li><a class="not-blank" href="#GenerativeAIusecaseevaluationandmonitoringtool"><span data-colorid="vi7fsb0n4b"><u>Generative AI use case evaluation and monitoring tool</u></span></a></li>
+<li><a class="not-blank" href="#TraditionalAIusecaseevaluationmonitoringtool"><span data-colorid="yqparza3la"><u>Traditional AI use case evaluation monitoring tool</u></span></a></li>
+<li><a class="not-blank" href="#PromptclassificationTool"><span data-colorid="vbesy5xogx"><u>Prompt classification Tool</u></span></a></li>
+
+</ul></li>
+
+</ul>
+</div>
+<h2 id="FairnessBiasEvaluationsforLLMsUnstructuredData"><span data-colorid="x2dti7jggu">Fairness &amp; Bias Evaluations for LLMs [Unstructured Data]</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="462e2e10-fae6-4d6f-b07f-aca92aa584dc" data-macro-name="expand" id="expander-1235241198">
+<div class="expand-control" id="expander-control-1235241198" onclick="expandContent('expander-content-1235241198', 'expander-control-1235241198')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Unstructured Data</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-1235241198">
+<h3 id="PromptTemplatesforFBevaluation"><strong><span data-colorid="eeqmwugh51"><u>Prompt Templates for F&amp;B evaluation:</u></span></strong><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<h4 id="TextEvaluatetextsgeneratedbyLLM"><strong>Text: [Evaluate texts generated by LLM]</strong><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>Given an un-structured text, a prompt template has been designed to check the text’s fairness and evaluate its bias indicator [High / Medium / Low / Neutral] using GPT-4o and LLAMA. The prompt template also provides additional information like “Affected group“, indicating the group of people affected by the context of the sentence and also the type of Bias [Historical Bias, Confirmation Bias, etc.,] as well. We are working to extend this prompt template to generate the neutral versions of the given text </p>
+<h4 id="ImageEvaluateimagesgeneratedbyLLM"><strong>Image: [Evaluate images generated by LLM]</strong><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>“A picture can speak 1000 words. “</p>
+<p>As good as this statement is, the context perceived about the picture just by looking at it can also differ from person to person. With this established, to see if a given picture / image is Fair or biased, we depend on the input prompt given to the LLM to generate this particular image. The input prompt given by the user sets the contextual expectation of the user and the picture / image generated can be validated with similar context. For the template-based approach, we are currently leveraging GPT-4o 's multimodal capabilities for evaluation. We have plans to extend this to Gemini as well in the future.</p>
+</div>
+</div>
+<h2 id="FairnessBiasEvaluationsforTraditionalModelsStructuredData"><span data-colorid="q4hk1cba8s">Fairness &amp; Bias Evaluations for Traditional Models [Structured Data]</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="d690cf72-e471-45de-820b-cf2644aaa884" data-macro-name="expand" id="expander-1627595356">
+<div class="expand-control" id="expander-control-1627595356" onclick="expandContent('expander-content-1627595356', 'expander-control-1627595356')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Structured Data</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-1627595356">
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="30e4245b-d0c0-4f0f-a7b2-c3ecf8fbe501" data-macro-name="expand" id="expander-1142065973">
+<div class="expand-control" id="expander-control-1142065973" onclick="expandContent('expander-content-1142065973', 'expander-control-1142065973')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Pre-processing and Post-processing Analysis Metrics</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-1142065973">
+<h3 id="Metrics"><span data-colorid="p21zde6jam"><u>Metrics</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Based on the selected sensitive / protected attribute for the given dataset, the positive / favorable outcome distribution is compared with the rest of the groups in the dataset and the metrics are calculated. </p>
+<h4 id="aPretrainPosttrainMethods"><u>a. Pretrain &amp; Post-train Methods: </u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<h5 id="iStatisticalParityDifference"><u>i. Statistical Parity Difference: </u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h5>
+<p>The Statistical parity difference metric calculates the difference in the ratio of favorable outcomes between privileged groups and un-privileged groups.</p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="1074" style="max-width: 1074px;" width="1074"><img alt="image-20240927-062922.png" class="confluence-embedded-image image-center cursor-pointer" data-height="51" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240927-062922.png" data-linked-resource-id="1057489351" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="e1d2293d-9c4c-42c9-a9b2-bec1d42b7c6f" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/TTRQSmNvenlWU3NaSVdWQ2xydlhUaUtWQzV1SFowT1lKei1sUElVVXhCST0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXlOZz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURZeU9USXlMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGcyTkNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU9EVTVKbWhsYVdkb2REMDBNUT09/image-20240927-062922.png" data-unresolved-comment-count="0" data-width="1074" loading="lazy" name="image-attachment" src="github-pages/images/image-20240927-062922.png" style="width: 1074px" width="1074"/></span>
+<p>Interpretation</p>
+<li><p>An SPD of 0 indicates perfect statistical parity (no difference in outcomes between groups).</p></li>
+<li><p>A positive SPD means the privileged group has a higher rate of positive outcomes.</p></li>
+<li><p>A negative SPD means the unprivileged group has a higher rate of positive outcomes.</p></li>
+<li><p>The further the SPD is from zero, the greater the disparity.</p></li>
+<h5 id="iiDisparateImpactRatio"><u> ii. Disparate Impact Ratio:</u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h5>
+<p>The Disparate Impact Ratio metric calculates the ratio of favorable outcomes between privileged groups and un-privileged groups.</p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="1041" style="max-width: 1041px;" width="1041"><img alt="image-20240927-063014.png" class="confluence-embedded-image image-center cursor-pointer" data-height="49" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240927-063014.png" data-linked-resource-id="1057489358" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="418cde47-9bb2-48cc-a803-e1b4a727309a" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/eGVuMmRFZzJiMkV6Q0g4MDZLeGdUSW1GQjcxRHRfTDhQd0I2NkUtN29Saz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXlOdz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURZek1ERTBMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGt4TWlaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU9ETXpKbWhsYVdkb2REMHpPUT09/image-20240927-063014.png" data-unresolved-comment-count="0" data-width="1041" loading="lazy" name="image-attachment" src="github-pages/images/image-20240927-063014.png" style="width: 1041px" width="1041"/></span>
+<h5 id="iiiSmoothEmpiricalDifferential"><u>iii. Smooth Empirical Differential:</u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h5>
+<p>SED calculates the differential in the probability of favorable and unfavorable outcomes between intersecting groups divided by features. All intersecting groups are equal, so there are no unprivileged or privileged groups. The calculation produces a value between 0 and 1 that is the minimum ratio of Dirichlet smoothed probability for favorable and unfavorable outcomes between intersecting groups in the dataset.</p>
+<h5 id="ivFourFifths"><u>iv. Four Fifths:</u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h5>
+<p>This function computes the four fifths rule (ratio of success rates) between group_unprivileged and group_privileged. The minimum of the ratio taken both ways is returned. A value of 1 is desired. Values below 1 are unfair. The range (0.8,1) is considered acceptable.</p>
+<h5 id="vCohensD"><u>v. Cohen’s D:</u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h5>
+<p>This function computes the Cohen D statistic (normalized statistical parity) between group_unprivileged and group_privileged.A value of 0 is desired. Negative values are unfair towards group_unprivileged. Positive values are unfair towards group_privileged. Reference values: 0.2 is considered a small effect size, 0.5 is considered medium, 0.8 is considered large. </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="502" style="max-width: 760px;" width="502"><img alt="image-20240927-063643.png" class="confluence-embedded-image image-center cursor-pointer" data-height="89" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240927-063643.png" data-linked-resource-id="1057489364" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="0f9a30b4-73f8-41a0-8f5d-1b7b581322ac" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aC1CRXNJN2E0VXRYenJZc0lPSmU3NU1WZ2NucE4wZWJqM3NsLXBhR0lLST0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXlOdz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURZek5qUXpMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGswTkNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU5EQXlKbWhsYVdkb2REMDNNUT09/image-20240927-063643.png" data-unresolved-comment-count="0" data-width="502" loading="lazy" name="image-attachment" src="github-pages/images/image-20240927-063643.png" style="width: 502px" width="502"/></span>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="81e6454a-86e3-4b6e-a3af-076289b0fc06" data-macro-name="expand" id="expander-2108611161">
+<div class="expand-control" id="expander-control-2108611161" onclick="expandContent('expander-content-2108611161', 'expander-control-2108611161')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Mitigation</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-2108611161">
+<h4 id="bPreProcessingMitigation"><u>b. Pre-Processing Mitigation:</u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p><u>i. Reweighing: </u></p>
+<p>Reweighing is a preprocessing technique that Weights the examples in each (group, label) combination differently to ensure fairness before classification.</p>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="4c5b6950-36be-448c-81f9-940fc830dcc5" data-macro-name="expand" id="expander-827378961">
+<div class="expand-control" id="expander-control-827378961" onclick="expandContent('expander-content-827378961', 'expander-control-827378961')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">In-Processing analysis</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-827378961">
+<h3 id="ExponentiatedGradientReduction"><span data-colorid="ed9cum3viy"><u>Exponentiated Gradient Reduction</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<h4 id="ExponentiatedGradientReduction"><u>Exponentiated Gradient Reduction:</u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>Exponentiated gradient reduction is an in-processing technique that reduces fair classification to a sequence of cost-sensitive classification problems, returning a randomized classifier with the lowest empirical error subject to fair classification constraints. User can provide the dataset and the sensitive attributes in it. A new classification model from scikit learn will be instantiated and it’ll be mad aware of these sensitive attributes for more Fair predictions.</p>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="8aea240e-af0c-4fe0-91de-6aee7a96d75e" data-macro-name="expand" id="expander-638438141">
+<div class="expand-control" id="expander-control-638438141" onclick="expandContent('expander-content-638438141', 'expander-control-638438141')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Modal Analysis and Mitigation</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-638438141">
+<h3 id="ModelAnalysis"><span data-colorid="drtuvqsoo9"><u>Model Analysis</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<h4 id="EqualizedOdds"><u>Equalized Odds:</u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>The greater of two metrics: true_positive_rate_difference and false_positive_rate_difference. The former is the difference between the largest and smallest of P[h(X) = 1|A = a, Y = 1], across all values 'a' of the sensitive feature(s). The latter is defined similarly, but for P[h(X) = 1|A = a, Y = 0]. The equalized odds difference of 0 means that all groups have the same true positive, true negative, false positive, and false negative rates.</p>
+<p><u> </u></p>
+<h3 id="ModelMitigationResearch"><span data-colorid="tmm3r0awx5"><u>Model Mitigation (Research)</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<h4 id="Thresholdoptimizer"><u>Threshold optimizer: </u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p> Threshold optimizer is based on the paper Equality of Opportunity in Supervised Learning built to satisfy the specified fairness criteria exactly and with no remaining disparity. Threshold optimizer requires the sensitive features to be available at deployment time (i.e., for the predict method). For each sensitive feature value, Threshold optimizer creates separate thresholds and applies them to the predictions of the user-provided estimator. To decide on the thresholds, it generates all possible thresholds and selects the best combination in terms of the objective and the fairness constraints. The technique has too much randomness involved, and it's still in research phase. </p>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="8aea240e-af0c-4fe0-91de-6aee7a96d75e" data-macro-name="expand" id="expander-638438141">
+<div class="expand-control" id="expander-control-638438141" onclick="expandContent('expander-content-638438141', 'expander-control-638438141')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Fairness Monitoring (Generic, Decisive)</span>
+<h3 id="Generic Audit"><span data-colorid="drtuvqsoo9"><u>Generic Audit</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Objective</p>
+<p>This functionality monitors AI-generated text outputs over time to detect bias trends. It is useful for auditing generative AI systems that produce unstructured content like summaries or text responses.</p>
+<p>How it works</p>
+<p>1.Upload a file containing AI-generated text.</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-141034.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-141034.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-141034.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-141034.png" style="width: 759px" width="759"/></span>
+<p>2.In the Responsible AI toolkit, we:</p>
+<p>a.Go to the structured data tab:</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144006.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144006.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144006.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144006.png" style="width: 759px" width="759"/></span>
+<p>b.Click on ADD DATA & fill in the details</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144033.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144033.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144033.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144033.png" style="width: 759px" width="759"/></span>
+<p>c.Click on Generate Report</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144206.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144206.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144206.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144206.png" style="width: 759px" width="759"/></span>
+<p>d.Once the analysis is complete, click on download to download the report</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144300.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144300.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144300.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144300.png" style="width: 759px" width="759"/></span>
+<p>3.The system analyzes each entry for bias in the statement and compiles a report with detailed metrics and visualizations</p>
+<p>Data & Fields</p>
+<p>Prompt:</p>
+<li><p>Column containing the text to be analyzed. It is in the Question(Q) Answer(A) format where a question(Q) was asked and an answer(A) to that question was given by the AI system. It is for this statement that we will be analyzing for bias.</p></li>
+<p>How to interpret results</p>
+<p>There are two reports generated.</p>
+<p>The first report is an excel report. It displays:</p>
+<li><p>Privileged groups (which group from the statement has been favored by the AI
+response)</p></li>
+<li><p>Unprivileged groups (which group from the statement has NOT been favored
+by the AI response)</p></li>
+<li><p>Bias types (What is the type of bias present in the statement. E.g. Gender bias,
+Socio-economic bias, Racial bias etc.)</p></li>
+<li><p>Bias level Indicator (The severity of the bias present in the statement. Can be
+Low/Medium/High)</p></li>
+<p>The second report provides charts showing bias distribution across the dataset. This
+report shows charts on:</p>
+<li><p>Bias types (e.g., age, gender, race) that occur most often</p></li>
+<li><p>How frequent are the Privileged or Unprivileged groups occurring</p></li>
+<li><p>Severity of bias based on scores</p></li>
+<li><p>Frequency of different bias types</p></li>
+<li><p>Average Bias Score by Bias Level –</p></li>
+    <p>This chart shows how strong the bias is for each category (High, Medium, Low). The threshold (70%) is the line we use to decide what counts as serious bias. Bias Density (68%) means the average bias score of all flagged items. In this report, all cases are in the Medium range, so there are no very high or very low bias issues, just moderate ones that need attention.</p>
+<p>Result Screenshot</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144918.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144918.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144918.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144918.png" style="width: 759px" width="759"/></span>
+<p></p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144925.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144925.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144925.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144925.png" style="width: 759px" width="759"/></span>
+
+<h3 id="Decisive Audit"><span data-colorid="drtuvqsoo9"><u>Decisive Audit</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Objective</p>
+<p>This functionality checks fairness in decision-making processes, such as loan approvals or hiring decisions. It calculates success rates for different groups to identify potential disparities.</p>
+<p>How it works</p>
+<p>1.We upload structured decision data</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145323.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145323.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145323.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145323.png" style="width: 759px" width="759"/></span>
+<p>2.In the Responsible AI toolkit, we:</p>
+<p>a.Go to the structured data tab:</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145436.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145436.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145436.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145436.png" style="width: 759px" width="759"/></span>
+<p>b.Click on ADD DATA & fill in the details</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145521.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145521.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145521.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145521.png" style="width: 759px" width="759"/></span>
+<p>c.Click on Generate Report</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145536.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145536.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145536.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145536.png" style="width: 759px" width="759"/></span>
+<p>d.Once the analysis is complete, click on download to download the report</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145614.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145614.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145614.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145614.png" style="width: 759px" width="759"/></span>
+<p>3.The system:</p>
+<p>a.Takes the decision data (model predictions and actual outcomes) along with sensitive attributes like race or gender and groups the data by these attributes.</p>
+<p>b.It then calculates the success rate (percentage of favorable outcomes) for each group.</p>
+<p>c.Then it compares these success rates and shows them in charts. If one group has a much higher success rate than others, it may indicate bias.</p>
+<p>Data & Fields</p>
+<p>1.Prediction Column: The column in your dataset that contains the model’s predicted outcomes(e.g., labels_pred).</p>
+<p>2.Favorable Outcome: The value that represents a positive result (e.g., 1 for approved).</p>
+<p>3.Categorical Attributes: The sensitive attributes you want to analyze for fairness (e.g., race, sex).</p>
+<p>4.File: The structured dataset that includes predictions and these attributes.</p>
+<p>How to interpret results</p>
+<p>The report shows the success rate (percentage of favorable outcomes) and population share for each group (e.g., race, sex, or combined race-sex). A higher success rate for one group compared to others may indicate potential bias. Look for large gaps between groups or patterns where smaller populations consistently have lower success rates—these are signals for deeper fairness review. The report displays the following information:</p>
+<li><p>Grouped Success Rate: The total number of individuals (or data points) belonging to a particular group or category of an attribute. It allows comparison of fairness between different groups. If one group has a much higher or lower success rate than others, it indicates possible bias.</p></li>
+<li><p>Success Rate: The percentage of individuals in the entire dataset who received a favorable outcome, regardless of group membership. It gives the overall success rate of the model, i.e.: how often it predicts a favorable outcome.</p></li>
+<li><p>Population: The total number of individuals (or data points) belonging to a particular group or category of an attribute. Population tells us how big each group is in the dataset.</p></li>
+
+<p>Result Screenshot</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145926.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145926.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145926.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145926.png" style="width: 759px" width="759"/></span>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+<h2 id="ExtendingBasicevaluationmechanismstousefultools"><span data-colorid="mc8epvi7zv">Extending Basic evaluation mechanisms to useful tools</span><strong><span data-colorid="mq1j1cgmch"> </span></strong><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="e37d44b7-a38a-4a69-a652-63e5a0aa6572" data-macro-name="expand" id="expander-221313066">
+<div class="expand-control" id="expander-control-221313066" onclick="expandContent('expander-content-221313066', 'expander-control-221313066')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Generative AI use-case</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-221313066">
+<h3 id="GenerativeAIusecaseevaluationandmonitoringtool"><span data-colorid="vi7fsb0n4b"><u>Generative AI use case evaluation and monitoring tool</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Generative AI generates unstructured data. With capabilities like RAG, its now being used for making decisions in binary classification tasks as well. Based on the wide nature of the use-case, we are working on two types of approaches. </p>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="d6ee561f-6dbc-4120-854a-55e2d416be43" data-macro-name="expand" id="expander-895429794">
+<div class="expand-control" id="expander-control-895429794" onclick="expandContent('expander-content-895429794', 'expander-control-895429794')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Decisive use-case</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-895429794">
+<p><strong>Decisive use-case flow:</strong></p>
+<p>Decisive solutions or classification solutions where there is a decision . Decisive solutions or classification solutions where there is a decision is made like loan approvals etc., based on set of features and rules involved. In these cases, features importance scores are to be calculated for each decision and stored. Also, the distribution of success rates, population of sub-groups involved vs categories are also recorded. Using periodic audits or live dashboards, the success rate distribution is cross-checked to ensure fairness in the system. When there are indicators of bias like system is mostly favoring a single or few groups, the audit team would cross check the results with the explanations recorded and verify if they are false alarms or an actual bias in system which would trigger further investigation.</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="759" style="max-width: 760px;" width="759"><img alt="image-20240927-091520.png" class="confluence-embedded-image image-center cursor-pointer" data-height="418" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240927-091520.png" data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20240927-091520.png" data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" src="github-pages/images/image-20240927-091520.png" style="width: 759px" width="759"/></span>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="753" style="max-width: 760px;" width="753"><img alt="image-20240927-091624.png" class="confluence-embedded-image image-center cursor-pointer" data-height="354" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240927-091624.png" data-linked-resource-id="1057489376" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="909d0b47-14dd-495f-96ee-b5a0634bc089" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/R19aekYyTzVDaG1Sbll6RjQwd1ZFdFBBeXBnbENWUE5WTU1pNmFVSUg4RT0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5qSTBMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBOVEF3TUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VXpKbWhsYVdkb2REMHpOVFE9/image-20240927-091624.png" data-unresolved-comment-count="0" data-width="753" loading="lazy" name="image-attachment" src="github-pages/images/image-20240927-091624.png" style="width: 753px" width="753"/></span>
+<p> </p>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="d4f88509-6911-48ce-9646-d726941de36c" data-macro-name="expand" id="expander-909748790">
+<div class="expand-control" id="expander-control-909748790" onclick="expandContent('expander-content-909748790', 'expander-control-909748790')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Generic use-case</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-909748790">
+<p><strong>Generic use-case flow:</strong></p>
+<p>If the AI model is not involved in any decision making instead it generates some text or image or any content, like summarization tasks etc., we will be monitoring the outputs using our prompt classification tool. This would convert the unstructured out put to structured output which can be used for fairness analysis. This will contain the bias analysis, indicators, affected groups, type of bias and more details can also be added based on use case requirements. Now the bias distribution of the generated content can be monitored and audited to keep check of the generated content. As the bias analysis using the prompt template is the key, we additionally recommend to use chain-of-thoughts and chain-of-verification to ensure that the analysis done is as accurate as possible.</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="757" style="max-width: 760px;" width="757"><img alt="image-20240927-091653.png" class="confluence-embedded-image image-center cursor-pointer" data-height="408" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240927-091653.png" data-linked-resource-id="1057489382" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="fbcb9a69-3bec-4048-a17c-4b28e486938f" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/dnIxWDdSOGNTYlJNMFdKSC1Db3dmWlJiU0FZT0lUenlyQ0RLOTN0azBEND0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNUT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5qVXpMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBOVEEwTVNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTNKbWhsYVdkb2REMDBNRGc9/image-20240927-091653.png" data-unresolved-comment-count="0" data-width="757" loading="lazy" name="image-attachment" src="github-pages/images/image-20240927-091653.png" style="width: 757px" width="757"/></span>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="747" style="max-width: 760px;" width="747"><img alt="image-20240927-091729.png" class="confluence-embedded-image image-center cursor-pointer" data-height="348" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240927-091729.png" data-linked-resource-id="1057489388" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="cb4349a2-0b18-4246-9595-07158015d540" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/QnEtY2xaM3dNanpFVTNtczVSVmhaMnRKbkd1TmViVDVRVlVOeW10a2VKQT0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNUT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE56STVMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBOVEEyT0NaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56UTNKbWhsYVdkb2REMHpORGc9/image-20240927-091729.png" data-unresolved-comment-count="0" data-width="747" loading="lazy" name="image-attachment" src="github-pages/images/image-20240927-091729.png" style="width: 747px" width="747"/></span>
+</div>
+</div>
+<p> </p>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="f6ea3708-f07d-4746-bdff-92c79130243d" data-macro-name="expand" id="expander-1120832340">
+<div class="expand-control" id="expander-control-1120832340" onclick="expandContent('expander-content-1120832340', 'expander-control-1120832340')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Traditional AI use-cases</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-1120832340">
+<h3 id="TraditionalAIusecaseevaluationmonitoringtool"><span data-colorid="yqparza3la"><u>Traditional AI use case evaluation monitoring tool</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>We are working on a tool that combines all these metrics and combines the explainability features to get a complete analysis of the use case. Below are key highlights of this tool.</p>
+<ol start="1">
+<li><p>Many to Many analysis: All categorical columns and their sub-classes will be analyzed and their distributions based on representation and success rates are provided to user for acceptance.</p></li>
+<li><p>Statistical Analysis of key features: Study the dataset based on the ground truth column statistically and understand the key columns which play a decisive role.</p></li>
+<li><p>Explainability: Once the model is trained and predictions are made, use global and local Explainability to identify key features and their weightage that contribute to the outcome.</p></li>
+<li><p>Review the metrics, key feature weights and data distribution for a comprehensive F&amp;B analysis of the given use case.</p></li>
+</ol>
+<p><strong>Proposed flow of actions :</strong></p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="730" style="max-width: 760px;" width="730"><img alt="image-20240927-102359.png" class="confluence-embedded-image image-center cursor-pointer" data-height="417" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240927-102359.png" data-linked-resource-id="1057489394" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="a39881f2-bc53-4992-97d2-dc8906d53a89" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/b05pSlYwQUhJMFNhY24xU2lrR0t2R2NZQ2dRUlF0Rkt0VVdiRDhTSzh4RT0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNUT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TVRBeU16VTVMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBOVEE1TVNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56TXdKbWhsYVdkb2REMDBNVGM9/image-20240927-102359.png" data-unresolved-comment-count="0" data-width="730" loading="lazy" name="image-attachment" src="github-pages/images/image-20240927-102359.png" style="width: 730px" width="730"/></span>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="d113e615-c525-46d1-905a-0fbd6922a838" data-macro-name="expand" id="expander-983352718">
+<div class="expand-control" id="expander-control-983352718" onclick="expandContent('expander-content-983352718', 'expander-control-983352718')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Prompt Classification tool</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-983352718">
+<h3 id="PromptclassificationTool"><span data-colorid="vbesy5xogx"><u>Prompt classification Tool</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>We end up with a huge number of prompts with help of open-source datasets, hackathons, synthetic generators etc. They form the essential block of Benchmarking, fine-tuning of Small Language Models and so on. We need to give structure to these prompts to know their properties / features to understand their overall distribution in the given dataset. The purpose of this tool is to create the respective features each prompt and classify them and thus converting it to a structured data. Now we can generate pivot tables and graphs to understand the over and underrepresented types of prompts which would help to enhance the Benchmarking process and also the fine-tuning process of Small Language Models.</p>
+<p><strong>Sample Graph</strong> - <strong>Bias Indicator Distribution:</strong></p>
+<p>Below graph provides insights to the dataset by showing the distribution of bias severity.</p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="468" style="max-width: 760px;" width="718"><img alt="image-20240829-014527.png" class="confluence-embedded-image image-center cursor-pointer" data-height="180" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240829-014527.png" data-linked-resource-id="1057489400" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="bd9ca140-1634-46ed-90c0-2909ed6de788" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/ci1QZlAtSEpZczZ0STFnRlRqREluSnhhcFFMSmo0bVRrX25PNEk5a2dMWT0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNZz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTRNamt0TURFME5USTNMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBOVEV4TXlaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56RTRKbWhsYVdkb2REMHlOelU9/image-20240829-014527.png" data-unresolved-comment-count="0" data-width="468" loading="lazy" name="image-attachment" src="github-pages/images/image-20240829-014527.png" style="width: 718px;" width="718"/></span>
+<p><strong>Sample Graph</strong> - <strong>Bias Type Distribution:</strong></p>
+<p>Below graph provides insights to the dataset by showing the distribution of bias types.</p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="468" style="max-width: 760px;" width="752"><img alt="image-20240829-014409.png" class="confluence-embedded-image image-center cursor-pointer" data-height="158" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240829-014409.png" data-linked-resource-id="1057489406" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="a8cf7bb6-40f5-4db9-8fc8-5084657d2d34" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/OTVtT1BRLVZZRUdkMC02aFk1VjZ6VGJ5Zmo0MUdDNXU3RWlzbUUxZUFEVT0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNZz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTRNamt0TURFME5EQTVMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBOVEV6TkNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VXlKbWhsYVdkb2REMHlOVE09/image-20240829-014409.png" data-unresolved-comment-count="0" data-width="468" loading="lazy" name="image-attachment" src="github-pages/images/image-20240829-014409.png" style="width: 752px;" width="752"/></span>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="83655a02-7104-4b57-997f-dafd8dc49a87" data-macro-name="expand" id="expander-1322189714">
+<div class="expand-control" id="expander-control-1322189714" onclick="expandContent('expander-content-1322189714', 'expander-control-1322189714')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Insurance policy document review</span>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="6a59f658-dcdd-427a-ae2f-71bcaefde4e1" data-macro-name="expand" id="expander-103016322">
+<div class="expand-control" id="expander-control-103016322" onclick="expandContent('expander-content-103016322', 'expander-control-103016322')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Zero-shot text classifier</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-103016322">
+<h3 id="Zeroshottextclassifiertodetectstereotypes"><span data-colorid="mjvmqxfcxr"><u>Zero-shot text classifier to detect stereotypes</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p><strong>Facebook/bart-large-mnli</strong>, a zero-shot text classification model, is fine-tuned to recognize and detect Stereotype and Non-Stereotype sentences. This provides a non-LLM based, budget friendly option for customers to choose in our RAI tool kit. We have fine-tuned this model to classify given unstructured text into classification labels - [Stereotype, Non-Stereotype, negated-Stereotype].</p>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="1ce6c97a-0c4d-43be-880f-ac7d061541b2" data-macro-name="expand" id="expander-183244672">
+<div class="expand-control" id="expander-control-183244672" onclick="expandContent('expander-content-183244672', 'expander-control-183244672')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Small Language Models</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-183244672">
+<h3 id="SmallLanguageModelasFBevaluator"><span data-colorid="nq5h2ai9tg"><u>Small Language Model as F&amp;B evaluator</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>With the evolution of small language models, we are attempting to fine tune them to leverage their NLP capabilities which forms the foundation for F&amp;B analysis. Unlike the Foundation models, the Generative capabilities of these models could be leveraged for generating the decisions and their explanations as well. At present, due to the limited parameter size, the key challenges are with performing a creative analysis to identify even very minor bias present in the prompt. The prompt classification tool should help us with this fine-tuning process to achieve the sophisticated level of answers similar to what we get from LLMs like GPT-4o and Gemini. Models under research [<a class="external-link" href="https://huggingface.co/microsoft/Phi-3-mini-4k-instruct" rel="nofollow" target="_blank">Phi3-mini</a>, <a class="external-link" href="https://huggingface.co/TinyLlama/TinyLlama-1.1B-Chat-v1.0" rel="nofollow" target="_blank">TinyLlama</a>, <a class="external-link" href="https://huggingface.co/MBZUAI/MobiLlama-08B" rel="nofollow" target="_blank">MobiLlama</a>]</p>
+<p>We have followed the following recipe for finetuning the Phi-3.5-mini:</p>
+<ol start="1">
+<li><p><strong><span style="background-color: rgb(220,223,228);">Dataset Creation</span></strong><span style="background-color: rgb(220,223,228);">: We created a dataset for supervised fine-tuning with the assistance of GPT.</span></p></li>
+<li><p><strong><span style="background-color: rgb(220,223,228);">Model Quantization</span></strong><span style="background-color: rgb(220,223,228);">: The model was quantized to 4-bit using </span><strong><span style="background-color: rgb(220,223,228);">bitsandbytes </span></strong><span style="background-color: rgb(220,223,228);">to reduce its size.</span></p></li>
+<li><p><strong><span style="background-color: rgb(220,223,228);">Supervised Fine-Tuning</span></strong><span style="background-color: rgb(220,223,228);">: We performed supervised fine-tuning by freezing the majority of the parameters and training only the adapters for faster fine-tuning.</span></p></li>
+<li><p><strong><span style="background-color: rgb(220,223,228);">Hardware Used</span></strong><span style="background-color: rgb(220,223,228);">: The fine-tuning was conducted on Azure VM with 16 GB of GPU, which provided the necessary computational resources for efficient training.</span></p></li>
+</ol>
+<p><strong>Phi-3.5-mini-4k-instruct</strong> model was fine-tuned to generate the bias analysis similar to GPT-4o. This has limitations with detecting biases in long-context samples, very subtle and minute biases.</p>
+<p>Limitations of Phi-3.5-Mini that we have observed.</p>
+<ol start="1">
+<li><p><strong><span style="background-color: rgb(220,223,228);">Ineffective Bias Analysis in Long Contexts</span></strong><span style="background-color: rgb(220,223,228);">: The model is less effective at providing bias analysis in long-context samples due to limited training data compared to other hyper-scalers.</span></p></li>
+<li><p><strong><span style="background-color: rgb(220,223,228);">Increased Response Time</span></strong><span style="background-color: rgb(220,223,228);">: The response time is slower than expected, which may impact user experience in real-time applications. It takes more than 10 seconds in GPU environment and more than 30 seconds for CPU environment.</span></p></li>
+<li><p><strong><span style="background-color: rgb(220,223,228);">Limited Generalization</span></strong><span style="background-color: rgb(220,223,228);">: The model may struggle with generalizing insights from less common or niche topics, resulting in incomplete analyses.</span></p></li>
+</ol>
+<p>The cost for a GPU environment is more than the cost involved in paying tokens for API services for LLMs like GPT, and we get more accurate responses and can support long context as well. We have put this research on hold for specific use case requests where we customize this for a particular use case. </p>
+
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="360383fd-4fa2-4752-8bfd-56325552fa55" data-macro-name="expand" id="expander-1459601334">
+<div class="expand-control" id="expander-control-1459601334" onclick="expandContent('expander-content-1459601334', 'expander-control-1459601334')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Opensource Multimodal</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-1459601334">
+<h3 id="OpensourceMultimodalbasedimageanalysis"><span data-colorid="ip6q1s47vu"><u>Opensource Multimodal based image analysis</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Qwen2.5-VM - We tried to quantize this model to 6 GB and use it for image’s fairness evaluation. The accuracy of the model is too low and the contextual analysis, object detection are very poor as well. </p>
+<ol start="1">
+<li><p><strong><span style="background-color: rgb(220,223,228);">Limited Capacity for Complex Instruction</span></strong><span style="background-color: rgb(220,223,228);">: When faced with intricate multi-step instructions, the model's understanding and execution capabilities require enhancement.</span></p></li>
+<li><p><strong><span style="background-color: rgb(220,223,228);">Lack of Audio Support:</span></strong><span style="background-color: rgb(220,223,228);"> The current model does </span><strong><span style="background-color: rgb(220,223,228);">not comprehend audio information</span></strong><span style="background-color: rgb(220,223,228);"> within videos.</span></p></li>
+</ol>
+<p><strong>Reference</strong>: <a class="external-link" data-card-appearance="inline" href="https://github.com/QwenLM/Qwen2-VL?tab=readme-ov-file#limitations" rel="nofollow" target="_blank">https://github.com/QwenLM/Qwen2-VL?tab=readme-ov-file#limitations</a> </p>
+</div>
+</div>
+</div>
+<!-- ATTACHMENTS -->
+
+<script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const wrapper = document.getElementById("attachments-wrapper");
+                const button = document.getElementById("toggle-attachments-view-button");
+                document.querySelectorAll(".file-full").forEach(el => {
+                    el.addEventListener("mouseover", moveTooltip);
+                });
+
+                button.addEventListener("click", () => {
+                    wrapper.classList.toggle("attachments-wrapper-gallery");
+                    wrapper.classList.toggle("attachments-wrapper-list");
+                });
+            });
+
+            function moveTooltip(e) {
+                if (e.target.classList.contains("file-wrapper")) {
+                    let docWidth = document.body.clientWidth;
+                    let docHeight = document.body.clientHeight;
+                    let rect = e.target.getBoundingClientRect();
+                    let fileTooltip = e.target.parentElement.querySelector(".file-tooltip")
+                    if (fileTooltip) {
+                        if (rect.left <= docWidth / 2) {
+                            fileTooltip.classList.add("left");
+                            fileTooltip.classList.remove("right");
+                        } else {
+                            fileTooltip.classList.remove("left");
+                            fileTooltip.classList.add("right");
+                        }
+                        if (rect.top <= docHeight / 2) {
+                            fileTooltip.classList.add("top");
+                            fileTooltip.classList.remove("bottom");
+                        } else {
+                            fileTooltip.classList.remove("top");
+                            fileTooltip.classList.add("bottom");
+                        }
+                    }
+                }
+            }
+
+        </script>
+<script>
+                hideGroup('attachments');
+            </script>
+<div id="footer-comments-outlet">
+<div>
+<div class="page-comment-wrapper" data-testid="page-comment-wrapper">
+<div class="cc-q82yp6">
+<div class="_1e0c1txw _i0dl1osq _otyru2gc">
+<div class="_bfhklbf8 _1bsbzwfg _4t3izwfg _2rko1ssb _19pk1b66 _2hwxutpp"></div>
+<div class="_1e0c11p5 _yv0ehpgh _727q19bv _bfhk1j28 _1bsbdgin _18u0u2gc">
+<div class="_nd5lzmlf _bfhklbf8 _y3gn1h6o _1yt45uws _19itglyw _2rko1l7b"></div>
+<div class="_nd5lbahz _bfhklbf8 _y3gn1h6o _1yt41h4g _19itglyw _2rko1l7b"></div>
+</div>
+</div>
+<div class="_1sb2f705 _1e0c1ule _otyrpxbi _ca0qutpp _n7zl1l7n _1bsb1osq"></div>
+<div class="_1e0c1txw _1n261g80" data-testid="comment-container">
+<div class="_1e0c1txw _i0dl1osq _otyru2gc">
+<div class="_bfhklbf8 _1bsbzwfg _4t3izwfg _2rko1ssb _19pk1b66 _2hwxutpp"></div>
+<div class="_1bsb1osq _19itglyw _2rko1l7b _4t3i1ylp _syaz9s69 _ca0qze3t _1e0c1o8l _s7n4jp4b _18u0u2gc _16jlkb7n _bfhklbf8"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="inline-comments-outlet"></div>
+</div>
+</div></body><br/><br/></html>

@@ -1,0 +1,785 @@
+[{
+  "_id": 1716271470.7637796,
+  "AttackId": 1716271470.7637796,
+  "AttackName": "CarliniL2Method",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271470764"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271470764"
+    }
+  },
+  "id": 1716271470.7637796,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.741399,
+  "AttackId": 1716271475.741399,
+  "AttackName": "Pixel",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475742"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475742"
+    }
+  },
+  "id": 1716271475.741399,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.8481,
+  "AttackId": 1716271475.8481,
+  "AttackName": "Deepfool",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475849"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475849"
+    }
+  },
+  "id": 1716271475.8481,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.9628289,
+  "AttackId": 1716271475.9628289,
+  "AttackName": "Wasserstein",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475963"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475963"
+    }
+  },
+  "id": 1716271475.9628289,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.0624738,
+  "AttackId": 1716271476.0624738,
+  "AttackName": "Boundary",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476063"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476063"
+    }
+  },
+  "id": 1716271476.0624738,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.165043,
+  "AttackId": 1716271476.165043,
+  "AttackName": "UniversalPerturbation",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476166"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476166"
+    }
+  },
+  "id": 1716271476.165043,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.2635558,
+  "AttackId": 1716271476.2635558,
+  "AttackName": "FastGradientMethod",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476264"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476264"
+    }
+  },
+  "id": 1716271476.2635558,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.367788,
+  "AttackId": 1716271476.367788,
+  "AttackName": "SpatialTransformation",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476368"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476368"
+    }
+  },
+  "id": 1716271476.367788,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.477894,
+  "AttackId": 1716271476.477894,
+  "AttackName": "Square",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476478"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476478"
+    }
+  },
+  "id": 1716271476.477894,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.5780973,
+  "AttackId": 1716271476.5780973,
+  "AttackName": "ProjectGradientDescent1",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476579"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476579"
+    }
+  },
+  "id": 1716271476.5780973,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.678788,
+  "AttackId": 1716271476.678788,
+  "AttackName": "BasicIterativeMethod",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476679"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476679"
+    }
+  },
+  "id": 1716271476.678788,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.7776136,
+  "AttackId": 1716271476.7776136,
+  "AttackName": "SaliencyMapMethod",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476778"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476778"
+    }
+  },
+  "id": 1716271476.7776136,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.8784304,
+  "AttackId": 1716271476.8784304,
+  "AttackName": "IterativeFrameSaliency",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476879"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476879"
+    }
+  },
+  "id": 1716271476.8784304,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.978575,
+  "AttackId": 1716271476.978575,
+  "AttackName": "SimBA",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476979"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476979"
+    }
+  },
+  "id": 1716271476.978575,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.0815005,
+  "AttackId": 1716271477.0815005,
+  "AttackName": "NewtonFool",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477082"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477082"
+    }
+  },
+  "id": 1716271477.0815005,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.1801906,
+  "AttackId": 1716271477.1801906,
+  "AttackName": "ElasticNet",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477181"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477181"
+    }
+  },
+  "id": 1716271477.1801906,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.284783,
+  "AttackId": 1716271477.284783,
+  "AttackName": "HopSkipJump2",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477285"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477285"
+    }
+  },
+  "id": 1716271477.284783,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.387604,
+  "AttackId": 1716271477.387604,
+  "AttackName": "MembershipInferenceRule",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477388"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477388"
+    }
+  },
+  "id": 1716271477.387604,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.4884999,
+  "AttackId": 1716271477.4884999,
+  "AttackName": "MembershipInferenceBlackBox",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477489"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477489"
+    }
+  },
+  "id": 1716271477.4884999,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.590265,
+  "AttackId": 1716271477.590265,
+  "AttackName": "InferenceLabelOnlyGap",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477591"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477591"
+    }
+  },
+  "id": 1716271477.590265,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.689962,
+  "AttackId": 1716271477.689962,
+  "AttackName": "ProjectedGradientDescent2",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477691"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477691"
+    }
+  },
+  "id": 1716271477.689962,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.7901754,
+  "AttackId": 1716271477.7901754,
+  "AttackName": "QueryEfficient",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477791"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477791"
+    }
+  },
+  "id": 1716271477.7901754,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.8946226,
+  "AttackId": 1716271477.8946226,
+  "AttackName": "ZerothOrderOptimization",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477895"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477895"
+    }
+  },
+  "id": 1716271477.8946226,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.0244067,
+  "AttackId": 1716271478.0244067,
+  "AttackName": "LabelOnlyDecisionBoundary",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478025"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478025"
+    }
+  },
+  "id": 1716271478.0244067,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.1305802,
+  "AttackId": 1716271478.1305802,
+  "AttackName": "HopSkipJump1",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478131"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478131"
+    }
+  },
+  "id": 1716271478.1305802,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.2362437,
+  "AttackId": 1716271478.2362437,
+  "AttackName": "AttributeInferenceWhiteBoxDecisionTree",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478237"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478237"
+    }
+  },
+  "id": 1716271478.2362437,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.337027,
+  "AttackId": 1716271478.337027,
+  "AttackName": "AttributeInferenceWhiteBoxLifestyleDecisionTree",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478338"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478338"
+    }
+  },
+  "id": 1716271478.337027,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.438907,
+  "AttackId": 1716271478.438907,
+  "AttackName": "DecisionTree",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478439"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478439"
+    }
+  },
+  "id": 1716271478.438907,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.5620923,
+  "AttackId": 1716271478.5620923,
+  "AttackName": "Poisoning",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478563"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478563"
+    }
+  },
+  "id": 1716271478.5620923,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.6895645,
+  "AttackId": 1716271478.6895645,
+  "AttackName": "QueryEfficientGradientAttack",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478690"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478690"
+    }
+  },
+  "id": 1716271478.6895645,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.79878,
+  "AttackId": 1716271478.79878,
+  "AttackName": "BoundaryAttack",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478799"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478799"
+    }
+  },
+  "id": 1716271478.79878,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.8985274,
+  "AttackId": 1716271478.8985274,
+  "AttackName": "HopSkipJumpAttack",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478899"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478899"
+    }
+  },
+  "id": 1716271478.8985274,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.0026531,
+  "AttackId": 1716271479.0026531,
+  "AttackName": "LabelOnlyGapAttack",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479003"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479003"
+    }
+  },
+  "id": 1716271479.0026531,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.1029503,
+  "AttackId": 1716271479.1029503,
+  "AttackName": "MembershipInferenceBlackBoxRuleBasedAttack",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479104"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479104"
+    }
+  },
+  "id": 1716271479.1029503,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.2023206,
+  "AttackId": 1716271479.2023206,
+  "AttackName": "LabelOnlyDecisionBoundaryAttack",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479203"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479203"
+    }
+  },
+  "id": 1716271479.2023206,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.3030653,
+  "AttackId": 1716271479.3030653,
+  "AttackName": "MembershipInferenceBlackBoxAttack",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479304"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479304"
+    }
+  },
+  "id": 1716271479.3030653,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.4036596,
+  "AttackId": 1716271479.4036596,
+  "AttackName": "AttributeInference",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479404"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479404"
+    }
+  },
+  "id": 1716271479.4036596,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.548117,
+  "AttackId": 1716271479.548117,
+  "AttackName": "HopSkipJump3",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479549"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479549"
+    }
+  },
+  "id": 1716271479.548117,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.6502306,
+  "AttackId": 1716271479.6502306,
+  "AttackName": "InferenceLabelOnlyGap3",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479651"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479651"
+    }
+  },
+  "id": 1716271479.6502306,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.779461,
+  "AttackId": 1716271479.779461,
+  "AttackName": "MembershipInferenceBlackBox3",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479780"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479780"
+    }
+  },
+  "id": 1716271479.779461,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.88652,
+  "AttackId": 1716271479.88652,
+  "AttackName": "MembershipInferenceRule3",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479887"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479887"
+    }
+  },
+  "id": 1716271479.88652,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.990362,
+  "AttackId": 1716271479.990362,
+  "AttackName": "QueryEfficient3",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479991"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479991"
+    }
+  },
+  "id": 1716271479.990362,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.1003726,
+  "AttackId": 1716271480.1003726,
+  "AttackName": "ZerothOrderOptimization3",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480101"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480101"
+    }
+  },
+  "id": 1716271480.1003726,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.2040348,
+  "AttackId": 1716271480.2040348,
+  "AttackName": "AttributeInferenceWhiteBoxLifestyleDecisionTree3",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480205"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480205"
+    }
+  },
+  "id": 1716271480.2040348,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.310927,
+  "AttackId": 1716271480.310927,
+  "AttackName": "AttributeInferenceWhiteBoxDecisionTree3",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480311"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480312"
+    }
+  },
+  "id": 1716271480.310927,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.4099047,
+  "AttackId": 1716271480.4099047,
+  "AttackName": "AttributeInference2",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480410"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480410"
+    }
+  },
+  "id": 1716271480.4099047,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.5134547,
+  "AttackId": 1716271480.5134547,
+  "AttackName": "DecisionTree2",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480514"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480514"
+    }
+  },
+  "id": 1716271480.5134547,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.6128912,
+  "AttackId": 1716271480.6128912,
+  "AttackName": "LabelOnlyDecisionBoundary2",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480613"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480613"
+    }
+  },
+  "id": 1716271480.6128912,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.7163782,
+  "AttackId": 1716271480.7163782,
+  "AttackName": "ProjectedGradientDescent3",
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480717"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480717"
+    }
+  },
+  "id": 1716271480.7163782,
+  "isActive": "Y"
+}]

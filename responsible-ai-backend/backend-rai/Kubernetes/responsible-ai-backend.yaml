@@ -1,0 +1,68 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: responsible-ai-backend-sa
+  namespace: irai-toolkit-test
+automountServiceAccountToken: false
+apiVersion: v1
+kind: Service
+metadata:
+  name: responsible-ai-backend
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 30019
+  selector:
+    app: responsible-ai-backend
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: responsible-ai-backend
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-backend
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: responsible-ai-backend
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: responsible-ai-backend
+        version: v1
+    spec:
+      automountServiceAccountToken: false # Disable token mounting
+      imagePullSecrets:
+        - name: docker-secret
+      securityContext:  # Add Pod-level security context
+        runAs: User 1000  # Non-root user
+        runAsGroup: 1000
+        fsGroup: 1000 # Optional: specify a group ID for file system access
+      containers:
+        - envFrom:
+          - configMapRef:
+              name: backend-config
+          image: <Image Name>
+          imagePullPolicy: Always
+          name: responsible-ai-backend
+          ports:
+            - containerPort: 30019
+          securityContext:
+            runAsUser: 1000  # Non-root user
+            runAsGroup: 1000
+            capabilities:
+              drop:
+                - ALL  # Drop all capabilities
+            seccompProfile:
+              type: RuntimeDefault 
+          resources:
+            limits:
+              cpu: '1'
+              memory: '2Gi'

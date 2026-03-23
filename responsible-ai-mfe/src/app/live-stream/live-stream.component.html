@@ -1,0 +1,36 @@
+<div>
+    <!-- <label class="HeadingLabel"> Live Stream Video Player</label> -->
+    <div style="display: flex;" class="container">
+        <div style="margin-right: 100px;" class="class='form-group'">
+            <div class="d-flex mt-0">
+                <div class="box">
+                    <form (ngSubmit)="onSubmit()">
+                        <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                        <div class="mt-0">
+                            <label class="label me-2" for="videoUrl">Enter Video URL:</label>
+                        </div>
+                        <div class=" mt-3">
+                            <input class=" form-control inputUrl" type="text" id="videoUrl" [(ngModel)]="videoUrl" name="videoUrl" required/>
+                        </div>
+                        <div class="button-container">
+                            <button mat-raised-button class="buttonMain me-1" color="black" type="button" (click)="reset()"> Reset </button>
+                            <button mat-raised-button class="buttonMain" color="black" type="submit"> Submit </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div style="flex: 1; max-width: 50%">
+            <div class="mt-0">
+                <label class="label">Live Stream Output</label>
+                <div class="video-container">
+                    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+                    <canvas id="videoCanvas" width="680" height="280"></canvas>
+                    <div class="button-container" *ngIf="showPlayButton">
+                        <button id="playPauseButton" mat-raised-button class="buttonMain" color="black" (click)="togglePlayPause()">{{ isPlaying ? 'Pause' : 'Play' }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

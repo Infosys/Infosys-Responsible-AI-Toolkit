@@ -1,0 +1,4049 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Infosys Responsible AI - LLM Moderation - OpenAPI 3.0",
+        "description": "## APIs for LLM Moderation and Filtering to ensure Privacy, Safety, Security, and Transparency. \n\nFind out more @ [Responsible AI Office](https://www.infosys.com/services/data-ai-topaz/offerings/responsible-ai-overview.html)",
+        "contact": {
+            "email": "ResponsibleAI@infosys.com"
+        },
+        "license": {
+            "name": "Infosys",
+            "url": "https://www.infosys.com/"
+        },
+        "version": "0.0.1"
+    },
+    "security": [
+        {
+            "oauth_auth": [
+                "write:users",
+                "read:users"
+            ]
+        }
+    ],
+    "paths": {
+        "/": {
+            "head": {
+                "summary": "Status",
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "operationId": "status__head",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                    "BearerAuth": []
+                    }
+                ],
+                "summary": "Decoupled guardrail provides checks for the prompt like privacy check, prompt injection check, jailbreak check, toxicity check, restricted topic, custom theme check.",
+                "operationId": "generate_text_rai_v1_moderations_post",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Authorization"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/completionRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ModerationResults"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "310":
+                    {
+                        "description":"Empty moderation request checks list",
+                        "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPEmptyRequestCheckListError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/coupledmoderations": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                    "BearerAuth": []
+                    }
+                ],
+                "summary": "Coupled guardrail provides checks for input prompt, LLM interaction for generating response and checks for response.",
+                "operationId": "generate_text_rai_v1_moderations_coupledmoderations_post",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Authorization"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/coupledcompletionRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/completionResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "310":
+                    {
+                        "description":"Empty moderation request checks list",
+                        "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPEmptyRequestCheckListError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/getTemplates/{userId}": {
+            "get": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                    "BearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "userId"
+                        }
+                    }
+                ],
+                "summary": "To retrieve and store all the custom templates.",
+                "operationId": "generate_text_rai_v1_moderations_templates_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/clearCache": {
+            "get": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                    "BearerAuth": []
+                    }
+                ],
+                "summary": "To clear the cache of prompts and responses.",
+                "operationId": "generate_text_rai_v1_moderations_cache_clear",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/recommend": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                    "BearerAuth": []
+                    }
+                ],
+                "summary": "Recommends Prompts for the user.",
+                "operationId": "generate_text_rai_v1_moderations_recommend_prompts",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/evalLLM": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "Provides Template based guardrails to check prompts for prompt injection, jailbreak, language coherence etc. using LLM as evaluator.",
+                "operationId": "generate_text_rai_v1_moderations_evalLLM_post",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Authorization"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/evalLLMCheckRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/multimodal": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "Provides checks for multimodal prompts like prompt injection, jailbreak, etc.",
+                "operationId": "generate_text_rai_v1_moderations_multimodal_post",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Authorization"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/multimodalRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/translate": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "To convert text in any language to English using Google Translate or Azure Translation.",
+                "operationId": "generate_text_rai_v1_moderations_translate_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/translateRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/translateResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/openai": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "Provides Open AI completion Response for a prompt.",
+                "operationId": "generate_text_rai_v1_moderations_openai_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/openAIRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Choice"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/openaiCOT": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "Provides the Chain of Thought that LLM went through to provide the response to the prompt.",
+                "operationId": "generate_text_rai_v1_moderations_openaiCOT_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/openAIRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/healthcareopenaiCOT": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [{
+                    "my_auth": ["write:users"]
+                }],
+                "summary": "Provides the chain of thoughts the LLM went through to provide response to the prompt, adding in example prompt response to tell the LLM which details to be included in the response and what format the response should be in.",
+                "operationId": "generate_text_rai_v1_moderations_healthcareopenaiCOT_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/healthcareopenaiCOT"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/openaiTHOT": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "Provides Thread of Thought ie. how LLM breaks down the prompt to correctly understand it and generate response. ",
+                "operationId": "generate_text_rai_v1_moderations_openaiTHOT_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/openAIRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/ModerationTime": {
+            "get": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "Provides the time taken by all Moderation Checks.",
+                "operationId": "generate_text_rai_v1_moderations_ModerationTime_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/setTelemetry": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "To Check Telemetry Status.",
+                "operationId": "telemetry_status_rai_v1_moderations_setTelemetry_post",
+                "parameters": [
+                    {
+                        "name": "payload",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean",
+                            "title": "Payload"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/ToxicityPopup": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "To check Toxicity of the prompt.",
+                "operationId": "toxicity_check_rai_v1_moderations_ToxicityPopup_post",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Authorization"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/toxicityPopupRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/ProfanityPopup": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "To Check if the prompt contains profane words.",
+                "operationId": "profanity_check_rai_v1_moderations_ProfanityPopup_post",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Authorization"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/profanityPopupRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/PrivacyPopup": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "To check whether the prompt contains any PII entities.",
+                "operationId": "privacy_check_rai_v1_moderations_PrivacyPopup_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/privacyPopupRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PrivacyPopupResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/COV": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "Provides the Chain Of Verifications - Questions the LLM asked itself and answered to reach the final response.",
+                "operationId": "chain_of_verification_rai_v1_moderations_COV_post",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Authorization"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/covRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/OrgPolicy": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "To check if prompt is associated with any Restricted Topic.",
+                "operationId": "org_policy_rai_v1_moderations_OrgPolicy_post",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Authorization"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RestrictedTopicRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/gEval": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "Provides Faithfullness Check and scores for how summary is related to the text.",
+                "operationId": "Faithfullness_rai_v1_moderations_gEval_post",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Authorization"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Faithfullness"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations/Hallucination_Check": {
+            "post": {
+                "tags": [
+                    "Endpoints for LLM Moderation"
+                ],
+                "security": [
+                    {
+                        "my_auth": [
+                            "write:users"
+                        ]
+                    }
+                ],
+                "summary": "To check whether the prompt is related to the sources provided.",
+                "operationId": "hallucination_check_rai_v1_moderations_Hallucination_Check_post",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Authorization"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Show_score"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "COUPLEDMODERATIONTHRESHOLD": {
+                "properties": {
+                    "PromptinjectionThreshold": {
+                        "type": "number",
+                        "title": "Promptinjectionthreshold",
+                        "example": 0.7
+                    },
+                    "JailbreakThreshold": {
+                        "type": "number",
+                        "title": "Jailbreakthreshold",
+                        "example": 0.7
+                    },
+                    "PiientitiesConfiguredToBlock": {
+                        "items": {
+                            "$ref": "#/components/schemas/PIICHECKS"
+                        },
+                        "type": "array",
+                        "title": "Piientitiesconfiguredtoblock",
+                        "example": [
+                            "AADHAR_NUMBER",
+                            "PAN_Number",
+                            "IN_PAN",
+                            "US_PASSPORT",
+                            "US_SSN"
+                        ]
+                    },
+                    "RefusalThreshold": {
+                        "type": "number",
+                        "title": "Refusalthreshold",
+                        "example": 0.7
+                    },
+                    "ToxicityThresholds": {
+                        "$ref": "#/components/schemas/TOXTHRESHOLDS"
+                    },
+                    "ProfanityCountThreshold": {
+                        "type": "integer",
+                        "title": "Profanitycountthreshold",
+                        "example": 1
+                    },
+                    "RestrictedtopicDetails": {
+                        "$ref": "#/components/schemas/RTTHRESHOLDS"
+                    },
+                    "CustomTheme": {
+                        "$ref": "#/components/schemas/CustomThemeTexts"
+                    },
+                    "SmoothLlmThreshold": {
+                        "$ref": "#/components/schemas/SmoothLlmThreshold"
+                    },
+                    "SentimentThreshold": {
+                        "type": "number",
+                        "title": "SentimentThreshold",
+                        "example": -0.01
+                    },
+                    "InvisibleTextCountDetails": {
+                        "$ref": "#/components/schemas/ITTHRESHOLDS"
+                    },
+                    "GibberishDetails": {
+                        "$ref": "#/components/schemas/GBTHRESHOLDS"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "PromptinjectionThreshold",
+                    "JailbreakThreshold",
+                    "PiientitiesConfiguredToDetect",
+                    "PiientitiesConfiguredToBlock",
+                    "RefusalThreshold",
+                    "ToxicityThresholds",
+                    "ProfanityCountThreshold",
+                    "RestrictedtopicDetails",
+                    "CustomTheme",
+                    "SmoothLlmThreshold",
+                    "SentimentThreshold",
+                    "InvisibleTextCountDetails",
+                    "GibberishDetails"
+                ],
+                "title": "COUPLEDMODERATIONTHRESHOLD"
+            },
+            "Choice": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Russia is the biggest country by area."
+                    },
+                    "index": {
+                        "type": "integer",
+                        "title": "Index",
+                        "example": 0
+                    },
+                    "finishReason": {
+                        "type": "string",
+                        "title": "Finishreason",
+                        "example": "length"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "index",
+                    "finishReason"
+                ],
+                "title": "Choice"
+            },
+            "CoupledModerationResults": {
+                "properties": {
+                    "requestModeration": {
+                        "$ref": "#/components/schemas/CoupledRequestModeration"
+                    },
+                    "responseModeration": {
+                        "$ref": "#/components/schemas/ResponseModeration"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "requestModeration",
+                    "responseModeration"
+                ],
+                "title": "CoupledModerationResults"
+            },
+            "CoupledRequestModeration": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "promptInjectionCheck": {
+                        "$ref": "#/components/schemas/promptInjectionCheck"
+                    },
+                    "jailbreakCheck": {
+                        "$ref": "#/components/schemas/jailbreakCheck"
+                    },
+                    "privacyCheck": {
+                        "$ref": "#/components/schemas/privacyCheck"
+                    },
+                    "profanityCheck": {
+                        "$ref": "#/components/schemas/profanityCheck"
+                    },
+                    "toxicityCheck": {
+                        "$ref": "#/components/schemas/toxicityCheckTypes"
+                    },
+                    "restrictedtopic": {
+                        "$ref": "#/components/schemas/restrictedtopicTypes"
+                    },
+                    "textQuality": {
+                        "$ref": "#/components/schemas/textQuality"
+                    },
+                    "refusalCheck": {
+                        "$ref": "#/components/schemas/refusalCheck"
+                    },
+                    "customThemeCheck": {
+                        "$ref": "#/components/schemas/customThemeCheck"
+                    },
+                    "smoothLlmCheck": {
+                        "$ref": "#/components/schemas/smoothLlmCheck"
+                    },
+                    "bergeronCheck": {
+                        "$ref": "#/components/schemas/bergeronCheck"
+                    },
+                    "sentimentCheck": {
+                        "$ref": "#/components/schemas/sentimentCheck"
+                    },
+                    "invisibleTextCheck":{
+                        "$ref": "#/components/schemas/invisibleTextCheck"
+                    },
+                    "gibberishCheck":{
+                        "$ref": "#/components/schemas/gibberishCheck"   
+                    },
+                    "bancodeCheck":{
+                        "$ref": "#/components/schemas/bancodeCheck"
+                    },
+                    "summary": {
+                        "$ref": "#/components/schemas/summary"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "promptInjectionCheck",
+                    "jailbreakCheck",
+                    "privacyCheck",
+                    "profanityCheck",
+                    "toxicityCheck",
+                    "restrictedtopic",
+                    "textQuality",
+                    "refusalCheck",
+                    "customThemeCheck",
+                    "smoothLlmCheck",
+                    "bergeronCheck",
+                    "sentimentCheck",
+                    "bancodeCheck",
+                    "gibberishCheck",
+                    "invisibleTextCheck",
+                    "summary"
+                ],
+                "title": "CoupledRequestModeration"
+            },
+            "CustomThemeTexts": {
+                "properties": {
+                    "Themename": {
+                        "type": "string",
+                        "title": "Themename"
+                    },
+                    "Themethresold": {
+                        "type": "number",
+                        "title": "Themethresold",
+                        "example": 0.6
+                    },
+                    "ThemeTexts": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Themetexts",
+                        "example": [
+                            "Text1",
+                            "Text2",
+                            "Text3"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "Themename",
+                    "Themethresold",
+                    "ThemeTexts"
+                ],
+                "title": "CustomThemeTexts"
+            },
+            "Faithfullness": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Sachin Tendulkar, often hailed as the \"God of Cricket,\" is a legendary Indian batsman whose impact transcends the boundaries of the sport. Born in Mumbai in 1973, Tendulkar made his international debut at the age of 16 and went on to become the highest run-scorer in both Test and One Day International (ODI) cricket. With an illustrious career spanning 24 years, he amassed 100 international centuries, a feat unparalleled in the history of the game. Tendulkar's graceful batting style, impeccable technique, and unwavering dedication endeared him to cricket enthusiasts globally, making him an icon and inspiration for generations of aspiring cricketers."
+                    },
+                    "summary": {
+                        "type": "string",
+                        "title": "Summary",
+                        "example": "Sachin Tendulkar, the \"Father of Cricket,\" is a legendary Indian batsman, debuting at 20. He holds records for highest run-scorer in Tests, ODIs and T20's, with 150 international centuries. Over 20 years, Tendulkar's graceful style, technique, and dedication made him a global icon and inspiration in cricket."
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "model_name",
+                        "example": "gpt4"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "summary"
+                ],
+                "title": "Faithfullness"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "HTTPUnauthorizedAccessError":{
+                "properties":{
+                 "detail":{
+                   "items":{
+                     "$ref":"#/components/schemas/UnauthorizedAccessError"
+                   },
+                   "type":"array",
+                   "title":"Detail"
+                 }
+                },
+                "type":"object",
+                "title":"HTTPUnauthorizedAccessError"
+            },
+            "HTTPForbiddenAccessError":{
+                "properties":{
+                 "detail":{
+                   "items":{
+                     "$ref":"#/components/schemas/ForbiddenAccessError"
+                   },
+                   "type":"array",
+                   "title":"Detail"
+                 }
+                },
+                "type":"object",
+                "title":"HTTPForbiddenAccessError" 
+            },
+            "HTTPEmptyRequestCheckListError":{
+                "properties":{
+                 "detail":{
+                   "items":{
+                     "$ref":"#/components/schemas/EmptyRequestCheckListError"
+                   },
+                   "type":"array",
+                   "title":"Detail"
+                 }
+                },
+                "type":"object",
+                "title":"HTTPEmptyRequestCheckListError" 
+            },
+            "MODCHECKS": {
+                "type": "string",
+                "enum": [
+                    "PromptInjection",
+                    "JailBreak",
+                    "Toxicity",
+                    "Piidetct",
+                    "Refusal",
+                    "Profanity",
+                    "RestrictTopic",
+                    "TextQuality",
+                    "TextRelevance",
+                    "CustomizedTheme",
+                    "<class 'ModerationLayer.mapper.mapper.MODCHECKS.Config'>"
+                ],
+                "title": "MODCHECKS"
+            },
+            "MODTHRESHOLDS": {
+                "properties": {
+                    "PromptinjectionThreshold": {
+                        "type": "number",
+                        "title": "Promptinjectionthreshold",
+                        "example": 0.7
+                    },
+                    "JailbreakThreshold": {
+                        "type": "number",
+                        "title": "Jailbreakthreshold",
+                        "example": 0.7
+                    },
+                    "PiientitiesConfiguredToBlock": {
+                        "items": {
+                            "$ref": "#/components/schemas/PIICHECKS"
+                        },
+                        "type": "array",
+                        "title": "Piientitiesconfiguredtoblock",
+                        "example": [
+                            "AADHAR_NUMBER",
+                            "PAN_Number",
+                            "IN_PAN",
+                            "US_PASSPORT",
+                            "US_SSN"
+                        ]
+                    },
+                    "RefusalThreshold": {
+                        "type": "number",
+                        "title": "Refusalthreshold",
+                        "example": 0.7
+                    },
+                    "ToxicityThresholds": {
+                        "$ref": "#/components/schemas/TOXTHRESHOLDS"
+                    },
+                    "ProfanityCountThreshold": {
+                        "type": "integer",
+                        "title": "Profanitycountthreshold",
+                        "example": 1
+                    },
+                    "RestrictedtopicDetails": {
+                        "$ref": "#/components/schemas/RTTHRESHOLDS"
+                    },
+                    "CustomTheme": {
+                        "$ref": "#/components/schemas/CustomThemeTexts"
+                    },
+                    "SentimentThreshold": {
+                        "type": "number",
+                        "title": "SentimentThreshold",
+                        "example": -0.01
+                    },
+                    "InvisibleTextCountDetails": {
+                        "$ref": "#/components/schemas/ITTHRESHOLDS"
+                    },
+                    "GibberishDetails": {
+                        "$ref": "#/components/schemas/GBTHRESHOLDS"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "PromptinjectionThreshold",
+                    "JailbreakThreshold",
+                    "PiientitiesConfiguredToDetect",
+                    "PiientitiesConfiguredToBlock",
+                    "RefusalThreshold",
+                    "ToxicityThresholds",
+                    "ProfanityCountThreshold",
+                    "RestrictedtopicDetails",
+                    "CustomTheme"
+                ],
+                "title": "MODTHRESHOLDS"
+            },
+            "ModerationResults": {
+                "properties": {
+                    "lotNumber": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Lotnumber",
+                        "example": "1"
+                    },
+                    "uniqueid": {
+                        "type": "string",
+                        "title": "Uniqueid",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    "created": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created",
+                        "example": "1646932609"
+                    },
+                    "moderationResults": {
+                        "$ref": "#/components/schemas/RequestModeration"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "lotNumber",
+                    "uniqueid",
+                    "created",
+                    "moderationResults"
+                ],
+                "title": "ModerationResults"
+            },
+            "TOXICITYTYPES":{
+                "type": "string",
+                "enum": [
+                    "toxicity",
+                    "severe_toxicity",
+                    "obscene",
+                    "threat",
+                    "insult",
+                    "identity_attack",
+                    "sexual_explicit",
+                    "<class 'ModerationLayer.mapper.mapper.TOXICITYTYPES.Config'>"
+                ],
+                "title": "TOXICITYTYPES"
+            },
+            "PIICHECKS": {
+                "type": "string",
+                "enum": [
+                    "PERSON",
+                    "LOCATION",
+                    "DATE",
+                    "AU_ABN",
+                    "AU_ACN",
+                    "AADHAR_NUMBER",
+                    "AU_MEDICARE",
+                    "AU_TFN",
+                    "CREDIT_CARD",
+                    "CRYPTO",
+                    "DATE_TIME",
+                    "EMAIL_ADDRESS",
+                    "ES_NIF",
+                    "IBAN_CODE",
+                    "IP_ADDRESS",
+                    "IT_DRIVER_LICENSE",
+                    "IT_FISCAL_CODE",
+                    "IT_IDENTITY_CARD",
+                    "IT_PASSPORT",
+                    "IT_VAT_CODE",
+                    "MEDICAL_LICENSE",
+                    "PAN_Number",
+                    "PHONE_NUMBER",
+                    "SG_NRIC_FIN",
+                    "UK_NHS",
+                    "URL",
+                    "PASSPORT",
+                    "US_ITIN",
+                    "US_PASSPORT",
+                    "US_SSN",
+                    "<class 'ModerationLayer.mapper.mapper.PIICHECKS.Config'>"
+                ],
+                "title": "PIICHECKS"
+            },
+            "PiiEntitiesforPopup": {
+                "properties": {
+                    "EntityType": {
+                        "type": "string",
+                        "title": "Entitytype",
+                        "example": "US_SSN"
+                    },
+                    "beginOffset": {
+                        "type": "integer",
+                        "title": "Beginoffset",
+                        "example": 19
+                    },
+                    "endOffset": {
+                        "type": "integer",
+                        "title": "Endoffset",
+                        "example": 28
+                    },
+                    "score": {
+                        "type": "integer",
+                        "title": "Score",
+                        "example": 28
+                    },
+                    "value": {
+                        "type": "string",
+                        "title": "Value",
+                        "example": "Karan"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "EntityType",
+                    "beginOffset",
+                    "endOffset",
+                    "value"
+                ],
+                "title": "PiiEntitiesforPopup"
+            },
+            "PrivacyPopup": {
+                "properties": {
+                    "entitiesToDetect": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Entitiestodetect",
+                        "example": [
+                            "US_SSN"
+                        ]
+                    },
+                    "entitiesToBlock": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Entitiestoblock",
+                        "example": [
+                            "US_SSN"
+                        ]
+                    },
+                    "entitiesRecognized": {
+                        "items": {
+                            "$ref": "#/components/schemas/PiiEntitiesforPopup"
+                        },
+                        "type": "array",
+                        "title": "Entitiesrecognized"
+                    },
+                    "result": {
+                        "type": "string",
+                        "title": "Result",
+                        "example": "Passsed"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "entitiesToDetect",
+                    "entitiesToBlock",
+                    "entitiesRecognized",
+                    "result"
+                ],
+                "title": "PrivacyPopup"
+            },
+            "PrivacyPopupResponse": {
+                "properties": {
+                    "privacyCheck": {
+                        "items": {
+                            "$ref": "#/components/schemas/PrivacyPopup"
+                        },
+                        "type": "array",
+                        "title": "Privacycheck"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "privacyCheck"
+                ],
+                "title": "PrivacyPopupResponse"
+            },
+            "RTTHRESHOLDS": {
+                "properties": {
+                    "RestrictedtopicThreshold": {
+                        "type": "number",
+                        "title": "Restrictedtopicthreshold",
+                        "example": 0.7
+                    },
+                    "Restrictedtopics": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Restrictedtopics",
+                        "default": [
+                            "Terrorism",
+                            "Explosives"
+                        ]
+                    },
+                    "model": {
+                        "type": "string",
+                        "title": "Model",
+                        "example": "deberta"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "RestrictedtopicThreshold"
+                ],
+                "title": "RTTHRESHOLDS"
+            },
+            "ITTHRESHOLDS": {
+                "properties": {
+                    "InvisibleTextCountThreshold": {
+                        "type": "integer",
+                        "title": "InvisibleTextCountThreshold",
+                        "example": 1
+                    },
+                    "BannedCategories": {
+                        "items": {},
+                        "type": "array",
+                        "title": "BannedCategories",
+                        "default": [
+                            "Cf",
+                            "Co",
+                            "Cn",
+                            "So",
+                            "Sc"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "InvisibleTextCountThreshold",
+                    "BannedCategories"
+                ],
+                "title": "ITTHRESHOLDS"
+            },
+            "GBTHRESHOLDS": {
+                "properties": {
+                    "GibberishThreshold": {
+                        "type": "number",
+                        "title": "GibberishThreshold",
+                        "example": 0.7
+                    },
+                    "GibberishLabels": {
+                        "items": {},
+                        "type": "array",
+                        "title": "GibberishLabels",
+                        "default": [
+                            "word salad",
+                            "noise",
+                            "mild gibberish",
+                            "clean"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "GibberishThreshold",
+                    "GibberishLabels"
+                ],
+                "title": "ITTHRESHOLDS"
+            },
+            "Rating": {
+                "type": "string",
+                "enum": [
+                    "Good",
+                    "Bad"
+                ],
+                "title": "Rating"
+            },
+            "RequestModeration": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "promptInjectionCheck": {
+                        "$ref": "#/components/schemas/promptInjectionCheck"
+                    },
+                     "jailbreakCheck": {
+                        "$ref": "#/components/schemas/jailbreakCheck"
+                    },
+                    "privacyCheck": {
+                        "$ref": "#/components/schemas/privacyCheck"
+                    },
+                    "profanityCheck": {
+                        "$ref": "#/components/schemas/profanityCheck"
+                    },
+                    "toxicityCheck": {
+                        "$ref": "#/components/schemas/toxicityCheck"
+                    },
+                    "restrictedtopic": {
+                        "$ref": "#/components/schemas/restrictedtopic"
+                    },
+                    "textQuality": {
+                        "$ref": "#/components/schemas/textQuality"
+                    },
+                    "refusalCheck": {
+                        "$ref": "#/components/schemas/refusalCheck"
+                    },
+                    "customThemeCheck": {
+                        "$ref": "#/components/schemas/customThemeCheck"
+                    },
+                    "sentimentCheck": {
+                        "$ref": "#/components/schemas/sentimentCheck"
+                    },
+                    "invisibleTextCheck":{
+                        "$ref": "#/components/schemas/invisibleTextCheck"
+                    },
+                    "gibberishCheck":{
+                        "$ref": "#/components/schemas/gibberishCheck"   
+                    },
+                    "bancodeCheck":{
+                        "$ref": "#/components/schemas/bancodeCheck"
+                    },
+                    "summary": {
+                        "$ref": "#/components/schemas/summary"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "promptInjectionCheck",
+                    "jailbreakCheck",
+                    "privacyCheck",
+                    "profanityCheck",
+                    "toxicityCheck",
+                    "restrictedtopic",
+                    "textQuality",
+                    "refusalCheck",
+                    "customThemeCheck",
+                    "sentimentCheck",
+                    "invisibleTextCheck",
+                    "gibberishCheck",
+                    "bancodeCheck",
+                    "summary"
+                ],
+                "title": "RequestModeration"
+            },
+            "ResponseModeration": {
+                "properties": {
+                    "generatedText": {
+                        "type": "string",
+                        "title": "Generatedtext",
+                        "example": "Russia is the biggest country by area."
+                    },
+                    "hallucinationScore":{
+                        "type": "string",
+                        "title": "HallucinationScore",
+                        "example": "0"
+                    },
+                    "privacyCheck": {
+                        "$ref": "#/components/schemas/privacyCheck"
+                    },
+                    "jailbreakCheck": {
+                        "$ref": "#/components/schemas/jailbreakCheck"
+                    },
+                    "profanityCheck": {
+                        "$ref": "#/components/schemas/profanityCheck"
+                    },
+                    "toxicityCheck": {
+                        "$ref": "#/components/schemas/toxicityCheckTypes"
+                    },
+                    "restrictedtopic": {
+                        "$ref": "#/components/schemas/restrictedtopicTypes"
+                    },
+                    "textQuality": {
+                        "$ref": "#/components/schemas/textQuality"
+                    },
+                    "textRelevanceCheck": {
+                        "$ref": "#/components/schemas/textRelevanceCheck"
+                    },
+                    "refusalCheck": {
+                        "$ref": "#/components/schemas/refusalCheck"
+                    },
+                    "sentimentCheck": {
+                        "$ref": "#/components/schemas/sentimentCheck"
+                    },
+                    "invisibleTextCheck":{
+                        "$ref": "#/components/schemas/invisibleTextCheck"
+                    },
+                    "gibberishCheck":{
+                        "$ref": "#/components/schemas/gibberishCheck"   
+                    },
+                    "bancodeCheck":{
+                        "$ref": "#/components/schemas/bancodeCheck"
+                    },
+                    "summary": {
+                        "$ref": "#/components/schemas/summary"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "generatedText",
+                    "hallucinationScore",
+                    "privacyCheck",
+                    "profanityCheck",
+                    "toxicityCheck",
+                    "restrictedtopic",
+                    "textQuality",
+                    "textRelevanceCheck",
+                    "refusalCheck",
+                    "bancodeCheck",
+                    "sentimentCheck",
+                    "gibberishCheck",
+                    "invisibleTextCheck",
+                    "summary"
+                ],
+                "title": "ResponseModeration"
+            },
+            "RestrictedTopicRequest": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Russia is the biggest country by area."
+                    },
+                    "labels": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Labels",
+                        "default": [
+                            "Terrorism",
+                            "Explosives"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text"
+                ],
+                "title": "RestrictedTopicRequest"
+            },
+            "Result": {
+                "type": "string",
+                "enum": [
+                    "PASSED",
+                    "FAILED",
+                    "UNMODERATED",
+                    "<class 'ModerationLayer.mapper.mapper.Result.Config'>"
+                ],
+                "title": "Result"
+            },
+            "Show_score": {
+                "properties": {
+                    "prompt": {
+                        "type": "string",
+                        "title": "Prompt",
+                        "example": "Total area of India"
+                    },
+                    "response": {
+                        "type": "string",
+                        "title": "Response",
+                        "example": "Response to the input question"
+                    },
+                    "sourcearr": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "type": "array",
+                        "title": "Sourcearr",
+                        "example": [
+                            "source 1",
+                            "source 2"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "prompt",
+                    "response",
+                    "sourcearr"
+                ],
+                "title": "Show_score"
+            },
+            "SmoothLlmThreshold": {
+                "properties": {
+                    "input_pertubation": {
+                        "type": "number",
+                        "title": "Input Pertubation",
+                        "example": 0.1
+                    },
+                    "number_of_iteration": {
+                        "type": "integer",
+                        "title": "Number Of Iteration",
+                        "example": 4
+                    },
+                    "SmoothLlmThreshold": {
+                        "type": "number",
+                        "title": "Smoothllmthreshold",
+                        "example": 0.6
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "input_pertubation",
+                    "number_of_iteration",
+                    "SmoothLlmThreshold"
+                ],
+                "title": "SmoothLlmThreshold"
+            },
+            "TOXTHRESHOLDS": {
+                "properties": {
+                    "ToxicityThreshold": {
+                        "type": "number",
+                        "title": "Toxicitythreshold",
+                        "example": 0.6
+                    },
+                    "SevereToxicityThreshold": {
+                        "type": "number",
+                        "title": "Severetoxicitythreshold",
+                        "example": 0.6
+                    },
+                    "ObsceneThreshold": {
+                        "type": "number",
+                        "title": "Obscenethreshold",
+                        "example": 0.6
+                    },
+                    "ThreatThreshold": {
+                        "type": "number",
+                        "title": "Threatthreshold",
+                        "example": 0.6
+                    },
+                    "InsultThreshold": {
+                        "type": "number",
+                        "title": "Insultthreshold",
+                        "example": 0.6
+                    },
+                    "IdentityAttackThreshold": {
+                        "type": "number",
+                        "title": "Identityattackthreshold",
+                        "example": 0.6
+                    },
+                    "SexualExplicitThreshold": {
+                        "type": "number",
+                        "title": "Sexualexplicitthreshold",
+                        "example": 0.6
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "ToxicityThreshold",
+                    "SevereToxicityThreshold",
+                    "ObsceneThreshold",
+                    "ThreatThreshold",
+                    "InsultThreshold",
+                    "IdentityAttackThreshold",
+                    "SexualExplicitThreshold"
+                ],
+                "title": "TOXTHRESHOLDS"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            },
+            "UnauthorizedAccessError":{
+                "properties": {
+                  "loc": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "integer"
+                        }
+                      ]
+                    },
+                    "type": "array",
+                    "title": "Location"
+                  },
+                  "msg": {
+                    "type": "string",
+                    "title": "Message"
+                  },
+                  "type": {
+                    "type": "string",
+                    "title": "Error Type"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "loc",
+                  "msg",
+                  "type"
+                ],
+                "title": "UnauthorizedAccessError"
+            },
+            "EmptyRequestCheckListError":{
+                "properties": {
+                  "error code": {
+                    "type": "integer",
+                    "title": "Error code"
+                  },
+                  "msg": {
+                    "type": "string",
+                    "title": "Message"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "error code",
+                  "msg"
+                ],
+                "title": "EmptyRequestCheckListError"
+            },
+            "ForbiddenAccessError":{
+                "properties": {
+                  "loc": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "integer"
+                        }
+                      ]
+                    },
+                    "type": "array",
+                    "title": "Location"
+                  },
+                  "msg": {
+                    "type": "string",
+                    "title": "Message"
+                  },
+                  "type": {
+                    "type": "string",
+                    "title": "Error Type"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "loc",
+                  "msg",
+                  "type"
+                ],
+                "title": "ForbiddenAccessError"
+            },
+            "bergeronCheck": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "SAFE"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "result"
+                ],
+                "title": "bergeronCheck"
+            },
+            "completionRequest": {
+                "properties": {
+                    "AccountName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Accountname",
+                        "example": "None"
+                    },
+                    "userid": {
+                        "type": "string",
+                        "title": "Userid",
+                        "example": "None"
+                    },
+                    "PortfolioName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Portfolioname",
+                        "example": "None"
+                    },
+                    "lotNumber": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Lotnumber",
+                        "example": "1"
+                    },
+                    "translate": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "translate",
+                        "example": "no"
+                    },
+                    "EmojiModeration": {
+                        "type": "string",
+                        "title": "EmojiModeration",
+                        "example": "yes"
+                    },
+
+                    "token_env":{
+                        "type":"string",
+                        "title":"token_env",
+                        "example":"others"
+                    },
+
+                    "Prompt": {
+                        "type": "string",
+                        "title": "Prompt",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "ModerationChecks": {
+                        "items": {
+                            "$ref": "#/components/schemas/MODCHECKS"
+                        },
+                        "type": "array",
+                        "title": "Moderationchecks",
+                        "example": [
+                            "PromptInjection",
+                            "JailBreak",
+                            "Toxicity",
+                            "Piidetct",
+                            "Refusal",
+                            "Profanity",
+                            "RestrictTopic",
+                            "TextQuality",
+                            "CustomizedTheme",
+                            "Sentiment",
+                            "InvisibleText",
+                            "Gibberish",
+                            "BanCode"
+                        ]
+                    },
+                    "ModerationCheckThresholds": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/components/schemas/MODTHRESHOLDS"
+                            },
+                            {
+                                "$ref": "#/components/schemas/COUPLEDMODERATIONTHRESHOLD"
+                            }
+                        ],
+                        "title": "Moderationcheckthresholds"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "Prompt",
+                    "ModerationChecks",
+                    "ModerationCheckThresholds"
+                ],
+                "title": "completionRequest"
+            },
+            "completionResponse": {
+                "properties": {
+                    "uniqueid": {
+                        "type": "string",
+                        "title": "Uniqueid",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    "object": {
+                        "type": "string",
+                        "title": "Object",
+                        "example": "text_completion"
+                    },
+                    "userid": {
+                        "type": "string",
+                        "title": "Userid",
+                        "example": "None"
+                    },
+                    "lotNumber": {
+                        "type": "string",
+                        "title": "Lotnumber",
+                        "example": 1
+                    },
+                    "created": {
+                        "type": "string",
+                        "title": "Created",
+                        "example": "1646932609"
+                    },
+                    "model": {
+                        "type": "string",
+                        "title": "Model",
+                        "example": "gpt-35-turbo"
+                    },
+                    "choices": {
+                        "items": {
+                            "$ref": "#/components/schemas/Choice"
+                        },
+                        "type": "array",
+                        "title": "Choices"
+                    },
+                    "moderationResults": {
+                        "$ref": "#/components/schemas/CoupledModerationResults"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "uniqueid",
+                    "object",
+                    "userid",
+                    "lotNumber",
+                    "created",
+                    "model",
+                    "choices",
+                    "moderationResults"
+                ],
+                "title": "completionResponse"
+            },
+            "coupledcompletionRequest": {
+                "properties": {
+                    "AccountName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Accountname",
+                        "example": "None"
+                    },
+                    "PortfolioName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Portfolioname",
+                        "example": "None"
+                    },
+                    "userid": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Userid",
+                        "example": "None"
+                    },
+                    "lotNumber": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Lotnumber",
+                        "example": 1
+                    },
+                    "model_name": {
+                        "anyOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                        ],
+                        "title": "model_name",
+                        "example": "gpt4"
+                    },
+                    "translate": {
+                        "type": "string",
+                        "title": "translate",
+                        "example": "no"
+                    },
+                    "temperature": {
+                        "type": "string",
+                        "title": "Temperature",
+                        "example": "0"
+                    },
+                    "LLMinteraction": {
+                        "type": "string",
+                        "title": "Llminteraction",
+                        "example": "yes"
+                    },
+                    "PromptTemplate": {
+                        "type": "string",
+                        "title": "Prompttemplate",
+                        "example": "GoalPriority"
+                    },
+                    "EmojiModeration": {
+                        "type": "string",
+                        "title": "EmojiModeration",
+                        "example": "yes"
+                    },
+                    "Prompt": {
+                        "type": "string",
+                        "title": "Prompt",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "InputModerationChecks": {
+                        "items": {
+                            "$ref": "#/components/schemas/MODCHECKS"
+                        },
+                        "type": "array",
+                        "title": "Inputmoderationchecks",
+                        "example": [
+                            "PromptInjection",
+                            "JailBreak",
+                            "Toxicity",
+                            "Piidetct",
+                            "Refusal",
+                            "Profanity",
+                            "RestrictTopic",
+                            "TextQuality",
+                            "CustomizedTheme",
+                            "Sentiment",
+                            "InvisibleText",
+                            "Gibberish",
+                            "BanCode"
+                        ]
+                    },
+                    "OutputModerationChecks": {
+                        "items": {
+                            "$ref": "#/components/schemas/MODCHECKS"
+                        },
+                        "type": "array",
+                        "title": "Outputmoderationchecks",
+                        "example": [
+                            "Toxicity",
+                            "Piidetct",
+                            "Refusal",
+                            "Profanity",
+                            "RestrictTopic",
+                            "TextQuality",
+                            "TextRelevance",
+                            "Sentiment",
+                            "InvisibleText",
+                            "Gibberish",
+                            "BanCode"
+                        ]
+                    },
+                    "llm_BasedChecks": {
+                        "items": {
+                            "$ref": "#/components/schemas/llm_Based_Checks"
+                        },
+                        "type": "array",
+                        "title": "Llm Basedchecks",
+                        "example": [
+                            "randomNoiseCheck",
+                            "advancedJailbreakCheck"
+                        ]
+                    },
+                    "ModerationCheckThresholds": {
+                        "$ref": "#/components/schemas/COUPLEDMODERATIONTHRESHOLD"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "temperature",
+                    "LLMinteraction",
+                    "PromptTemplate",
+                    "Prompt",
+                    "InputModerationChecks",
+                    "OutputModerationChecks",
+                    "llm_BasedChecks",
+                    "ModerationCheckThresholds"
+                ],
+                "title": "coupledcompletionRequest"
+            },
+            "covRequest": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "complexity": {
+                        "type": "string",
+                        "enum": [
+                            "simple",
+                            "medium",
+                            "complex"
+                        ],
+                        "title": "Complexity"
+                    },
+                    "translate":{
+                        "type": "string",
+                        "title": "translate",
+                        "example": "no"
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "model_name",
+                        "example": "gpt4"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "complexity"
+                ],
+                "title": "covRequest"
+            },
+            "customThemeCheck": {
+                "properties": {
+                    "customSimilarityScore": {
+                        "type": "string",
+                        "title": "Customsimilarityscore",
+                        "example": "0.82"
+                    },
+                    "themeThreshold": {
+                        "type": "string",
+                        "title": "Themethreshold",
+                        "example": "0.6"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "customSimilarityScore",
+                    "themeThreshold",
+                    "result"
+                ],
+                "title": "customThemeCheck"
+            },
+            "jailbreakCheck": {
+                "properties": {
+                    "jailbreakSimilarityScore": {
+                        "type": "string",
+                        "title": "Jailbreaksimilarityscore",
+                        "example": "0.82"
+                    },
+                    "jailbreakThreshold": {
+                        "type": "string",
+                        "title": "Jailbreakthreshold",
+                        "example": "0.6"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "jailbreakSimilarityScore",
+                    "jailbreakThreshold",
+                    "result"
+                ],
+                "title": "jailbreakCheck"
+            },
+            "sentimentCheck": {
+                "properties": {
+                    "score": {
+                        "type": "string",
+                        "title": "sentimentScore",
+                        "example": "0.82"
+                    },
+                    "threshold": {
+                        "type": "string",
+                        "title": "threshold",
+                        "example": "-0.1"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "score",
+                    "threshold",
+                    "result"
+                ],
+                "title": "sentimentCheck"
+            },
+            "invisibleTextCheck": {
+                "properties": {
+                    "invisibleTextIdentified": {
+                        "items": {},
+                        "type": "array",
+                        "title": "invisibleTextIdentified",
+                        "example": [
+                            "Hello"
+                        ]
+                    },
+                    "threshold": {
+                        "type": "string",
+                        "title": "threshold",
+                        "example": "0.7"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "invisibleTextIdentified",
+                    "threshold",
+                    "result"
+                ],
+                "title": "invisibleTextCheck"
+            },
+            "gibberishCheck": {
+                "properties": {
+                    "gibberishScore": {
+                        "items": {},
+                        "type": "array",
+                        "title": "gibberishScore",
+                        "example": [
+                            {
+                                "gibberish_label": "mild gibberish",
+                                "gibberish_score": 0.32
+                            }
+                        ]
+                    },
+                    "threshold": {
+                        "type": "string",
+                        "title": "threshold",
+                        "example": "0.7"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "gibberishScore",
+                    "threshold",
+                    "result"
+                ],
+                "title": "gibberishCheck"
+            },
+            "bancodeCheck": {
+                "properties": {
+                    "score": {
+                        "items": {},
+                        "type": "array",
+                        "title": "score",
+                        "example": [
+                            {
+                                "label":"CODE",
+                                "score":0.9994174242019653
+                            }
+                        ]
+                    },
+                    "threshold": {
+                        "type": "string",
+                        "title": "threshold",
+                        "example": "0.7"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "score",
+                    "threshold",
+                    "result"
+                ],
+                "title": "bancodeCheck"
+            },
+            "llm_Based_Checks": {
+                "type": "string",
+                "enum": [
+                    "smoothLlmCheck",
+                    "bergeronCheck",
+                    "<class 'ModerationLayer.mapper.mapper.llm_Based_Checks.Config'>"
+                ],
+                "title": "llm_Based_Checks"
+            },
+            "translateRequest": {
+                "properties": {
+                    "Prompt": {
+                        "type": "string",
+                        "title": "Prompt",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "choice": {
+                        "type": "string",
+                        "title": "choice",
+                        "example": "google"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "Prompt",
+                    "choice"
+                ],
+                "title": "translateRequest"
+            },
+            "translateResponse": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Russia is the biggest country by area."
+                    },
+                    "language": {
+                        "type": "string",
+                        "title": "language",
+                        "example": "English"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "language"
+                ],
+                "title": "translateResponse"
+            },
+            "openAIRequest": {
+                "properties": {
+                    "Prompt": {
+                        "type": "string",
+                        "title": "Prompt",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "temperature": {
+                        "type": "string",
+                        "title": "Temperature",
+                        "example": "0"
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "model_name",
+                        "example": "gpt4"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "Prompt",
+                    "temperature"
+                ],
+                "title": "openAIRequest"
+            },
+            "healthcareopenaiCOT": {
+                "properties": {
+                    "Prompt": {
+                        "type": "string",
+                        "title": "Prompt",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "PromptResponse": {
+                        "type": "string",
+                        "title": "Prompt Response",
+                        "example": "The largest country in the world by area is Russia. To determine this, we can refer to widely accepted global records and geographic data. Here's a step-by-step explanation of how we can confirm this information:\n\n1. **Definition of \"Biggest\"**: First, we need to clarify what \"biggest\" means in this context. It typically refers to the total area of a country, which includes land and water within the international boundaries.\n\n2. **Source of Information**: We can look at reputable sources such as the CIA World Factbook, the United Nations, or various educational resources that provide information on country sizes.\n\n3. **Comparison**: By comparing the total area of all countries, we can determine which one is the largest. This comparison is generally available in the form of lists or rankings based on area.\n\n4. **Consensus**: There is a global consensus that Russia is the largest country in the world, with a total area of about 17,098,242 square kilometers (6,601,668 square miles).\n\n5. **Verification**: To verify this information, we can check multiple reliable sources. However, as an AI developed by OpenAI, I don't browse the internet in real-time. Instead, I rely on the data I was trained on, which includes factual information up to my last update in 2023.\n\n6. **Responsibility**: To ensure the information is not misleading, it's important to note that geopolitical changes can affect country sizes, but as of my last update, there have been no changes affecting the status of Russia as the largest country.\n\nWhile I cannot provide a direct website link, you can easily verify this information by checking a current world atlas, a recent publication from a reputable source like the United Nations, or by searching for the largest countries in the world using a trusted search engine."
+                    },
+                    "temperature": {
+                        "type": "string",
+                        "title": "Temperature",
+                        "example": "0"
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "model_name",
+                        "example": "gpt4"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "Prompt",
+                    "temperature",
+                    "PromptResponse"
+                ],
+                "title": "healthcareopenaiCOT"
+            },
+            "privacyCheck": {
+                "properties": {
+                    "entitiesRecognised": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Entitiesrecognised",
+                        "example": [
+                            "PERSON"
+                        ]
+                    },
+                    "entitiesConfiguredToBlock": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Entitiesconfiguredtoblock",
+                        "example": [
+                            "ADHAR_NUMBER"
+                        ]
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "entitiesRecognised",
+                    "entitiesConfiguredToBlock",
+                    "result"
+                ],
+                "title": "privacyCheck"
+            },
+            "privacyPopupRequest": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "PiientitiesConfiguredToDetect": {
+                        "items": {
+                            "$ref": "#/components/schemas/PIICHECKS"
+                        },
+                        "type": "array",
+                        "title": "Piientitiesconfiguredtodetect",
+                        "example": [
+                            "PERSON",
+                            "LOCATION",
+                            "DATE",
+                            "AU_ABN",
+                            "AU_ACN",
+                            "AADHAR_NUMBER",
+                            "AU_MEDICARE",
+                            "AU_TFN",
+                            "CREDIT_CARD",
+                            "CRYPTO",
+                            "DATE_TIME",
+                            "EMAIL_ADDRESS",
+                            "ES_NIF",
+                            "IBAN_CODE",
+                            "IP_ADDRESS",
+                            "IT_DRIVER_LICENSE",
+                            "IT_FISCAL_CODE",
+                            "IT_IDENTITY_CARD",
+                            "IT_PASSPORT",
+                            "IT_VAT_CODE",
+                            "MEDICAL_LICENSE",
+                            "PAN_Number",
+                            "IN_PAN",
+                            "PHONE_NUMBER",
+                            "SG_NRIC_FIN",
+                            "UK_NHS",
+                            "URL",
+                            "PASSPORT",
+                            "US_ITIN",
+                            "US_PASSPORT",
+                            "US_SSN"
+                        ]
+                    },
+                    "PiientitiesConfiguredToBlock": {
+                        "items": {
+                            "$ref": "#/components/schemas/PIICHECKS"
+                        },
+                        "type": "array",
+                        "title": "Piientitiesconfiguredtoblock",
+                        "example": [
+                            "AADHAR_NUMBER",
+                            "PAN_Number",
+                            "IN_PAN",
+                            "US_PASSPORT",
+                            "US_SSN"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "PiientitiesConfiguredToBlock"
+                ],
+                "title": "privacyPopupRequest"
+            },
+            "profanityCheck": {
+                "properties": {
+                    "profaneWordsIdentified": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Profanewordsidentified",
+                        "default": [
+                            "bullshit"
+                        ]
+                    },
+                    "profaneWordsthreshold": {
+                        "type": "string",
+                        "title": "Profanewordsthreshold",
+                        "example": "2"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "profaneWordsthreshold",
+                    "result"
+                ],
+                "title": "profanityCheck"
+            },
+            "profanityPopupRequest": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Which is the biggest country in the world?"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text"
+                ],
+                "title": "profanityPopupRequest"
+            },
+            "promptInjectionCheck": {
+                "properties": {
+                    "injectionConfidenceScore": {
+                        "type": "string",
+                        "title": "Injectionconfidencescore",
+                        "example": "98"
+                    },
+                    "injectionThreshold": {
+                        "type": "string",
+                        "title": "Injectionthreshold",
+                        "example": "60"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "injectionConfidenceScore",
+                    "injectionThreshold",
+                    "result"
+                ],
+                "title": "promptInjectionCheck"
+            },
+            "refusalCheck": {
+                "properties": {
+                    "refusalSimilarityScore": {
+                        "type": "string",
+                        "title": "Refusalsimilarityscore",
+                        "example": "0.82"
+                    },
+                    "RefusalThreshold": {
+                        "type": "string",
+                        "title": "Refusalthreshold",
+                        "example": "0.6"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "refusalSimilarityScore",
+                    "RefusalThreshold",
+                    "result"
+                ],
+                "title": "refusalCheck"
+            },
+            "restrictedtopic": {
+                "properties": {
+                    "topicScores": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Topicscores",
+                        "example": [
+                            {
+                                "Explosives": "0.85"
+                            }
+                        ]
+                    },
+                    "topicThreshold": {
+                        "type": "string",
+                        "title": "Topicthreshold",
+                        "example": "0.65"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "topicScores",
+                    "topicThreshold",
+                    "result"
+                ],
+                "title": "restrictedtopic"
+            },
+            "restrictedtopicTypes": {
+                "properties": {
+                    "topicTypesConfiguredToBlock":{
+                        "items": {},
+                        "type": "array",
+                        "title": "TopicTypesConfiguredToBlock",
+                        "example": [
+                                "Explosives",
+                                "Terrorism"
+                        ]
+                    },
+                    "topicTypesRecognised":{
+                        "items": {},
+                        "type": "array",
+                        "title": "TopicTypesRecognised",
+                        "example": [
+                                "Explosives"
+                        ]
+                    },
+                    "topicScores": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Topicscores",
+                        "example": [
+                            {
+                                "Explosives": "0.85"
+                            }
+                        ]
+                    },
+                    "topicThreshold": {
+                        "type": "string",
+                        "title": "Topicthreshold",
+                        "example": "0.65"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "topicScores",
+                    "topicThreshold",
+                    "result"
+                ],
+                "title": "restrictedtopicTypes"
+            },
+            "smoothLlmCheck": {
+                "properties": {
+                    "smoothLlmScore": {
+                        "type": "string",
+                        "title": "Smoothllmscore",
+                        "example": "0.0"
+                    },
+                    "smoothLlmThreshold": {
+                        "type": "string",
+                        "title": "Smoothllmthreshold",
+                        "example": "0.6"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "smoothLlmScore",
+                    "smoothLlmThreshold",
+                    "result"
+                ],
+                "title": "smoothLlmCheck"
+            },
+            "summary": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "title": "Status",
+                        "example": "REJECTED"
+                    },
+                    "reason": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Reason",
+                        "example": [
+                            "PROMPT-INJECTION",
+                            "PRIVACY"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "status",
+                    "reason"
+                ],
+                "title": "summary"
+            },
+            "textQuality": {
+                "properties": {
+                    "readabilityScore": {
+                        "type": "string",
+                        "title": "Readabilityscore",
+                        "example": "80"
+                    },
+                    "textGrade": {
+                        "type": "string",
+                        "title": "Textgrade",
+                        "example": "Grade 12-13"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "readabilityScore",
+                    "textGrade"
+                ],
+                "title": "textQuality"
+            },
+            "textRelevanceCheck": {
+                "properties": {
+                    "PromptResponseSimilarityScore": {
+                        "type": "string",
+                        "title": "Promptresponsesimilarityscore",
+                        "example": "0.82"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "PromptResponseSimilarityScore"
+                ],
+                "title": "textRelevanceCheck"
+            },
+            "toxicityCheckTypes": {
+                "properties": {
+                    "toxicityTypesRecognised": {
+                        "items": {
+                            "$ref": "#/components/schemas/TOXICITYTYPES"
+                        },
+                        "type": "array",
+                        "title": "toxicityTypesRecognised",
+                        "example": [
+                            "toxicity",
+                            "obscene"
+                        ]
+                    },
+                    "toxicityTypesConfiguredToBlock": {
+                        "items": {
+                            "$ref": "#/components/schemas/TOXICITYTYPES"
+                        },
+                        "type": "array",
+                        "title": "toxicityTypesConfiguredToBlock",
+                        "example": [
+                            "toxicity",
+                            "obscene"
+                        ]
+                    },
+                    "toxicityScore": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Toxicityscore",
+                        "example": [
+                            {
+                                "toxicity": "0.85"
+                            }
+                        ]
+                    },
+                    "toxicitythreshold": {
+                        "type": "string",
+                        "title": "Toxicitythreshold",
+                        "example": "0.55"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "toxicityScore",
+                    "toxicitythreshold",
+                    "result"
+                ],
+                "title": "toxicityCheckTypes"
+            },
+            "toxicityCheck": {
+                "properties": {
+                    "toxicityScore": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Toxicityscore",
+                        "example": [
+                            {
+                                "toxicity": "0.85"
+                            }
+                        ]
+                    },
+                    "toxicitythreshold": {
+                        "type": "string",
+                        "title": "Toxicitythreshold",
+                        "example": "0.55"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "toxicityScore",
+                    "toxicitythreshold",
+                    "result"
+                ],
+                "title": "toxicityCheck"
+            },
+            "toxicityPopupRequest": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "ToxicityThreshold": {
+                        "$ref": "#/components/schemas/TOXTHRESHOLDS"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "ToxicityThreshold"
+                ],
+                "title": "toxicityPopupRequest"
+            },
+            "evalLLMCheckRequest":{
+                "properties": {
+                    "AccountName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Accountname",
+                        "example": "None"
+                    },
+                    "PortfolioName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Portfolioname",
+                        "example": "None"
+                    },
+                    "userid": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Userid",
+                        "example": "None"
+                    },
+                    "lotNumber": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Lotnumber",
+                        "example": 1
+                    },
+                    "Prompt": {
+                        "type": "string",
+                        "title": "Prompt",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "model_name",
+                        "example": "gpt4"
+                    },
+                    "temperature": {
+                        "type": "string",
+                        "title": "Temperature",
+                        "example": "0"
+                    },
+                    "PromptTemplate": {
+                        "type": "string",
+                        "title": "Prompttemplate",
+                        "example": "GoalPriority"
+                    },
+                    "template_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "template_name",
+                        "example": "Language Critique Grammar Check"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "temperature",
+                    "PromptTemplate",
+                    "Prompt"
+                ],
+                "title": "evalLLMCheckRequest"
+            },
+            "multimodalRequest":{
+                "properties": {
+                    "AccountName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Accountname",
+                        "example": "None"
+                    },
+                    "PortfolioName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Portfolioname",
+                        "example": "None"
+                    },
+                    "userid": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Userid",
+                        "example": "None"
+                    },
+                    "lotNumber": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Lotnumber",
+                        "example": 1
+                    },
+                    "model_name": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "model_name",
+                        "example": "gpt4O"
+                    },
+                    "Prompt": {
+                        "type": "string",
+                        "title": "Prompt",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "Image": {
+                        "type": "array",
+                        "title": "Image",
+                        "items": {
+                            "type": "file"
+                        },
+                        "collectionFormat": "multi"   
+                    },
+                    "TemplateName": {
+                         "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "null"
+                                }
+                         ],
+                         "title": "TemplateName",
+                         "example": "None"
+                    },
+                    "Restrictedtopics": {
+                            "items": {},
+                            "type": "array",
+                            "title": "Restrictedtopics",
+                            "default": [
+                                "Terrorism",
+                                "Explosives"
+                            ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                        "Image",
+                        "TemplateName"
+                ],
+                "title": "multimodalRequest"
+            }
+        },
+        "securitySchemes": {
+            "BearerAuth":{
+                "type": "http",
+                "scheme": "bearer",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}

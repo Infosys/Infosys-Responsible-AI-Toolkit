@@ -1,0 +1,82 @@
+[
+  {
+      "DataAttributeName": "groundTruthClassLabel",
+      "TenetId": 0.0
+  },
+  {
+      "DataAttributeName": "groundTruthClassNames",
+      "TenetId": 0.0
+  },
+  {
+      "DataAttributeName": "dataType",
+      "TenetId": 0.0
+  },
+  {
+      "DataAttributeName": "fileName",
+      "TenetId": 0.0
+  },
+  {
+      "DataAttributeName": "inputShape",
+      "TenetId": 3.3
+  },
+  {
+      "DataAttributeName": "label",
+      "TenetId": 2.2
+  },
+  {
+      "DataAttributeName": "favorableOutcome",
+      "TenetId": 2.2
+  },
+  {
+    "DataAttributeName": "protectedAttribute",
+    "TenetId": 2.2
+  },
+  {
+    "DataAttributeName": "privilegedGroup",
+    "TenetId": 2.2
+  },
+  {
+    "DataAttributeName": "biasType",
+    "TenetId": 2.2
+  },
+  {
+    "DataAttributeName": "methodType",
+    "TenetId": 2.2
+  },
+  {
+    "DataAttributeName": "taskType",
+    "TenetId": 2.2
+  },
+  {
+    "DataAttributeName": "targetOutputClasses",
+    "TenetId": 0.0
+  },
+  {
+    "DataAttributeName": "targetColumnNames",
+    "TenetId": 0.0
+  },
+  {
+    "DataAttributeName": "mitigationType",
+    "TenetId": 2.2
+  },
+  {
+    "DataAttributeName": "mitigationTechnique",
+    "TenetId": 2.2
+  },
+  {
+    "DataAttributeName": "predLabel",
+    "TenetId": 2.2
+  },
+  {
+    "DataAttributeName": "knn",
+    "TenetId": 2.2
+  },
+  {
+    "DataAttributeName":"sensitiveFeatures",
+    "TenetId": 2.2
+  },
+  {
+    "DataAttributeName":"favourableLabel",
+    "TenetId": 2.2
+  }
+]

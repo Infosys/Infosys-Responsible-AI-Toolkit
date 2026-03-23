@@ -1,0 +1,24 @@
+openapi_url: /v1/report/openapi.json
+docs_url: /v1/report/docs
+title: Infosys Responsible AI - Report - OpenAPI 3.0
+summary: API specs for Infosys Responsible AI Report pillar in OpenAPI 3.0 format
+terms_of_service: https://www.infosys.com/
+license_info:
+    name: Infosys
+    url: https://www.infosys.com
+description: "Copyright 2023 Infosys Limited | Internal Communications - HRD"
+version: 0.0.1
+openapi_tags:
+    - name: Model Report
+      description: "Operations required for a Model Report"
+      externalDocs:
+        description: Find out more
+        url: https://www.infosys.com
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []

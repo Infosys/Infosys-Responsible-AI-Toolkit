@@ -1,0 +1,134 @@
+/* ====================================
+   UTILITY CLASSES
+   ==================================== */
+
+.flex-1 {
+  flex: 1;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* ====================================
+   TAB NAVIGATION STYLES
+   ==================================== */
+
+.HeadingLabel {
+  color: #7E7E7E;
+  padding: 5px 0px;
+  margin-bottom: 0px;
+  font-weight: 600;
+  font-size: 11px;
+  margin-right: 1.7rem;
+  font-family: 'Segoe UI';
+  text-transform: uppercase;
+  transition: color 0.3s ease;
+}
+
+.activeTab {
+  color: #8626C3;
+  position: relative;
+}
+
+.activeTab::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-bottom: 2px solid #8626C3;
+}
+
+/* ====================================
+   LABEL STYLES
+   ==================================== */
+
+.mainLabel {
+  color: #7E7E7E;
+  padding: 0px;
+  font-weight: 500;
+  font-size: 13px;
+  font-family: 'Segoe UI';
+}
+
+.mainLabelSM {
+  font-size: 12px;
+}
+
+/* ====================================
+   BADGE STYLES
+   ==================================== */
+
+.custom-badge {
+  color: rgb(31, 31, 31);
+  font-size: 0.68rem;
+  background-color: rgb(219, 219, 219);
+  display: flex;
+  align-items: center;
+  padding: 0px 7px;
+  border-radius: 4px;
+  height: 20px;
+}
+
+.custom-badge-passed {
+  color: rgb(20 83 45);
+  background-color: rgb(220 252 231);
+}
+
+.custom-badge-failed {
+  color: rgb(255 0 78);
+  background-color: rgb(255 228 230);
+}
+
+/* ====================================
+   CARD STYLES
+   ==================================== */
+
+.cardA {
+  color: black;
+  padding: 10px;
+  background-color: #ececec;
+  border-radius: 8px;
+}
+
+.outerResultCard {
+  box-shadow: 0 2px 4px #00000029 !important;
+  border: none;
+  margin-left: 1px;
+  background: #efefef;
+  border-radius: 14px;
+}
+
+.card-header-outerResultCard {
+  background: none;
+  border: none;
+  padding-bottom: 0px;
+}
+
+.innerResultCard {
+  border-radius: 14px;
+  box-shadow: 0 1px 4px #00000016 !important;
+  background: #ffffff;
+  border: none;
+}
+
+/* ====================================
+   LINK STYLES
+   ==================================== */
+
+.link {
+  color: #8626C3;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ====================================
+   OVERLAY STYLES
+   ==================================== */
+
+.cdk-overlay-backdrop.custom-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  top: 0px;
+  width: 100%;
+  height: 100%;
+}

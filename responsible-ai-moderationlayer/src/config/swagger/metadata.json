@@ -1,0 +1,1602 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Infosys Responsible AI - LLM Moderation - OpenAPI 3.0",
+        "description": "API specs for Infosys Responsible AI LLM Moderation layer in OpenAPI 3.0 format",
+        "contact": {
+            "email": "aina@infosys.com"
+        },
+        "license": {
+            "name": "Infosys",
+            "url": "https://www.infosys.com/"
+        },
+        "version": "0.0.1"
+    },
+    "security" : [ {
+        "oauth_auth" : [ "write:users", "read:users" ]
+    } ],
+    "paths": {
+        "/": {
+            "head": {
+                "security": [{
+                    "my_auth": ["write:users"]
+                }],
+                "summary": "Status",
+                "operationId": "status__head",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        },
+        "/rai/v1/moderations": {
+            "post": {
+                "security": [{
+                    "my_auth": ["write:users"]
+                }],
+                "tags": [
+                    "Infosys Responsible AI - LLM Moderation"
+                ],
+                "summary": "Generate Text",
+                "operationId": "generate_text_rai_v2_moderations_post",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "title": "Authorization"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/completionRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ModerationResults"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "401":
+                    {
+                      "description":"Unauthorized Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                          }
+                        }
+                      }
+                    },
+                    "403":
+                    {
+                      "description":"Forbidden Access Error",
+                      "content":{
+                        "application/json":{
+                          "schema":{
+                            "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                          }
+                        }
+                      }
+                    }
+                }
+            }
+        }
+    
+    },
+    "components": {
+        "schemas": {
+            "Choice": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Russia is the biggest country by area."
+                    },
+                    "index": {
+                        "type": "integer",
+                        "title": "Index",
+                        "example": 0
+                    },
+                    "finishReason": {
+                        "type": "string",
+                        "title": "Finishreason",
+                        "example": "length"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "index",
+                    "finishReason"
+                ],
+                "title": "Choice"
+            },
+            "CoupledModerationResults": {
+                "properties": {
+                    "requestModeration": {
+                        "$ref": "#/components/schemas/RequestModeration"
+                    },
+                    "responseModeration": {
+                        "$ref": "#/components/schemas/ResponseModeration"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "requestModeration",
+                    "responseModeration"
+                ],
+                "title": "CoupledModerationResults"
+            },
+            "CustomThemeTexts": {
+                "properties": {
+                    "Themename": {
+                        "type": "string",
+                        "title": "Themename"
+                    },
+                    "Themethresold": {
+                        "type": "number",
+                        "title": "Themethresold",
+                        "example": 0.6
+                    },
+                    "ThemeTexts": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Themetexts",
+                        "example": [
+                            "Text1",
+                            "Text2",
+                            "Text3"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "Themename",
+                    "Themethresold",
+                    "ThemeTexts"
+                ],
+                "title": "CustomThemeTexts"
+            },
+            "Faithfullness": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Sachin Tendulkar, often hailed as the \"God of Cricket,\" is a legendary Indian batsman whose impact transcends the boundaries of the sport. Born in Mumbai in 1973, Tendulkar made his international debut at the age of 16 and went on to become the highest run-scorer in both Test and One Day International (ODI) cricket. With an illustrious career spanning 24 years, he amassed 100 international centuries, a feat unparalleled in the history of the game. Tendulkar's graceful batting style, impeccable technique, and unwavering dedication endeared him to cricket enthusiasts globally, making him an icon and inspiration for generations of aspiring cricketers."
+                    },
+                    "summary": {
+                        "type": "string",
+                        "title": "Summary",
+                        "example": "Sachin Tendulkar, the \"Father of Cricket,\" is a legendary Indian batsman, debuting at 20. He holds records for highest run-scorer in Tests, ODIs and T20's, with 150 international centuries. Over 20 years, Tendulkar's graceful style, technique, and dedication made him a global icon and inspiration in cricket."
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "summary"
+                ],
+                "title": "Faithfullness"
+            },
+            "Feedback": {
+                "properties": {
+                    "user_id": {
+                        "type": "string",
+                        "title": "User Id"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "rating": {
+                        "$ref": "#/components/schemas/Rating"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "user_id",
+                    "message",
+                    "rating"
+                ],
+                "title": "Feedback"
+            },
+            "HTTPValidationError": {
+                "properties": {
+                    "detail": {
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        },
+                        "type": "array",
+                        "title": "Detail"
+                    }
+                },
+                "type": "object",
+                "title": "HTTPValidationError"
+            },
+            "HTTPUnauthorizedAccessError":{
+                "properties":{
+                 "detail":{
+                   "items":{
+                     "$ref":"#/components/schemas/UnauthorizedAccessError"
+                   },
+                   "type":"array",
+                   "title":"Detail"
+                 }
+                },
+                "type":"object",
+                "title":"HTTPUnauthorizedAccessError"
+               },
+               "HTTPForbiddenAccessError":{
+                "properties":{
+                 "detail":{
+                   "items":{
+                     "$ref":"#/components/schemas/ForbiddenAccessError"
+                   },
+                   "type":"array",
+                   "title":"Detail"
+                 }
+                },
+                "type":"object",
+                "title":"HTTPForbiddenAccessError" 
+               },
+            "MODCHECKS": {
+                "type": "string",
+                "enum": [
+                    "PromptInjection",
+                    "JailBreak",
+                    "Toxicity",
+                    "Piidetct",
+                    "Refusal",
+                    "Profanity",
+                    "RestrictTopic",
+                    "TextQuality",
+                    "TextRelevance",
+                    "CustomizedTheme",
+                    "<class 'ModerationLayer.mapper.mapper.MODCHECKS.Config'>"
+                ],
+                "title": "MODCHECKS"
+            },
+            "MODTHRESHOLDS": {
+                "properties": {
+                    "PromptinjectionThreshold": {
+                        "type": "number",
+                        "title": "Promptinjectionthreshold",
+                        "example": 0.7
+                    },
+                    "JailbreakThreshold": {
+                        "type": "number",
+                        "title": "Jailbreakthreshold",
+                        "example": 0.7
+                    },
+                    "PiientitiesConfiguredToDetect": {
+                        "items": {
+                            "$ref": "#/components/schemas/PIICHECKS"
+                        },
+                        "type": "array",
+                        "title": "Piientitiesconfiguredtodetect",
+                        "example": [
+                            "PERSON",
+                            "LOCATION",
+                            "DATE",
+                            "AU_ABN",
+                            "AU_ACN",
+                            "AADHAR_NUMBER",
+                            "AU_MEDICARE",
+                            "AU_TFN",
+                            "CREDIT_CARD",
+                            "CRYPTO",
+                            "DATE_TIME",
+                            "EMAIL_ADDRESS",
+                            "ES_NIF",
+                            "IBAN_CODE",
+                            "IP_ADDRESS",
+                            "IT_DRIVER_LICENSE",
+                            "IT_FISCAL_CODE",
+                            "IT_IDENTITY_CARD",
+                            "IT_PASSPORT",
+                            "IT_VAT_CODE",
+                            "MEDICAL_LICENSE",
+                            "PAN_Number",
+                            "PHONE_NUMBER",
+                            "SG_NRIC_FIN",
+                            "UK_NHS",
+                            "URL",
+                            "PASSPORT",
+                            "US_ITIN",
+                            "US_PASSPORT",
+                            "US_SSN"
+                        ]
+                    },
+                    "PiientitiesConfiguredToBlock": {
+                        "items": {
+                            "$ref": "#/components/schemas/PIICHECKS"
+                        },
+                        "type": "array",
+                        "title": "Piientitiesconfiguredtoblock",
+                        "example": [
+                            "AADHAR_NUMBER",
+                            "PAN_Number"
+                        ]
+                    },
+                    "RefusalThreshold": {
+                        "type": "number",
+                        "title": "Refusalthreshold",
+                        "example": 0.7
+                    },
+                    "ToxicityThresholds": {
+                        "$ref": "#/components/schemas/TOXTHRESHOLDS"
+                    },
+                    "ProfanityCountThreshold": {
+                        "type": "integer",
+                        "title": "Profanitycountthreshold",
+                        "example": 1
+                    },
+                    "RestrictedtopicDetails": {
+                        "$ref": "#/components/schemas/RTTHRESHOLDS"
+                    },
+                    "CustomTheme": {
+                        "$ref": "#/components/schemas/CustomThemeTexts"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "PromptinjectionThreshold",
+                    "JailbreakThreshold",
+                    "PiientitiesConfiguredToDetect",
+                    "PiientitiesConfiguredToBlock",
+                    "RefusalThreshold",
+                    "ToxicityThresholds",
+                    "ProfanityCountThreshold",
+                    "RestrictedtopicDetails",
+                    "CustomTheme"
+                ],
+                "title": "MODTHRESHOLDS"
+            },
+            "ModerationResults": {
+                "properties": {
+                    "lotNumber": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Lotnumber",
+                        "example": "1"
+                    },
+                    "uniqueid": {
+                        "type": "string",
+                        "title": "Uniqueid",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    "created": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Created",
+                        "example": "1646932609"
+                    },
+                    "moderationResults": {
+                        "$ref": "#/components/schemas/RequestModeration"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "lotNumber",
+                    "uniqueid",
+                    "created",
+                    "moderationResults"
+                ],
+                "title": "ModerationResults"
+            },
+            "PIICHECKS": {
+                "type": "string",
+                "enum": [
+                    "PERSON",
+                    "LOCATION",
+                    "DATE",
+                    "AU_ABN",
+                    "AU_ACN",
+                    "AADHAR_NUMBER",
+                    "AU_MEDICARE",
+                    "AU_TFN",
+                    "CREDIT_CARD",
+                    "CRYPTO",
+                    "DATE_TIME",
+                    "EMAIL_ADDRESS",
+                    "ES_NIF",
+                    "IBAN_CODE",
+                    "IP_ADDRESS",
+                    "IT_DRIVER_LICENSE",
+                    "IT_FISCAL_CODE",
+                    "IT_IDENTITY_CARD",
+                    "IT_PASSPORT",
+                    "IT_VAT_CODE",
+                    "MEDICAL_LICENSE",
+                    "PAN_Number",
+                    "PHONE_NUMBER",
+                    "SG_NRIC_FIN",
+                    "UK_NHS",
+                    "URL",
+                    "PASSPORT",
+                    "US_ITIN",
+                    "US_PASSPORT",
+                    "US_SSN",
+                    "<class 'ModerationLayer.mapper.mapper.PIICHECKS.Config'>"
+                ],
+                "title": "PIICHECKS"
+            },
+            "PiiEntitiesforPopup": {
+                "properties": {
+                    "EntityType": {
+                        "type": "string",
+                        "title": "Entitytype",
+                        "example": "US_SSN"
+                    },
+                    "beginOffset": {
+                        "type": "integer",
+                        "title": "Beginoffset",
+                        "example": 19
+                    },
+                    "endOffset": {
+                        "type": "integer",
+                        "title": "Endoffset",
+                        "example": 28
+                    },
+                    "value": {
+                        "type": "string",
+                        "title": "Value",
+                        "example": "Karan"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "EntityType",
+                    "beginOffset",
+                    "endOffset",
+                    "value"
+                ],
+                "title": "PiiEntitiesforPopup"
+            },
+            "PrivacyPopup": {
+                "properties": {
+                    "entitiesToDetect": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Entitiestodetect",
+                        "example": [
+                            "US_SSN"
+                        ]
+                    },
+                    "entitiesToBlock": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Entitiestoblock",
+                        "example": [
+                            "US_SSN"
+                        ]
+                    },
+                    "entitiesRecognized": {
+                        "items": {
+                            "$ref": "#/components/schemas/PiiEntitiesforPopup"
+                        },
+                        "type": "array",
+                        "title": "Entitiesrecognized"
+                    },
+                    "result": {
+                        "type": "string",
+                        "title": "Result",
+                        "example": "Passsed"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "entitiesToDetect",
+                    "entitiesToBlock",
+                    "entitiesRecognized",
+                    "result"
+                ],
+                "title": "PrivacyPopup"
+            },
+            "PrivacyPopupResponse": {
+                "properties": {
+                    "privacyCheck": {
+                        "items": {
+                            "$ref": "#/components/schemas/PrivacyPopup"
+                        },
+                        "type": "array",
+                        "title": "Privacycheck"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "privacyCheck"
+                ],
+                "title": "PrivacyPopupResponse"
+            },
+            "RTTHRESHOLDS": {
+                "properties": {
+                    "RestrictedtopicThreshold": {
+                        "type": "number",
+                        "title": "Restrictedtopicthreshold",
+                        "example": 0.7
+                    },
+                    "Restrictedtopics": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Restrictedtopics",
+                        "default": [
+                            "Terrorism",
+                            "Explosives"
+                        ]
+                    },
+                    "model": {
+                        "type": "string",
+                        "title": "Model",
+                        "example": "deberta"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "RestrictedtopicThreshold"
+                ],
+                "title": "RTTHRESHOLDS"
+            },
+            "Rating": {
+                "type": "string",
+                "enum": [
+                    "Good",
+                    "Bad"
+                ],
+                "title": "Rating"
+            },
+            "RequestModeration": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "promptInjectionCheck": {
+                        "$ref": "#/components/schemas/promptInjectionCheck"
+                    },
+                    "jailbreakCheck": {
+                        "$ref": "#/components/schemas/jailbreakCheck"
+                    },
+                    "privacyCheck": {
+                        "$ref": "#/components/schemas/privacyCheck"
+                    },
+                    "profanityCheck": {
+                        "$ref": "#/components/schemas/profanityCheck"
+                    },
+                    "toxicityCheck": {
+                        "$ref": "#/components/schemas/toxicityCheck"
+                    },
+                    "restrictedtopic": {
+                        "$ref": "#/components/schemas/restrictedtopic"
+                    },
+                    "textQuality": {
+                        "$ref": "#/components/schemas/textQuality"
+                    },
+                    "refusalCheck": {
+                        "$ref": "#/components/schemas/refusalCheck"
+                    },
+                    "customThemeCheck": {
+                        "$ref": "#/components/schemas/customThemeCheck"
+                    },
+                    "summary": {
+                        "$ref": "#/components/schemas/summary"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "promptInjectionCheck",
+                    "jailbreakCheck",
+                    "privacyCheck",
+                    "profanityCheck",
+                    "toxicityCheck",
+                    "restrictedtopic",
+                    "textQuality",
+                    "refusalCheck",
+                    "customThemeCheck",
+                    "summary"
+                ],
+                "title": "RequestModeration"
+            },
+            "ResponseModeration": {
+                "properties": {
+                    "generatedText": {
+                        "type": "string",
+                        "title": "Generatedtext",
+                        "example": "Russia is the biggest country by area."
+                    },
+                    "privacyCheck": {
+                        "$ref": "#/components/schemas/privacyCheck"
+                    },
+                    "profanityCheck": {
+                        "$ref": "#/components/schemas/profanityCheck"
+                    },
+                    "toxicityCheck": {
+                        "$ref": "#/components/schemas/toxicityCheck"
+                    },
+                    "restrictedtopic": {
+                        "$ref": "#/components/schemas/restrictedtopic"
+                    },
+                    "textQuality": {
+                        "$ref": "#/components/schemas/textQuality"
+                    },
+                    "textRelevanceCheck": {
+                        "$ref": "#/components/schemas/textRelevanceCheck"
+                    },
+                    "refusalCheck": {
+                        "$ref": "#/components/schemas/refusalCheck"
+                    },
+                    "summary": {
+                        "$ref": "#/components/schemas/summary"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "generatedText",
+                    "privacyCheck",
+                    "profanityCheck",
+                    "toxicityCheck",
+                    "restrictedtopic",
+                    "textQuality",
+                    "textRelevanceCheck",
+                    "refusalCheck",
+                    "summary"
+                ],
+                "title": "ResponseModeration"
+            },
+            "RestrictedTopicRequest": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Russia is the biggest country by area."
+                    },
+                    "labels": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Labels",
+                        "default": [
+                            "Terrorism",
+                            "Explosives"
+                        ]
+                    },
+                    "model": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Model",
+                        "example": "deberta"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "model"
+                ],
+                "title": "RestrictedTopicRequest"
+            },
+            "Result": {
+                "type": "string",
+                "enum": [
+                    "PASSED",
+                    "FAILED",
+                    "UNMODERATED",
+                    "<class 'ModerationLayer.mapper.mapper.Result.Config'>"
+                ],
+                "title": "Result"
+            },
+            "TOXTHRESHOLDS": {
+                "properties": {
+                    "ToxicityThreshold": {
+                        "type": "number",
+                        "title": "Toxicitythreshold",
+                        "example": 0.6
+                    },
+                    "SevereToxicityThreshold": {
+                        "type": "number",
+                        "title": "Severetoxicitythreshold",
+                        "example": 0.6
+                    },
+                    "ObsceneThreshold": {
+                        "type": "number",
+                        "title": "Obscenethreshold",
+                        "example": 0.6
+                    },
+                    "ThreatThreshold": {
+                        "type": "number",
+                        "title": "Threatthreshold",
+                        "example": 0.6
+                    },
+                    "InsultThreshold": {
+                        "type": "number",
+                        "title": "Insultthreshold",
+                        "example": 0.6
+                    },
+                    "IdentityAttackThreshold": {
+                        "type": "number",
+                        "title": "Identityattackthreshold",
+                        "example": 0.6
+                    },
+                    "SexualExplicitThreshold": {
+                        "type": "number",
+                        "title": "Sexualexplicitthreshold",
+                        "example": 0.6
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "ToxicityThreshold",
+                    "SevereToxicityThreshold",
+                    "ObsceneThreshold",
+                    "ThreatThreshold",
+                    "InsultThreshold",
+                    "IdentityAttackThreshold",
+                    "SexualExplicitThreshold"
+                ],
+                "title": "TOXTHRESHOLDS"
+            },
+            "ValidationError": {
+                "properties": {
+                    "loc": {
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "type": "integer"
+                                }
+                            ]
+                        },
+                        "type": "array",
+                        "title": "Location"
+                    },
+                    "msg": {
+                        "type": "string",
+                        "title": "Message"
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Error Type"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "title": "ValidationError"
+            },
+            "UnauthorizedAccessError":{
+                "properties": {
+                  "loc": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "integer"
+                        }
+                      ]
+                    },
+                    "type": "array",
+                    "title": "Location"
+                  },
+                  "msg": {
+                    "type": "string",
+                    "title": "Message"
+                  },
+                  "type": {
+                    "type": "string",
+                    "title": "Error Type"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "loc",
+                  "msg",
+                  "type"
+                ],
+                "title": "UnauthorizedAccessError"
+            },
+            "ForbiddenAccessError":{
+                "properties": {
+                  "loc": {
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "integer"
+                        }
+                      ]
+                    },
+                    "type": "array",
+                    "title": "Location"
+                  },
+                  "msg": {
+                    "type": "string",
+                    "title": "Message"
+                  },
+                  "type": {
+                    "type": "string",
+                    "title": "Error Type"
+                  }
+                },
+                "type": "object",
+                "required": [
+                  "loc",
+                  "msg",
+                  "type"
+                ],
+                "title": "ForbiddenAccessError"
+            },
+            "completionRequest": {
+                "properties": {
+                    "AccountName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Accountname",
+                        "example": "None"
+                    },
+                    "userid": {
+                        "type": "string",
+                        "title": "Userid",
+                        "example": "None"
+                    },
+                    "PortfolioName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Portfolioname",
+                        "example": "None"
+                    },
+                    "lotNumber": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Lotnumber",
+                        "example": "1"
+                    },
+                    "Prompt": {
+                        "type": "string",
+                        "title": "Prompt",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "ModerationChecks": {
+                        "items": {
+                            "$ref": "#/components/schemas/MODCHECKS"
+                        },
+                        "type": "array",
+                        "title": "Moderationchecks",
+                        "example": [
+                            "PromptInjection",
+                            "JailBreak",
+                            "Toxicity",
+                            "Piidetct",
+                            "Refusal",
+                            "Profanity",
+                            "RestrictTopic",
+                            "TextQuality",
+                            "CustomizedTheme"
+                        ]
+                    },
+                    "ModerationCheckThresholds": {
+                        "$ref": "#/components/schemas/MODTHRESHOLDS"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "Prompt",
+                    "ModerationChecks",
+                    "ModerationCheckThresholds"
+                ],
+                "title": "completionRequest"
+            },
+            "completionResponse": {
+                "properties": {
+                    "uniqueid": {
+                        "type": "string",
+                        "title": "Uniqueid",
+                        "example": "123e4567-e89b-12d3-a456-426614174000"
+                    },
+                    "object": {
+                        "type": "string",
+                        "title": "Object",
+                        "example": "text_completion"
+                    },
+                    "user": {
+                        "type": "string",
+                        "title": "User",
+                        "example": "None"
+                    },
+                    "lotNumber": {
+                        "type": "string",
+                        "title": "Lotnumber",
+                        "example": 1
+                    },
+                    "created": {
+                        "type": "string",
+                        "title": "Created",
+                        "example": "1646932609"
+                    },
+                    "model": {
+                        "type": "string",
+                        "title": "Model",
+                        "example": "gpt-35-turbo"
+                    },
+                    "choices": {
+                        "items": {
+                            "$ref": "#/components/schemas/Choice"
+                        },
+                        "type": "array",
+                        "title": "Choices"
+                    },
+                    "moderationResults": {
+                        "$ref": "#/components/schemas/CoupledModerationResults"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "uniqueid",
+                    "object",
+                    "user",
+                    "lotNumber",
+                    "created",
+                    "model",
+                    "choices",
+                    "moderationResults"
+                ],
+                "title": "completionResponse"
+            },
+            "coupledcompletionRequest": {
+                "properties": {
+                    "AccountName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Accountname",
+                        "example": "None"
+                    },
+                    "PortfolioName": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Portfolioname",
+                        "example": "None"
+                    },
+                    "User": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "User",
+                        "example": "None"
+                    },
+                    "lotNumber": {
+                        "anyOf": [
+                            {
+                                "type": "integer"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Lotnumber",
+                        "example": 1
+                    },
+                    "temperature": {
+                        "type": "string",
+                        "title": "Temperature",
+                        "example": "0"
+                    },
+                    "LLMinteraction": {
+                        "type": "string",
+                        "title": "Llminteraction",
+                        "example": "yes"
+                    },
+                    "SelfReminder": {
+                        "type": "boolean",
+                        "title": "Selfreminder",
+                        "example": true
+                    },
+                    "GoalPriority": {
+                        "anyOf": [
+                            {
+                                "type": "boolean"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Goalpriority",
+                        "example": true
+                    },
+                    "Prompt": {
+                        "type": "string",
+                        "title": "Prompt",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "InputModerationChecks": {
+                        "items": {
+                            "$ref": "#/components/schemas/MODCHECKS"
+                        },
+                        "type": "array",
+                        "title": "Inputmoderationchecks",
+                        "example": [
+                            "PromptInjection",
+                            "JailBreak",
+                            "Toxicity",
+                            "Piidetct",
+                            "Refusal",
+                            "Profanity",
+                            "RestrictTopic",
+                            "TextQuality",
+                            "CustomizedTheme"
+                        ]
+                    },
+                    "OutputModerationChecks": {
+                        "items": {
+                            "$ref": "#/components/schemas/MODCHECKS"
+                        },
+                        "type": "array",
+                        "title": "Outputmoderationchecks",
+                        "example": [
+                            "Toxicity",
+                            "Piidetct",
+                            "Refusal",
+                            "Profanity",
+                            "RestrictTopic",
+                            "TextQuality",
+                            "TextRelevance"
+                        ]
+                    },
+                    "ModerationCheckThresholds": {
+                        "$ref": "#/components/schemas/MODTHRESHOLDS"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "temperature",
+                    "LLMinteraction",
+                    "SelfReminder",
+                    "Prompt",
+                    "InputModerationChecks",
+                    "OutputModerationChecks",
+                    "ModerationCheckThresholds"
+                ],
+                "title": "coupledcompletionRequest"
+            },
+            "customThemeCheck": {
+                "properties": {
+                    "customSimilarityScore": {
+                        "type": "string",
+                        "title": "Customsimilarityscore",
+                        "example": "0.82"
+                    },
+                    "themeThreshold": {
+                        "type": "string",
+                        "title": "Themethreshold",
+                        "example": "0.6"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "customSimilarityScore",
+                    "themeThreshold",
+                    "result"
+                ],
+                "title": "customThemeCheck"
+            },
+            "jailbreakCheck": {
+                "properties": {
+                    "jailbreakSimilarityScore": {
+                        "type": "string",
+                        "title": "Jailbreaksimilarityscore",
+                        "example": "0.82"
+                    },
+                    "jailbreakThreshold": {
+                        "type": "string",
+                        "title": "Jailbreakthreshold",
+                        "example": "0.6"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "jailbreakSimilarityScore",
+                    "jailbreakThreshold",
+                    "result"
+                ],
+                "title": "jailbreakCheck"
+            },
+            "privacyCheck": {
+                "properties": {
+                    "entitiesRecognised": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Entitiesrecognised",
+                        "example": [
+                            "PERSON"
+                        ]
+                    },
+                    "entitiesConfiguredToBlock": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Entitiesconfiguredtoblock",
+                        "example": [
+                            "ADHAR_NUMBER"
+                        ]
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "entitiesRecognised",
+                    "entitiesConfiguredToBlock",
+                    "result"
+                ],
+                "title": "privacyCheck"
+            },
+            "privacyPopupRequest": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "PiientitiesConfiguredToDetect": {
+                        "items": {
+                            "$ref": "#/components/schemas/PIICHECKS"
+                        },
+                        "type": "array",
+                        "title": "Piientitiesconfiguredtodetect",
+                        "example": [
+                            "PERSON",
+                            "LOCATION",
+                            "DATE",
+                            "AU_ABN",
+                            "AU_ACN",
+                            "AADHAR_NUMBER",
+                            "AU_MEDICARE",
+                            "AU_TFN",
+                            "CREDIT_CARD",
+                            "CRYPTO",
+                            "DATE_TIME",
+                            "EMAIL_ADDRESS",
+                            "ES_NIF",
+                            "IBAN_CODE",
+                            "IP_ADDRESS",
+                            "IT_DRIVER_LICENSE",
+                            "IT_FISCAL_CODE",
+                            "IT_IDENTITY_CARD",
+                            "IT_PASSPORT",
+                            "IT_VAT_CODE",
+                            "MEDICAL_LICENSE",
+                            "PAN_Number",
+                            "PHONE_NUMBER",
+                            "SG_NRIC_FIN",
+                            "UK_NHS",
+                            "URL",
+                            "PASSPORT",
+                            "US_ITIN",
+                            "US_PASSPORT",
+                            "US_SSN"
+                        ]
+                    },
+                    "PiientitiesConfiguredToBlock": {
+                        "items": {
+                            "$ref": "#/components/schemas/PIICHECKS"
+                        },
+                        "type": "array",
+                        "title": "Piientitiesconfiguredtoblock",
+                        "example": [
+                            "AADHAR_NUMBER",
+                            "PAN_Number"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "PiientitiesConfiguredToDetect",
+                    "PiientitiesConfiguredToBlock"
+                ],
+                "title": "privacyPopupRequest"
+            },
+            "profanityCheck": {
+                "properties": {
+                    "profaneWordsIdentified": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Profanewordsidentified",
+                        "default": [
+                            "bullshit"
+                        ]
+                    },
+                    "profaneWordsthreshold": {
+                        "type": "string",
+                        "title": "Profanewordsthreshold",
+                        "example": "2"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "profaneWordsthreshold",
+                    "result"
+                ],
+                "title": "profanityCheck"
+            },
+            "profanityPopupRequest": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Which is the biggest country in the world?"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text"
+                ],
+                "title": "profanityPopupRequest"
+            },
+            "promptInjectionCheck": {
+                "properties": {
+                    "injectionConfidenceScore": {
+                        "type": "string",
+                        "title": "Injectionconfidencescore",
+                        "example": "0.98"
+                    },
+                    "injectionThreshold": {
+                        "type": "string",
+                        "title": "Injectionthreshold",
+                        "example": "0.70"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "injectionConfidenceScore",
+                    "injectionThreshold",
+                    "result"
+                ],
+                "title": "promptInjectionCheck"
+            },
+            "refusalCheck": {
+                "properties": {
+                    "refusalSimilarityScore": {
+                        "type": "string",
+                        "title": "Refusalsimilarityscore",
+                        "example": "0.82"
+                    },
+                    "RefusalThreshold": {
+                        "type": "string",
+                        "title": "Refusalthreshold",
+                        "example": "0.6"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "refusalSimilarityScore",
+                    "RefusalThreshold",
+                    "result"
+                ],
+                "title": "refusalCheck"
+            },
+            "restrictedtopic": {
+                "properties": {
+                    "topicScores": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Topicscores",
+                        "example": [
+                            {
+                                "Explosives": "0.85"
+                            }
+                        ]
+                    },
+                    "topicThreshold": {
+                        "type": "string",
+                        "title": "Topicthreshold",
+                        "example": "0.65"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "topicScores",
+                    "topicThreshold",
+                    "result"
+                ],
+                "title": "restrictedtopic"
+            },
+            "summary": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "title": "Status",
+                        "example": "REJECTED"
+                    },
+                    "reason": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Reason",
+                        "example": [
+                            "PROMPT-INJECTION",
+                            "PRIVACY"
+                        ]
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "status",
+                    "reason"
+                ],
+                "title": "summary"
+            },
+            "textQuality": {
+                "properties": {
+                    "readabilityScore": {
+                        "type": "string",
+                        "title": "Readabilityscore",
+                        "example": "80"
+                    },
+                    "textGrade": {
+                        "type": "string",
+                        "title": "Textgrade",
+                        "example": "Grade 12-13"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "readabilityScore",
+                    "textGrade"
+                ],
+                "title": "textQuality"
+            },
+            "textRelevanceCheck": {
+                "properties": {
+                    "PromptResponseSimilarityScore": {
+                        "type": "string",
+                        "title": "Promptresponsesimilarityscore",
+                        "example": "0.82"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "PromptResponseSimilarityScore"
+                ],
+                "title": "textRelevanceCheck"
+            },
+            "toxicityCheck": {
+                "properties": {
+                    "toxicityScore": {
+                        "items": {},
+                        "type": "array",
+                        "title": "Toxicityscore",
+                        "example": [
+                            {
+                                "toxicity": "0.85"
+                            }
+                        ]
+                    },
+                    "toxicitythreshold": {
+                        "type": "string",
+                        "title": "Toxicitythreshold",
+                        "example": "0.55"
+                    },
+                    "result": {
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Result"
+                            }
+                        ],
+                        "example": "PASSED"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "toxicityScore",
+                    "toxicitythreshold",
+                    "result"
+                ],
+                "title": "toxicityCheck"
+            },
+            "toxicityPopupRequest": {
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "example": "Which is the biggest country in the world?"
+                    },
+                    "ToxicityThreshold": {
+                        "$ref": "#/components/schemas/TOXTHRESHOLDS"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "text",
+                    "ToxicityThreshold"
+                ],
+                "title": "toxicityPopupRequest"
+            }
+        },
+        "securitySchemes": {
+            "type": "oauth2",
+            "flows": {
+                "authorizationCode": {
+                    "authorizationUrl": "http://tes.org/api/oauth/dialog",
+                    "scopes": {
+                        "read:users": "read user profiles"
+                    }
+                }
+            }
+        }   
+    },
+    "tags": [
+        {
+            "name": "LLM Moderation",
+            "description": "Operations required for LLM moderation proxy.",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "https://www.infosys.com/"
+            }
+        }
+    ]
+}

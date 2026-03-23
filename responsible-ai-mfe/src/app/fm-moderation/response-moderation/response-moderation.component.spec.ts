@@ -1,0 +1,54 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
+import { ResponseModerationComponent } from './response-moderation.component';
+
+describe('ResponseModerationComponent', () => {
+  let component: ResponseModerationComponent;
+  let fixture: ComponentFixture<ResponseModerationComponent>;
+
+  beforeEach(async () => {
+    const mockResult = { result: { Response: [{ length: 0 }] } };
+    localStorage.setItem('res', JSON.stringify(mockResult));
+    await TestBed.configureTestingModule({
+      declarations: [ ResponseModerationComponent ],
+      imports: [ HttpClientTestingModule, MatDialogModule, MatSnackBarModule ],
+      schemas: [ NO_ERRORS_SCHEMA ]
+    })
+    .compileComponents();
+
+    fixture = TestBed.createComponent(ResponseModerationComponent);
+    component = fixture.componentInstance;
+    component.responseModerationTemplates = [];
+    component.responseModerationResult = { 
+      privacyCheck: { result: '', entitiesConfiguredToBlock: [], entitiesRecognised: [] },
+      restrictedtopic: { result: '', topicTypesConfiguredToBlock: [], topicTypesRecognised: [] },
+      toxicityCheck: { result: '', toxicityTypesConfiguredToBlock: [], toxicityTypesRecognised: [] },
+      profanityCheck: { result: '', profaneWordsIdentified: [] },
+      refusalCheck: { result: '' },
+      invisibleTextCheck: { result: '', invisibleTextIdentified: [] },
+      gibberishCheck: { result: '', gibberishScore: [] },
+      textRelevanceCheck: { PromptResponseSimilarityScore: '' },
+      textQuality: { readabilityScore: 0 },
+      sentimentCheck: { result: '' },
+      bancodeCheck: { result: '' }
+    } as any;
+    component.dummyDataResult = { BannedCategories: '', GibberishLabels: '' } as any;
+    component.openAIRes = { text: '' };
+    component.nemoModerationRailRes = {} as any;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

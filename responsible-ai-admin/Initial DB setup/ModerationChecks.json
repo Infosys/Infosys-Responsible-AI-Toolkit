@@ -1,0 +1,43 @@
+[{
+  "_id": "counter",
+  "seq": 9
+},{
+  "_id": 1,
+  "name": "PromptInjection"
+},{
+  "_id": 2,
+  "name": "JailBreak"
+},{
+  "_id": 3,
+  "name": "Toxicity"
+},{
+  "_id": 4,
+  "name": "Piidetct"
+},{
+  "_id": 5,
+  "name": "Refusal"
+},{
+  "_id": 6,
+  "name": "Profanity"
+},{
+  "_id": 7,
+  "name": "RestrictTopic"
+},{
+  "_id": 8,
+  "name": "TextQuality"
+},{
+  "_id": 9,
+  "name": "CustomizedTheme"
+},{
+  "_id": 10,
+  "name": "InvisibleText"
+},{
+  "_id": 11,
+  "name": "Gibberish"
+},{
+  "_id": 12,
+  "name": "BanCode"
+},{
+  "_id": 13,
+  "name": "Sentiment"
+}]

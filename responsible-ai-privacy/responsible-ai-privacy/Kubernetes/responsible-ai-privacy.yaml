@@ -1,0 +1,64 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: responsible-ai-privacy-sa
+  namespace: irai-toolkit-test
+automountServiceAccountToken: false
+apiVersion: v1
+kind: Service
+metadata:
+  name: responsible-ai-privacy
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-privacy
+spec:
+  type: ClusterIP
+  ports:
+  - port: 30002
+  selector:
+    app: responsible-ai-privacy
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: responsible-ai-privacy
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-privacy
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: responsible-ai-privacy
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: responsible-ai-privacy
+        version: v1
+    spec:
+      automountServiceAccountToken: false # Disable token mounting
+      imagePullSecrets:
+         - name: docker-secret
+      containers:
+        - envFrom:
+          - configMapRef:
+              name: privacy-config
+          image: <Image Name>
+          imagePullPolicy: Always
+          name: responsible-ai-privacy
+          ports:
+            - containerPort: 30002
+          securityContext:
+            runAsUser: 1000  # Non-root user
+            runAsGroup: 1000
+            capabilities:
+              drop:
+                - ALL  # Drop all capabilities
+            seccompProfile:
+              type: RuntimeDefault
+          resources:
+            limits:
+                cpu: '2'
+                memory: '8Gi'

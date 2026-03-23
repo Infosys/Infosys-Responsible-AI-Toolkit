@@ -1,0 +1,249 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<div class="me-3">
+    <!-- div to host thet tabs -->
+    <div class="d-flex mt-1 mb-3">
+        <p class="HeadingLabel me-5" role="button" [ngClass]="{
+            'activeTab': recoGnizers,
+          }" (click)="toggleTab()">Recognizer Creation</p>
+        <p class="HeadingLabel" role="button" [ngClass]="{
+            'activeTab': accountMaping,
+          }" (click)="toggleTab()">Template Creation</p>
+    </div>
+</div>
+<div style="display: flex;" class="mt-4" *ngIf="recoGnizers==true">
+
+    <div style="flex: 1;" style="max-width: 80%;width: 80%;">
+        <!--  -->
+        <div class="button-container2">
+            <label class="HeadingLabel">Report</label>
+            <!-- <button mat-icon-button color="primary2" (click)="getLotDetails('admin')" style="margin-right: 2.5rem">
+                <mat-icon>refresh</mat-icon>
+            </button> -->
+            <div class="me-4 mb-1">
+                <div class="searchbar" [class.active]="isSearchOpen">
+                    <mat-icon class="searchicon" (click)="toggleSearch()">search</mat-icon>
+                    <input type="text" placeholder="Search Recognizers" [(ngModel)]="searchQuery" (input)="search()" />
+                    <button class="close-button" *ngIf="isSearchOpen" (click)="closeSearch()">
+                    <mat-icon class="close-icon">close</mat-icon>
+                  </button>
+                </div>
+            </div>
+        </div>
+        <table class="styled-table">
+            <tr>
+                <!-- <th class="header">Recognizer ID</th> -->
+                <th class="header">Recognizer Name</th>
+                <th class="header">Recognizer Type</th>
+                <th class="header">Supported Entity</th>
+                <!-- <th class="header">Activity</th> -->
+                <!-- <th class="header">Status</th> -->
+                <th class="header">Show List</th>
+                <th class="header text-center">Action</th>
+            </tr>
+            <tr *ngFor="let element of filteredDataSource | paginate : pagingConfig; let i = index">
+                <!-- <td> {{element.lotNumber}}</td> -->
+                <!-- <td class="upper-case" [ngClass]="{'gereen-text': isCompleted(element.status)}"> {{element.status}}</td> -->
+                <!-- <td class="upper-case"> {{element.RecogId}}</td> -->
+                <td class="upper-case">
+                    <div *ngIf="!editIndex.includes(i)"> {{element.RecogName}}</div>
+                    <!-- <input  *ngIf="editIndex.includes(i)" class="form-control" [(ngModel)]="element.RecogName" [readonly]="editIndex.includes(i)"> -->
+                    <input type="text" *ngIf="editIndex.includes(i)" [(ngModel)]="element.RecogName" class="form-control textBox">
+                </td>
+                <td class="upper-case">
+                    <!-- <div *ngIf="!editIndex.includes(i)"> -->
+                    {{element.RecogType}}
+                    <!-- </div> -->
+
+                </td>
+                <td class="upper-case">
+                    <div *ngIf="!editIndex.includes(i)">{{element.supported_entity}}</div>
+                    <input type="text" *ngIf="editIndex.includes(i)" [(ngModel)]="element.supported_entity" class="form-control textBox">
+                </td>
+                <!-- <td class="upper-case"> {{element.isActive}}</td> -->
+                <!-- <td class="upper-case"> {{element.isCreated}}</td> -->
+                <td class="upper-case">
+                    <button mat-icon-button color="primary2" (click)="openRightSideModal(element.RecogId)" style="margin-left: 15px;"><mat-icon>
+                            remove_red_eye
+                        </mat-icon>
+                    </button>
+                </td>
+                <td class="upper-case text-center ">
+                    <button hidden class="me-2" mat-icon-button color="primary4"><mat-icon>
+                            edit
+                        </mat-icon></button>
+                    <button class="me-2" mat-icon-button color="primary4" (click)="editIndex.includes(i) ? update(i,element.RecogId,element.RecogName,element.supported_entity,element.RecogType) : edit(i)">
+                        <mat-icon *ngIf="!editIndex.includes(i); else notEditing">edit</mat-icon>
+                        <ng-template #notEditing><mat-icon>update</mat-icon></ng-template>
+                    </button>
+                    <button mat-icon-button (click)="clickDeleteRecognizer(element.RecogId,element.isPreDefined)" color="primary3"><mat-icon>
+                            delete
+                        </mat-icon>
+                    </button>
+                </td>
+                <!-- <i class="material-icons">remove_red_eye</i> -->
+
+            </tr>
+        </table>
+        <!-- pagination -->
+        <div class="d-flex justify-content-between mt-3">
+            <div class="pagination-info">
+                Showing {{ pagingConfig.totalItems
+                < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }} </div>
+                    <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                    </pagination-controls>
+            </div>
+            <!--  -->
+        </div>
+        <div style="flex: 1; width: 20%;max-width: 20%;" class="rightContainer">
+            <div class="d-flex justify-content-between align-items-center">
+                <label class="HeadingLabel">Parameters </label>
+                <div>
+                    <!-- <button mat-icon-button color="primary2" style="margin-bottom:17px;">
+                    <mat-icon class="browse-logo">refresh</mat-icon>
+                </button>
+                <button mat-icon-button color="primary2" style="margin-bottom:17px;">
+                    <mat-icon class="browse-logo">menu</mat-icon>
+                </button> -->
+                </div>
+            </div>
+            <div>
+                <!--  -->
+                <div class="d-flex justify-content-end">
+                    <button mat-raised-button class="buttonMain" (click)="onClickApply()" color="black">Apply</button>
+                </div>
+            </div>
+            <div>
+                <form [formGroup]="listForm">
+                    <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+
+                    <!--  Recognizer Name : Value type : Recognizer Value : Supported Entity : Context : Score : -->
+                    <div>
+                        <label class="mainLabel">
+                            Recognizer type : *
+                        </label>
+                        <select class="form-select shadow-none" formControlName="recognizer_type" (change)="selectRecognizerType($event.target)">
+                            <!-- <option selected disabled>Data File</option> -->
+                            <option *ngFor="let option of recognizerTypeOptions" [value]="option" [id]="option">
+                                {{option}}</option>
+                        </select>
+                    </div>
+                    <div class="mt-n2 me-4">
+                        <label class="mainLabel">
+                          Recognizer Name : *
+                        </label>
+                        <input type="text" formControlName="recognizer_Name" class="form-control" />
+                        <div *ngIf="recognizerName?.invalid && (recognizerName?.dirty || recognizerName?.touched)">
+                            <small class="text-danger" *ngIf="recognizerName?.errors?.['required']">
+                            Recognizer Name is required.
+                          </small>
+                            <small class="text-danger" *ngIf="recognizerName?.errors?.['pattern']">
+                            Recognizer Name must contain only alphabets or numerical values.
+                          </small>
+                            <small class="text-danger" *ngIf="recognizerName?.errors?.['minlength']">
+                            Recognizer Name must be at least 1 character long.
+                          </small>
+                            <small class="text-danger" *ngIf="recognizerName?.errors?.['maxlength']">
+                            Recognizer Name cannot be more than 50 characters long.
+                          </small>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="mainLabel">
+                            Value type : *
+                        </label>
+                        <select class="form-select shadow-none" (change)="selectRecognizerValueType($event.target)">
+                            <!-- <option selected disabled>Data File</option> -->
+                            <option *ngFor="let option of recognizerValueTypeOptions" [value]="option" [id]="option">
+                                {{option}}</option>
+                        </select>
+                    </div>
+
+                    <div>
+
+                        <!-- if block for single and multiple reconizers  -->
+                        <div *ngIf="recognizerValue_type=='Single Value'">
+                            <!-- single value -->
+                            <label class="mainLabel">
+                                Recognizer Value : *
+                            </label>
+                            <input type="text" formControlName="recognizer_Value" class="form-control">
+                        </div>
+                        <div *ngIf="recognizerValue_type=='Multiple Value'">
+                            <!-- multiple value -->
+                            <label class="mainLabel">
+                                Recognizer Value : *
+                            </label>
+                            <button mat-raised-button id="fileInput" color="primary2" (click)="openFileInput()">Choose
+                                File</button>
+                            <input type="file" #fileInput style="display: none" (change)="fileBrowseHandler($event)">
+                            <span>{{ selectedFileName }}</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-n2 me-4">
+                        <label class="mainLabel">
+                          Supported Entity : *
+                        </label>
+                        <input type="text" formControlName="supported_Entity" class="form-control" />
+                        <div *ngIf="supportedEntity?.invalid && (supportedEntity?.dirty || supportedEntity?.touched)">
+                            <small class="text-danger" *ngIf="supportedEntity?.errors?.['required']">
+                            Supported Entity is required.
+                          </small>
+                            <small class="text-danger" *ngIf="supportedEntity?.errors?.['pattern']">
+                            Supported Entity must contain only alphabets or numerical values.
+                          </small>
+                            <small class="text-danger" *ngIf="supportedEntity?.errors?.['minlength']">
+                            Supported Entity must be at least 1 character long.
+                          </small>
+                            <small class="text-danger" *ngIf="supportedEntity?.errors?.['maxlength']">
+                            Supported Entity cannot be more than 50 characters long.
+                          </small>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="mainLabel">
+                            Context :
+                        </label>
+                        <input type="text" formControlName="context_value" class="form-control">
+                    </div>
+                    <div>
+
+                        <div class="mb-3" style="width: 11rem;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <label class="mainLabel">Score :</label>
+                                <input type="text" class="form-control shadow-none tempInputBox" [value]="((listForm.get('tempValue')?.value ??0) / 10).toFixed(1)" readonly />
+                            </div>
+                            <input type="range" min="0" max="10" name="temp" formControlName="tempValue" />
+                        </div>
+
+                    </div>
+
+                    <!-- end of from -->
+                    <div style="height: 100px;">
+                        <!-- empty div to have space at bottom -->
+                    </div>
+
+                </form>
+
+
+
+
+
+            </div>
+
+            <!-- Content for the second column goes here -->
+        </div>
+
+    </div>
+
+
+    <ng-container *ngIf="accountMaping ==true ">
+        <!-- <ng-template > -->
+        <app-custom-template></app-custom-template>
+        <!-- </ng-template> -->
+    </ng-container>

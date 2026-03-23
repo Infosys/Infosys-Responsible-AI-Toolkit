@@ -1,0 +1,44 @@
+
+  FROM infyartifactory.jfrog.io/docker/ubuntu:24.04
+   
+  RUN useradd myLowPrivilegeUser
+  USER myLowPrivilegeUser
+   
+   
+  ENV DEBIAN_FRONTEND=noninteractive
+   
+  #Proxies for Development Environment
+  ENV http_proxy=http://proxy.threatpulse.net:8080
+  ENV https_proxy=http://proxy.threatpulse.net:8080
+   
+   
+  RUN apt-get update \
+    && apt-get -y install tesseract-ocr=5.3.1
+   
+  RUN : \
+      && apt-get update \
+      && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+          python3.9 \
+      && apt-get clean \
+      && rm -rf /var/lib/apt/lists/* \
+      && :
+   
+  RUN apt-get update \
+    && apt-get -y install pip=22.0.2
+   
+   
+  #pip3 command for development environment
+  RUN pip3 install -r requirements/requirement.txt -i https://infyartifactory.jfrog.io/artifactory/api/pypi/pypi-remote/simple --user --trusted-host infyartifactory.jfrog.io
+   
+  #pip command for pre production environment
+  #RUN pip install -r requirements/requirement.txt --index-url https://infyartifactory.jfrog.io/artifactory/api/pypi/pypi-remote/simple --trusted-host infyartifactory.jfrog.io
+  WORKDIR src
+   
+  #python3 command for development environment
+  CMD ["sh", "-c", "python3 main.py"]
+   
+  #python command for pre production environment
+  #CMD ["sh", "-c", "python main.py"]
+   
+   
+

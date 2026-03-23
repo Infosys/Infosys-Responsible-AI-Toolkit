@@ -1,0 +1,193 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<div class="card outerResultCard">
+    <div class="card-header pb-0 card-header-outerResultCard">
+        <h5 class="mainLabel d-flex mt-2 ms-2" style="font-size: 1rem; color: #303030;">
+            Image Analysis
+        </h5>
+    </div>
+    <div class="card-body">
+        <div class="cardContainerMultiModal">
+            <ng-container *ngFor="let template of templateList">
+                <div class="mt-1" *ngIf="template != 'Image Toxicity Check'">
+                    <div class="card innerResultCard h-100">
+                        <div class="card-header border-bottom-0 py-2" style="background: none;" id="headingOne" aria-expanded="true">
+                            <div class="d-flex justify-content-between">
+                                <label class="mainLabel m-0 d-flex" style="font-size: 0.9rem; color: #303030;">
+                                    {{template}}
+                                    <mat-icon *ngIf="response[template] && response[template].description && response[template]?.description != ''"
+                                        class="ms-2 cursor-pointer" [matTooltip]="response[template].description"
+                                        style="color: #727272;" [inline]="true">info</mat-icon>
+                                </label>
+                                <div *ngIf="response[template]?.result" class="custom-badge"
+                                    [class.custom-badge-passed]="response[template]?.result == 'PASSED'"
+                                    [class.custom-badge-failed]="response[template]?.result == 'FAILED'">
+                                    {{response[template]?.result}}</div>
+                            </div>
+                        </div>
+                        <div aria-labelledby="headingOne">
+                            <div class="card-body" *ngIf="isEmptyObject(response[template])">
+                                <p class="mainLabel mainLabelSM" *ngIf="status[template] == 'failed'; else loaderCOT">
+                                    API got failed. Please try again later.
+                                    <a class="text-decoration-underline" (click)="callMultiModal(template)">Click here to retry</a>
+                                </p>
+                                <ng-template #loaderCOT>
+                                    <div class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </div>
+                            <div class="card-body" *ngIf="!isEmptyObject(response[template])">
+                                <p class="mainLabel mainLabelSM mb-2 mt-n3 text-end" style="font-size: 0.7rem;">Time Taken:
+                                    <span>{{response[template]?.timetaken}}</span>
+                                </p>
+                                <p class="mainLabel mainLabelSM mainLabelLight m-0">
+                                    <span class="mainLabel mainLabelSM mb-0"><strong>Analysis: </strong></span>
+                                    <span *ngIf="!showFullAnalysis[template]">
+                                        {{response[template]?.analysis | slice:0:80}}...
+                                        <a (click)="toggleAnalysis(template)">Show more</a>
+                                    </span>
+                                    <span *ngIf="showFullAnalysis[template]">
+                                        {{response[template]?.analysis}}
+                                        <a (click)="toggleAnalysis(template)">Show less</a>
+                                    </span>
+                                </p>
+                                <div class="d-flex mt-3 flex-wrap">
+                                    <div class="cardA  m-1 flex-1">
+                                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                                            {{response[template]?.score | number:'1.0-3'}}</p>
+                                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Actual Score</p>
+                                    </div>
+                                    <div class="cardA m-1 flex-1">
+                                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                                            {{response[template]?.threshold | number:'1.0-3'}}</p>
+                                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="card innerResultCard mh-100 flex-1 mt-1" *ngIf="fmService.getMultiModal().fairnessRes">
+                <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                    <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem; color: #303030;">
+                        Image Bias Indicator
+                    </h5>
+                    <span class="custom-badge"
+                        [class.custom-badge-passed]="fmService.getMultiModal().fairnessRes?.['Bias score'] == 'Low'"
+                        [class.custom-badge-yellow]="fmService.getMultiModal().fairnessRes?.['Bias score'] == 'Medium'"
+                        [class.custom-badge-failed]="fmService.getMultiModal().fairnessRes?.['Bias score'] == 'High'">
+                        {{fmService.getMultiModal().fairnessRes?.['Bias score']}}</span>
+                </div>
+                <div class="card-body">
+                    <p class="mainLabel mainLabelSM mainLabelLight m-0">
+                        <span class="mainLabel mainLabelSM mb-0"><strong>Analysis: </strong></span>
+                        <span *ngIf="!showFullAnalysis['fairness']">
+                            {{fmService.getMultiModal().fairnessRes?.Analysis | slice:0:80}}...
+                            <a (click)="toggleAnalysis('fairness')">Show more</a>
+                        </span>
+                        <span *ngIf="showFullAnalysis['fairness']">
+                            {{fmService.getMultiModal().fairnessRes?.Analysis}}
+                            <a (click)="toggleAnalysis('fairness')">Show less</a>
+                        </span>
+                    </p>
+                    <div class="d-flex mt-3 mb-2 flex-wrap">
+                        <div class="cardA m-1 flex-1">
+                            <p class="mainLabel" style="color: #232323; margin: 0px; font-size: small;">
+                                {{fmService.getMultiModal().fairnessRes?.['Previledged group(s)']}}</p>
+                            <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Privileged group(s)
+                                <mat-icon matTooltip="Group of people favoured by the bias in the given text."
+                                    style="color: #727272; cursor: pointer;" [inline]="true">info</mat-icon>
+                            </p>
+                        </div>
+                        <div class="cardA m-1 flex-1">
+                            <p class="mainLabel" style="color: #232323; margin: 0px; font-size: small;">
+                                {{fmService.getMultiModal().fairnessRes?.['Un-Previledged group(s)']}}</p>
+                            <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">
+                                Un-Previledged group(s)
+                                <mat-icon matTooltip="Group of people against whom the bias is present in the given text."
+                                    style="color: #727272; cursor: pointer;" [inline]="true">info</mat-icon>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="cardA  m-1 flex-1">
+                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: small;">
+                            {{fmService.getMultiModal().fairnessRes?.['Bias type(s)']}}</p>
+                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Bias type(s)
+                            <mat-icon matTooltip="Bias types identified based on the analysis present in the text."
+                                style="color: #727272; cursor: pointer;" [inline]="true">info</mat-icon>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2" *ngIf="templateList.includes('Image Toxicity Check')">
+            <div class="card innerResultCard h-100">
+                <div class="card-header border-bottom-0 py-2" style="background: none;" id="headingOne" aria-expanded="true">
+                    <div class="d-flex justify-content-between">
+                        <label class="mainLabel m-0 d-flex" style="font-size: 0.9rem; color: #303030;">Image Toxicity Check
+                            <mat-icon *ngIf="response['Image Toxicity Check'] && response['Image Toxicity Check'].description && response['Image Toxicity Check']?.description != ''"
+                                class="ms-2 cursor-pointer" [matTooltip]="response['Image Toxicity Check'].description"
+                                style="color: #727272;" [inline]="true">info</mat-icon>
+                        </label>
+                        <div *ngIf="response['Image Toxicity Check']?.result" class="custom-badge"
+                            [class.custom-badge-passed]="response['Image Toxicity Check']?.result == 'PASSED'"
+                            [class.custom-badge-failed]="response['Image Toxicity Check']?.result == 'FAILED'">
+                            {{response['Image Toxicity Check']?.result}}</div>
+                    </div>
+                </div>
+                <div aria-labelledby="headingOne">
+                    <div class="card-body" *ngIf="isEmptyObject(response['Image Toxicity Check'])">
+                        <p class="mainLabel mainLabelSM" *ngIf="status['Image Toxicity Check'] == 'failed'; else loaderCOT">
+                            API got failed. Please try again later.
+                            <a class="text-decoration-underline" (click)="callMultiModal('Image Toxicity Check')">
+                                Click here to retry</a></p>
+                        <ng-template #loaderCOT>
+                            <div class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
+                                <div class="spinner-border" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                    <div class="card-body" *ngIf="!isEmptyObject(response['Image Toxicity Check'])">
+                        <p class="mainLabel mainLabelSM mb-2 mt-n3 text-end" style="font-size: 0.7rem;">Time Taken:
+                            <span>{{response['Image Toxicity Check']?.timetaken}}</span>
+                        </p>
+                        <p class="mainLabel mainLabelSM mainLabelLight m-0">
+                            <span class="mainLabel mainLabelSM mb-0">Analysis: </span>
+                            <span *ngIf="!showFullAnalysis['Image Toxicity Check']">
+                                {{response['Image Toxicity Check']?.analysis | slice:0:80}}...
+                                <a (click)="toggleAnalysis('Image Toxicity Check')">Show more</a>
+                            </span>
+                            <span *ngIf="showFullAnalysis['Image Toxicity Check']">
+                                {{response['Image Toxicity Check']?.analysis}}
+                                <a (click)="toggleAnalysis('Image Toxicity Check')">Show less</a>
+                            </span>
+                        </p>
+                        <div class="d-flex mt-3 flex-wrap">
+                            <div *ngFor="let score of response['Image Toxicity Check']?.score" class="cardA m-1 flex-1">
+                                <p class="mainLabel m-0" style="color: #232323;font-size: x-large;">
+                                    {{score.metricScore | number:'1.0-2'}}</p>
+                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">
+                                    {{score.metricName.replace('_', ' ') | titlecase}}</p>
+                            </div>
+                            <div class="cardA m-1 flex-1">
+                                <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                                    {{response['Image Toxicity Check']?.threshold | number:'1.0-3'}}</p>
+                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

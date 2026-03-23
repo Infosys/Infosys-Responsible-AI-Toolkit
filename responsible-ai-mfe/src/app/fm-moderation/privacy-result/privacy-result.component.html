@@ -1,0 +1,147 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+
+<div class="row pb-3">
+    <div *ngIf="privacyRes.AnonRes">
+        <label class="mainLabel">Anonymize</label>
+        <div class="card">
+            <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">{{privacyRes.AnonRes.anonymizedText}}</div>
+        </div>
+    </div>
+    <div *ngIf="(privacyOption === 'Privacy-Analyze' && privacyRes.AnazRes) || (privacyOption === 'Choose Options' && privacyRes.AnazRes)">
+        <label class="mainLabel">Analyze</label>
+        <div class="card fixed-height-card" hidden>
+            <div class="card-body p-2">
+                <pre>
+                    <p class="mainLabel mainLabelSM mainLabelLight">{{privacyRes.AnazRes | json}}</p>
+                </pre>
+            </div>
+        </div>
+        <div class="card">
+            <!-- privacy response table -->
+            <label class="mainLabel">PII ENTITIES</label>
+            <table class="styled-table">
+                <tbody>
+                    <tr *ngFor="let entity of privacyRes.AnazRes.PIIEntities | paginate : pagingConfig; let i = index"
+                        style="padding: 10px;">
+                        <td class="upper-case">Type&nbsp;&nbsp;&nbsp;{{entity.type}}</td>
+                        <td class="upper-case">Beginoffset&nbsp;&nbsp;&nbsp;{{entity.beginOffset}}</td>
+                        <td class="upper-case">Endoffset&nbsp;&nbsp;&nbsp;{{entity.endOffset}}</td>
+                        <td class="upper-case">Score&nbsp;&nbsp;&nbsp;{{entity.score}}</td>
+                        <td class="upper-case">Response Text&nbsp;&nbsp;&nbsp;{{entity.responseText}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-left">
+                <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next"
+                    (pageChange)="onTableDataChange($event)">
+                </pagination-controls>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="privacyOption === 'Privacy-Highlight' && privacyRes.AnazRes">
+        <label class="mainLabel">Highlight</label>
+        <div class="card">
+            <div class="card-body p-2">
+                <div class="processed-prompt">
+                    <span *ngFor="let word of getProcessedPrompt()"
+                        [ngStyle]="{'background-color': word.color ? word.color : 'transparent'}">
+                        {{word.text}}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!-- new table design for highlight -->
+        <div class="card mt-1">
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th class="header">S.No</th>
+                        <th class="header">Type</th>
+                        <th class="header">Response Text</th>
+                        <th class="header">Begin Offset</th>
+                        <th class="header">End Offset</th>
+                        <th class="header">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let entity of  privacyRes.AnazRes.PIIEntities | paginate : pagingConfig2; let i = index"
+                        style="padding: 10px;">
+                        <td class="upper-case">{{i + 1}}</td>
+                        <td class="upper-case">{{entity.type}}</td>
+                        <td class="upper-case">{{entity.responseText}}</td>
+                        <td class="upper-case">{{entity.beginOffset}}</td>
+                        <td class="upper-case">{{entity.endOffset}}</td>
+                        <td class="upper-case">{{entity.score}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-left">
+                <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next"
+                    (pageChange)="onTableDataChange2($event)">
+                </pagination-controls>
+            </div>
+        </div>
+    </div>
+    <!-- this encrypt is not currently being used -->
+    <div class="col-md-6" *ngIf="privacyRes.EncryptRes" hidden>
+        <div class="d-flex justify-content-between">
+            <label class="mainLabel custom-paddingx">Encrypt</label>
+            <a mat-raised-button type="btn" class="mainBtn DecryptButton" color="DecryptBtnClr" (click)="onClickx()">Decrypt Text</a>
+        </div>
+        <div class="card fixed-height-card">
+            <div class="card-body p-2">
+                <pre class="overflow-unset">
+                    <p class="mainLabel mainLabelSM mainLabelLight">{{privacyRes.EncryptRes | json}}</p>
+                </pre>
+            </div>
+        </div>
+    </div>
+    <!-- this decrypt is currently not being used -->
+    <div class="col-md-6" *ngIf="privacyRes.decryptedtoggle ==true" hidden>
+        <label class="mainLabel">Decrypt</label>
+        <div class="card fixed-height-card">
+            <div class="card-body p-2">
+                <pre class="overflow-unset">
+                    <p class="mainLabel mainLabelSM mainLabelLight">{{privacyRes.DecryptRes | json}}</p>
+                </pre>
+            </div>
+        </div>
+    </div>
+    <!-- new encrypt decrypt ui -->
+    <div style="width: 100%;" *ngIf="privacyRes.EncryptRes">
+        <div class="card d-flex">
+            <p class="mainLabel2 mainLabelSM">
+                <strong>Encrypted Text :</strong>
+                <span> {{privacyRes.EncryptRes.text}}</span>
+            </p>
+        </div>
+        <div class="card mt-1">
+            <label class="mainLabel">Encrypted Data</label>
+            <table class="styled-table">
+                <tbody>
+                    <tr *ngFor="let entity of privacyRes.EncryptRes.items | paginate : pagingConfig2; let i = index"
+                        style="padding: 10px;">
+                        <td class="upper-case">Type&nbsp;&nbsp;&nbsp;{{entity.entity_type}}</td>
+                        <td class="upper-case">Beginoffset&nbsp;&nbsp;&nbsp;{{entity.start}}</td>
+                        <td class="upper-case">Endoffset&nbsp;&nbsp;&nbsp;{{entity.end}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-left">
+                <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next"
+                    (pageChange)="onTableDataChange2($event)">
+                </pagination-controls>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div style="height: 20px;">
+    <!-- empty div to have space at bottom -->
+</div>

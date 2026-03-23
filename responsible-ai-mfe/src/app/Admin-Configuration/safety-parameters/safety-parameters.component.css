@@ -1,0 +1,163 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+
+.accordion {
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.accordion-header {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.accordion-button {
+    width: 100%;
+    text-align: left;
+    padding: 10px 15px;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    transition: background-color 0.3s ease;
+}
+
+.accordion-button:hover {
+    background-color: #e2e6ea;
+}
+
+.accordion-body {
+    padding: 15px;
+    border-top: 1px solid #dee2e6;
+    background-color: #fff;
+}
+
+.buttonMain {
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttonMain:hover {
+    background-color: #000000;
+}
+
+.mat-black {
+    color: white !important;
+    background-color: #231F20 !important;
+  }
+
+.form-control {
+    width: 18%;
+    margin-right: 2%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+.form-control:last-child {
+    margin-right: 0;
+}
+
+/* 
+
+ */
+
+ .mainLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    font-weight: 500;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    margin-bottom: 0px;
+  }
+
+.mainLabelSM{
+    font-size: 12px;
+}
+
+.mainLabelLight{
+    font-weight: 400;
+}
+
+.fixed-height-card{
+    height: 100px;
+    overflow-y: auto;
+}
+
+
+
+
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 5px 0px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    font-size: 11px;
+    margin-right: 1.7rem;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.activeTab {
+    color: #8626C3;
+    position: relative;
+}
+
+.activeTab::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* width: 35%; */
+    border-bottom: 2px solid #8626C3;
+}
+
+.hyperLink{
+    color: #8626C3;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.snackBar-custom{
+    background-color: white;
+}
+
+.labelSM{
+    font-weight: 600;
+    font-size: 11px;
+}
+
+
+input[type='range'] {
+    -webkit-appearance: none !important;
+    background:#D8D8D8;
+    height:3px;
+    width: 100%;
+}
+input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    background:#8626C3;
+    height:13px;
+    width:13px;
+    border-radius: 50%;
+}
+
+.tempInputBox{
+    width: 45px;
+    font-size: 10px;
+    text-align: center;
+}
+

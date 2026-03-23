@@ -1,0 +1,14 @@
+*.hdf5
+*.h5
+logs/
+.vscode/
+__pycache__
+dist
+build
+*.egg-info
+images/**
+!images/ReadMe.md
+# Ignore my Visual Studio solution for editing python
+NSFWModel/**
+trained_models/**
+training/train_best_models.cmd

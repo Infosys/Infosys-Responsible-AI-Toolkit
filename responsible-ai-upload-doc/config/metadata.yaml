@@ -1,0 +1,17 @@
+openapi_url: /api/v1/privacy/openapi.json
+docs_url: /api/v1/privacy/docs
+title: Infosys Responsible AI - responsible-ai-upload - OpenAPI 3.1
+description: API specs for Infosys Responsible AI Privacy pillar in OpenAPI 3.1 format
+terms_of_service: https://www.infosys.com
+contact:
+    email: Infosysraitoolkit@infosys.com
+license_info:
+    name: Infosys
+    url: https://www.infosys.com
+version: v$version
+openapi_tags:
+    - name: PII Privacy
+      description: Operations required for a PII entity (e.g. IN_ADHAAR, IN_PAN, US_SSN etc)
+      externalDocs:
+        description: Find out more
+        url: https://www.infosys.com

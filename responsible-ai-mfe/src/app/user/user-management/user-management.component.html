@@ -1,0 +1,112 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<label class="topHeading">USER MANAGEMENT</label>
+<div style="margin-top: 20px;">
+  <div class="search-container">
+    <div class="search-bar" [class.active]="isSearchOpen">
+      <mat-icon class="search-icon" (click)="toggleSearch()">search</mat-icon>
+      <input type="text" placeholder="Search Users" [(ngModel)]="searchQuery" (input)="search()" />
+      <button class="close-button" *ngIf="isSearchOpen" (click)="closeSearch()">
+        <mat-icon class="close-icon">close</mat-icon>
+      </button>
+    </div>
+      <button (click)="openDialog()" class="manage-access-btn">
+        <mat-icon>settings</mat-icon>MANAGE ACCESS
+      </button>
+  </div>
+
+    <table class="table table-striped table-hover" hidden>
+        <thead>
+            <tr>
+                <th class="header">Name</th>
+                <th class="header">Email</th>
+                <th class="header">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of users; let i = index">
+                <td><input class="form-control" [(ngModel)]="user.name" [readonly]="!editIndex.includes(i)"></td>
+                <td><input class="form-control" [(ngModel)]="user.email" [readonly]="!editIndex.includes(i)"></td>
+                <td>
+                    <button class="btn btn-primary" (click)="editIndex.includes(i) ? update(i,i,i,i) : edit(i,i)">
+                        {{editIndex.includes(i) ? 'Update' : 'Edit'}}
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!--  -->
+    <table class="styled-table">
+        <thead>
+            <tr>
+                <th class="header">ID</th>
+                <th class="header">User Name</th>
+                <th class="header">Created By</th>
+                <th class="header">Created Date</th>
+                <!-- <th class="header">Last Modified By</th> -->
+                <th class="header">Last Modified Date</th>
+                <th class="header">Activated</th>
+                <th class="header">Authorities</th>
+                <th class="header">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of filteredUsers | paginate : pagingConfig; let i = index">
+                <td class="vertical-center">{{user.id}}</td>
+                <td class="vertical-center">{{user.firstName}}
+                </td>
+
+                <td class="vertical-center">{{user.createdBy}}</td>
+                <td class="vertical-center">{{user.createdDate}}</td>
+                <td class="vertical-center">{{user.lastModifiedDate}}</td>
+                <td class="vertical-center">
+                    <!-- {{user.activated}} -->
+                    <span class="switch">
+                        <input type="checkbox" [disabled]="!editIndex.includes(i)" [(ngModel)]="user.activated"
+                            [checked]="user.activated" (change)="ontoggleOpen($event, user)" id="activated_{{i}}" />
+                        <label for="activated_{{i}}"></label>
+                    </span>
+
+                    <span *ngIf="!editIndex.includes(i)" class="statustext">{{user.activated ? 'User Activated' :
+                        'User Deactivated'}}</span>
+                    <span *ngIf="editIndex.includes(i)"> {{showActivationStatus}} </span>
+                </td>
+
+                <td class="vertical-center"><span *ngIf="!editIndex.includes(i)">{{user.authorities.join(', ')}}</span>
+                    <div *ngIf="editIndex.includes(i)">
+                        <mat-select [(ngModel)]="user.authorities" [(value)]="user.authorities" multiple
+                            class="dropdown">
+                            <mat-option *ngFor="let option of options" [value]="option" class="dropdownOptions">
+                                {{option}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </td>
+                <td class="vertical-center">
+                    <button class="me-2" mat-icon-button color="primary4"
+                        (click)="editIndex.includes(i) ? update(i,user.id,user.activated,user.authorities) : edit(i,user.activated)">
+                        <mat-icon *ngIf="!editIndex.includes(i); else notEditing">edit</mat-icon>
+                        <ng-template #notEditing><mat-icon>update</mat-icon></ng-template>
+                    </button>
+                    <!--  -->
+
+                    <!--  -->
+                    <button mat-icon-button (click)="clickDeleteUser(user.id)" color="primary3"><mat-icon>
+                            delete
+                        </mat-icon>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-left">
+        <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next"
+            (pageChange)="onTableDataChange($event)">
+        </pagination-controls>
+    </div>
+</div>

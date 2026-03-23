@@ -1,0 +1,13 @@
+fastapi==0.100.1
+pydantic
+requests
+requests-file==1.5.1
+uvicorn==0.22.0
+PyYAML
+pymongo
+python-dotenv
+python-multipart
+pandas
+pandas 
+chardet==4.0.0   
+fpdf 

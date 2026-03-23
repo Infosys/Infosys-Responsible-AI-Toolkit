@@ -1,0 +1,40 @@
+{
+    "templates": [
+        {
+            "mode": "Public",
+            "subTemplates": [
+                {
+                    "CreatedDateTime": "2024-06-27T04:54:28.384000",
+                    "LastUpdatedDateTime": "2024-06-27T04:54:28.384000",
+                    "_id": 1719464068.3841805,
+                    "subTemplateId": 1719464068.3841805,
+                    "template": "evaluation_criteria",
+                    "templateData": "Evauation",
+                    "templateId": 1719464068.3832386
+                },
+                {
+                    "CreatedDateTime": "2024-06-27T04:54:28.384000",
+                    "LastUpdatedDateTime": "2024-06-27T04:54:28.384000",
+                    "_id": 1719464068.3849843,
+                    "subTemplateId": 1719464068.3849843,
+                    "template": "prompting_instructions",
+                    "templateData": "Prompt",
+                    "templateId": 1719464068.3832386
+                },
+                {
+                    "CreatedDateTime": "2024-06-27T04:54:28.385000",
+                    "LastUpdatedDateTime": "2024-06-27T04:54:28.385000",
+                    "_id": 1719464068.3859823,
+                    "subTemplateId": 1719464068.3859823,
+                    "template": "few_shot_examples",
+                    "templateData": "Few Shot Example",
+                    "templateId": 1719464068.3832386
+                }
+            ],
+            "templateId": 1719464068.3832386,
+            "templateName": "Temp1",
+            "templateType": "Request",
+            "userId": "admin"
+        }
+    ]
+}

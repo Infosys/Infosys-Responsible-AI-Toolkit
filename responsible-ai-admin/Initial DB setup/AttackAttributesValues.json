@@ -1,0 +1,2647 @@
+[{
+  "_id": 1716271473.9644878,
+  "AttackAttributeId": 1716271472.3104146,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271473.9644878,
+  "AttackId": 1716271470.7637796,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271473965"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271473965"
+    }
+  },
+  "id": 1716271473.9644878,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.6362767,
+  "AttackAttributeId": 1716271475.6253932,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271475.6362767,
+  "AttackId": 1716271470.7637796,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475637"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475637"
+    }
+  },
+  "id": 1716271475.6362767,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.6578498,
+  "AttackAttributeId": 1716271475.6500802,
+  "AttackAttributeValues": "CarliniL2Method",
+  "AttackAttributeValuesId": 1716271475.6578498,
+  "AttackId": 1716271470.7637796,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475658"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475658"
+    }
+  },
+  "id": 1716271475.6578498,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.759062,
+  "AttackAttributeId": 1716271475.7502031,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271475.759062,
+  "AttackId": 1716271475.741399,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475760"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475760"
+    }
+  },
+  "id": 1716271475.759062,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.7788243,
+  "AttackAttributeId": 1716271475.7707424,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271475.7788243,
+  "AttackId": 1716271475.741399,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475779"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475779"
+    }
+  },
+  "id": 1716271475.7788243,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.7932289,
+  "AttackAttributeId": 1716271475.7867126,
+  "AttackAttributeValues": "Pixel",
+  "AttackAttributeValuesId": 1716271475.7932289,
+  "AttackId": 1716271475.741399,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475794"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475794"
+    }
+  },
+  "id": 1716271475.7932289,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.864684,
+  "AttackAttributeId": 1716271475.856599,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271475.864684,
+  "AttackId": 1716271475.8481,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475865"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475865"
+    }
+  },
+  "id": 1716271475.864684,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.8798718,
+  "AttackAttributeId": 1716271475.8723848,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271475.8798718,
+  "AttackId": 1716271475.8481,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475880"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475880"
+    }
+  },
+  "id": 1716271475.8798718,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.8973548,
+  "AttackAttributeId": 1716271475.8887208,
+  "AttackAttributeValues": "Deepfool",
+  "AttackAttributeValuesId": 1716271475.8973548,
+  "AttackId": 1716271475.8481,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475898"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475898"
+    }
+  },
+  "id": 1716271475.8973548,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.9786224,
+  "AttackAttributeId": 1716271475.971031,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271475.9786224,
+  "AttackId": 1716271475.9628289,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475979"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475979"
+    }
+  },
+  "id": 1716271475.9786224,
+  "isActive": "Y"
+},{
+  "_id": 1716271475.99397,
+  "AttackAttributeId": 1716271475.986545,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271475.99397,
+  "AttackId": 1716271475.9628289,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475995"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271475995"
+    }
+  },
+  "id": 1716271475.99397,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.0092502,
+  "AttackAttributeId": 1716271476.000757,
+  "AttackAttributeValues": "Wasserstein",
+  "AttackAttributeValuesId": 1716271476.0092502,
+  "AttackId": 1716271475.9628289,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476010"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476010"
+    }
+  },
+  "id": 1716271476.0092502,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.079415,
+  "AttackAttributeId": 1716271476.070924,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271476.079415,
+  "AttackId": 1716271476.0624738,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476080"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476080"
+    }
+  },
+  "id": 1716271476.079415,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.0950975,
+  "AttackAttributeId": 1716271476.087708,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271476.0950975,
+  "AttackId": 1716271476.0624738,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476096"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476096"
+    }
+  },
+  "id": 1716271476.0950975,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.109784,
+  "AttackAttributeId": 1716271476.102819,
+  "AttackAttributeValues": "Boundary",
+  "AttackAttributeValuesId": 1716271476.109784,
+  "AttackId": 1716271476.0624738,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476110"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476110"
+    }
+  },
+  "id": 1716271476.109784,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.1797056,
+  "AttackAttributeId": 1716271476.1724494,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271476.1797056,
+  "AttackId": 1716271476.165043,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476180"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476180"
+    }
+  },
+  "id": 1716271476.1797056,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.1943257,
+  "AttackAttributeId": 1716271476.1877065,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271476.1943257,
+  "AttackId": 1716271476.165043,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476195"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476195"
+    }
+  },
+  "id": 1716271476.1943257,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.20904,
+  "AttackAttributeId": 1716271476.2018049,
+  "AttackAttributeValues": "UniversalPerturbation",
+  "AttackAttributeValuesId": 1716271476.20904,
+  "AttackId": 1716271476.165043,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476210"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476210"
+    }
+  },
+  "id": 1716271476.20904,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.2813957,
+  "AttackAttributeId": 1716271476.2723768,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271476.2813957,
+  "AttackId": 1716271476.2635558,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476282"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476282"
+    }
+  },
+  "id": 1716271476.2813957,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.2992187,
+  "AttackAttributeId": 1716271476.2900589,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271476.2992187,
+  "AttackId": 1716271476.2635558,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476300"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476300"
+    }
+  },
+  "id": 1716271476.2992187,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.31328,
+  "AttackAttributeId": 1716271476.30658,
+  "AttackAttributeValues": "FastGradientMethod",
+  "AttackAttributeValuesId": 1716271476.31328,
+  "AttackId": 1716271476.2635558,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476314"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476314"
+    }
+  },
+  "id": 1716271476.31328,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.394858,
+  "AttackAttributeId": 1716271476.375562,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271476.394858,
+  "AttackId": 1716271476.367788,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476395"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476395"
+    }
+  },
+  "id": 1716271476.394858,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.4093332,
+  "AttackAttributeId": 1716271476.4028404,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271476.4093332,
+  "AttackId": 1716271476.367788,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476410"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476410"
+    }
+  },
+  "id": 1716271476.4093332,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.4245012,
+  "AttackAttributeId": 1716271476.4180317,
+  "AttackAttributeValues": "SpatialTransformation",
+  "AttackAttributeValuesId": 1716271476.4245012,
+  "AttackId": 1716271476.367788,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476425"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476425"
+    }
+  },
+  "id": 1716271476.4245012,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.493931,
+  "AttackAttributeId": 1716271476.4859142,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271476.493931,
+  "AttackId": 1716271476.477894,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476495"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476495"
+    }
+  },
+  "id": 1716271476.493931,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.5101414,
+  "AttackAttributeId": 1716271476.502632,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271476.5101414,
+  "AttackId": 1716271476.477894,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476511"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476511"
+    }
+  },
+  "id": 1716271476.5101414,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.5250611,
+  "AttackAttributeId": 1716271476.517939,
+  "AttackAttributeValues": "Square",
+  "AttackAttributeValuesId": 1716271476.5250611,
+  "AttackId": 1716271476.477894,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476526"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476526"
+    }
+  },
+  "id": 1716271476.5250611,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.5939453,
+  "AttackAttributeId": 1716271476.5857804,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271476.5939453,
+  "AttackId": 1716271476.5780973,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476595"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476595"
+    }
+  },
+  "id": 1716271476.5939453,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.6083567,
+  "AttackAttributeId": 1716271476.6017337,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271476.6083567,
+  "AttackId": 1716271476.5780973,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476609"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476609"
+    }
+  },
+  "id": 1716271476.6083567,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.6233945,
+  "AttackAttributeId": 1716271476.6155422,
+  "AttackAttributeValues": "ProjectGradientDescentImage",
+  "AttackAttributeValuesId": 1716271476.6233945,
+  "AttackId": 1716271476.5780973,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476624"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476624"
+    }
+  },
+  "id": 1716271476.6233945,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.6945121,
+  "AttackAttributeId": 1716271476.6871464,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271476.6945121,
+  "AttackId": 1716271476.678788,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476695"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476695"
+    }
+  },
+  "id": 1716271476.6945121,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.7098145,
+  "AttackAttributeId": 1716271476.7028072,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271476.7098145,
+  "AttackId": 1716271476.678788,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476710"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476710"
+    }
+  },
+  "id": 1716271476.7098145,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.724553,
+  "AttackAttributeId": 1716271476.717427,
+  "AttackAttributeValues": "BasicIterativeMethod",
+  "AttackAttributeValuesId": 1716271476.724553,
+  "AttackId": 1716271476.678788,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476725"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476725"
+    }
+  },
+  "id": 1716271476.724553,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.794018,
+  "AttackAttributeId": 1716271476.7861164,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271476.794018,
+  "AttackId": 1716271476.7776136,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476795"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476795"
+    }
+  },
+  "id": 1716271476.794018,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.809268,
+  "AttackAttributeId": 1716271476.8018916,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271476.809268,
+  "AttackId": 1716271476.7776136,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476810"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476810"
+    }
+  },
+  "id": 1716271476.809268,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.8232882,
+  "AttackAttributeId": 1716271476.8164172,
+  "AttackAttributeValues": "SaliencyMapMethod",
+  "AttackAttributeValuesId": 1716271476.8232882,
+  "AttackId": 1716271476.7776136,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476824"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476824"
+    }
+  },
+  "id": 1716271476.8232882,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.8950355,
+  "AttackAttributeId": 1716271476.8868454,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271476.8950355,
+  "AttackId": 1716271476.8784304,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476896"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476896"
+    }
+  },
+  "id": 1716271476.8950355,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.9092114,
+  "AttackAttributeId": 1716271476.9027855,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271476.9092114,
+  "AttackId": 1716271476.8784304,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476910"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476910"
+    }
+  },
+  "id": 1716271476.9092114,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.9240146,
+  "AttackAttributeId": 1716271476.9165597,
+  "AttackAttributeValues": "IterativeFrameSaliency",
+  "AttackAttributeValuesId": 1716271476.9240146,
+  "AttackId": 1716271476.8784304,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476925"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476925"
+    }
+  },
+  "id": 1716271476.9240146,
+  "isActive": "Y"
+},{
+  "_id": 1716271476.993172,
+  "AttackAttributeId": 1716271476.9859185,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271476.993172,
+  "AttackId": 1716271476.978575,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476994"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271476994"
+    }
+  },
+  "id": 1716271476.993172,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.0103025,
+  "AttackAttributeId": 1716271477.002247,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271477.0103025,
+  "AttackId": 1716271476.978575,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477011"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477011"
+    }
+  },
+  "id": 1716271477.0103025,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.0251465,
+  "AttackAttributeId": 1716271477.0176947,
+  "AttackAttributeValues": "SimBA",
+  "AttackAttributeValuesId": 1716271477.0251465,
+  "AttackId": 1716271476.978575,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477026"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477026"
+    }
+  },
+  "id": 1716271477.0251465,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.0967143,
+  "AttackAttributeId": 1716271477.0890486,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271477.0967143,
+  "AttackId": 1716271477.0815005,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477097"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477097"
+    }
+  },
+  "id": 1716271477.0967143,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.1120408,
+  "AttackAttributeId": 1716271477.1049628,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271477.1120408,
+  "AttackId": 1716271477.0815005,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477113"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477113"
+    }
+  },
+  "id": 1716271477.1120408,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.1267684,
+  "AttackAttributeId": 1716271477.1192992,
+  "AttackAttributeValues": "NewtonFool",
+  "AttackAttributeValuesId": 1716271477.1267684,
+  "AttackId": 1716271477.0815005,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477127"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477127"
+    }
+  },
+  "id": 1716271477.1267684,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.1983268,
+  "AttackAttributeId": 1716271477.1896374,
+  "AttackAttributeValues": "Image",
+  "AttackAttributeValuesId": 1716271477.1983268,
+  "AttackId": 1716271477.1801906,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477199"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477199"
+    }
+  },
+  "id": 1716271477.1983268,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.2149937,
+  "AttackAttributeId": 1716271477.2069168,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271477.2149937,
+  "AttackId": 1716271477.1801906,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477216"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477216"
+    }
+  },
+  "id": 1716271477.2149937,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.2308662,
+  "AttackAttributeId": 1716271477.2230508,
+  "AttackAttributeValues": "ElasticNet",
+  "AttackAttributeValuesId": 1716271477.2308662,
+  "AttackId": 1716271477.1801906,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477231"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477231"
+    }
+  },
+  "id": 1716271477.2308662,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.3002348,
+  "AttackAttributeId": 1716271477.2923486,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271477.3002348,
+  "AttackId": 1716271477.284783,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477301"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477301"
+    }
+  },
+  "id": 1716271477.3002348,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.3157952,
+  "AttackAttributeId": 1716271477.3088198,
+  "AttackAttributeValues": "KerasClassifier",
+  "AttackAttributeValuesId": 1716271477.3157952,
+  "AttackId": 1716271477.284783,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477316"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477316"
+    }
+  },
+  "id": 1716271477.3157952,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.3319945,
+  "AttackAttributeId": 1716271477.3235173,
+  "AttackAttributeValues": "HopSkipJumpImage",
+  "AttackAttributeValuesId": 1716271477.3319945,
+  "AttackId": 1716271477.284783,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477333"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477333"
+    }
+  },
+  "id": 1716271477.3319945,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.4031293,
+  "AttackAttributeId": 1716271477.3951457,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271477.4031293,
+  "AttackId": 1716271477.387604,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477404"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477404"
+    }
+  },
+  "id": 1716271477.4031293,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.420112,
+  "AttackAttributeId": 1716271477.411935,
+  "AttackAttributeValues": "SklearnClassifier",
+  "AttackAttributeValuesId": 1716271477.420112,
+  "AttackId": 1716271477.387604,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477421"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477421"
+    }
+  },
+  "id": 1716271477.420112,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.4351006,
+  "AttackAttributeId": 1716271477.4275572,
+  "AttackAttributeValues": "MembershipInferenceRule",
+  "AttackAttributeValuesId": 1716271477.4351006,
+  "AttackId": 1716271477.387604,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477436"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477436"
+    }
+  },
+  "id": 1716271477.4351006,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.5032642,
+  "AttackAttributeId": 1716271477.495629,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271477.5032642,
+  "AttackId": 1716271477.4884999,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477504"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477504"
+    }
+  },
+  "id": 1716271477.5032642,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.5197055,
+  "AttackAttributeId": 1716271477.511867,
+  "AttackAttributeValues": "SklearnClassifier",
+  "AttackAttributeValuesId": 1716271477.5197055,
+  "AttackId": 1716271477.4884999,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477520"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477520"
+    }
+  },
+  "id": 1716271477.5197055,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.5346692,
+  "AttackAttributeId": 1716271477.5275471,
+  "AttackAttributeValues": "MembershipInferenceBlackBox",
+  "AttackAttributeValuesId": 1716271477.5346692,
+  "AttackId": 1716271477.4884999,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477535"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477535"
+    }
+  },
+  "id": 1716271477.5346692,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.6045618,
+  "AttackAttributeId": 1716271477.5976958,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271477.6045618,
+  "AttackId": 1716271477.590265,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477605"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477605"
+    }
+  },
+  "id": 1716271477.6045618,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.6207979,
+  "AttackAttributeId": 1716271477.6127365,
+  "AttackAttributeValues": "SklearnClassifier",
+  "AttackAttributeValuesId": 1716271477.6207979,
+  "AttackId": 1716271477.590265,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477621"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477621"
+    }
+  },
+  "id": 1716271477.6207979,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.6366146,
+  "AttackAttributeId": 1716271477.6290233,
+  "AttackAttributeValues": "InferenceLabelOnlyGap",
+  "AttackAttributeValuesId": 1716271477.6366146,
+  "AttackId": 1716271477.590265,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477637"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477637"
+    }
+  },
+  "id": 1716271477.6366146,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.7046475,
+  "AttackAttributeId": 1716271477.698005,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271477.7046475,
+  "AttackId": 1716271477.689962,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477705"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477705"
+    }
+  },
+  "id": 1716271477.7046475,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.7206404,
+  "AttackAttributeId": 1716271477.7129357,
+  "AttackAttributeValues": "SklearnClassifier",
+  "AttackAttributeValuesId": 1716271477.7206404,
+  "AttackId": 1716271477.689962,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477721"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477721"
+    }
+  },
+  "id": 1716271477.7206404,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.7354832,
+  "AttackAttributeId": 1716271477.728731,
+  "AttackAttributeValues": "ProjectedGradientDescentTabular",
+  "AttackAttributeValuesId": 1716271477.7354832,
+  "AttackId": 1716271477.689962,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477736"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477736"
+    }
+  },
+  "id": 1716271477.7354832,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.8059292,
+  "AttackAttributeId": 1716271477.798617,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271477.8059292,
+  "AttackId": 1716271477.7901754,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477806"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477807"
+    }
+  },
+  "id": 1716271477.8059292,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.822193,
+  "AttackAttributeId": 1716271477.8141124,
+  "AttackAttributeValues": "SklearnClassifier",
+  "AttackAttributeValuesId": 1716271477.822193,
+  "AttackId": 1716271477.7901754,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477823"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477823"
+    }
+  },
+  "id": 1716271477.822193,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.8386846,
+  "AttackAttributeId": 1716271477.8308475,
+  "AttackAttributeValues": "QueryEfficient",
+  "AttackAttributeValuesId": 1716271477.8386846,
+  "AttackId": 1716271477.7901754,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477839"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477839"
+    }
+  },
+  "id": 1716271477.8386846,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.9107883,
+  "AttackAttributeId": 1716271477.903431,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271477.9107883,
+  "AttackId": 1716271477.8946226,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477911"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477911"
+    }
+  },
+  "id": 1716271477.9107883,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.9514813,
+  "AttackAttributeId": 1716271477.9443855,
+  "AttackAttributeValues": "SklearnClassifier",
+  "AttackAttributeValuesId": 1716271477.9514813,
+  "AttackId": 1716271477.8946226,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477952"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477952"
+    }
+  },
+  "id": 1716271477.9514813,
+  "isActive": "Y"
+},{
+  "_id": 1716271477.9686923,
+  "AttackAttributeId": 1716271477.9596007,
+  "AttackAttributeValues": "ZerothOrderOptimization",
+  "AttackAttributeValuesId": 1716271477.9686923,
+  "AttackId": 1716271477.8946226,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477969"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271477969"
+    }
+  },
+  "id": 1716271477.9686923,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.0415397,
+  "AttackAttributeId": 1716271478.0336475,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271478.0415397,
+  "AttackId": 1716271478.0244067,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478042"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478042"
+    }
+  },
+  "id": 1716271478.0415397,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.0568256,
+  "AttackAttributeId": 1716271478.0497622,
+  "AttackAttributeValues": "SklearnClassifier1",
+  "AttackAttributeValuesId": 1716271478.0568256,
+  "AttackId": 1716271478.0244067,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478057"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478057"
+    }
+  },
+  "id": 1716271478.0568256,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.0741131,
+  "AttackAttributeId": 1716271478.0663166,
+  "AttackAttributeValues": "LabelOnlyDecisionBoundary",
+  "AttackAttributeValuesId": 1716271478.0741131,
+  "AttackId": 1716271478.0244067,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478075"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478075"
+    }
+  },
+  "id": 1716271478.0741131,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.1472046,
+  "AttackAttributeId": 1716271478.1389523,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271478.1472046,
+  "AttackId": 1716271478.1305802,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478148"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478148"
+    }
+  },
+  "id": 1716271478.1472046,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.1643908,
+  "AttackAttributeId": 1716271478.155863,
+  "AttackAttributeValues": "SklearnClassifier",
+  "AttackAttributeValuesId": 1716271478.1643908,
+  "AttackId": 1716271478.1305802,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478165"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478165"
+    }
+  },
+  "id": 1716271478.1643908,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.1798491,
+  "AttackAttributeId": 1716271478.1726236,
+  "AttackAttributeValues": "HopSkipJumpTabular",
+  "AttackAttributeValuesId": 1716271478.1798491,
+  "AttackId": 1716271478.1305802,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478180"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478180"
+    }
+  },
+  "id": 1716271478.1798491,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.2519617,
+  "AttackAttributeId": 1716271478.2446926,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271478.2519617,
+  "AttackId": 1716271478.2362437,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478253"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478253"
+    }
+  },
+  "id": 1716271478.2519617,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.266725,
+  "AttackAttributeId": 1716271478.259789,
+  "AttackAttributeValues": "SklearnClassifier1",
+  "AttackAttributeValuesId": 1716271478.266725,
+  "AttackId": 1716271478.2362437,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478267"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478267"
+    }
+  },
+  "id": 1716271478.266725,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.282962,
+  "AttackAttributeId": 1716271478.2748141,
+  "AttackAttributeValues": "AttributeInferenceWhiteBoxDecisionTree",
+  "AttackAttributeValuesId": 1716271478.282962,
+  "AttackId": 1716271478.2362437,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478284"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478284"
+    }
+  },
+  "id": 1716271478.282962,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.3533611,
+  "AttackAttributeId": 1716271478.345198,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271478.3533611,
+  "AttackId": 1716271478.337027,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478354"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478354"
+    }
+  },
+  "id": 1716271478.3533611,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.370019,
+  "AttackAttributeId": 1716271478.361761,
+  "AttackAttributeValues": "SklearnClassifier1",
+  "AttackAttributeValuesId": 1716271478.370019,
+  "AttackId": 1716271478.337027,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478371"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478371"
+    }
+  },
+  "id": 1716271478.370019,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.3845217,
+  "AttackAttributeId": 1716271478.3780699,
+  "AttackAttributeValues": "AttributeInferenceWhiteBoxLifestyleDecisionTree",
+  "AttackAttributeValuesId": 1716271478.3845217,
+  "AttackId": 1716271478.337027,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478385"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478385"
+    }
+  },
+  "id": 1716271478.3845217,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.4561362,
+  "AttackAttributeId": 1716271478.4476547,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271478.4561362,
+  "AttackId": 1716271478.438907,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478457"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478457"
+    }
+  },
+  "id": 1716271478.4561362,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.4711971,
+  "AttackAttributeId": 1716271478.4639559,
+  "AttackAttributeValues": "SklearnClassifier1",
+  "AttackAttributeValuesId": 1716271478.4711971,
+  "AttackId": 1716271478.438907,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478472"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478472"
+    }
+  },
+  "id": 1716271478.4711971,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.5070784,
+  "AttackAttributeId": 1716271478.4798245,
+  "AttackAttributeValues": "DecisionTree",
+  "AttackAttributeValuesId": 1716271478.5070784,
+  "AttackId": 1716271478.438907,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478508"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478508"
+    }
+  },
+  "id": 1716271478.5070784,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.577569,
+  "AttackAttributeId": 1716271478.5703778,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271478.577569,
+  "AttackId": 1716271478.5620923,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478578"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478578"
+    }
+  },
+  "id": 1716271478.577569,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.5925703,
+  "AttackAttributeId": 1716271478.5857117,
+  "AttackAttributeValues": "SklearnClassifier1",
+  "AttackAttributeValuesId": 1716271478.5925703,
+  "AttackId": 1716271478.5620923,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478593"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478593"
+    }
+  },
+  "id": 1716271478.5925703,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.6300857,
+  "AttackAttributeId": 1716271478.6005595,
+  "AttackAttributeValues": "Poisoning",
+  "AttackAttributeValuesId": 1716271478.6300857,
+  "AttackId": 1716271478.5620923,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478631"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478631"
+    }
+  },
+  "id": 1716271478.6300857,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.7046938,
+  "AttackAttributeId": 1716271478.6974657,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271478.7046938,
+  "AttackId": 1716271478.6895645,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478705"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478705"
+    }
+  },
+  "id": 1716271478.7046938,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.7288969,
+  "AttackAttributeId": 1716271478.721204,
+  "AttackAttributeValues": "SklearnAPIClassifier",
+  "AttackAttributeValuesId": 1716271478.7288969,
+  "AttackId": 1716271478.6895645,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478729"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478729"
+    }
+  },
+  "id": 1716271478.7288969,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.7451584,
+  "AttackAttributeId": 1716271478.7370057,
+  "AttackAttributeValues": "QueryEfficientGradientAttackEndPoint",
+  "AttackAttributeValuesId": 1716271478.7451584,
+  "AttackId": 1716271478.6895645,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478746"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478746"
+    }
+  },
+  "id": 1716271478.7451584,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.8150218,
+  "AttackAttributeId": 1716271478.8074903,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271478.8150218,
+  "AttackId": 1716271478.79878,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478816"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478816"
+    }
+  },
+  "id": 1716271478.8150218,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.829773,
+  "AttackAttributeId": 1716271478.822894,
+  "AttackAttributeValues": "SklearnAPIClassifier",
+  "AttackAttributeValuesId": 1716271478.829773,
+  "AttackId": 1716271478.79878,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478830"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478830"
+    }
+  },
+  "id": 1716271478.829773,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.8452992,
+  "AttackAttributeId": 1716271478.8380108,
+  "AttackAttributeValues": "BoundaryAttackEndPoint",
+  "AttackAttributeValuesId": 1716271478.8452992,
+  "AttackId": 1716271478.79878,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478846"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478846"
+    }
+  },
+  "id": 1716271478.8452992,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.9133956,
+  "AttackAttributeId": 1716271478.9057984,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271478.9133956,
+  "AttackId": 1716271478.8985274,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478914"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478914"
+    }
+  },
+  "id": 1716271478.9133956,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.9289126,
+  "AttackAttributeId": 1716271478.9217172,
+  "AttackAttributeValues": "SklearnAPIClassifier",
+  "AttackAttributeValuesId": 1716271478.9289126,
+  "AttackId": 1716271478.8985274,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478929"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478929"
+    }
+  },
+  "id": 1716271478.9289126,
+  "isActive": "Y"
+},{
+  "_id": 1716271478.9442263,
+  "AttackAttributeId": 1716271478.9367511,
+  "AttackAttributeValues": "HopSkipJumpAttackEndPoint",
+  "AttackAttributeValuesId": 1716271478.9442263,
+  "AttackId": 1716271478.8985274,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478945"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271478945"
+    }
+  },
+  "id": 1716271478.9442263,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.0165057,
+  "AttackAttributeId": 1716271479.0097823,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271479.0165057,
+  "AttackId": 1716271479.0026531,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479017"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479017"
+    }
+  },
+  "id": 1716271479.0165057,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.0316784,
+  "AttackAttributeId": 1716271479.0245554,
+  "AttackAttributeValues": "SklearnAPIClassifier",
+  "AttackAttributeValuesId": 1716271479.0316784,
+  "AttackId": 1716271479.0026531,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479032"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479032"
+    }
+  },
+  "id": 1716271479.0316784,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.0472367,
+  "AttackAttributeId": 1716271479.0395076,
+  "AttackAttributeValues": "LabelOnlyGapAttackEndPoint",
+  "AttackAttributeValuesId": 1716271479.0472367,
+  "AttackId": 1716271479.0026531,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479048"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479048"
+    }
+  },
+  "id": 1716271479.0472367,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.1180658,
+  "AttackAttributeId": 1716271479.1104424,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271479.1180658,
+  "AttackId": 1716271479.1029503,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479119"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479119"
+    }
+  },
+  "id": 1716271479.1180658,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.1327846,
+  "AttackAttributeId": 1716271479.125802,
+  "AttackAttributeValues": "SklearnAPIClassifier",
+  "AttackAttributeValuesId": 1716271479.1327846,
+  "AttackId": 1716271479.1029503,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479133"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479133"
+    }
+  },
+  "id": 1716271479.1327846,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.1477058,
+  "AttackAttributeId": 1716271479.1406436,
+  "AttackAttributeValues": "MembershipInferenceBlackBoxRuleBasedAttackEndPoint",
+  "AttackAttributeValuesId": 1716271479.1477058,
+  "AttackId": 1716271479.1029503,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479148"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479148"
+    }
+  },
+  "id": 1716271479.1477058,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.2173085,
+  "AttackAttributeId": 1716271479.2095337,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271479.2173085,
+  "AttackId": 1716271479.2023206,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479218"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479218"
+    }
+  },
+  "id": 1716271479.2173085,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.2326012,
+  "AttackAttributeId": 1716271479.225836,
+  "AttackAttributeValues": "SklearnAPIClassifier",
+  "AttackAttributeValuesId": 1716271479.2326012,
+  "AttackId": 1716271479.2023206,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479233"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479233"
+    }
+  },
+  "id": 1716271479.2326012,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.2485166,
+  "AttackAttributeId": 1716271479.2406454,
+  "AttackAttributeValues": "LabelOnlyDecisionBoundaryAttackEndPoint",
+  "AttackAttributeValuesId": 1716271479.2485166,
+  "AttackId": 1716271479.2023206,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479249"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479249"
+    }
+  },
+  "id": 1716271479.2485166,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.318716,
+  "AttackAttributeId": 1716271479.311469,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271479.318716,
+  "AttackId": 1716271479.3030653,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479319"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479319"
+    }
+  },
+  "id": 1716271479.318716,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.3346226,
+  "AttackAttributeId": 1716271479.326743,
+  "AttackAttributeValues": "SklearnAPIClassifier",
+  "AttackAttributeValuesId": 1716271479.3346226,
+  "AttackId": 1716271479.3030653,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479335"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479335"
+    }
+  },
+  "id": 1716271479.3346226,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.3494382,
+  "AttackAttributeId": 1716271479.3424244,
+  "AttackAttributeValues": "MembershipInferenceBlackBoxAttackEndPoint",
+  "AttackAttributeValuesId": 1716271479.3494382,
+  "AttackId": 1716271479.3030653,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479350"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479350"
+    }
+  },
+  "id": 1716271479.3494382,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.4194524,
+  "AttackAttributeId": 1716271479.4124842,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271479.4194524,
+  "AttackId": 1716271479.4036596,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479420"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479420"
+    }
+  },
+  "id": 1716271479.4194524,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.4335425,
+  "AttackAttributeId": 1716271479.4271967,
+  "AttackAttributeValues": "ScikitlearnClassifier_",
+  "AttackAttributeValuesId": 1716271479.4335425,
+  "AttackId": 1716271479.4036596,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479434"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479434"
+    }
+  },
+  "id": 1716271479.4335425,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.4480562,
+  "AttackAttributeId": 1716271479.4406533,
+  "AttackAttributeValues": "AttributeInference",
+  "AttackAttributeValuesId": 1716271479.4480562,
+  "AttackId": 1716271479.4036596,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479449"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479449"
+    }
+  },
+  "id": 1716271479.4480562,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.5630665,
+  "AttackAttributeId": 1716271479.5563753,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271479.5630665,
+  "AttackId": 1716271479.548117,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479564"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479564"
+    }
+  },
+  "id": 1716271479.5630665,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.579511,
+  "AttackAttributeId": 1716271479.572481,
+  "AttackAttributeValues": "ScikitlearnClassifier",
+  "AttackAttributeValuesId": 1716271479.579511,
+  "AttackId": 1716271479.548117,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479580"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479580"
+    }
+  },
+  "id": 1716271479.579511,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.5934207,
+  "AttackAttributeId": 1716271479.5866113,
+  "AttackAttributeValues": "HopSkipJumpTabular",
+  "AttackAttributeValuesId": 1716271479.5934207,
+  "AttackId": 1716271479.548117,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479594"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479594"
+    }
+  },
+  "id": 1716271479.5934207,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.6664805,
+  "AttackAttributeId": 1716271479.6580617,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271479.6664805,
+  "AttackId": 1716271479.6502306,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479667"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479667"
+    }
+  },
+  "id": 1716271479.6664805,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.6818104,
+  "AttackAttributeId": 1716271479.6746998,
+  "AttackAttributeValues": "ScikitlearnClassifier",
+  "AttackAttributeValuesId": 1716271479.6818104,
+  "AttackId": 1716271479.6502306,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479682"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479682"
+    }
+  },
+  "id": 1716271479.6818104,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.697769,
+  "AttackAttributeId": 1716271479.6904614,
+  "AttackAttributeValues": "InferenceLabelOnlyGap",
+  "AttackAttributeValuesId": 1716271479.697769,
+  "AttackId": 1716271479.6502306,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479698"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479698"
+    }
+  },
+  "id": 1716271479.697769,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.794548,
+  "AttackAttributeId": 1716271479.7868772,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271479.794548,
+  "AttackId": 1716271479.779461,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479795"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479795"
+    }
+  },
+  "id": 1716271479.794548,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.8117015,
+  "AttackAttributeId": 1716271479.8032951,
+  "AttackAttributeValues": "ScikitlearnClassifier",
+  "AttackAttributeValuesId": 1716271479.8117015,
+  "AttackId": 1716271479.779461,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479812"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479812"
+    }
+  },
+  "id": 1716271479.8117015,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.8307588,
+  "AttackAttributeId": 1716271479.819753,
+  "AttackAttributeValues": "MembershipInferenceBlackBox",
+  "AttackAttributeValuesId": 1716271479.8307588,
+  "AttackId": 1716271479.779461,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479831"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479831"
+    }
+  },
+  "id": 1716271479.8307588,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.90484,
+  "AttackAttributeId": 1716271479.8956912,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271479.90484,
+  "AttackId": 1716271479.88652,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479905"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479905"
+    }
+  },
+  "id": 1716271479.90484,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.9205139,
+  "AttackAttributeId": 1716271479.9133246,
+  "AttackAttributeValues": "ScikitlearnClassifier",
+  "AttackAttributeValuesId": 1716271479.9205139,
+  "AttackId": 1716271479.88652,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479921"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479921"
+    }
+  },
+  "id": 1716271479.9205139,
+  "isActive": "Y"
+},{
+  "_id": 1716271479.9365342,
+  "AttackAttributeId": 1716271479.9287596,
+  "AttackAttributeValues": "MembershipInferenceRule",
+  "AttackAttributeValuesId": 1716271479.9365342,
+  "AttackId": 1716271479.88652,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479937"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271479937"
+    }
+  },
+  "id": 1716271479.9365342,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.0073495,
+  "AttackAttributeId": 1716271479.9978426,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271480.0073495,
+  "AttackId": 1716271479.990362,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480008"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480008"
+    }
+  },
+  "id": 1716271480.0073495,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.0238051,
+  "AttackAttributeId": 1716271480.0164692,
+  "AttackAttributeValues": "ScikitlearnClassifier",
+  "AttackAttributeValuesId": 1716271480.0238051,
+  "AttackId": 1716271479.990362,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480024"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480024"
+    }
+  },
+  "id": 1716271480.0238051,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.0447717,
+  "AttackAttributeId": 1716271480.0360155,
+  "AttackAttributeValues": "QueryEfficient",
+  "AttackAttributeValuesId": 1716271480.0447717,
+  "AttackId": 1716271479.990362,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480045"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480045"
+    }
+  },
+  "id": 1716271480.0447717,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.1162453,
+  "AttackAttributeId": 1716271480.1086347,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271480.1162453,
+  "AttackId": 1716271480.1003726,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480117"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480117"
+    }
+  },
+  "id": 1716271480.1162453,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.1318386,
+  "AttackAttributeId": 1716271480.124604,
+  "AttackAttributeValues": "ScikitlearnClassifier",
+  "AttackAttributeValuesId": 1716271480.1318386,
+  "AttackId": 1716271480.1003726,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480132"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480132"
+    }
+  },
+  "id": 1716271480.1318386,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.1481729,
+  "AttackAttributeId": 1716271480.1411724,
+  "AttackAttributeValues": "ZerothOrderOptimization",
+  "AttackAttributeValuesId": 1716271480.1481729,
+  "AttackId": 1716271480.1003726,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480149"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480149"
+    }
+  },
+  "id": 1716271480.1481729,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.22241,
+  "AttackAttributeId": 1716271480.212878,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271480.22241,
+  "AttackId": 1716271480.2040348,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480223"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480223"
+    }
+  },
+  "id": 1716271480.22241,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.2373068,
+  "AttackAttributeId": 1716271480.2301068,
+  "AttackAttributeValues": "ScikitlearnClassifier",
+  "AttackAttributeValuesId": 1716271480.2373068,
+  "AttackId": 1716271480.2040348,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480238"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480238"
+    }
+  },
+  "id": 1716271480.2373068,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.25379,
+  "AttackAttributeId": 1716271480.2450094,
+  "AttackAttributeValues": "AttributeInferenceWhiteBoxLifestyleDecisionTree",
+  "AttackAttributeValuesId": 1716271480.25379,
+  "AttackId": 1716271480.2040348,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480254"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480254"
+    }
+  },
+  "id": 1716271480.25379,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.3249495,
+  "AttackAttributeId": 1716271480.3179364,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271480.3249495,
+  "AttackId": 1716271480.310927,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480326"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480326"
+    }
+  },
+  "id": 1716271480.3249495,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.3411043,
+  "AttackAttributeId": 1716271480.3340056,
+  "AttackAttributeValues": "ScikitlearnClassifier",
+  "AttackAttributeValuesId": 1716271480.3411043,
+  "AttackId": 1716271480.310927,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480342"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480342"
+    }
+  },
+  "id": 1716271480.3411043,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.3556952,
+  "AttackAttributeId": 1716271480.3487372,
+  "AttackAttributeValues": "AttributeInferenceWhiteBoxDecisionTree",
+  "AttackAttributeValuesId": 1716271480.3556952,
+  "AttackId": 1716271480.310927,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480356"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480356"
+    }
+  },
+  "id": 1716271480.3556952,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.4274814,
+  "AttackAttributeId": 1716271480.4191256,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271480.4274814,
+  "AttackId": 1716271480.4099047,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480428"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480428"
+    }
+  },
+  "id": 1716271480.4274814,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.443093,
+  "AttackAttributeId": 1716271480.4359314,
+  "AttackAttributeValues": "ScikitlearnClassifier",
+  "AttackAttributeValuesId": 1716271480.443093,
+  "AttackId": 1716271480.4099047,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480444"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480444"
+    }
+  },
+  "id": 1716271480.443093,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.458107,
+  "AttackAttributeId": 1716271480.4507546,
+  "AttackAttributeValues": "AttributeInference",
+  "AttackAttributeValuesId": 1716271480.458107,
+  "AttackId": 1716271480.4099047,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480459"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480459"
+    }
+  },
+  "id": 1716271480.458107,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.5281637,
+  "AttackAttributeId": 1716271480.520839,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271480.5281637,
+  "AttackId": 1716271480.5134547,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480529"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480529"
+    }
+  },
+  "id": 1716271480.5281637,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.5446537,
+  "AttackAttributeId": 1716271480.5363917,
+  "AttackAttributeValues": "ScikitlearnClassifier",
+  "AttackAttributeValuesId": 1716271480.5446537,
+  "AttackId": 1716271480.5134547,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480545"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480545"
+    }
+  },
+  "id": 1716271480.5446537,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.5584724,
+  "AttackAttributeId": 1716271480.552,
+  "AttackAttributeValues": "DecisionTree",
+  "AttackAttributeValuesId": 1716271480.5584724,
+  "AttackId": 1716271480.5134547,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480559"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480559"
+    }
+  },
+  "id": 1716271480.5584724,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.6294549,
+  "AttackAttributeId": 1716271480.6218488,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271480.6294549,
+  "AttackId": 1716271480.6128912,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480630"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480630"
+    }
+  },
+  "id": 1716271480.6294549,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.6449585,
+  "AttackAttributeId": 1716271480.6385984,
+  "AttackAttributeValues": "ScikitlearnClassifier",
+  "AttackAttributeValuesId": 1716271480.6449585,
+  "AttackId": 1716271480.6128912,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480646"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480646"
+    }
+  },
+  "id": 1716271480.6449585,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.6610863,
+  "AttackAttributeId": 1716271480.6529164,
+  "AttackAttributeValues": "LabelOnlyDecisionBoundary",
+  "AttackAttributeValuesId": 1716271480.6610863,
+  "AttackId": 1716271480.6128912,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480662"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480662"
+    }
+  },
+  "id": 1716271480.6610863,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.7306962,
+  "AttackAttributeId": 1716271480.7240157,
+  "AttackAttributeValues": "Tabular",
+  "AttackAttributeValuesId": 1716271480.7306962,
+  "AttackId": 1716271480.7163782,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480731"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480731"
+    }
+  },
+  "id": 1716271480.7306962,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.7456307,
+  "AttackAttributeId": 1716271480.7389216,
+  "AttackAttributeValues": "ScikitlearnClassifier1",
+  "AttackAttributeValuesId": 1716271480.7456307,
+  "AttackId": 1716271480.7163782,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480746"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480746"
+    }
+  },
+  "id": 1716271480.7456307,
+  "isActive": "Y"
+},{
+  "_id": 1716271480.7596653,
+  "AttackAttributeId": 1716271480.7528684,
+  "AttackAttributeValues": "ProjectedGradientDescentTabular",
+  "AttackAttributeValuesId": 1716271480.7596653,
+  "AttackId": 1716271480.7163782,
+  "CreatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480760"
+    }
+  },
+  "LastUpdatedDateTime": {
+    "$date": {
+      "$numberLong": "1716271480760"
+    }
+  },
+  "id": 1716271480.7596653,
+  "isActive": "Y"
+}]

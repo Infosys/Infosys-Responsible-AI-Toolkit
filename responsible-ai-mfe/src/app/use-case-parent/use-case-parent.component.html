@@ -1,0 +1,222 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<!-- <p>use-case-parent works!</p> -->
+<div class="ps-3" *ngIf="useCaseMainPage===false" >
+    <!-- <div class="fixed-top"> -->
+        <div class="d-flex" style="justify-content: space-between;">
+            <mat-tab-group dynamicHeight dynamicWidth color="primary" class="workbenchContainer inputText" >
+                <mat-tab label="CREATE USE CASE">
+                    <!-- <ng-template matTabContent>
+                    <app-ai-canvas-usecase ></app-ai-canvas-usecase>
+                </ng-template> -->
+                </mat-tab>
+            </mat-tab-group>
+            <div class="me-4" style="display:flex">
+            <div class="me-0" (click)="showNewTab()">    
+                <i class="material-icons help_icon" >help_outline</i>                
+            </div>
+            <mat-icon class="closeIcon" matTooltip="Close" (click)="onClose()">close</mat-icon>
+            </div>
+        </div>
+    
+    <div class="inputText">
+        <input type="text" class="form-control shadow-none inputField" name="useCaseName" [(ngModel)]="useCaseName"
+            placeholder="Enter Use Case name" (input)="saveUseCaseName()">
+    </div>
+<!-- </div> -->
+
+
+
+    <div class="d-flex">
+        <mat-horizontal-stepper #stepper>
+            <mat-step [stepControl]="firstFormGroup1" style="width: 70%;">
+                <ng-template matStepLabel>AI CANVAS</ng-template>
+                <!-- <div [hidden]="currentScreen != 1"> -->
+                    
+                    <!-- [editValue]="editFun" -->
+                <app-ai-canvas-usecase  (formDataChanged)="onChildDataChanged($event)"></app-ai-canvas-usecase>
+                <!-- <div class="d-flex justify-content-end" style="margin-right: 88px;">
+                    <div class="btnRound" (click)="previousScreen()" *ngIf="currentScreen !== 1">
+                        <i class="material-icons">arrow_back</i>
+                    </div>
+    
+                    <div class="btnRound" (click)="nextScreen()" matStepperNext (click)="getDataFromChild()">
+                        
+                        <i class="material-icons" (click)="getDataFromChild()" (click)="stepper.next()">arrow_forward</i>
+                       
+                    </div>
+                </div> -->
+                <!-- <div>
+                    <button mat-button matStepperNext (click)="getDataFromChild()">Next
+    
+                    </button>
+                </div> -->
+                <!-- </div> -->
+    
+            </mat-step>
+            <mat-step [stepControl]="secondFormGroup">
+                <ng-template matStepLabel>RAI CANVAS</ng-template>
+                <!-- <div [hidden]="currentScreen != 2"> -->
+                    <div *ngIf="showRaiCanas==true">
+                        <app-rai-canvas-usecase [editValue]="editFun" 
+                        (formRaiCanvasDataChanged)="onRaiCanvasChildDataChanged($event)"></app-rai-canvas-usecase>
+                    </div>
+               
+                <!-- <div class="d-flex justify-content-end" style="margin-right: 88px;">
+                    <div class="btnRound" (click)="previousScreen()" matStepperPrevious *ngIf="currentScreen !== 1">
+                        <i class="material-icons" matStepperPrevious (click)="stepper.previous()">arrow_back</i>
+                       
+                    </div>
+    
+                    <div class="btnRound" (click)="nextScreen()" matStepperNext (click)="getRaiCanvasDataFromChild()"
+                        [class.disabled]="  currentScreen === 1 ">
+                        <i class="material-icons" (click)="getRaiCanvasDataFromChild()"
+                            (click)="stepper.next()">arrow_forward</i>
+                       
+                    </div>
+                </div> -->
+                <!-- <div>
+                    <button mat-button matStepperPrevious>Back
+    
+                    </button>
+                    <button mat-button matStepperNext (click)="getRaiCanvasDataFromChild()">Next
+    
+                    </button>
+                </div> -->
+                <!-- </div> -->
+            </mat-step>
+            <mat-step [stepControl]="thirdFormGroup">
+                <ng-template matStepLabel>QUESTIONNAIRES</ng-template>
+                <!-- <div [hidden]="currentScreen != 3"> -->
+                <app-questionnaire-usecase (valueChanged)="onChildValueChange($event)"></app-questionnaire-usecase>
+                <!-- <div class="d-flex justify-content-end" style="margin-right: 88px;">
+                    <div class="btnRound" (click)="previousScreen()" *ngIf="currentScreen !== 1">
+    
+                        <i class="material-icons" (click)="stepper.previous()">arrow_back</i>
+                        
+                    </div>
+                    <p>Hello {{parentPageValue}}</p>
+                    <div class="buttonMain" style="padding-left: 20px;">
+                        <button mat-raised-button color="black" (click)="submit()">Submit</button>
+                    </div>
+    
+    
+                </div> -->
+                <!-- <div>
+                    <button mat-button matStepperPrevious>Back
+    
+                    </button>
+                </div> -->
+                <!-- </div> -->
+            </mat-step>
+        </mat-horizontal-stepper>
+
+        <!-- <div class="justify-content-end" style="margin-right: 88px;"> -->
+            <div class="btnRound" (click)="previousScreen()" matStepperPrevious *ngIf="currentScreen !== 1">
+                <i class="material-icons" matStepperPrevious (click)="stepper.previous()">arrow_back</i>
+                <!-- <button mat-button matStepperPrevious><i class="material-icons" matStepperPrevious>arrow_back</i></button> -->
+            </div>
+
+            <div class="btnRound" (click)="nextScreen()" matStepperNext (click)="getRaiCanvasDataFromChild()"
+                [class.disabled]="  currentScreen === 3 "
+                *ngIf="currentScreen !== 3">
+                <i class="material-icons" (click)="getRaiCanvasDataFromChild()"
+                    (click)="stepper.next()">arrow_forward</i>
+                <!-- <button mat-button matStepperNext (click)="getRaiCanvasDataFromChild()"><i class="material-icons" >arrow_forward</i></button> -->
+            </div>
+        <!-- </div> -->
+    </div>
+   
+
+</div>
+
+
+<!-- stepper start -->
+<!-- stepper end -->
+
+<!-- <h1>Use Case</h1> -->
+
+<!-- <div *ngIf="useCaseMainPage===true">
+    <app-home></app-home>
+</div> -->
+
+
+
+<!--<mat-stepper #stepper>
+
+    <mat-step [formGroup]="firstFormGroup" errorMessage="Name is required.">
+        <ng-template matStepLabel >Ai Canvas</ng-template>
+        <div [hidden]="currentScreen != 1" >
+
+            <app-ai-canvas-usecase  ></app-ai-canvas-usecase>
+        </div>
+        <div >
+
+          </div>
+    </mat-step>
+
+
+    <mat-step [formGroup]="secondFormGroup" errorMessage="Name is required.">
+        <ng-template matStepLabel >Rai Canvas</ng-template>
+        <div [hidden]="currentScreen != 2" >
+
+            <app-rai-canvas-usecase ></app-rai-canvas-usecase>
+        </div>
+        <div>
+
+          </div>
+    </mat-step>
+    <mat-step [formGroup]="thirdFormGroup" errorMessage="Name is required.">
+        <ng-template matStepLabel >Questionnaires</ng-template>
+        <div [hidden]="currentScreen != 3" >
+
+            <app-questionnaire-usecase  ></app-questionnaire-usecase>
+        </div>
+        <div>
+
+          </div>
+    </mat-step>
+</mat-stepper>
+-->
+
+
+
+<!-- <div [hidden]="currentScreen != 1">
+
+    <app-ai-canvas-usecase></app-ai-canvas-usecase>
+</div>
+
+
+<div [hidden]="currentScreen != 2">
+    <app-rai-canvas-usecase></app-rai-canvas-usecase>
+</div>
+
+<div [hidden]="currentScreen != 3">
+    <app-questionnaire-usecase></app-questionnaire-usecase>
+</div> -->
+
+<!-- <div class="d-flex justify-content-end" style="margin-right: 88px;"  >
+        <div class="btnRound"   (click)="previousScreen()" *ngIf="currentScreen !== 1">
+            <i class="material-icons">arrow_back</i>
+        </div>
+
+        <div class="btnRound"   (click)="nextScreen()"
+            [class.disabled]=" (currentScreen === 1 )">
+            <i class="material-icons">arrow_forward</i>
+        </div>
+    </div> -->
+
+<!-- <div class="d-flex justify-content-end" style="margin-right: 88px;"  >
+        <div class="btnRound"   (click)="previousScreen()" *ngIf="currentScreen !== 1" >
+            <i class="material-icons">arrow_back</i>
+        </div>
+
+        <div class="btnRound"   (click)="nextScreen()"
+            [class.disabled]=" (currentScreen === 1 )"  >
+            <i class="material-icons">arrow_forward</i>
+        </div>
+    </div> -->

@@ -1,0 +1,1139 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+@font-face {
+  font-family: 'DS-iconfont';
+  src: url('DS-iconfont.eot?ae25f51a19bf310361a26f376acc4d6e?#iefix') format('embedded-opentype'),
+    url('DS-iconfont.woff2?ae25f51a19bf310361a26f376acc4d6e') format('woff2'),
+    url('DS-iconfont.woff?ae25f51a19bf310361a26f376acc4d6e') format('woff'),
+    url('DS-iconfont.ttf?ae25f51a19bf310361a26f376acc4d6e') format('truetype'),
+    url('DS-iconfont.svg?ae25f51a19bf310361a26f376acc4d6e#DS-iconfont') format('svg');
+}
+
+.icon {
+  font-family: DS-iconfont !important;
+  font-style: normal;
+  font-weight: normal !important;
+  line-height: 1;
+  vertical-align: middle;
+  /*added new*/
+  font-size: 24px;
+  display: block;
+  background-repeat: no-repeat !important;
+  margin: auto;
+}
+
+.aadhar-icon:before {
+  content: '\e001';
+}
+
+.accommodation-icon:before {
+  content: '\e002';
+}
+
+.address-icon:before {
+  content: '\e003';
+}
+
+.alert-icon:before {
+  content: '\e004';
+}
+
+.announcement-icon:before {
+  content: '\e005';
+}
+
+.attachment-icon:before {
+  content: '\e006';
+}
+
+.back-icon:before {
+  content: '\e007';
+}
+
+.bank-icon:before {
+  content: '\e008';
+}
+
+.buspass-icon:before {
+  content: '\e009';
+}
+
+.calendar-icon:before {
+  content: '\e00a';
+}
+
+.call-icon:before {
+  content: '\e00b';
+}
+
+.callback-icon:before {
+  content: '\e00c';
+}
+
+.camera-icon:before {
+  content: '\e00d';
+}
+
+.car-icon:before {
+  content: '\e00e';
+}
+
+.chat-icon:before {
+  content: '\e00f';
+}
+
+.close-icon:before {
+  content: '\e010';
+}
+
+.comment-icon:before {
+  content: '\e011';
+}
+
+.copy-icon:before {
+  content: '\e012';
+}
+
+.delete-sm-icon:before {
+  content: '\e013';
+}
+
+.disability-icon:before {
+  content: '\e014';
+}
+
+.document-icon:before {
+  content: '\e015';
+}
+
+.down-arw-icon:before {
+  content: '\e016';
+}
+
+.download-icon:before {
+  content: '\e017';
+}
+
+.edit-icon:before {
+  content: '\e018';
+}
+
+.education-icon:before {
+  content: '\e019';
+}
+
+.error-big-icon:before {
+  content: '\e01a';
+}
+
+.error-icon:before {
+  content: '\e01b';
+}
+
+.filter-icon:before {
+  content: '\e01c';
+}
+
+.flight-icon:before {
+  content: '\e01d';
+}
+
+.food-icon:before {
+  content: '\e01e';
+}
+
+.forward-icon:before {
+  content: '\e01f';
+}
+
+.gallery-icon:before {
+  content: '\e020';
+}
+
+.graph-icon:before {
+  content: '\e021';
+}
+
+.hand-icon:before {
+  content: '\e022';
+}
+
+.hide-icon:before {
+  content: '\e023';
+}
+
+.home-icon:before {
+  content: '\e024';
+}
+
+.i9-icon:before {
+  content: '\e025';
+}
+
+.icon-add:before {
+  content: '\e026';
+}
+
+.icon-appreciate:before {
+  content: '\e027';
+}
+
+.icon-avatar:before {
+  content: '\e028';
+}
+
+.icon-award:before {
+  content: '\e029';
+}
+
+.icon-bill:before {
+  content: '\e02a';
+}
+
+.icon-bookmark:before {
+  content: '\e02b';
+}
+
+.icon-close-mini:before {
+  content: '\e02c';
+}
+
+.icon-credit-card:before {
+  content: '\e02d';
+}
+
+.icon-debit-card:before {
+  content: '\e02e';
+}
+
+.icon-Domestic-InternationalTravel:before {
+  content: '\e02f';
+}
+
+.icon-education-gaps-dark:before {
+  content: '\e030';
+}
+
+.icon-favorite:before {
+  content: '\e031';
+}
+
+.icon-form:before {
+  content: '\e032';
+}
+
+.icon-Hamburger:before {
+  content: '\e033';
+}
+
+.icon-IncomeTax:before {
+  content: '\e034';
+}
+
+.icon-inprogressBlue:before {
+  content: '\e035';
+}
+
+.icon-like:before {
+  content: '\e036';
+}
+
+.icon-LocalTaxi:before {
+  content: '\e037';
+}
+
+.icon-mobile:before {
+  content: '\e038';
+}
+
+.icon-mute:before {
+  content: '\e039';
+}
+
+.icon-news-article:before {
+  content: '\e03a';
+}
+
+.icon-notepad:before {
+  content: '\e03b';
+}
+
+.icon-password:before {
+  content: '\e03c';
+}
+
+.icon-pause:before {
+  content: '\e03d';
+}
+
+.icon-payslip:before {
+  content: '\e03e';
+}
+
+.icon-pending:before {
+  content: '\e0e1';
+}
+
+.icon-process-complete:before {
+  content: '\e0e2';
+}
+
+.icon-rejected:before {
+  content: '\e041';
+}
+
+.icon-share:before {
+  content: '\e042';
+}
+
+.icon-Superannuation:before {
+  content: '\e043';
+}
+
+.icon-terms-conditions-range:before {
+  content: '\e044';
+}
+
+.icon-tick-dark:before {
+  content: '\e045';
+}
+
+.icon-time:before {
+  content: '\e046';
+}
+
+.icon-Transport:before {
+  content: '\e047';
+}
+
+.icons-Attendance:before {
+  content: '\e048';
+}
+
+.icons-OfficialAccommodation:before {
+  content: '\e049';
+}
+
+.icon_Account360:before {
+  content: '\e04a';
+}
+
+.icon_AccountDirectory:before {
+  content: '\e04b';
+}
+
+.icon_AccountUnlock:before {
+  content: '\e04c';
+}
+
+.icon_adjustment:before {
+  content: '\e04d';
+}
+
+.icon_AHD:before {
+  content: '\e04e';
+}
+
+.icon_apple:before {
+  content: '\e04f';
+}
+
+.icon_approved_docs:before {
+  content: '\e050';
+}
+
+.icon_AwarenessQuiz:before {
+  content: '\e051';
+}
+
+.icon_BCMS:before {
+  content: '\e052';
+}
+
+.icon_Benefits:before {
+  content: '\e053';
+}
+
+.icon_BeTheNavigator:before {
+  content: '\e054';
+}
+
+.icon_BitLocker:before {
+  content: '\e055';
+}
+
+.icon_blog:before {
+  content: '\e056';
+}
+
+.icon_broadband_wifi:before {
+  content: '\e057';
+}
+
+.icon_certificate:before {
+  content: '\e058';
+}
+
+.icon_Certifications_Q-Cert:before {
+  content: '\e059';
+}
+
+.icon_Claims:before {
+  content: '\e05a';
+}
+
+.icon_color_info:before {
+  content: '\e05b';
+}
+
+.icon_ConnectInfy:before {
+  content: '\e05c';
+}
+
+.icon_corporate_accounting:before {
+  content: '\e05d';
+}
+
+.icon_Covid19Contribution:before {
+  content: '\e05e';
+}
+
+.icon_CovidDeclaration:before {
+  content: '\e05f';
+}
+
+.icon_DataPrivacy:before {
+  content: '\e060';
+}
+
+.icon_Demand:before {
+  content: '\e061';
+}
+
+.icon_Explore:before {
+  content: '\e062';
+}
+
+.icon_facebook:before {
+  content: '\e063';
+}
+
+.icon_FAQ:before {
+  content: '\e064';
+}
+
+.icon_GatePass:before {
+  content: '\e065';
+}
+
+.icon_GlobalHelpdesk:before {
+  content: '\e066';
+}
+
+.icon_globe:before {
+  content: '\e067';
+}
+
+.icon_glomo:before {
+  content: '\e068';
+}
+
+.icon_google:before {
+  content: '\e069';
+}
+
+.icon_grid_view:before {
+  content: '\e06a';
+}
+
+.icon_HealthInsurance:before {
+  content: '\e06b';
+}
+
+.icon_Hint:before {
+  content: '\e06c';
+}
+
+.icon_hint_idea:before {
+  content: '\e06d';
+}
+
+.icon_Hive:before {
+  content: '\e06e';
+}
+
+.icon_icount:before {
+  content: '\e06f';
+}
+
+.icon_IDS:before {
+  content: '\e070';
+}
+
+.icon_ILMS:before {
+  content: '\e071';
+}
+
+.icon_iMother:before {
+  content: '\e072';
+}
+
+.icon_InfosysConnect:before {
+  content: '\e073';
+}
+
+.icon_InfosysDirectory:before {
+  content: '\e074';
+}
+
+.icon_InsiderTrading:before {
+  content: '\e075';
+}
+
+.icon_keywords:before {
+  content: '\e076';
+}
+
+.icon_languages:before {
+  content: '\e077';
+}
+
+.icon_laptop:before {
+  content: '\e078';
+}
+
+.icon_LaptopGatepass:before {
+  content: '\e079';
+}
+
+.icon_LateStay:before {
+  content: '\e07a';
+}
+
+.icon_link:before {
+  content: '\e07b';
+}
+
+.icon_linkedin:before {
+  content: '\e07c';
+}
+
+.icon_Litmus:before {
+  content: '\e07d';
+}
+
+.icon_Loans:before {
+  content: '\e07e';
+}
+
+.icon_ManageSales:before {
+  content: '\e07f';
+}
+
+.icon_MealVoucher:before {
+  content: '\e080';
+}
+
+.icon_NightStayInCampus:before {
+  content: '\e081';
+}
+
+.icon_Performance:before {
+  content: '\e082';
+}
+
+.icon_PMS:before {
+  content: '\e083';
+}
+
+.icon_Project360:before {
+  content: '\e084';
+}
+
+.icon_project_party:before {
+  content: '\e085';
+}
+
+.icon_Pulse:before {
+  content: '\e086';
+}
+
+.icon_receipt:before {
+  content: '\e087';
+}
+
+.icon_Recorder:before {
+  content: '\e088';
+}
+
+.icon_refer:before {
+  content: '\e089';
+}
+
+.icon_ReferenceLetter:before {
+  content: '\e08a';
+}
+
+.icon_Samaritan:before {
+  content: '\e08b';
+}
+
+.Icon_ScheduleCall:before {
+  content: '\e08c';
+}
+
+.icon_ServiceStore:before {
+  content: '\e08d';
+}
+
+.icon_setting:before {
+  content: '\e08e';
+}
+
+.icon_simulator:before {
+  content: '\e08f';
+}
+
+.icon_skills_and_interest:before {
+  content: '\e090';
+}
+
+.icon_StrategicIntelligence:before {
+  content: '\e091';
+}
+
+.icon_support_helpdesk:before {
+  content: '\e092';
+}
+
+.icon_teams:before {
+  content: '\e093';
+}
+
+.icon_TeamsKPIValidation:before {
+  content: '\e094';
+}
+
+.icon_Technology:before {
+  content: '\e095';
+}
+
+.icon_TeleConference:before {
+  content: '\e096';
+}
+
+.icon_Timesheet:before {
+  content: '\e097';
+}
+
+.icon_twitter:before {
+  content: '\e098';
+}
+
+.icon_UnifiedSearch:before {
+  content: '\e099';
+}
+
+.icon_UPSI:before {
+  content: '\e09a';
+}
+
+.icon_versions:before {
+  content: '\e09b';
+}
+
+.icon_video-call:before {
+  content: '\e09c';
+}
+
+.icon_VisitorManagementSystem_VMS:before {
+  content: '\e09d';
+}
+
+.icon_WeekendWorking:before {
+  content: '\e09e';
+}
+
+.icon_WFH:before {
+  content: '\e09f';
+}
+
+.icon_WorldOfInfosys:before {
+  content: '\e0a0';
+}
+
+.icon_yammer:before {
+  content: '\e0a1';
+}
+
+.icon_youtube:before {
+  content: '\e0a2';
+}
+
+.id-badge-icon:before {
+  content: '\e0a3';
+}
+
+.info-big-icon:before {
+  content: '\e0a4';
+}
+
+.infy-logo-light:before {
+  content: '\e0a5';
+}
+
+.infy-me-logo:before {
+  content: '\e0a6';
+}
+
+.inprogress-icon:before {
+  content: '\e0a7';
+}
+
+.like-icon:before {
+  content: '\e0a8';
+}
+
+.link-arw-icon:before {
+  content: '\e0a9';
+}
+
+.location-icon:before {
+  content: '\e0aa';
+}
+
+.mail-icon:before {
+  content: '\e0ab';
+}
+
+.medical-icon:before {
+  content: '\e0ac';
+}
+
+.menu-icon:before {
+  content: '\e0ad';
+}
+
+.mic-icon:before {
+  content: '\e0ae';
+}
+
+.next-icon:before {
+  content: '\e0af';
+}
+
+.notification-icon:before {
+  content: '\e0b0';
+}
+
+.nsr-icon:before {
+  content: '\e0b1';
+}
+
+.parking-icon:before {
+  content: '\e0b2';
+}
+
+.passport-icon:before {
+  content: '\e0b3';
+}
+
+.payroll-icon:before {
+  content: '\e0b4';
+}
+
+.personal-icon:before {
+  content: '\e0b5';
+}
+
+.phone-call:before {
+  content: '\e0b6';
+}
+
+.policy-icon:before {
+  content: '\e0b7';
+}
+
+.previous-icon:before {
+  content: '\e0b8';
+}
+
+.relocation-icon:before {
+  content: '\e0b9';
+}
+
+.search-icon:before {
+  content: '\e0ba';
+}
+
+.send-Icon:before {
+  content: '\e0bb';
+}
+
+.services-icon:before {
+  content: '\e0bc';
+}
+
+.show-icon:before {
+  content: '\e0bd';
+}
+
+.smiley1-icon:before {
+  content: '\e0e9';
+}
+
+.smiley2-icon:before {
+  content: '\e0ea';
+}
+
+.smiley3-icon:before {
+  content: '\e0eb';
+}
+
+.smiley4-icon:before {
+  content: '\e0ec';
+}
+
+.smiley5-icon:before {
+  content: '\e0ed';
+}
+
+.ssn-icon:before {
+  content: '\e0c8';
+}
+
+.star-icon:before {
+  content: '\e0c9';
+}
+
+.success-big-icon:before {
+  content: '\e0ca';
+}
+
+.tax-icon:before {
+  content: '\e0cb';
+}
+
+.team-icon:before {
+  content: '\e0cc';
+}
+
+.tick-green-lg-icon:before {
+  content: '\e0cd';
+}
+
+.train-icon:before {
+  content: '\e0ce';
+}
+
+.travel-icon:before {
+  content: '\e0cf';
+}
+
+.tree-icon:before {
+  content: '\e0d0';
+}
+
+.up-arw-icon:before {
+  content: '\e0d1';
+}
+
+.upload-icon:before {
+  content: '\e0d2';
+}
+
+.v-menu-icon:before {
+  content: '\e0d3';
+}
+
+.video-icon:before {
+  content: '\e0d4';
+}
+
+.w4-icon:before {
+  content: '\e0d5';
+}
+
+.icon_Flag:before {
+  content: '\e0d6';
+}
+
+.icon_whatsapp:before {
+  content: '\e0d7';
+}
+
+.icon-star_filled:before {
+  content: '\e0d8';
+}
+
+.icon-bookmark_filled:before {
+  content: '\e0d9';
+}
+
+.icon-comment_filled:before {
+  content: '\e0da';
+}
+
+.icon-favorite_filled:before {
+  content: '\e0db';
+}
+
+.icon-like_filled:before {
+  content: '\e0dc';
+}
+
+.icon-medical:before {
+  content: '\e0dd';
+}
+
+.icon_cloud_download:before {
+  content: '\e0de';
+}
+
+.icon_cloud_storage:before {
+  content: '\e0df';
+}
+
+.icon_color_avatar:before {
+  content: '\e0e0';
+}
+
+.icon_LivingLabs:before {
+  content: '\e0e3';
+}
+
+.icon_maximise:before {
+  content: '\e0e4';
+}
+
+.icon_minimise:before {
+  content: '\e0e5';
+}
+
+.icon_save:before {
+  content: '\e0e6';
+}
+
+.icon_zoom_in:before {
+  content: '\e0e7';
+}
+
+.icon_zoom_out:before {
+  content: '\e0e8';
+}
+
+.icon_Activity_Analyzer:before {
+  content: '\e0ee';
+}
+
+.icon_app_server_migrator:before {
+  content: '\e0ef';
+}
+
+.icon_cloud_modernization:before {
+  content: '\e0f0';
+}
+
+.icon_cloud_native_development:before {
+  content: '\e0f1';
+}
+
+.icon_data_model_converter:before {
+  content: '\e0f2';
+}
+
+.icon_doc:before {
+  content: '\e0f3';
+}
+
+.icon_gif:before {
+  content: '\e0f4';
+}
+
+.icon_jpeg:before {
+  content: '\e0f5';
+}
+
+.icon_mainframe_modernization:before {
+  content: '\e0f6';
+}
+
+.icon_pdf:before {
+  content: '\e0f7';
+}
+
+.icon_png:before {
+  content: '\e0f8';
+}
+
+.icon_ppt:before {
+  content: '\e0f9';
+}
+
+.icon_report_an_issue:before {
+  content: '\e0fa';
+}
+
+.icon_sort:before {
+  content: '\e0fb';
+}
+
+.icon_xls:before {
+  content: '\e0fc';
+}
+
+.icon_zip:before {
+  content: '\e0fd';
+}
+
+.icon_medal:before {
+  content: '\e0fe';
+}
+
+.icon_Pin:before {
+  content: '\e0ff';
+}
+
+.icon_Pin_filled:before {
+  content: '\e100';
+}
+
+.icon-add_to_briefcase:before {
+  content: '\e101';
+}
+
+.icon-bot:before {
+  content: '\e102';
+}
+
+.icon_4Cast360:before {
+  content: '\e103';
+}
+
+.icon_Ashi:before {
+  content: '\e104';
+}
+
+.icon_BestEstimate:before {
+  content: '\e105';
+}
+
+.icon_instagram:before {
+  content: '\e106';
+}
+
+.icon_LNC:before {
+  content: '\e107';
+}
+
+.icon_logout:before {
+  content: '\e108';
+}
+
+.icon_MoreLess:before {
+  content: '\e109';
+}
+
+.icon_OfferApproval:before {
+  content: '\e10a';
+}
+
+.icon_OMS:before {
+  content: '\e10b';
+}
+
+.icon_recall:before {
+  content: '\e10c';
+}
+
+.icon_Refresh:before {
+  content: '\e10d';
+}
+
+.icon_Relief:before {
+  content: '\e10e';
+}
+
+.icon_ResidencePermit:before {
+  content: '\e10f';
+}
+
+.icon_work_from_office:before {
+  content: '\e110';
+}
+
+.icon_mute_notification:before {
+  content: '\e111';
+}
+
+.icon_drag:before {
+  content: '\e112';
+}
+
+.Icon_archive:before {
+  content: '\e113';
+}
+
+.icon_feedback_darkgreen:before {
+  content: '\e114';
+}
+
+.icon_feedback_lightgreen:before {
+  content: '\e115';
+}
+
+.icon_feedback_orange:before {
+  content: '\e116';
+}
+
+.icon_feedback_red:before {
+  content: '\e117';
+}
+
+.icon_feedback_yellow:before {
+  content: '\e118';
+}
+
+.icon_AccountInsights:before {
+  content: '\e119';
+}
+
+.icon_Pricing:before {
+  content: '\e11a';
+}
+
+.icon_TalentDashboard:before {
+  content: '\e11b';
+}
+
+.icon_collapseLayout:before {
+  content: '\e12f';
+}
+
+.icon_expandLayout:before {
+  content: '\e130';
+}
+
+.icon-backgroundverification:before {
+  content: '\e131';
+}
+
+.icon-dislike:before {
+  content: '\e132';
+}
+
+.icon-microfeedback:before {
+  content: '\e133';
+}
+
+.icon_list_view:before {
+  content: '\e134';
+}
+
+.icon_circle:before {
+  content: '\e135';
+}

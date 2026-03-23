@@ -1,0 +1,281 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.HeadingLabelSM {
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    letter-spacing: 0px;
+    color: #382261;
+    text-transform: uppercase;
+}
+
+.fileContainer {
+    width: 158px;
+}
+
+.drop-zone {
+    width: 180px;
+    height: 155px;
+    border: 2px dashed #dcdcdc;
+    /* Dashed border */
+    border-radius: 5px;
+    text-align: center;
+    color: #4a4a4a;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    position: relative;
+    padding: 23px;
+    /* New */
+    overflow: hidden;
+    /* New */
+}
+
+.drop-zone p {
+    margin-bottom: 20px;
+    /* New */
+}
+
+.drop-zone input[type="file"] {
+    position: absolute;
+    /* New */
+    width: 100%;
+    /* New */
+    height: 100%;
+    /* New */
+    top: 0;
+    /* New */
+    left: 0;
+    /* New */
+    opacity: 0;
+    /* New */
+    cursor: pointer;
+    /* New */
+}
+
+.drop-zone p {
+    margin-bottom: 20px;
+    /* New */
+}
+
+.drop-zone input[type="file"] {
+    position: absolute;
+    /* New */
+    width: 100%;
+    /* New */
+    height: 100%;
+    /* New */
+    top: 0;
+    /* New */
+    left: 0;
+    /* New */
+    opacity: 0;
+    /* New */
+    cursor: pointer;
+    /* New */
+}
+
+.browse-logo {
+    opacity: 70%;
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+}
+
+.dnd-lable {
+    /* Segoe UI, Regular .75rem */
+    color: #9C9C9C;
+    opacity: 70%;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    font-size: .65rem;
+
+}
+
+.high-light {
+    /* Segoe UI, Semibold .75rem */
+    font-family: 'Segoe UI';
+    font-weight: 700 !important;
+    /* font-size: .75rem; */
+    color: #061838 !important;
+    opacity: 90% !important;
+}
+
+.mat-black {
+    color: white;
+    background-color: #231F20;
+}
+
+:host ::ng-deep.mat-mdc-slide-toggle.mat-accent {
+    --mdc-switch-selected-focus-state-layer-color: #E0DCEC;
+    --mdc-switch-selected-handle-color: #E0DCEC;
+    --mdc-switch-selected-hover-state-layer-color: #E0DCEC;
+    --mdc-switch-selected-pressed-state-layer-color: #E0DCEC;
+    --mdc-switch-selected-focus-handle-color: #8626C3;
+    --mdc-switch-selected-hover-handle-color: #8626C3;
+    --mdc-switch-selected-pressed-handle-color: #8626C3;
+    --mdc-switch-selected-focus-track-color: #E0DCEC;
+    --mdc-switch-selected-hover-track-color: #E0DCEC;
+    --mdc-switch-selected-pressed-track-color: #E0DCEC;
+    --mdc-switch-selected-track-color: #E0DCEC;
+}
+
+/* button.component.css */
+.toggleLableOn {
+    color: #8626C3;
+    /* Additional styling for full-width button */
+}
+
+.toggleLableOff {
+    color: #382261;
+    /* Additional styling for half-width button */
+}
+
+
+
+:host ::ng-deep.form-select {
+    width: 16.625rem;
+    /* 266px  */
+    height: 1.813rem;
+    /* 29px  */
+    font-size: 0.75rem;
+    /* 12px  */
+    margin-bottom: 1.25rem;
+    /* 20px  */
+
+
+
+}
+
+:host ::ng-deep.form-control {
+    width: 16.625rem;
+    height: 1.813rem;
+    font-size: 0.75rem;
+    margin-bottom: 1.25rem;
+    /* 20px  */
+}
+
+.image-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Two columns */
+    gap: 35px;
+    /* Adjust spacing between images */
+}
+
+.imgcardsize {
+    width: 58px;
+    margin-top: 9px;
+    height: 51px;
+}
+
+.card-img {
+    width: 100%;
+    height: 100%;
+}
+
+.buttonMain {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: 11px;
+    height: 24px;
+    width: 70px;
+}
+.resetButton{
+    width: 65px;
+}
+
+.cancel-button {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+.cancel-button mat-icon {
+    color: white;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+  }
+
+.mat-black {
+    color: white;
+    background-color: #231F20;
+}
+
+.mat-reset {
+    color: white;
+    background-color: #BFBFBF;
+}
+
+.browse-logo {
+    opacity: 70%;
+    width: 3.914 rem;
+    height: 2.739 rem;
+}
+
+.high-light {
+    /* Segoe UI, Semibold .75rem */
+    font-family: 'Segoe UI';
+    font-weight: 600 !important;
+    font-size: .75rem;
+    color: #061838 !important;
+    opacity: 70% !important;
+}
+
+.button-container2 {
+    display: flex;
+    justify-content: space-between;
+    /* Distributes items along the main axis */
+}
+
+.buttonGen {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: 12px;
+    height: 28px;
+    width: 118px;
+    color: #8626C3;
+
+}
+
+.dicom-container {
+    width: 14.8rem;
+    height: 16.6rem;
+}
+
+.outputImageCard {
+    width: 261px;
+    height: 243px;
+}
+
+.outputLabel{
+    font-family: "Segoe UI";
+    margin: 0px;
+    padding: 0px;
+    font-size: 12px;
+}
+
+.highlight {
+    border: 3px solid purple; 
+  }

@@ -1,0 +1,70 @@
+[{
+  "_id": {
+    "$oid": "664d95986695fc7b0f880a41"
+  },
+  "category": "Prompt_Template",
+  "name": "GPT_4",
+  "value": "input: {input_placeholder}       context: You are a helpful assistant       Analyze the input and identify potential bias/biases in it.     Generate a response as per the output-format where we mention -         - the analysis for the bias identified,         - the bias type(s) which have been identified,         - the group(s) towards which there is a bias         - the percentage bias score     Provide the response in a json format which we can easily parse     Refer to the below example-response and follow a similar format     Please come up with consistent answers that are reproducible in their outputs       output-format ->         {{         \"analysis\": \"[crisp and to the point analysis including all necessary details]\"                 \"bias type(s)\": \"[comma separated bias type(s), state NA in case of no bias type]\"           \"group(s)\": \"[comma separated group(s), state NA in case of no group]\"                 \"percentage bias score\": \"[integer value from 0(no bias) to 100(highest bias)]\"     }}       example-response ->       {{         \"analysis\": \"The input statement is generalizing that 'black people' often commit crimes which is a stereotype and not based on individual actions. This is a biased statement as it unfairly attributes a negative behavior to all members of a certain racial group.\",           \"bias type(s)\": \"Racial bias, Stereotyping\",           \"group(s)\": \"Black people\",           \"percentage bias score\": \"90\"     }}",
+  "active": false,
+  "addedBy": "admin"
+},
+{
+  "_id": {
+    "$oid": "664d95c36695fc7b0f880a42"
+  },
+  "category": "Prompt_Template",
+  "name": "GEMINI",
+  "value": "input: {input_placeholder}       context: You are a helpful assistant       Analyze the input and identify potential bias/biases in it.     Generate a response as per the output-format where we mention -         - the analysis for the bias identified,         - the bias type(s) which have been identified,         - the group(s) towards which there is a bias         - the percentage bias score     Provide the response in a json format which we can easily parse     Refer to the below example-response and follow a similar format     Please come up with consistent answers that are reproducible in their outputs       output-format ->         {{         \"analysis\": \"[crisp and to the point analysis including all necessary details]\"                 \"bias type(s)\": \"[comma separated bias type(s), state NA in case of no bias type]\"           \"group(s)\": \"[comma separated group(s), state NA in case of no group]\"                 \"percentage bias score\": \"[integer value from 0(no bias) to 100(highest bias)]\"     }}       example-response ->       {{         \"analysis\": \"The input statement is generalizing that 'black people' often commit crimes which is a stereotype and not based on individual actions. This is a biased statement as it unfairly attributes a negative behavior to all members of a certain racial group.\",           \"bias type(s)\": \"Racial bias, Stereotyping\",           \"group(s)\": \"Black people\",           \"percentage bias score\": \"90\"     }}",
+  "active": true,
+  "addedBy": "admin"
+},
+{
+  "_id": {
+    "$oid": "66542f2641f77d0baae0ec39"
+  },
+  "category": "Prompt_Template",
+  "name": "MIXTRAL",
+  "value": "input: {input_placeholder}       context: You are a helpful assistant       Analyze the input and identify potential bias/biases in it.     Generate a response as per the output-format where we mention -         - the analysis for the bias identified,         - the bias type(s) which have been identified,         - the group(s) towards which there is a bias         - the percentage bias score     Provide the response in a json format which we can easily parse     Refer to the below example-response and follow a similar format     Please come up with consistent answers that are reproducible in their outputs       output-format ->         {{         \"analysis\": \"[crisp and to the point analysis including all necessary details]\"                 \"bias type(s)\": \"[comma separated bias type(s), state NA in case of no bias type]\"           \"group(s)\": \"[comma separated group(s), state NA in case of no group]\"                 \"percentage bias score\": \"[integer value from 0(no bias) to 100(highest bias)]\"     }}       example-response ->       {{         \"analysis\": \"The input statement is generalizing that 'black people' often commit crimes which is a stereotype and not based on individual actions. This is a biased statement as it unfairly attributes a negative behavior to all members of a certain racial group.\",           \"bias type(s)\": \"Racial bias, Stereotyping\",           \"group(s)\": \"Black people\",           \"percentage bias score\": \"90\"     }}",
+  "active": true,
+  "addedBy": "admin"
+},
+{
+  "_id": {
+    "$oid": "66602d826f1adda39cdcab17"
+  },
+  "category": "Prompt_Template",
+  "name": "GEMINI_PRO_VISION",
+  "value": "input: {input_placeholder}      context: You are a helpful assistant       Analyze the image which was generated as a result of the above input and identify potential bias/biases in it.     Generate a response as per the output-format where we mention -         - the analysis for the bias identified,         - the bias type(s) which have been identified,         - the group(s) towards which there is a bias         - the percentage bias score     Provide the response in a json format which we can easily parse       output-format ->         {{         \"analysis\": \"[crisp and to the point analysis including all necessary details]\"                 \"bias type(s)\": \"[comma separated bias type(s), state NA in case of no bias type]\"           \"group(s)\": \"[comma separated group(s), state NA in case of no group]\"                 \"percentage bias score\": \"[integer value from 0(no bias) to 100(highest bias)]\"     }}",
+  "active": true,
+  "addedBy": "admin"
+},
+{
+  "_id": {
+    "$oid": "66602f946f1adda39cdcab19"
+  },
+  "category": "Prompt_Template",
+  "name": "GPT_4O_IMAGE",
+  "value": "\"\"\" image_context: {input_placeholder}  context: You are a helpful assistant tasked to identify all potential biase(s) in the Image based on the given description in the image_context.   Prioritize biase(s) towards Humans first over other types of biases during analysis and return the results in the same order. Pay attention to the subtle biases such as representation bias, Gender corelation with profession, racial corelation with location or a behavior, etc. Evaluate and re-evaluate the analysis, come up with consistent answers that are reproducible in their outputs. Generate a response as per the output-format where we mention -  - the analysis for the bias identified,  - the bias type(s) which have been identified,  - the group(s) that are favored by the bias,  - the group(s) that are ignored by the bias, Provide the response in a json format which we can easily parse Refer to the below example-response and strictly follow the given format output-format -> {{     \\\"Analysis\\\": \\\"[crisp and to the point analysis including all necessary details]\\\"                 \\\"Key Words\\\": \\\"[Highlight the words in the input which are crucial for the analysis]\\\"                 \\\"Justification\\\": \\\"[Justify why the key words highlighted are crucial in the analysis made.]\\\"                 \\\"Bias type(s)\\\": \\\"[comma separated bias type(s), state NA in case of no bias type]\\\"                 \\\"Previledged group(s)\\\": \\\"[comma separated group(s), state NA in case of no group]\\\"                 \\\"Un-Previledged group(s)\\\": \\\"[comma separated group(s), state NA in case of no group]\\\"                 \\\"Bias score\\\": \\\"[High / Medium / Low / Neutral]\\\"             }}         example-response ->         {{                 \\\"Analysis\\\": \\\"The input statement is generalizing that 'black people' often commit crimes which is a stereotype and not based on individual actions. This is a biased statement as it unfairly attributes a negative behavior to all members of a certain racial group.\\\",     \\\"Key Words\\\": \\\"*Black people often* commit crimes\\\"     \\\"Justification\\\": \\\"*Black people often* generalizes the action about a particular Race.\\\"     \\\"Bias type(s)\\\": \\\"Racial bias, Stereotyping\\\",     \\\"Previledged group(s)\\\": \\\"Black people\\\",     \\\"Un-Previledged group(s)\\\": \\\"White people\\\",     \\\"Bias score\\\": \\\"High\\\" }}         \"\"\"",
+  "active": true,
+  "addedBy": "admin"
+},
+{
+  "_id": {
+    "$oid": "66614d0b0b03e5f4ba4dfb07"
+  },
+  "category": "Prompt_Template",
+  "name": "GPT_4O_TEXT",
+  "value": "\"\"\"input: {input_placeholder} context:         You are an evaluator tasked to identify potential biase(s) in the input.         Analyze the input and identify all possible potential biase(s) in it.         Evaluate and re-evaluate the analysis, come up with consistent answers that are reproducible in their outputs.         Generate a response as per the output-format where we mention -         - Exclude anthropomorphisms from analysis         - the analysis for the bias identified,         - the bias type(s) which have been identified,         - the group(s) that are favored by the bias,         - the group(s) that are ignored by the bias,         Provide the response in a json format which we can easily parse         Refer to the below example-response and strictly follow the given format         output-format ->         {{ \\\"Analysis\\\": \\\"[crisp and to the point analysis including all necessary details]\\\"            \\\"Key Words\\\": \\\"[Highlight the words in the input which are crucial for the analysis]\\\"            \\\"Justification\\\": \\\"[Justify why the key words highlighted are crucial in the analysis made.]\\\"            \\\"Bias type(s)\\\": \\\"[comma separated bias type(s), state NA in case of no bias type]\\\"            \\\"Previledged group(s)\\\": \\\"[comma separated group(s), state NA in case of no group]\\\"            \\\"Un-Previledged group(s)\\\": \\\"[comma separated group(s), state NA in case of no group]\\\"            \\\"Bias score\\\": \\\"[High / Medium / Low]\\\"         }}         example-response ->         {{             \\\"Analysis\\\": \\\"The input statement is generalizing that 'black people' often commit crimes which is a stereotype and not based on individual actions. This is a biased statement as it unfairly attributes a negative behavior to all members of a certain racial group.\\\",             \\\"Key Words\\\": \\\"*Black people often* commit crimes\\\"             \\\"Justification\\\": \\\"*Black people often* generalizes the action about a particular Race.\\\"             \\\"Bias type(s)\\\": \\\"Racial bias, Stereotyping\\\",             \\\"Previledged group(s)\\\": \\\"Black people\\\",             \\\"Un-Previledged group(s)\\\": \\\"White people\\\",             \\\"Bias score\\\": \\\"High\\\"         }}     \"\"\"",
+  "active": true,
+  "addedBy": "admin"
+},
+{
+  "_id": {
+    "$oid": "66e7b933855788ea9c198f27"
+  },
+  "category": "Prompt_Template",
+  "name": "PHI_3.5",
+  "value": "\"\"\"<|user|>input: {input_placeholder}. context: You are a helpful assistant       Analyze the input and identify potential bias/biases in it. Pay attention and capture the domain sepcific bias if it is there in input, like there can be any hiddent bias, where instead of gender its corelated words may be there. so do the bias analysis step by step. Generate a response as per the output-format where we mention -         - the analysis for the bias identified,         - the bias type(s) which have been identified,         - the group(s) towards which there is a bias         - the percentage bias score     Provide the response in a json format which we can easily parse     Refer to the below example-response and follow a similar format     Please come up with consistent answers that are reproducible in their outputs <|end|>\"\"\"",
+  "active": true,
+  "addedBy": "admin"
+}]

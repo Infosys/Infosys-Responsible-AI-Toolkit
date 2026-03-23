@@ -1,0 +1,11 @@
+Rag/models/all-MiniLM-L6-v2/
+myvenv
+*.pyc
+*39.pyc
+Rag/dao/__pycache__/
+Rag/service/__pycache__/
+Rag/routing/__pycache__/
+Rag/mapper/__pycache__/
+Rag/exception/__pycache__/
+Rag/constants/__pycache__/
+Rag/config/__pycache__/

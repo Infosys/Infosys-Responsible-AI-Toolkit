@@ -1,0 +1,278 @@
+[{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d454"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-SHAP",
+  "modelFramework": "Scikit-learn",
+  "scope": "LOCAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d455"
+  },
+  "dataType": "Tabular",
+  "methods": "TREE-SHAP",
+  "modelFramework": "Scikit-learn",
+  "scope": "LOCAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d456"
+  },
+  "dataType": "Tabular",
+  "methods": "TREE-SHAP",
+  "modelFramework": "Scikit-learn",
+  "scope": "GLOBAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d457"
+  },
+  "dataType": "Tabular",
+  "methods": "PD-VARIANCE",
+  "modelFramework": "Scikit-learn",
+  "scope": "GLOBAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d458"
+  },
+  "dataType": "Tabular",
+  "methods": "PERMUTATION-IMPORTANCE",
+  "modelFramework": "Scikit-learn",
+  "scope": "GLOBAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d459"
+  },
+  "dataType": "Tabular",
+  "methods": "ANCHOR-TABULAR",
+  "modelFramework": "Scikit-learn",
+  "scope": "LOCAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d45a"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-SHAP",
+  "modelFramework": "Scikit-learn",
+  "scope": "GLOBAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d45b"
+  },
+  "dataType": "Tabular",
+  "methods": "TREE-SHAP",
+  "modelFramework": "Scikit-learn",
+  "scope": "GLOBAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d45c"
+  },
+  "dataType": "Tabular",
+  "methods": "PD-VARIANCE",
+  "modelFramework": "Scikit-learn",
+  "scope": "GLOBAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": [
+    "DecisionTreeClassifier",
+    "RandomForestClassifier"
+  ]
+},{
+  "_id": {
+    "$oid": "65c22a9901952b4d96d3d45d"
+  },
+  "dataType": "Tabular",
+  "methods": "TS-LIMEEXPLAINER",
+  "modelFramework": "Scikit-learn",
+  "scope": "LOCAL",
+  "taskType": "TIMESERIESFORECAST",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "65c5bdd2f0ce18194945f723"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-SHAP",
+  "modelFramework": "API",
+  "scope": "LOCAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "65c5bdf8f0ce18194945f76a"
+  },
+  "dataType": "Tabular",
+  "methods": "ANCHOR-TABULAR",
+  "modelFramework": "API",
+  "scope": "LOCAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "65d5a6e052ec4e3a88505538"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-SHAP",
+  "modelFramework": "Scikit-learn",
+  "scope": "LOCAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "660646f9adc571b78878ffb5"
+  },
+  "dataType": "Tabular",
+  "methods": "ANCHOR-TABULAR",
+  "modelFramework": "Keras",
+  "scope": "LOCAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "66069313adc571b78878ffc0"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-SHAP",
+  "modelFramework": "Keras",
+  "scope": "LOCAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "66069345adc571b78878ffc1"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-SHAP",
+  "modelFramework": "Keras",
+  "scope": "GLOBAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "66069379adc571b78878ffc2"
+  },
+  "dataType": "Tabular",
+  "methods": "TREE-SHAP",
+  "modelFramework": "Keras",
+  "scope": "LOCAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": [
+    "Sequential"
+  ]
+},{
+  "_id": {
+    "$oid": "66069500adc571b78878ffc5"
+  },
+  "dataType": "Tabular",
+  "methods": "TREE-SHAP",
+  "modelFramework": "Keras",
+  "scope": "GLOBAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": [
+    "Sequential"
+  ]
+},{
+  "_id": {
+    "$oid": "660bb9d00d3fe122905a83b2"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-SHAP",
+  "modelFramework": "Keras",
+  "scope": "LOCAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "660bd9650d3fe122905a83d1"
+  },
+  "dataType": "Tabular",
+  "methods": "PD-VARIANCE",
+  "modelFramework": "Keras",
+  "scope": "GLOBAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "660bda6b0d3fe122905a83d2"
+  },
+  "dataType": "Tabular",
+  "methods": "PERMUTATION-IMPORTANCE",
+  "modelFramework": "Keras",
+  "scope": "GLOBAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "660ce1ba0d3fe122905a83e1"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-SHAP",
+  "modelFramework": "API",
+  "scope": "LOCAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "660ceaa60d3fe122905a83e4"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-SHAP",
+  "modelFramework": "API",
+  "scope": "GLOBAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "660ceac80d3fe122905a83e5"
+  },
+  "dataType": "Tabular",
+  "methods": "PD-VARIANCE",
+  "modelFramework": "API",
+  "scope": "GLOBAL",
+  "taskType": "CLASSIFICATION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "660cfce60d3fe122905a83ec"
+  },
+  "dataType": "Tabular",
+  "methods": "KERNEL-SHAP",
+  "modelFramework": "API",
+  "scope": "GLOBAL",
+  "taskType": "REGRESSION",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "667435e3617d0bd5f68db77a"
+  },
+  "dataType": "Tabular",
+  "methods": "TS-LIME-TABULAR-EXPLAINER",
+  "modelFramework": "Statsmodels",
+  "scope": "LOCAL",
+  "taskType": "TIMESERIESFORECAST",
+  "unsupportedModels": []
+},{
+  "_id": {
+    "$oid": "66743685617d0bd5f68db77b"
+  },
+  "dataType": "Tabular",
+  "methods": "TS-SHAPEXPLAINER",
+  "modelFramework": "Statsmodels",
+  "scope": "LOCAL",
+  "taskType": "TIMESERIESFORECAST",
+  "unsupportedModels": []
+}]

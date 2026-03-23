@@ -1,0 +1,37 @@
+[{
+  "_id": "counter",
+  "seq": 8
+},{
+  "_id": 1,
+  "name": "Toxicity"
+},{
+  "_id": 2,
+  "name": "Piidetct"
+},{
+  "_id": 3,
+  "name": "Refusal"
+},{
+  "_id": 4,
+  "name": "Profanity"
+},{
+  "_id": 5,
+  "name": "RestrictTopic"
+},{
+  "_id": 6,
+  "name": "TextQuality"
+},{
+  "_id": 8,
+  "name": "TextRelevance"
+},{
+  "_id": 9,
+  "name": "Sentiment"
+},{
+  "_id": 10,
+  "name": "BanCode"
+},{
+  "_id": 11,
+  "name": "Gibberish"
+},{
+  "_id": 12,
+  "name": "InvisibleText"
+}]

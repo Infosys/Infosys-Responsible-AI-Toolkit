@@ -1,0 +1,430 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<div class="d-flex mt-3 mb-0 w-100">
+    <div class="select-contatiner2 w-100">
+        <ng-container class="selectTypeShimmer" *ngIf="isLoadingPrompt">
+            <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ 'border-radius': '10px', height: '200px', width: '400px'}">
+            </ngx-skeleton-loader>
+        </ng-container>
+        <div *ngIf="!isLoadingPrompt" class="me-5 w-100">
+            <label class="HeadingLabelsm">Enter Prompt <span *ngIf="isExplainabilitySelected && isImageFileUploaded" class="text-muted ms-2">(optional)</span></label>
+            <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                <div class="position-relative">
+                    <textarea class="form-control shadow-none w-100 textareaPrompt" rows="8" name="prompt" [formControl]="promptControl" ngModel></textarea>
+                    <div class="icon-container">
+
+                        <button type="submit" class="border-0 sendIcon">
+                            <i class="material-icons">send</i>
+                        </button>
+                        <!-- <div class="spinner" style="font-size: 10px;width: 15px;height: 15px; color:black;"
+                    role="status" *ngIf="showSpinner"></div> -->
+                    </div>
+                    <div class="border-0 position-absolute m-2 resetIcon d-flex align-items-center" style="right: 0; top: 0;">
+                        <input type="file" #fileInputImage (change)=" fileBrowseHandlerImageFile($event)" style="display: none;">
+                        <i *ngIf="isExplainabilitySelected" class="material-icons icon-pointer" style="padding-right: 7px;" (click)="fileInputImage.click()" matTooltip="Upload Image (Optional)" #tooltip="matTooltip">image</i>
+                        <i (click)="reset()" class="material-icons icon-pointer" matTooltip="Reset">autorenew</i>
+                    </div>
+                </div>
+                <!--  -->
+                <div>
+                    <div style="width: 50%;">
+                        <ul class="item-list" *ngIf="selectedButton === 'Safety'  && isListVisible">
+                            <li class="list-item" *ngFor="let item of safetyItems"  (click)="addToPrompt(item)">{{ item }}</li>
+                        </ul>
+                        <ul class="item-list" *ngIf="selectedButton === 'Explainability'  && isListVisible">
+                            <li class="list-item" *ngFor="let item of explainabilityItems" (click)="addToPrompt(item)">{{ item }}</li> 
+                        </ul>
+                        <ul class="item-list" *ngIf="selectedButton === 'Fairness'  && isListVisible">
+                            <li class="list-item" *ngFor="let item of fairnessItems" (click)="addToPrompt(item)">{{ item }}</li>
+                        </ul>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <div>
+                            <button type="button" class="pill-button " [ngClass]="{'active': selectedButton === 'Safety'}" (click)="showData('Safety')">Safety</button>
+                            <button type="button" class="pill-button " [ngClass]="{'active': selectedButton === 'Explainability'}" (click)="showData('Explainability')">Explainability</button>
+                            <button type="button" class="pill-button " [ngClass]="{'active': selectedButton === 'Fairness'}" (click)="showData('Fairness')">Fairness</button>
+                        </div>
+                    </div>
+                </div>
+                <div style="align-items: end;display: flex; flex-direction: column;" *ngIf="imageFiles.length != 0" class="mt-2">
+                    <!-- <div style="height: 35px; width: 35px; border-radius: 8px;" class="position-relative mb-1">
+                            <img src={{imgShowUrl}} style="height: 35px; width: 35px;">
+                        </div> -->
+                    <div style="display: flex; justify-content: flex-start;">
+                        <p class="mainLabel2 mainLabelSM2" style="margin: 0px; font-weight: 500; color:grey; font-size: 0.65rem;">{{ selectedImageFileName }}</p>
+                        <button type="button" class="cancel-button ms-1" (click)="removeImageFile();">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                        <p class="mainLabel2 mainLabelSM2 ms-2 cursor" style="text-decoration: underline; font-size: 0.6rem;" (click)="openDialog(imgShowUrl)">
+                            (Preview)</p>
+                    </div>
+                </div>
+                <!--  -->
+                <!-- <div class="d-flex justify-content-end mt-2">
+                    <button mat-raised-button color="reset" type="reset" class="btnMain rstButton me-2" (click)="reset()">Reset</button>
+                    <button mat-raised-button color="black" [disabled]="showSpinner" type="submit" class="btnMain">
+                
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <span *ngIf="!showSpinner">Generate</span>
+            </button>
+                </div> -->
+            </form>
+        </div>
+        <!-- <button class="actionBtn"  (click)="openExplRightSideModal()"> <mat-icon>description</mat-icon> </button> -->
+    </div>
+    <div class="select-contatiner1 ms-4">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h3 *ngIf="!isCollapsed" class="HeadingCheckBoxLabel ps-0 ">Select Type</h3>
+            <button type="button" class="toggle-button " (click)="togglePanel()">
+            <mat-icon [inline]="true">menu</mat-icon>
+            </button>
+        </div>
+        <div *ngIf="!isCollapsed" [ngStyle]="{'width': !isCollapsed ? '150px' : 'auto'}">
+            <ng-container class="selectTypeShimmer" *ngIf="isLoadingSelectType">
+                <ngx-skeleton-loader count="2" appearance="line" [theme]="{ 'border-radius': '20px', height: '20px'}">
+                </ngx-skeleton-loader>
+            </ng-container>
+            <!--  -->
+            <div *ngIf="!isLoadingSelectType" class="checkbox-container ">
+                <div class="d-flex align-items-center">
+                    <input type="radio" id="safety" name="safety" value="safety" [(ngModel)]="selectType" (ngModelChange)="onExplainabilityChange($event)">
+                    <label for="safety" class="HeadingCheckBoxLabel fw-medium m-0 ps-2">Safety</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <input type="radio" id="explainability" name="explainability" value="explainability" [(ngModel)]="selectType" (ngModelChange)="onExplainabilityChange($event)">
+                    <label for="explainability" class="HeadingCheckBoxLabel fw-medium m-0 ps-2">Explainability</label>
+                </div>
+                <div class="d-flex align-items-center">
+                    <input type="radio" id="Fairness" name="Fairness" value="Fairness" [(ngModel)]="selectType" (ngModelChange)="onExplainabilityChange($event)">
+                    <label for="Fairness" class="HeadingCheckBoxLabel fw-medium m-0 ps-2">Fairness</label>
+                </div>
+                <!-- <mat-checkbox class="custom-frame" (change)="viewoptions()" color="primary" *ngFor="let option of options" [(ngModel)]="selectedOptions[option]">{{option}}</mat-checkbox> -->
+            </div>
+            <div *ngIf="selectType == 'safety'">
+                <div class="position-relative">
+                    <label class="optional-label">(Optional)</label>
+                    <input type="text" class="form-control shadow-none inputField mb-1" name="portfolioName" [(ngModel)]="portfolioName" placeholder="Portfolio Name">
+                </div>
+                <div class="position-relative" style="padding-top: 15px;">
+                    <label class="optional-label2">(Optional)</label>
+                    <input type="text" class="form-control shadow-none inputField" name="accountName" [(ngModel)]="accountName" placeholder="Account Name">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="showSpinner" class="shimmer-loader"></div>
+<p class="HeadingLabel activeTab mt-0 mb-1" [ngClass]="{'mt-0': selectedOptions['safety'], 'mt-3': !selectedOptions['safety']}" *ngIf="imageOutput==true || fairnessRes.status == true" role="button">Result</p>
+<div class="d-flex">
+    <div class="me-3 ms-4" *ngIf="imageOutput==true && selectType != 'explainability'">
+        <label class="HeadingLabelsm">Original Image
+            <!-- <button class="actionBtn" *ngIf="redactedImg==false" (click)="openExplRightSideModal()" style="font-size: 5px;margin-top: -7px;"> <mat-icon>description</mat-icon> </button> -->
+        </label>
+        <div class="card outputCard position-relative">
+            <img src="{{'data:image/jpg;base64,' + imageAnalysePath}}" class="card-img" alt="Original Image">
+            <button mat-icon-button class="expand-button position-absolute top-0 end-0" (click)="openDialog(imageAnalysePath)">
+                <mat-icon>fullscreen</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div>
+        <div class="me-3" *ngIf="imageOutput==true && selectType == 'safety'">
+            <label class="HeadingLabelsm">Redacted Image
+            <!-- <button class="actionBtn" (click)="openRightSideModal()" style="font-size: 5px;margin-top: -7px;"> <mat-icon>description</mat-icon> </button> -->
+        </label>
+            <div class="card outputCard position-relative">
+                <img src="{{'data:image/jpg;base64,' + imageBlurred}}" class="card-img" alt="Redacted Image">
+                <button mat-icon-button class="expand-button position-absolute top-0 end-0" (click)="openDialog(imageBlurred)">
+                    <mat-icon>fullscreen</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card outerResultCard mt-4 " *ngIf="imageOutput==true && selectType == 'safety'">
+        <div class="card-header pb-0 card-header-outerResultCard">
+            <h5 class="mainLabel d-flex mt-2 ms-2" style="font-size: 1rem; color: #303030;">
+                Analysis
+            </h5>
+        </div>
+        <div class="card-body d-flex flex-wrap mt-4">
+            <div *ngFor="let key of ['drawings','hentai','neutral','porn','sexy']; let i = index" class="card flex-1 me-1 ms-1 mb-1" style="height: 125px; flex-grow: 1; min-width: 120px;">
+                <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                    <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 14px; color: #303030;">
+                        {{key | titlecase}}
+                        <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="tooltips[i]" matTooltipPosition="above">info</mat-icon>
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div class="cardA me-2 flex-fill">
+                            <div>
+                                <p class="mainLabel" style="color: #232323; margin: 0px; font-size: 14px;">
+                                    {{ analyzeData[key] | number:'0.0-2' }}
+                                </p>
+                            </div>
+                            <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400; font-size: 12px;">Score</p>
+                        </div>
+                        <div class="cardA flex-fill ">
+                            <div>
+                                <p class="mainLabel" *ngIf="['hentai','porn','sexy'].includes(key)" style="color: #232323; margin: 0px; font-size: small;">0.3</p>
+                                <p class="mainLabel" *ngIf="['drawings','neutral'].includes(key)" style="color: #232323; margin: 0px; font-size: small;">1</p>
+                            </div>
+                            <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400; font-size: 12px;">Threshold</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- new explainability output -->
+    <div *ngIf="selectType == 'explainability' && imageOutput==true" class="d-flex" style="margin-right: 100px;">
+        <!-- img output -->
+        <div *ngIf="imageUrl && imageOutput==true && selectType == 'explainability'" class="card explain-img-card">
+            <label class="HeadingLabelsm" style="margin-top: .5rem;margin-left: .5rem;">{{explainImagetype}}
+            </label>
+            <div class="card position-relative">
+                <img src="{{imageUrl}}" class="card-img1" alt="Redacted Image">
+                <button mat-icon-button class="expand-button position-absolute top-0 end-0" (click)="openDialog(rawimg)">
+                    <mat-icon>fullscreen</mat-icon>
+                </button>
+            </div>
+            <!-- hiding it as its not opensourced yet 
+            <div>
+                <label class="HeadingLabelsm" style="margin-top: .5rem;margin-left: .5rem;">SuperPixel Image </label>
+                <div class="card position-relative">
+                    <img src="{{image}}" class="card-img1" alt="Redacted Image">
+                    <button mat-icon-button class="expand-button position-absolute top-0 end-0" (click)="openDialog(rawimg)">
+                            <mat-icon>fullscreen</mat-icon>
+                        </button>
+                </div>
+            </div>-->
+        </div>
+        <!-- card output -->
+        <div class="card outerResultCard" *ngIf="imageOutput == true && selectType == 'explainability'">
+            <div class="card-header pb-0 card-header-outerResultCard">
+                <h5 class="mainLabel d-flex mt-2 ms-2" style="font-size: 1rem; color: #303030;">
+                    Analysis
+                </h5>
+            </div>
+            <div class="d-flex" style="padding: 1rem;">
+                <p class="mainLabel mainLabelSM" style="padding-left: .5rem;">
+                    <strong>Description : </strong>
+                    <span>{{ explain_analyse_res.image_description }}
+                    </span>
+                </p>
+            </div>
+            <div style="padding: 1rem;">
+                <p class="mainLabel mainLabelSM" style="padding-left: .5rem;" *ngIf="explain_analyse_res?.insights?.query_response != 'NA'">
+                    <strong>Query Response : </strong>
+                    <span>{{ explain_analyse_res?.insights?.query_response }}
+                    </span>
+                </p>
+            </div>
+            <div class="card-body d-flex flex-wrap mt-1">
+                <div class="card  me-2 ms-2 mb-2" style="height: auto; flex-grow: 1; min-width: 120px;">
+                    <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                        <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 14px; color: #303030;">
+                            Insights
+                            <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="tooltipContentInsights" matTooltipPosition="above">info</mat-icon>
+                        </h5>
+                    </div>
+                    <!--  -->
+                    <div class="custom-card-container d-flex">
+                        <div class="custom-card">
+                            <div class="custom-card-header">
+                                <h5 class="mainLabel custom-card-title">Watermark
+
+                                </h5>
+                            </div>
+                            <div class="custom-card-body">
+                                <p class="custom-card-text mainLabel mainLabelSM">{{ explain_analyse_res.insights.watermark }}</p>
+                            </div>
+                        </div>
+                        <div class="custom-card">
+                            <div class="custom-card-header">
+                                <h5 class="mainLabel custom-card-title">Bias Type
+                                    <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="explain_analyse_res.insights.bias_analysis" matTooltipPosition="above">auto_fix_high</mat-icon>
+
+                                </h5>
+                            </div>
+                            <div class="custom-card-body">
+                                <p class="custom-card-text mainLabel mainLabelSM">{{ explain_analyse_res.insights.bias_type }}</p>
+                            </div>
+                        </div>
+                        <div class="custom-card">
+                            <div class="custom-card-header">
+                                <h5 class="mainLabel custom-card-title">Style
+                                    <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="explain_analyse_res.insights.style_analysis" matTooltipPosition="above" matTooltipClass="custom-tooltip">auto_fix_high</mat-icon>
+                                </h5>
+                            </div>
+                            <div class="custom-card-body">
+                                <p class="custom-card-text mainLabel mainLabelSM">{{ explain_analyse_res.insights.style }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  -->
+                    <!-- <strong>Bias Analysis:</strong> {{ explain_analyse_res.insights.bias_analysis }}<br> -->
+                    <!-- <strong>Style Analysis:</strong> {{ explain_analyse_res.insights.style_analysis }} -->
+                    <!--  not being used currently  -->
+                </div>
+                <div class="card me-2 ms-2 mb-2" style="height: auto; flex-grow: 1; min-width: 200px;">
+                    <div class="card-header border-0 d-flex justify-content-between" style="background: none;">
+                        <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 14px; color: #303030;">
+                            Metrics
+                            <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true" [matTooltip]="tooltipContentMetrics" matTooltipClass="custom-tooltip" matTooltipPosition="above">info</mat-icon>
+                        </h5>
+                    </div>
+                    <div class="custom-card-container d-flex">
+                        <div class="custom-card">
+                            <div class="custom-card-header d-flex justify-content: space-between">
+                                <h5 class="mainLabel custom-card-title">Certainity</h5>
+                                <span class="custom-span">Score : {{ explain_analyse_res.metrics.certainity_score }}</span>
+                            </div>
+                            <div class="custom-card-body">
+                                <p class="custom-card-text mainLabel mainLabelSM">{{ explain_analyse_res.metrics.certainity_label }}</p>
+                            </div>
+                        </div>
+                        <div class="custom-card">
+                            <div class="custom-card-header d-flex justify-content: space-between">
+                                <h5 class="mainLabel custom-card-title">Creativity</h5>
+                                <span class="custom-span">Score : {{ explain_analyse_res.metrics.creativity_score }}</span>
+                            </div>
+                            <div class="custom-card-body">
+                                <p class="custom-card-text mainLabel mainLabelSM">{{ explain_analyse_res.metrics.creativity_label }}</p>
+                            </div>
+                        </div>
+                        <div class="custom-card" *ngIf="explain_analyse_res?.metrics?.coherence_score">
+                            <div class="custom-card-header d-flex justify-content: space-between">
+                                <h5 class="mainLabel custom-card-title"> Coherence</h5>
+                                <span class="custom-span">Score : {{ explain_analyse_res.metrics.coherence_score }}</span>
+                            </div>
+                            <div class="custom-card-body">
+                                <p class="custom-card-text mainLabel mainLabelSM">{{ explain_analyse_res.metrics.coherence_label }}</p>
+                            </div>
+                        </div>
+                        <div class="custom-card" *ngIf="this.promptControl.valid && explain_analyse_res?.metrics?.relevance_score">
+                            <div class="custom-card-header d-flex justify-content: space-between">
+                                <h5 class="mainLabel custom-card-title">Relevance</h5>
+                                <span class="custom-span">Score : {{ explain_analyse_res.metrics.relevance_score }}</span>
+                            </div>
+                            <div class="custom-card-body">
+                                <p class="custom-card-text mainLabel mainLabelSM">{{ explain_analyse_res.metrics.relevance_label }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <strong>Relevance Score:</strong> {{ explain_analyse_res.metrics.relevance_score }}<br>
+<strong>Relevance Label:</strong> {{ explain_analyse_res.metrics.relevance_label }} -->
+    </div>
+    <div style="margin-right:100px;" *ngIf="selectType == 'Fairness'">
+        <div *ngIf="fairnessRes.status == true">
+            <label class="HeadingLabelsm">Generated Image
+            <!-- <button class="actionBtn" (click)="openFairnessSideModal()" style="font-size: 5px;margin-top: -7px;"> <mat-icon>description</mat-icon> </button> -->
+        </label>
+            <div class="d-flex justify-content-between ">
+                <div class="card position-relative explain-img-card">
+                    <img src="{{'data:image/jpg;base64,' + fairnessRes?.generatedImage}}" class="card-img1" alt="Redacted Image">
+                    <button mat-icon-button class="expand-button position-absolute top-0 end-0" (click)="openDialog(fairnessRes?.generatedImage)">
+                    <mat-icon>fullscreen</mat-icon>
+                </button>
+                </div>
+                <!-- <div style="margin-left: 75px;">
+                </div> -->
+                <div class="h-100">
+                    <div class="row">
+                        <div class="pb-3">
+                            <div class="card " style="height:285px ; width:800px">
+                                <div class="card-header border-bottom-0 py-2" style="background: none;" id="headingOne" aria-expanded="true">
+                                    <div class="d-flex justify-content-between">
+                                        <label class="mainLabel m-0 d-flex" style="font-size: 0.9rem; color: #303030;">Bias Indicator</label>
+                                        <div class="meter-container" *ngIf="fairnessRes.report['Bias score'] === 'Low' || fairnessRes.report['Bias score'] === 'Medium' || fairnessRes.report['Bias score'] === 'High'">
+                                            <div class="meter">
+                                            </div>
+                                            <div class="indicator" [ngClass]="{
+                                    'low': fairnessRes.report['Bias score'] == 'Low', 
+                                    'medium': fairnessRes.report['Bias score'] == 'Medium', 
+                                    'high': fairnessRes.report['Bias score'] == 'High'}">
+                                                <span>{{ fairnessRes.report['Bias score'] }}</span>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="fairnessRes.report['Bias score'] === 'Neutral' || fairnessRes.report['Bias score'] === 'NA'" class="custom-badge me-2" style="font-size: 0.85rem;">
+                                            {{fairnessRes.report['Bias score']}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div aria-labelledby="headingOne">
+                                    <div class="card-body">
+                                        <p class="mainLabel mainLabelSM mainLabelLight m-0">
+                                            <span class="mainLabel mainLabelSM mb-0"><strong>Analysis: </strong></span> {{fairnessRes.report.Analysis}}
+                                        </p>
+                                        <div class="d-flex mt-3 mb-2 flex-wrap">
+                                            <div class="cardA m-1 flex-1">
+                                                <p class="mainLabel" style="color: #232323; margin: 0px; font-size: small;">
+                                                    {{fairnessRes.report['Previledged group(s)']}}
+                                                </p>
+                                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">
+                                                    Privileged group(s)
+                                                    <mat-icon matTooltip="Group of people favoured by the bias in the given text." style="color: #727272; cursor: pointer;" [inline]="true">info</mat-icon>
+                                                </p>
+                                            </div>
+                                            <div class="cardA m-1 flex-1">
+                                                <p class="mainLabel" style="color: #232323; margin: 0px; font-size: small;">
+                                                    {{fairnessRes.report['Un-Previledged group(s)']}}
+                                                </p>
+                                                <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">
+                                                    Un-Previledged group(s)
+                                                    <mat-icon matTooltip="Group of people against whom the bias is present in the given text." style="color: #727272; cursor: pointer;" [inline]="true">info</mat-icon>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="cardA m-1 flex-1">
+                                            <p class="mainLabel" style="color: #232323; margin: 0px; font-size: small;">
+                                                {{fairnessRes.report['Bias type(s)']}}
+                                            </p>
+                                            <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">
+                                                Bias type(s)
+                                                <mat-icon matTooltip="Bias types identified based on the analysis present in the text." style="color: #727272; cursor: pointer;" [inline]="true">info</mat-icon>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="card" hidden>
+    <img [src]="imageUrl" alt="Generated Image" class="card-img-top">
+    <img src="{{'data:image/jpg;base64,' + imageUrl}}" class="card-img" alt="Original Image">
+    <div class="card-body">
+      <p class="card-text">Generated Image</p>
+    </div>
+  </div>
+  <div class="card" *ngIf="imageOutput" hidden>
+    <img [src]="imageUrl" alt="Generated Image" class="card-img-top">
+    <img [src]="'data:image/jpg;base64,' + imageUrl" class="card-img" alt="Original Image">
+    <div class="card-body">
+      <p class="card-text">Generated Image</p>
+    </div>
+  </div> -->
+
+<!-- <img src="{{'data:image/jpg;base64,' + fairnessRes?.generatedImage}}" class="card-img1" alt="Redacted Image"> -->
+<!-- <img src="{{'data:image/jpg;base64,' + x}}" class="card-img1" alt="Redacted Image">
+  <img [src]="imageUrl" alt="Generated Image" class="card-img-top"> -->
+
+<div style="height: 30px;">
+
+</div>

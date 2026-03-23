@@ -1,0 +1,5 @@
+1.Make necessary changes in build_config file Like Package name and version
+
+2.pip install pyc_wheel build
+
+3.python create_wheel_file.py --> Creates Wheel file

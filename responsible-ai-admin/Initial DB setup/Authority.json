@@ -1,0 +1,36 @@
+[{
+  "_id": {
+    "$oid": "66755afd7273c8234cd72b6a"
+  },
+  "name": "ROLE_ADMIN"
+},{
+  "_id": {
+    "$oid": "66755afd7273c8234cd72b6b"
+  },
+  "name": "ROLE_USER"
+},{
+  "_id": {
+    "$oid": "66755afd7273c8234cd72b6c"
+  },
+  "name": "ROLE_ML"
+},{
+  "_id": {
+    "$oid": "66755afd7273c8234cd72b6d"
+  },
+  "name": "ROLE_EXCEL"
+},{
+  "_id": {
+    "$oid": "66755afd7273c8234cd72b6e"
+  },
+  "name": "ROLE_EMPTY"
+},{
+  "_id": {
+    "$oid": "66a76236570b3bd2529ffdae"
+  },
+  "name": "ROLE_TEST_1"
+},{
+  "_id": {
+    "$oid": "66b1bcc68c0269743a0d2ad3"
+  },
+  "name": "ROLETEST2"
+}]

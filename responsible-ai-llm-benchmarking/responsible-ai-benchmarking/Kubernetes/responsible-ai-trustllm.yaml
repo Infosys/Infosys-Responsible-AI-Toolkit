@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: responsible-ai-trustllm
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-trustllm
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+  selector:
+    app: responsible-ai-trustllm
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: responsible-ai-trustllm
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-trustllm
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: responsible-ai-trustllm
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: responsible-ai-trustllm
+        version: v1
+    spec:
+      automountServiceAccountToken: false # Disable token mounting
+      imagePullSecrets:
+         - name: docker-secret
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: trustllm-config
+        image: <IMAGE NAME>
+        imagePullPolicy: Always
+        name: responsible-ai-trustllm
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DP_DISABLE_HEALTHCHECKS
+          value: "xids"
+        securityContext:
+            runAsUser: 1000  # Non-root user
+            runAsGroup: 1000
+            capabilities:
+              drop:
+                - ALL  # Drop all capabilities
+        resources:
+            limits:
+                cpu: '1'
+                memory: '2Gi'

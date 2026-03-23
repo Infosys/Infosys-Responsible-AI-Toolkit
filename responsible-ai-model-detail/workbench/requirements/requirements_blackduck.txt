@@ -1,0 +1,16 @@
+uvicorn
+pyyaml
+fastapi==0.99.1
+requests==2.25
+python-multipart==0.0.5
+email-validator
+adversarial-robustness-toolbox
+openpyxl
+numpy
+pandas
+matplotlib
+scikit-learn
+keras==2.13.1
+tensorflow
+fastapi_csrf_protect
+#torch==2.1.0

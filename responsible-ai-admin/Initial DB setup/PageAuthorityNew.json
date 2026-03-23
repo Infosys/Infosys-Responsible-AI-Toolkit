@@ -1,0 +1,294 @@
+[{
+  "_id": {
+    "$oid": "66755b317273c8234cd72b72"
+  },
+  "pages": {
+    "AI-Content-Detector": {
+      "active": []
+    },
+    "Document": {
+      "active": []
+    },
+    "LLM-Benchmarking": {
+      "active": [],
+      "subtabs": {
+        "Model-Validation": {
+          "active": [],
+          "selectType": {}
+        },
+        "Leaderboard": {
+          "active": [],
+          "selectType": {}
+        },
+        "Infosys-Leaderboard": {
+          "active": [],
+          "selectType": {}
+        }
+      }
+    },
+    "Models": {
+      "active": [],
+      "subtabs": {
+        "Model-Form": {
+          "active": [],
+          "selectType": {}
+        },
+        "Data-Form": {
+          "active": [],
+          "selectType": {}
+        },
+        "Preprocessor": {
+          "active": [],
+          "selectType": {}
+        }
+      }
+    },
+    "Multi-Model": {
+      "active": []
+    },
+    "Usecase": {
+      "active": []
+    },
+    "Workbench": {
+      "active": [],
+      "subtabs": {
+        "Unstructured-Text": {
+          "active": [
+            "Traditional-AI",
+            "Generative-AI"
+          ],
+          "selectType": {
+            "Traditional-AI": [
+              "Privacy",
+              "Safety",
+              "FM-Moderation"
+            ],
+            "Generative-AI": [
+              "Privacy",
+              "Safety",
+              "FM-Moderation",
+              "Explainability",
+              "Fairness"
+            ]
+          }
+        },
+        "Structured-Text": {
+          "active": [
+            "Differential-Privacy",
+            "Structured-Text"
+          ],
+          "selectType": {}
+        },
+        "Image": {
+          "active": [
+            "Generative-AI",
+            "Traditional-AI",
+            "T-AI-Upload",
+            "T-AI-DICOM"
+          ],
+          "selectType": {
+            "Generative-AI": [
+              "Safety",
+              "Explainability"
+            ],
+            "Traditional-AI": [],
+            "T-AI-Upload": [],
+            "T-AI-DICOM": []
+          }
+        },
+        "Video": {
+          "active": [],
+          "selectType": {}
+        },
+        "Code": {
+          "active": [],
+          "selectType": {}
+        }
+      }
+    },
+    "RedTeaming": {
+      "active": [],
+      "subtabs": {
+        "PairRedTeaming": {
+          "active": [],
+          "selectType": {}
+        }
+      }
+    },
+    "LLMScanner": {
+      "active": []
+    },
+    "ComplianceCheck": {
+      "active": []
+    },
+    "GitAnalytics": {
+      "active": []
+    },
+    "Data Curation": {
+      "active": []
+    },
+    "MarketScan ChatBot": {
+      "active": []
+    }
+  },
+  "role": "ROLE_ADMIN"
+},
+{
+  "_id": {
+    "$oid": "66755b317273c8234cd72b73"
+  },
+  "pages": {
+    "AI-Content-Detector": {
+      "active": []
+    },
+    "Document": {
+      "active": []
+    },
+    "LLM-Benchmarking": {
+      "active": [],
+      "subtabs": {
+        "Model-Validation": {
+          "active": [],
+          "selectType": {}
+        },
+        "Leaderboard": {
+          "active": [],
+          "selectType": {}
+        },
+        "Infosys-Leaderboard": {
+          "active": [],
+          "selectType": {}
+        }
+      }
+    },
+    "Models": {
+      "active": [],
+      "subtabs": {
+        "Model-Form": {
+          "active": [],
+          "selectType": {}
+        },
+        "Data-Form": {
+          "active": [],
+          "selectType": {}
+        },
+        "Preprocessor": {
+          "active": [],
+          "selectType": {}
+        }
+      }
+    },
+    "Multi-Model": {
+      "active": []
+    },
+    "Usecase": {
+      "active": []
+    },
+    "Workbench": {
+      "active": [],
+      "subtabs": {
+        "Unstructured-Text": {
+          "active": [
+            "Traditional-AI",
+            "Generative-AI"
+          ],
+          "selectType": {
+            "Traditional-AI": [
+              "Privacy",
+              "Safety",
+              "FM-Moderation"
+            ],
+            "Generative-AI": [
+              "Privacy",
+              "Safety",
+              "FM-Moderation",
+              "Explainability",
+              "Fairness"
+            ]
+          }
+        },
+        "Structured-Text": {
+          "active": [
+            "Differential-Privacy",
+            "Structured-Text"
+          ],
+          "selectType": {}
+        },
+        "Image": {
+          "active": [
+            "Generative-AI",
+            "Traditional-AI",
+            "T-AI-Upload",
+            "T-AI-DICOM"
+          ],
+          "selectType": {
+            "Generative-AI": [
+              "Safety",
+              "Explainability"
+            ],
+            "Traditional-AI": [],
+            "T-AI-Upload": [],
+            "T-AI-DICOM": []
+          }
+        },
+        "Video": {
+          "active": [],
+          "selectType": {}
+        },
+        "Code": {
+          "active": [],
+          "selectType": {}
+        }
+      }
+    },
+    "RedTeaming": {
+      "active": [],
+      "subtabs": {
+        "PairRedTeaming": {
+          "active": [],
+          "selectType": {}
+        }
+      }
+    },
+    "LLMScanner": {
+      "active": []
+    },
+    "ComplianceCheck": {
+      "active": []
+    },
+    "GitAnalytics": {
+      "active": []
+    },
+    "Data Curation": {
+      "active": []
+    },
+    "MarketScan ChatBot": {
+      "active": []
+    }
+  },
+  "role": "ROLE_USER"
+},
+{
+  "_id": {
+    "$oid": "66755b317273c8234cd72b74"
+  },
+  "pages": {
+    "Workbench": {
+      "subtabs": {
+        "Unstructured-Text": {
+          "active": [
+            "Generative-AI"
+          ],
+          "selectType": {
+            "Traditional-AI": [],
+            "Generative-AI": [
+              "FM-Moderation"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "role": "ROLE_ML"
+}
+]

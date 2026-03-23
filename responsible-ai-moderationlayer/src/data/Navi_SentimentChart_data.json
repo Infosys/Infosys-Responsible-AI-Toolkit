@@ -1,0 +1,162 @@
+[
+    {
+        "role": "Expert",
+        "Sentiment": "Positive - Happy",
+        "context": "Be Informative, Be delighted"
+    },
+    {
+        "role": "Expert",
+        "Sentiment": "Positive - Joyful",
+        "context": "Be Informative, Be delighted"
+    },
+    {
+        "role": "Expert",
+        "Sentiment": "Positive - Enthusiastic",
+        "context": "Be Informative"
+    },
+    {
+        "role": "Expert",
+        "Sentiment": "Positive - Upbeat",
+        "context": "Be Informative"
+    },
+    {
+        "role": "Expert",
+        "Sentiment": "Negative - Disappointed",
+        "context": "Be informative"
+    },
+    {
+        "role": "Expert",
+        "Sentiment": "Negative - Frustrated",
+        "context": "Be informative, Be assuring/Sound confident"
+    },
+    {
+        "role": "Expert",
+        "Sentiment": "Negative - Unhappy",
+        "context": "Be informative"
+    },
+    {
+        "role": "Expert",
+        "Sentiment": "Neutral - Bored",
+        "context": "Be informative, Be engaging"
+    },
+    {
+        "role": "Expert",
+        "Sentiment": "Neutral - Neutral",
+        "context": "Be informative, Be persuasive"
+    },
+    {
+        "role": "Advisor",
+        "Sentiment": "Positive - Happy",
+        "context": "Be suggestive, Be resourceful"
+    },
+    {
+        "role": "Advisor",
+        "Sentiment": "Positive - Joyful",
+        "context": "Be suggestive, Be resourceful"
+    },
+    {
+        "role": "Advisor",
+        "Sentiment": "Positive - Enthusiastic",
+        "context": "Be suggestive, Be resourceful"
+    },
+    {
+        "role": "Advisor",
+        "Sentiment": "Positive - Upbeat",
+        "context": "Be suggestive, Be resourceful"
+    },
+    {
+        "role": "Advisor",
+        "Sentiment": "Negative - Disappointed",
+        "context": "Be understanding, Be suggestive"
+    },
+    {
+        "role": "Advisor",
+        "Sentiment": "Negative - Frustrated",
+        "context": "Be encouraging, Be suggestive"
+    },
+    {
+        "role": "Advisor",
+        "Sentiment": "Negative - Unhappy",
+        "context": "Be suggestive, Be resourceful"
+    },
+    {
+        "role": "Advisor",
+        "Sentiment": "Neutral - Bored",
+        "context": "Be suggestive, Be curious"
+    },
+    {
+        "role": "Advisor",
+        "Sentiment": "Neutral - Neutral",
+        "context": "Be suggestive, Be encouraging"
+    },
+    {
+        "role": "Your Twin/Peer",
+        "Sentiment": "Negative - Disappointed",
+        "context": "Be encouraging"
+    },
+    {
+        "role": "Your Twin/Peer",
+        "Sentiment": "Negative - Frustrated",
+        "context": "Be empathetic"
+    },
+    {
+        "role": "Your Twin/Peer",
+        "Sentiment": "Negative - Unhappy",
+        "context": "Be encouraging"
+    },
+    {
+        "role": "Your Twin/Peer",
+        "Sentiment": "Neutral - Bored",
+        "context": "Be engaging"
+    },
+    {
+        "role": "Your Twin/Peer",
+        "Sentiment": "Neutral - Neutral",
+        "context": "Be engaging"
+    },
+    {
+        "role": "Support",
+        "Sentiment": "Positive - Happy",
+        "context": "Be appreciative, Be supportive"
+    },
+    {
+        "role": "Support",
+        "Sentiment": "Positive - Joyful",
+        "context": "Be appreciative, Be supportive"
+    },
+    {
+        "role": "Support",
+        "Sentiment": "Positive - Enthusiastic",
+        "context": "Sound compliant, Be supportive"
+    },
+    {
+        "role": "Support",
+        "Sentiment": "Positive - Upbeat",
+        "context": "Be ardent/sound passionate, Be supportive"
+    },
+    {
+        "role": "Support",
+        "Sentiment": "Negative - Disappointed",
+        "context": "Be empathetic, Be supportive"
+    },
+    {
+        "role": "Support",
+        "Sentiment": "Negative - Frustrated",
+        "context": "Be supportive, Be resourceful"
+    },
+    {
+        "role": "Support",
+        "Sentiment": "Negative - Unhappy",
+        "context": "Be supportive, Be empathetic"
+    },
+    {
+        "role": "Support",
+        "Sentiment": "Neutral - Bored",
+        "context": "Be empathetic, Be supportive"
+    },
+    {
+        "role": "Support",
+        "Sentiment": "Neutral - Neutral",
+        "context": "Be supportive, Be resourceful"
+    }
+]

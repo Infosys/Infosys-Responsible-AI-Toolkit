@@ -1,0 +1,14 @@
+python-dotenv
+fastapi
+pydantic
+uvicorn
+python-multipart
+pyyaml
+requests
+opencv-python
+transformers
+openai
+pip-system-certs
+ollama
+google-generativeai  
+../lib/clip-1.0-py3-none-any.whl

@@ -1,0 +1,21 @@
+{
+
+    "/raiapicall/api/authenticate/": {
+        "target": "MFE_AUTHENTICATE",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/raiapicall/api/account/": {
+        "target": "MFE_ACCOUNT",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    },
+    "/raiapicall/management/info/": {
+        "target": "MFE_MANIFEST",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
+}

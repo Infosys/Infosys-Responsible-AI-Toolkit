@@ -1,0 +1,182 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<div class="p-3 px-4 h-100" [hidden]="tenant != 'Safety'">
+    <div class="d-flex justify-content-between align-items-center pb-4">
+        <p class="headingTop">Image Analyze Report</p>
+
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
+    </div>
+
+    <div class="chart-container" >
+
+        <div class="chart-canvas">
+            <canvas id="MyChart">{{chart}}</canvas>
+        </div>
+    </div>
+   
+        <!-- <div class="row" style="display: flex;"  *ngIf="tenant=='Explainability'">
+        <div class="card-body card1">
+            <label class="card-title title" >Aesthetics</label>
+            <div class="chart-container" style="margin-top: 1rem;">
+                <div class="chart-canvas">
+                    <canvas id="aesthetics">{{chart}}</canvas>
+                </div>
+            </div>
+          </div>
+
+          <div class="card-body card1">
+            <label class="card-title title" >Image Alignment</label>
+            <div class="chart-container" style="margin-top: 1rem;">
+                <div class="chart-canvas">
+                    <canvas id="image_Alignment">{{chart}}</canvas>
+                </div>
+            </div>
+          </div>
+
+          <div class="card-body card1">
+            <label class="card-title title" >originality</label>
+            <div class="chart-container" style="margin-top: 0.1rem;">
+                <div class="chart-canvas">
+                    <canvas id="originality">{{chart}}</canvas>
+                </div>
+            </div>
+          </div>
+
+          <div class="card-body card1">
+            <label class="card-title title" >Bias</label>
+            <div class="chart-container" style="margin-top: 0.1rem;">
+                <div class="chart-canvas">
+                    <canvas id="bias">{{chart}}</canvas>
+                </div>
+            </div>
+          </div>
+
+          
+        </div>
+     -->
+    <!-- <div class="chart-container">
+
+        <div class="chart-canvas">
+            <canvas id="barChart">{{chart}}</canvas>
+        </div>
+    </div> -->
+<!-- </div> -->
+    
+</div>
+
+
+<div class="p-3 px-4 h-100" [hidden]="tenant != 'Explainability'" >
+    <!-- <p>{{tenant}}</p> -->
+    <div class="d-flex justify-content-between align-items-center pb-4">
+        <p class="headingTop">Image Analyze Report</p>
+
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
+    </div>
+
+    <!-- <div class="chart-container" >
+
+        <div class="chart-canvas">
+            <canvas id="MyChart">{{chart}}</canvas>
+        </div>
+    </div> -->
+    <!-- <div *ngFor="let i "> -->
+        <div class="row" style="display: flex;" >
+        <div class="card-body card1">
+            <div class="tooltip card-title title">Aesthetics
+                <!-- <label class="card-title title" >originality</label> -->
+                    <span class="descText tooltiptext">Does the image exhibit creativity, style, and artistic merit?</span>
+                </div>
+            <!-- <label class="card-title title" >Aesthetics</label> -->
+            <div class="chart-container" style="margin-top: 1rem;" (click)="openPopup('Aesthetics')">
+                
+                <div class="chart-canvas" >
+                    
+                    <canvas id="aesthetics">{{chart}}</canvas>
+                    <!-- <button mat-icon-button class="expand-button" (click)="openDialogAesthetics()">
+                        <mat-icon>fullscreen</mat-icon></button> -->
+                </div>
+            </div>
+            <!-- <span class="descText">Desc : Does the image exhibit creativity, style, and artistic merit?</span> -->
+          </div>
+
+          <div class="card-body card1" [hidden]="imageType!='generate'">
+            <div class="tooltip card-title title">Alignment & Knowledge
+                <!-- <label class="card-title title" >originality</label> -->
+                    <span class="descText tooltiptext">How well a model utilizes its knowledge base to generate images that accurately reflect the textual description?</span>
+                </div>
+            <!-- <label class="card-title title" >Alignment & Knowledge</label> -->
+            <div class="chart-container" style="margin-top: 1rem;" (click)="openPopup('Alignment')">
+                <div class="chart-canvas">
+                    <canvas id="image_Alignment">{{chart}}</canvas>
+                </div>
+            </div>
+            <span class="descText"><u>AlignmentValue</u> : <b>{{alignmentValue}}</b>
+                <br>
+                 <u>KnowledgeValue</u> : <b>{{knowledgeData}}</b>
+                <br>
+                
+            </span>
+          </div>
+
+          <div class="card-body card1">
+            <!-- <div class="tooltip">Hover over me
+                <span class="tooltiptext">Tooltip text</span>
+              </div> -->
+            <div class="tooltip card-title title">originality
+            <!-- <label class="card-title title" >originality</label> -->
+                <span class="descText tooltiptext">Does the model generate novel images and avoid copyright infringement?</span>
+            </div>
+            <div class="chart-container" style="margin-top: 0.1rem;" (click)="openPopup('originality')">
+                <div class="chart-canvas">
+                    <canvas id="originality">{{chart}}</canvas>
+                </div>
+            </div>
+            
+          </div>
+
+          <div class="card-body card1">
+            <div class="tooltip card-title title">Bias
+                <!-- <label class="card-title title" >originality</label> -->
+                    <span class="descText tooltiptext">Are the generated images biased in demographic representation (e.g., gender, skin tone)?</span>
+                </div>
+            <!-- <label class="card-title title" >Bias</label> -->
+            <div class="chart-container" style="margin-top: 0.1rem;" (click)="openPopup('Bias')">
+                <div class="chart-canvas">
+                    <canvas id="bias">{{chart}}</canvas>
+                </div>
+            </div>
+            <!-- <span class="descText">Desc: Are the generated images biased in demographic representation (e.g., gender, skin tone)?</span> -->
+          </div>
+
+          <!-- <div class="card-body card1">
+            <label class="card-title title" >originality</label>
+            <div class="chart-container" style="margin-top: 1rem;">
+                <div class="chart-canvas">
+                    <canvas id="bias">{{chart}}</canvas>
+                </div>
+            </div>
+          </div> -->
+        </div>
+    
+    <!-- <div class="chart-container">
+
+        <div class="chart-canvas">
+            <canvas id="barChart">{{chart}}</canvas>
+        </div>
+    </div> -->
+<!-- </div> -->
+    
+</div>
+
+<div [hidden]="aestheticsFlag != true">
+<div class="chart-canvas">
+                    
+    <canvas id="aesthetics">{{chart}}</canvas>
+    
+</div>
+</div>
+<!-- </div> -->

@@ -1,0 +1,65 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<div *ngIf="useCasePage==false">
+    <label class="topHeading">USE CASES</label>
+    <mat-tab-group dynamicHeight dynamicWidth color="primary" class="workbenchContainer inputText">
+        <mat-tab label="UseCase:{{useCaseName}}">
+            <!-- <ng-template matTabContent>
+            <app-ai-canvas-usecase ></app-ai-canvas-usecase>
+        </ng-template> -->
+        </mat-tab>
+    </mat-tab-group>
+    <div style="display: flex; margin-top: 1.5rem;">
+
+
+
+        
+        <div style="flex: 1;">
+            <div class="batchTable-container">
+                <label class="HeadingLabel">Generated Report</label>
+                <div class="d-flex align-items-center">
+                    <div class="btnRound" (click)="previousScreen()" (click)="useCaseMainPage()">
+                        <i class="material-icons">arrow_back</i>
+                    </div>
+                    <!-- <button class="addDataBtn" (click)="openRightSideModal()">ADD DATA</button> -->
+                </div>
+            </div>
+            <!-- Table -->
+            <!-- Row Labels Count of Questions Sum of Weightage Rai risk index Risk Classification -->
+            <table class="styled-table">
+                <tr>
+                    <th class="header">Row Labels</th>
+                    <th class="header">Count of Questions</th>
+                    <th class="header">Sum of Weightage</th>
+                    <th class="header">Rai risk index</th>
+                    <th class="header">Risk Classification</th>
+                    <!-- <th class="header">Generate Report</th>
+          <th class="header">Actions</th> -->
+                    <!-- <th class="header">Delete</th> -->
+                </tr>
+                <tr *ngFor="let element of dataSource ">
+                    <td> {{element.DimensionName}}</td>
+                    <td> {{element.totalQuestion}}</td>
+                    <td> {{element.weightage}}</td>
+                    <!-- <td class="upper-case" [ngClass]="{'gereen-text': isCompleted(element.Status)}"> {{element.Status}}</td> -->
+                    <td> {{element.riskIndex | number:'1.2-2'}}</td>
+                    <td> {{element.classification}}</td>
+                    <!-- <td> -->
+                   
+              
+           
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+</div>
+
+<div *ngIf="useCasePage===true">
+    <app-new-use-case></app-new-use-case>
+</div>

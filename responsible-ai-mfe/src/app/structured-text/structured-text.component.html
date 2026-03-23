@@ -1,0 +1,72 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<div style="display: flex; margin-top: 2rem;">
+    <div style="flex: 1;">
+        <div class="batchTable-container">
+            <label class="HeadingLabel">Batch details</label>
+            <div class="d-flex align-items-center">
+                <button (click)="getAllBatches()" class="rfrshBtn me-2">
+          <mat-icon>refresh</mat-icon>
+        </button>
+                <button class="addDataBtn" (click)="openRightSideModal()">ADD DATA</button>
+            </div>
+        </div>
+        <div *ngIf="isLoadingTable">
+            <ngx-skeleton-loader count="5" appearance="line" [theme]="{ 'border-radius': '20px', height: '30px', width:'1100px'}">
+            </ngx-skeleton-loader>
+        </div>
+        <!-- Table -->
+        <div *ngIf="!isLoadingTable">
+            <table class="styled-table">
+                <tr>
+                    <th class="header">Tenant</th>
+                    <th class="header">Title</th>
+                    <th class="header">Model</th>
+                    <th class="header">Data</th>
+                    <th class="header">Status</th>
+                    <th class="header">Created On</th>
+                    <th class="header">Generate Report</th>
+                    <th class="header">Actions</th>
+                    <!-- <th class="header">Delete</th> -->
+                </tr>
+                <tr *ngFor="let element of dataSource | paginate : pagingConfig; let i = index">
+                    <td> {{element.TenetName}}</td>
+                    <td> {{element.Title}}</td>
+                    <td> {{element.ModelName}}</td>
+                    <td> {{element.DataSetName}}</td>
+                    <td class="upper-case" [ngClass]="{'gereen-text': isCompleted(element.Status)}"> {{element.Status}}</td>
+                    <td> {{element.CreatedDateTime}}</td>
+                    <td>
+                        <button mat-icon-button color="primary2" class="matIcon" (click)="generateReport(element,i + (pagingConfig.itemsPerPage * (pagingConfig.currentPage - 1)))" [class.disabled]="(element.Status == 'Completed') || (element.Status == 'In-progress')">
+            <mat-icon [inline]="true">library_books</mat-icon>
+          </button>
+                    </td>
+                    <td>
+                        <div>
+                            <button class="actionBtn" matTooltip="Download Report" (click)="downloadReport(element)" [class.disabled]="element.Status != 'Completed'">
+              <mat-icon>download</mat-icon>
+            </button>
+                            <button class="actionBtn" matTooltip="View" *ngIf="element.TenetName == 'Explainability'&& element.Status == 'Completed'" (click)="visualization()">
+                <mat-icon>remove_red_eye</mat-icon>
+              </button>
+                            <button class="actionBtn" matTooltip="Delete" (click)="deleteConfirmationBatch(element.BatchId,element.TenetName)">
+              <mat-icon [inline]=" true">delete</mat-icon>
+            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="d-flex justify-content-between mt-3">
+                <div class="pagination-info">
+                    Showing {{ pagingConfig.totalItems
+                    < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }} </div>
+                        <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                        </pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>

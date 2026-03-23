@@ -1,0 +1,192 @@
+[
+    {
+        "phrase": "Thanks for the helpful info.",
+        "Sentiment": "Positive - Happy",
+        "Words": "Appreciate, glad"
+    },
+    {
+        "phrase": "Great!",
+        "Sentiment": "Positive - Happy",
+        "Words": "Achievement, delighted"
+    },
+    {
+        "phrase": "Fantastic!",
+        "Sentiment": "Positive - Happy",
+        "Words": "Enjoy, thrilled"
+    },
+    {
+        "phrase": "This is exactly what I was looking for",
+        "Sentiment": "Positive - Happy",
+        "Words": "Friendly, excited"
+    },
+    {
+        "phrase": "This is superb.",
+        "Sentiment": "Positive - Happy",
+        "Words": "Fun, overjoyed"
+    },
+    {
+        "phrase": "Easy",
+        "Sentiment": "Positive - Happy",
+        "Words": "Glad, ecstatic"
+    },
+    {
+        "phrase": "I love this",
+        "Sentiment": "Positive - Happy",
+        "Words": "Helpful, Wow"
+    },
+    {
+        "phrase": "I really like it",
+        "Sentiment": "Positive - Happy",
+        "Words": "Like"
+    },
+    {
+        "phrase": "I appreciate",
+        "Sentiment": "Positive - Happy",
+        "Words": "Impressed"
+    },
+    {
+        "phrase": "I'm really impressed",
+        "Sentiment": "Positive - Happy",
+        "Words": "Perfect"
+    },
+    {
+        "phrase": "I'm so glad I got this",
+        "Sentiment": "Positive - Happy",
+        "Words": "Recommend"
+    },
+    {
+        "phrase": "Great job",
+        "Sentiment": "Positive - Happy",
+        "Words": "Satisfied"
+    },
+    {
+        "phrase": "Nice job",
+        "Sentiment": "Positive - Happy",
+        "Words": "Thank"
+    },
+    {
+        "phrase": "This is relieving",
+        "Sentiment": "Positive - Happy",
+        "Words": "Useful"
+    },
+    {
+        "phrase": "We missed it",
+        "Sentiment": "Negative - Disappointed",
+        "Words": "Not able to, Freaking, Slow"
+    },
+    {
+        "phrase": "It's sad to know that",
+        "Sentiment": "Negative - Disappointed",
+        "Words": "Not sure, Fail, difficult"
+    },
+    {
+        "phrase": "not sure",
+        "Sentiment": "Negative - Disappointed",
+        "Words": "Doesn't work, Inefficient, awful"
+    },
+    {
+        "phrase": "I lost the track completely",
+        "Sentiment": "Negative - Disappointed",
+        "Words": "Disappointed, Missed, Depress"
+    },
+    {
+        "phrase": "doesn’t work",
+        "Sentiment": "Negative - Disappointed",
+        "Words": "Challenge, Decline"
+    },
+    {
+        "phrase": "doesn’t work at all",
+        "Sentiment": "Negative - Disappointed",
+        "Words": "Confuse, Unproductive"
+    },
+    {
+        "phrase": "disappointed",
+        "Sentiment": "Negative - Disappointed",
+        "Words": "Reject, Unsatisfactory"
+    },
+    {
+        "phrase": "I can't believe",
+        "Sentiment": "Negative - Disappointed",
+        "Words": "Inaccurate, Problematic"
+    },
+    {
+        "phrase": "That's too much",
+        "Sentiment": "Negative - Disappointed",
+        "Words": "Useless, Stress"
+    },
+    {
+        "phrase": "You're unreliable",
+        "Sentiment": "Negative - Disappointed",
+        "Words": "Struggle, Annoying"
+    },
+    {
+        "phrase": "How should I",
+        "Sentiment": "Neutral - Bored",
+        "Words": "Perhaps, Agree"
+    },
+    {
+        "phrase": "Where to find",
+        "Sentiment": "Neutral - Bored",
+        "Words": "Possibly, Ask"
+    },
+    {
+        "phrase": "Could you provide me",
+        "Sentiment": "Neutral - Bored",
+        "Words": "boring, Answer"
+    },
+    {
+        "phrase": "Can you help me",
+        "Sentiment": "Neutral - Neutral",
+        "Words": "Analyze"
+    },
+    {
+        "phrase": "I am interested in finding",
+        "Sentiment": "Neutral - Neutral",
+        "Words": "Clarify"
+    },
+    {
+        "phrase": "I need assistance",
+        "Sentiment": "Neutral - Neutral",
+        "Words": "Evaluate"
+    },
+    {
+        "phrase": "Please provide",
+        "Sentiment": "Neutral - Neutral",
+        "Words": "Implement"
+    },
+    {
+        "phrase": "Give me step-by-step instructions",
+        "Sentiment": "Neutral - Neutral",
+        "Words": "Inform"
+    },
+    {
+        "phrase": "Maintain",
+        "Sentiment": "Neutral - Neutral",
+        "Words": "Plan"
+    },
+    {
+        "phrase": "Organize",
+        "Sentiment": "Neutral - Neutral",
+        "Words": "Schedule"
+    },
+    {
+        "phrase": "Plan",
+        "Sentiment": "Neutral - Neutral",
+        "Words": "Review"
+    },
+    {
+        "phrase": "Report",
+        "Sentiment": "Neutral - Neutral",
+        "Words": "Maintain"
+    },
+    {
+        "phrase": "Review",
+        "Sentiment": "Neutral - Neutral",
+        "Words": "Report"
+    },
+    {
+        "phrase": "Schedule",
+        "Sentiment": "Neutral - Neutral",
+        "Words": "Organize"
+    }
+]

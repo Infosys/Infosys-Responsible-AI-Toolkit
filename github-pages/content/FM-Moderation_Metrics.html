@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html><head></head><body><div class="main-panel wiki-content">
+<div class="description">
+<div class="header-wrapper" style="max-width: initial">
+<!-- breadcrumbs could be implemented and inserted here -->
+<div></div>
+
+</div>
+<div class="header-wrapper">
+<div class="title-wrapper">
+<div class="title">
+<h1 style="display: flex; align-items: center;">
+                                        List of Metrics
+                                    </h1>
+</div>
+<div class="row" style="display: flex;padding: 0; ">
+
+</div>
+</div>
+</div>
+<div class="content-wrapper">
+<style>@media (prefers-color-scheme: dark) { }</style>
+<h2 id="MetricsDetailThresholdinformation"><style>[data-colorid=oa2ls53sat]{color:#0747a6} html[data-color-mode=dark] [data-colorid=oa2ls53sat]{color:#5999f8}</style><span data-colorid="oa2ls53sat">Metrics Detail &amp; Threshold information</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="table-wrap dt-1302694510" style="max-width: 1082px; width: 100%; margin: 10px 0px 0px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="center" data-local-id="ca3d4e21-8b43-46b8-a875-1545c8405118" data-table-width="1082" style="border-collapse: collapse; width: 100%;">
+<colgroup>
+<col style="width: 72.0px;"/>
+<col style="width: 155.0px;"/>
+<col style="width: 130.0px;"/>
+<col style="width: 162.0px;"/>
+<col style="width: 199.0px;"/>
+<col style="width: 114.0px;"/>
+<col style="width: 248.0px;"/>
+</colgroup>
+<tbody>
+<tr>
+<td class="confluenceTd" data-highlight-colour="#156082" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><span class="legacy-color-text-inverse">#</span></p></td>
+<td class="confluenceTd" data-highlight-colour="#156082" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><span class="legacy-color-text-inverse">Phase</span></p></td>
+<td class="confluenceTd" data-highlight-colour="#156082" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><span class="legacy-color-text-inverse">Type of Guardrails</span></p></td>
+<td class="confluenceTd" data-highlight-colour="#156082" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><span class="legacy-color-text-inverse">Metric</span></p></td>
+<td class="confluenceTd" data-highlight-colour="#156082" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><span class="legacy-color-text-inverse">Score Range / Output</span></p></td>
+<td class="confluenceTd" data-highlight-colour="#156082" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><span class="legacy-color-text-inverse">Threshold**</span></p></td>
+<td class="confluenceTd" data-highlight-colour="#156082" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><span class="legacy-color-text-inverse">Description</span></p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Prompt Injection Score</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.7</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Score of 0.7 or more indicates the model is highly confident that the prompt is ‘injected’, as less score like 0 or 0.1 etc. shows the model is confident that the prompt is ‘legit’.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>2</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Jailbreak Score</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.7</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Score of 0.7 or more indicates that Jailbreak attack is there in the prompt. </p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>3</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Privacy Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>None / List of entities</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> 1 PII entity</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>As response we get a list of PII entities detected, if even one entity is detected the prompt gets blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>4</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Profanity Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>None / List of entities</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>1 word</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If one or more profane words is/are detected in the prompt, it is blocked. </p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>5</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Restricted Topic Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> 0.7</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>The response is restricted topic score of each restricted topic label we have passed in input, if even for one label the score is 0.7 or more, it means the model is confident that the text falls under that category and the prompt is blocked. </p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Toxicity Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> 0.7</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the final toxicity score is 0.7 or more than it means the model has classified the prompt as highly toxic and the prompt gets blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>7</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Sentiment Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>-1 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>-0.01</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If score is &lt;=-0.01 it means the sentiment of the sentence is negative, the higher the score is the more positive the sentiment of the sentence is.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>8</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Invisible Text Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>None / List of entities</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>1 entity</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>In the response we get list containing all entities present in the prompt which fall under different invisible text categories. Even if one such entity is detected the prompt gets blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>9</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Gibberish Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.7</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the label of the text detected in prompt is "word salad", "noise" or "mild gibberish" and its score is more than or equal to 0.7 then the prompt gets blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>10</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Ban Code Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.7</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the model detects code in prompt and gives a score of 0.7 or above, then the prompt is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>11</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Prompt Injection Score</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects prompt injection in the prompt and gives a score of 0.6 or more then the prompt is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>12</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Jailbreak Score</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects jailbreak in the prompt and gives a score of 0.6 or more then the prompt is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>13</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Fairness &amp; Bias Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Low/Medium/High/Neutral</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> </p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Categories determined by Fairness Score generated by LLM which ranges from 0 to 100. 0: Neutral, 1-30: Low, 31-70: Medium, &gt;70: High</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>14</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Language Critique Coherence Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects coherence issues in the prompt and gives a score of 0.6 or more then the prompt is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>15</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Language Critique Fluency Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects fluency issues in the prompt and gives a score of 0.6 or more then the prompt is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>16</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Language Critique Grammar Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects grammar issues in the prompt and gives a score of 0.6 or more then the prompt is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>17</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Language Critique Politeness Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects issues with politeness in the prompt and gives a score of 0.6 or more then the prompt is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>18</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Privacy Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>None / List of entities</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>1 PII entity</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>As response we get a list of PII entities detected, if even one entity is detected the response gets blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>19</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Restricted Topic Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.7 </p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>The response is restricted topic score of each restricted topic label we have passed in payload, if even for one label the score is 0.7 or more, it means the model is confident that the response falls under that category and the response is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>20</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Toxicity Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.7 </p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the final toxicity score is 0.7 or more than it means the model has classified the response as highly toxic and the response gets blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>21</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Text Relevance Check (Similarity Score)</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 100</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> NA</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>This check is to check the similarity between the prompt given and the response generated.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>22</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Refusal Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.7</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the score is 0.7 or more the response is blocked as it has high similarity with the foundation model refusal responses.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>23</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Text Quality</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Grades </p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> NA</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>The Text Quality check assesses the readability and grade level of the generated response.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>24</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Profanity Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>None / List of entities</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>1 word</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If one or more profane words is/are detected in the response, it is blocked. </p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>25</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Sentiment Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>-1 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>-0.01</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If score is &lt;=-0.01 it means the sentiment of the response is negative, the higher the score is the more positive the sentiment of the response is.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>26</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Invisible Text Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>None / List of entities</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>1 entity</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>In the response we get list containing all entities present in the response which fall under different invisible text categories. Even if one such entity is detected the response gets blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>27</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Gibberish Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.7</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the label of the text detected in response is "word salad", "noise" or "mild gibberish" and its score is more than or equal to 0.7 then the response gets blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>28</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Model Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Ban Code Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.7</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the model detects code in response and gives a score of 0.7 or above, then the response is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>29</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Completeness Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects completeness issues in the response and gives a score of 0.6 or more then the prompt is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>30</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Conciseness Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects conciseness issues in the response and gives a score of 0.6 or more then the response is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>31</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Language Critique Coherence Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects coherence issues in the response and gives a score of 0.6 or more then the response is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>32</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Language Critique Fluency Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects fluency issues in the response and gives a score of 0.6 or more then the prompt is response.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>33</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Language Critique Grammar Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects grammar issues in the response and gives a score of 0.6 or more then the response is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>34</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Moderation</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Language Critique Politeness Check</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 1</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0.6</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>If the LLM detects impolite tone in the response and gives a score of 0.6 or more then the response is blocked.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>35</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Comparison</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Hallucination Score (ThoT)</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 100</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> </p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Values closer to 0 indicates lesser Hallucination. 0-30: Low, 30-50: Medium, &gt; 50: High</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>36</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Comparison</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Uncertainty Score (ThoT, CoT, RE2, LoT, GoT<sup>#</sup>)</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 100</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> </p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Highly Certain: &gt;=0 and &lt;=30 (less uncertainty)<br/>Moderately Certain: &gt;30 and &lt;=70 (moderately uncertain)<br/>Less Certain: &gt;70 and &lt;=100 (highly uncertain)</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>37</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response Comparison</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Template Based Guardrails</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Coherence Score (ThoT, CoT, RE2, LoT, GoT<sup>#</sup>)</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>0 to 100</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> </p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Less Coherent: &gt;=0 and &lt;=30<br/>Moderately Coherent: &gt;30 and &lt;=70<br/>Highly Coherent: &gt;70 and &lt;=100</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt-1302694510 table {min-width:757px;}</style>
+</div>
+<p>**Please note that the thresholds outlined are general recommendations derived from industry best practices. These values are configurable and may be adjusted to align with the unique demands of each application. </p>
+<p># ThoT - Thread of Thoughts, CoT - Chain of Thoughts, RE2 - Re-Read Reasoning, LoT - Logic of Thoughts, GoT - Graph of Thoughts</p>
+</div>
+<div id="footer-comments-outlet">
+<div>
+<div class="page-comment-wrapper" data-testid="page-comment-wrapper">
+<div class="cc-q82yp6">
+<div class="_1e0c1txw _i0dl1osq _otyru2gc">
+<div class="_bfhklbf8 _1bsbzwfg _4t3izwfg _2rko1ssb _19pk1b66 _2hwxutpp"></div>
+<div class="_1e0c11p5 _yv0ehpgh _727q19bv _bfhk1j28 _1bsbdgin _18u0u2gc">
+<div class="_nd5lzmlf _bfhklbf8 _y3gn1h6o _1yt45uws _19itglyw _2rko1l7b"></div>
+<div class="_nd5lbahz _bfhklbf8 _y3gn1h6o _1yt41h4g _19itglyw _2rko1l7b"></div>
+</div>
+</div>
+<div class="_1sb2f705 _1e0c1ule _otyrpxbi _ca0qutpp _n7zl1l7n _1bsb1osq"></div>
+<div class="_1e0c1txw _1n261g80" data-testid="comment-container">
+<div class="_1e0c1txw _i0dl1osq _otyru2gc">
+<div class="_bfhklbf8 _1bsbzwfg _4t3izwfg _2rko1ssb _19pk1b66 _2hwxutpp"></div>
+<div class="_1bsb1osq _19itglyw _2rko1l7b _4t3i1ylp _syaz9s69 _ca0qze3t _1e0c1o8l _s7n4jp4b _18u0u2gc _16jlkb7n _bfhklbf8"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="inline-comments-outlet"></div>
+</div>
+</div></body><br/><br/></html>

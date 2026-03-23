@@ -1,0 +1,159 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.btnRound {
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: 80%;
+    color: #8626C3;
+    margin: 0.5rem;
+  }
+  
+  .btnRound i {
+    font-size: medium;
+    padding: 10px;
+  }
+
+  .inputField{
+    width: 313px;
+height: 34px;
+padding-left: 50px;
+/* UI Properties */
+background: #FFFFFF 0% 0% no-repeat padding-box;
+border: 0.30000001192092896px solid #707070;
+border-radius: 4px;
+opacity: 1;
+}
+.inputText{
+    /* margin-left: 33px; */
+    margin-bottom: 15px;
+}
+
+  .workbenchContainer{
+    width: 50%;
+}
+
+:host ::ng-deep.mdc-tab__text-label {
+    color: #382261 !important;
+    text-transform: uppercase;
+}
+
+:host ::ng-deep.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline, .mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+    border-color: #8626C3;
+}
+
+:host ::ng-deep.mdc-tab {
+    padding: 0px !important;
+    padding-right: 50px !important;
+    justify-content: start !important;
+}
+
+:host ::ng-deep.mdc-tab-indicator__content--underline {
+    width: 25%;
+    position: absolute;
+    left: 0;
+}
+
+:host ::ng-deep.mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+    flex-grow: initial;
+    height: 35px;
+}
+
+
+.buttonMain {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: .75rem;
+    padding-left: 10px;
+    height: 28px;
+    width: 3.313rem;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .mat-black {
+    color: white;
+    background-color: #231F20;
+  }
+
+
+  .mat-horizontal-stepper-header {
+    width: 70%;
+}
+.btnRound {
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: 50%;
+    color: #8626C3;
+    margin: 0.5rem;
+    height: 30px;
+    margin-right: 1rem;
+  }
+  
+  .btnRound i {
+    font-size: medium;
+    padding: 6px;
+  }
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+
+  :host ::ng-deep.mat-horizontal-stepper-header-container {
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    width: 60%;
+}
+
+:host ::ng-deep.mat-step-header .mat-step-icon-selected{
+    background-color: #8626C3;
+}
+
+:host ::ng-deep.mat-step-text-label{
+  font: normal normal 600 14px/19px Segoe UI;
+  letter-spacing: 0px;
+  color: #7E7E7E;
+  text-transform: uppercase;
+  opacity: 1;
+}
+:host ::ng-deep.mat-horizontal-stepper-header,
+:host ::ng-deep.mat-horizontal-content-container {
+  padding: 0px;
+}
+
+
+.fixed-top {
+  position: fixed;
+  top: 130px;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #fff; /* Adjust as needed */
+  padding: 10px;
+}
+
+.content {
+  margin-top: 80px; /* Adjust this value based on the height of the fixed elements */
+  /* Add additional styling for the main content */
+}
+
+
+.help_icon{
+  color: #8626C3;
+  margin-right: 25px;
+  cursor: pointer;
+}
+.closeIcon{
+  color: #8626C3;
+  margin-left:0px;
+  font-size: 28px;
+  cursor: pointer;
+}

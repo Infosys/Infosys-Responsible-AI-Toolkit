@@ -1,0 +1,5 @@
+/* You can add global styles to this file, and also import other style files */
+/* @import "~leds-lib/src/lib/designtoken.scss";
+@import "~leds-lib/src/lib/styles.scss"; */
+
+/* for line break of data in table body whole .mat-cell, .mat-footer-cell { overflow: hidden; text-overflow: ellipsis; word-break: break-word; } */

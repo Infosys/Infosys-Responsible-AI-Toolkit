@@ -1,0 +1,12 @@
+fastapi
+cvxpy
+pydantic 
+uvicorn 
+trustllm 
+pandas
+pyyaml
+numpy
+spacy
+python-multipart
+BlackBoxAuditing
+python-dotenv

@@ -1,0 +1,13 @@
+[{
+  "_id": 1706699303.8913388,
+  "telemetryLink": "http://your localhost : port/app/dashboards#/view/0afb0620-bf56-11ee-ad0b-1f26a9536662?_g=(refreshInterval:(pause:!t,value:60000),time:(from:now-1y%2Fd,to:now))",
+  "tenant": "Fm-Moderation"
+},{
+  "_id": 1706699340.5616977,
+  "telemetryLink": "http://your localhost : port/app/dashboards#/view/e5124d20-aad2-11ee-a95f-41d04ef41074?_g=(refreshInterval:(pause:!t,value:60000),time:(from:now-30d%2Fd,to:now))",
+  "tenant": "Privacy"
+},{
+  "_id": 1706699397.8936179,
+  "telemetryLink": "http://your localhost : port/app/dashboards#/view/f08f44d0-c028-11ee-ad0b-1f26a9536662?_g=(refreshInterval:(pause:!t,value:60000),time:(from:now-30d%2Fd,to:now))",
+  "tenant": "Profanity"
+}]

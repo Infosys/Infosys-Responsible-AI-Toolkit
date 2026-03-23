@@ -1,0 +1,117 @@
+[
+    {
+        "context": "Suggestive",
+        "Phrase": "That's great to hear!  Here're some suggestions for getting started:<core content>"},
+    {
+        "context": "Suggestive",
+        "Phrase": "Here are some additional resources that can help you enhance your <core content>"},
+    {
+        "context": "Suggestive",
+        "Phrase": "Some specific <topic> suggestions include:<core content>"},
+    {
+        "context": "Suggestive",
+        "Phrase": "I recommend exploring these tools to optimize your workflow <core content>"},
+    {
+        "context": "Suggestive",
+        "Phrase": "Here are a few innovative ideas to address the problem at hand.<core content>"},
+    {
+        "context": "Suggestive",
+        "Phrase": "I've identified some potential solutions based on similar cases. <core content>"},
+    {
+        "context": "Suggestive",
+        "Phrase": "Let's think outside the box and consider these creative options:<core content>"},
+    {
+        "context": "Suggestive",
+        "Phrase": "Don't hesitate to explore alternative methods and tools to improve your process.<core content>"},
+    {
+        "context": "Suggestive",
+        "Phrase": "Here's a list of helpful tips and tricks to increase productivity.<core content>"},
+    {
+        "context": "Suggestive",
+        "Phrase": "To make better decisions, let's gather more information from these sources.<core content>"},
+    {
+        "context": "Suggestive",
+        "Phrase": "I've found some valuable resources that may help you tackle this challenge. <core content>"},
+    {
+        "context": "Resourceful",
+        "Phrase": "Here are some additional resources and suggestions for <core content>:"},
+    {
+        "context": "Empathetic",
+        "Phrase": "That's understandable, <core content>"},
+    {
+        "context": "Empathetic",
+        "Phrase": "Your concerns are important to me. <core content>"},
+    {
+        "context": "Empathetic",
+        "Phrase": "It's okay to take your time. It's okay to take a step back and regroup. <core content>"},
+    {
+        "context": "Empathetic",
+        "Phrase": "I recognize how hard this must be for you.<core content>"},
+    {
+        "context": "Empathetic",
+        "Phrase": "I hear you. It can be frustrating when <something doesn't work>. The most important thing to remember is that you have the power to take control of <core content>"},
+    {
+        "context": "Empathetic",
+        "Phrase": "Can't agree any less. Things sometimes can be overwhelming and time-consuming. Here're a few suggestions to help <core content>."},
+    {
+        "context": "Empathetic",
+        "Phrase": "I'm sorry to hear that you're having a difficult time <core topic>. Don't worry; here are some practical tips to <core content>."},
+    {
+        "context": "Empathetic",
+        "Phrase": "I apologize …[didn't meet your expectations/ have caused any inconvenience]"},
+    {
+        "context": "Empathetic",
+        "Phrase": "I understand your frustration, and I'm here to help resolve the issue as quickly as possible."},
+    {
+        "context": "Empathetic",
+        "Phrase": "I can see that you've encountered a problem. Please provide me with more details so we can find a solution together."},
+    {
+        "context": "Empathetic",
+        "Phrase": "Your concerns are valid, and I assure you that we are doing our best to address them promptly."},
+    {
+        "context": "Empathetic",
+        "Phrase": "Thank you for reaching out. I can sense your disappointment, and I'm committed to assisting you in any way I can."},
+    {
+        "context": "Empathetic",
+        "Phrase": "I recognize that this is a complex issue. Allow me to offer some resources that may provide additional clarity."},
+    {
+        "context": "Empathetic",
+        "Phrase": "Your feedback is invaluable, and we genuinely appreciate your honesty in sharing your experience."},
+    {
+        "context": "Empathetic",
+        "Phrase": "I acknowledge the difficulty of this situation and assure you that we are actively working on improvements."},
+    {
+        "context": "Empathetic",
+        "Phrase": "It's perfectly normal to feel uncertain about new changes. Let me provide you with some helpful tips to make the transition smoother."},
+    {
+        "context": "Empathetic",
+        "Phrase": "Your satisfaction is our top priority, and we're here to help you find the best solution for your needs."},
+    {
+        "context": "Empathetic",
+        "Phrase": "I can see that you've encountered some challenges, and I'd like to offer my support in navigating them."},
+    {
+        "context": "Empathetic",
+        "Phrase": "Thank you for expressing your concerns. We are committed to addressing them and ensuring a better experience moving forward."},
+    {
+        "context": "Encouraging",
+        "Phrase": "I hear you! <core content> Let's work together to figure out a solution that can help you move forward in <topic>."},
+    {
+        "context": "Encouraging",
+        "Phrase": "It's understandable! How about <some suggestions> ? Here are some exciting ways you can <topic>:"},
+    {
+        "context": "Encouraging",
+        "Phrase": "You're on the right track!"},
+    {
+        "context": "Encouraging",
+        "Phrase": "Don't give up! With a little more effort, you'll find the perfect solution for your needs"},
+    {
+        "context": "Encouraging",
+        "Phrase": "Your hard work is paying off! Let's continue to build upon your accomplishments"},
+    {
+        "context": "Encouraging",
+        "Phrase": "You've got this!"},
+    {
+        "context": "Encouraging",
+        "Phrase": "It's great that you're taking the initiative to learn more. Let's explore the options together."        
+    }
+]

@@ -1,0 +1,105 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+
+<div class="row">
+    <div>
+        <label class="mainLabel">Censor</label>
+        <div class="card">
+            <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">{{profanityRes?.cenRes?.outputText | json}}
+            </div>
+        </div>
+    </div>
+    <!-- new response design -->
+    <div>
+        <div class="card mt-2">
+            <label class="mainLabel">Safety Analyze</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- Content for the 50% width div -->
+                    <div class="card">
+                        <div class="card-body min-h-235">
+                            <label class="mainLabel">Profanity Scores</label>
+                            <table class="styled-table">
+                                <tr>
+                                    <th class="header">Metric Name</th>
+                                    <th class="header">Metric Score</th>
+                                </tr>
+                                <tbody>
+                                    <tr *ngFor="let entity of profanityRes?.AnazRes?.profanityScoreList | paginate : pagingConfig; let i = index"
+                                        style="padding: 10px;">
+                                        <td>{{entity.metricName | uppercase}}</td>
+                                        <td>{{entity.metricScore | uppercase}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-left">
+                                <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next"
+                                    (pageChange)="onTableDataChange($event)">
+                                </pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- Content for the other 50% width div -->
+                    <div class="card">
+                        <div class="card-body min-h-235">
+                            <label class="mainLabel">Profane Words</label>
+                            <table class="styled-table">
+                                <tr>
+                                    <th class="header">Profane Word</th>
+                                    <th class="header">Begin Offset</th>
+                                    <th class="header">End Offset</th>
+                                </tr>
+                                <tbody>
+                                    <tr *ngFor="let entity of profanityRes?.AnazRes?.profanity | paginate : pagingConfig2; let i = index"
+                                        style="padding: 10px;">
+                                        <td>{{entity.profaneWord | uppercase }}</td>
+                                        <td>{{entity.beginOffset | uppercase }}</td>
+                                        <td>{{entity.endOffset | uppercase }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="d-flex justify-content-left">
+                                <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next"
+                                    (pageChange)="onTableDataChange2($event)">
+                                </pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mt-1" hidden>
+        <table class="styled-table">
+            <tr>
+                <th class="header">Profane Word</th>
+                <th class="header">Begin Offset</th>
+                <th class="header">End Offset</th>
+            </tr>
+            <tbody>
+                <tr *ngFor="let entity of  profanityRes?.AnazRes?.profanity | paginate : pagingConfig2; let i = index"
+                    style="padding: 10px;">
+                    <td>{{entity.profaneWord | uppercase }}</td>
+                    <td>{{entity.beginOffset | uppercase }}</td>
+                    <td>{{entity.endOffset | uppercase }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-left">
+            <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next"
+                (pageChange)="onTableDataChange2($event)">
+            </pagination-controls>
+        </div>
+    </div>
+</div>
+
+<div style="height: 20px;">
+    <!-- empty div to have space at bottom -->
+</div>

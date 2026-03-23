@@ -1,0 +1,110 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.btn-close {
+    width: .75rem; /* Adjust the width as needed */
+    height: .75rem; /* Adjust the height as needed */
+    padding: 0.25rem;
+}
+
+.btn-close::before {
+    font-size: .75rem; /* Adjust the font size as needed */
+}
+
+.btn-close:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.headingTop {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 0;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+.txtArea {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 150px;
+    padding-right: 30px;
+    width: 100%;
+}
+
+
+.txtArea1{
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 100px;
+    padding-right: 30px;
+    width: 100%;
+
+}
+
+.promptSendIcon{
+    background: none;
+    color: #8626C3;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    i {
+        font-size: 22px;
+    }
+
+}
+
+.mainHeadng {
+    color: #382261;
+    padding: 0px;
+    margin-bottom: 0;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.mainHeadngSM {
+    color: #7E7E7E;
+    font-size: 11px;
+}
+
+
+
+.sendIcon {
+    background: none;
+    color: #8626C3;
+    bottom: 0;
+    right: 0;
+    i {
+        font-size: 22px;
+    }
+}
+
+.resetIcon {
+    background: none;
+    color: #7E7E7E;
+    i {
+        font-size: 20px;
+    }
+}
+
+.passed {
+    color: green;
+  }
+  
+  .failed {
+    color: red;
+  }
+  .warn{
+    font-family: 'Segoe UI';
+    font-size: 12px;
+}
+
+

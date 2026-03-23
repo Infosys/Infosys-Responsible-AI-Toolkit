@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html><head></head><body><div class="main-panel wiki-content">
+<div class="description">
+<div class="header-wrapper" style="max-width: initial">
+<!-- breadcrumbs could be implemented and inserted here -->
+
+
+</div>
+<div class="header-wrapper">
+<div class="title-wrapper">
+<div class="title">
+<h1 style="display: flex; align-items: center;">
+                                        Explainability - Technical Essentials
+                                    </h1>
+</div>
+
+</div>
+</div>
+<div class="content-wrapper">
+<style>@media (prefers-color-scheme: dark) { }</style>
+<p><style>[data-colorid=hk3w6m65dm]{color:#0747a6} html[data-color-mode=dark] [data-colorid=hk3w6m65dm]{color:#5999f8}[data-colorid=rdoq21ncmf]{color:#0747a6} html[data-color-mode=dark] [data-colorid=rdoq21ncmf]{color:#5999f8}[data-colorid=i2lm6wvd4v]{color:#0747a6} html[data-color-mode=dark] [data-colorid=i2lm6wvd4v]{color:#5999f8}[data-colorid=cljv014ibl]{color:#0747a6} html[data-color-mode=dark] [data-colorid=cljv014ibl]{color:#5999f8}[data-colorid=mmj0wjpq14]{color:#0747a6} html[data-color-mode=dark] [data-colorid=mmj0wjpq14]{color:#5999f8}[data-colorid=sohnqpfn6d]{color:#0747a6} html[data-color-mode=dark] [data-colorid=sohnqpfn6d]{color:#5999f8}[data-colorid=vfzrp9qs34]{color:#0747a6} html[data-color-mode=dark] [data-colorid=vfzrp9qs34]{color:#5999f8}[data-colorid=xu17993znr]{color:#0747a6} html[data-color-mode=dark] [data-colorid=xu17993znr]{color:#5999f8}[data-colorid=ducx8qta0i]{color:#0747a6} html[data-color-mode=dark] [data-colorid=ducx8qta0i]{color:#5999f8}[data-colorid=esdrrof911]{color:#0747a6} html[data-color-mode=dark] [data-colorid=esdrrof911]{color:#5999f8}[data-colorid=gy6xf9xvf7]{color:#0747a6} html[data-color-mode=dark] [data-colorid=gy6xf9xvf7]{color:#5999f8}[data-colorid=yeyz6czbos]{color:#0747a6} html[data-color-mode=dark] [data-colorid=yeyz6czbos]{color:#5999f8}[data-colorid=tdutsmlt3o]{color:#0747a6} html[data-color-mode=dark] [data-colorid=tdutsmlt3o]{color:#5999f8}[data-colorid=eq4eufbyay]{color:#0747a6} html[data-color-mode=dark] [data-colorid=eq4eufbyay]{color:#5999f8}[data-colorid=i7eywj911y]{color:#0747a6} html[data-color-mode=dark] [data-colorid=i7eywj911y]{color:#5999f8}[data-colorid=x6esndzc23]{color:#0747a6} html[data-color-mode=dark] [data-colorid=x6esndzc23]{color:#5999f8}[data-colorid=t2scm04dzn]{color:#0747a6} html[data-color-mode=dark] [data-colorid=t2scm04dzn]{color:#5999f8}[data-colorid=he5pwe7gi5]{color:#0747a6} html[data-color-mode=dark] [data-colorid=he5pwe7gi5]{color:#5999f8}[data-colorid=gdnvkqpfql]{color:#0747a6} html[data-color-mode=dark] [data-colorid=gdnvkqpfql]{color:#5999f8}[data-colorid=jcw61mr47g]{color:#0747a6} html[data-color-mode=dark] [data-colorid=jcw61mr47g]{color:#5999f8}[data-colorid=ayf8pnxmah]{color:#0747a6} html[data-color-mode=dark] [data-colorid=ayf8pnxmah]{color:#5999f8}</style></p>
+<div class="toc-macro client-side-toc-macro conf-macro output-block" data-cssliststyle="none" data-hasbody="false" data-headerelements="H1,H2,H3,H4,H5,H6" data-layout="default" data-local-id="ba631c81-69e5-4fb9-b033-ce1bb3a8b963" data-macro-id="aa53370e-4a80-45d1-aba1-abe6c1ef8cf9" data-macro-name="toc" data-numberedoutline="false" data-structure="list">
+<ul>
+<li><a class="not-blank" href="#Overview"><span data-colorid="i2lm6wvd4v">Overview</span></a></li>
+<li><a class="not-blank" href="#KeyDimensionsofExplainability"><span data-colorid="rdoq21ncmf">Key Dimensions of Explainability</span></a></li>
+<li><a class="not-blank" href="#1AttentionVisualization"><span data-colorid="t2scm04dzn">1. Attention Visualization</span></a></li>
+<li><a class="not-blank" href="#2ModelInterpretability"><span data-colorid="mmj0wjpq14">2. Model Interpretability</span></a>
+<ul>
+<li><a class="not-blank" href="#GlobalInterpretability"><span data-colorid="x6esndzc23">Global Interpretability</span></a></li>
+<li><a class="not-blank" href="#LocalInterpretability"><span data-colorid="gy6xf9xvf7">Local Interpretability</span></a></li>
+<li><a class="not-blank" href="#ListofModelInterpretabilityTechniques"><span data-colorid="i7eywj911y">List of Model Interpretability Techniques</span></a>
+<ul>
+<li><a class="not-blank" href="#PermutationImportance"><strong>Permutation Importance</strong></a></li>
+<li><a class="not-blank" href="#SHAPSHapleyAdditiveexPlanations"><strong>SHAP (SHapley Additive exPlanations)</strong></a></li>
+<li><a class="not-blank" href="#LIMELocalInterpretableModelAgnosticExplanations"><strong>LIME (Local Interpretable Model-Agnostic Explanations)</strong></a></li>
+<li><a class="not-blank" href="#AnchorTabular"><strong>Anchor Tabular</strong></a></li>
+<li><a class="not-blank" href="#Counterfactualexplanations"><strong>Counterfactual explanations</strong></a></li>
+<li><a class="not-blank" href="#MeanDecreaseImpurityMDI"><strong>Mean Decrease Impurity (MDI)</strong></a></li>
+<li><a class="not-blank" href="#DecisionTrees"><strong>Decision Trees</strong></a></li>
+<li><a class="not-blank" href="#Rulebasedinduction"><strong>Rule-based induction</strong></a></li>
+<li><a class="not-blank" href="#Surrogatemodels"><strong>Surrogate models</strong></a></li>
+<li><a class="not-blank" href="#Selfreasoningtechniques"><strong>Self-reasoning techniques</strong></a></li>
+</ul></li>
+</ul></li>
+<li><a class="not-blank" href="#3OutputDiversification"><span data-colorid="esdrrof911">3. Output Diversification</span></a>
+<ul>
+<li><a class="not-blank" href="#EnsembleMethods"><span data-colorid="sohnqpfn6d">Ensemble Methods</span></a>
+<ul>
+<li><a class="not-blank" href="#Bagging">Bagging</a></li>
+<li><a class="not-blank" href="#Boosting">Boosting</a></li>
+<li><a class="not-blank" href="#RandomForest">Random Forest</a></li>
+<li><a class="not-blank" href="#Stacking">Stacking</a></li>
+<li><a class="not-blank" href="#Blending">Blending</a></li>
+</ul></li>
+<li><a class="not-blank" href="#CounterfactualExplanations"><span data-colorid="eq4eufbyay">Counterfactual Explanations </span></a></li>
+<li><a class="not-blank" href="#PerturbationTechniques"><span data-colorid="vfzrp9qs34">Perturbation Techniques</span></a></li>
+<li><a class="not-blank" href="#FeatureAttributionMethods"><span data-colorid="cljv014ibl">Feature Attribution Methods </span></a></li>
+<li><a class="not-blank" href="#ExplanationClusteringTechniques"><span data-colorid="tdutsmlt3o">Explanation Clustering Techniques</span></a></li>
+</ul></li>
+<li><a class="not-blank" href="#4ErrorAnalysis"><span data-colorid="he5pwe7gi5">4. Error Analysis</span></a></li>
+<li><a class="not-blank" href="#5TrainingDataTransparency"><span data-colorid="hk3w6m65dm">5. Training Data Transparency</span></a></li>
+
+<li><a class="not-blank" href="#UnderstandingExplainabilityinAIEUAIActNISTISO42001"><span data-colorid="ayf8pnxmah">Understanding Explainability in AI: EU AI Act, NIST, ISO42001</span></a>
+<ul>
+<li><a class="not-blank" href="#NISTNationalInstituteofStandardsandTechnologyAIRMF"><span data-colorid="jcw61mr47g">NIST (National Institute of Standards and Technology) - AI RMF</span></a></li>
+<li><a class="not-blank" href="#EuropeanUnionArtificialIntelligenceActEUAIAct"><span data-colorid="xu17993znr">European Union Artificial Intelligence Act (EU AI Act)</span></a></li>
+<li><a class="not-blank" href="#ISO42001InternationalStandardforAIGovernance"><span data-colorid="yeyz6czbos">ISO 42001 - International Standard for AI Governance</span></a></li>
+</ul></li>
+<li><a class="not-blank" href="#Glossaryoftermsused"><span data-colorid="gdnvkqpfql">Glossary of terms used</span></a></li>
+</ul>
+</div>
+<h2 id="Overview"><span data-colorid="i2lm6wvd4v">Overview</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<p>Transparency and accountability are fundamental for responsible AI model usage. To achieve this, all AI models, including traditional machine learning and generative AI, require explanations across multiple dimensions. While researchers may employ diverse approaches to explainability, our focus is on five key areas: attention visualization, model interpretability, output diversification, error analysis, and training data transparency. Infosys Responsible AI toolkit is continually enriched by incorporating techniques and methods from ongoing research within these areas.</p>
+<h2 id="KeyDimensionsofExplainability"><span data-colorid="rdoq21ncmf">Key Dimensions of Explainability</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="1121" style="max-width: 760px;" width="760"><img alt="image-20240918-130822.png" class="confluence-embedded-image image-center cursor-pointer" data-height="551" data-linked-resource-container-id="982974478" data-linked-resource-container-version="17" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240918-130822.png" data-linked-resource-id="1009287350" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="2e9b804c-5035-4d1b-9e83-cb6396ed6379" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/982974478/media/aHUyTVg3LU8tLWF4ZGRHMzBxVUtDMjR6T05JNzV2ZFR3SjE0SnRKYi1iZz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJd01URXdNUT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVGd5T1RjME5EYzQuYVcxaFoyVXRNakF5TkRBNU1UZ3RNVE13T0RJeUxuQnVadz09LmRtVnljMmx2YmoweEptMXZaR2xtYVdOaGRHbHZia1JoZEdVOU1UY3lOalkyTkRrd05UQXhNU1pqWVdOb1pWWmxjbk5wYjI0OU1TWmhjR2s5ZGpJbWQybGtkR2c5TnpZd0ptaGxhV2RvZEQwek56TT0=/image-20240918-130822.png" data-unresolved-comment-count="0" data-width="1121" loading="lazy" name="image-attachment" src="github-pages/images/image-20240918-130822.png" style="width: 760px;" width="760"/></span>
+<h2 id="1AttentionVisualization"><span data-colorid="t2scm04dzn">1. Attention Visualization</span> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="34832861-7e18-44a4-b408-3aa1d65dfb0a" data-macro-name="expand" id="expander-2133277097">
+<div class="expand-control" id="expander-control-2133277097" onclick="expandContent('expander-content-2133277097', 'expander-control-2133277097')">
+<span class="expand-control-text">List of attention visualization techniques</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-2133277097">
+<p>A technique used in machine learning to understand how a model focuses on different parts of an input sequence when making a prediction. It is particularly useful for models that use attention mechanisms, such as transformers, which are widely used in natural language processing (NLP) and computer vision tasks.</p>
+<div class="table-wrap dt1065162984" style="max-width: 760px; width: 100%; margin: 10px 0px 0px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="ad50a10e-196b-408c-b376-38bc94af4363" data-table-width="760" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<th class="confluenceTh" style="border: 1px solid #ddd; padding: 8px; background-color: #79bcf3; text-align: left;"><p><strong>Technique</strong></p></th>
+<th class="confluenceTh" style="border: 1px solid #ddd; padding: 8px; background-color: #79bcf3; text-align: left;"><p><strong>Purpose</strong></p></th>
+<th class="confluenceTh" style="border: 1px solid #ddd; padding: 8px; background-color: #79bcf3; text-align: left;"><p><strong>Sample Output</strong></p></th>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Token Importance Charts</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>To understand the relative importance of individual tokens (e.g., words, sub words)</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="199" style="max-width: 760px;" width="199"><img alt="image-20240918-131133.png" class="confluence-embedded-image image-center cursor-pointer" data-height="106" data-linked-resource-container-id="982974478" data-linked-resource-container-version="17" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240918-131133.png" data-linked-resource-id="1008304592" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="a9486c57-766b-4d56-8c64-3946df176f23" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/982974478/media/YnN0SHNteWhFNUdtSnZ1SDZmbVdrTVIzRmVWZGJBQ1c2ejBWVGRNanN2TT0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJd01URXdNZz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVGd5T1RjME5EYzQuYVcxaFoyVXRNakF5TkRBNU1UZ3RNVE14TVRNekxuQnVadz09LmRtVnljMmx2YmoweEptMXZaR2xtYVdOaGRHbHZia1JoZEdVOU1UY3lOalkyTlRBNU9EVXhPQ1pqWVdOb1pWWmxjbk5wYjI0OU1TWmhjR2s5ZGpJbWQybGtkR2c5TVRrNUptaGxhV2RvZEQweE1EVT0=/image-20240918-131133.png" data-unresolved-comment-count="0" data-width="199" loading="lazy" name="image-attachment" src="github-pages/images/image-20240918-131133.png" style="border: 2px solid rgb(117, 129, 149); width: 199px;" width="199"/></span></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Heat Map</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>To highlight the most important regions or features of an input that contribute to a model's prediction.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="152" style="max-width: 760px;" width="186"><img alt="image-20240918-131206.png" class="confluence-embedded-image image-center cursor-pointer" data-height="123" data-linked-resource-container-id="982974478" data-linked-resource-container-version="17" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240918-131206.png" data-linked-resource-id="1009680453" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="e69b78a9-5112-4ca4-83f8-d673d7f4fcf6" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/982974478/media/LTdsNGRqLTFpYTJuay1uOWk4cHJPR1BSdlN1eXM5bTQzZF9hSU1sUHY3Zz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJd01URXdNZz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVGd5T1RjME5EYzQuYVcxaFoyVXRNakF5TkRBNU1UZ3RNVE14TWpBMkxuQnVadz09LmRtVnljMmx2YmoweEptMXZaR2xtYVdOaGRHbHZia1JoZEdVOU1UY3lOalkyTlRFek1qSTROU1pqWVdOb1pWWmxjbk5wYjI0OU1TWmhjR2s5ZGpJbWQybGtkR2c5TVRnMkptaGxhV2RvZEQweE5UQT0=/image-20240918-131206.png" data-unresolved-comment-count="0" data-width="152" loading="lazy" name="image-attachment" src="github-pages/images/image-20240918-131206.png" style="width: 186px;" width="186"/></span></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Saliency Map</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>To identify the most important regions of an image for a specific task (e.g., classification, object detection).</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="134" style="max-width: 760px;" width="182"><img alt="image-20240918-131312.png" class="confluence-embedded-image image-center cursor-pointer" data-height="107" data-linked-resource-container-id="982974478" data-linked-resource-container-version="17" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240918-131312.png" data-linked-resource-id="1009221793" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="4fb7a954-1fc0-4432-abb5-3616eadf3c92" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/982974478/media/bmVKYW40MzBGTnlIckpsMEE2dWdQX2t5bENPNUtqWXRVaG9IN3R2bk5vaz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJd01URXdNdz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVGd5T1RjME5EYzQuYVcxaFoyVXRNakF5TkRBNU1UZ3RNVE14TXpFeUxuQnVadz09LmRtVnljMmx2YmoweEptMXZaR2xtYVdOaGRHbHZia1JoZEdVOU1UY3lOalkyTlRFNU5Ea3lOU1pqWVdOb1pWWmxjbk5wYjI0OU1TWmhjR2s5ZGpJbWQybGtkR2c5TVRneUptaGxhV2RvZEQweE5EUT0=/image-20240918-131312.png" data-unresolved-comment-count="0" data-width="134" loading="lazy" name="image-attachment" src="github-pages/images/image-20240918-131312.png" style="width: 182px;" width="182"/></span></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Super pixels</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>To group pixels in an image into perceptually meaningful regions (e.g., objects, textures).</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="79" style="max-width: 760px;" width="125"><img alt="image-20240918-131341.png" class="confluence-embedded-image image-center cursor-pointer" data-height="120" data-linked-resource-container-id="982974478" data-linked-resource-container-version="17" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240918-131341.png" data-linked-resource-id="1008861386" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="7bde2b5b-e44e-4dd4-a39b-eb6248a610ab" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/982974478/media/Q2stM1ZMdzlySnZnVl9jLVhSczdRWmhDYTJ1NlpkTFNqWU9ReVF1T2NfVT0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJd01URXdOUT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVGd5T1RjME5EYzQuYVcxaFoyVXRNakF5TkRBNU1UZ3RNVE14TXpReExuQnVadz09LmRtVnljMmx2YmoweEptMXZaR2xtYVdOaGRHbHZia1JoZEdVOU1UY3lOalkyTlRJeU5ESTFNeVpqWVdOb1pWWmxjbk5wYjI0OU1TWmhjR2s5ZGpJbWQybGtkR2c5TVRJMUptaGxhV2RvZEQweE9EZz0=/image-20240918-131341.png" data-unresolved-comment-count="0" data-width="79" loading="lazy" name="image-attachment" src="github-pages/images/image-20240918-131341.png" style="width: 125px;" width="125"/></span></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Circo's Plots</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>To represent relationships between entities in a circular format. They are particularly useful for visualizing complex data sets, such as genomic data, protein-protein interactions, and social networks.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="161" style="max-width: 760px;" width="161"><img alt="image-20240918-131448.png" class="confluence-embedded-image image-center cursor-pointer" data-height="161" data-linked-resource-container-id="982974478" data-linked-resource-container-version="17" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240918-131448.png" data-linked-resource-id="1008926939" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="f802f8b1-871b-46d1-a7b4-c9d78f74fa2e" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/982974478/media/YTNDVmYzcDZnbk1NVWU0RXBvZ0ZOOGhBNTZvR1hWYUlSbUlPTmgzY2Jacz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJd01URXdOZz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVGd5T1RjME5EYzQuYVcxaFoyVXRNakF5TkRBNU1UZ3RNVE14TkRRNExuQnVadz09LmRtVnljMmx2YmoweEptMXZaR2xtYVdOaGRHbHZia1JoZEdVOU1UY3lOalkyTlRJNU1EUTROQ1pqWVdOb1pWWmxjbk5wYjI0OU1TWmhjR2s5ZGpJbWQybGtkR2c5TVRZeEptaGxhV2RvZEQweE5qRT0=/image-20240918-131448.png" data-unresolved-comment-count="0" data-width="161" loading="lazy" name="image-attachment" src="github-pages/images/image-20240918-131448.png" style="width: 161px" width="161"/></span></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Sankey Diagrams</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>To represent the flow of quantities through a system. They are particularly useful for understanding how input values are transformed into output values in a machine learning model.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="213" style="max-width: 760px;" width="213"><img alt="image-20240918-131632.png" class="confluence-embedded-image image-center cursor-pointer" data-height="102" data-linked-resource-container-id="982974478" data-linked-resource-container-version="17" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240918-131632.png" data-linked-resource-id="1009058018" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="2449da4c-c52a-48fb-9124-7a559a6a53ed" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/982974478/media/TDNMYzFBRlAzMm5RM2VVQVZCaVdGaXFXWGFHbnFoWFM5WkNmY0VNV2hmbz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJd01URXdOZz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVGd5T1RjME5EYzQuYVcxaFoyVXRNakF5TkRBNU1UZ3RNVE14TmpNeUxuQnVadz09LmRtVnljMmx2YmoweEptMXZaR2xtYVdOaGRHbHZia1JoZEdVOU1UY3lOalkyTlRNNU5UUTRNaVpqWVdOb1pWWmxjbk5wYjI0OU1TWmhjR2s5ZGpJbWQybGtkR2c5TWpFekptaGxhV2RvZEQweE1ERT0=/image-20240918-131632.png" data-unresolved-comment-count="0" data-width="213" loading="lazy" name="image-attachment" src="github-pages/images/image-20240918-131632.png" style="width: 213px" width="213"/></span></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt1065162984 table {min-width:532px;}</style>
+</div>
+</div>
+</div>
+<h2 id="2ModelInterpretability"><span data-colorid="mmj0wjpq14">2. Model Interpretability</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="d5b9fb0d-3fe0-4387-9da2-bc3844845884" data-macro-name="expand" id="expander-219359492">
+<div class="expand-control" id="expander-control-219359492" onclick="expandContent('expander-content-219359492', 'expander-control-219359492')">
+<span class="expand-control-text">Details of various model interpretability methods</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-219359492">
+<p>Model interpretability aims at understanding how AI models arrive at its predictions. It involves breaking down the complex decision-making process of the model into human-understandable terms.</p>
+<p>Feature Importance is a critical component of Model Interpretability, used to understand the relative importance of different features (variables) an AI model prediction. By quantifying the contribution of each feature, it helps to explain the model's decision-making process. </p>
+<p>AI models require explanations of key features at both the overall model level and the individual instance level, termed global and local interpretability. Brief descriptions of terms related to model interpretability are outlined below</p>
+<h3 id="GlobalInterpretability"><span data-colorid="x6esndzc23">Global Interpretability</span> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Understanding the overall behavior and decision-making process of a model across its entire input space. It provides insights into the general patterns and trends that the model has learned from the data. The following techniques help in providing Global explainability:</p>
+<ul>
+<li><p>Permutation importance</p></li>
+<li><p>Mean decrease impurity</p></li>
+<li><p>Decision trees</p></li>
+<li><p>Rule-based induction</p></li>
+<li><p>Surrogate models</p></li>
+<li><p>Self-reasoning techniques</p></li>
+</ul>
+<h3 id="LocalInterpretability"><span data-colorid="gy6xf9xvf7">Local Interpretability</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>The ability to understand how a machine learning model arrives at its predictions for specific instances. Unlike global interpretability, which focuses on understanding the overall behavior of the model, local interpretability provides explanations tailored to individual predictions. The following techniques help in providing Local explainability:</p>
+<ul>
+<li><p>LIME</p></li>
+<li><p>SHAP</p></li>
+<li><p>Anchors</p></li>
+<li><p>Counter factual explanations</p></li>
+<li><p>Self-reasoning techniques</p></li>
+</ul>
+<h3 id="ListofModelInterpretabilityTechniques"><span data-colorid="i7eywj911y">List of Model Interpretability Techniques</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<h4 id="PermutationImportance"><strong>Permutation Importance</strong> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>a technique used to assess the importance of a feature by measuring the change in model performance when the feature's values are shuffled randomly.</p>
+<p>Purpose: Feature ranking, Model understanding, Feature selection, Bias detection</p>
+<p>Applicability: All Machine learning models </p>
+<h4 id="SHAPSHapleyAdditiveexPlanations"><strong>SHAP (SHapley Additive exPlanations)</strong><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>a game-theoretic method for explaining the output of any machine learning model. It calculates the contribution of each feature to a prediction, providing a more comprehensive understanding of the model's decision-making process.</p>
+<p>Purpose: Feature ranking, Model understanding, Bias detection, Debugging</p>
+<p>Applicability: SHAP is a model-agnostic method and applied to wide range of machine learning models </p>
+<p>(e.g., Decision trees, Random forests, Gradient boosting machines, Neural networks, Support vector machines)</p>
+<h4 id="LIMELocalInterpretableModelAgnosticExplanations"><strong>LIME (Local Interpretable Model-Agnostic Explanations)</strong> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>a technique used in machine learning to explain the predictions of complex models in a locally interpretable way. It works by approximating a complex model with a simpler, linear model around a specific prediction.</p>
+<p>Purpose: Local interpretability, Model agnosticism, Feature importance, Bias detection, Debugging</p>
+<p>Applicability: LIME is a model-agnostic method and applied to wide range of machine learning models </p>
+<p>(e.g., Decision trees, Random forests, Gradient boosting machines, Neural networks, Support vector machines)</p>
+<h4 id="AnchorTabular"><strong>Anchor Tabular</strong> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>a technique used in explainability to identify a minimal set of conditions (anchors) that are sufficient to explain a prediction made by a machine learning model. These anchors are human-readable rules that capture the essence of the model's decision-making process for a specific instance.</p>
+<p>Purpose: Local interpretability, Simplicity, Feature importance, Bias detection, Debugging</p>
+<p>Applicability: Anchor Tabular is primarily designed for tabular data, but it can also be applied to other types of data with some modifications. It can be used to explain the predictions of various machine learning models (e.g., Decision trees, Random forests, Gradient boosting machines, Neural networks, Support vector machines) </p>
+<h4 id="Counterfactualexplanations"><strong>Counterfactual explanations</strong> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>a technique used in explainable AI to generate hypothetical scenarios that could have led to different predictions. By understanding how changes in input features would have affected the model's output, we can gain insights into the model's decision-making process.</p>
+<p>Purpose: Local interpretability, Causality, Fairness, Debugging</p>
+<p>Applicability: applied to wide range of machine learning models (e.g., Decision trees, Random forests, Gradient boosting machines, Neural networks, Linear models)</p>
+<h4 id="MeanDecreaseImpurityMDI"><strong>Mean Decrease Impurity (MDI)</strong> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>a metric used in machine learning to measure the importance of features in a decision tree model. It quantifies the average reduction in impurity (e.g., Gini impurity, entropy) that results from splitting on a particular feature.</p>
+<p>Purpose: Feature importance, Feature selection, Model understanding, Bias detection</p>
+<p>Applicability: MDI is primarily used to explain decision tree models, as it is a metric derived from the impurity measures used in decision trees. However, it can also be applied to ensemble models like Random Forests, where the average MDI across all trees can be used to assess feature importance.</p>
+<h4 id="DecisionTrees"><strong>Decision Trees</strong> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>a type of machine learning model that can be used for both classification and regression tasks. In the context of explainability, they are particularly valuable due to their inherent interpretability.</p>
+<p>Purpose: Visual representation, Rule extraction, Feature importance, Local interpretability</p>
+<p>Applicability: While decision trees themselves are highly interpretable, they can also be used to explain other types of machine learning models like Random Forests and Gradient Boosting Machines</p>
+<h4 id="Rulebasedinduction"><strong>Rule-based induction</strong> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>a technique used in machine learning to extract human-readable rules from a model. These rules can provide insights into the model's decision-making process and make it easier to understand and interpret.</p>
+<p>Purpose: Interpretability, Understanding, Debugging, Knowledge extraction</p>
+<p>Applicability: Rule-based induction can be applied to a variety of machine learning models, including:</p>
+<ul>
+<li><p>Decision Trees: Rules can be extracted directly from decision trees.</p></li>
+<li><p>Rule-based Classifiers: Models that are explicitly designed to learn rules from data, such as RIPPER or CN2.</p></li>
+<li><p>Neural Networks: Rules can be extracted from neural networks using techniques like rule extraction or symbolic regression.</p></li>
+<li><p>Ensemble Models: Rules can be extracted from individual models in an ensemble and combined to provide a more comprehensive explanation.</p></li>
+</ul>
+<h4 id="Surrogatemodels"><strong>Surrogate models</strong> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>simpler models that approximate the behavior of a more complex machine learning model. They are used in explainability to provide a more understandable representation of the complex model's decision-making process</p>
+<p>Purpose: Interpretability, Approximation, Feature importance, Debugging</p>
+<p>Applicability: Surrogate models can be used to explain a wide range of machine learning models, including:</p>
+<ul>
+<li><p>Deep Neural Networks: Complex neural networks can be approximated by simpler models like linear regression or decision trees.</p></li>
+<li><p>Ensemble Models: Surrogate models can be used to explain the combined behavior of multiple models in an ensemble.</p></li>
+<li><p>Black-box Models: Any machine learning model that is difficult to understand directly can be approximated by a surrogate model.</p></li>
+</ul>
+<p>Common Surrogate Models:</p>
+<ul>
+<li><p>Linear Regression: A simple linear model that can be used to approximate the relationship between input features and the target variable.</p></li>
+<li><p>Decision Trees: Decision trees are often used as surrogate models due to their interpretability.</p></li>
+<li><p>Rule-based Models: Models that are based on a set of rules can be used as surrogate models to explain the decision-making process.</p></li>
+</ul>
+<h4 id="Selfreasoningtechniques"><strong>Self-reasoning techniques</strong> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>a set of techniques that enable LLMs to generate more comprehensive and coherent explanations for their outputs. These frameworks often involve breaking down complex problems into smaller, more manageable steps and guiding the LLM through a reasoning process. This technique relies heavily on prompt engineering, with thoughtfully crafted prompts leading to informative outcomes.</p>
+<p>Few models built on self-reasoning framework are: </p>
+<ul>
+<li><p>Chain of Thought (CoT): Step-by-step reasoning technique prompts the LLM to break down a complex task into smaller, more manageable steps and explain its reasoning for each step. This allows users to follow the LLM's thought process and understand how it arrived at its conclusion.</p></li>
+<li><p>Thread-of-Thought (ToT) : Generate a series of interconnected thoughts that form a coherent narrative. This helps to visualize the LLM's reasoning process and identify any inconsistencies or biases.</p></li>
+<li><p>Graph-of-Thought (GoT) : represents the LLM's reasoning process as a graph, where nodes represent intermediate thoughts and edges represent the connections between them. This visual representation can be helpful for understanding the LLM's decision-making process.</p></li>
+<li><p>Chain-of-Verification (CoV) : prompts the LLM to verify its responses against external knowledge sources. This helps to ensure the accuracy and reliability of the LLM's outputs.</p></li>
+<li><p>ReRead Reasoning (RE2) : Unlike most thought eliciting prompting methods, such as Chain-of Thought (CoT), which aim to elicit the reasoning process in the output, RE2 shifts the focus to the input by processing questions twice, thereby enhancing the understanding process. Consequently, RE2 demonstrates strong generality and compatibility with most thought eliciting prompting methods.</p></li>
+<li><p>Logic of Thoughts (LOT) : Logic-of-Thought (LoT) prompting which employs propositional logic to generate expanded logical information from input context, and utilizes the generated logical information as an additional augmentation to the input prompts, thereby enhancing the capability of logical reasoning. The LoT is orthogonal to existing prompting methods and can be seamlessly integrated with them.</p></li>
+</ul>
+<p>Purpose: Step-by-step breakdown, Coherent narratives, Accuracy and reliability, Transparency</p>
+<p>Applicability: LLMs</p>
+</div>
+</div>
+<h2 id="3OutputDiversification"><span data-colorid="esdrrof911">3. Output Diversification</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="63732cd2-42d4-467d-9327-885af2c82abe" data-macro-name="expand" id="expander-1612749318">
+<div class="expand-control" id="expander-control-1612749318" onclick="expandContent('expander-content-1612749318', 'expander-control-1612749318')">
+<span class="expand-control-text">Approaches for output diversification</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-1612749318">
+<p>Output diversification in explainability refers to the practice of generating multiple, diverse explanations for a given model prediction or decision. This is done to ensure that the explanations are not biased towards a particular perspective or interpretation.</p>
+<h3 id="EnsembleMethods"><span data-colorid="sohnqpfn6d">Ensemble Methods</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Combining multiple models or explanations can provide a more diverse set of insights. Few examples of ensembling are outlined below</p>
+<h4 id="Bagging">Bagging<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>Train multiple decision trees on different subsets of the data and combine their explanations.</p>
+<h4 id="Boosting">Boosting<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>Train a series of models, focusing on the instances that were misclassified by previous models, and combine their explanations.</p>
+<h4 id="RandomForest">Random Forest<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>Train multiple decision trees, each using a random subset of features and samples, and combine their explanations.</p>
+<h4 id="Stacking">Stacking<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>Train a logistic regression model to combine the explanations from multiple base models like decision trees, neural networks.</p>
+<h4 id="Blending">Blending<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>Train multiple models (ex. decision tree, random forest, neural network), use SHAP for feature importance, and average the results to obtain a combined explanation.</p>
+<h3 id="CounterfactualExplanations"><span data-colorid="eq4eufbyay">Counterfactual Explanations </span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Generating alternative scenarios/hypothetical examples and evaluate the impact of specific input changes on the model’s outcome.</p>
+<h3 id="PerturbationTechniques"><span data-colorid="vfzrp9qs34">Perturbation Techniques</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Introducing small changes to the input data or model parameters can reveal different explanations. Examples of perturbation include:</p>
+<ul>
+<li><p>Input perturbation - Add random noise to the input variables to see how the explanation changes.</p></li>
+<li><p>Model perturbation - Modify the weights of the model to see how the importance of different features changes.</p></li>
+</ul>
+<h3 id="FeatureAttributionMethods"><span data-colorid="cljv014ibl">Feature Attribution Methods </span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Using various feature attribution methods (e.g., SHAP, LIME) can offer different perspectives on the importance of input features.</p>
+<h3 id="ExplanationClusteringTechniques"><span data-colorid="tdutsmlt3o">Explanation Clustering Techniques</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Group similar explanations together to identify patterns, trends, and relationships within a set of model explanations. Various clustering techniques include: </p>
+<ul>
+<li><p>K-means clustering</p></li>
+<li><p>Hierarchical clustering</p></li>
+<li><p>Density based clustering</p></li>
+<li><p>Spectral clustering</p></li>
+<li><p>Topic modeling</p></li>
+</ul>
+</div>
+</div>
+<h2 id="4ErrorAnalysis"><span data-colorid="he5pwe7gi5">4. Error Analysis</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="572c6b9c-42fa-46da-b374-1bbe75e087d5" data-macro-name="expand" id="expander-1899632908">
+<div class="expand-control" id="expander-control-1899632908" onclick="expandContent('expander-content-1899632908', 'expander-control-1899632908')">
+<span class="expand-control-text">Key steps in error analysis</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-1899632908">
+<p>Error analysis in explainability is the process of systematically examining the errors made by a machine learning model to understand why it made incorrect predictions. This involves analyzing the model's behavior, the input data, and the underlying reasoning behind its decisions. Key milestones in error analysis are outlined below.</p>
+<ul>
+<li><p><strong>Error Classification:</strong> Categorizing errors based on their nature. For example, false positives, false negatives, misclassifications.</p></li>
+<li><p><strong>Root Cause Analysis:</strong> Investigate data quality issues, model complexity, or algorithmic biases.</p></li>
+<li><p><strong>Bias Detection:</strong> Use fairness metrics or bias detection algorithms to uncover biases in the model's predictions</p></li>
+<li><p><strong>Data Quality Assessment:</strong> Verify the quality of the input data, looking for missing values, outliers, or inconsistencies.</p></li>
+<li><p><strong>Model Complexity Analysis:</strong> Determine if the model is too complex or too simple for the task.</p></li>
+</ul>
+</div>
+</div>
+<h2 id="5TrainingDataTransparency"><span data-colorid="hk3w6m65dm">5. Training Data Transparency</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="aef0f1e3-9105-4cf9-8f23-afa5348f60be" data-macro-name="expand" id="expander-539212899">
+<div class="expand-control" id="expander-control-539212899" onclick="expandContent('expander-content-539212899', 'expander-control-539212899')">
+<span class="expand-control-text">Key aspects to consider for training data transparency</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-539212899">
+<p>The practice of providing information about the data used to train a machine learning model is crucial for understanding the model's decision-making process. Hence clear documentation of following aspects of training data is required to ensure fairness and reliability of AI models</p>
+<ul>
+<li><p><strong>Data Quality: </strong>Verify the accuracy and reliability of the data and check for inconsistencies</p></li>
+<li><p><strong>Data Privacy: </strong>Ensure compliance with relevant data privacy regulations and implement measures to safeguard the sensitive data and prevent unauthorized access</p></li>
+<li><p><strong>Data characteristics:</strong> Outline the details about the data, such as its size, format, and distribution.</p></li>
+<li><p><strong>Data preprocessing:</strong> Understand preprocessing steps applied to the data, such as normalization, scaling, or feature engineering and assess their impact on the model performance and interpretability</p></li>
+<li><p><strong>Data biases:</strong> Use bias detection algorithms or statistical analysis to identify potential biases in the data and implement mitigation strategies</p></li>
+<li><p><strong>Data provenance:</strong> Keep detailed records of data sources, collection methods, and preprocessing steps and provide access to these records to the stakeholders</p></li>
+</ul>
+</div>
+</div>
+<hr/>
+
+
+
+<hr/>
+<h2 id="UnderstandingExplainabilityinAIEUAIActNISTISO42001"><span data-colorid="ayf8pnxmah">Understanding Explainability in AI: EU AI Act, NIST, ISO42001</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<h3 id="NISTNationalInstituteofStandardsandTechnologyAIRMF"><span data-colorid="jcw61mr47g">NIST (National Institute of Standards and Technology) - AI RMF</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="95c30f65-ff1a-4cd8-94ac-b01def499777" data-macro-name="expand" id="expander-582047373">
+<div class="expand-control" id="expander-control-582047373" onclick="expandContent('expander-content-582047373', 'expander-control-582047373')">
+<span class="expand-control-text">NIST Guidelines - Explainability</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-582047373">
+<p>NIST’s Artificial Intelligence Risk Management Framework (AI RMF) has proposed four key principles for explainable AI (XAI) to promote trust and transparency in AI systems:</p>
+<ul>
+<li><p><u>Explanation:</u> AI systems should provide accompanying evidence or reasons for all outputs. This means that users should be able to understand why the system made a particular decision.</p></li>
+</ul>
+<p>e.g.: A self-driving car system should be able to explain why it decided to brake suddenly, such as by highlighting the detected object, the distance to it, and the speed of the car.</p>
+<ul>
+<li><p><u>Meaningful:</u> Explanations should be understandable to individual users, regardless of their technical expertise. This requires tailoring explanations to the specific needs and knowledge level of the user.</p></li>
+</ul>
+<p>e.g.: A loan approval system should explain the decision in terms that a non-technical user can understand, such as using plain language instead of technical jargon.</p>
+<ul>
+<li><p><u>Explanation Accuracy:</u> Explanations should accurately reflect the system's process for generating the output. This ensures that users can trust the explanations provided by the system.</p></li>
+</ul>
+<p>e.g.: An image classification system should not provide an explanation that is based on a misunderstanding of the image content, such as mistaking a cat for a dog.</p>
+<ul>
+<li><p><u>Knowledge Limits:</u> AI systems should only operate under conditions for which they were designed and when they reach sufficient confidence in their output. This helps to prevent the system from making decisions that are beyond its capabilities or that are based on insufficient information.</p></li>
+</ul>
+<p>e.g.: A weather forecasting system should indicate when it is uncertain about its predictions, such as by providing a confidence level or range of possible outcomes.</p>
+
+</div>
+</div>
+<h3 id="EuropeanUnionArtificialIntelligenceActEUAIAct"><span data-colorid="xu17993znr">European Union Artificial Intelligence Act (EU AI Act)</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="be53515d-b025-4e34-960c-3efb1bc59982" data-macro-name="expand" id="expander-1065425759">
+<div class="expand-control" id="expander-control-1065425759" onclick="expandContent('expander-content-1065425759', 'expander-control-1065425759')">
+<span class="expand-control-text">EU AI Act - Explainability</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-1065425759">
+<ul>
+<li><p>Explainability by Design: AI systems should be designed to be explainable from the outset, rather than as an afterthought. This means that developers should consider explainability throughout the development process.</p></li>
+</ul>
+<p>e.g.: Use LIME or SHAP for understanding AI model decisions. Choose interpretable models like decision trees.</p>
+<ul>
+<li><p>Human-Understandable Explanations: Explanations should be provided in a way that is understandable to humans, regardless of their technical expertise. This may involve using natural language, visualizations, or other methods.</p></li>
+</ul>
+<p>e.g.: An AI system that recommends products generates explanations like "We recommended this product because it aligns with your past purchase history and preferences."</p>
+<ul>
+<li><p>Contextual Explanations: Explanations should be provided in the context of the specific use case. For example, an explanation of a credit scoring algorithm should be tailored to the specific needs of the lender and the borrower.</p></li>
+</ul>
+<p>e.g.: A financial AI system explains a loan rejection by providing examples of similar cases where loans were denied due to similar reasons.</p>
+<ul>
+<li><p>Transparency of Decision-Making: AI systems should be transparent in their decision-making processes. This means that users should be able to understand how the system reached a particular decision.</p></li>
+</ul>
+<p>e.g.: An AI system that predicts customer churn provides information about the most important factors that contribute to the prediction, such as customer tenure, recent purchase frequency, and customer satisfaction ratings.</p>
+<ul>
+<li><p>Accountability: Developers and operators of AI systems should be accountable for the decisions that their systems make. This includes being able to explain the reasoning behind those decisions.</p></li>
+</ul>
+<p>e.g.: Developers are required to provide documentation and training materials to ensure that operators understand how the AI system works and can address potential issues. Organizations establish ethical review boards to assess the potential risks and benefits of AI systems and ensure they are used responsibly.</p>
+
+</div>
+</div>
+<h3 id="ISO42001InternationalStandardforAIGovernance"><span data-colorid="yeyz6czbos">ISO 42001 - International Standard for AI Governance</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="b2930bcb-4805-407f-b96c-6ea1bc6ecbf9" data-macro-name="expand" id="expander-245901385">
+<div class="expand-control" id="expander-control-245901385" onclick="expandContent('expander-content-245901385', 'expander-control-245901385')">
+<span class="expand-control-text">Promotes responsible and ethical AI development and deployment. </span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-245901385">
+<p>Being ISO 42001 certified organization, Infosys Responsible AI office adheres to applicable guidelines for Explainability implementation. Following is the snapshot of ISO42001 guidelines for Responsible AI implementation.</p>
+<p> <u>Ensuring Trustworthiness</u></p>
+<ul>
+<li><p>Ethical AI: Adhering to ethical principles and values throughout the AI lifecycle.</p></li>
+<li><p>Fairness: Mitigating biases and ensuring AI systems treat individuals fairly.</p></li>
+<li><p>Transparency: Providing clear explanations for AI decision-making processes.</p></li>
+<li><p>Accountability: Taking responsibility for the development, deployment, and use of AI systems.</p></li>
+<li><p>Safety: Prioritizing safety and minimizing risks associated with AI applications.</p></li>
+</ul>
+<p><u>Promoting Human-Centric AI</u></p>
+<ul>
+<li><p>User Experience: Considering the needs and experiences of users when designing and deploying AI systems.</p></li>
+<li><p>Inclusivity: Ensuring AI systems are accessible and inclusive for diverse populations.</p></li>
+</ul>
+<p><u>Managing AI Risks</u></p>
+<ul>
+<li><p>Risk Assessment: Identifying and assessing potential risks associated with AI Systems.</p></li>
+<li><p>Mitigation Strategies: Implementing measures to mitigate identified risks.</p></li>
+<li><p>Continuous Monitoring: Regular monitoring and evaluating AI systems for emerging risks.</p></li>
+</ul>
+<p><u>Demonstrating Commitment to Responsible AI</u></p>
+<ul>
+<li><p>Credibility: Establishing credibility and trust with stakeholders.</p></li>
+<li><p>Competitive Advantage: Gaining a competitive advantage by demonstrating a commitment to responsible AI practices.</p></li>
+<li><p>Regulatory Compliance: Meeting regulatory requirements related to AI governance.</p></li>
+</ul>
+<p><u>Driving Innovation</u></p>
+<ul>
+<li><p>Ethical Innovation: Fostering innovation while adhering to ethical principles.</p></li>
+<li><p>Responsible Development: Developing AI systems that contribute positively to society.</p></li>
+</ul>
+</div>
+</div>
+<h2 id="Glossaryoftermsused"><span data-colorid="gdnvkqpfql">Glossary of terms used</span> <a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="05c33d51-5bfc-431c-adaf-b71d4223df30" data-macro-name="expand" id="expander-327253027">
+<div class="expand-control" id="expander-control-327253027" onclick="expandContent('expander-content-327253027', 'expander-control-327253027')">
+<span class="expand-control-text">Description of terms used in explainability</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-327253027">
+<ol start="1">
+<li><p><strong>Feature Ranking:</strong> To identify the most important features that contribute significantly to the model's predictions.</p></li>
+<li><p><strong>Model Understanding:</strong> To understand how different features interact and influence the model's outcomes.</p></li>
+<li><p><strong>Feature Selection:</strong> To identify redundant or irrelevant features that can be removed without affecting performance.</p></li>
+<li><p><strong>Bias Detection:</strong> To detect potential biases in the model by identifying features that disproportionately influence predictions.</p></li>
+<li><p><strong>Feature Importance:</strong> To identify the most important features that contribute significantly to the model's predictions.</p></li>
+<li><p><strong>Debugging:</strong> To identify and correct errors in the model's predictions.</p></li>
+<li><p><strong>Local Interpretability:</strong> To provide explanations tailored to individual predictions, rather than global explanations that apply to the entire model.</p></li>
+<li><p><strong>Model Agnosticism:</strong> Can be applied to any machine learning model, regardless of its complexity or architecture.</p></li>
+<li><p><strong>Simplicity:</strong> Generates simple, human-understandable rules that can be easily interpreted.</p></li>
+<li><p><strong>Causality:</strong> Can help to identify causal relationships between input features and the model's predictions.</p></li>
+<li><p><strong>Fairness:</strong> Can be used to detect and mitigate biases in the model by identifying features that disproportionately influence predictions.</p></li>
+<li><p><strong>Visual Representation:</strong> Decision trees can be visualized as tree-like structures, making it easy to understand the decision-making process.</p></li>
+<li><p><strong>Rule Extraction:</strong> Rules can be extracted from decision trees, providing human-readable explanations of the model's predictions.</p></li>
+<li><p><strong>Knowledge Extraction:</strong> Can be used to extract knowledge from the model that can be applied to other tasks.</p></li>
+<li><p><strong>Approximation:</strong> Surrogate models can be used to approximate the behavior of a complex model in a specific region of the input space.</p></li>
+<li><p><strong>Step-by-Step Breakdown:</strong> These frameworks break down complex problems into smaller, more manageable steps, making it easier to follow the LLM's reasoning.</p></li>
+<li><p><strong>Coherent Narratives:</strong> By generating interconnected thoughts or a graph representation, these techniques create a more coherent and understandable explanation.</p></li>
+<li><p><strong>Accuracy and Reliability:</strong> CoV helps to ensure the accuracy and reliability of the LLM's outputs by verifying them against external sources.</p></li>
+<li><p><strong>Transparency:</strong> These techniques provide transparency into the LLM's decision-making process, allowing users to understand how the model arrived at its conclusions.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<!-- ATTACHMENTS -->
+
+<script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const wrapper = document.getElementById("attachments-wrapper");
+                const button = document.getElementById("toggle-attachments-view-button");
+                document.querySelectorAll(".file-full").forEach(el => {
+                    el.addEventListener("mouseover", moveTooltip);
+                });
+
+                button.addEventListener("click", () => {
+                    wrapper.classList.toggle("attachments-wrapper-gallery");
+                    wrapper.classList.toggle("attachments-wrapper-list");
+                });
+            });
+
+            function moveTooltip(e) {
+                if (e.target.classList.contains("file-wrapper")) {
+                    let docWidth = document.body.clientWidth;
+                    let docHeight = document.body.clientHeight;
+                    let rect = e.target.getBoundingClientRect();
+                    let fileTooltip = e.target.parentElement.querySelector(".file-tooltip")
+                    if (fileTooltip) {
+                        if (rect.left <= docWidth / 2) {
+                            fileTooltip.classList.add("left");
+                            fileTooltip.classList.remove("right");
+                        } else {
+                            fileTooltip.classList.remove("left");
+                            fileTooltip.classList.add("right");
+                        }
+                        if (rect.top <= docHeight / 2) {
+                            fileTooltip.classList.add("top");
+                            fileTooltip.classList.remove("bottom");
+                        } else {
+                            fileTooltip.classList.remove("top");
+                            fileTooltip.classList.add("bottom");
+                        }
+                    }
+                }
+            }
+
+        </script>
+<script>
+                hideGroup('attachments');
+            </script>
+<div id="footer-comments-outlet">
+<div>
+<div class="page-comment-wrapper" data-testid="page-comment-wrapper">
+<div class="cc-q82yp6">
+<div class="_1e0c1txw _i0dl1osq _otyru2gc">
+
+<div class="_1e0c11p5 _yv0ehpgh _727q19bv _bfhk1j28 _1bsbdgin _18u0u2gc">
+
+
+</div>
+</div>
+
+<div class="_1e0c1txw _1n261g80" data-testid="comment-container">
+<div class="_1e0c1txw _i0dl1osq _otyru2gc">
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div></body><br/><br/></html>

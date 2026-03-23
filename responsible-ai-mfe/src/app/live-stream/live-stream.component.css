@@ -1,0 +1,72 @@
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    /* margin-bottom: 15px; */
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+    margin-top: 1.8rem;
+    
+}
+.container{
+    width: 100%;
+    max-width: 90rem;
+    /* margin: 0 auto; */
+    padding: 0px;
+    margin: 0px;
+}
+.label {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 4px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+    /* margin-top: 1.8rem; */
+}
+.box {
+    /* padding: 10px; */
+    text-align: left;
+    color: #4a4a4a;
+    background-color:#FFFFFF;
+    cursor: pointer;
+    position: relative; 
+    overflow: hidden; 
+     width: 300px;
+     height: 200px; 
+} 
+.button-container {
+    display: flex;
+    justify-content: right;
+    /* padding-top: 0; */
+}
+
+.buttonMain {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: .75rem;
+    height: 26px !important;
+    width: 3.3rem;
+    margin: 1rem 0rem;
+}
+.video-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  video {
+    width: 100%;
+    height: auto;
+  }
+  .inputUrl{
+    width: 100%; 
+    padding: 10px; 
+    font-size: 16px; 
+    border-left:0px;
+    font-size: 0.75rem;
+    /* margin-bottom: 2.1rem; */
+  }
+ 

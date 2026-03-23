@@ -1,0 +1,165 @@
+'''
+MIT License
+https://mit-license.org/
+Copyright © 2025-2026 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+'''
+
+openapi: 3.0.3
+info:
+  title: Infosys Responsible AI - responsible-ai-toxicity - OpenAPI 3.0
+  description: |-
+    API specs for Infosys Responsible AI Safety pillar in OpenAPI 3.0 format
+
+  termsOfService: https://www.infosys.com
+  contact:
+    email: aina@infosys.com
+  license:
+    name: Infosys
+    url: https://www.infosys.com
+  version: v$version
+servers:
+  - url: https://<tba>/api/v0d1
+tags:
+  - name: Safety-Profanity
+    description: Operations required for handling profanity and toxicity in a text/image content.
+    externalDocs:
+      description: Find out more 
+      url: https://www.infosys.com
+paths:
+  /api/v1/safety/profanity/analyze:
+    post:
+      tags:
+        - Safety-Profanity
+      summary: Analyze Profanity
+      description: Analyze profanity in the given text content
+      operationId: analyzeProfanity
+      requestBody:
+        description: Input required for analyzing profanity
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/analyzeProfanityRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/analyzeProfanityRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/analyzeProfanityRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/analyzeProfanityResponse'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/analyzeProfanityResponse'
+        '405':
+          description: Invalid input
+  /api/v1/safety/profanity/censor:
+    post:
+      tags:
+        - Safety-Profanity
+      summary: Censor the profanity
+      description: Censor the profanity in the given text content
+      operationId: censorProfanity
+      requestBody:
+        description: Input required for censoring the profanity
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/censorProfanityRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/censorProfanityRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/censorProfanityRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/censorProfanityResponse'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/censorProfanityResponse'
+        '405':
+          description: Invalid input          
+components:
+  schemas:
+    profanity:
+      type: object
+      properties:
+        profaneWord:
+          type: string
+          example: dummy
+        beginOffset:
+          type: integer
+          format: int64
+          example: 9
+        endOffset:
+          type: integer
+          format: int64
+          example: 14
+      xml:
+        name: profanity
+    profanityScore:
+      type: object
+      properties:
+        metricName:
+          type: string
+          example: 'toxicity'
+        metricScore:
+          type: number
+          format: float
+          example: 0.78326
+    analyzeProfanityRequest:
+      required:
+        - text
+      type: object
+      properties:
+        inputText:
+          type: string
+          example: You are a dummy
+      xml:
+        name: analyzeProfanityRequest 
+    analyzeProfanityResponse:
+      type: object
+      properties:
+        profanity:
+          type: array
+          items:
+            $ref: '#/components/schemas/profanity'
+        profanityScoreList:
+          type: array
+          items:
+            $ref: '#/components/schemas/profanityScore'
+    censorProfanityRequest:
+      required:
+        - inputText
+      type: object
+      properties:
+        inputText:
+          type: string
+          example: You are a dummy
+      xml:
+        name: censorProfanityRequest
+    censorProfanityResponse:
+      type: object
+      properties:
+        outputText:
+          type: string
+          example: You are a ****
+      xml:
+        name: censorProfanityResponse           

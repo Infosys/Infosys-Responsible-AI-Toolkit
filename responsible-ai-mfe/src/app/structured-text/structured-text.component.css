@@ -1,0 +1,319 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.mat-primary2 {
+    color: #8626C3;
+    /* background-color:#BFBFBF; */
+}
+
+.input-container .file-input {
+    display: block;
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid #ffc0cb;
+    /* Pink border */
+    margin-bottom: 15px;
+    font-size: 16px;
+    background: transparent;
+    /* No background color */
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.input-container .file-input:hover,
+.input-container .file-input:focus {
+    border-bottom-color: #ff69b4;
+    /* Darker pink on hover/focus */
+}
+
+.input-container .drop-zone {
+    border: 2px dashed #ffc0cb;
+    /* Pink border */
+    border-radius: 5px;
+    padding: 50px;
+    text-align: center;
+    color: #4a4a4a;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.input-container mat-radio-group {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 2px solid #ffc0cb;
+    /* Pink border */
+    border-radius: 5px;
+    box-sizing: border-box;
+    /* Include padding and border in element's total width and height */
+    margin-bottom: 10px;
+    /* Space between the groups */
+}
+
+.input-container mat-radio-button {
+    margin-bottom: 10px;
+    /* Space between the buttons */
+    color: #4a4a4a;
+    /* Grey text */
+}
+
+.input-container mat-radio-button.mat-radio-checked {
+    color: #ffc0cb;
+    /* Pink text for checked button */
+}
+
+.mat-mdc-radio-button.mat-accent {
+    --mdc-radio-disabled-selected-icon-color: #000;
+    --mdc-radio-disabled-unselected-icon-color: #000;
+    --mdc-radio-unselected-focus-icon-color: #212121;
+    --mdc-radio-unselected-hover-icon-color: #212121;
+    --mdc-radio-unselected-icon-color: rgba(0, 0, 0, 0.54);
+    --mdc-radio-unselected-pressed-icon-color: rgba(0, 0, 0, 0.54);
+    --mdc-radio-selected-focus-icon-color: #D1C4E9;
+    --mdc-radio-selected-hover-icon-color: #D1C4E9;
+    --mdc-radio-selected-icon-color: #D1C4E9;
+    --mdc-radio-selected-pressed-icon-color: #D1C4E9;
+    --mat-mdc-radio-ripple-color: #000;
+    --mat-mdc-radio-checked-ripple-color: #D1C4E9;
+}
+
+/* :host ::ng-deep .mat-mdc-raised-button.mat-primary {
+    --mdc-protected-button-container-color: #231F20;
+    --mdc-protected-button-label-text-color: #fff;
+}
+:host ::ng-deep .mat-mdc-raised-button.mat-unthemed {
+    --mdc-protected-button-container-color: #231F20;
+    --mdc-protected-button-label-text-color: #fff;
+} */
+
+.mat-black {
+    color: white !important;
+    background-color: #231F20 !important;
+}
+
+.mat-reset {
+    color: white !important;
+    background-color: #BFBFBF !important;
+}
+
+.form-select {
+    width: 10rem;
+    height: 1.813rem;
+    font-size: 0.75rem;
+    margin-bottom: 1.10rem;
+}
+
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.rfrshBtn{
+    color: #8626C3;
+    border: none;
+    background: none;
+    padding-top: 6px;
+    transition: transform 0.3s ease;
+}
+
+.rfrshBtn:active {
+    transform: rotate(90deg);
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+.actionBtn{
+    color: #8626C3;
+    border: none;
+    background: none;
+    font-size: 19px;
+    padding: 0px;
+    margin-top: 3px;
+    margin-right: 10px;
+}
+
+.addDataBtn{
+    border: 1px solid #8626C3;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: 200;
+    padding: 5px 10px;
+    background: none;
+    transition: background-color 0.3s ease;
+}
+.addDataBtn:hover {
+    background-color: #8626C3;
+    color: #fff;
+}
+
+.mdc-checkbox {
+    height: 16px !important;
+}
+
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background {
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+}
+
+.mat-mdc-checkbox .mdc-checkbox__background .mat-checkbox-frame {
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+}
+
+.mat-mdc-checkbox .mat-checkbox-frame {
+    border-radius: 50%;
+}
+
+.mat-checkbox-background svg {
+    display: none;
+}
+
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
+    border-radius: 50%;
+}
+
+.mat-mdc-checkbox label {
+    cursor: pointer;
+    opacity: 70% !important;
+    color: #061838 !important;
+    font-family: 'Segoe UI' !important;
+    font-weight: 500 !important;
+    font-size: 0.75rem !important;
+    margin-bottom: 0.2rem;
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container {
+    display: flex;
+}
+
+.buttonMain {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: .75rem;
+    height: 26px !important;
+    width: 3.3rem;
+    margin: 1rem 0rem;
+}
+
+.gereen-text {
+    color: #12A108 !important;
+}
+
+.batchTable-container {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.styled-table {
+    /* margin-left: 1rem; */
+    width: 95%;
+    border-collapse: collapse;
+}
+
+.styled-table th.header {
+    /* Segoe UI, Semibold .75rem */
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    /* padding-top: 10px; */
+    padding-bottom: 10px;
+    padding-right: 10px;
+    /* background-color: #4CAF50; */
+    color: #382261;
+    opacity: 70%;
+    text-transform: uppercase;
+
+}
+
+
+.styled-table td {
+    /* Segoe UI, regular */
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    color: #061838;
+}
+
+.styled-table th {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+/* Icon Styling */
+app-structured-text .mat-mdc-icon-button.mat-mdc-button-base {
+    width: 25px;
+    height: 25px;
+    padding: 0px;
+}
+
+.matIcon {
+    margin-left: 25px;
+    font-size: 16px;
+}
+
+/* -----Pagination------- */
+.ngx-pagination .current {
+    background: #8626C3;
+}
+
+.ngx-pagination a {
+    text-decoration: none;
+}
+
+.pagination-label {
+    font-family: 'Segoe UI';
+    font-weight: 500 !important;
+    font-size: .60rem;
+    margin-right: 100px;
+}
+.pagination-info {
+    font-family: 'Segoe UI';
+    font-weight: 500 !important;
+    font-size: 12px;
+    color: #7E7E7E;
+}
+.cdk-overlay-container {
+    z-index: 1056 !important;
+    /* Adjust if needed */
+}
+
+
+.smallButton {
+    font-size: smaller !important;
+    width: 65px !important;
+    height: 30px !important;
+}
+
+/* PANEL BACKGOUND */
+.cdk-overlay-backdrop.custom-backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    top: 57px;
+    width: 100%;
+    height: calc(100% - 57px);
+}

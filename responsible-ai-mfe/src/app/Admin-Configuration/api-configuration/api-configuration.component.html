@@ -1,0 +1,91 @@
+<div>
+    <div class="d-flex justify-content-end" style="padding-right: 5rem; margin-bottom: 2rem;">
+        <button mat-raised-button class="buttonMain" [ngbPopover]="popoverContent" [autoClose]="false" #p="ngbPopover" triggers="manual" (click)="p.toggle()" [popoverTitle]="Poptitle"> Create API </button>
+    </div>
+
+    <div>
+        <div class="search-container ">
+            <div class="searchbar" [class.active]="isSearchOpen">
+                <mat-icon class="searchicon" (click)="toggleSearch()">search</mat-icon>
+                <input type="text" placeholder="Search Name" [(ngModel)]="searchName" (input)="search()" />
+                <button class="close-button1" *ngIf="isSearchOpen" (click)="closeSearch()">
+                <mat-icon class="close-icon">close</mat-icon>
+              </button>
+            </div>
+        </div>
+        <table class="styled-table">
+            <tr>
+                <th class="header"> Name</th>
+                <th class="header">Ip</th>
+                <th class="header align-content-center text-center">Action</th>
+            </tr>
+            <tr *ngFor="let api of apis | paginate : pagingConfig">
+                <td class="upper-case"> {{ api.name }}</td>
+                <!-- <td class="upper-case">                 
+               <input type="text" [(ngModel)]="api.ip" [readonly]="!api.isEditing" />
+            </td> -->
+                <td class="upper-case">
+                    <div *ngIf="editingApi !== api"> {{api.ip}}</div>
+                    <input type="text" *ngIf="editingApi === api" [(ngModel)]="editingApiCopy.ip" class="form-control textBox">
+                </td>
+
+                <td class="upper-case align-content-center text-center ">
+                    <button class="me-2" mat-icon-button color="primary4" (click)=toggleEdit(api)>
+    <mat-icon *ngIf="editingApi !== api; else notEditing">edit</mat-icon>
+    <ng-template #notEditing><mat-icon>update</mat-icon></ng-template>
+  </button>
+                    <button mat-icon-button style="color:#B10000;" (click)="deleteConfig(api.name)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                </td>
+            </tr>
+        </table>
+        <!-- pagination -->
+        <div class="d-flex justify-content-between mt-3">
+            <div class="pagination-info">
+                Showing {{ pagingConfig.totalItems
+                < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }} </div>
+                    <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                    </pagination-controls>
+            </div>
+            <!--  -->
+        </div>
+
+        <!-- </div> -->
+
+        <ng-template #popoverContent>
+            <form [formGroup]="apiForm" (ngSubmit)="createApi()">
+                <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                <div class='form-group'>
+                    <label for='apiName' class="mainLabel">ApiName</label>
+                    <input type='text' class='form-control InputPop' formControlName="name" id='apiName'>
+                    <span *ngIf="apiForm.get('name')?.invalid && apiForm.get('name')?.touched" class="text-danger">
+                       ApiName is required.
+                    </span>
+                </div>
+                <div class='form-group'>
+                    <label for='apiIp ' class="mainLabel"> ApiIp</label>
+                    <input type='text' class='form-control InputPop' formControlName="ip" id='apiIp'>
+                    <span *ngIf="apiForm.get('ip')?.invalid && apiForm.get('ip')?.touched" class="text-danger">
+            ApiIp is required.
+        </span>
+                </div>
+                <div class='form-group'>
+                    <label for='apiPort ' class="mainLabel"> ApiPort</label>
+                    <input type='text' class='form-control InputPop' formControlName="port" id='apiPort'>
+                    <span *ngIf="apiForm.get('port')?.invalid && apiForm.get('port')?.touched" class="text-danger">
+            ApiPort is required.
+          </span>
+                </div>
+                <button mat-raised-button type='submit' class='buttonMain1' [disabled]="apiForm.invalid">Create</button>
+            </form>
+        </ng-template>
+        <ng-template #Poptitle>
+            <div class="d-flex">
+                <label class="HeadingLabel"> Create API</label>
+                <button class="close-button" (click)="resetFormAndClosePopover()">
+    <span class="material-icons" style="font-size: 20px;">close</span>
+</button>
+            </div>
+        </ng-template>
+    </div>

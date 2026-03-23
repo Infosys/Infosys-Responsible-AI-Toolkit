@@ -1,0 +1,7078 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>DS-iconfont</title>
+    <style>
+      		<!--body {
+      			font-family: sans-serif;
+      			margin: 0;
+      			padding: 10px 20px;
+      			background: white;
+      		}
+      		.table {
+      			display: table;
+      			border-spacing: 0;
+      		}
+      		.preview {
+      			display: table-row;
+      			line-height: 2em;
+      		}
+
+      		td {
+      			border: 1px solid #555;
+      			padding: 2px 6px;
+      		}
+      		.preview__icon {
+      			width: 52px;
+      			font-size: 18px;
+      			font-size: 18px;
+      			text-align: center;
+      		}
+      		.preview__code {
+      			box-sizing: border-box;
+      			text-align: center;
+      		}
+
+      		.preview__code__label {
+      			opacity: 0.3;
+      			font-size: 14px;
+      		}-->
+
+      	.icon-list {
+      	margin: 0;
+      	padding: 0;
+      	list-style: none;
+      	}
+      	.icon-list li {
+      	display: inline-block;
+      	padding: 1rem;
+      	text-align: center;
+      	background: #fafafa;
+      	margin: .5rem;
+      	min-height: 130px;
+      	vertical-align: top;
+      	}
+      	.w-grid-8-l {
+      	width: calc(100%/7);
+      	float:left;
+      	}
+      	.x-24 {
+      	width: 24px;
+      	height: 24px;
+      	}
+      	.le-u-mar-t-16{
+      	margin-top:16px;
+      	display:inline-block;
+      	}
+      	code {
+      	display: block;
+      	color: #000!important;
+      	text-align: left;
+      	margin-top: 10px;
+      	}
+      	code {
+      	font-size: 87.5%;
+      	word-wrap: break-word;
+      	}
+      	.greenIconCircle{
+      		background: #0B8043;
+      		border-radius: 50%;
+      		font-size: 18px;
+      		line-height: 24px;
+      		color: #fff;
+      	}
+      		<!--@font-face {
+      	font-family: "DS-iconfont";
+      	src: url("DS-iconfont.eot?9131add671e22364623e149c2a739510?#iefix") format("embedded-opentype"),
+      url("DS-iconfont.woff2?9131add671e22364623e149c2a739510") format("woff2"),
+      url("DS-iconfont.woff?9131add671e22364623e149c2a739510") format("woff"),
+      url("DS-iconfont.ttf?9131add671e22364623e149c2a739510") format("truetype"),
+      url("DS-iconfont.svg?9131add671e22364623e149c2a739510#DS-iconfont") format("svg");
+      }
+
+      .icon {
+      	font-family: DS-iconfont !important;
+      	font-style: normal;
+      	font-weight: normal !important;
+      	line-height: 1;
+      	vertical-align: middle;
+      	/*added new*/
+      	font-size:24px;
+      	display: block;
+      	background-repeat: no-repeat!important;
+      	margin: auto;
+      }
+
+
+      .aadhar-icon:before{
+      	content:"\e001";
+      }
+
+
+      .accommodation-icon:before{
+      	content:"\e002";
+      }
+
+
+      .address-icon:before{
+      	content:"\e003";
+      }
+
+
+      .alert-icon:before{
+      	content:"\e004";
+      }
+
+
+      .announcement-icon:before{
+      	content:"\e005";
+      }
+
+
+      .attachment-icon:before{
+      	content:"\e006";
+      }
+
+
+      .back-icon:before{
+      	content:"\e007";
+      }
+
+
+      .bank-icon:before{
+      	content:"\e008";
+      }
+
+
+      .buspass-icon:before{
+      	content:"\e009";
+      }
+
+
+      .calendar-icon:before{
+      	content:"\e00a";
+      }
+
+
+      .call-icon:before{
+      	content:"\e00b";
+      }
+
+
+      .callback-icon:before{
+      	content:"\e00c";
+      }
+
+
+      .camera-icon:before{
+      	content:"\e00d";
+      }
+
+
+      .car-icon:before{
+      	content:"\e00e";
+      }
+
+
+      .chat-icon:before{
+      	content:"\e00f";
+      }
+
+
+      .close-icon:before{
+      	content:"\e010";
+      }
+
+
+      .comment-icon:before{
+      	content:"\e011";
+      }
+
+
+      .copy-icon:before{
+      	content:"\e012";
+      }
+
+
+      .delete-sm-icon:before{
+      	content:"\e013";
+      }
+
+
+      .disability-icon:before{
+      	content:"\e014";
+      }
+
+
+      .document-icon:before{
+      	content:"\e015";
+      }
+
+
+      .down-arw-icon:before{
+      	content:"\e016";
+      }
+
+
+      .download-icon:before{
+      	content:"\e017";
+      }
+
+
+      .edit-icon:before{
+      	content:"\e018";
+      }
+
+
+      .education-icon:before{
+      	content:"\e019";
+      }
+
+
+      .error-big-icon:before{
+      	content:"\e01a";
+      }
+
+
+      .error-icon:before{
+      	content:"\e01b";
+      }
+
+
+      .filter-icon:before{
+      	content:"\e01c";
+      }
+
+
+      .flight-icon:before{
+      	content:"\e01d";
+      }
+
+
+      .food-icon:before{
+      	content:"\e01e";
+      }
+
+
+      .forward-icon:before{
+      	content:"\e01f";
+      }
+
+
+      .gallery-icon:before{
+      	content:"\e020";
+      }
+
+
+      .graph-icon:before{
+      	content:"\e021";
+      }
+
+
+      .hand-icon:before{
+      	content:"\e022";
+      }
+
+
+      .hide-icon:before{
+      	content:"\e023";
+      }
+
+
+      .home-icon:before{
+      	content:"\e024";
+      }
+
+
+      .i9-icon:before{
+      	content:"\e025";
+      }
+
+
+      .icon-add:before{
+      	content:"\e026";
+      }
+
+
+      .icon-appreciate:before{
+      	content:"\e027";
+      }
+
+
+      .icon-avatar:before{
+      	content:"\e028";
+      }
+
+
+      .icon-award:before{
+      	content:"\e029";
+      }
+
+
+      .icon-bill:before{
+      	content:"\e02a";
+      }
+
+
+      .icon-bookmark:before{
+      	content:"\e02b";
+      }
+
+
+      .icon-close-mini:before{
+      	content:"\e02c";
+      }
+
+
+      .icon-credit-card:before{
+      	content:"\e02d";
+      }
+
+
+      .icon-debit-card:before{
+      	content:"\e02e";
+      }
+
+
+      .icon-Domestic-InternationalTravel:before{
+      	content:"\e02f";
+      }
+
+
+      .icon-education-gaps-dark:before{
+      	content:"\e030";
+      }
+
+
+      .icon-favorite:before{
+      	content:"\e031";
+      }
+
+
+      .icon-form:before{
+      	content:"\e032";
+      }
+
+
+      .icon-Hamburger:before{
+      	content:"\e033";
+      }
+
+
+      .icon-IncomeTax:before{
+      	content:"\e034";
+      }
+
+
+      .icon-inprogressBlue:before{
+      	content:"\e035";
+      }
+
+
+      .icon-like:before{
+      	content:"\e036";
+      }
+
+
+      .icon-LocalTaxi:before{
+      	content:"\e037";
+      }
+
+
+      .icon-mobile:before{
+      	content:"\e038";
+      }
+
+
+      .icon-mute:before{
+      	content:"\e039";
+      }
+
+
+      .icon-news-article:before{
+      	content:"\e03a";
+      }
+
+
+      .icon-notepad:before{
+      	content:"\e03b";
+      }
+
+
+      .icon-password:before{
+      	content:"\e03c";
+      }
+
+
+      .icon-pause:before{
+      	content:"\e03d";
+      }
+
+
+      .icon-payslip:before{
+      	content:"\e03e";
+      }
+
+
+      .icon-pending:before{
+      	content:"\e0e1";
+      }
+
+
+      .icon-process-complete:before{
+      	content:"\e0e2";
+      }
+
+
+      .icon-rejected:before{
+      	content:"\e041";
+      }
+
+
+      .icon-share:before{
+      	content:"\e042";
+      }
+
+
+      .icon-Superannuation:before{
+      	content:"\e043";
+      }
+
+
+      .icon-terms-conditions-range:before{
+      	content:"\e044";
+      }
+
+
+      .icon-tick-dark:before{
+      	content:"\e045";
+      }
+
+
+      .icon-time:before{
+      	content:"\e046";
+      }
+
+
+      .icon-Transport:before{
+      	content:"\e047";
+      }
+
+
+      .icons-Attendance:before{
+      	content:"\e048";
+      }
+
+
+      .icons-OfficialAccommodation:before{
+      	content:"\e049";
+      }
+
+
+      .icon_Account360:before{
+      	content:"\e04a";
+      }
+
+
+      .icon_AccountDirectory:before{
+      	content:"\e04b";
+      }
+
+
+      .icon_AccountUnlock:before{
+      	content:"\e04c";
+      }
+
+
+      .icon_adjustment:before{
+      	content:"\e04d";
+      }
+
+
+      .icon_AHD:before{
+      	content:"\e04e";
+      }
+
+
+      .icon_apple:before{
+      	content:"\e04f";
+      }
+
+
+      .icon_approved_docs:before{
+      	content:"\e050";
+      }
+
+
+      .icon_AwarenessQuiz:before{
+      	content:"\e051";
+      }
+
+
+      .icon_BCMS:before{
+      	content:"\e052";
+      }
+
+
+      .icon_Benefits:before{
+      	content:"\e053";
+      }
+
+
+      .icon_BeTheNavigator:before{
+      	content:"\e054";
+      }
+
+
+      .icon_BitLocker:before{
+      	content:"\e055";
+      }
+
+
+      .icon_blog:before{
+      	content:"\e056";
+      }
+
+
+      .icon_broadband_wifi:before{
+      	content:"\e057";
+      }
+
+
+      .icon_certificate:before{
+      	content:"\e058";
+      }
+
+
+      .icon_Certifications_Q-Cert:before{
+      	content:"\e059";
+      }
+
+
+      .icon_Claims:before{
+      	content:"\e05a";
+      }
+
+
+      .icon_color_info:before{
+      	content:"\e05b";
+      }
+
+
+      .icon_ConnectInfy:before{
+      	content:"\e05c";
+      }
+
+
+      .icon_corporate_accounting:before{
+      	content:"\e05d";
+      }
+
+
+      .icon_Covid19Contribution:before{
+      	content:"\e05e";
+      }
+
+
+      .icon_CovidDeclaration:before{
+      	content:"\e05f";
+      }
+
+
+      .icon_DataPrivacy:before{
+      	content:"\e060";
+      }
+
+
+      .icon_Demand:before{
+      	content:"\e061";
+      }
+
+
+      .icon_Explore:before{
+      	content:"\e062";
+      }
+
+
+      .icon_facebook:before{
+      	content:"\e063";
+      }
+
+
+      .icon_FAQ:before{
+      	content:"\e064";
+      }
+
+
+      .icon_GatePass:before{
+      	content:"\e065";
+      }
+
+
+      .icon_GlobalHelpdesk:before{
+      	content:"\e066";
+      }
+
+
+      .icon_globe:before{
+      	content:"\e067";
+      }
+
+
+      .icon_glomo:before{
+      	content:"\e068";
+      }
+
+
+      .icon_google:before{
+      	content:"\e069";
+      }
+
+
+      .icon_grid_view:before{
+      	content:"\e06a";
+      }
+
+
+      .icon_HealthInsurance:before{
+      	content:"\e06b";
+      }
+
+
+      .icon_Hint:before{
+      	content:"\e06c";
+      }
+
+
+      .icon_hint_idea:before{
+      	content:"\e06d";
+      }
+
+
+      .icon_Hive:before{
+      	content:"\e06e";
+      }
+
+
+      .icon_icount:before{
+      	content:"\e06f";
+      }
+
+
+      .icon_IDS:before{
+      	content:"\e070";
+      }
+
+
+      .icon_ILMS:before{
+      	content:"\e071";
+      }
+
+
+      .icon_iMother:before{
+      	content:"\e072";
+      }
+
+
+      .icon_InfosysConnect:before{
+      	content:"\e073";
+      }
+
+
+      .icon_InfosysDirectory:before{
+      	content:"\e074";
+      }
+
+
+      .icon_InsiderTrading:before{
+      	content:"\e075";
+      }
+
+
+      .icon_keywords:before{
+      	content:"\e076";
+      }
+
+
+      .icon_languages:before{
+      	content:"\e077";
+      }
+
+
+      .icon_laptop:before{
+      	content:"\e078";
+      }
+
+
+      .icon_LaptopGatepass:before{
+      	content:"\e079";
+      }
+
+
+      .icon_LateStay:before{
+      	content:"\e07a";
+      }
+
+
+      .icon_link:before{
+      	content:"\e07b";
+      }
+
+
+      .icon_linkedin:before{
+      	content:"\e07c";
+      }
+
+
+      .icon_Litmus:before{
+      	content:"\e07d";
+      }
+
+
+      .icon_Loans:before{
+      	content:"\e07e";
+      }
+
+
+      .icon_ManageSales:before{
+      	content:"\e07f";
+      }
+
+
+      .icon_MealVoucher:before{
+      	content:"\e080";
+      }
+
+
+      .icon_NightStayInCampus:before{
+      	content:"\e081";
+      }
+
+
+      .icon_Performance:before{
+      	content:"\e082";
+      }
+
+
+      .icon_PMS:before{
+      	content:"\e083";
+      }
+
+
+      .icon_Project360:before{
+      	content:"\e084";
+      }
+
+
+      .icon_project_party:before{
+      	content:"\e085";
+      }
+
+
+      .icon_Pulse:before{
+      	content:"\e086";
+      }
+
+
+      .icon_receipt:before{
+      	content:"\e087";
+      }
+
+
+      .icon_Recorder:before{
+      	content:"\e088";
+      }
+
+
+      .icon_refer:before{
+      	content:"\e089";
+      }
+
+
+      .icon_ReferenceLetter:before{
+      	content:"\e08a";
+      }
+
+
+      .icon_Samaritan:before{
+      	content:"\e08b";
+      }
+
+
+      .Icon_ScheduleCall:before{
+      	content:"\e08c";
+      }
+
+
+      .icon_ServiceStore:before{
+      	content:"\e08d";
+      }
+
+
+      .icon_setting:before{
+      	content:"\e08e";
+      }
+
+
+      .icon_simulator:before{
+      	content:"\e08f";
+      }
+
+
+      .icon_skills_and_interest:before{
+      	content:"\e090";
+      }
+
+
+      .icon_StrategicIntelligence:before{
+      	content:"\e091";
+      }
+
+
+      .icon_support_helpdesk:before{
+      	content:"\e092";
+      }
+
+
+      .icon_teams:before{
+      	content:"\e093";
+      }
+
+
+      .icon_TeamsKPIValidation:before{
+      	content:"\e094";
+      }
+
+
+      .icon_Technology:before{
+      	content:"\e095";
+      }
+
+
+      .icon_TeleConference:before{
+      	content:"\e096";
+      }
+
+
+      .icon_Timesheet:before{
+      	content:"\e097";
+      }
+
+
+      .icon_twitter:before{
+      	content:"\e098";
+      }
+
+
+      .icon_UnifiedSearch:before{
+      	content:"\e099";
+      }
+
+
+      .icon_UPSI:before{
+      	content:"\e09a";
+      }
+
+
+      .icon_versions:before{
+      	content:"\e09b";
+      }
+
+
+      .icon_video-call:before{
+      	content:"\e09c";
+      }
+
+
+      .icon_VisitorManagementSystem_VMS:before{
+      	content:"\e09d";
+      }
+
+
+      .icon_WeekendWorking:before{
+      	content:"\e09e";
+      }
+
+
+      .icon_WFH:before{
+      	content:"\e09f";
+      }
+
+
+      .icon_WorldOfInfosys:before{
+      	content:"\e0a0";
+      }
+
+
+      .icon_yammer:before{
+      	content:"\e0a1";
+      }
+
+
+      .icon_youtube:before{
+      	content:"\e0a2";
+      }
+
+
+      .id-badge-icon:before{
+      	content:"\e0a3";
+      }
+
+
+      .info-big-icon:before{
+      	content:"\e0a4";
+      }
+
+
+      .infy-logo-light:before{
+      	content:"\e0a5";
+      }
+
+
+      .infy-me-logo:before{
+      	content:"\e0a6";
+      }
+
+
+      .inprogress-icon:before{
+      	content:"\e0a7";
+      }
+
+
+      .like-icon:before{
+      	content:"\e0a8";
+      }
+
+
+      .link-arw-icon:before{
+      	content:"\e0a9";
+      }
+
+
+      .location-icon:before{
+      	content:"\e0aa";
+      }
+
+
+      .mail-icon:before{
+      	content:"\e0ab";
+      }
+
+
+      .medical-icon:before{
+      	content:"\e0ac";
+      }
+
+
+      .menu-icon:before{
+      	content:"\e0ad";
+      }
+
+
+      .mic-icon:before{
+      	content:"\e0ae";
+      }
+
+
+      .next-icon:before{
+      	content:"\e0af";
+      }
+
+
+      .notification-icon:before{
+      	content:"\e0b0";
+      }
+
+
+      .nsr-icon:before{
+      	content:"\e0b1";
+      }
+
+
+      .parking-icon:before{
+      	content:"\e0b2";
+      }
+
+
+      .passport-icon:before{
+      	content:"\e0b3";
+      }
+
+
+      .payroll-icon:before{
+      	content:"\e0b4";
+      }
+
+
+      .personal-icon:before{
+      	content:"\e0b5";
+      }
+
+
+      .phone-call:before{
+      	content:"\e0b6";
+      }
+
+
+      .policy-icon:before{
+      	content:"\e0b7";
+      }
+
+
+      .previous-icon:before{
+      	content:"\e0b8";
+      }
+
+
+      .relocation-icon:before{
+      	content:"\e0b9";
+      }
+
+
+      .search-icon:before{
+      	content:"\e0ba";
+      }
+
+
+      .send-Icon:before{
+      	content:"\e0bb";
+      }
+
+
+      .services-icon:before{
+      	content:"\e0bc";
+      }
+
+
+      .show-icon:before{
+      	content:"\e0bd";
+      }
+
+
+      .smiley1-icon:before{
+      	content:"\e0e9";
+      }
+
+
+      .smiley2-icon:before{
+      	content:"\e0ea";
+      }
+
+
+      .smiley3-icon:before{
+      	content:"\e0eb";
+      }
+
+
+      .smiley4-icon:before{
+      	content:"\e0ec";
+      }
+
+
+      .smiley5-icon:before{
+      	content:"\e0ed";
+      }
+
+
+      .ssn-icon:before{
+      	content:"\e0c8";
+      }
+
+
+      .star-icon:before{
+      	content:"\e0c9";
+      }
+
+
+      .success-big-icon:before{
+      	content:"\e0ca";
+      }
+
+
+      .tax-icon:before{
+      	content:"\e0cb";
+      }
+
+
+      .team-icon:before{
+      	content:"\e0cc";
+      }
+
+
+      .tick-green-lg-icon:before{
+      	content:"\e0cd";
+      }
+
+
+      .train-icon:before{
+      	content:"\e0ce";
+      }
+
+
+      .travel-icon:before{
+      	content:"\e0cf";
+      }
+
+
+      .tree-icon:before{
+      	content:"\e0d0";
+      }
+
+
+      .up-arw-icon:before{
+      	content:"\e0d1";
+      }
+
+
+      .upload-icon:before{
+      	content:"\e0d2";
+      }
+
+
+      .v-menu-icon:before{
+      	content:"\e0d3";
+      }
+
+
+      .video-icon:before{
+      	content:"\e0d4";
+      }
+
+
+      .w4-icon:before{
+      	content:"\e0d5";
+      }
+
+
+      .icon_Flag:before{
+      	content:"\e0d6";
+      }
+
+
+      .icon_whatsapp:before{
+      	content:"\e0d7";
+      }
+
+
+      .icon-star_filled:before{
+      	content:"\e0d8";
+      }
+
+
+      .icon-bookmark_filled:before{
+      	content:"\e0d9";
+      }
+
+
+      .icon-comment_filled:before{
+      	content:"\e0da";
+      }
+
+
+      .icon-favorite_filled:before{
+      	content:"\e0db";
+      }
+
+
+      .icon-like_filled:before{
+      	content:"\e0dc";
+      }
+
+
+      .icon-medical:before{
+      	content:"\e0dd";
+      }
+
+
+      .icon_cloud_download:before{
+      	content:"\e0de";
+      }
+
+
+      .icon_cloud_storage:before{
+      	content:"\e0df";
+      }
+
+
+      .icon_color_avatar:before{
+      	content:"\e0e0";
+      }
+
+
+      .icon_LivingLabs:before{
+      	content:"\e0e3";
+      }
+
+
+      .icon_maximise:before{
+      	content:"\e0e4";
+      }
+
+
+      .icon_minimise:before{
+      	content:"\e0e5";
+      }
+
+
+      .icon_save:before{
+      	content:"\e0e6";
+      }
+
+
+      .icon_zoom_in:before{
+      	content:"\e0e7";
+      }
+
+
+      .icon_zoom_out:before{
+      	content:"\e0e8";
+      }
+
+
+      .icon_Activity_Analyzer:before{
+      	content:"\e0ee";
+      }
+
+
+      .icon_app_server_migrator:before{
+      	content:"\e0ef";
+      }
+
+
+      .icon_cloud_modernization:before{
+      	content:"\e0f0";
+      }
+
+
+      .icon_cloud_native_development:before{
+      	content:"\e0f1";
+      }
+
+
+      .icon_data_model_converter:before{
+      	content:"\e0f2";
+      }
+
+
+      .icon_doc:before{
+      	content:"\e0f3";
+      }
+
+
+      .icon_gif:before{
+      	content:"\e0f4";
+      }
+
+
+      .icon_jpeg:before{
+      	content:"\e0f5";
+      }
+
+
+      .icon_mainframe_modernization:before{
+      	content:"\e0f6";
+      }
+
+
+      .icon_pdf:before{
+      	content:"\e0f7";
+      }
+
+
+      .icon_png:before{
+      	content:"\e0f8";
+      }
+
+
+      .icon_ppt:before{
+      	content:"\e0f9";
+      }
+
+
+      .icon_report_an_issue:before{
+      	content:"\e0fa";
+      }
+
+
+      .icon_sort:before{
+      	content:"\e0fb";
+      }
+
+
+      .icon_xls:before{
+      	content:"\e0fc";
+      }
+
+
+      .icon_zip:before{
+      	content:"\e0fd";
+      }
+
+
+      .icon_medal:before{
+      	content:"\e0fe";
+      }
+
+
+      .icon_Pin:before{
+      	content:"\e0ff";
+      }
+
+
+      .icon_Pin_filled:before{
+      	content:"\e100";
+      }
+
+
+      .icon-add_to_briefcase:before{
+      	content:"\e101";
+      }
+
+
+      .icon-bot:before{
+      	content:"\e102";
+      }
+
+
+      .icon_4Cast360:before{
+      	content:"\e103";
+      }
+
+
+      .icon_Ashi:before{
+      	content:"\e104";
+      }
+
+
+      .icon_BestEstimate:before{
+      	content:"\e105";
+      }
+
+
+      .icon_instagram:before{
+      	content:"\e106";
+      }
+
+
+      .icon_LNC:before{
+      	content:"\e107";
+      }
+
+
+      .icon_logout:before{
+      	content:"\e108";
+      }
+
+
+      .icon_MoreLess:before{
+      	content:"\e109";
+      }
+
+
+      .icon_OfferApproval:before{
+      	content:"\e10a";
+      }
+
+
+      .icon_OMS:before{
+      	content:"\e10b";
+      }
+
+
+      .icon_recall:before{
+      	content:"\e10c";
+      }
+
+
+      .icon_Refresh:before{
+      	content:"\e10d";
+      }
+
+
+      .icon_Relief:before{
+      	content:"\e10e";
+      }
+
+
+      .icon_ResidencePermit:before{
+      	content:"\e10f";
+      }
+
+
+      .icon_work_from_office:before{
+      	content:"\e110";
+      }
+
+
+      .icon_mute_notification:before{
+      	content:"\e111";
+      }
+
+
+      .icon_drag:before{
+      	content:"\e112";
+      }
+
+
+      .Icon_archive:before{
+      	content:"\e113";
+      }
+
+
+      .icon_feedback_darkgreen:before{
+      	content:"\e114";
+      }
+
+
+      .icon_feedback_lightgreen:before{
+      	content:"\e115";
+      }
+
+
+      .icon_feedback_orange:before{
+      	content:"\e116";
+      }
+
+
+      .icon_feedback_red:before{
+      	content:"\e117";
+      }
+
+
+      .icon_feedback_yellow:before{
+      	content:"\e118";
+      }
+
+
+      .icon_AccountInsights:before{
+      	content:"\e119";
+      }
+
+
+      .icon_Pricing:before{
+      	content:"\e11a";
+      }
+
+
+      .icon_TalentDashboard:before{
+      	content:"\e11b";
+      }
+
+
+      .icon_collapseLayout:before{
+      	content:"\e12f";
+      }
+
+
+      .icon_expandLayout:before{
+      	content:"\e130";
+      }
+
+
+      .icon-backgroundverification:before{
+      	content:"\e131";
+      }
+
+
+      .icon-dislike:before{
+      	content:"\e132";
+      }
+
+
+      .icon-microfeedback:before{
+      	content:"\e133";
+      }
+
+
+      .icon_list_view:before{
+      	content:"\e134";
+      }
+
+
+      .icon_circle:before{
+      	content:"\e135";
+      }
+
+      -->
+    </style>
+  </head>
+  <body>
+    <h1>DS-iconfont</h1>
+    <!--<table class="table">
+		<thead>
+			<tr>
+				<th></th><th>HTML</th><th>CSS</th><th>Filename</th>
+			</tr>
+		</thead>
+		<tbody>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 aadhar-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 aadhar-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe001;
+				</td>
+				<td class="preview__code">
+					\e001
+				</td>
+				<td>aadhar-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 accommodation-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 accommodation-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe002;
+				</td>
+				<td class="preview__code">
+					\e002
+				</td>
+				<td>accommodation-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 address-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 address-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe003;
+				</td>
+				<td class="preview__code">
+					\e003
+				</td>
+				<td>address-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 alert-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 alert-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe004;
+				</td>
+				<td class="preview__code">
+					\e004
+				</td>
+				<td>alert-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 announcement-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 announcement-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe005;
+				</td>
+				<td class="preview__code">
+					\e005
+				</td>
+				<td>announcement-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 attachment-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 attachment-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe006;
+				</td>
+				<td class="preview__code">
+					\e006
+				</td>
+				<td>attachment-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 back-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 back-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe007;
+				</td>
+				<td class="preview__code">
+					\e007
+				</td>
+				<td>back-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 bank-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 bank-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe008;
+				</td>
+				<td class="preview__code">
+					\e008
+				</td>
+				<td>bank-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 buspass-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 buspass-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe009;
+				</td>
+				<td class="preview__code">
+					\e009
+				</td>
+				<td>buspass-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 calendar-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 calendar-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe00a;
+				</td>
+				<td class="preview__code">
+					\e00a
+				</td>
+				<td>calendar-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 call-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 call-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe00b;
+				</td>
+				<td class="preview__code">
+					\e00b
+				</td>
+				<td>call-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 callback-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 callback-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe00c;
+				</td>
+				<td class="preview__code">
+					\e00c
+				</td>
+				<td>callback-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 camera-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 camera-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe00d;
+				</td>
+				<td class="preview__code">
+					\e00d
+				</td>
+				<td>camera-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 car-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 car-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe00e;
+				</td>
+				<td class="preview__code">
+					\e00e
+				</td>
+				<td>car-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 chat-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 chat-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe00f;
+				</td>
+				<td class="preview__code">
+					\e00f
+				</td>
+				<td>chat-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 close-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 close-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe010;
+				</td>
+				<td class="preview__code">
+					\e010
+				</td>
+				<td>close-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 comment-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 comment-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe011;
+				</td>
+				<td class="preview__code">
+					\e011
+				</td>
+				<td>comment-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 copy-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 copy-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe012;
+				</td>
+				<td class="preview__code">
+					\e012
+				</td>
+				<td>copy-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 delete-sm-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 delete-sm-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe013;
+				</td>
+				<td class="preview__code">
+					\e013
+				</td>
+				<td>delete-sm-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 disability-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 disability-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe014;
+				</td>
+				<td class="preview__code">
+					\e014
+				</td>
+				<td>disability-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 document-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 document-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe015;
+				</td>
+				<td class="preview__code">
+					\e015
+				</td>
+				<td>document-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 down-arw-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 down-arw-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe016;
+				</td>
+				<td class="preview__code">
+					\e016
+				</td>
+				<td>down-arw-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 download-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 download-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe017;
+				</td>
+				<td class="preview__code">
+					\e017
+				</td>
+				<td>download-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 edit-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 edit-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe018;
+				</td>
+				<td class="preview__code">
+					\e018
+				</td>
+				<td>edit-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 education-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 education-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe019;
+				</td>
+				<td class="preview__code">
+					\e019
+				</td>
+				<td>education-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 error-big-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 error-big-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe01a;
+				</td>
+				<td class="preview__code">
+					\e01a
+				</td>
+				<td>error-big-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 error-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 error-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe01b;
+				</td>
+				<td class="preview__code">
+					\e01b
+				</td>
+				<td>error-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 filter-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 filter-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe01c;
+				</td>
+				<td class="preview__code">
+					\e01c
+				</td>
+				<td>filter-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 flight-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 flight-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe01d;
+				</td>
+				<td class="preview__code">
+					\e01d
+				</td>
+				<td>flight-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 food-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 food-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe01e;
+				</td>
+				<td class="preview__code">
+					\e01e
+				</td>
+				<td>food-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 forward-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 forward-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe01f;
+				</td>
+				<td class="preview__code">
+					\e01f
+				</td>
+				<td>forward-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 gallery-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 gallery-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe020;
+				</td>
+				<td class="preview__code">
+					\e020
+				</td>
+				<td>gallery-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 graph-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 graph-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe021;
+				</td>
+				<td class="preview__code">
+					\e021
+				</td>
+				<td>graph-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 hand-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 hand-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe022;
+				</td>
+				<td class="preview__code">
+					\e022
+				</td>
+				<td>hand-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 hide-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 hide-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe023;
+				</td>
+				<td class="preview__code">
+					\e023
+				</td>
+				<td>hide-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 home-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 home-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe024;
+				</td>
+				<td class="preview__code">
+					\e024
+				</td>
+				<td>home-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 i9-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 i9-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe025;
+				</td>
+				<td class="preview__code">
+					\e025
+				</td>
+				<td>i9-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-add"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-add"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe026;
+				</td>
+				<td class="preview__code">
+					\e026
+				</td>
+				<td>icon-add</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-appreciate"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-appreciate"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe027;
+				</td>
+				<td class="preview__code">
+					\e027
+				</td>
+				<td>icon-appreciate</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-avatar"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-avatar"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe028;
+				</td>
+				<td class="preview__code">
+					\e028
+				</td>
+				<td>icon-avatar</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-award"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-award"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe029;
+				</td>
+				<td class="preview__code">
+					\e029
+				</td>
+				<td>icon-award</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-bill"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-bill"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe02a;
+				</td>
+				<td class="preview__code">
+					\e02a
+				</td>
+				<td>icon-bill</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-bookmark"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-bookmark"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe02b;
+				</td>
+				<td class="preview__code">
+					\e02b
+				</td>
+				<td>icon-bookmark</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-close-mini"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-close-mini"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe02c;
+				</td>
+				<td class="preview__code">
+					\e02c
+				</td>
+				<td>icon-close-mini</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-credit-card"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-credit-card"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe02d;
+				</td>
+				<td class="preview__code">
+					\e02d
+				</td>
+				<td>icon-credit-card</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-debit-card"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-debit-card"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe02e;
+				</td>
+				<td class="preview__code">
+					\e02e
+				</td>
+				<td>icon-debit-card</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-Domestic-InternationalTravel"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-Domestic-InternationalTravel"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe02f;
+				</td>
+				<td class="preview__code">
+					\e02f
+				</td>
+				<td>icon-Domestic-InternationalTravel</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-education-gaps-dark"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-education-gaps-dark"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe030;
+				</td>
+				<td class="preview__code">
+					\e030
+				</td>
+				<td>icon-education-gaps-dark</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-favorite"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-favorite"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe031;
+				</td>
+				<td class="preview__code">
+					\e031
+				</td>
+				<td>icon-favorite</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-form"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-form"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe032;
+				</td>
+				<td class="preview__code">
+					\e032
+				</td>
+				<td>icon-form</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-Hamburger"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-Hamburger"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe033;
+				</td>
+				<td class="preview__code">
+					\e033
+				</td>
+				<td>icon-Hamburger</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-IncomeTax"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-IncomeTax"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe034;
+				</td>
+				<td class="preview__code">
+					\e034
+				</td>
+				<td>icon-IncomeTax</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-inprogressBlue"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-inprogressBlue"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe035;
+				</td>
+				<td class="preview__code">
+					\e035
+				</td>
+				<td>icon-inprogressBlue</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-like"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-like"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe036;
+				</td>
+				<td class="preview__code">
+					\e036
+				</td>
+				<td>icon-like</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-LocalTaxi"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-LocalTaxi"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe037;
+				</td>
+				<td class="preview__code">
+					\e037
+				</td>
+				<td>icon-LocalTaxi</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-mobile"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-mobile"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe038;
+				</td>
+				<td class="preview__code">
+					\e038
+				</td>
+				<td>icon-mobile</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-mute"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-mute"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe039;
+				</td>
+				<td class="preview__code">
+					\e039
+				</td>
+				<td>icon-mute</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-news-article"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-news-article"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe03a;
+				</td>
+				<td class="preview__code">
+					\e03a
+				</td>
+				<td>icon-news-article</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-notepad"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-notepad"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe03b;
+				</td>
+				<td class="preview__code">
+					\e03b
+				</td>
+				<td>icon-notepad</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-password"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-password"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe03c;
+				</td>
+				<td class="preview__code">
+					\e03c
+				</td>
+				<td>icon-password</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-pause"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-pause"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe03d;
+				</td>
+				<td class="preview__code">
+					\e03d
+				</td>
+				<td>icon-pause</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-payslip"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-payslip"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe03e;
+				</td>
+				<td class="preview__code">
+					\e03e
+				</td>
+				<td>icon-payslip</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-pending"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-pending"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0e1;
+				</td>
+				<td class="preview__code">
+					\e0e1
+				</td>
+				<td>icon-pending</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-process-complete"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-process-complete"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0e2;
+				</td>
+				<td class="preview__code">
+					\e0e2
+				</td>
+				<td>icon-process-complete</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-rejected"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-rejected"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe041;
+				</td>
+				<td class="preview__code">
+					\e041
+				</td>
+				<td>icon-rejected</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-share"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-share"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe042;
+				</td>
+				<td class="preview__code">
+					\e042
+				</td>
+				<td>icon-share</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-Superannuation"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-Superannuation"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe043;
+				</td>
+				<td class="preview__code">
+					\e043
+				</td>
+				<td>icon-Superannuation</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-terms-conditions-range"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-terms-conditions-range"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe044;
+				</td>
+				<td class="preview__code">
+					\e044
+				</td>
+				<td>icon-terms-conditions-range</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-tick-dark"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-tick-dark"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe045;
+				</td>
+				<td class="preview__code">
+					\e045
+				</td>
+				<td>icon-tick-dark</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-time"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-time"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe046;
+				</td>
+				<td class="preview__code">
+					\e046
+				</td>
+				<td>icon-time</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-Transport"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-Transport"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe047;
+				</td>
+				<td class="preview__code">
+					\e047
+				</td>
+				<td>icon-Transport</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icons-Attendance"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icons-Attendance"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe048;
+				</td>
+				<td class="preview__code">
+					\e048
+				</td>
+				<td>icons-Attendance</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icons-OfficialAccommodation"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icons-OfficialAccommodation"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe049;
+				</td>
+				<td class="preview__code">
+					\e049
+				</td>
+				<td>icons-OfficialAccommodation</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Account360"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Account360"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe04a;
+				</td>
+				<td class="preview__code">
+					\e04a
+				</td>
+				<td>icon_Account360</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_AccountDirectory"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_AccountDirectory"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe04b;
+				</td>
+				<td class="preview__code">
+					\e04b
+				</td>
+				<td>icon_AccountDirectory</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_AccountUnlock"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_AccountUnlock"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe04c;
+				</td>
+				<td class="preview__code">
+					\e04c
+				</td>
+				<td>icon_AccountUnlock</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_adjustment"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_adjustment"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe04d;
+				</td>
+				<td class="preview__code">
+					\e04d
+				</td>
+				<td>icon_adjustment</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_AHD"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_AHD"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe04e;
+				</td>
+				<td class="preview__code">
+					\e04e
+				</td>
+				<td>icon_AHD</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_apple"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_apple"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe04f;
+				</td>
+				<td class="preview__code">
+					\e04f
+				</td>
+				<td>icon_apple</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_approved_docs"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_approved_docs"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe050;
+				</td>
+				<td class="preview__code">
+					\e050
+				</td>
+				<td>icon_approved_docs</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_AwarenessQuiz"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_AwarenessQuiz"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe051;
+				</td>
+				<td class="preview__code">
+					\e051
+				</td>
+				<td>icon_AwarenessQuiz</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_BCMS"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_BCMS"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe052;
+				</td>
+				<td class="preview__code">
+					\e052
+				</td>
+				<td>icon_BCMS</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Benefits"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Benefits"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe053;
+				</td>
+				<td class="preview__code">
+					\e053
+				</td>
+				<td>icon_Benefits</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_BeTheNavigator"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_BeTheNavigator"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe054;
+				</td>
+				<td class="preview__code">
+					\e054
+				</td>
+				<td>icon_BeTheNavigator</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_BitLocker"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_BitLocker"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe055;
+				</td>
+				<td class="preview__code">
+					\e055
+				</td>
+				<td>icon_BitLocker</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_blog"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_blog"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe056;
+				</td>
+				<td class="preview__code">
+					\e056
+				</td>
+				<td>icon_blog</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_broadband_wifi"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_broadband_wifi"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe057;
+				</td>
+				<td class="preview__code">
+					\e057
+				</td>
+				<td>icon_broadband_wifi</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_certificate"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_certificate"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe058;
+				</td>
+				<td class="preview__code">
+					\e058
+				</td>
+				<td>icon_certificate</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Certifications_Q-Cert"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Certifications_Q-Cert"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe059;
+				</td>
+				<td class="preview__code">
+					\e059
+				</td>
+				<td>icon_Certifications_Q-Cert</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Claims"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Claims"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe05a;
+				</td>
+				<td class="preview__code">
+					\e05a
+				</td>
+				<td>icon_Claims</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_color_info"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_color_info"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe05b;
+				</td>
+				<td class="preview__code">
+					\e05b
+				</td>
+				<td>icon_color_info</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_ConnectInfy"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_ConnectInfy"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe05c;
+				</td>
+				<td class="preview__code">
+					\e05c
+				</td>
+				<td>icon_ConnectInfy</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_corporate_accounting"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_corporate_accounting"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe05d;
+				</td>
+				<td class="preview__code">
+					\e05d
+				</td>
+				<td>icon_corporate_accounting</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Covid19Contribution"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Covid19Contribution"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe05e;
+				</td>
+				<td class="preview__code">
+					\e05e
+				</td>
+				<td>icon_Covid19Contribution</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_CovidDeclaration"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_CovidDeclaration"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe05f;
+				</td>
+				<td class="preview__code">
+					\e05f
+				</td>
+				<td>icon_CovidDeclaration</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_DataPrivacy"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_DataPrivacy"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe060;
+				</td>
+				<td class="preview__code">
+					\e060
+				</td>
+				<td>icon_DataPrivacy</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Demand"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Demand"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe061;
+				</td>
+				<td class="preview__code">
+					\e061
+				</td>
+				<td>icon_Demand</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Explore"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Explore"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe062;
+				</td>
+				<td class="preview__code">
+					\e062
+				</td>
+				<td>icon_Explore</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_facebook"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_facebook"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe063;
+				</td>
+				<td class="preview__code">
+					\e063
+				</td>
+				<td>icon_facebook</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_FAQ"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_FAQ"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe064;
+				</td>
+				<td class="preview__code">
+					\e064
+				</td>
+				<td>icon_FAQ</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_GatePass"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_GatePass"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe065;
+				</td>
+				<td class="preview__code">
+					\e065
+				</td>
+				<td>icon_GatePass</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_GlobalHelpdesk"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_GlobalHelpdesk"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe066;
+				</td>
+				<td class="preview__code">
+					\e066
+				</td>
+				<td>icon_GlobalHelpdesk</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_globe"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_globe"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe067;
+				</td>
+				<td class="preview__code">
+					\e067
+				</td>
+				<td>icon_globe</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_glomo"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_glomo"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe068;
+				</td>
+				<td class="preview__code">
+					\e068
+				</td>
+				<td>icon_glomo</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_google"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_google"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe069;
+				</td>
+				<td class="preview__code">
+					\e069
+				</td>
+				<td>icon_google</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_grid_view"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_grid_view"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe06a;
+				</td>
+				<td class="preview__code">
+					\e06a
+				</td>
+				<td>icon_grid_view</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_HealthInsurance"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_HealthInsurance"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe06b;
+				</td>
+				<td class="preview__code">
+					\e06b
+				</td>
+				<td>icon_HealthInsurance</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Hint"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Hint"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe06c;
+				</td>
+				<td class="preview__code">
+					\e06c
+				</td>
+				<td>icon_Hint</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_hint_idea"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_hint_idea"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe06d;
+				</td>
+				<td class="preview__code">
+					\e06d
+				</td>
+				<td>icon_hint_idea</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Hive"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Hive"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe06e;
+				</td>
+				<td class="preview__code">
+					\e06e
+				</td>
+				<td>icon_Hive</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_icount"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_icount"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe06f;
+				</td>
+				<td class="preview__code">
+					\e06f
+				</td>
+				<td>icon_icount</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_IDS"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_IDS"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe070;
+				</td>
+				<td class="preview__code">
+					\e070
+				</td>
+				<td>icon_IDS</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_ILMS"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_ILMS"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe071;
+				</td>
+				<td class="preview__code">
+					\e071
+				</td>
+				<td>icon_ILMS</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_iMother"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_iMother"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe072;
+				</td>
+				<td class="preview__code">
+					\e072
+				</td>
+				<td>icon_iMother</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_InfosysConnect"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_InfosysConnect"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe073;
+				</td>
+				<td class="preview__code">
+					\e073
+				</td>
+				<td>icon_InfosysConnect</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_InfosysDirectory"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_InfosysDirectory"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe074;
+				</td>
+				<td class="preview__code">
+					\e074
+				</td>
+				<td>icon_InfosysDirectory</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_InsiderTrading"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_InsiderTrading"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe075;
+				</td>
+				<td class="preview__code">
+					\e075
+				</td>
+				<td>icon_InsiderTrading</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_keywords"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_keywords"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe076;
+				</td>
+				<td class="preview__code">
+					\e076
+				</td>
+				<td>icon_keywords</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_languages"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_languages"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe077;
+				</td>
+				<td class="preview__code">
+					\e077
+				</td>
+				<td>icon_languages</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_laptop"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_laptop"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe078;
+				</td>
+				<td class="preview__code">
+					\e078
+				</td>
+				<td>icon_laptop</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_LaptopGatepass"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_LaptopGatepass"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe079;
+				</td>
+				<td class="preview__code">
+					\e079
+				</td>
+				<td>icon_LaptopGatepass</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_LateStay"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_LateStay"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe07a;
+				</td>
+				<td class="preview__code">
+					\e07a
+				</td>
+				<td>icon_LateStay</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_link"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_link"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe07b;
+				</td>
+				<td class="preview__code">
+					\e07b
+				</td>
+				<td>icon_link</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_linkedin"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_linkedin"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe07c;
+				</td>
+				<td class="preview__code">
+					\e07c
+				</td>
+				<td>icon_linkedin</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Litmus"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Litmus"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe07d;
+				</td>
+				<td class="preview__code">
+					\e07d
+				</td>
+				<td>icon_Litmus</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Loans"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Loans"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe07e;
+				</td>
+				<td class="preview__code">
+					\e07e
+				</td>
+				<td>icon_Loans</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_ManageSales"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_ManageSales"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe07f;
+				</td>
+				<td class="preview__code">
+					\e07f
+				</td>
+				<td>icon_ManageSales</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_MealVoucher"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_MealVoucher"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe080;
+				</td>
+				<td class="preview__code">
+					\e080
+				</td>
+				<td>icon_MealVoucher</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_NightStayInCampus"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_NightStayInCampus"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe081;
+				</td>
+				<td class="preview__code">
+					\e081
+				</td>
+				<td>icon_NightStayInCampus</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Performance"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Performance"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe082;
+				</td>
+				<td class="preview__code">
+					\e082
+				</td>
+				<td>icon_Performance</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_PMS"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_PMS"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe083;
+				</td>
+				<td class="preview__code">
+					\e083
+				</td>
+				<td>icon_PMS</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Project360"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Project360"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe084;
+				</td>
+				<td class="preview__code">
+					\e084
+				</td>
+				<td>icon_Project360</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_project_party"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_project_party"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe085;
+				</td>
+				<td class="preview__code">
+					\e085
+				</td>
+				<td>icon_project_party</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Pulse"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Pulse"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe086;
+				</td>
+				<td class="preview__code">
+					\e086
+				</td>
+				<td>icon_Pulse</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_receipt"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_receipt"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe087;
+				</td>
+				<td class="preview__code">
+					\e087
+				</td>
+				<td>icon_receipt</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Recorder"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Recorder"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe088;
+				</td>
+				<td class="preview__code">
+					\e088
+				</td>
+				<td>icon_Recorder</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_refer"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_refer"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe089;
+				</td>
+				<td class="preview__code">
+					\e089
+				</td>
+				<td>icon_refer</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_ReferenceLetter"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_ReferenceLetter"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe08a;
+				</td>
+				<td class="preview__code">
+					\e08a
+				</td>
+				<td>icon_ReferenceLetter</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Samaritan"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Samaritan"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe08b;
+				</td>
+				<td class="preview__code">
+					\e08b
+				</td>
+				<td>icon_Samaritan</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 Icon_ScheduleCall"></i>
+        <br />
+        <code> &lt;i class="icon x-24 Icon_ScheduleCall"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe08c;
+				</td>
+				<td class="preview__code">
+					\e08c
+				</td>
+				<td>Icon_ScheduleCall</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_ServiceStore"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_ServiceStore"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe08d;
+				</td>
+				<td class="preview__code">
+					\e08d
+				</td>
+				<td>icon_ServiceStore</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_setting"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_setting"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe08e;
+				</td>
+				<td class="preview__code">
+					\e08e
+				</td>
+				<td>icon_setting</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_simulator"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_simulator"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe08f;
+				</td>
+				<td class="preview__code">
+					\e08f
+				</td>
+				<td>icon_simulator</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_skills_and_interest"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_skills_and_interest"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe090;
+				</td>
+				<td class="preview__code">
+					\e090
+				</td>
+				<td>icon_skills_and_interest</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_StrategicIntelligence"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_StrategicIntelligence"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe091;
+				</td>
+				<td class="preview__code">
+					\e091
+				</td>
+				<td>icon_StrategicIntelligence</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_support_helpdesk"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_support_helpdesk"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe092;
+				</td>
+				<td class="preview__code">
+					\e092
+				</td>
+				<td>icon_support_helpdesk</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_teams"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_teams"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe093;
+				</td>
+				<td class="preview__code">
+					\e093
+				</td>
+				<td>icon_teams</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_TeamsKPIValidation"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_TeamsKPIValidation"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe094;
+				</td>
+				<td class="preview__code">
+					\e094
+				</td>
+				<td>icon_TeamsKPIValidation</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Technology"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Technology"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe095;
+				</td>
+				<td class="preview__code">
+					\e095
+				</td>
+				<td>icon_Technology</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_TeleConference"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_TeleConference"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe096;
+				</td>
+				<td class="preview__code">
+					\e096
+				</td>
+				<td>icon_TeleConference</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Timesheet"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Timesheet"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe097;
+				</td>
+				<td class="preview__code">
+					\e097
+				</td>
+				<td>icon_Timesheet</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_twitter"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_twitter"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe098;
+				</td>
+				<td class="preview__code">
+					\e098
+				</td>
+				<td>icon_twitter</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_UnifiedSearch"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_UnifiedSearch"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe099;
+				</td>
+				<td class="preview__code">
+					\e099
+				</td>
+				<td>icon_UnifiedSearch</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_UPSI"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_UPSI"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe09a;
+				</td>
+				<td class="preview__code">
+					\e09a
+				</td>
+				<td>icon_UPSI</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_versions"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_versions"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe09b;
+				</td>
+				<td class="preview__code">
+					\e09b
+				</td>
+				<td>icon_versions</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_video-call"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_video-call"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe09c;
+				</td>
+				<td class="preview__code">
+					\e09c
+				</td>
+				<td>icon_video-call</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_VisitorManagementSystem_VMS"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_VisitorManagementSystem_VMS"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe09d;
+				</td>
+				<td class="preview__code">
+					\e09d
+				</td>
+				<td>icon_VisitorManagementSystem_VMS</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_WeekendWorking"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_WeekendWorking"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe09e;
+				</td>
+				<td class="preview__code">
+					\e09e
+				</td>
+				<td>icon_WeekendWorking</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_WFH"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_WFH"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe09f;
+				</td>
+				<td class="preview__code">
+					\e09f
+				</td>
+				<td>icon_WFH</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_WorldOfInfosys"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_WorldOfInfosys"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0a0;
+				</td>
+				<td class="preview__code">
+					\e0a0
+				</td>
+				<td>icon_WorldOfInfosys</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_yammer"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_yammer"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0a1;
+				</td>
+				<td class="preview__code">
+					\e0a1
+				</td>
+				<td>icon_yammer</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_youtube"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_youtube"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0a2;
+				</td>
+				<td class="preview__code">
+					\e0a2
+				</td>
+				<td>icon_youtube</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 id-badge-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 id-badge-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0a3;
+				</td>
+				<td class="preview__code">
+					\e0a3
+				</td>
+				<td>id-badge-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 info-big-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 info-big-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0a4;
+				</td>
+				<td class="preview__code">
+					\e0a4
+				</td>
+				<td>info-big-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 infy-logo-light"></i>
+        <br />
+        <code> &lt;i class="icon x-24 infy-logo-light"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0a5;
+				</td>
+				<td class="preview__code">
+					\e0a5
+				</td>
+				<td>infy-logo-light</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 infy-me-logo"></i>
+        <br />
+        <code> &lt;i class="icon x-24 infy-me-logo"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0a6;
+				</td>
+				<td class="preview__code">
+					\e0a6
+				</td>
+				<td>infy-me-logo</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 inprogress-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 inprogress-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0a7;
+				</td>
+				<td class="preview__code">
+					\e0a7
+				</td>
+				<td>inprogress-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 like-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 like-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0a8;
+				</td>
+				<td class="preview__code">
+					\e0a8
+				</td>
+				<td>like-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 link-arw-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 link-arw-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0a9;
+				</td>
+				<td class="preview__code">
+					\e0a9
+				</td>
+				<td>link-arw-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 location-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 location-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0aa;
+				</td>
+				<td class="preview__code">
+					\e0aa
+				</td>
+				<td>location-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 mail-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 mail-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ab;
+				</td>
+				<td class="preview__code">
+					\e0ab
+				</td>
+				<td>mail-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 medical-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 medical-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ac;
+				</td>
+				<td class="preview__code">
+					\e0ac
+				</td>
+				<td>medical-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 menu-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 menu-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ad;
+				</td>
+				<td class="preview__code">
+					\e0ad
+				</td>
+				<td>menu-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 mic-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 mic-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ae;
+				</td>
+				<td class="preview__code">
+					\e0ae
+				</td>
+				<td>mic-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 next-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 next-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0af;
+				</td>
+				<td class="preview__code">
+					\e0af
+				</td>
+				<td>next-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 notification-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 notification-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0b0;
+				</td>
+				<td class="preview__code">
+					\e0b0
+				</td>
+				<td>notification-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 nsr-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 nsr-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0b1;
+				</td>
+				<td class="preview__code">
+					\e0b1
+				</td>
+				<td>nsr-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 parking-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 parking-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0b2;
+				</td>
+				<td class="preview__code">
+					\e0b2
+				</td>
+				<td>parking-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 passport-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 passport-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0b3;
+				</td>
+				<td class="preview__code">
+					\e0b3
+				</td>
+				<td>passport-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 payroll-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 payroll-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0b4;
+				</td>
+				<td class="preview__code">
+					\e0b4
+				</td>
+				<td>payroll-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 personal-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 personal-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0b5;
+				</td>
+				<td class="preview__code">
+					\e0b5
+				</td>
+				<td>personal-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 phone-call"></i>
+        <br />
+        <code> &lt;i class="icon x-24 phone-call"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0b6;
+				</td>
+				<td class="preview__code">
+					\e0b6
+				</td>
+				<td>phone-call</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 policy-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 policy-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0b7;
+				</td>
+				<td class="preview__code">
+					\e0b7
+				</td>
+				<td>policy-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 previous-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 previous-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0b8;
+				</td>
+				<td class="preview__code">
+					\e0b8
+				</td>
+				<td>previous-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 relocation-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 relocation-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0b9;
+				</td>
+				<td class="preview__code">
+					\e0b9
+				</td>
+				<td>relocation-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 search-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 search-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ba;
+				</td>
+				<td class="preview__code">
+					\e0ba
+				</td>
+				<td>search-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 send-Icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 send-Icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0bb;
+				</td>
+				<td class="preview__code">
+					\e0bb
+				</td>
+				<td>send-Icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 services-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 services-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0bc;
+				</td>
+				<td class="preview__code">
+					\e0bc
+				</td>
+				<td>services-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 show-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 show-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0bd;
+				</td>
+				<td class="preview__code">
+					\e0bd
+				</td>
+				<td>show-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 smiley1-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 smiley1-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0e9;
+				</td>
+				<td class="preview__code">
+					\e0e9
+				</td>
+				<td>smiley1-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 smiley2-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 smiley2-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ea;
+				</td>
+				<td class="preview__code">
+					\e0ea
+				</td>
+				<td>smiley2-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 smiley3-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 smiley3-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0eb;
+				</td>
+				<td class="preview__code">
+					\e0eb
+				</td>
+				<td>smiley3-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 smiley4-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 smiley4-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ec;
+				</td>
+				<td class="preview__code">
+					\e0ec
+				</td>
+				<td>smiley4-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 smiley5-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 smiley5-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ed;
+				</td>
+				<td class="preview__code">
+					\e0ed
+				</td>
+				<td>smiley5-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 ssn-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 ssn-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0c8;
+				</td>
+				<td class="preview__code">
+					\e0c8
+				</td>
+				<td>ssn-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 star-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 star-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0c9;
+				</td>
+				<td class="preview__code">
+					\e0c9
+				</td>
+				<td>star-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 success-big-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 success-big-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ca;
+				</td>
+				<td class="preview__code">
+					\e0ca
+				</td>
+				<td>success-big-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 tax-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 tax-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0cb;
+				</td>
+				<td class="preview__code">
+					\e0cb
+				</td>
+				<td>tax-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 team-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 team-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0cc;
+				</td>
+				<td class="preview__code">
+					\e0cc
+				</td>
+				<td>team-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 tick-green-lg-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 tick-green-lg-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0cd;
+				</td>
+				<td class="preview__code">
+					\e0cd
+				</td>
+				<td>tick-green-lg-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 train-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 train-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ce;
+				</td>
+				<td class="preview__code">
+					\e0ce
+				</td>
+				<td>train-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 travel-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 travel-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0cf;
+				</td>
+				<td class="preview__code">
+					\e0cf
+				</td>
+				<td>travel-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 tree-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 tree-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0d0;
+				</td>
+				<td class="preview__code">
+					\e0d0
+				</td>
+				<td>tree-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 up-arw-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 up-arw-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0d1;
+				</td>
+				<td class="preview__code">
+					\e0d1
+				</td>
+				<td>up-arw-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 upload-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 upload-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0d2;
+				</td>
+				<td class="preview__code">
+					\e0d2
+				</td>
+				<td>upload-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 v-menu-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 v-menu-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0d3;
+				</td>
+				<td class="preview__code">
+					\e0d3
+				</td>
+				<td>v-menu-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 video-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 video-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0d4;
+				</td>
+				<td class="preview__code">
+					\e0d4
+				</td>
+				<td>video-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 w4-icon"></i>
+        <br />
+        <code> &lt;i class="icon x-24 w4-icon"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0d5;
+				</td>
+				<td class="preview__code">
+					\e0d5
+				</td>
+				<td>w4-icon</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Flag"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Flag"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0d6;
+				</td>
+				<td class="preview__code">
+					\e0d6
+				</td>
+				<td>icon_Flag</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_whatsapp"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_whatsapp"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0d7;
+				</td>
+				<td class="preview__code">
+					\e0d7
+				</td>
+				<td>icon_whatsapp</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-star_filled"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-star_filled"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0d8;
+				</td>
+				<td class="preview__code">
+					\e0d8
+				</td>
+				<td>icon-star_filled</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-bookmark_filled"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-bookmark_filled"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0d9;
+				</td>
+				<td class="preview__code">
+					\e0d9
+				</td>
+				<td>icon-bookmark_filled</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-comment_filled"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-comment_filled"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0da;
+				</td>
+				<td class="preview__code">
+					\e0da
+				</td>
+				<td>icon-comment_filled</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-favorite_filled"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-favorite_filled"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0db;
+				</td>
+				<td class="preview__code">
+					\e0db
+				</td>
+				<td>icon-favorite_filled</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-like_filled"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-like_filled"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0dc;
+				</td>
+				<td class="preview__code">
+					\e0dc
+				</td>
+				<td>icon-like_filled</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-medical"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-medical"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0dd;
+				</td>
+				<td class="preview__code">
+					\e0dd
+				</td>
+				<td>icon-medical</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_cloud_download"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_cloud_download"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0de;
+				</td>
+				<td class="preview__code">
+					\e0de
+				</td>
+				<td>icon_cloud_download</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_cloud_storage"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_cloud_storage"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0df;
+				</td>
+				<td class="preview__code">
+					\e0df
+				</td>
+				<td>icon_cloud_storage</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_color_avatar"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_color_avatar"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0e0;
+				</td>
+				<td class="preview__code">
+					\e0e0
+				</td>
+				<td>icon_color_avatar</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_LivingLabs"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_LivingLabs"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0e3;
+				</td>
+				<td class="preview__code">
+					\e0e3
+				</td>
+				<td>icon_LivingLabs</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_maximise"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_maximise"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0e4;
+				</td>
+				<td class="preview__code">
+					\e0e4
+				</td>
+				<td>icon_maximise</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_minimise"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_minimise"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0e5;
+				</td>
+				<td class="preview__code">
+					\e0e5
+				</td>
+				<td>icon_minimise</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_save"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_save"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0e6;
+				</td>
+				<td class="preview__code">
+					\e0e6
+				</td>
+				<td>icon_save</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_zoom_in"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_zoom_in"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0e7;
+				</td>
+				<td class="preview__code">
+					\e0e7
+				</td>
+				<td>icon_zoom_in</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_zoom_out"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_zoom_out"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0e8;
+				</td>
+				<td class="preview__code">
+					\e0e8
+				</td>
+				<td>icon_zoom_out</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Activity_Analyzer"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Activity_Analyzer"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ee;
+				</td>
+				<td class="preview__code">
+					\e0ee
+				</td>
+				<td>icon_Activity_Analyzer</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_app_server_migrator"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_app_server_migrator"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ef;
+				</td>
+				<td class="preview__code">
+					\e0ef
+				</td>
+				<td>icon_app_server_migrator</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_cloud_modernization"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_cloud_modernization"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0f0;
+				</td>
+				<td class="preview__code">
+					\e0f0
+				</td>
+				<td>icon_cloud_modernization</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_cloud_native_development"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_cloud_native_development"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0f1;
+				</td>
+				<td class="preview__code">
+					\e0f1
+				</td>
+				<td>icon_cloud_native_development</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_data_model_converter"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_data_model_converter"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0f2;
+				</td>
+				<td class="preview__code">
+					\e0f2
+				</td>
+				<td>icon_data_model_converter</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_doc"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_doc"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0f3;
+				</td>
+				<td class="preview__code">
+					\e0f3
+				</td>
+				<td>icon_doc</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_gif"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_gif"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0f4;
+				</td>
+				<td class="preview__code">
+					\e0f4
+				</td>
+				<td>icon_gif</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_jpeg"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_jpeg"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0f5;
+				</td>
+				<td class="preview__code">
+					\e0f5
+				</td>
+				<td>icon_jpeg</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_mainframe_modernization"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_mainframe_modernization"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0f6;
+				</td>
+				<td class="preview__code">
+					\e0f6
+				</td>
+				<td>icon_mainframe_modernization</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_pdf"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_pdf"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0f7;
+				</td>
+				<td class="preview__code">
+					\e0f7
+				</td>
+				<td>icon_pdf</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_png"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_png"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0f8;
+				</td>
+				<td class="preview__code">
+					\e0f8
+				</td>
+				<td>icon_png</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_ppt"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_ppt"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0f9;
+				</td>
+				<td class="preview__code">
+					\e0f9
+				</td>
+				<td>icon_ppt</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_report_an_issue"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_report_an_issue"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0fa;
+				</td>
+				<td class="preview__code">
+					\e0fa
+				</td>
+				<td>icon_report_an_issue</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_sort"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_sort"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0fb;
+				</td>
+				<td class="preview__code">
+					\e0fb
+				</td>
+				<td>icon_sort</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_xls"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_xls"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0fc;
+				</td>
+				<td class="preview__code">
+					\e0fc
+				</td>
+				<td>icon_xls</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_zip"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_zip"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0fd;
+				</td>
+				<td class="preview__code">
+					\e0fd
+				</td>
+				<td>icon_zip</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_medal"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_medal"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0fe;
+				</td>
+				<td class="preview__code">
+					\e0fe
+				</td>
+				<td>icon_medal</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Pin"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Pin"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe0ff;
+				</td>
+				<td class="preview__code">
+					\e0ff
+				</td>
+				<td>icon_Pin</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Pin_filled"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Pin_filled"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe100;
+				</td>
+				<td class="preview__code">
+					\e100
+				</td>
+				<td>icon_Pin_filled</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-add_to_briefcase"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-add_to_briefcase"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe101;
+				</td>
+				<td class="preview__code">
+					\e101
+				</td>
+				<td>icon-add_to_briefcase</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-bot"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-bot"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe102;
+				</td>
+				<td class="preview__code">
+					\e102
+				</td>
+				<td>icon-bot</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_4Cast360"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_4Cast360"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe103;
+				</td>
+				<td class="preview__code">
+					\e103
+				</td>
+				<td>icon_4Cast360</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Ashi"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Ashi"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe104;
+				</td>
+				<td class="preview__code">
+					\e104
+				</td>
+				<td>icon_Ashi</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_BestEstimate"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_BestEstimate"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe105;
+				</td>
+				<td class="preview__code">
+					\e105
+				</td>
+				<td>icon_BestEstimate</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_instagram"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_instagram"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe106;
+				</td>
+				<td class="preview__code">
+					\e106
+				</td>
+				<td>icon_instagram</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_LNC"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_LNC"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe107;
+				</td>
+				<td class="preview__code">
+					\e107
+				</td>
+				<td>icon_LNC</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_logout"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_logout"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe108;
+				</td>
+				<td class="preview__code">
+					\e108
+				</td>
+				<td>icon_logout</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_MoreLess"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_MoreLess"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe109;
+				</td>
+				<td class="preview__code">
+					\e109
+				</td>
+				<td>icon_MoreLess</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_OfferApproval"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_OfferApproval"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe10a;
+				</td>
+				<td class="preview__code">
+					\e10a
+				</td>
+				<td>icon_OfferApproval</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_OMS"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_OMS"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe10b;
+				</td>
+				<td class="preview__code">
+					\e10b
+				</td>
+				<td>icon_OMS</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_recall"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_recall"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe10c;
+				</td>
+				<td class="preview__code">
+					\e10c
+				</td>
+				<td>icon_recall</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Refresh"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Refresh"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe10d;
+				</td>
+				<td class="preview__code">
+					\e10d
+				</td>
+				<td>icon_Refresh</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Relief"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Relief"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe10e;
+				</td>
+				<td class="preview__code">
+					\e10e
+				</td>
+				<td>icon_Relief</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_ResidencePermit"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_ResidencePermit"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe10f;
+				</td>
+				<td class="preview__code">
+					\e10f
+				</td>
+				<td>icon_ResidencePermit</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_work_from_office"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_work_from_office"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe110;
+				</td>
+				<td class="preview__code">
+					\e110
+				</td>
+				<td>icon_work_from_office</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_mute_notification"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_mute_notification"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe111;
+				</td>
+				<td class="preview__code">
+					\e111
+				</td>
+				<td>icon_mute_notification</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_drag"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_drag"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe112;
+				</td>
+				<td class="preview__code">
+					\e112
+				</td>
+				<td>icon_drag</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 Icon_archive"></i>
+        <br />
+        <code> &lt;i class="icon x-24 Icon_archive"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe113;
+				</td>
+				<td class="preview__code">
+					\e113
+				</td>
+				<td>Icon_archive</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_feedback_darkgreen"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_feedback_darkgreen"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe114;
+				</td>
+				<td class="preview__code">
+					\e114
+				</td>
+				<td>icon_feedback_darkgreen</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_feedback_lightgreen"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_feedback_lightgreen"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe115;
+				</td>
+				<td class="preview__code">
+					\e115
+				</td>
+				<td>icon_feedback_lightgreen</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_feedback_orange"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_feedback_orange"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe116;
+				</td>
+				<td class="preview__code">
+					\e116
+				</td>
+				<td>icon_feedback_orange</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_feedback_red"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_feedback_red"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe117;
+				</td>
+				<td class="preview__code">
+					\e117
+				</td>
+				<td>icon_feedback_red</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_feedback_yellow"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_feedback_yellow"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe118;
+				</td>
+				<td class="preview__code">
+					\e118
+				</td>
+				<td>icon_feedback_yellow</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_AccountInsights"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_AccountInsights"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe119;
+				</td>
+				<td class="preview__code">
+					\e119
+				</td>
+				<td>icon_AccountInsights</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_Pricing"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_Pricing"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe11a;
+				</td>
+				<td class="preview__code">
+					\e11a
+				</td>
+				<td>icon_Pricing</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_TalentDashboard"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_TalentDashboard"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe11b;
+				</td>
+				<td class="preview__code">
+					\e11b
+				</td>
+				<td>icon_TalentDashboard</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_collapseLayout"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_collapseLayout"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe12f;
+				</td>
+				<td class="preview__code">
+					\e12f
+				</td>
+				<td>icon_collapseLayout</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_expandLayout"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_expandLayout"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe130;
+				</td>
+				<td class="preview__code">
+					\e130
+				</td>
+				<td>icon_expandLayout</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-backgroundverification"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-backgroundverification"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe131;
+				</td>
+				<td class="preview__code">
+					\e131
+				</td>
+				<td>icon-backgroundverification</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-dislike"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-dislike"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe132;
+				</td>
+				<td class="preview__code">
+					\e132
+				</td>
+				<td>icon-dislike</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon-microfeedback"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon-microfeedback"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe133;
+				</td>
+				<td class="preview__code">
+					\e133
+				</td>
+				<td>icon-microfeedback</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_list_view"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_list_view"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe134;
+				</td>
+				<td class="preview__code">
+					\e134
+				</td>
+				<td>icon_list_view</td>
+			</tr>-->
+
+    <ul class="icon-list">
+      <li class="w-grid-8-l">
+        <i class="icon x-24 icon_circle"></i>
+        <br />
+        <code> &lt;i class="icon x-24 icon_circle"&gt; &lt;/i&gt; </code>
+      </li>
+    </ul>
+    <!--<tr class="preview">
+				<td class="preview__icon">
+					<span class="icon"></span>
+				</td>
+				<td class="preview__code">
+					&amp;#xe135;
+				</td>
+				<td class="preview__code">
+					\e135
+				</td>
+				<td>icon_circle</td>
+			</tr>-->
+    <!--</tbody>
+	</table>-->
+  </body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "method": "{method}",
+  "biasType": "{biasType}",
+  "taskType": "{taskType}",
+  "fileid":"{fileid}",
+  "label": "{label}",
+  "trainingDataset": {
+    "id": 32,
+    "name": "{name}",
+    "fileType": "text/csv",
+    "path": {
+      "storage": "INFY_AICLD_NUTANIX",
+      "uri": "{trainingDatasetURL}"
+    },
+    "label": "{label}"
+  },
+  "predictionDataset": {
+    "id": 32,
+    "name": "{name}",
+    "fileType": "text/csv",
+    "path": {
+      "storage": "INFY_AICLD_NUTANIX",
+      "uri": "{predictionDatasetURL}"
+    },
+    "label": "{label}",
+    "predlabel": "{predLabel}"
+  },
+  "features": "{features}",
+  "categoricalAttributes": "{categoricalAttributes}",
+  "favourableOutcome": [
+    "{favourableOutcome}"
+  ],
+  "labelmaps": {
+    "{favourableOutcome}": 1,
+    "{unfavourableOutcome}": 0
+  },
+  "facet": "",
+  "outputPath": {
+    "storage": "INFY_AICLD_NUTANIX",
+    "uri": "responsible-ai//responsible-ai-fairness//"
+  }
+}

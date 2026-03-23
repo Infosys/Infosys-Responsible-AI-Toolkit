@@ -1,0 +1,160 @@
+.buttonMain {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: .75rem;
+    height: 28px;
+    min-width: fit-content;
+    background-color: black;
+    color: white;
+  }
+.buttonMain1 {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: .75rem;
+    height: 28px;
+    min-width: fit-content;
+    background-color: black;
+    color: white;
+  }
+  .mainLabel{
+    width: 100%;
+    color: #382261;
+    opacity: 70%;
+    padding: 0px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+  }
+  .InputPop{
+    height: 1.2rem !important;
+    font-size: 0.75rem!important;
+    font-family: 'Segoe UI' !important;
+    color: #7E7E7E !important;
+    width: 100%; 
+
+  }
+
+  .HeadingLabel {
+    color: #7E7E7E;
+    padding: 5px 0px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+  }
+ 
+  .styled-table {
+    /* margin-left: 1rem; */
+    width: 95%;
+    border-collapse: collapse;
+}
+.styled-table th.header {
+    /* Segoe UI, Semibold .75rem */
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    /* padding-top: 10px; */
+    padding-bottom: 10px;
+    padding-right: 10px;
+    /* background-color: #4CAF50; */
+    color: #382261;
+    opacity: 70%;
+    text-transform: uppercase;
+
+}
+.styled-table td {
+    /* Segoe UI, regular */
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    color: #061838;
+}
+.styled-table th {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+.pagination-label {
+    font-family: 'Segoe UI';
+    font-weight: 500 !important;
+    font-size: .60rem;
+    margin-right: 100px;
+  }
+  .pagination-info {
+      font-family: 'Segoe UI';
+      font-weight: 500 !important;
+      font-size: 12px;
+      color: #7E7E7E;
+  }
+  .close-button {
+    position: absolute;
+    top: 10px; 
+    right: 10px; 
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+.search-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 40px;
+    margin-top: -20px;
+  }
+.searchbar {
+    display: flex;
+    align-items: center;
+    width: 49px;
+    padding: 2px;
+    margin-right: 20px;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .searchbar input[type="text"] {
+    flex: 1;
+    padding: 2px;
+    border: none;
+    outline: none;
+    width: 0;
+    opacity: 0;
+    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+  
+  .searchbar.active {
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+  }
+  
+  .searchbar.active input[type="text"] {
+    width: 100%;
+    opacity: 1;
+  }
+  
+  .searchbar .searchicon {
+    margin-right: 5px;
+    cursor: pointer;
+  }
+  
+  .close-button1 {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  ::ng-deep .popover {
+    max-width: 400px; 
+    width: 400px; 
+  }
+  
+  ::ng-deep .popover .popover-body {
+    max-height: 400px; 
+    overflow-x:auto;
+  }
+  :host ::ng-deep .ngx-pagination .current {
+    background: #8626C3;
+  }
+  :host ::ng-deep .ngx-pagination a{
+    text-decoration: none;
+    font-weight: 500;
+  }

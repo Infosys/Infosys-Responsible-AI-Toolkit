@@ -1,0 +1,8 @@
+{
+    "key_a": {"key_a1": "My phone number is 212-121-1424"},
+    "key_b": {"key_b1": "My email is www.abc.com"},
+    "key_c": 3,
+    "names": ["James Bond", "Clark Kent", "Hakeem Olajuwon", "No name here!"],
+    "dob": "My dob is 12/12/1990",
+    "Place" : "My place is New York"
+}

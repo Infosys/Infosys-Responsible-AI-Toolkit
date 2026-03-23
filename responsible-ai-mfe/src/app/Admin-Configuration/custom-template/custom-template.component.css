@@ -1,0 +1,533 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.mat-primary {
+    color: #8626C3;
+}
+
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 5px 0px;
+    /* margin-bottom: 22px; */
+    margin-top: 5px;
+    font-weight: 600;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+}
+
+.inputMat1 {
+    /* top: 329px;
+left: 78px; */
+    width: 450px;
+    height: 61px;
+    /* UI Properties */
+    /* padding-top: 35px; */
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 0.30000001192092896px solid #707070;
+    border-radius: 4px;
+    opacity: 1;
+}
+
+.textareaPrompt {
+    font-family: 'Segoe UI';
+    font-size: 11px;
+    height: 200px;
+    box-shadow: none;
+    /* width: 320px;
+    height: 195px; */
+    /* margin-bottom: 1rem; */
+}
+
+.textareaPrompt1 {
+    font-family: 'Segoe UI';
+    font-size: 11px;
+    height: 100px;
+    box-shadow: none;
+    /* width: 320px;
+    height: 195px; */
+    /* margin-bottom: 1rem; */
+}
+
+.buttonMain {
+    align-self: center;
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: .75rem;
+    height: 26px !important;
+    width: 3.3rem;
+    /* margin: 1rem 0rem; */
+}
+
+.buttonMain2 {
+    align-self: center;
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: .75rem;
+    height: 26px !important;
+    width: fit-content;
+    /* margin: 1rem 0rem; */
+}
+
+
+/* .txtArea {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 115px;
+    padding-right: 30px;
+    width: 100%;
+} */
+
+.txtArea {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 115px;
+    padding-right: 30px;
+    width: 100%;
+}
+
+.actionBtn {
+    color: #8626C3;
+    border: none;
+    background: none;
+    font-size: 19px;
+    padding: 0px;
+    margin-top: 3px;
+    margin-right: 10px;
+}
+
+.sendIcon {
+    background: none;
+    color: #8626C3;
+    bottom: 0;
+    right: 0;
+    i {
+        font-size: 22px;
+    }
+}
+
+.resetIcon {
+    background: none;
+    color: #7E7E7E;
+    i {
+        font-size: 20px;
+    }
+}
+
+.styled-table {
+    /* margin-left: 1rem; */
+    width: 95%;
+    border-collapse: collapse;
+}
+
+.styled-table th.header {
+    /* Segoe UI, Semibold .75rem */
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    /* padding-top: 10px; */
+    padding-bottom: 10px;
+    padding-right: 10px;
+    /* background-color: #4CAF50; */
+    color: #382261;
+    opacity: 70%;
+    text-transform: uppercase;
+}
+
+.styled-table td {
+    /* Segoe UI, regular */
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    color: #061838;
+    justify-content: center;
+}
+
+.styled-table th {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+
+/* .matIcon {
+    margin-left: 25px;
+    font-size: 16px;
+} */
+
+.prompt_test {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 115px;
+    margin-top: 40px;
+    margin-left: 20px;
+    padding: 20px;
+    width: 40%;
+}
+
+.mainLabel {
+    color: #7E7E7E;
+    padding: 5px;
+    margin-top: 5px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.txtArea1 {
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    resize: none;
+    height: 100px;
+    padding-right: 30px;
+    width: 100%;
+}
+
+.promptSendIcon {
+    background: none;
+    color: #8626C3;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    i {
+        font-size: 22px;
+    }
+}
+
+.mainHeadng {
+    color: #382261;
+    padding: 0px;
+    margin-bottom: 0;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.mainHeadngSM {
+    color: #7E7E7E;
+    font-size: 11px;
+}
+
+.pagination-label {
+    font-family: 'Segoe UI';
+    font-weight: 500 !important;
+    font-size: .62rem;
+    margin-right: 100px;
+}
+
+.pagination-info {
+    font-family: 'Segoe UI';
+    font-weight: 500 !important;
+    font-size: 12px;
+    color: #7E7E7E;
+}
+
+.moderadio {
+    margin-right: 20px;
+}
+
+input[type='radio'] {
+    accent-color: #8626C3;
+}
+
+.popupLink {
+    color: #8626C3;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.tooltip-single-line .mat-tooltip {
+    max-width: none;
+    white-space: nowrap;
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.checkbox-text {
+    opacity: 70% !important;
+    color: #061838 !important;
+    font-family: 'Segoe UI' !important;
+    font-weight: 500 !important;
+    font-size: 0.64rem !important;
+}
+
+:host ::ng-deep .mat-mdc-checkbox label {
+    cursor: pointer;
+    opacity: 70% !important;
+    color: #061838 !important;
+    font-family: 'Segoe UI' !important;
+    font-weight: 500 !important;
+    font-size: 0.64rem !important;
+    margin-bottom: 0.2rem;
+}
+
+:host ::ng-deep.mat-mdc-checkbox.mat-primary {
+    --mdc-checkbox-selected-focus-icon-color: #8626C3;
+    --mdc-checkbox-selected-hover-icon-color: #8626C3;
+    --mdc-checkbox-selected-icon-color: #8626C3;
+    --mdc-checkbox-selected-pressed-icon-color: #8626C3;
+}
+
+:host::ng-deep .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background {
+    border-radius: 50%;
+}
+
+:host::ng-deep.mat-mdc-checkbox .mdc-checkbox__background .mat-checkbox-frame {
+    border-radius: 50%;
+}
+
+:host::ng-deep.mat-mdc-checkbox .mat-checkbox-frame {
+    border-radius: 50%;
+}
+
+:host::ng-deep.mat-checkbox-background svg {
+    display: none;
+}
+
+:host::ng-deep.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
+    border-radius: 50%;
+}
+
+.card1 {
+    border: 1px solid #707070;
+    border-radius: 8px;
+    /* background-color: #707070; */
+    /* padding: 16px; */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    /* margin: 0 auto ; */
+}
+
+.switch {
+    display: inline-block;
+}
+
+.switch input {
+    display: none;
+}
+
+.switch label {
+    display: block;
+    width: 40px;
+    height: 18px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 3px;
+    background-color: #E0DCEC;
+    margin: 0px 5px;
+}
+
+.switch label::after {
+    content: "";
+    display: inherit;
+    width: 13px;
+    height: 13px;
+    border-radius: 12px;
+    transition: 0.3s;
+    background-color: #8626C3;
+    border: 1.5px solid white;
+}
+
+.switch input:checked~label {
+    border-color: #ffffff;
+    background-color: #8626C3;
+}
+
+.switch input:checked~label::after {
+    translate: 20px 0;
+    background: #8626C3;
+    background-color: #E0DCEC;
+}
+
+.switch input:disabled~label {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.switch input:disabled:checked~label {
+    background-color: #aaaaaa;
+}
+
+.switch input:disabled~label::after {
+    background-color: #bbbbbb;
+}
+
+
+/* .textarea-container {
+    display: flex;
+  }
+  
+  .textarea-container textarea {
+    flex: 1;
+    margin-right: 10px;
+    height: 200px;
+  } */
+
+.textarea-container {
+    display: flex;
+    flex-direction: row;
+    margin-right: 20px;
+    height: 200px;
+}
+
+.textarea-label {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    width: 100%;
+}
+
+.textarea-label label {
+    margin-bottom: 5px;
+}
+
+.textarea-label textarea {
+    flex: 1;
+}
+
+.textarea-header {
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    /* padding-top: 10px; */
+    padding-bottom: 5px;
+    padding-right: 10px;
+    /* background-color: #4CAF50; */
+    color: #382261;
+    opacity: 70%;
+    text-transform: uppercase;
+}
+
+.InputPop {
+    height: 2.2rem !important;
+    font-size: 0.75rem!important;
+    font-family: 'Segoe UI' !important;
+    color: #7E7E7E !important;
+}
+
+ ::ng-deep.form-select {
+    width: 11rem;
+    height: 1.8rem;
+    font-size: 0.75rem;
+    margin-bottom: 0px !important;
+}
+
+::ng-deep.form-control {
+    margin-bottom: 0px !important;
+}
+
+.lableldivkeyspec {
+    width: 130px;
+}
+
+.warn {
+    font-family: 'Segoe UI';
+    font-size: 12px;
+}
+
+.mat-black {
+    color: white !important;
+    background-color: #231F20 !important;
+}
+
+.mat-reset {
+    color: white !important;
+    background-color: #BFBFBF !important;
+}
+
+.text-boxwidth {
+    width: 18rem !important;
+}
+
+.mat-primary3 {
+    color: #B10000;
+    /* background-color:#BFBFBF; */
+}
+
+.mat-primary4 {
+    color: #000000;
+    opacity: 59%;
+    /* background-color:#BFBFBF; */
+}
+
+::ng-deep.mat-mdc-icon-button.mat-mdc-button-base {
+    padding: 0%!important;
+}
+
+::ng-deep.mdc-icon-button {
+    padding: 0%!important;
+}
+
+
+/* SEARCH BAR */
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    width: 49px;
+    /* Adjust this to fit the search icon */
+    /* border: 1px solid #ccc;
+    border-radius: 4px; */
+    padding: 5px;
+    margin-right: 20px;
+    transition: width 0.3s ease-in-out;
+    /* Add transition for smooth animation */
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    padding: 5px;
+    border: none;
+    outline: none;
+    width: 0;
+    opacity: 0;
+    transition: width 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    /* Add transition for smooth animation */
+}
+
+.search-bar.active {
+    width: 300px;
+    /* Adjust this to your desired search bar width */
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    height: 35px;
+}
+
+.search-bar.active input[type="text"] {
+    width: 100%;
+    opacity: 1;
+}
+
+.search-bar .search-icon {
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 40px;
+    margin-top: -20px;
+    margin-bottom: 5px;
+}
+
+.close-button {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    /* margin-right: 230px; */
+}

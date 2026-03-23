@@ -1,0 +1,68 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.workbenchContainer {
+    width: 100%;
+}
+
+:host ::ng-deep.mdc-tab__text-label {
+    color: #382261 !important;
+    text-transform: uppercase;
+}
+
+:host ::ng-deep.mat-mdc-checkbox.mat-primary {
+    --mdc-checkbox-selected-focus-icon-color: #8626C3;
+    --mdc-checkbox-selected-hover-icon-color: #8626C3;
+    --mdc-checkbox-selected-icon-color: #8626C3;
+    --mdc-checkbox-selected-pressed-icon-color: #8626C3;
+}
+
+:host ::ng-deep.mat-mdc-tab:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline,
+.mat-mdc-tab-link:not(.mat-mdc-tab-disabled) .mdc-tab-indicator__content--underline {
+    border-color: #8626C3;
+}
+
+:host ::ng-deep.mdc-tab {
+    padding: 0px !important;
+    padding-right: 50px !important;
+    justify-content: start !important;
+}
+
+:host ::ng-deep.mdc-tab-indicator__content--underline {
+    width: 25%;
+    position: absolute;
+    left: 0;
+}
+
+:host ::ng-deep.mat-mdc-tab-group.mat-mdc-tab-group-stretch-tabs>.mat-mdc-tab-header .mat-mdc-tab {
+    flex-grow: initial;
+    height: 35px;
+}
+
+:host ::ng-deep.mat-mdc-tab-labels {
+    justify-content: end;
+}
+
+.tab-container {
+    width: 100%;
+    position: relative;
+}
+
+.topHeading {
+    position: absolute;
+    left: 0;
+    top: 0;
+    color: #4D4D4D;
+    font-weight: 400;
+    font-size: 24px;
+    font-family: 'Segoe UI';
+}
+
+.mat-tab-labels {
+    position: absolute;
+    right: 0;
+    top: 0;
+}

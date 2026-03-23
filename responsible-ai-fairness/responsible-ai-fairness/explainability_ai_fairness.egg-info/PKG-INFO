@@ -1,0 +1,7 @@
+Metadata-Version: 2.1
+Name: responsible-ai-fairness
+Version: 0.1.0
+Summary: AI Cloud Project Management Services
+Home-page: responsible_ai_fairness
+License: MIT
+Requires-Python: >=3.6

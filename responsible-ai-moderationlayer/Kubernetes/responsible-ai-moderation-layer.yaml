@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: responsible-ai-moderation-layer
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-moderation-layer
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: responsible-ai-moderation-layer
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: responsible-ai-moderation-layer
+        version: v1
+    spec:
+      automountServiceAccountToken: false  
+      imagePullSecrets:
+        - name: docker-secret
+      containers:
+      - name: responsible-ai-moderation-layer
+        image: <Image Name>
+        imagePullPolicy: Always
+        envFrom:
+          - configMapRef:
+              name: moderation-test-config
+        ports:
+          - containerPort: 8000
+        securityContext:
+          runAsUser: 0
+          seccompProfile:
+            type: RuntimeDefault
+        resources:
+          limits:
+            cpu: '2'
+            memory: '5Gi'

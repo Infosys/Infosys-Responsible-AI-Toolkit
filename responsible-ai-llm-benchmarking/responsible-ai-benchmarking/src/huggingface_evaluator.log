@@ -1,0 +1,377 @@
+
+2025-04-24 15:32:34,154:INFO:You appear to be connected to a CosmosDB cluster. For more information regarding feature compatibility and support please visit https://www.mongodb.com/supportability/cosmosdb
+2025-04-24 15:32:34,254:INFO:You appear to be connected to a CosmosDB cluster. For more information regarding feature compatibility and support please visit https://www.mongodb.com/supportability/cosmosdb
+2025-12-11 11:19:23,141:INFO:You appear to be connected to a CosmosDB cluster. For more information regarding feature compatibility and support please visit https://www.mongodb.com/supportability/cosmosdb
+2025-12-11 11:19:23,255:INFO:You appear to be connected to a CosmosDB cluster. For more information regarding feature compatibility and support please visit https://www.mongodb.com/supportability/cosmosdb
+2025-12-11 12:24:16,250:INFO:Downloading dataset.zip...
+2025-12-11 12:24:18,734:INFO:Dataset download successfully. dataset_name:dataset_12112025122415
+2025-12-11 12:31:35,535:INFO:Generation started......
+2025-12-11 12:31:35,543:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,544:INFO:Evaluation target model: 
+2025-12-11 12:31:35,544:INFO:Inhouse model
+2025-12-11 12:31:35,545:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,545:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,545:INFO:Evaluation target model: 
+2025-12-11 12:31:35,546:INFO:Inhouse model
+2025-12-11 12:31:35,546:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,546:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,546:INFO:Evaluation target model: 
+2025-12-11 12:31:35,546:INFO:Inhouse model
+2025-12-11 12:31:35,547:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,547:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,547:INFO:Evaluation target model: 
+2025-12-11 12:31:35,547:INFO:Inhouse model
+2025-12-11 12:31:35,548:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,548:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,548:INFO:Evaluation target model: 
+2025-12-11 12:31:35,548:INFO:Inhouse model
+2025-12-11 12:31:35,548:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,549:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,549:INFO:Evaluation target model: 
+2025-12-11 12:31:35,549:INFO:Inhouse model
+2025-12-11 12:31:35,549:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,549:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,550:INFO:Evaluation target model: 
+2025-12-11 12:31:35,550:INFO:Inhouse model
+2025-12-11 12:31:35,550:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,550:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,551:INFO:Evaluation target model: 
+2025-12-11 12:31:35,551:INFO:Inhouse model
+2025-12-11 12:31:35,551:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,551:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,551:INFO:Evaluation target model: 
+2025-12-11 12:31:35,552:INFO:Inhouse model
+2025-12-11 12:31:35,552:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,552:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,552:INFO:Evaluation target model: 
+2025-12-11 12:31:35,552:INFO:Inhouse model
+2025-12-11 12:31:35,553:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,553:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,554:INFO:Evaluation target model: 
+2025-12-11 12:31:35,554:INFO:Inhouse model
+2025-12-11 12:31:35,554:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,554:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,555:INFO:Evaluation target model: 
+2025-12-11 12:31:35,555:INFO:Inhouse model
+2025-12-11 12:31:35,556:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,556:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,556:INFO:Evaluation target model: 
+2025-12-11 12:31:35,556:INFO:Inhouse model
+2025-12-11 12:31:35,557:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,557:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,557:INFO:Evaluation target model: 
+2025-12-11 12:31:35,557:INFO:Inhouse model
+2025-12-11 12:31:35,558:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,558:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,558:INFO:Evaluation target model: 
+2025-12-11 12:31:35,558:INFO:Inhouse model
+2025-12-11 12:31:35,558:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,558:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,559:INFO:Evaluation target model: 
+2025-12-11 12:31:35,559:INFO:Inhouse model
+2025-12-11 12:31:35,559:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,559:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,560:INFO:Evaluation target model: 
+2025-12-11 12:31:35,560:INFO:Inhouse model
+2025-12-11 12:31:35,560:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,560:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,560:INFO:Evaluation target model: 
+2025-12-11 12:31:35,561:INFO:Inhouse model
+2025-12-11 12:31:35,561:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,561:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,561:INFO:Evaluation target model: 
+2025-12-11 12:31:35,561:INFO:Inhouse model
+2025-12-11 12:31:35,561:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,562:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,562:INFO:Evaluation target model: 
+2025-12-11 12:31:35,562:INFO:Inhouse model
+2025-12-11 12:31:35,562:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,563:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,563:INFO:Evaluation target model: 
+2025-12-11 12:31:35,563:INFO:Inhouse model
+2025-12-11 12:31:35,564:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,564:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,564:INFO:Evaluation target model: 
+2025-12-11 12:31:35,564:INFO:Inhouse model
+2025-12-11 12:31:35,565:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,565:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,565:INFO:Evaluation target model: 
+2025-12-11 12:31:35,565:INFO:Inhouse model
+2025-12-11 12:31:35,565:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,566:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,566:INFO:Evaluation target model: 
+2025-12-11 12:31:35,566:INFO:Inhouse model
+2025-12-11 12:31:35,567:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,567:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,567:INFO:Evaluation target model: 
+2025-12-11 12:31:35,567:INFO:Inhouse model
+2025-12-11 12:31:35,568:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,568:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,568:INFO:Evaluation target model: 
+2025-12-11 12:31:35,568:INFO:Inhouse model
+2025-12-11 12:31:35,568:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,574:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,575:INFO:Evaluation target model: 
+2025-12-11 12:31:35,575:INFO:Inhouse model
+2025-12-11 12:31:35,575:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,575:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,576:INFO:Evaluation target model: 
+2025-12-11 12:31:35,577:INFO:Inhouse model
+2025-12-11 12:31:35,577:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,577:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,577:INFO:Evaluation target model: 
+2025-12-11 12:31:35,577:INFO:Inhouse model
+2025-12-11 12:31:35,578:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,578:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 12:31:35,578:INFO:Evaluation target model: 
+2025-12-11 12:31:35,578:INFO:Inhouse model
+2025-12-11 12:31:35,578:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 12:31:35,579:INFO:Generation completed....
+2025-12-11 13:01:02,919:INFO:You appear to be connected to a CosmosDB cluster. For more information regarding feature compatibility and support please visit https://www.mongodb.com/supportability/cosmosdb
+2025-12-11 13:01:02,988:INFO:You appear to be connected to a CosmosDB cluster. For more information regarding feature compatibility and support please visit https://www.mongodb.com/supportability/cosmosdb
+2025-12-11 13:01:10,987:INFO:Generation started......
+2025-12-11 13:01:10,994:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:10,994:INFO:Evaluation target model: 
+2025-12-11 13:01:10,995:INFO:Inhouse model
+2025-12-11 13:01:10,996:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:10,996:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:10,997:INFO:Evaluation target model: 
+2025-12-11 13:01:10,997:INFO:Inhouse model
+2025-12-11 13:01:10,997:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:10,997:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:10,998:INFO:Evaluation target model: 
+2025-12-11 13:01:10,998:INFO:Inhouse model
+2025-12-11 13:01:10,998:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:10,998:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:10,999:INFO:Evaluation target model: 
+2025-12-11 13:01:10,999:INFO:Inhouse model
+2025-12-11 13:01:10,999:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,000:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,001:INFO:Evaluation target model: 
+2025-12-11 13:01:11,001:INFO:Inhouse model
+2025-12-11 13:01:11,002:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,003:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,004:INFO:Evaluation target model: 
+2025-12-11 13:01:11,004:INFO:Inhouse model
+2025-12-11 13:01:11,006:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,008:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,009:INFO:Evaluation target model: 
+2025-12-11 13:01:11,009:INFO:Inhouse model
+2025-12-11 13:01:11,009:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,010:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,010:INFO:Evaluation target model: 
+2025-12-11 13:01:11,010:INFO:Inhouse model
+2025-12-11 13:01:11,011:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,011:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,011:INFO:Evaluation target model: 
+2025-12-11 13:01:11,011:INFO:Inhouse model
+2025-12-11 13:01:11,011:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,012:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,012:INFO:Evaluation target model: 
+2025-12-11 13:01:11,012:INFO:Inhouse model
+2025-12-11 13:01:11,012:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,012:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,013:INFO:Evaluation target model: 
+2025-12-11 13:01:11,013:INFO:Inhouse model
+2025-12-11 13:01:11,013:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,013:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,013:INFO:Evaluation target model: 
+2025-12-11 13:01:11,013:INFO:Inhouse model
+2025-12-11 13:01:11,013:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,013:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,014:INFO:Evaluation target model: 
+2025-12-11 13:01:11,014:INFO:Inhouse model
+2025-12-11 13:01:11,014:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,014:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,014:INFO:Evaluation target model: 
+2025-12-11 13:01:11,014:INFO:Inhouse model
+2025-12-11 13:01:11,014:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,014:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,014:INFO:Evaluation target model: 
+2025-12-11 13:01:11,015:INFO:Inhouse model
+2025-12-11 13:01:11,015:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,015:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,015:INFO:Evaluation target model: 
+2025-12-11 13:01:11,015:INFO:Inhouse model
+2025-12-11 13:01:11,015:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,015:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,016:INFO:Evaluation target model: 
+2025-12-11 13:01:11,016:INFO:Inhouse model
+2025-12-11 13:01:11,016:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,016:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,016:INFO:Evaluation target model: 
+2025-12-11 13:01:11,016:INFO:Inhouse model
+2025-12-11 13:01:11,016:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,016:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,017:INFO:Evaluation target model: 
+2025-12-11 13:01:11,017:INFO:Inhouse model
+2025-12-11 13:01:11,017:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,017:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,017:INFO:Evaluation target model: 
+2025-12-11 13:01:11,017:INFO:Inhouse model
+2025-12-11 13:01:11,017:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,018:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,018:INFO:Evaluation target model: 
+2025-12-11 13:01:11,018:INFO:Inhouse model
+2025-12-11 13:01:11,018:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,018:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,018:INFO:Evaluation target model: 
+2025-12-11 13:01:11,018:INFO:Inhouse model
+2025-12-11 13:01:11,019:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,019:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,019:INFO:Evaluation target model: 
+2025-12-11 13:01:11,019:INFO:Inhouse model
+2025-12-11 13:01:11,019:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,019:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,019:INFO:Evaluation target model: 
+2025-12-11 13:01:11,020:INFO:Inhouse model
+2025-12-11 13:01:11,020:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,020:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,020:INFO:Evaluation target model: 
+2025-12-11 13:01:11,020:INFO:Inhouse model
+2025-12-11 13:01:11,020:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,020:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,021:INFO:Evaluation target model: 
+2025-12-11 13:01:11,021:INFO:Inhouse model
+2025-12-11 13:01:11,021:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,021:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,021:INFO:Evaluation target model: 
+2025-12-11 13:01:11,022:INFO:Inhouse model
+2025-12-11 13:01:11,022:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,022:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,022:INFO:Evaluation target model: 
+2025-12-11 13:01:11,022:INFO:Inhouse model
+2025-12-11 13:01:11,022:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,022:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,022:INFO:Evaluation target model: 
+2025-12-11 13:01:11,023:INFO:Inhouse model
+2025-12-11 13:01:11,023:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,023:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 13:01:11,023:INFO:Evaluation target model: 
+2025-12-11 13:01:11,023:INFO:Inhouse model
+2025-12-11 13:01:11,023:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 13:01:11,023:INFO:Generation completed....
+2025-12-11 14:42:18,139:INFO:You appear to be connected to a CosmosDB cluster. For more information regarding feature compatibility and support please visit https://www.mongodb.com/supportability/cosmosdb
+2025-12-11 14:42:18,221:INFO:You appear to be connected to a CosmosDB cluster. For more information regarding feature compatibility and support please visit https://www.mongodb.com/supportability/cosmosdb
+2025-12-11 14:45:36,973:INFO:Generation started......
+2025-12-11 14:45:36,978:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,978:INFO:Evaluation target model: 
+2025-12-11 14:45:36,979:INFO:Inhouse model
+2025-12-11 14:45:36,979:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,979:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,980:INFO:Evaluation target model: 
+2025-12-11 14:45:36,980:INFO:Inhouse model
+2025-12-11 14:45:36,980:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,981:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,981:INFO:Evaluation target model: 
+2025-12-11 14:45:36,981:INFO:Inhouse model
+2025-12-11 14:45:36,981:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,982:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,982:INFO:Evaluation target model: 
+2025-12-11 14:45:36,982:INFO:Inhouse model
+2025-12-11 14:45:36,984:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,984:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,984:INFO:Evaluation target model: 
+2025-12-11 14:45:36,985:INFO:Inhouse model
+2025-12-11 14:45:36,986:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,987:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,988:INFO:Evaluation target model: 
+2025-12-11 14:45:36,988:INFO:Inhouse model
+2025-12-11 14:45:36,989:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,989:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,989:INFO:Evaluation target model: 
+2025-12-11 14:45:36,990:INFO:Inhouse model
+2025-12-11 14:45:36,990:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,991:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,991:INFO:Evaluation target model: 
+2025-12-11 14:45:36,993:INFO:Inhouse model
+2025-12-11 14:45:36,993:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,994:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,994:INFO:Evaluation target model: 
+2025-12-11 14:45:36,995:INFO:Inhouse model
+2025-12-11 14:45:36,995:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,996:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,996:INFO:Evaluation target model: 
+2025-12-11 14:45:36,996:INFO:Inhouse model
+2025-12-11 14:45:36,997:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,997:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,998:INFO:Evaluation target model: 
+2025-12-11 14:45:36,998:INFO:Inhouse model
+2025-12-11 14:45:36,998:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,998:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:36,999:INFO:Evaluation target model: 
+2025-12-11 14:45:36,999:INFO:Inhouse model
+2025-12-11 14:45:36,999:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:36,999:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,001:INFO:Evaluation target model: 
+2025-12-11 14:45:37,003:INFO:Inhouse model
+2025-12-11 14:45:37,003:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,004:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,005:INFO:Evaluation target model: 
+2025-12-11 14:45:37,005:INFO:Inhouse model
+2025-12-11 14:45:37,006:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,006:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,006:INFO:Evaluation target model: 
+2025-12-11 14:45:37,007:INFO:Inhouse model
+2025-12-11 14:45:37,007:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,008:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,008:INFO:Evaluation target model: 
+2025-12-11 14:45:37,008:INFO:Inhouse model
+2025-12-11 14:45:37,009:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,009:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,009:INFO:Evaluation target model: 
+2025-12-11 14:45:37,009:INFO:Inhouse model
+2025-12-11 14:45:37,010:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,010:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,035:INFO:Evaluation target model: 
+2025-12-11 14:45:37,038:INFO:Inhouse model
+2025-12-11 14:45:37,038:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,039:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,039:INFO:Evaluation target model: 
+2025-12-11 14:45:37,039:INFO:Inhouse model
+2025-12-11 14:45:37,040:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,040:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,041:INFO:Evaluation target model: 
+2025-12-11 14:45:37,043:INFO:Inhouse model
+2025-12-11 14:45:37,044:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,045:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,045:INFO:Evaluation target model: 
+2025-12-11 14:45:37,047:INFO:Inhouse model
+2025-12-11 14:45:37,047:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,048:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,049:INFO:Evaluation target model: 
+2025-12-11 14:45:37,049:INFO:Inhouse model
+2025-12-11 14:45:37,049:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,050:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,050:INFO:Evaluation target model: 
+2025-12-11 14:45:37,050:INFO:Inhouse model
+2025-12-11 14:45:37,051:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,052:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,052:INFO:Evaluation target model: 
+2025-12-11 14:45:37,052:INFO:Inhouse model
+2025-12-11 14:45:37,053:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,053:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,054:INFO:Evaluation target model: 
+2025-12-11 14:45:37,054:INFO:Inhouse model
+2025-12-11 14:45:37,054:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,055:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,055:INFO:Evaluation target model: 
+2025-12-11 14:45:37,055:INFO:Inhouse model
+2025-12-11 14:45:37,056:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,056:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,056:INFO:Evaluation target model: 
+2025-12-11 14:45:37,056:INFO:Inhouse model
+2025-12-11 14:45:37,057:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,057:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,057:INFO:Evaluation target model: 
+2025-12-11 14:45:37,058:INFO:Inhouse model
+2025-12-11 14:45:37,058:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,058:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,058:INFO:Evaluation target model: 
+2025-12-11 14:45:37,059:INFO:Inhouse model
+2025-12-11 14:45:37,059:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,059:INFO:Beginning generation with Fairness evaluation at temperature 0.
+2025-12-11 14:45:37,059:INFO:Evaluation target model: 
+2025-12-11 14:45:37,061:INFO:Inhouse model
+2025-12-11 14:45:37,061:INFO:Invalid test_type. Please provide a valid test_type.
+2025-12-11 14:45:37,061:INFO:Generation completed....

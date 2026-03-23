@@ -1,0 +1,322 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.position-relative {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.optional-label {
+    padding-bottom: 7px;
+    position: absolute;
+    top: -14px;
+    right: 0;
+    font-size: 10px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+}
+
+.HeadingLabel2 {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-size: 8px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.HeadingCheckBoxLabel {
+    color: #7E7E7E;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+input[type='radio'] {
+    accent-color: #8626C3;
+}
+
+.drop-zone {
+    width: 180px;
+    height: 160px;
+    border: 2px dashed #dcdcdc;
+    /* Dashed border */
+    border-radius: 5px;
+    text-align: center;
+    color: #4a4a4a;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    position: relative;
+    padding: 23px;
+    overflow: hidden;
+}
+
+.drop-zone p {
+    margin-bottom: 20px;
+}
+
+.drop-zone input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.drop-zone p {
+    margin-bottom: 20px;
+}
+
+.browse-logo {
+    opacity: 70%;
+    width: 3.914 rem;
+    height: 2.739 rem;
+}
+
+.paragraph_dnd {
+    color: #9C9C9C;
+    opacity: 70%;
+    font-family: 'Segoe UI';
+    font-weight: regular;
+    font-size: 12px;
+}
+
+.high-light {
+    /* Segoe UI, Semibold .75rem */
+    font-family: 'Segoe UI';
+    font-weight: 600 !important;
+    font-size: .75rem;
+    color: #061838 !important;
+    opacity: 70% !important;
+}
+
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.mainBtn {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: 11px;
+    height: 24px;
+    width: 70px;
+}
+
+.resetButton {
+    width: 65px;
+}
+
+.mat-black {
+    color: white;
+    background-color: #231F20;
+}
+
+.mat-reset {
+    color: white;
+    background-color: #BFBFBF;
+}
+
+.button-container {
+    display: flex;
+    justify-content: right;
+}
+
+:host ::ng-deep.form-select {
+    width: 11rem;
+    height: 1.8rem;
+    font-size: 0.75rem;
+    margin-bottom: 1.1rem;
+}
+
+:host ::ng-deep.form-control {
+    width: 11rem;
+    height: 1.8rem;
+    font-size: 0.75rem;
+}
+
+:host ::ng-deep.cdk-overlay-backdrop.custom-backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    top: 57px;
+    width: 100%;
+    height: calc(100% - 57px);
+}
+
+.form-control-text {
+    width: 11rem;
+    height: 3.8rem;
+    font-size: 0.75rem;
+    margin-bottom: 1.1rem;
+    border-radius: var(--bs-border-radius);
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+.fileContainer {
+    width: 158px;
+}
+
+.HeadingLabelSM {
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    letter-spacing: 0px;
+    color: #382261;
+    text-transform: uppercase;
+}
+
+.cancel-button {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.cancel-button mat-icon {
+    color: white;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+
+.topHeading {
+    color: #4D4D4D;
+    font-weight: 400;
+    font-size: 24px;
+    font-family: 'Segoe UI';
+}
+
+.dnd-lable {
+    /* Segoe UI, Regular .75rem */
+    color: #9C9C9C;
+    opacity: 70%;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    font-size: .65rem;
+}
+
+.custom_image {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    transition: opacity 0.3s;
+}
+
+.mainLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    font-weight: 500;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+}
+
+.mainLabel2 {
+    color: #7E7E7E;
+    padding: 0px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.mainLabelSM2 {
+    font-size: 12px;
+}
+
+
+/* .form-select {
+    margin-top: 5px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: 10px;
+    height: 70px;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.3rem;
+  } */
+
+.shadow-none {
+    box-shadow: none;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+ ::ng-deep.dropdown1 {
+    max-width: 11rem;
+    width: 100%;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    padding: 0px 10px;
+    font-size: smaller;
+}
+
+::ng-deep.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+    background: #8626C3;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    /* Vertically center the items */
+    gap: 8px;
+    /* Optional: Adds spacing between the icon and the dropdown */
+}
+
+.smallIcon {
+    -webkit-user-select: none;
+    user-select: none;
+    background-repeat: no-repeat;
+    display: inline-block;
+    fill: currentColor;
+    overflow: hidden;
+    margin-top: 2px;
+    /* Optional: Adds space between the icon and the dropdown */
+}
+
+.icon-dropdown-container {
+    display: flex;
+    flex-direction: column;
+    /* Align elements vertically */
+    align-items: flex-end;
+    /* Align items to the right */
+    width: 100%;
+    /* Ensure the container spans the full width */
+}
+
+.optional-label2 {
+    font-size: 10px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+    margin-right: 5px;
+    /* Adjust the spacing as needed */
+}

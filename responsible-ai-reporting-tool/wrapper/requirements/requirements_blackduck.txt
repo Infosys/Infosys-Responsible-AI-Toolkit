@@ -1,0 +1,16 @@
+uvicorn
+pyyaml
+fastapi==0.99.1
+watchfiles
+requests==2.25
+python-multipart==0.0.5
+email-validator
+openpyxl
+pymongo
+python-dotenv
+pdfkit
+reportlab
+PyPDF2
+../lib/adversarial_robustness_toolbox-1.16.0-py3-none-any.whl
+#Un-Comment Below 1 lines and comment above 1 lines to run locally
+# ../lib/adversarial_robustness_toolbox-1.16.0-py3-none-any.whl

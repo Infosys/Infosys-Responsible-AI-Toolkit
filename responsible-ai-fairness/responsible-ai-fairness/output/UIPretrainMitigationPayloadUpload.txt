@@ -1,0 +1,43 @@
+{
+  "method": "ALL",
+  "mitigationType": "{mitigationType}",
+  "mitigationTechnique": "{mitigationTechnique}",
+  "biasType": "PRETRAIN",
+  "taskType": "{taskType}",
+  "filename":"{filename}",
+  "trainingDataset": {
+    "id": 32,
+    "name": "{trainFileName}",
+    "fileType": "text/csv",
+    "path": {
+      "storage": "INFY_AICLD_NUTANIX",
+      "uri": "{trainingDatasetURL}"
+    },
+    "label": "{label}"
+  },
+  "predictionDataset": {
+    "id": 32,
+    "name": "{testFileName}",
+    "fileType": "text/csv",
+    "path": {
+      "storage": "INFY_AICLD_NUTANIX",
+      "uri": "{predictionDatasetURL}"
+    },
+    "label": "{label}",
+    "predlabel": "labels_pred"
+  },
+  "features": "{features}",
+  "categoricalAttributes": "{categoricalAttributes}",
+  "favourableOutcome": [
+    "{favourableOutcome}"
+  ],
+  "labelmaps": {
+    "{favourableOutcome}": 1,
+    "{unfavourableOutcome}": 0
+  },
+  "facet": "",
+  "outputPath": {
+    "storage": "INFY_AICLD_NUTANIX",
+    "uri": "responsible-ai//responsible-ai-fairness//output_api.json"
+  }
+}

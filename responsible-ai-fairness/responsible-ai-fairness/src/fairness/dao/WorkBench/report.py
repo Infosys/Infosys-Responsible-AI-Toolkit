@@ -1,0 +1,57 @@
+"""
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
+
+from fairness.config.logger import CustomLogger
+from fairness.dao.WorkBench.databaseconnection import DataBase_WB
+from fastapi import HTTPException
+from dotenv import load_dotenv
+from pymongo.errors import InvalidDocument
+load_dotenv()
+
+log = CustomLogger()
+
+# Create a MongoDB database instance
+ModelWorkBenchconnection = DataBase_WB()
+ModelWorkBench=ModelWorkBenchconnection.db
+
+class Report:
+    
+    # Access the "Tbl_Model" collection in the RAIExplainDB MongoDB database
+    collection = ModelWorkBench["Report"]
+    
+    @staticmethod
+    def create(document):
+        # Check if document is not None
+        if document is None:
+            raise HTTPException(status_code=400, detail="Document must be a non-empty dictionary")
+        
+
+        # Insert the document into the collection
+        create_result = Report.collection.update_one({"BatchId": document["BatchId"]}, {"$set": document}, upsert=True)
+            
+            # Check if the insertion was acknowledged
+        if not create_result.acknowledged:
+            raise HTTPException(status_code=500, detail="Document could not be inserted")
+            
+        return create_result.acknowledged
+
+    def find(self,batch_id: float):
+        # Check if batch_id is not None and is a string
+        
+        if batch_id is None or not isinstance(batch_id, float):
+            raise HTTPException(status_code=500, detail="Batch ID is None")
+        
+        # Try to find the model by model_id in the database
+        result = self.collection.find_one({"BatchId": batch_id}, {"_id": 0, "ReportFileId": 1,"ReportName":1})
+        if result is None:
+            raise HTTPException(status_code=500, detail="Batch ID not found")
+        return result

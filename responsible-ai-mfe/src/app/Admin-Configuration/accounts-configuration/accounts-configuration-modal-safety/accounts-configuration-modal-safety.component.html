@@ -1,0 +1,92 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<div class="p-3 px-4 h-100">
+    <div class="d-flex justify-content-between align-items-center pb-4">
+        <p class="HeadingLabel2">Safety Parameters</p>
+        <button type="button" class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
+    </div>
+    <div>
+
+    </div>
+    <div *ngIf="isLoading" class="loading-spinner">
+        <!-- Add your loading spinner here -->
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+      </div>
+      <div *ngIf="isDataEmpty" class="alert alert-warning">
+        Value is not set. Create a mapping first.
+      </div>
+
+
+
+    <div  *ngIf="!isDataEmpty && isLoading == false">
+        <form [formGroup]="SafetyFormUpdateEntity" (ngSubmit)="updateSafetyFormEntity()">
+            <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+            <div class="row mb-3">
+                <div class="col">
+                    <div style="padding-left: 25px; width: 250px;">
+                        <div class="d-flex justify-content-between">
+                            <label style="padding-left: 0px; margin-bottom: 0px;">Drawings Threshold</label>
+                            <span>{{SafetyFormUpdateEntity.controls['drawingsThreshold'].value}}</span>
+                        </div>
+                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;"(change)="UpdateSafePars(SafetyFormUpdateEntity.controls['drawingsThreshold'].value,'drawings')">
+                            <input matSliderThumb #slider id="drawingsThreshold" formControlName="drawingsThreshold">
+                        </mat-slider>
+                    </div>
+                </div>
+                <div class="col">
+                    <div style="padding-left: 25px; width: 250px;">
+                        <div class="d-flex justify-content-between">
+                            <label style="padding-left: 0px; margin-bottom: 0px;">Hentai Threshold</label>
+                            <span>{{SafetyFormUpdateEntity.controls['hentaiThreshold'].value}}</span>
+                        </div>
+                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;" (change)="UpdateSafePars(SafetyFormUpdateEntity.controls['hentaiThreshold'].value,'hentai')">
+                            <input matSliderThumb #slider formControlName="hentaiThreshold">
+                        </mat-slider>
+                    </div>
+                </div>
+                <div class="col">
+                    <div style="padding-left: 25px; width: 250px;">
+                        <div class="d-flex justify-content-between">
+                            <label style="padding-left: 0px; margin-bottom: 0px;">Neutral Threshold</label>
+                            <span>{{SafetyFormUpdateEntity.controls['neutralThreshold'].value}}</span>
+                        </div>
+                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;" (change)="UpdateSafePars(SafetyFormUpdateEntity.controls['neutralThreshold'].value,'neutral')">
+                            <input matSliderThumb #slider formControlName="neutralThreshold">
+                        </mat-slider>
+                    </div>
+                </div>
+                <div class="col">
+                    <div style="padding-left: 25px; width: 250px;">
+                        <div class="d-flex justify-content-between">
+                            <label style="padding-left: 0px; margin-bottom: 0px;">Porn Threshold</label>
+                            <span>{{SafetyFormUpdateEntity.controls['pornThreshold'].value}}</span>
+                        </div>
+                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;" (change)="UpdateSafePars(SafetyFormUpdateEntity.controls['pornThreshold'].value,'porn')">
+                            <input matSliderThumb #slider formControlName="pornThreshold">
+                        </mat-slider>
+                    </div>
+                </div>
+                <div class="col">
+                    <div style="padding-left: 25px; width: 250px;">
+                        <div class="d-flex justify-content-between">
+                            <label style="padding-left: 0px; margin-bottom: 0px;">Sexy Threshold</label>
+                            <span>{{SafetyFormUpdateEntity.controls['sexyThreshold'].value}}</span>
+                        </div>
+                        <mat-slider [disabled]="disabled" [max]="max" [min]="min" [step]="step" [discrete]="thumbLabel" [showTickMarks]="showTicks" style="width: 100%;" (change)="UpdateSafePars(SafetyFormUpdateEntity.controls['sexyThreshold'].value,'sexy')">
+                            <input matSliderThumb #slider formControlName="sexyThreshold">
+                        </mat-slider>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="d-flex justify-content-center align-items-center ps-3">
+                <button mat-raised-button class="buttonMain align-bottom" style="margin-top: 14px;" color="black" type="submit">Submit</button></div> -->
+        </form>
+    </div>

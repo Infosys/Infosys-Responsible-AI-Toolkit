@@ -1,0 +1,129 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.styled-table {
+    /* margin-left: 1rem; */
+    width: 95%;
+    border-collapse: collapse;
+}
+
+.styled-table th.header {
+    /* Segoe UI, Semibold .75rem */
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 600;
+    /* padding-top: 10px; */
+    padding-bottom: 10px;
+    padding-right: 10px;
+    /* background-color: #4CAF50; */
+    color: #382261;
+    opacity: 70%;
+    text-transform: uppercase;
+}
+
+.styled-table td {
+    /* Segoe UI, regular */
+    font-size: 0.70rem;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    color: #061838;
+}
+
+.styled-table th {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.addDataBtn {
+    border: 1px solid #8626C3;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-weight: 200;
+    padding: 5px 10px;
+    background: none;
+    transition: background-color 0.3s ease;
+}
+
+.addDataBtn:hover {
+    background-color: #8626C3;
+    color: #fff;
+}
+
+.rfrshBtn {
+    color: #8626C3;
+    border: none;
+    background: none;
+    padding-top: 6px;
+    transition: transform 0.3s ease;
+}
+
+.rfrshBtn:active {
+    transform: rotate(90deg);
+}
+
+.dataTable-container {
+    width: 95%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 15px;
+    font-weight: 700;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.actionBtn {
+    color: #8626C3;
+    border: none;
+    background: none;
+    font-size: 19px;
+    padding: 0px;
+    margin-top: 3px;
+    margin-right: 10px;
+    margin-left: 25px;
+}
+
+.deleteButton{
+    color: rgb(200, 0, 0) !important;
+    border: none;
+    background: none;
+    font-size: 19px;
+    padding: 0px;
+    margin-top: 3px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.deleteButton mat-icon {
+    color: rgb(200, 0, 0) !important;
+}
+
+/* -----Pagination------- */
+
+.ngx-pagination .current {
+    background: #8626C3;
+}
+
+.ngx-pagination a {
+    text-decoration: none;
+}
+
+.pagination-label {
+    font-family: 'Segoe UI';
+    font-weight: 500 !important;
+    font-size: .60rem;
+    margin-right: 100px;
+}
+.pagination-info {
+    font-family: 'Segoe UI';
+    font-weight: 500 !important;
+    font-size: 12px;
+    color: #7E7E7E;
+}

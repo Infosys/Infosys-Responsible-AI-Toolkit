@@ -1,0 +1,545 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<div class="p-3 px-4 h-100">
+    <div class="d-flex justify-content-between align-items-center">
+        <p class="HeadingLabel2">Template Maping Parameters</p>
+        <button class="btn-close pb-2" aria-label="Close" (click)="closeDialog()"></button>
+    </div>
+    <div *ngIf="isDataEmpty" class="alert alert-warning">
+      Value is not set. Create a mapping first.
+    </div>
+    <div *ngIf="isLoading" class="loading-spinner">
+        <!-- Add your loading spinner here -->
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+        <ngx-skeleton-loader count="1" appearance="line" [theme]="{ 'height': '20px', 'margin-bottom': '10px' }"></ngx-skeleton-loader>
+      </div>
+    <div *ngIf="!isDataEmpty  && isLoading == false">
+
+        <!--  -->
+        <ng-template #content>
+            <!--  -->
+            <div>
+                <!-- Collapsible Section 1 -->
+                <mat-accordion>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Single Model
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <!-- <div> -->
+                      <!-- Content for Section 1 -->
+                       <!-- <label class="HeadingLabel">Single Model</label> -->
+                      <div class="elevated-card-outer">
+                        <div *ngFor="let row of singleModelCategories | chunk: 2">
+                            <div class="row">
+                                <div class="col" *ngFor="let subcategory of row">
+                                    <div class="heading-containerx">
+                                        <label class="HeadingLabelx">{{ subcategory }}</label>
+                                        <div *ngIf="subcategory === 'Model'">
+
+                                            <button mat-icon-button [ngbPopover]="popoverContentModel" [autoClose]="false"
+                                                triggers="manual" #p="ngbPopover" [popoverTitle]="PoptitleModel"
+                                                (click)="test(subcategory)"><mat-icon>edit</mat-icon></button>
+                                        </div>
+                                        <div *ngIf=" subcategory === 'Template'">
+
+                                            <button mat-icon-button [ngbPopover]="popoverContentTemplate" [autoClose]="false"
+                                                triggers="manual" #p2="ngbPopover" [popoverTitle]="PoptitleTemplate"
+                                                (click)="test(subcategory)"><mat-icon>edit</mat-icon></button>
+                                        </div>
+                                    </div>
+                                    <div class="elevated-card">
+                                        <table class="styled-table" *ngIf="singleModelArray && singleModelArray.length > 0">
+                                          <tr>
+                                            <th class="header">Request Template</th>
+                                            <th class="header">Response Template</th>
+                                          </tr>
+                                          <ng-container *ngFor="let element of singleModelArray | filterBySubcategory: subcategory">
+                                            <ng-container *ngIf="element.requestTemplate">
+                                              <ng-container *ngFor="let request of element.requestTemplate; let i = index">
+                                                <tr>
+                                                  <td>
+                                                    <label class="table-text">{{ request }}</label>
+                                                    <button mat-icon-button (click)="clickDeleteValue('SingleModel', subcategory, 'requestTemplate', request)" color="primary3">
+                                                      <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                  </td>
+                                                  <td *ngIf="element.responseTemplate && i < element.responseTemplate.length">
+                                                    <label class="table-text">{{ element.responseTemplate[i] }}</label>
+                                                    <button mat-icon-button (click)="clickDeleteValue('SingleModel', subcategory, 'responseTemplate', element.responseTemplate[i])" color="primary3">
+                                                      <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                  </td>
+                                                  <td *ngIf="!element.responseTemplate || i >= element.responseTemplate.length"></td>
+                                                </tr>
+                                              </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngIf="element.responseTemplate">
+                                              <ng-container *ngFor="let response of element.responseTemplate; let j = index">
+                                                <tr *ngIf="j >= element.requestTemplate.length">
+                                                  <td></td>
+                                                  <td>
+                                                    <label class="table-text">{{ response }}</label>
+                                                    <button mat-icon-button (click)="clickDeleteValue('SingleModel', subcategory, 'responseTemplate', response)" color="primary3">
+                                                      <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                  </td>
+                                                </tr>
+                                              </ng-container>
+                                            </ng-container>
+                                          </ng-container>
+                                        </table>
+                                        <div *ngIf="!singleModelArray || singleModelArray.length === 0">
+                                          No data available for Single Model.
+                                        </div>
+                                      </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                  </mat-expansion-panel>
+                </mat-accordion>
+
+                <!-- Collapsible Section 2 -->
+                <mat-accordion>
+                  <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        Multi Model
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div>
+                      <!-- Content for Section 2 -->
+                      <!-- <label class="HeadingLabel"></label> -->
+                      <div class="elevated-card-outer">
+                          <div *ngFor="let row of multiModelCategories | chunk: 2">
+                              <div class="row">
+                                  <div class="col" *ngFor="let subcategory of row">
+                                      <div class="heading-containerx">
+                                          <label class="HeadingLabelx">{{ subcategory }}</label>
+
+                                          <div *ngIf="subcategory === 'TextTemplate'">
+                                              <button mat-icon-button [ngbPopover]="popoverContentTextTemplate"
+                                                  [autoClose]="false" triggers="manual" #p3="ngbPopover"
+                                                  [popoverTitle]="PoptitleTextTemplate" (click)="test(subcategory)">
+                                                  <mat-icon>edit</mat-icon>
+                                              </button>
+                                          </div>
+                                          <div *ngIf="subcategory === 'TextModel'">
+                                              <button mat-icon-button [ngbPopover]="popoverContentTextModel" [autoClose]="false"
+                                                  triggers="manual" #p4="ngbPopover" [popoverTitle]="PoptitleTextModel"
+                                                  (click)="test(subcategory)">
+                                                  <mat-icon>edit</mat-icon>
+                                              </button>
+                                          </div>
+                                          <div *ngIf="subcategory === 'ImageTemplate'">
+                                              <button mat-icon-button [ngbPopover]="popoverContentImageTemplate"
+                                                  [autoClose]="false" triggers="manual" #p5="ngbPopover"
+                                                  [popoverTitle]="PoptitleImageTemplate" (click)="test(subcategory)">
+                                                  <mat-icon>edit</mat-icon>
+                                              </button>
+                                          </div>
+                                          <div *ngIf="subcategory === 'ImageModel'">
+                                              <button mat-icon-button [ngbPopover]="popoverContentImageModel" [autoClose]="false"
+                                                  triggers="manual" #p6="ngbPopover" [popoverTitle]="PoptitleImageModel"
+                                                  (click)="test(subcategory)">
+                                                  <mat-icon>edit</mat-icon>
+                                              </button>
+                                          </div>
+
+                                      </div>
+                                      <div class="elevated-card">
+                                        <table class="styled-table" *ngIf="multiModelArray && multiModelArray.length > 0">
+                                          <tr>
+                                            <th class="header">Request Template</th>
+                                            <th class="header">Response Template</th>
+                                          </tr>
+                                          <ng-container *ngFor="let element of multiModelArray | filterBySubcategory: subcategory">
+                                            <ng-container *ngIf="element.requestTemplate">
+                                              <ng-container *ngFor="let request of element.requestTemplate; let i = index">
+                                                <tr>
+                                                  <td>
+                                                    <label class="table-text">{{ request }}</label>
+                                                    <button mat-icon-button (click)="clickDeleteValue('MultiModel', subcategory, 'requestTemplate', request)" color="primary3">
+                                                      <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                  </td>
+                                                  <td *ngIf="element.responseTemplate && i < element.responseTemplate.length">
+                                                    <label class="table-text">{{ element.responseTemplate[i] }}</label>
+                                                    <button mat-icon-button (click)="clickDeleteValue('MultiModel', subcategory, 'responseTemplate', element.responseTemplate[i])" color="primary3">
+                                                      <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                  </td>
+                                                  <td *ngIf="!element.responseTemplate || i >= element.responseTemplate.length"></td>
+                                                </tr>
+                                              </ng-container>
+                                            </ng-container>
+                                            <ng-container *ngIf="element.responseTemplate">
+                                              <ng-container *ngFor="let response of element.responseTemplate; let j = index">
+                                                <tr *ngIf="j >= element.requestTemplate.length">
+                                                  <td></td>
+                                                  <td>
+                                                    <label class="table-text">{{ response }}</label>
+                                                    <button mat-icon-button (click)="clickDeleteValue('MultiModel', subcategory, 'responseTemplate', response)" color="primary3">
+                                                      <mat-icon>delete</mat-icon>
+                                                    </button>
+                                                  </td>
+                                                </tr>
+                                              </ng-container>
+                                            </ng-container>
+                                          </ng-container>
+                                        </table>
+                                        <div *ngIf="!multiModelArray || multiModelArray.length === 0">
+                                          No data available for Multi Model.
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </div>
+
+            <!--  -->
+
+
+
+
+            <!--  -->
+
+            <!-- Popover for Model -->
+            <ng-template #popoverContentModel>
+                <!-- single model -->
+                <div class="card card-width">
+                    <div class="card-body">
+                        <h5 class="card-title mainLabel2">Model Details</h5>
+                        <div>
+                            <div class="d-flex" style="margin-bottom: 1rem;">
+                                <label class="mainLabel"
+                                    style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                <mat-select #selectModelRequest1 multiple id="selectModelRequest1" class="dropdown"
+                                    [(ngModel)]="selectedModelRequest" placeholder="Select Request:">
+                                    <div class="select-all">
+                                        <mat-checkbox (change)="toggleAllSelectionModelRequest1($event)"
+                                            color="primary">Select All</mat-checkbox>
+                                    </div>
+                                    <mat-option (click)="updateSelectionStatusModelRequest1()" class="dropdownOptions"
+                                        *ngFor="let attack of RequestTextDropDownArr" [value]="attack"
+                                        [disabled]="SinglemodelSubCetegories[0]?.requestTemplate.includes(attack)">
+                                        {{attack}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                            <div class="d-flex" style="margin-bottom: 1rem;">
+                                <label class="mainLabel"
+                                    style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
+                                <mat-select #selectModelResponse1 multiple id="selectModelResponse1" class="dropdown"
+                                    [(ngModel)]="selectedModelResponse" placeholder="Select Response:">
+                                    <div class="select-all">
+                                        <mat-checkbox (change)="toggleAllSelectionModelResponse1($event)"
+                                            color="primary">Select All</mat-checkbox>
+                                    </div>
+                                    <mat-option (click)="updateSelectionStatusModelResponse1()" class="dropdownOptions"
+                                        *ngFor="let attack of ResponseTextDropDownArr" [value]="attack"
+                                        [disabled]="SinglemodelSubCetegories[0]?.responseTemplate.includes(attack)">
+                                        {{attack}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button mat-raised-button type='submit' class='buttonMain' color="black" (click)="p.close()"
+                    (click)="submitSingleModelx('Model')">Submit</button>
+            </ng-template>
+            <ng-template #PoptitleModel>
+                <div class="d-flex">
+                    <label class="HeadingLabel">Model</label>
+                    <button (click)="p.close()" style="border: none; background: none; cursor: pointer;">
+                        <span class="material-icons" style="font-size: 20px;">close</span>
+                    </button>
+                </div>
+            </ng-template>
+
+            <!-- Popover for Template -->
+            <ng-template #popoverContentTemplate>
+                <!-- single Template -->
+                <div class="card card-width">
+                    <div class="card-body">
+                        <h5 class="card-title mainLabel2">Template Details</h5>
+                        <div>
+                            <div class="d-flex" style="margin-bottom: 1rem;">
+                                <label class="mainLabel"
+                                    style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                <mat-select #selectTemplateRequest1 multiple id="selectTemplateRequest1"
+                                    class="dropdown" [(ngModel)]="selectedTemplateRequest"
+                                    placeholder="Select Request:">
+                                    <div class="select-all">
+                                        <mat-checkbox (change)="toggleAllSelectionTemplateRequest1($event)"
+                                            color="primary">Select All</mat-checkbox>
+                                    </div>
+                                    <mat-option (click)="updateSelectionStatusTemplateRequest1()"
+                                        class="dropdownOptions" *ngFor="let attack of RequestSingleTemplateDropDownArr"
+                                        [value]="attack"
+                                        [disabled]="SingletemplateSubCategories[0]?.requestTemplate.includes(attack)">
+                                        {{attack}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                            <div class="d-flex" style="margin-bottom: 1rem;">
+                                <label class="mainLabel"
+                                    style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
+                                <mat-select #selectTemplateResponse1 multiple id="selectTemplateResponse1"
+                                    class="dropdown" [(ngModel)]="selectedTemplateResponse"
+                                    placeholder="Select Response:">
+                                    <div class="select-all">
+                                        <mat-checkbox (change)="toggleAllSelectionTemplateResponse1($event)"
+                                            color="primary">Select All</mat-checkbox>
+                                    </div>
+                                    <mat-option (click)="updateSelectionStatusTemplateResponse1()"
+                                        class="dropdownOptions" *ngFor="let attack of ResponseSingleTemplateDropDownArr"
+                                        [value]="attack"
+                                        [disabled]="SingletemplateSubCategories[0]?.responseTemplate.includes(attack)">
+                                        {{attack}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button mat-raised-button type='submit' class='buttonMain' color="black" (click)="p2.close()"
+                    (click)="submitSingleModelx('Template')">Submit</button>
+            </ng-template>
+            <ng-template #PoptitleTemplate>
+                <div class="d-flex">
+                    <label class="HeadingLabel">Template</label>
+                    <button (click)="p2.close()" style="border: none; background: none; cursor: pointer;">
+                        <span class="material-icons" style="font-size: 20px;">close</span>
+                    </button>
+                </div>
+            </ng-template>
+
+            <!-- Popover for TextTemplate -->
+            <ng-template #popoverContentTextTemplate>
+                <!-- Multiple Text template -->
+                <div class="card card-width">
+                    <div class="card-body">
+                        <h5 class="card-title mainLabel2">TextTemplate Details</h5>
+                        <div>
+                            <div class="d-flex" style="margin-bottom: 1rem;">
+                                <label class="mainLabel"
+                                    style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                <mat-select #selectTextTemplateRequest1 multiple id="selectTextTemplateRequest1"
+                                    class="dropdown" [(ngModel)]="selectedTextTemplateRequest"
+                                    placeholder="Select Request:">
+                                    <div class="select-all">
+                                        <mat-checkbox (change)="toggleAllSelectionTextTemplateRequest1($event)"
+                                            color="primary">Select All</mat-checkbox>
+                                    </div>
+                                    <mat-option (click)="updateSelectionStatusTextTemplateRequest1()"
+                                        class="dropdownOptions" *ngFor="let attack of RequestSingleTemplateDropDownArr"
+                                        [value]="attack"
+                                        [disabled]="TextTemplateCategories[0]?.requestTemplate.includes(attack)">
+                                        {{attack}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                            <div class="d-flex" style="margin-bottom: 1rem;">
+                                <label class="mainLabel"
+                                    style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
+                                <mat-select #selectTextTemplateResponse1 multiple id="selectTextTemplateResponse1"
+                                    class="dropdown" [(ngModel)]="selectedTextTemplateResponse"
+                                    placeholder="Select Response:">
+                                    <div class="select-all">
+                                        <mat-checkbox (change)="toggleAllSelectionTextTemplateResponse1($event)"
+                                            color="primary">Select All</mat-checkbox>
+                                    </div>
+                                    <mat-option (click)="updateSelectionStatusTextTemplateResponse1()"
+                                        class="dropdownOptions" *ngFor="let attack of ResponseSingleTemplateDropDownArr"
+                                        [value]="attack"
+                                        [disabled]="TextTemplateCategories[0]?.responseTemplate.includes(attack)">
+                                        {{attack}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button mat-raised-button type='submit' class='buttonMain' color="black" (click)="p3.close()"
+                    (click)="submitMultiModelx('TextTemplate')">Submit</button>
+            </ng-template>
+            <ng-template #PoptitleTextTemplate>
+                <div class="d-flex">
+                    <label class="HeadingLabel">TextTemplate</label>
+                    <button (click)="p3.close()" style="border: none; background: none; cursor: pointer;">
+                        <span class="material-icons" style="font-size: 20px;">close</span>
+                    </button>
+                </div>
+            </ng-template>
+
+            <!-- Popover for TextModel -->
+            <ng-template #popoverContentTextModel>
+                <!-- Multiple text model -->
+                <div class="card card-width">
+                    <div class="card-body">
+                        <h5 class="card-title mainLabel2">TextModel Details</h5>
+                        <div>
+                            <div class="d-flex" style="margin-bottom: 1rem;">
+                                <label class="mainLabel"
+                                    style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                <mat-select #selectTextModelRequest1 multiple id="selectTextModelRequest1"
+                                    class="dropdown" [(ngModel)]="selectedTextModelRequest"
+                                    placeholder="Select Request:">
+                                    <div class="select-all">
+                                        <mat-checkbox (change)="toggleAllSelectionTextModelRequest1($event)"
+                                            color="primary">Select All</mat-checkbox>
+                                    </div>
+                                    <mat-option (click)="updateSelectionStatusTextModelRequest1()"
+                                        class="dropdownOptions" *ngFor="let attack of RequestSingleModelDropDownArr"
+                                        [value]="attack"
+                                        [disabled]="TextModelCategories[0]?.requestTemplate.includes(attack)">
+                                        {{attack}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                            <div class="d-flex" style="margin-bottom: 1rem;">
+                                <label class="mainLabel"
+                                    style="margin-bottom: 2px; margin-right: 10px;">Response:</label>
+                                <mat-select #selectTextModelResponse1 multiple id="selectTextModelResponse1"
+                                    class="dropdown" [(ngModel)]="selectedTextModelResponse"
+                                    placeholder="Select Response:">
+                                    <div class="select-all">
+                                        <mat-checkbox (change)="toggleAllSelectionTextModelResponse1($event)"
+                                            color="primary">Select All</mat-checkbox>
+                                    </div>
+                                    <mat-option (click)="updateSelectionStatusTextModelResponse1()"
+                                        class="dropdownOptions" *ngFor="let attack of ResponseSingleModelDropDownArr"
+                                        [value]="attack"
+                                        [disabled]="TextModelCategories[0]?.responseTemplate.includes(attack)">
+                                        {{attack}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button mat-raised-button type='submit' class='buttonMain' color="black" (click)="p4.close()"
+                    (click)="submitMultiModelx('TextModel')">Submit</button>
+            </ng-template>
+            <ng-template #PoptitleTextModel>
+                <div class="d-flex">
+                    <label class="HeadingLabel">TextModel</label>
+                    <button (click)="p4.close()" style="border: none; background: none; cursor: pointer;">
+                        <span class="material-icons" style="font-size: 20px;">close</span>
+                    </button>
+                </div>
+            </ng-template>
+
+            <!-- Popover for ImageTemplate -->
+            <ng-template #popoverContentImageTemplate>
+                <!-- multiple Image Template -->
+                <div class="card card-width">
+                    <div class="card-body">
+                        <h5 class="card-title mainLabel2">ImageTemplate Details</h5>
+                        <div>
+                            <div class="d-flex" style="margin-bottom: 1rem;">
+                                <label class="mainLabel"
+                                    style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                <mat-select #selectImageTemplateRequest1 multiple id="selectImageTemplateRequest1"
+                                    class="dropdown" [(ngModel)]="selectedImageTemplateRequest"
+                                    placeholder="Select Request:">
+                                    <div class="select-all">
+                                        <mat-checkbox (change)="toggleAllSelectionImageTemplateRequest1($event)"
+                                            color="primary">Select All</mat-checkbox>
+                                    </div>
+                                    <mat-option (click)="updateSelectionStatusImageTemplateRequest1()"
+                                        class="dropdownOptions"
+                                        *ngFor="let attack of RequestMultipleTemplateDropDownArr" [value]="attack"
+                                        [disabled]="ImageTemplateCategories[0]?.requestTemplate.includes(attack)">
+                                        {{attack}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button mat-raised-button type='submit' class='buttonMain' color="black" (click)="p5.close()"
+                    (click)="submitMultiModelx('ImageTemplate')">Submit</button>
+            </ng-template>
+            <ng-template #PoptitleImageTemplate>
+                <div class="d-flex">
+                    <label class="HeadingLabel">ImageTemplate</label>
+                    <button (click)="p5.close()" style="border: none; background: none; cursor: pointer;">
+                        <span class="material-icons" style="font-size: 20px;">close</span>
+                    </button>
+                </div>
+            </ng-template>
+
+            <!-- Popover for ImageModel -->
+            <ng-template #popoverContentImageModel>
+                <!-- Multiple Image Model -->
+                <div class="card card-width">
+                    <div class="card-body">
+                        <h5 class="card-title mainLabel2">ImageModel Details</h5>
+                        <div>
+                            <div class="d-flex" style="margin-bottom: 1rem;">
+                                <label class="mainLabel"
+                                    style="margin-bottom: 2px; margin-right: 10px;">Request:</label>
+                                <mat-select #selectImageModelRequest1 multiple id="selectImageModelRequest1"
+                                    class="dropdown" [(ngModel)]="selectedImageModelRequest"
+                                    placeholder="Select Request:">
+                                    <div class="select-all">
+                                        <mat-checkbox (change)="toggleAllSelectionImageModelRequest1($event)"
+                                            color="primary">Select All</mat-checkbox>
+                                    </div>
+                                    <mat-option (click)="updateSelectionStatusImageModelRequest1()"
+                                        class="dropdownOptions"
+                                        *ngFor="let attack of RequestMultipleImageModelDropDownArr" [value]="attack"
+                                        [disabled]="ImageModelCategories[0]?.requestTemplate.includes(attack)">
+                                        {{attack}}
+                                    </mat-option>
+                                </mat-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button mat-raised-button type='submit' class='buttonMain' color="black" (click)="p6.close()"
+                    (click)="submitMultiModelx('ImageModel')">Submit</button>
+            </ng-template>
+            <ng-template #PoptitleImageModel>
+                <div class="d-flex">
+                    <label class="HeadingLabel">ImageModel</label>
+                    <button (click)="p6.close()" style="border: none; background: none; cursor: pointer;">
+                        <span class="material-icons" style="font-size: 20px;">close</span>
+                    </button>
+                </div>
+            </ng-template>
+
+            <div style="height: 30px;">
+
+            </div>
+
+        </ng-template>
+
+        <!-- Single button to trigger the popovers -->
+        <!-- <button mat-raised-button class="buttonMain" color="black" (click)="test(subcategory)">Open Popover</button> -->
+
+
+        <div *ngIf="isLoading; else content">
+            <!-- <ngx-skeleton-loader count="1" appearance="circle" [theme]="{ width: '40px', height: '40px' }"></ngx-skeleton-loader> -->
+            <ngx-skeleton-loader count="5" appearance="line"
+                [theme]="{ height: '20px', 'margin-top': '10px' }"></ngx-skeleton-loader>
+        </div>
+
+

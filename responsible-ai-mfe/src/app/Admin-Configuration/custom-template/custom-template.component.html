@@ -1,0 +1,189 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<!-- aditya code restructure -->
+<form [formGroup]="CustomTemplateForm" class="d-flex flex-column">
+    <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+    <div style="width: 100%;">
+        <div class="d-flex">
+            <!-- first row -->
+            <div class="lableldivkeyspec">
+                <label for="select1" class="HeadingLabel" style="font-size: 12px;">Category :</label>
+            </div>
+            <div>
+                <!-- radio buttons -->
+                <div class="d-flex ">
+                    <div class="d-flex align-items-center moderadio">
+                        <input type="radio" id="Shared" value="SingleModel" formControlName="category">
+                        <label for="Shared" class="mainLabel labelXS">Single Model</label><br>
+                    </div>
+                    <div class=" align-items-center moderadio">
+                        <input type="radio" id="Private" value="MultiModel" formControlName="category" [disabled]="formupdatedisbaled" [checked]="isRoleAdmin">
+                        <label for="Private" class="mainLabel labelXS">Multi Model</label>
+                    </div>
+                    <span style="color: red;" class="warn" *ngIf="modeValidation || CustomTemplateForm.get('category')?.invalid && CustomTemplateForm.get('category')?.touched">
+                        Please select an option.
+                    </span>
+                </div>
+            </div>
+        </div>
+        <!--  -->
+        <div class="d-flex">
+            <!-- first row -->
+            <div class="lableldivkeyspec">
+                <label for="select1" class="HeadingLabel" style="font-size: 12px;">Mode :</label>
+            </div>
+            <div>
+                <!-- radio buttons -->
+                <div class="d-flex ">
+                    <div class="d-flex align-items-center moderadio">
+                        <input type="radio" id="Shared" value="Master_Template" formControlName="mode">
+                        <label for="Shared" class="mainLabel labelXS">Master Template</label><br>
+                    </div>
+                    <div class=" align-items-center moderadio">
+                        <input type="radio" id="Private" value="Private_Template" formControlName="mode" [disabled]="formupdatedisbaled" [checked]="isRoleAdmin">
+                        <label for="Private" class="mainLabel labelXS">Private Template</label>
+                    </div>
+                    <span style="color: red;" class="warn" *ngIf="modeValidation || CustomTemplateForm.get('mode')?.invalid && CustomTemplateForm.get('mode')?.touched">
+                        Please select an option.
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex" style="width: 100%;">
+            <!-- Content for row 2 -->
+            <div class="lableldivkeyspec">
+                <label for="select1" class="HeadingLabel" style="font-size: 12px;">Template Name :</label>
+            </div>
+            <div style="padding-top: 10px;">
+                <input class="form-control InputPop text-boxwidth" [(ngModel)]="newTemplateName" formControlName="TemplateName" [disabled]="true" type="text" placeholder="Template Name" aria-label="Template Name" (click)="Check()">
+                <span style="color: red;" class="warn" *ngIf="isTemplateNameExists(newTemplateName)">
+                    Template name already exists!
+                </span>
+                <span style="color: red; " class="warn" *ngIf="templateNameValidation || CustomTemplateForm.get('TemplateName')?.invalid && CustomTemplateForm.get('TemplateName')?.touched">
+                    Template name is required!
+                </span>
+            </div>
+        </div>
+
+        <div class="d-flex" style="width: 100%;">
+            <!-- Content for row 3 -->
+            <div class="lableldivkeyspec">
+                <label for="select1" class="HeadingLabel" style="font-size: 12px;">Description :</label>
+            </div>
+            <div style="padding-top: 10px;">
+                <textarea class="form-control shadow-none textareaPrompt1 text-boxwidth " rows="8" name="prompt" formControlName="TemplateDesc" ngModel></textarea>
+                <span style="color: red;" class="warn" *ngIf="templateDescValidation || (CustomTemplateForm.get('TemplateDesc')?.invalid && CustomTemplateForm.get('TemplateDesc')?.touched)">
+                    Description is required!
+                </span>
+            </div>
+        </div>
+        <div class="d-flex">
+            <!-- Content for row 4 -->
+            <div class="lableldivkeyspec">
+                <label for="select1" class="HeadingLabel" style="font-size: 12px;">Template Data :</label>
+            </div>
+            <div>
+                <div class="position-relative" style="margin-top: 10px;">
+
+
+                    <div class="textarea-container">
+                        <div class="textarea-label">
+                            <label for="textarea1" class="textarea-header">Prompting instructions</label>
+                            <textarea id="textarea1" class="form-control  txtArea shadow-none" formControlName="promtInstruction"></textarea>
+                        </div>
+                        <div class="textarea-label">
+                            <label for="textarea2" class="textarea-header">evaluation criteria</label>
+                            <textarea id="textarea2" class="form-control  txtArea shadow-none" formControlName="evalutionCriteria"></textarea>
+                        </div>
+                        <div class="textarea-label">
+                            <label for="textarea3" class="textarea-header">few shot examples</label>
+                            <textarea id="textarea3" class="form-control  txtArea shadow-none" formControlName="fewShotExample"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div style="margin-left: 130px;">
+            <div class="pt-2">
+                <button mat-raised-button class="buttonMain me-1" color="reset" (click)="resetData()">Reset</button>
+                <button mat-raised-button class="buttonMain me-1" color="black" [disabled]="showSpinner" (click)="save()">
+                    <div class="spinner-border text-light" style="font-size: 10px;width: 15px;height: 15px;"
+                        role="status" *ngIf="showSpinner">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                    <span *ngIf="!showSpinner && !updatecall">Submit</span>
+                    <span *ngIf="!showSpinner && updatecall">Update</span>
+                </button>
+                <button mat-raised-button class="buttonMain2 me-1" color="black" (click)="triggerParentClick()">Template
+                    Config</button>
+            </div>
+        </div>
+
+    </div>
+
+</form>
+
+
+<div style="margin-bottom: 50px;">
+    <div style="width: 75%; padding-top: 50px;">
+        <div class="search-container">
+            <label class="HeadingLabel">Available Template</label>
+            <div class="search-bar" [class.active]="isSearchOpen">
+                <mat-icon class="search-icon" (click)="toggleSearch()">search</mat-icon>
+                <input type="text" placeholder="Search TEMPLATE NAME" [(ngModel)]="searchQuery" (input)="search()" />
+                <button class="close-button" *ngIf="isSearchOpen" (click)="closeSearch()">
+                <mat-icon class="close-icon">close</mat-icon>
+            </button></div>
+        </div>
+        <table class="styled-table">
+            <tr>
+                <th class="header">TEMPLATE NAME</th>
+
+                <th class="header">Mode</th>
+                <!-- <th class="header">Template Type</th> -->
+                <!-- <th class="header">Test</th> -->
+                <th class="header">Template Data</th>
+
+                <th class="header"> ACTION</th>
+            </tr>
+            <tr *ngFor="let element of dataSource_getBatches| paginate : pagingConfig; let i = index">
+                <td>{{element.templateName}}</td>
+
+                <td>{{element.mode}}</td>
+
+                <td>
+
+                    <!--  -->
+                    <button mat-icon-button color="primary4" matTooltip="View/Edit" (click)="populateCustomtemFrom(element.subTemplates,element.templateName,element.mode,element.templateType,element.userId,element.description,element.category)"><mat-icon>
+                        edit
+                    </mat-icon>
+                </button>
+                </td>
+
+                <td>
+                    <button mat-icon-button color="primary3" matTooltip="Delete" (click)="deleteConfirmationModel(element.templateId)"><mat-icon>
+                        delete
+                    </mat-icon>
+                </button>
+                </td>
+            </tr>
+        </table>
+        <div class="d-flex justify-content-between mt-3">
+            <div class="pagination-info">
+                Showing {{ pagingConfig.totalItems
+                < pagingConfig.itemsPerPage ? pagingConfig.totalItems : pagingConfig.itemsPerPage }} of {{ pagingConfig.totalItems }} </div>
+                    <pagination-controls class="pagination-label" previousLabel="Prev" nextLabel="Next" (pageChange)="onTableDataChange($event)">
+                    </pagination-controls>
+            </div>
+        </div>
+
+
+    </div>
+    <div>
+
+    </div>

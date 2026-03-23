@@ -1,0 +1,627 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.position-relative {
+    position: relative;
+}
+
+.optional-label {
+    padding-bottom: 7px;
+    position: absolute;
+    top: -14px;
+    right: 10px;
+    font-size: 10px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+}
+.optional-label2 {
+    padding-bottom: 7px;
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    font-size: 10px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+}
+.HeadingLabelsm {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-size: 11px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+    margin-top: 0px;
+}
+
+.card-img {
+    width: 200px;
+    height: 250px;
+}
+
+.card-img1 {
+    width: 275px;
+    height: 300px;
+}
+
+.outputCard {
+    width: 200px;
+    height: 250px;
+}
+
+.analyseCard {
+    background-color: #474747;
+    font-size: small;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mat-reset {
+    color: white;
+    background-color: #BFBFBF;
+}
+
+.mat-black {
+    color: white;
+    background-color: #231F20;
+}
+
+.mat-white {
+    color: white;
+}
+
+.btnMain {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: 11px;
+    height: 24px;
+    width: 70px;
+}
+
+.rstButton {
+    width: 65px;
+}
+
+.textareaPrompt {
+    font-family: 'Segoe UI';
+    font-size: 11px;
+    height: 140px;
+    /* margin-bottom: 1rem; */
+}
+
+.inputField {
+    width: 140px;
+    font-size: 12px;
+}
+
+input[type='radio'] {
+    accent-color: #8626C3;
+}
+
+textarea:focus,
+input[type="text"]:focus,
+.uneditable-input:focus {
+    border-color: #8626C3;
+    /* box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(126, 239, 104, 0.6); */
+    /* outline: 0 none; */
+}
+
+.checkbox-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.select-contatiner1 {
+    margin-right: 2.438rem;
+    /* max-width: max-content; */
+    flex: 1;
+    position: relative;
+}
+
+.select-contatiner2 {
+    display: flex;
+    flex-direction: column;
+}
+
+.HeadingCheckBoxLabel {
+    color: #7E7E7E;
+    padding: 8px;
+    margin-bottom: 0px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.checkbox-text {
+    opacity: 70% !important;
+    color: #061838 !important;
+    font-family: 'Segoe UI' !important;
+    font-weight: 500 !important;
+    font-size: 0.75rem !important;
+}
+
+:host ::ng-deep .mat-mdc-checkbox label {
+    cursor: pointer;
+    opacity: 70% !important;
+    color: #061838 !important;
+    font-family: 'Segoe UI' !important;
+    font-weight: 500 !important;
+    font-size: 0.75rem !important;
+    margin-bottom: 0.2rem;
+}
+
+:host::ng-deep .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background {
+    border-radius: 50%;
+}
+
+:host::ng-deep.mat-mdc-checkbox .mdc-checkbox__background .mat-checkbox-frame {
+    border-radius: 50%;
+}
+
+:host::ng-deep.mat-mdc-checkbox .mat-checkbox-frame {
+    border-radius: 50%;
+}
+
+:host::ng-deep.mat-checkbox-background svg {
+    display: none;
+}
+
+:host::ng-deep.mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
+    border-radius: 50%;
+}
+
+.actionBtn {
+    color: #8626C3;
+    border: none;
+    background: none;
+    font-size: 19px;
+    padding-left: 135px;
+    margin-top: 3px;
+    margin-right: 10px;
+}
+
+.activeTab {
+    color: #8626C3;
+    position: relative;
+}
+
+.activeTab::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 2%;
+    border-bottom: 2px solid #8626C3;
+}
+
+.outerResultCard {
+    box-shadow: 0 2px 4px #00000029 !important;
+    border: none;
+    margin-left: 1px;
+    background: #efefef;
+    border-radius: 14px;
+    min-height: 250px;
+    height: fit-content;
+    Width: auto;
+}
+
+.cardA {
+    color: black;
+    padding: 5px;
+    background-color: #ececec;
+    border-radius: 8px;
+}
+
+.cardB {
+    flex: 1;
+}
+
+.card-header-outerResultCard {
+    background: none;
+    border: none;
+    padding-bottom: 0px;
+}
+
+.innerResultCard {
+    border-radius: 14px;
+    box-shadow: 0 1px 4px #00000016 !important;
+    background: #ffffff;
+    border: none;
+}
+
+
+/* .cursor-pointer {
+    cursor: pointer;
+  } */
+
+.headingTop {
+    color: #292929;
+    padding: 0px;
+    margin-bottom: 0;
+    font-weight: 500;
+    font-size: 14px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.close {
+    font-size: 2.2rem;
+    color: #292929;
+    font-weight: 400;
+}
+
+.mainLabel {
+    color: #292929;
+    padding: 0px;
+    font-weight: 500;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+}
+
+.mainLabelSM {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.mainLabelLight {
+    font-weight: 400;
+}
+
+.fixed-height-card {
+    height: 150px;
+    overflow-y: auto;
+}
+
+.custom-badge {
+    color: rgb(31, 31, 31);
+    font-size: 0.68rem;
+    background-color: rgb(219, 219, 219);
+    display: flex;
+    align-items: center;
+    padding: 0px 7px;
+    border-radius: 4px;
+    height: 20px;
+}
+
+.custom-badge-passed {
+    color: rgb(20 83 45);
+    background-color: rgb(220 252 231);
+}
+
+.custom-badge-failed {
+    color: rgb(255 0 78);
+    background-color: rgb(255 228 230);
+}
+
+.custom-badge-yellow {
+    background-color: #fff3d6;
+    color: #f9a701;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.toggle-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+    color: #8626C3;
+    background: none;
+    border: none;
+    font-size: larger;
+}
+
+.sendIcon {
+    margin-top: 65px;
+    padding: 0px !important;
+    background: none;
+    color: #8626C3;
+    bottom: 0;
+    right: 0;
+    i {
+        font-size: 22px;
+    }
+}
+
+.icon-container {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.shimmer-loader {
+    margin-top: 25px;
+    height: 225px;
+    width: 800px;
+    background: #edeeef;
+    background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #edeef1 60%, #f6f7f8 80%, #f6f7f8 100%);
+    background-repeat: no-repeat;
+    background-size: 800px 300px;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    animation: shimmer 3s infinite linear;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -450px 0;
+        /* Start further out to the left */
+    }
+    100% {
+        background-position: 300px 0;
+        /* End further out to the right */
+    }
+}
+
+.meter-container {
+    position: relative;
+    width: 125px;
+    /* Set the width of the meter to 100px */
+    margin-top: 0px;
+}
+
+.meter {
+    display: flex;
+    height: 20px;
+    width: 100%;
+    /* Ensure the meter takes the full width of the container */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    background: linear-gradient(to right, green, yellow, red);
+}
+
+.meter-section {
+    flex: 1;
+}
+
+.indicator {
+    position: absolute;
+    bottom: -20px;
+    width: 60px;
+    text-align: center;
+    font-weight: bold;
+    color: #fff;
+    border-radius: 5px;
+    padding: 2px;
+    /* Reduce the padding to decrease the height */
+    font-size: 10px;
+    /* Reduce the font size */
+    background-color: black;
+    /* Set the background color of the indicator to black */
+}
+
+.indicator::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    /* Position the pointer above the indicator */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid black;
+    /* Create the pointer */
+}
+
+.indicator.low {
+    left: -10%;
+}
+
+.indicator.medium {
+    left: 28%;
+}
+
+.indicator.high {
+    left: 60%;
+}
+
+.resetIcon {
+    padding: 0px !important;
+    background: none;
+    color: #7E7E7E;
+    i {
+        font-size: 20px;
+    }
+}
+
+.explain-img-card {
+    margin-right: 20px;
+    min-width: max-content;
+    width: max-content;
+    max-height: max-content;
+    height: max-content;
+}
+
+
+/* image xplain card styles */
+
+.custom-card-container {
+    display: flex;
+    /* flex-wrap: wrap; */
+    gap: .2rem;
+    width: 100%;
+}
+
+.custom-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    flex: 1;
+    min-width: 120px;
+    overflow: hidden;
+    margin: 0.5rem;
+}
+
+.custom-card-header {
+    background-color: #f8f9fa;
+    padding-left: .5rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+    border-bottom: 1px solid #ddd;
+    justify-content: space-between;
+}
+
+.custom-card-title {
+    /* font-size: 1rem;
+    color: #303030; */
+    margin: 0;
+}
+
+.custom-card-body {
+    padding-left: .55rem;
+    padding-top: .5rem;
+    padding-bottom: .5rem;
+}
+
+.custom-card-text {
+    /* color: #232323; */
+    /* font-size: 14px; */
+    margin: 0;
+}
+
+.custom-span {
+    background-color: #ffffff;
+    font-size: 10px;
+    font-family: 'Segoe UI';
+    padding: 2px 4px;
+    /* Optional: Add some padding for better readability */
+    border-radius: 4px;
+    /* Optional: Add rounded corners */
+}
+
+ ::ng-deep .mat-tooltip.custom-tooltip {
+    white-space: nowrap;
+    /* Prevents text from wrapping */
+    max-width: none;
+    /* Removes the default max-width */
+    overflow: visible;
+    /* Ensures the tooltip is fully visible */
+}
+
+
+/*  */
+
+.mainLabel2 {
+    color: #7E7E7E;
+    padding: 0px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.mainLabelSM2 {
+    font-size: 12px;
+}
+
+.cancel-button {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.cancel-button mat-icon {
+    color: white;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+
+.icon-pointer {
+    cursor: pointer;
+}
+
+:host::ng-deep.mat-mdc-tooltip {
+    text-align: left;
+    overflow: auto !important;
+}
+.pill-button {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 4px 8px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    /* text-transform: uppercase; */
+    transition: color 0.3s ease;
+}
+
+.pill-button.active {
+    background-color: #8626c34a;
+    color: black;
+    font-weight: 600;
+}
+
+.item-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1.33px solid #ccc;
+}
+
+.item-list li:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    /* height: 1px; */
+    background-color: #ddd;
+}
+.list-item {
+    padding: 4px;
+    /* background-color: #f0f0f0; */
+    cursor: pointer;
+    font-size: 11px;
+    font-family: 'Segoe UI';
+    /* text-transform: uppercase; */
+    transition: color 0.3s ease;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /* border-bottom: 1.33px solid #ccc; */
+    font-weight: 500;
+    border-radius: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: #7e7e7e2e;
+}
+
+.list-item hr {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin-top: 2px;
+}
+
+.list-item:hover {
+    background-color: #8626c34a;
+    border-color: #8626c34a;
+}

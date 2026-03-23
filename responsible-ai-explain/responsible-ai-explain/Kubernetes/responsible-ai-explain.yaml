@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: responsible-ai-explain-test
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-explain-test
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8002
+  selector:
+    app: responsible-ai-explain-test
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: responsible-ai-explain-test
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-explain-test
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: responsible-ai-explain-test
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: responsible-ai-explain-test
+        version: v1
+    spec:
+      automountServiceAccountToken: false # Disable token mounting
+      imagePullSecrets:
+         - name: docker-secret
+      containers:
+      - name: responsible-ai-explain-test
+        envFrom:
+        - configMapRef:
+            name: explain-cosmos-test-config
+        image: <Image Name>
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8002
+        securityContext:
+            runAsUser: 1000  # Non-root user
+            runAsGroup: 1000
+            capabilities:
+              drop:
+                - ALL  # Drop all capabilities
+          runAsUser: 0
+        resources:
+          limits:
+            cpu: '2'
+            memory: '5Gi'

@@ -1,0 +1,61 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: responsible-ai-fairness-test
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-fairness-test
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+  selector:
+    app: responsible-ai-fairness-test
+---
+apiVersion: apps/v1
+kind: Deployment
+seccompProfile:
+type: "RuntimeDefault"
+automountServiceAccountToken: false
+metadata:
+  name: responsible-ai-fairness-test
+  namespace: irai-toolkit-test
+  labels:
+    app: responsible-ai-fairness-test
+    version: v1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: responsible-ai-fairness-test
+      version: v1
+  template:
+    metadata:
+      labels:
+        app: responsible-ai-fairness-test
+        version: v1
+    spec:
+      automountServiceAccountToken: false # Disable token mounting
+      imagePullSecrets:
+         - name: docker-secret
+      containers:
+        - envFrom:
+          - configMapRef:
+              name: fairness-config
+          image: <Image Name>
+          imagePullPolicy: Always
+          name: responsible-ai-fairness-test
+          ports:
+            - containerPort: 8000
+          securityContext:
+            seccompProfile:
+              type: "RuntimeDefault"
+            runAsUser: 1000  # Non-root user
+            runAsGroup: 1000
+            capabilities:
+              drop:
+                - ALL  # Drop all capabilities
+          resources:
+            limits:
+                cpu: '2'
+                memory: '4Gi'

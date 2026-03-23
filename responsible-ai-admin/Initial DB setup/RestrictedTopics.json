@@ -1,0 +1,61 @@
+[{
+  "_id": "counter",
+  "seq": 19
+},{
+  "_id": 1,
+  "name": "Terrorism"
+},{
+  "_id": 2,
+  "name": "Explosives"
+},{
+  "_id": 3,
+  "name": "Nudity"
+},{
+  "_id": 4,
+  "name": "Sexual Content"
+},{
+  "_id": 5,
+  "name": "Cruelty"
+},{
+  "_id": 6,
+  "name": "Cheating"
+},{
+  "_id": 7,
+  "name": "Fraud"
+},{
+  "_id": 8,
+  "name": "Crime"
+},{
+  "_id": 9,
+  "name": "Hacking"
+},{
+  "_id": 10,
+  "name": "Security Breach"
+},{
+  "_id": 11,
+  "name": "Immoral"
+},{
+  "_id": 12,
+  "name": "Cyberattack"
+},{
+  "_id": 13,
+  "name": "Exam Misconduct"
+},{
+  "_id": 14,
+  "name": "Conspiracy"
+},{
+  "_id": 15,
+  "name": "Unethical"
+},{
+  "_id": 16,
+  "name": "Illegal"
+},{
+  "_id": 17,
+  "name": "Robbery"
+},{
+  "_id": 18,
+  "name": "Forgery"
+},{
+  "_id": 19,
+  "name": "Misinformation"
+}]

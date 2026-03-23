@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./src/rai_backend"
+    ]
+}

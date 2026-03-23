@@ -1,0 +1,18 @@
+fastapi
+uvicorn 
+python-jose[cryptography]
+passlib[bcrypt]
+PyYAML>=5.3.1
+httpcore
+pymongo
+requests>=2.23.0
+python-dotenv
+passlib
+python-jose
+bcrypt
+email-validator
+Werkzeug==1.0.1
+requests
+#lib/aicloudlibs-0.1.0-py3-none-any.whl
+# ../lib/aicloudlibs-0.1.0-py3-none-any.whl  # Un-Comment this line and comment above line to run locally
+

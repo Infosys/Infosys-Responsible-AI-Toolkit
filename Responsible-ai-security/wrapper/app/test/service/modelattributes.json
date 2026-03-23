@@ -1,0 +1,50 @@
+[
+    {
+        "ModelAttributeName": "appExplanationMethods",
+        "TenetId": 1.1
+    },
+    {
+        "ModelAttributeName": "modelEndPoint",
+        "TenetId": 0.0
+    },
+    {
+        "ModelAttributeName": "appAttacks",
+        "TenetId": 3.3
+    },
+    {
+        "ModelAttributeName": "useModelApi",
+        "TenetId": 0.0
+    },
+    {
+        "ModelAttributeName": "targetDataType",
+        "TenetId": 0.0
+    },
+    {
+        "ModelAttributeName": "taskType",
+        "TenetId": 0.0
+    },
+    {
+        "ModelAttributeName": "targetClassifier",
+        "TenetId": 0.0
+    },
+    {
+        "ModelAttributeName": "data",
+        "TenetId": 0.0
+    },
+    {
+        "ModelAttributeName": "prediction",
+        "TenetId": 0.0
+    },
+    {
+        "ModelAttributeName": "modelFramework",
+        "TenetId": 0.0
+    },
+    {
+        "ModelAttributeName": "algorithm",
+        "TenetId": 0.0
+    },
+    {
+        "ModelAttributeName": "fileName",
+        "TenetId": 0.0
+    }
+]

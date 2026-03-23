@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html><head></head><body><div class="main-panel wiki-content">
+<div class="description">
+<div class="header-wrapper" style="max-width: initial">
+<!-- breadcrumbs could be implemented and inserted here -->
+<div></div>
+
+</div>
+<div class="header-wrapper">
+<div class="title-wrapper">
+<div class="title">
+<h1 style="display: flex; align-items: center;">
+                                        Privacy - Comprehensive Guide of Privacy
+                                    </h1>
+</div>
+<div class="row" style="display: flex;padding: 0; ">
+
+</div>
+</div>
+</div>
+<div class="content-wrapper">
+<style>@media (prefers-color-scheme: dark) { }</style>
+<div class="toc-macro client-side-toc-macro conf-macro output-block" data-cssliststyle="none" data-hasbody="false" data-headerelements="H1,H2,H3,H4,H5,H6" data-layout="default" data-local-id="b290e72e-55b5-459d-acc5-463a9be3c31f" data-macro-id="a92a4062-4b07-4ae8-9176-a9af2bbd00c1" data-macro-name="toc" data-numberedoutline="false" data-structure="list">
+<style>[data-colorid=z08vkp20ky]{color:#0747a6} html[data-color-mode=dark] [data-colorid=z08vkp20ky]{color:#5999f8}[data-colorid=wixxudhtg0]{color:#0747a6} html[data-color-mode=dark] [data-colorid=wixxudhtg0]{color:#5999f8}[data-colorid=zq0ylg8ghl]{color:#0747a6} html[data-color-mode=dark] [data-colorid=zq0ylg8ghl]{color:#5999f8}[data-colorid=h1nw9uvqow]{color:#0747a6} html[data-color-mode=dark] [data-colorid=h1nw9uvqow]{color:#5999f8}[data-colorid=alg31tgr54]{color:#0747a6} html[data-color-mode=dark] [data-colorid=alg31tgr54]{color:#5999f8}[data-colorid=f3u0ftzpcw]{color:#0747a6} html[data-color-mode=dark] [data-colorid=f3u0ftzpcw]{color:#5999f8}[data-colorid=jyq13dk86k]{color:#0747a6} html[data-color-mode=dark] [data-colorid=jyq13dk86k]{color:#5999f8}[data-colorid=iq04jj0d4i]{color:#0747a6} html[data-color-mode=dark] [data-colorid=iq04jj0d4i]{color:#5999f8}[data-colorid=pdggsezenk]{color:#0747a6} html[data-color-mode=dark] [data-colorid=pdggsezenk]{color:#5999f8}[data-colorid=wf9vs2x5ce]{color:#0747a6} html[data-color-mode=dark] [data-colorid=wf9vs2x5ce]{color:#5999f8}[data-colorid=lpsqbde7r3]{color:#0747a6} html[data-color-mode=dark] [data-colorid=lpsqbde7r3]{color:#5999f8}[data-colorid=ew2x56tuq4]{color:#0747a6} html[data-color-mode=dark] [data-colorid=ew2x56tuq4]{color:#5999f8}[data-colorid=hy91d4o0vu]{color:#0747a6} html[data-color-mode=dark] [data-colorid=hy91d4o0vu]{color:#5999f8}[data-colorid=pfexc83l44]{color:#0747a6} html[data-color-mode=dark] [data-colorid=pfexc83l44]{color:#5999f8}[data-colorid=b4odcwomqg]{color:#0747a6} html[data-color-mode=dark] [data-colorid=b4odcwomqg]{color:#5999f8}</style>
+<ul>
+<li><a class="not-blank" href="#InfosysResponsibleAItoolkitExplanationofPrivacyFeatures"><span data-colorid="z08vkp20ky">Infosys Responsible AI toolkit - Explanation of Privacy Features</span></a></li>
+<li><a class="not-blank" href="#Overview"><span data-colorid="zq0ylg8ghl">Overview</span></a></li>
+<li><a class="not-blank" href="#KeyFeaturesandBenefits"><span data-colorid="h1nw9uvqow">Key Features and Benefits</span></a></li>
+<li><a class="not-blank" href="#TechnicalDetailsandImplementation"><span data-colorid="pdggsezenk">Technical Details and Implementation:</span></a></li>
+<li><a class="not-blank" href="#DetailedLookAtOurPrivacyModules"><span data-colorid="alg31tgr54">Detailed Look At Our Privacy Modules</span></a>
+<ul>
+<li><a class="not-blank" href="#ListofMethodsforUnstructuredTextData">List of Methods for Unstructured Text Data</a>
+<ul>
+<li><a class="not-blank" href="#TextAnalyze">Text Analyze</a></li>
+<li><a class="not-blank" href="#TextAnonymize">Text Anonymize</a></li>
+<li><a class="not-blank" href="#Encrypt">Encrypt</a></li>
+<li><a class="not-blank" href="#Decrypt">Decrypt</a></li>
+</ul></li>
+<li><a class="not-blank" href="#ListofMethodsforImageData"><span data-colorid="jyq13dk86k">List of Methods for Image Data </span></a>
+<ul>
+<li><a class="not-blank" href="#ImageMasking">Image Masking</a>
+<ul>
+<li><a class="not-blank" href="#ImageAnalyze">Image Analyze</a></li>
+<li><a class="not-blank" href="#ImageAnonymize">Image Anonymize</a></li>
+<li><a class="not-blank" href="#Hashify">Hashify</a></li>
+</ul></li>
+<li><a class="not-blank" href="#DicomMasking">Dicom Masking</a>
+<ul>
+<li><a class="not-blank" href="#DicomAnonymize">Dicom Anonymize</a></li>
+</ul></li>
+</ul></li>
+<li><a class="not-blank" href="#ListofMethodsforSourceCode"><span data-colorid="f3u0ftzpcw">List of Methods for Source Code</span></a>
+<ul>
+<li><a class="not-blank" href="#CodeAnonymize">Code Anonymize</a></li>
+<li><a class="not-blank" href="#CodefileAnonymize">Codefile Anonymize</a></li>
+</ul></li>
+<li><a class="not-blank" href="#ListofMethodsforStructuredTextDataDifferentialPrivacy"><span data-colorid="pfexc83l44">List of Methods for Structured Text Data (Differential Privacy)</span></a>
+<ul>
+<li><a class="not-blank" href="#DifferentialPrivacyFile">Differential Privacy File</a></li>
+<li><a class="not-blank" href="#DifferentialPrivacyAnonymize">Differential Privacy Anonymize</a></li>
+</ul></li>
+<li><a class="not-blank" href="#ListofMethodsforVideo"><span data-colorid="hy91d4o0vu">List of Methods for Video</span></a>
+<ul>
+<li><a class="not-blank" href="#VideoAnonymize">Video Anonymize</a></li>
+</ul></li>
+<li><a class="not-blank" href="#ListofMethodsforDocumentMasking"><span data-colorid="b4odcwomqg">List of Methods for Document Masking</span></a>
+<ul>
+<li><a class="not-blank" href="#PDFMasking">PDF Masking</a>
+<ul>
+<li><a class="not-blank" href="#PDFAnonymize">PDF Anonymize</a></li>
+</ul></li>
+<li><a class="not-blank" href="#PPTMasking">PPT Masking</a>
+<ul>
+<li><a class="not-blank" href="#PPTAnonymize">PPT Anonymize</a></li>
+</ul></li>
+<li><a class="not-blank" href="#DOCXMasking"><span data-colorid="wixxudhtg0">DOCX Masking</span></a>
+<ul>
+<li><a class="not-blank" href="#DocxAnonymize">Docx Anonymize</a></li>
+</ul></li>
+<li><a class="not-blank" href="#ExcelMasking"><span data-colorid="wf9vs2x5ce">Excel Masking</span></a>
+<ul>
+<li><a class="not-blank" href="#ExcelAnonymize">Excel Anonymize</a></li>
+</ul></li>
+<li><a class="not-blank" href="#CSVMasking"><span data-colorid="ew2x56tuq4">CSV Masking</span></a>
+<ul>
+<li><a class="not-blank" href="#CSVAnonymize">CSV Anonymize</a></li>
+</ul></li>
+<li><a class="not-blank" href="#JsonMasking"><span data-colorid="iq04jj0d4i">Json Masking</span></a>
+<ul>
+<li><a class="not-blank" href="#JsonAnonymize">Json Anonymize</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<h2 id="InfosysResponsibleAItoolkitExplanationofPrivacyFeatures"><span data-colorid="z08vkp20ky">Infosys Responsible AI toolkit - Explanation of Privacy Features</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<h2 id="Overview"><span data-colorid="zq0ylg8ghl">Overview</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<p>The Infosys Responsible AI Privacy module is designed to identify and mask Personally Identifiable Information (PII) within various data formats, including text, images, DICOM, video, and structured data. This ensures data privacy and compliance with regulations like GDPR and CCPA.</p>
+<h2 id="KeyFeaturesandBenefits"><span data-colorid="h1nw9uvqow">Key Features and Benefits</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<ul>
+<li><p><strong>Comprehensive PII Detection:</strong> Identifies a wide range of PII, including names, addresses, social security numbers, credit card numbers, and more.</p></li>
+<li><p><strong>Advanced Masking Techniques:</strong> Employs various masking techniques to protect sensitive information, such as hashing, generalization, and encryption.</p></li>
+<li><p><strong>Customizable Policies:</strong> Allows organizations to define custom PII detection and masking rules based on specific requirements and compliance standards.</p></li>
+<li><p><strong>Scalability and Performance:</strong> Designed to handle large volumes of data efficiently, ensuring minimal impact on performance.</p></li>
+<li><p><strong>Integration with AI/ML Pipelines:</strong> Seamlessly integrates with AI and machine learning workflows to ensure privacy by design.</p></li>
+<li><p><strong>Regulatory Compliance:</strong> Helps organizations comply with data privacy regulations like GDPR, CCPA, and HIPAA.</p></li>
+</ul>
+<h2 id="TechnicalDetailsandImplementation"><span data-colorid="pdggsezenk">Technical Details and Implementation:</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<ul>
+<li><p><strong>Presidio:</strong> Leverages the Presidio library for PII detection and masking.</p></li>
+<li><p><strong>NLP and Machine Learning:</strong> Utilizes advanced NLP techniques and machine learning models to improve accuracy and efficiency.</p></li>
+<li><p><strong>OCR and Computer Vision:</strong> Employs OCR and computer vision techniques to extract text from images and documents.</p></li>
+<li><p><strong>Differential Privacy:</strong> Applies differential privacy techniques to protect sensitive information in structured data.</p></li>
+<li><p><strong>Parallel Processing:</strong> Leverages parallel processing to accelerate processing time for large datasets.</p></li>
+</ul>
+<h2 id="DetailedLookAtOurPrivacyModules"><span data-colorid="alg31tgr54">Detailed Look At Our Privacy Modules</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="5d4977d0-d1c0-46ab-9972-e4150acc0c26" data-macro-name="expand" id="expander-1142143553">
+<div class="expand-control" id="expander-control-1142143553" onclick="expandContent('expander-content-1142143553', 'expander-control-1142143553')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Unstructured Text</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-1142143553">
+<h3 id="ListofMethodsforUnstructuredTextData">List of Methods for Unstructured Text Data<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<div class="table-wrap dt209447688" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="d5d9b9fb-1f42-467a-80f4-de90e73c99df" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="TextAnalyze">Text Analyze<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detects PII entities in a text and gives JSON report as an output.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Input text</p><p>Optional Fields:  portfolio, account, piiEntitiesToBeRedacted, exclusionList</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>JSON Report</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="TextAnonymize">Text Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Anonymizing detected PII entities in a text and gives anonymized text as an output.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Input text, fakeData.</p><p>Optional Fields:  portfolio, account, piiEntitiesToBeRedacted, exclusionList</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Anonymized Text</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="Encrypt">Encrypt<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Encrypts the PII data in a text using a key.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Input text, fakeData.</p><p>Optional Fields:  portfolio, account, piiEntitiesToBeRedacted, exclusionList.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>JSON containing Encrypted text</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="Decrypt">Decrypt<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Decrypt the encrypted PII in the text using the encryption key.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: JSON containing Encrypted text.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Decrypted Text</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt209447688 table {min-width:0px;}</style>
+</div>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="4359a2d8-de76-452e-9180-2d28cab54f6b" data-macro-name="expand" id="expander-201317261">
+<div class="expand-control" id="expander-control-201317261" onclick="expandContent('expander-content-201317261', 'expander-control-201317261')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Image</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-201317261">
+<h3 id="ListofMethodsforImageData"><span data-colorid="jyq13dk86k">List of Methods for Image Data </span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<h4 id="ImageMasking">Image Masking<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p><strong>Working</strong> :</p>
+<ol start="1">
+<li><p>Pre-processing : Extract the text from image using OCR (Tessaract, EasyOCR, Computer Vision)</p></li>
+<li><p>Process : Detect the PII Entities from the extracted text as mentioned in the below table.</p></li>
+</ol>
+<div class="table-wrap dt1557804347" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="cbcd44b5-3951-4eea-ba1a-a34ee6a7d52c" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="ImageAnalyze">Image Analyze<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detects PII entities in an extracted text and gives list of PII Entities as an output.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Image, Ocr method, Magnification, Rotation flag.</p><p>Optional Fields:  portfolio, account, piiEntitiesToBeRedacted, exclusionList</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>JSON Report</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="ImageAnonymize">Image Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Anonymizing detected PII entities from an extracted text by drawing bounding boxes in the place of text.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Image, Ocr method, Magnification, Rotation flag.</p><p>Optional Fields:  portfolio, account, piiEntitiesToBeRedacted, exclusionList.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Base64 Image</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="Hashify">Hashify<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Hashes the PII text present in an Image which is mapped to account. Gives back the Json which contains the hash value with a key that is mentioned on the bounding boxes in the response image.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Image, portfolio, account,  Ocr method, Magnification, Rotation flag.</p><p>Optional Fields:  piiEntitiesToBeRedacted, exclusionList</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>JSON containing Image and hash key-value pair</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt1557804347 table {min-width:0px;}</style>
+</div>
+<h4 id="DicomMasking">Dicom Masking<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p><strong>Working</strong> :</p>
+<ol start="1">
+<li><p>Pre-processing : Extract the text from medical image(dicom images) using OCR.</p></li>
+<li><p>Process : Detect the PII Entities from the extracted text as mentioned in the below table.</p></li>
+</ol>
+<div class="table-wrap dt1286465364" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="b5ea1612-a7cd-46f3-a210-0a8b5ea54161" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="DicomAnonymize">Dicom Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Anonymize PII entities in medical x-ray images.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Payload containing .dcm file</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> Returns base64 .dcm file containing masked PII Entities.</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt1286465364 table {min-width:0px;}</style>
+</div>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="78700af5-27c0-48c4-a14b-c3093985e2ae" data-macro-name="expand" id="expander-916535669">
+<div class="expand-control" id="expander-control-916535669" onclick="expandContent('expander-content-916535669', 'expander-control-916535669')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Code </span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-916535669">
+<h3 id="ListofMethodsforSourceCode"><span data-colorid="f3u0ftzpcw">List of Methods for Source Code</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p><strong>Working</strong> :</p>
+<p>Extract PII entities from the code using StarPII model.</p>
+<div class="table-wrap dt-1424770465" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="5deb10db-4b32-4032-a0b8-bf868bf322b6" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="CodeAnonymize">Code Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Anonymize PII entities in code text.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Input code text.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Anonymized code.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="CodefileAnonymize">Codefile Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Anonymize PII entities in code file.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Input code file.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Anonymized code file.</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt-1424770465 table {min-width:0px;}</style>
+</div>
+<p> </p>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="5b5c390a-96df-4f45-ab74-a08943c143aa" data-macro-name="expand" id="expander-825643171">
+<div class="expand-control" id="expander-control-825643171" onclick="expandContent('expander-content-825643171', 'expander-control-825643171')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Structured Text</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-825643171">
+<h3 id="ListofMethodsforStructuredTextDataDifferentialPrivacy"><span data-colorid="pfexc83l44">List of Methods for Structured Text Data (Differential Privacy)</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Working: Processing structured data using differential privacy techniques.</p>
+<ol start="1">
+<li><p>Suppression: removing entire column from the table.</p></li>
+<li><p>Generalization (Range): converting the numerical data into a range.</p></li>
+<li><p>Noise: adding Laplace noise to the numerical values.</p></li>
+<li><p>Binary: randomly changes the value with the opposite value in a binary data.</p></li>
+</ol>
+<div class="table-wrap dt426301241" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="1f256ef0-17f1-46c7-b5d1-36e60d64f3d4" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="DifferentialPrivacyFile">Differential Privacy File<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Load csv file and gives the column name which can be used in further api.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Payload: csv file</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>List of column names.</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="DifferentialPrivacyAnonymize">Differential Privacy Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Using the column name, user can apply differential privacy.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Optional Fields:  Suppression, Range, Noise, Binary.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Gives the processed csv.</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt426301241 table {min-width:0px;}</style>
+</div>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="39229089-7aab-4eb6-8579-611068e988e5" data-macro-name="expand" id="expander-1479027804">
+<div class="expand-control" id="expander-control-1479027804" onclick="expandContent('expander-content-1479027804', 'expander-control-1479027804')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Video</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-1479027804">
+<h3 id="ListofMethodsforVideo"><span data-colorid="hy91d4o0vu">List of Methods for Video</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Working:</p>
+<ol start="1">
+<li><p>Preprocessing :</p></li>
+</ol>
+<p> a.  extracting the frames from the video.</p>
+<p> b.  extracting the text from the frame.</p>
+<ol start="2">
+<li><p>Processing: process the frames using sampling and threading method for detection of PII data.</p></li>
+</ol>
+<div class="table-wrap dt1226337387" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="1d877986-eef7-451c-9c0a-717e4d1e49ab" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="VideoAnonymize">Video Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detect and anonymize PII entities in video frames by drawing the bounding boxes.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Image, Ocr method, Magnification, Rotation flag.</p><p>Optional Fields:  portfolio, account, piiEntitiesToBeRedacted, exclusionList</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Processed base64 video.</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt1226337387 table {min-width:0px;}</style>
+</div>
+<p> </p>
+</div>
+</div>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="544eb54c-ba3b-4d5d-b897-c31b8b0879af" data-macro-name="expand" id="expander-1229481313">
+<div class="expand-control" id="expander-control-1229481313" onclick="expandContent('expander-content-1229481313', 'expander-control-1229481313')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Document</span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-1229481313">
+<h3 id="ListofMethodsforDocumentMasking"><span data-colorid="b4odcwomqg">List of Methods for Document Masking</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<h4 id="PDFMasking">PDF Masking<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>      Working:</p>
+<ol start="1">
+<li><p>Preprocessing: Using PyMuPDF</p></li>
+</ol>
+<p> a.  Extract text and image from the pages.</p>
+<p> b.  Extract text from the image.</p>
+<ol start="2">
+<li><p>Processing: detect and anonymize PII data from the image and text using parallel processing (threading).</p></li>
+</ol>
+<div class="table-wrap dt1631714898" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="f6345790-c2d4-4327-8851-8054d31bc0fa" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="PDFAnonymize">PDF Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detect and anonymize PII entities in pdf pages in text or image format.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Image, Ocr method.</p><p>Optional Fields:  portfolio, account, exclusionList</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Processed pdf file.</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt1631714898 table {min-width:0px;}</style>
+</div>
+<p> </p>
+<h4 id="PPTMasking">PPT Masking<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>      Working:</p>
+<ol start="1">
+<li><p>Preprocessing:</p></li>
+</ol>
+<p> a. Extract text and image from the pages</p>
+<p> b. Extract text from the image.</p>
+<p> c. Extract text from the tabular data.</p>
+<ol start="2">
+<li><p>Processing: detect and anonymize PII data from the image and text using parallel processing (threading).</p></li>
+</ol>
+<div class="table-wrap dt1886565967" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="dd61c807-8d16-474a-9972-b3547c688df0" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="PPTAnonymize">PPT Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detect and anonymize PII entities in ppt slides in text, image or tabular format.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Image, Ocr method.</p><p>Optional Fields:  portfolio, account, exclusionList</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Processed ppt file.</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt1886565967 table {min-width:0px;}</style>
+</div>
+<h4 id="DOCXMasking"><span data-colorid="wixxudhtg0">DOCX Masking</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>  Working:</p>
+<ol start="1">
+<li><p>Preprocessing:</p></li>
+</ol>
+<p> a. Extract text and image from the pages</p>
+<p> b. Extract text from the image.</p>
+<ol start="2">
+<li><p>Processing: detect and anonymize PII data from the image and text using parallel processing (threading).</p></li>
+</ol>
+<div class="table-wrap dt447118809" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="6a850aca-7fcd-4346-9d9f-fd8bbc59e34b" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="DocxAnonymize">Docx Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detect and anonymize PII entities in docx in text, image format.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Image, Ocr method.</p><p>Optional Fields:  portfolio, account, exclusionList</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Processed docx file.</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt447118809 table {min-width:0px;}</style>
+</div>
+<h4 id="ExcelMasking"><span data-colorid="wf9vs2x5ce">Excel Masking</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p>  Working:</p>
+<ol start="1">
+<li><p>Preprocessing: extracting the text from cell and replace in the cell</p></li>
+<li><p>Processing: detect and anonymize PII data from the text and replace in the cell</p></li>
+</ol>
+<div class="table-wrap dt1883898312" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="2739c742-ba10-48e5-ae6f-4146dbf2dccd" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="ExcelAnonymize">Excel Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detect and anonymize PII entities in excel.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Excel file as a payload</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Processed excel file.</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt1883898312 table {min-width:0px;}</style>
+</div>
+<h4 id="CSVMasking"><span data-colorid="ew2x56tuq4">CSV Masking</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p> Working:</p>
+<ol start="1">
+<li><p>Preprocessing: extracting the columns and data</p></li>
+<li><p>Processing: detect and anonymize PII data from the columns and replace in the cell using batch-anonymizer </p></li>
+</ol>
+<div class="table-wrap dt-384820055" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="c88fc757-1d7d-49ea-a8c4-e691522def75" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="CSVAnonymize">CSV Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detect and anonymize PII entities in CSV.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>csv file as a payload</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Processed csv file.</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt-384820055 table {min-width:0px;}</style>
+</div>
+<h4 id="JsonMasking"><span data-colorid="iq04jj0d4i">Json Masking</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
+<p> Working:</p>
+<ol start="1">
+<li><p>Preprocessing: extracting data from Json file and re-structure it into required format</p></li>
+<li><p>Processing: detect and anonymize PII data from the Keys and replace in the Json using batch-anonymizer </p></li>
+</ol>
+<p> </p>
+<div class="table-wrap dt-1105954811" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="da2b566d-8cbb-49c9-8229-517a98df597f" style="border-collapse: collapse; width: 100%;">
+<tbody>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="JsonAnonymize">Json Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detect and anonymize PII entities in Json.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Json file as a payload</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Processed Json file.</p></td>
+</tr>
+</tbody>
+</table></div>
+<style>html .dt-1105954811 table {min-width:0px;}</style>
+</div>
+</div>
+</div>
+<h1 id=""><span data-colorid="lpsqbde7r3"> </span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h1>
+</div>
+<div id="footer-comments-outlet">
+<div>
+<div class="page-comment-wrapper" data-testid="page-comment-wrapper">
+<div class="cc-q82yp6">
+<div class="_1e0c1txw _i0dl1osq _otyru2gc">
+<div class="_bfhklbf8 _1bsbzwfg _4t3izwfg _2rko1ssb _19pk1b66 _2hwxutpp"></div>
+<div class="_1e0c11p5 _yv0ehpgh _727q19bv _bfhk1j28 _1bsbdgin _18u0u2gc">
+<div class="_nd5lzmlf _bfhklbf8 _y3gn1h6o _1yt45uws _19itglyw _2rko1l7b"></div>
+<div class="_nd5lbahz _bfhklbf8 _y3gn1h6o _1yt41h4g _19itglyw _2rko1l7b"></div>
+</div>
+</div>
+<div class="_1sb2f705 _1e0c1ule _otyrpxbi _ca0qutpp _n7zl1l7n _1bsb1osq"></div>
+<div class="_1e0c1txw _1n261g80" data-testid="comment-container">
+<div class="_1e0c1txw _i0dl1osq _otyru2gc">
+<div class="_bfhklbf8 _1bsbzwfg _4t3izwfg _2rko1ssb _19pk1b66 _2hwxutpp"></div>
+<div class="_1bsb1osq _19itglyw _2rko1l7b _4t3i1ylp _syaz9s69 _ca0qze3t _1e0c1o8l _s7n4jp4b _18u0u2gc _16jlkb7n _bfhklbf8"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="inline-comments-outlet"></div>
+</div>
+</div></body><br/><br/></html>

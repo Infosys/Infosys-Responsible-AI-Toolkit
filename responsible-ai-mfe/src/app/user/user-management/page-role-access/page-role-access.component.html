@@ -1,0 +1,312 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<!-- <div class="custom-dialog-container">
+  <div class="headingRole">
+  <h2 mat-dialog-title>Modify Role Level Access</h2>
+  </div>
+  <div class="radiobutton">
+  <mat-radio-group aria-label="Select an option">
+    <mat-radio-button *ngFor="let option of data.options" (click)="onOptionSelected(option)" [value]="option">
+      {{option}}
+    </mat-radio-button>
+  </mat-radio-group>
+  </div>
+
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let tabKey of tabKeys">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ tabKey }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div *ngFor="let subtab of getSubtabs(tabKey)">
+        <div>{{ subtab }}</div>
+        <div class="checkbox-group">
+          <div *ngFor="let item of getActiveItems(tabKey, subtab)">
+            <mat-checkbox
+              [id]="generateCheckboxId(tabKey, subtab, item)"
+              [checked]="isChecked(tabKey, subtab, item)"
+              (change)="onCheckboxChange(tabKey, subtab, item, $event)"
+            >
+              {{ item }}
+            </mat-checkbox>
+          </div>
+        </div>
+        <div *ngFor="let selectTypeKey of getSelectTypeKeys(tabKey, subtab)">
+          <div>{{ selectTypeKey }}</div>
+          <div class="checkbox-group">
+            <div *ngFor="let item of getSelectTypeItems(tabKey, subtab, selectTypeKey)">
+              <mat-checkbox
+                [id]="generateCheckboxId(tabKey, subtab, item)"
+                [checked]="isChecked(tabKey, subtab, item)"
+                (change)="onCheckboxChange(tabKey, subtab, item, $event)"
+              >
+                {{ item }}
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close>Close</button>
+    <button mat-button (click)="onSubmit()">Submit</button>
+  </mat-dialog-actions>
+</div> -->
+
+
+  <!-- <div class="manage-access-header">
+    <h2>MANAGE ACCESS</h2>
+      <button class="close-btn"  mat-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="roledropdown">
+    <select class="form-select shadow-none w-100 inputSMfont dropdown-menu-select"
+      name="selectedUsecase" [(ngModel)]="selectedRole" (ngModelChange)="onOptionSelected()">
+      <option value="" disabled selected>Select Role</option>
+      <option *ngFor="let option of data.options" [value]="option">{{ option }}</option>
+    </select>
+  </div>  -->
+  <!-- <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-checkbox class="title-checkbox">WORKBENCH</mat-checkbox>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-checkbox [(ngModel)]="unstructuredTextEnabled">Unstructured Text</mat-checkbox>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="unstructuredTextEnabled">
+              <div class="content">
+                <div class="category" *ngFor="let tab of workbenchTabs.active">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <mat-checkbox (change)="onTabCheckboxChange($event, tab)">{{tab}}</mat-checkbox>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div class="sub-category">
+                    <div class="sub-category-title" *ngFor="let subtab of unstructuredtabsactive">
+                      <mat-panel-title>
+                      <mat-checkbox (change)="onSubTabCheckboxChange($event, tab, subtab)">{{subtab}}</mat-checkbox>
+                    </mat-panel-title>
+                    </div>
+                  </div>
+                </div>
+                <div class="select-all">
+                  <mat-checkbox [(ngModel)]="selectAllEnabled" (change)="toggleAll()">SELECT ALL</mat-checkbox>
+                </div>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-checkbox [(ngModel)]="structuredTextEnabled">Structured Text</mat-checkbox>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="structuredTextEnabled">
+
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-checkbox [(ngModel)]="imageEnabled">Image</mat-checkbox>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="imageEnabled">
+
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-checkbox [(ngModel)]="videoEnabled">Video</mat-checkbox>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="videoEnabled">
+
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-checkbox [(ngModel)]="codeEnabled">Code</mat-checkbox>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div *ngIf="codeEnabled">
+
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-checkbox class="title-checkbox" checked>USE CASE</mat-checkbox>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-checkbox class="title-checkbox">CONFIGURATION</mat-checkbox>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-checkbox class="title-checkbox" checked>MODELS</mat-checkbox>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-checkbox class="title-checkbox" checked>LLM BENCHMARKING</mat-checkbox>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-checkbox class="title-checkbox" checked>AI CONTENT DETECTOR</mat-checkbox>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-checkbox class="title-checkbox" checked>USER MANAGEMENT</mat-checkbox>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+    </mat-expansion-panel>
+  </mat-accordion> -->
+
+
+  <!-- app.component.html -->
+<div class="parentcomp">
+<div class="manage-access-container">
+  <h2>Manage Access</h2>
+  <div class="manage-access-header">
+      <button class="close-btn"  mat-button mat-dialog-close>
+        <mat-icon>close</mat-icon>
+      </button>
+  </div>
+  <div class="plusIcon">
+    <span class="btnRound addBtn"         [ngbPopover]="popoverContent"
+    [autoClose]="false"
+    triggers="manual"
+    #p="ngbPopover"
+    placement="start"
+    (click)="test(p)"
+    [popoverTitle]="Poptitle"
+    >+</span>
+  </div>
+  <div class="roledropdown">
+    <select class="form-select shadow-none w-100 inputSMfont dropdown-menu-select" [value]="selectedRole"
+       [(ngModel)]="selectedRole" (ngModelChange)="onOptionSelected()">
+      <option value="Select A Role" disabled selected>Select a Role</option>
+      <option *ngFor="let option of updatedRoles" [value]="option">{{ option }}</option>
+    </select>
+  </div>
+  <mat-accordion>
+    <mat-expansion-panel *ngFor="let tab of tabs">
+      <mat-expansion-panel-header>
+        <mat-checkbox (change)="onTabCheckboxChange($event, tab.name)" [(ngModel)]="tab.active">{{ tab.name }}</mat-checkbox>
+      </mat-expansion-panel-header>
+      <div *ngIf="tab.subtabs">
+        <mat-accordion>
+          <mat-expansion-panel *ngFor="let subtab of tab.subtabs">
+            <mat-expansion-panel-header>
+              <mat-checkbox (change)="onSubTabCheckboxChange($event,tab.name,subtab.name)"  [(ngModel)]="subtab.active">{{ subtab.name }}</mat-checkbox>
+            </mat-expansion-panel-header>
+            <div *ngIf="subtab.selectType">
+              <mat-accordion>
+                <mat-expansion-panel *ngFor="let selectType of subtab.selectType">
+                  <mat-expansion-panel-header>
+                    <mat-checkbox (change)="onSelectTypeChange($event,tab.name, subtab.name, selectType.name)" [(ngModel)]="selectType.active">{{ selectType.name }}</mat-checkbox>
+                  </mat-expansion-panel-header>
+                  <div *ngIf="selectType.options">
+                    <div class="sub-category-title subtabsunstructured" *ngFor="let option of selectType.options">
+                      <mat-panel-title>
+                        <mat-checkbox (change)="onOptionsSelect($event,tab.name, subtab.name, selectType.name, option.name)" [(ngModel)]="option.active">{{ option.name }}</mat-checkbox>
+                      </mat-panel-title>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+  <div class="manage-access-actions">
+    <button class="reset-btn" (click)="resetCheckbox()">RESET</button>
+    <button class="submit-btn" (click)="onSubmit()">SUBMIT</button>
+  </div>
+</div>
+
+<div class="rolepopup">
+<ng-template class="rolepopup" #popoverContent>
+  <form [formGroup]="NewAccPort">
+    <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+      <div class='form-group'>
+        <!-- <label for='input1' class="mainLabel">Role</label> -->
+          <input placeholder="Role" type='text' class='form-control InputPop shadow-none' formControlName="role" id='input1'>
+          <span *ngIf="NewAccPort.get('role')?.invalid" class="text-danger">
+              Role Name required.
+          </span>
+      </div>
+      <button mat-raised-button type='submit' class='buttonMain mt-0'
+      color="black"  (click)="p.close()"  [disabled]="NewAccPort.invalid"  (click)="submitRoleForm()">Create</button>
+  </form>
+
+</ng-template>
+
+<ng-template #Poptitle>
+  <label class="HeadingLabel1"> Create a New Role</label>
+</ng-template>
+</div>
+
+
+
+
+
+
+

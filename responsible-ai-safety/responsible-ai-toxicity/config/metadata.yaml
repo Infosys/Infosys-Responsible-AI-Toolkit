@@ -1,0 +1,17 @@
+openapi_url: /api/v1/safety/openapi.json
+docs_url: /api/v1/safety/docs
+title: Infosys Responsible AI - Privacy - OpenAPI 3.0
+description: API specs for Infosys Responsible AI Privacy pillar in OpenAPI 3.0 format
+terms_of_service: https://www.infosys.com
+contact:
+    email: Infosysraitoolkit@infosys.com
+license_info:
+    name: Infosys
+    url: https://www.infosys.com
+version: 0.0.4
+openapi_tags:
+    - name: Safety-Profanity
+      description: Operations required for handling profanity and toxicity in a text/image content.
+      externalDocs:
+        description: Find out more
+        url: https://www.infosys.com

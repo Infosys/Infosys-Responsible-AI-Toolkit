@@ -1,0 +1,33 @@
+openapi: 3.0.1
+docs_url: /rag/v1/docs
+title: Infosys Responsible AI - RAG - OpenAPI 3.0
+description: API specs for Infosys Responsible AI RAG in OpenAPI 3.0 format
+security:
+ - oauth_auth:
+      - read: users
+      - write: users
+components:
+  schemas:
+    GeneralError:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
+    petstore_auth:
+      type: oauth2
+      flows:  
+contact:
+  email: infosysraitoolkit@infosys.com
+license_info:
+  name: Infosys
+version: 0.0.3
+openapi_tags:
+  - name: RAG

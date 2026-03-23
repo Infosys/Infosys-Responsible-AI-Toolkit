@@ -1,0 +1,194 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+
+.drop-zone {
+    border: 2px dashed #dcdcdc;
+    border-radius: 5px;
+    padding: 40px;
+    text-align: center;
+    color: #4a4a4a;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    width: 342px;
+}
+
+.drop-zone p {
+    margin-bottom: 20px;
+}
+
+.drop-zone input[type="file"] {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.button-container {
+    display: flex;
+    justify-content: right;
+}
+
+.fileContainer {
+    width: 158px;
+}
+
+.HeadingLabelSM {
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    letter-spacing: 0px;
+    color: #382261;
+    text-transform: uppercase;
+}
+
+.cancel-button {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.cancel-button mat-icon {
+    color: white;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+
+.buttonMain {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: .75rem;
+    height: 26px !important;
+    width: fit-content;
+}
+
+.browse-logo {
+    opacity: 70%;
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+}
+
+.dnd-lable {
+    color: #9C9C9C;
+    opacity: 70%;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    font-size: .65rem;
+}
+
+.high-light {
+    font-family: 'Segoe UI';
+    font-weight: 700 !important;
+    color: #061838 !important;
+    opacity: 90% !important;
+}
+
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+:host .dropdown {
+    max-width: 15rem;
+    width: 100%;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    padding: 0px 10px;
+    font-size: smaller;
+    margin-right: .5rem;
+}
+
+.mat-mdc-option.dropdownOptions {
+    width: 15rem;
+    font-size: 12px;
+    /* Adjust this to the desired font size */
+    padding: 4px 16px;
+    /* Adjust this to the desired padding */
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+
+.border-div {
+    position: relative;
+    flex: 1;
+}
+
+.border-div::after {
+    content: "";
+    position: absolute;
+    top: 9%;
+    /* Adjust this to move the border up or down */
+    bottom: 16%;
+    /* Adjust this to change the length of the border */
+    right: 0;
+    border-right: 1px solid #ccc;
+}
+
+.warn {
+    font-family: 'Segoe UI';
+    font-size: 12px;
+}
+
+.label-container {
+    margin-bottom: 10px;
+}
+
+.imgcardsize {
+    width: 45px;
+    height: 47px;
+    overflow: hidden;
+}
+
+.radio-checked-img {
+    border: 2px solid #8626C3;
+}
+
+.HeadingLabel2 {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 5px;
+    font-weight: 700;
+    font-size: 8px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.image-container {
+    display: flex;
+    width: min-content;
+}

@@ -1,0 +1,8 @@
+.env/
+.vscode/
+data/*_dataset
+data/dataset_raw*
+results/*
+logs/*
+test_*
+mask_detector.model

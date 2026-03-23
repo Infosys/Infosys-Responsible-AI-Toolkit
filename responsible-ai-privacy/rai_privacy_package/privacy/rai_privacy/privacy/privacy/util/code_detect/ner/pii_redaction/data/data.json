@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "content": "Hello, my name is John Doe. My email is john.doe@example.com and my phone number is 123-456-7890.",
+    "entities": {
+      "NAME": ["John Doe"],
+      "EMAIL": ["john.doe@example.com"],
+      "PHONE_NUMBER": ["123-456-7890"]
+    },
+    "lang": "English"
+  },
+  {
+    "id": 2,
+    "content": "Here is a Python code snippet: \n\nfrom transformers import AutoModelForTokenClassification, AutoTokenizer\nimport torch\nsecret_key = \"my_secret_key123\"",
+    "entities": {
+      "KEY": ["my_secret_key123"],
+      "lang": "Python"
+    }
+  },
+  {
+    "id": 3,
+    "content": "IPv4 Address: 192.168.1.1\nIPv6 Address: fe80::1",
+    "entities": {
+      "IP_ADDRESS": {
+        "IPv4": ["192.168.1.1"],
+        "IPv6": ["fe80::1"]
+      }
+    }
+  },
+  {
+    "id": 4,
+    "content": "No PII here!",
+    "entities": {},
+    "lang": "English"
+  }
+]

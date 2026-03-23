@@ -1,0 +1,389 @@
+openapi: 3.0.2
+info:
+  title: Infosys Responsible AI - responsible-ai-privacy - OpenAPI 3.0
+  description: API specs for Infosys Responsible AI Privacy pillar in OpenAPI 3.0 format
+  termsOfService: https://www.infosys.com
+  contact:
+    email: aina@infosys.com
+  license:
+    name: Infosys
+    url: https://www.infosys.com
+  version: v$version
+security:
+  - oauth_auth:
+    - write:users
+    - read:users
+paths:
+  /api/v1/privacy/pii/analyze:
+    post:
+      tags:
+        - PII Privacy
+      summary: Analyze
+      operationId: analyze_api_v1_privacy_pii_analyze_post
+      security:
+        - oauth_auth:
+          - write:users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PIIAnalyzeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PIIAnalyzeResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/privacy/pii/anonymize:
+    post:
+      tags:
+        - PII Privacy
+      summary: Anonymize
+      operationId: anonymize_api_v1_privacy_pii_anonymize_post
+      security:
+        - oauth_auth:
+          - write:users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PIIAnonymizeRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PIIAnonymizeResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/privacy/pii/image/analyze:
+    post:
+      tags:
+        - PII Privacy
+      summary: Image Analyze
+      operationId: image_analyze_api_v1_privacy_pii_image_analyze_post
+      security:
+        - oauth_auth:
+          - write:users
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_image_analyze_api_v1_privacy_pii_image_analyze_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PIIImageAnalyzeResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/privacy/pii/image/anonymize:
+    post:
+      tags:
+        - PII Privacy
+      summary: Image Anonymize
+      operationId: image_anonymize_api_v1_privacy_pii_image_anonymize_post
+      security:
+        - oauth_auth:
+          - write:users
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_image_anonymize_api_v1_privacy_pii_image_anonymize_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /api/v1/privacy/pii/image/verify:
+    post:
+      tags:
+        - PII Privacy
+      summary: Image Verify
+      operationId: image_verify_api_v1_privacy_pii_image_verify_post
+      security:
+        - oauth_auth:
+          - write:users
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_image_verify_api_v1_privacy_pii_image_verify_post'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    Body_image_analyze_api_v1_privacy_pii_image_analyze_post:
+      title: Body_image_analyze_api_v1_privacy_pii_image_analyze_post
+      required:
+        - payload
+      type: object
+      properties:
+        payload:
+          title: Payload
+          type: string
+          format: binary
+    Body_image_anonymize_api_v1_privacy_pii_image_anonymize_post:
+      title: Body_image_anonymize_api_v1_privacy_pii_image_anonymize_post
+      required:
+        - payload
+      type: object
+      properties:
+        payload:
+          title: Payload
+          type: string
+          format: binary
+    Body_image_verify_api_v1_privacy_pii_image_verify_post:
+      title: Body_image_verify_api_v1_privacy_pii_image_verify_post
+      required:
+        - payload
+      type: object
+      properties:
+        payload:
+          title: Payload
+          type: string
+          format: binary
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    PIIAnalyzeRequest:
+      title: PIIAnalyzeRequest
+      required:
+        - inputText
+      type: object
+      properties:
+        inputText:
+          title: Inputtext
+          type: string
+          example: John Smith's SSN is 012884567
+    PIIAnalyzeResponse:
+      title: PIIAnalyzeResponse
+      required:
+        - PIIEntities
+      type: object
+      properties:
+        PIIEntities:
+          title: Piientities
+          type: array
+          items:
+            $ref: '#/components/schemas/PIIEntity'
+    PIIAnonymizeRequest:
+      title: PIIAnonymizeRequest
+      required:
+        - inputText
+      type: object
+      properties:
+        inputText:
+          title: Inputtext
+          type: string
+          example: John Smith's SSN is 012884567
+        piiEntitiesToBeRedacted:
+          title: Piientitiestoberedacted
+          type: array
+          items: {}
+          example:
+            - US_SSN
+        redactionType:
+          title: Redactiontype
+          type: string
+          example: replace
+    PIIAnonymizeResponse:
+      title: PIIAnonymizeResponse
+      required:
+        - anonymizedText
+      type: object
+      properties:
+        anonymizedText:
+          title: Anonymizedtext
+          type: string
+          example: John Smith's SSN is <US_SSN>
+    PIIEntity:
+      title: PIIEntity
+      required:
+        - type
+        - beginOffset
+        - endOffset
+        - confidenceScore
+      type: object
+      properties:
+        type:
+          title: Type
+          type: string
+          example: US_SSN
+        beginOffset:
+          title: Beginoffset
+          type: integer
+          example: 19
+        endOffset:
+          title: Endoffset
+          type: integer
+          example: 28
+        confidenceScore:
+          title: ConfidenceScore
+          type: number
+          example: 0.25
+    PIIImageAnalyzeResponse:
+      title: PIIImageAnalyzeResponse
+      required:
+        - PIIEntities
+      type: object
+      properties:
+        PIIEntities:
+          title: Piientities
+          type: array
+          items:
+            $ref: '#/components/schemas/PIIImageEntity'
+    PIIImageEntity:
+      title: PIIImageEntity
+      required:
+        - type
+      type: object
+      properties:
+        type:
+          title: Type
+          type: string
+          example: US_SSN
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
+  securitySchemes:
+    oauth_auth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            write:users: modify user profile
+            
+tags:
+  - name: PII Privacy
+    description: Operations required for a PII entity (e.g. IN_ADHAAR, IN_PAN, US_SSN etc)
+    externalDocs:
+      description: Find out more
+      url: https://www.infosys.com

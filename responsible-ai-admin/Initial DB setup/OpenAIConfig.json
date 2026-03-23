@@ -1,0 +1,145 @@
+[{
+  "_id": 1698899197.8078823,
+  "isOpenAI": true,
+  "selfReminder": true,
+  "isNemo": false,
+  "role": "ROLE_ADMIN",
+  "CreatedDateTime": {
+    "$date": "2023-11-02T04:26:37.807Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-02T04:26:37.807Z"
+  },
+  "goalPriority": true
+},
+{
+  "_id": 1698899197.8114643,
+  "isOpenAI": true,
+  "selfReminder": true,
+  "isNemo": false,
+  "role": "ROLE_USER",
+  "CreatedDateTime": {
+    "$date": "2023-11-02T04:26:37.811Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-11-02T04:26:37.811Z"
+  },
+  "goalPriority": true
+},
+{
+  "_id": 1701844510.7532637,
+  "isOpenAI": false,
+  "selfReminder": true,
+  "role": "ROLE_ML",
+  "CreatedDateTime": {
+    "$date": "2023-12-06T06:35:10.753Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2023-12-06T06:35:10.753Z"
+  },
+  "goalPriority": true
+},
+{
+  "_id": 1717603655.7750728,
+  "isOpenAI": false,
+  "selfReminder": false,
+  "goalPriority": false,
+  "role": "ROLE_EXCEL",
+  "CreatedDateTime": {
+    "$date": "2024-06-05T16:07:35.775Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-05T16:07:35.775Z"
+  }
+},
+{
+  "_id": 1719384972.206866,
+  "isOpenAI": false,
+  "selfReminder": false,
+  "goalPriority": false,
+  "role": "ROLE_EMPTY",
+  "CreatedDateTime": {
+    "$date": "2024-06-26T06:56:12.206Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-06-26T06:56:12.206Z"
+  }
+},
+{
+  "_id": 1722251159.6457949,
+  "isOpenAI": false,
+  "selfReminder": false,
+  "goalPriority": false,
+  "role": "ROLE_TEST_1",
+  "CreatedDateTime": {
+    "$date": "2024-07-29T11:05:59.645Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-07-29T11:05:59.645Z"
+  }
+},
+{
+  "_id": 1723012532.3861814,
+  "isOpenAI": false,
+  "selfReminder": false,
+  "goalPriority": false,
+  "role": "ROLETEST2",
+  "CreatedDateTime": {
+    "$date": "2024-08-07T06:35:32.386Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2024-08-07T06:35:32.386Z"
+  }
+},
+{
+  "_id": 1750411706.941966,
+  "isOpenAI": false,
+  "selfReminder": false,
+  "goalPriority": false,
+  "role": "ROLE_RAF",
+  "CreatedDateTime": {
+    "$date": "2025-06-20T09:28:26.941Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-06-20T09:28:26.941Z"
+  }
+},
+{
+  "_id": 1751879698.8988497,
+  "isOpenAI": false,
+  "selfReminder": false,
+  "goalPriority": false,
+  "role": "HR_Manager",
+  "CreatedDateTime": {
+    "$date": "2025-07-07T09:14:58.898Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-07-07T09:14:58.898Z"
+  }
+},
+{
+  "_id": 1751879698.9739118,
+  "isOpenAI": false,
+  "selfReminder": false,
+  "goalPriority": false,
+  "role": "HR_Assistant",
+  "CreatedDateTime": {
+    "$date": "2025-07-07T09:14:58.973Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-07-07T09:14:58.973Z"
+  }
+},
+{
+  "_id": 1762851848.6369421,
+  "isOpenAI": false,
+  "selfReminder": false,
+  "goalPriority": false,
+  "role": "ROLE_test",
+  "CreatedDateTime": {
+    "$date": "2025-11-11T09:04:08.636Z"
+  },
+  "LastUpdatedDateTime": {
+    "$date": "2025-11-11T09:04:08.636Z"
+  }
+}]

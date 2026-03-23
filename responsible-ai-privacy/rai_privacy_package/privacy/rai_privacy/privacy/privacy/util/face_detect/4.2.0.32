@@ -1,0 +1,7 @@
+Collecting opencv-python
+  Obtaining dependency information for opencv-python from https://files.pythonhosted.org/packages/38/d2/3e8c13ffc37ca5ebc6f382b242b44acb43eb489042e1728407ac3904e72f/opencv_python-4.8.1.78-cp37-abi3-win_amd64.whl.metadata
+  Using cached opencv_python-4.8.1.78-cp37-abi3-win_amd64.whl.metadata (20 kB)
+Requirement already satisfied: numpy>=1.21.2 in c:\facedetection\facedetectv2env\lib\site-packages (from opencv-python) (1.26.2)
+Using cached opencv_python-4.8.1.78-cp37-abi3-win_amd64.whl (38.1 MB)
+Installing collected packages: opencv-python
+Successfully installed opencv-python-4.8.1.78

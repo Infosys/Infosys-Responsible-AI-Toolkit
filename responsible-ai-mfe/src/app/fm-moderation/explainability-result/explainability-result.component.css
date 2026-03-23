@@ -1,0 +1,262 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+
+.mainLabel {
+    color: #2e2e2e;
+    padding: 0px;
+    font-weight: 500;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+}
+
+.mainLabelSM {
+    font-size: 12px;
+}
+
+.labelSM {
+    font-size: 12px;
+}
+
+.mainLabelLight {
+    font-weight: 400;
+}
+
+.fixed-height-card {
+    height: auto;
+    overflow-y: auto;
+}
+
+.cardA {
+    color: black;
+    padding: 10px;
+    background-color: #ececec;
+    border-radius: 8px;
+}
+
+.fixed-height-card1 {
+    height: 150px;
+    overflow-y: auto;
+}
+
+.fixed-height-card2 {
+    height: auto;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    border: 1px solid #0000002c;
+    /* Add a border */
+    border-radius: 5px;
+    /* Optional: Add rounded corners */
+    padding: 10px;
+    /* Optional: Add padding inside the card */
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.fixed-height-card2 h2 {
+    font-size: 14px;
+    /* Adjust the font size */
+    font-weight: bold;
+    /* Make the text bold */
+    color: #3e3e3e;
+    /* Change the text color */
+    margin-bottom: 0px;
+}
+
+.score-meter-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.score-number {
+    width: 20px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.score-meter {
+    width: 400px;
+    height: 20px;
+    background: linear-gradient(to right, red, yellow, green);
+    border-radius: 5px;
+    position: relative;
+    margin: 0 10px;
+}
+
+.score-meter-fill {
+    height: 100%;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.score-pointer {
+    position: absolute;
+    top: -25px;
+    /* Adjust as needed to position the pointer above the meter */
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-text {
+    background: black;
+    color: white;
+    padding: 2px 5px;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 2px;
+    /* Space between the text and the pointer */
+}
+
+.score-pointer::after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid black;
+}
+
+.score-markings {
+    position: absolute;
+    top: 0;
+    left: 2px;
+    width: 99.5%;
+    height: 100%;
+    pointer-events: none;
+    /* Ensure markings don't interfere with other elements */
+}
+
+.score-marking {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: black;
+    /* Color of the markings */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    /* Align numbers at the bottom of the meter */
+    left: calc(var(--marking-position) - 0.3%);
+}
+
+.score-marking-number {
+    position: absolute;
+    bottom: -20px;
+    /* Adjust as needed to position the numbers below the meter */
+    font-size: 10px;
+    /* Adjust the font size as needed */
+    transform: translateX(-50%);
+    left: 1px;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    /* Adjust as needed */
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #8626C3;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.switch1 {
+    display: inline-block;
+}
+
+.switch1 input {
+    display: none;
+}
+
+.switch1 label {
+    display: block;
+    width: 40px;
+    height: 18px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 3px;
+    background-color: #E0DCEC;
+    margin: 0px 5px;
+}
+
+.switch1 label::after {
+    content: "";
+    display: inherit;
+    width: 13px;
+    height: 13px;
+    border-radius: 12px;
+    transition: 0.3s;
+    background-color: #8626C3;
+    border: 1.5px solid white;
+}
+
+.switch1 input:checked+label {
+    border-color: #ffffff;
+    background-color: #8626C3;
+}
+
+.switch1 input:checked+label::after {
+    transform: translateX(20px);
+    background: #8626C3;
+    background-color: #E0DCEC;
+}
+
+.switch1 input:disabled+label {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.switch1 input:disabled:checked+label {
+    background-color: #aaaaaa;
+}
+
+.switch1 input:disabled+label::after {
+    background-color: #bbbbbb;
+}
+
+.mainBtn {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: 11px;
+    height: 24px;
+    width: max-content;
+    padding: 0 8px 0 8px !important;
+}
+
+.DecryptButton {
+    background-color: #8626C3;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    /* Optional: Align time taken to the right */
+}

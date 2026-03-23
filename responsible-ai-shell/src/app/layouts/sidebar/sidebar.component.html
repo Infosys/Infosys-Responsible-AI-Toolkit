@@ -1,0 +1,176 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<nav id="sidebar" title="Show / Hide Sidebar">
+  <ul class="list-unstyled components">
+    <li>
+      <a title="Home" id="home-menu" routerLink="/" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+        <span class="nav-image">
+          <img src="../../../content/images/home.svg" />
+        </span>
+        <span class="linktext">Home</span>
+      </a>
+      <hr class="menu-separator" />
+    </li>
+    <li>
+      <a
+        title="Dashboard"
+        id="dashboard-menu"
+        routerLink="dashboard"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <span class="nav-image">
+          <img src="../../../content/images/configuration.svg" />
+        </span>
+        <span class="linktext">Dashboard</span>
+      </a>
+      <hr class="menu-separator" />
+    </li>
+
+    <li>
+      <a
+        title="Advance Controls 1"
+        id="UI5Controls-menu"
+        routerLink="UI5Controls"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <span class="nav-image">
+          <img src="../../../content/images/browse_temp.svg" />
+        </span>
+        <span class="linktext">Advance Controls 1</span>
+      </a>
+      <hr class="menu-separator" />
+    </li>
+    <li>
+      <a
+        title="Advance Controls 2"
+        id="templates-menu"
+        routerLink="advance"
+        [routerLinkActive]="['active']"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <span class="nav-image">
+          <img src="../../../content/images/browse_temp.svg" />
+        </span>
+        <span class="linktext">Advance Controls 2</span>
+      </a>
+      <hr class="menu-separator" />
+    </li>
+
+    <li>
+      <a title="Form" id="entities">
+        <span class="nav-image">
+          <img src="../../../content/images/browse_comp.svg" />
+        </span>
+        <span class="linktext">Form</span>
+      </a>
+      <ul class="list-submenu components nav submenu">
+        <li class="submenu-li">
+          <a title="Basic" id="project-menu" routerLink="forms" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+            <span class="sublinks">Basic</span>
+          </a>
+        </li>
+        <li class="submenu-li">
+          <a
+            title="Grid"
+            id="project-menu"
+            routerLink="customer"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <span class="sublinks">Grid</span>
+          </a>
+        </li>
+        <li class="submenu-li">
+          <a
+            title="Data Driven"
+            id="driven-menu"
+            routerLink="driven"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <span class="sublinks">Data Driven</span>
+          </a>
+        </li>
+      </ul>
+      <hr class="menu-separator" />
+    </li>
+
+    <li *jhiHasAnyAuthority="'ROLE_ADMIN'">
+      <a title="Administration" id="Administration">
+        <span class="nav-image">
+          <img src="../../../content/images/user_management.svg" />
+        </span>
+        <span class="linktext">Administration</span>
+      </a>
+      <ul class="list-submenu components nav submenu">
+        <li class="submenu-li">
+          <a
+            routerLink="admin/user-management"
+            routerLinkActive="active"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <span class="sublinks">User management</span>
+          </a>
+        </li>
+        <li class="submenu-li">
+          <a
+            routerLink="admin/metrics"
+            routerLinkActive="active"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <span class="sublinks">Metrics</span>
+          </a>
+        </li>
+        <li class="submenu-li">
+          <a
+            routerLink="admin/health"
+            routerLinkActive="active"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <span class="sublinks">Health</span>
+          </a>
+        </li>
+        <li class="submenu-li">
+          <a
+            routerLink="admin/configuration"
+            routerLinkActive="active"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <span class="sublinks">Configuration</span>
+          </a>
+        </li>
+        <!-- <li class="submenu-li">
+          <a
+            routerLink="admin/audits"
+            routerLinkActive="active"
+            [routerLinkActive]="['active']"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <span class="sublinks">Audits</span>
+          </a>
+        </li> -->
+        <li class="submenu-li">
+          <a routerLink="admin/logs" routerLinkActive="active" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+            <span class="sublinks">Logs</span>
+          </a>
+        </li>
+        <li class="submenu-li">
+          <a routerLink="admin/docs" routerLinkActive="active" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+            <span class="sublinks">API</span>
+          </a>
+        </li>
+      </ul>
+      <!-- <hr class="menu-separator" /> -->
+    </li>
+  </ul>
+</nav>

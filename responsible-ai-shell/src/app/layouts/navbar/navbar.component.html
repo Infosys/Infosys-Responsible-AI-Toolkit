@@ -1,0 +1,140 @@
+<!-- SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+-->
+<nav class="navbar navbar-dark navbar-expand-md bg-dark">
+    <a class="navbar-brand logo" (click)="collapseNavbar()">
+        <!-- <span class="logo-img"></span> -->
+        <!-- <div class="navbar-title">
+            Responsible&nbsp;<span class="ai-text">AI Office</span>
+        </div> -->
+        <div class="navbar-title">
+            Infosys Responsible AI Office
+        </div>
+    </a>
+    <div class="container" *ngIf="isAuthenticated()">
+        <a class="navbar-cicle" href={{dashboardLink}} target="_blank" matTooltip="Telemetry Dashboard">
+            <img src="../../../assets/images/elastic.png" alt="Icon" class="icon-fluid" />
+        </a>
+    </div>
+    <a class="navbar-toggler d-lg-none" href="javascript:void(0);" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation" (click)="toggleNavbar()">
+        <fa-icon icon="bars"></fa-icon>
+    </a>
+    <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed" [ngSwitch]="isAuthenticated()">
+        <ul class="navbar-nav ml-auto">
+            <!-- <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
+                    <span>
+            <fa-icon icon="home"></fa-icon>
+            <span>Home</span>
+                    </span>
+                </a>
+            </li> -->
+            <!-- <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link" routerLink="/responsible-ui" (click)="collapseNavbar()">
+                    <span>
+            <fa-icon icon="home"></fa-icon>
+            <span>Home</span>
+                    </span>
+                </a>
+            </li> -->
+
+
+            <!-- <li *jhiHasAnyAuthority="'ROLE_ADMIN'" ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="admin-menu">
+                    <span>
+            <fa-icon icon="user-plus"></fa-icon>
+            <span>Administration</span>
+                    </span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="admin-menu">
+                    <li>
+                        <a class="dropdown-item" routerLink="responsible-ui/admin/user-management" routerLinkActive="active" (click)="collapseNavbar()">
+                            <fa-icon icon="user" [fixedWidth]="true"></fa-icon>
+                            <span>User management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="responsible-ui/OnBoarding" routerLinkActive="active" (click)="collapseNavbar()">
+                            <fa-icon icon="tachometer-alt" [fixedWidth]="true"></fa-icon>
+                            <span>On Boarding</span>
+                        </a>
+                        <a class="dropdown-item" (click)="goToUrl()" target="_blank">
+                            <fa-icon icon="tachometer-alt" [fixedWidth]="true"></fa-icon>
+                            <span>RAI Telemetry</span>
+                        </a>
+                        <a class="dropdown-item" routerLink="responsible-ui/QuestionariesReport" routerLinkActive="active" (click)="collapseNavbar()">
+                            <fa-icon icon="tachometer-alt" [fixedWidth]="true"></fa-icon>
+                            <span>Report</span>
+                        </a>
+                    </li>
+
+                    
+                </ul>
+            </li> -->
+            <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="account-menu">
+                    <!-- <span *ngIf="!getImageUrl()">
+            <fa-icon icon="user"></fa-icon>
+            <span> Account </span>
+                    </span>
+                    <span *ngIf="getImageUrl()">
+            <img [src]="getImageUrl()" class="profile-image rounded-circle" alt="Avatar" />
+          </span> -->
+                    <span class="avatar">{{ getInitials() }}</span>
+                </a>
+                <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
+                    <form [formGroup]="AccountForm" style="width: 100%; display: flex;flex-direction: column;">
+                        <input type="hidden" name="csrfToken" value="nonceService.getNonce()">
+                        <li *ngSwitchCase="true" class="PA">
+                            <span style="margin-right:5px;margin-top:2px">Portfolio:</span>
+                            <select id="select1" (change)="this.accountDropDown()" class="form-select mb-3" formControlName="portfolio" hint="hi" (click)="getAllAccountData()">
+                            <option selected value="Portfolio Name">Portfolio Name</option>
+                            <option *ngFor="let option of Portfolio_options" [value]="option">{{option}}</option>
+                        </select>
+                        </li>
+                        <li *ngSwitchCase="true" class="PA">
+                            <span *ngIf="portfolioSelected" style="margin-right:5px; margin-top:2px">Account:</span>
+                            <select id="select2" class="form-select" (change)="activateSubcommands()" formControlName="account" *ngIf="portfolioSelected">
+                            <option selected value="Account Name">Account Name</option>
+                            <option *ngFor="let option of Account_options" [value]="option">{{option}}</option>
+                        </select>
+                        </li>
+                    </form>
+                    <li *ngSwitchCase="true">
+                        <a class="dropdown-item" routerLink="account/settings" routerLinkActive="active" (click)="collapseNavbar()">
+                            <fa-icon icon="wrench" [fixedWidth]="true"></fa-icon>
+                            <span style="margin-left:15px;">Settings</span>
+                        </a>
+                    </li>
+                    <li *ngSwitchCase="true">
+                        <a class="dropdown-item" routerLink="account/password" routerLinkActive="active" (click)="collapseNavbar()">
+                            <fa-icon icon="lock" [fixedWidth]="true"></fa-icon>
+                            <span style="margin-left:15px;">Password</span>
+                        </a>
+                    </li>
+                    <li *ngSwitchCase="true">
+                        <a class="dropdown-item" (click)="logout()" id="logout">
+                            <fa-icon icon="sign-out-alt" [fixedWidth]="true"></fa-icon>
+                            <span style="margin-left:15px;">Sign out</span>
+                        </a>
+                    </li>
+                    <li *ngSwitchCase="false">
+                        <a class="dropdown-item" routerLink="/login" id="login">
+                            <fa-icon icon="sign-in-alt" [fixedWidth]="true"></fa-icon>
+                            <span>Sign in</span>
+                        </a>
+                    </li>
+                    <li *ngSwitchCase="false">
+                        <a class="dropdown-item" routerLink="account/register" routerLinkActive="active" (click)="collapseNavbar()">
+                            <fa-icon icon="user-plus" [fixedWidth]="true"></fa-icon>
+                            <span>Register</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

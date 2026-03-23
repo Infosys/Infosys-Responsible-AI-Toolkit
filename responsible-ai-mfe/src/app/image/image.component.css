@@ -1,0 +1,612 @@
+/** SPDX-License-Identifier: MIT
+Copyright 2024 - 2025 Infosys Ltd.
+"Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
+*/
+.position-relative {
+    position: relative;
+}
+
+.optional-label {
+    padding-bottom: 7px;
+    position: absolute;
+    top: -14px;
+    right: 33px;
+    font-size: 10px;
+    color: #7E7E7E;
+    font-family: 'Segoe UI';
+}
+.HeadingLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    margin-bottom: 0px;
+    font-weight: 600;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.HeadingLabelSM {
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    letter-spacing: 0px;
+    color: #382261;
+    text-transform: uppercase;
+}
+
+.mainLabel {
+    color: #7E7E7E;
+    padding: 0px;
+    font-weight: 500;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+}
+
+.mainLabel2 {
+    color: #7E7E7E;
+    padding: 0px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.mainLabelSM2 {
+    font-size: 12px;
+}
+
+.HeadingCheckBoxLabel {
+    color: #7E7E7E;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 12px;
+    font-family: 'Segoe UI';
+    text-transform: uppercase;
+}
+
+.mainLabelSM {
+    font-size: 12px;
+}
+
+.mainLabelLight {
+    font-weight: 400;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.drop-zone {
+    width: 180px;
+    height: 165px;
+    border: 2px dashed #dcdcdc;
+    /* Dashed border */
+    border-radius: 5px;
+    text-align: center;
+    color: #4a4a4a;
+    background-color: #FFFFFF;
+    cursor: pointer;
+    position: relative;
+    padding: 23px;
+    /* New */
+    overflow: hidden;
+    /* New */
+}
+
+.drop-zone p {
+    margin-bottom: 20px;
+    /* New */
+}
+
+.drop-zone input[type="file"] {
+    position: absolute;
+    /* New */
+    width: 100%;
+    /* New */
+    height: 100%;
+    /* New */
+    top: 0;
+    /* New */
+    left: 0;
+    /* New */
+    opacity: 0;
+    /* New */
+    cursor: pointer;
+    /* New */
+}
+
+.drop-zone p {
+    margin-bottom: 20px;
+    /* New */
+}
+
+input[type='radio'] {
+    accent-color: #8626C3;
+}
+
+.drop-zone input[type="file"] {
+    position: absolute;
+    /* New */
+    width: 100%;
+    /* New */
+    height: 100%;
+    /* New */
+    top: 0;
+    /* New */
+    left: 0;
+    /* New */
+    opacity: 0;
+    /* New */
+    cursor: pointer;
+    /* New */
+}
+
+.paragraph_dnd {
+    color: #9C9C9C;
+    opacity: 70%;
+    font-family: 'Segoe UI';
+    font-weight: regular;
+    font-size: 12px;
+}
+
+.dnd-lable {
+    /* Segoe UI, Regular .75rem */
+    color: #9C9C9C;
+    opacity: 70%;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+    font-size: .65rem;
+}
+
+.mat-black {
+    color: white;
+    background-color: #231F20;
+}
+
+:host ::ng-deep.mat-mdc-slide-toggle.mat-accent {
+    --mdc-switch-selected-focus-state-layer-color: #E0DCEC;
+    --mdc-switch-selected-handle-color: #E0DCEC;
+    --mdc-switch-selected-hover-state-layer-color: #E0DCEC;
+    --mdc-switch-selected-pressed-state-layer-color: #E0DCEC;
+    --mdc-switch-selected-focus-handle-color: #8626C3;
+    --mdc-switch-selected-hover-handle-color: #8626C3;
+    --mdc-switch-selected-pressed-handle-color: #8626C3;
+    --mdc-switch-selected-focus-track-color: #E0DCEC;
+    --mdc-switch-selected-hover-track-color: #E0DCEC;
+    --mdc-switch-selected-pressed-track-color: #E0DCEC;
+    --mdc-switch-selected-track-color: #E0DCEC;
+}
+
+::ng-deep .mdc-linear-progress__bar-inner {
+    border-color: #8626C3 !important;
+}
+
+
+/* button.component.css */
+
+.toggleLableOn {
+    color: #8626C3;
+    /* Additional styling for full-width button */
+}
+
+.toggleLableOff {
+    color: #382261;
+    /* Additional styling for half-width button */
+}
+
+:host ::ng-deep.form-select {
+    width: 11rem;
+    height: 1.8rem;
+    font-size: 0.75rem;
+    margin-bottom: 1.1rem;
+}
+
+:host ::ng-deep.form-control {
+    width: 11rem;
+    height: 1.8rem;
+    font-size: 0.75rem;
+    margin-bottom: 1.1rem;
+}
+
+:host ::ng-deep.cdk-overlay-backdrop.custom-backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    top: 57px;
+    width: 100%;
+    height: calc(100% - 57px);
+}
+
+.analyseCard {
+    background-color: #474747;
+    /* font-size: small; */
+    color: #FFFFFF;
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
+}
+
+.image-container {
+    display: flex;
+    width: 180px;
+}
+
+.imgcardsize {
+    width: 58px;
+    height: 51px;
+    overflow: hidden;
+}
+
+.button-container {
+    display: flex;
+    justify-content: right;
+}
+
+.mainBtn {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: 11px;
+    height: 24px;
+    width: 70px;
+}
+
+.resetButton {
+    width: 65px;
+}
+
+.fileContainer {
+    width: 158px;
+}
+
+.cancel-button {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    width: 15px;
+    height: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+.cancel-button mat-icon {
+    color: white;
+    width: 10px;
+    height: 10px;
+    font-size: 10px;
+}
+
+.mat-black {
+    color: white;
+    background-color: #231F20;
+}
+
+.mat-reset {
+    color: white;
+    background-color: #BFBFBF;
+}
+
+.browse-logo {
+    opacity: 70%;
+    width: 3.914 rem;
+    height: 2.739 rem;
+}
+
+.high-light {
+    /* Segoe UI, Semibold .75rem */
+    font-family: 'Segoe UI';
+    font-weight: 600 !important;
+    font-size: .75rem;
+    color: #061838 !important;
+    opacity: 70% !important;
+}
+
+.button-container2 {
+    display: flex;
+    justify-content: space-between;
+    /* Distributes items along the main axis */
+}
+
+.buttonGen {
+    font-family: 'Segoe UI';
+    font-weight: semi-bold;
+    font-size: 12px;
+    height: 28px;
+    width: 118px;
+    color: #8626C3;
+}
+
+
+/*  */
+
+
+/* .output {
+    white-space: pre-wrap ; 
+    word-wrap: break-word; 
+    display: block; 
+    overflow-x: auto; 
+    padding: 0.5em; 
+    background: rgb(51, 51, 51); 
+    color: white;
+    
+} */
+
+.radio-checked-img {
+    border-width: medium;
+    border-color: #8626C3;
+}
+
+
+
+.outputCard {
+    height: 257px;
+}
+
+.outputDataCard {
+    position: relative;
+    height: 257px;
+    overflow: auto;
+    width: 415px;
+}
+
+.outputDataCard pre {
+    background-color: #474747;
+    padding: 10px;
+    margin: 0px;
+    color: #FFFFFF;
+}
+
+.caret-container {
+    position: relative;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(159, 155, 155, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.example-card {
+    max-width: 400px;
+    align-items: center;
+}
+
+.imgStyle {
+    height: 75%;
+    margin: 2rem;
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.actionBtn {
+    color: #8626C3;
+    border: none;
+    background: none;
+    font-size: 19px;
+    padding-left: 135px;
+    margin-top: 3px;
+    margin-right: 10px;
+}
+
+.form-control-text {
+    width: 11rem;
+    height: 3.8rem;
+    font-size: 0.75rem;
+    margin-bottom: 1.1rem;
+    border-radius: var(--bs-border-radius);
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+.cardA {
+    color: black;
+    padding: 10px;
+    background-color: #ececec;
+    border-radius: 8px;
+}
+
+.cardB {
+    flex: 1;
+}
+
+.reportBTN {
+    background: none;
+    border: 1px solid #8626C3;
+    border-radius: 5px;
+    padding-bottom: 3px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.reportBTN:hover {
+    background-color: #8626C3;
+    color: white;
+}
+
+.custom-badge {
+    color: rgb(31, 31, 31);
+    font-size: 0.68rem;
+    background-color: rgb(219, 219, 219);
+    display: flex;
+    align-items: center;
+    padding: 0px 7px;
+    border-radius: 4px;
+    height: 20px;
+}
+
+.custom-badge-passed {
+    color: rgb(20 83 45);
+    background-color: rgb(220 252 231);
+}
+
+.custom-badge-failed {
+    color: rgb(255 0 78);
+    background-color: rgb(255 228 230);
+}
+
+.d-flex {
+    display: flex;
+}
+
+.flex-column {
+    flex-direction: column;
+}
+
+
+/* .form-select {
+    margin-top: 5px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    border-radius: 10px;
+    height: 70px;
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.3rem;
+  } */
+
+.shadow-none {
+    box-shadow: none;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.dropdown {
+    max-width: 11rem;
+    height: 1.8rem;
+    border: 1px solid #dee2e6;
+    border-radius: 3px;
+    padding: 0px 10px;
+    font-size: smaller;
+}
+
+ ::ng-deep.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+.mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+    background: #8626C3;
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.smallIcon {
+    -webkit-user-select: none;
+    user-select: none;
+    background-repeat: no-repeat;
+    display: inline-block;
+    fill: currentColor;
+    overflow: hidden;
+    margin-bottom: 15px;
+    /* Optional: Adds space between the icon and the dropdown */
+}
+
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    /* Vertically center the items */
+    gap: 8px;
+    /* Optional: Adds spacing between the icon and the dropdown */
+}
+.dnd-lable1{ 
+    color: red;
+    font-size: x-small;
+}
+
+.uploadButton {
+    display: none;
+}
+
+.uploadButton + label {
+    width: 73px;
+    height: 27px;
+    background-color: #8626C3;
+    color: #FFFFFF;
+    letter-spacing: 0px;
+    border-radius: 3px;
+    border: none;
+    font-family: 'Segoe UI';
+    font-size: 12px;
+    cursor: pointer;
+    text-align: center;
+    align-content: center;
+    font-weight: 400;
+}
+
+.uploadButton:active + label {
+    background-color: #8626C3;
+}
+.dnd-lable {
+    opacity: 70%;
+    font-family: 'Segoe UI';
+    font-weight: 500;
+}
+.smaller-image-card {
+    width: 190px; 
+    height: 190px;
+}
+ .imgStyle1{
+    height: 75%;
+    width: 100%; 
+    height: 100%;
+    object-fit: cover;
+}
+.explanation{
+    color: #7E7E7E;
+    font-size: 14px; 
+    font-family: 'Segoe UI';
+    font-weight: 400;
+    padding: 3px;
+}
+.mainLabel {
+    color: #2e2e2e;
+    padding: 0px;
+    font-weight: 500;
+    font-size: 13px;
+    font-family: 'Segoe UI';
+}
+
+.mainLabelSM {
+    font-size: 12px;
+}
+
+/* .outputImageCard {
+    width: 320px;
+    height: 250px;
+} */
+
+.outputImageCard {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fullscreen-button-wrapper {
+    position: absolute;
+    top: 7%;
+    left: 96%;
+    transform: translate(-50%, -50%);
+    z-index: 10; /* Ensure the button is on top */
+}
+
+.expand-button {
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: Add a background color for better visibility */
+    color: white;
+    border-radius: 50%;
+    width: 34px; /* Adjust the width as needed */
+    height: 32px; /* Adjust the height as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;/* Ensure no padding inside the button */
+}
+
+.expand-button mat-icon {
+    font-size: 24px; /* Adjust the font size as needed */
+    line-height: 26px; /* Ensure the icon is vertically centered */
+}
