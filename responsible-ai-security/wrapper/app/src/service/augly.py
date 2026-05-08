@@ -1,12 +1,14 @@
 '''
-MIT license https://opensource.org/licenses/MIT
-Copyright 2024-2025 Infosys Ltd.
- 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 '''
 
 
@@ -50,7 +52,6 @@ class Augly:
         try:    
             model, model_path, modelName, modelFramework = UT.readModelFile(payload)
             img, data_path = UT.readDataFile({'BatchId':payload, 'model':model ,'modelFramework':modelFramework})
-            # img, data_path = UT.readDataFile(payload)
             Payload_path = UT.readPayloadFile(payload)
 
             with open(f'{Payload_path}') as f:
@@ -66,8 +67,6 @@ class Augly:
                 pred = model.predict(x_art)
                 actual_prediction = np.argmax(pred, axis=1)[0]
                 base_actual_confidence = pred[:,actual_prediction][0]
-                # Defect_Class = {0: "Pit defect", 1: "Edge crack", 2: "Scratches", 3: "Rolled-in scale"} 
-                # Defect_Class = dict(zip(payload_data['groundTruthClassNames'], eval(payload_data['groundTruthClassLabel'])))
                 Defect_Class = dict(zip(payload_data['groundTruthClassNames'], payload_data['groundTruthClassLabel'].split(',')))
                 base_prediction_class = Defect_Class[actual_prediction]
                 print('Prediction:', base_prediction_class, '- confidence {0:.2f}'.format(base_actual_confidence))
@@ -78,8 +77,6 @@ class Augly:
                 pred_adv = classifier.predict(x_art_adv)
                 label_adv = np.argmax(pred_adv, axis=1)[0]
                 adv_confidence = pred[:,label_adv][0]
-                # Defect_Class = {0: "Pit defect", 1: "Edge crack", 2: "Scratches", 3: "Rolled-in scale"}
-                # Defect_Class = dict(zip(payload_data['groundTruthClassNames'], eval(payload_data['groundTruthClassLabel'])))
                 Defect_Class = dict(zip(payload_data['groundTruthClassNames'], payload_data['groundTruthClassLabel'].split(',')))
                 adv_prediction_class = Defect_Class[label_adv]
                 print('Prediction:', adv_prediction_class, '- confidence {0:.2f}'.format(adv_confidence))
@@ -95,19 +92,10 @@ class Augly:
                 l.append(adv_confidence)
                 l.append(perturbation)
                 attackDataList[k] = l
-                # attackDataList.append(l)
             
             Payload = {
                     'modelName':modelName,
                     'attackName':"Augly",
-                    # 'imageName':f"{os.path.basename(data_path).split('.')[0]}_Deepfool",
-                    # 'base_sample':x_art,
-                    # 'adversial_sample':x_art_adv,
-                    # 'basePrediction_class':base_prediction_class,
-                    # 'adversialPrediction_class':adv_prediction_class,
-                    # 'baseActual_confidence':base_actual_confidence,
-                    # 'adversialActual_confidence':adv_confidence,
-                    # 'perturbation':perturbation,
                     'attackDataList':attackDataList
                 }
             

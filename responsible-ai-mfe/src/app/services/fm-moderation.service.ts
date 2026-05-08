@@ -6,9 +6,37 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, from } from 'rxjs';
+import { BehaviorSubject, Observable, from, map, catchError, throwError } from 'rxjs';
 import { NonceService } from '../nonce.service';
 import { urlList } from '../urlList';
+import {
+  ApiEndpoints,
+  PrivacyAnalyzePayload,
+  PrivacyAnonymizePayload,
+  PrivacyEncryptPayload,
+  ProfanityPayload,
+  ExplainabilityPayload,
+  COVPayload,
+  FairnessPayload,
+  FMConfigPayload,
+  LLMEvalPayload,
+  OpenAIPayload,
+  RAGRetrievalPayload,
+  GEvalPayload,
+  MultimodalUploadData,
+  NemoCheckPayload,
+  UserRolePayload,
+  UserRoleResponse,
+  ApiResponse,
+  HallucinationResponse,
+  LightRagResponse,
+  FileUploadPayload,
+  EmbeddingPayload,
+  TimeApiResponse,
+  RecommendationResponse,
+  RecognizerResponse,
+  SummaryEvalPayload
+} from './interfaces/fm-moderation.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -96,6 +124,7 @@ export class FmModerationService {
     this.apiEndpoints.tokenImp = ip_port.result.Llm_Explain + ip_port.result.Token_Importance;
     this.apiEndpoints.UncertainApi = ip_port.result.Llm_Explain + ip_port.result.Uncertainty;
     this.apiEndpoints.thotApi = ip_port.result.FM_Moderation + ip_port.result.OpenAiThot;
+    this.apiEndpoints.explainCOV = ip_port.result.Llm_Explain + ip_port.result.Explain_Cov;
 
     // PRIVACY API
     this.apiEndpoints.privacyAnonApi = ip_port.result.Privacy + ip_port.result.Privacy_text_anonymize;
@@ -110,7 +139,7 @@ export class FmModerationService {
 
     this.apiEndpoints.explApiUrl = ip_port.result.Explainability
     // FAIRNESS API
-    this.apiEndpoints.FairnessApiUrl = ip_port.result.FairnessAzure + ip_port.result.FairUnstructure;
+    this.apiEndpoints.FairnessApiUrl = ip_port.result.Fairness + ip_port.result.FairUnstructure;
 
     // HALLUCINATION
     this.apiEndpoints.Admin_getEmbedings = ip_port.result.Admin_Rag + ip_port.result.Admin_getEmbedings;
@@ -120,6 +149,18 @@ export class FmModerationService {
     this.apiEndpoints.hall_thot = ip_port.result.Rag + ip_port.result.RagTHOT;
 
     this.apiEndpoints.GetTemplates = ip_port.result.Admin + ip_port.result.GETACCTEMPMAP;
+    
+    // RECOMMENDATION API
+    this.apiEndpoints.promptRecommendation = ip_port.result.FM_Moderation + ip_port.result.PromptRecommendation;
+    
+    // PRIVACY RECOGNIZERS
+    this.apiEndpoints.privacyRecognizersList = ip_port.result.Privacy + ip_port.result.Privacy_getRecognizer;
+    
+    // RAG G-EVAL
+    this.apiEndpoints.RAG_gEval = ip_port.result.Rag + ip_port.result.RagGEVAL;
+    
+    // LIGHT RAG
+    this.apiEndpoints.lightRag = ip_port.result.Rag + ip_port.result.LiteRAG;
   }
 
   // Updates the data source with new data
@@ -178,19 +219,19 @@ export class FmModerationService {
   }
 
   // Calls the FM service API based on the selected mode
-  getFMService(endpoint: string, data: any, fmlocalselected: any, p0?: unknown) {
-    console.log(endpoint,"endpoint","DATA:", data,)
+  getFMService(data: any, fmlocalselected: any, p0?: unknown) {
+    console.log("DATA:", data);
     const value = urlList.authToken
     const headers = new HttpHeaders
     ({'Authorization': value });
     console.log("FM VALUE: ", fmlocalselected);
     if (fmlocalselected == false) {
       console.log("DEPLOYED API TRIGGERED");
-      return this.https.post(endpoint, data,{ headers: headers});
+      return this.https.post(this.apiEndpoints.fm_api, data,{ headers: headers});
     } else if (fmlocalselected == true) {
       console.log("LOCAL API TRIGGERED");
  
-      return this.getModerationData(endpoint,data);
+      return this.getModerationData(this.apiEndpoints.fm_api, data);
     } else {
       // Default return statement
       console.log("INVALID FM VALUE");
@@ -226,6 +267,11 @@ export class FmModerationService {
 
       // Listen for the response from the content script
       window.addEventListener('message', function(event) {
+        // Verify the origin of the received message
+        if (event.origin !== window.location.origin) {
+          return;
+        }
+
         // Only accept messages from the same frame
         if (event.source !== window) {
           return;
@@ -254,6 +300,336 @@ export class FmModerationService {
     return state;
   }
 
+  // ====== PRIVACY API METHODS ======
+  
+  /**
+   * Calls Privacy Analyze API
+   */
+  callPrivacyAnalyze(payload: PrivacyAnalyzePayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.privacyAnalyzeApi, payload);
+  }
 
+  /**
+   * Calls Privacy Anonymize API
+   */
+  callPrivacyAnonymize(payload: PrivacyAnonymizePayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.privacyAnonApi, payload);
+  }
 
+  /**
+   * Calls Privacy Encrypt API
+   */
+  callPrivacyEncrypt(payload: PrivacyEncryptPayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.privacyEncrypt, payload);
+  }
+
+  /**
+   * Calls Privacy Decrypt API
+   */
+  callPrivacyDecrypt(payload: any): Observable<any> {
+    return this.https.post(this.apiEndpoints.privacyDecrypt, payload);
+  }
+
+  /**
+   * Gets available recognizers for privacy
+   */
+  getRecognizers(): Observable<RecognizerResponse> {
+    const headers = { 'accept': 'application/json' };
+    return this.https.get<RecognizerResponse>(this.apiEndpoints.privacyRecognizersList!, { headers });
+  }
+
+  // ====== PROFANITY API METHODS ======
+  
+  /**
+   * Calls Profanity Analyze API
+   */
+  callProfanityAnalyze(payload: ProfanityPayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.profAnzApiUrl, payload);
+  }
+
+  /**
+   * Calls Profanity Censor API
+   */
+  callProfanityCensor(payload: ProfanityPayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.profCenApiUrl, payload);
+  }
+
+  // ====== EXPLAINABILITY API METHODS ======
+  
+  /**
+   * Calls Explainability API
+   */
+  callExplainability(payload: ExplainabilityPayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.explApiUrl, payload);
+  }
+
+  /**
+   * Calls COV (Chain of Verification) API
+   */
+  callCOV(payload: COVPayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.Moderationlayer_COV, payload);
+  }
+  callExplain_COV(payload: COVPayload): Observable<any> {
+    console.log("COV PAYLOAD IN SERVICE:", this.apiEndpoints.explainCOV);
+    return this.https.post(this.apiEndpoints.explainCOV, payload);
+  }
+
+  // ====== FAIRNESS API METHODS ======
+  
+  /**
+   * Calls Fairness API
+   */
+  callFairness(payload: FairnessPayload): Observable<any> {
+    const body = new URLSearchParams();
+    body.set('response', payload.response);
+    body.set('evaluator', payload.evaluator);
+    
+    return this.https.post(this.apiEndpoints.FairnessApiUrl, body, {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    });
+  }
+
+  /**
+   * Calls Fairness Image API
+   */
+  callFairnessImage(formData: FormData): Observable<any> {
+    return this.https.post(this.apiEndpoints.FairnessApiUrl + 'fairness_image', formData);
+  }
+
+  // ====== FM MODERATION API METHODS ======
+  
+  /**
+   * Calls FM Config API
+   */
+  callFMConfig(payload: FMConfigPayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.fm_config_getAttributes, payload).pipe(
+      map((response: any) => ({
+        response,
+        comp_Payload: response
+      })),
+      catchError(error => throwError(error))
+    );
+  }
+
+  /**
+   * Calls LLM Evaluation API
+   */
+  callLLMEval(payload: LLMEvalPayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.llm_eval, payload);
+  }
+
+  /**
+   * Calls OpenAI API
+   */
+  callOpenAI(payload: OpenAIPayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.fm_api_openAi, payload);
+  }
+
+  /**
+   * Gets user role settings
+   */
+  getUserRole(payload: UserRolePayload): Observable<UserRoleResponse> {
+    return this.https.post<UserRoleResponse>(this.apiEndpoints.admin_fm_admin_UserRole, payload);
+  }
+
+  /**
+   * Gets FM API time
+   */
+  getFMTime(): Observable<TimeApiResponse> {
+    return this.https.get<TimeApiResponse>(this.apiEndpoints.fm_api_time!);
+  }
+
+  // ====== RAG API METHODS ======
+  
+  /**
+   * Calls RAG Retrieval API
+   */
+  callRAGRetrieval(payload: RAGRetrievalPayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.rag_Retrieval, payload);
+  }
+
+  /**
+   * Calls Light RAG API
+   */
+  callLightRAG(formData: FormData): Observable<any> {
+    return this.https.post(this.apiEndpoints.lightRag, formData);
+  }
+
+  /**
+   * Calls G-Eval API
+   */
+  callGEval(payload: SummaryEvalPayload): Observable<any> {
+    return this.https.post(this.apiEndpoints.RAG_gEval, payload);
+  }
+
+  /**
+   * Uploads file for RAG
+   */
+  uploadRAGFile(formData: FormData): Observable<any> {
+    return this.https.post(this.apiEndpoints.rag_FileUpload, formData);
+  }
+
+  /**
+   * Gets embeddings
+   */
+  getEmbeddings(payload: EmbeddingPayload): Observable<any> {
+    const body = new URLSearchParams();
+    body.set('userId', payload.userId);
+    
+    return this.https.post(this.apiEndpoints.Admin_getEmbedings, body, {
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
+    });
+  }
+
+  // ====== MULTIMODAL API METHODS ======
+  
+  /**
+   * Calls Multimodal API
+   */
+  callMultimodal(url: string, formData: FormData): Observable<any> {
+    return this.https.post(url, formData);
+  }
+
+  // ====== NEMO GUARDRAIL API METHODS ======
+  
+  /**
+   * Calls Nemo Check API
+   */
+  callNemoCheck(apiUrl: string, fileData: FormData): Observable<any> {
+    return this.https.post(apiUrl, fileData);
+  }
+
+  /**
+   * Calls Nemo Moderation Rail API
+   */
+  callNemoModerationRail(fileData: FormData): Observable<any> {
+    return this.https.post(this.apiEndpoints.nemo_ModerationRail, fileData);
+  }
+
+  // ====== RECOMMENDATION API METHODS ======
+  
+  /**
+   * Gets prompt recommendations
+   */
+  getRecommendations(): Observable<RecommendationResponse> {
+    return this.https.post<RecommendationResponse>(this.apiEndpoints.promptRecommendation!, {});
+  }
+
+  // ====== TRANSLATION API METHODS ======
+  
+  /**
+   * Calls Translation API
+   */
+  callTranslate(payload: any): Observable<any> {
+    return this.https.post(this.apiEndpoints.Moderationlayer_Translate, payload);
+  }
+
+  // ====== ADDITIONAL FILE UPLOAD METHODS ======
+  
+  /**
+   * Uploads file with specific payload structure
+   */
+  uploadFileWithPayload(file: File, selectModel: string = 'gemini'): Observable<any> {
+    const fileData = new FormData();
+    fileData.append('payload', file);
+    fileData.append('select_model', selectModel);
+    return this.https.post(this.apiEndpoints.rag_FileUpload, fileData);
+  }
+
+  /**
+   * Uploads multiple files for RAG processing
+   */
+  uploadMultipleFiles(files: File[], selectModel: string = 'openai'): Observable<any> {
+    const fileData = new FormData();
+    files.forEach(file => {
+      fileData.append('files', file);
+    });
+    fileData.append('llmtype', selectModel);
+    return this.https.post(this.apiEndpoints.rag_FileUpload, fileData);
+  }
+
+  // ====== IMAGE PROCESSING API METHODS ======
+  
+  /**
+   * Analyzes image for profanity
+   */
+  analyzeProfanityImageAdvanced(formData: FormData, endpoint: string): Observable<any> {
+    return this.https.post(endpoint, formData);
+  }
+
+  /**
+   * Analyzes privacy in image with specific endpoint
+   */
+  analyzePrivacyImageAdvanced(formData: FormData, endpoint: string): Observable<any> {
+    return this.https.post(endpoint, formData);
+  }
+
+  /**
+   * Anonymizes privacy in image with specific endpoint
+   */
+  anonymizePrivacyImageAdvanced(formData: FormData, endpoint: string): Observable<any> {
+    return this.https.post(endpoint, formData);
+  }
+
+  /**
+   * Processes fairness for images
+   */
+  processFairnessImage(formData: FormData, endpoint: string): Observable<any> {
+    return this.https.post(endpoint, formData);
+  }
+
+  // ====== ERROR HANDLING ======
+  
+  /**
+   * Generic error handler for API calls
+   */
+  handleError(error: any): Observable<ApiResponse> {
+    let message = 'An error occurred';
+    
+    if (error.status === 430) {
+      message = error.error.detail;
+    } else if (error.status === 500) {
+      message = "Internal Server Error. Please try again later.";
+    } else {
+      message = error.error?.detail || error.error?.message || "API has failed";
+    }
+    
+    return throwError({
+      success: false,
+      error: message,
+      status: error.status
+    });
+  }
+
+  // ====== UTILITY METHODS ======
+  
+  /**
+   * Safely gets API endpoint URL
+   */
+  private getApiEndpoint(endpoint: keyof ApiEndpoints): string {
+    const url = this.apiEndpoints[endpoint];
+    if (!url) {
+      throw new Error(`API endpoint '${endpoint}' is not configured`);
+    }
+    return url;
+  }
+
+  /**
+   * Creates form data for file uploads
+   */
+  createFileFormData(files: File[], additionalData?: Record<string, string>): FormData {
+    const formData = new FormData();
+    
+    files.forEach(file => {
+      formData.append('file', file);
+    });
+    formData.append('select-model', "openai");
+    if (additionalData) {
+      Object.keys(additionalData).forEach(key => {
+        formData.append(key, additionalData[key]);
+      });
+    }
+    
+    return formData;
+  }
 }

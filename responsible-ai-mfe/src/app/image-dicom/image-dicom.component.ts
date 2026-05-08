@@ -4,14 +4,14 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { DICOMViewerComponent } from '../dicom-lib/dicom-viewer.component';
 import * as cornerstoneWADOImageLoader from "cornerstone-wado-image-loader";
 import * as cornerstone from "cornerstone-core";
 import * as dicomParser from 'dicom-parser';
 import { environment } from 'src/environments/environment';
 import { ImageDicomService } from './image-dicom.service';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject, takeUntil } from 'rxjs';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, AbstractControl, ValidationErrors, Validators } from '@angular/forms';
@@ -23,7 +23,8 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
   templateUrl: './image-dicom.component.html',
   styleUrls: ['./image-dicom.component.css']
 })
-export class ImageDicomComponent {
+export class ImageDicomComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   isLoadingUpload = true;
   isLoadingOutput = false; // Add this line
   isLoadingFile = false; // Add this line
@@ -38,6 +39,10 @@ export class ImageDicomComponent {
   dicomThumb1 = environment.imagePathurl + '/assets/image/dicomThumb1.png';
   dicomThumb2 = environment.imagePathurl + '/assets/image/dicomThumb2.png';
   dicomThumb3 = environment.imagePathurl + '/assets/image/dicomThumb3.png';
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   dicomFile: any[] = [];
   selectedDicomFile: File | any;
@@ -348,7 +353,7 @@ export class ImageDicomComponent {
         } else {
           console.log(this.selectedFile.name);
           fileData.append('payload', this.selectedFile);
-          this.dicomService.api(this.dicomUrl, fileData).subscribe((res) => {
+          this.dicomService.api(this.dicomUrl, fileData).pipe(takeUntil(this.destroy$)).subscribe((res) => {
             console.log(res);
             this.res1 = this.sanitizeImage(res.original);
             this.res2 = this.sanitizeImage(res.anonymize);

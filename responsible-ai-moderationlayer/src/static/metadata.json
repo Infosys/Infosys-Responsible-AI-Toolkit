@@ -2170,6 +2170,11 @@
                             "Terrorism",
                             "Explosives"
                         ]
+                    },
+                    "model": {
+                        "type": "string",
+                        "title": "Model",
+                        "example": "deberta"
                     }
                 },
                 "type": "object",
@@ -2249,7 +2254,7 @@
                     "promptInjectionCheck": {
                         "$ref": "#/components/schemas/promptInjectionCheck"
                     },
-                    "jailbreakCheck": {
+                     "jailbreakCheck": {
                         "$ref": "#/components/schemas/jailbreakCheck"
                     },
                     "privacyCheck": {
@@ -2323,6 +2328,9 @@
                     },
                     "privacyCheck": {
                         "$ref": "#/components/schemas/privacyCheck"
+                    },
+                    "jailbreakCheck": {
+                        "$ref": "#/components/schemas/jailbreakCheck"
                     },
                     "profanityCheck": {
                         "$ref": "#/components/schemas/profanityCheck"

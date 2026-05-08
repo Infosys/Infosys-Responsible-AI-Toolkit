@@ -1,13 +1,14 @@
 '''
-MIT license https://opensource.org/licenses/MIT Copyright 2024 Infosys Ltd
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
-
 
 
 
@@ -15,10 +16,11 @@ import datetime
 import logging
 import os
 import sys
-from .config import readConfig
+from typing import Optional  
+from .config import read_config
 
 
-class CustomLogger(logging.getLoggerClass()):
+class CustomLogger(logging.Logger):  
 
 
     def __init__(self):
@@ -40,17 +42,18 @@ class CustomLogger(logging.getLoggerClass()):
         # Create custom logger logging all five levels
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         log_cfg_path = os.path.join(BASE_DIR, 'logger.ini')
-        log_params = readConfig('logDetails', log_cfg_path)
+        log_params = read_config('logDetails', log_cfg_path)
 
-        name = log_params['file_name']
-        try:
-            verbose = bool(log_params['verbose'])
-        except:
-            verbose = False
+        raw_name = log_params.get('file_name') or 'application_logger'  # ensure non-None
+        name = str(raw_name)
 
-        log_dir = str(log_params['log_dir'])
+        verbose_raw = str(log_params.get('verbose', 'False')).strip().lower()
+        verbose = verbose_raw in ('true', '1', 'yes')
 
-        super().__init__(name)
+        log_dir_raw = log_params.get('log_dir', '')
+        log_dir = os.path.normpath(str(log_dir_raw).strip()) if log_dir_raw else ''
+        self.log_dir = log_dir  
+        super().__init__(name) 
         self.setLevel(logging.DEBUG)
 
         # Add new logging level
@@ -60,18 +63,18 @@ class CustomLogger(logging.getLoggerClass()):
         self.verbose = verbose
 
         # Create stream handler for logging to stdout (log all five levels)
-        self.stdout_handler = logging.StreamHandler(sys.stdout)
+        self.stdout_handler: logging.StreamHandler = logging.StreamHandler(sys.stdout)
         self.stdout_handler.setLevel(logging.DEBUG)
         self.stdout_handler.setFormatter(logging.Formatter('%(message)s'))
         self.enable_console_output()
 
-        self.file_handler = None
-        if log_dir:
-            self.add_file_handler(name, log_dir)
+        self.file_handler: Optional[logging.FileHandler] = None
+        if self.log_dir:
+            self.add_file_handler(name, self.log_dir)
 
 
 
-    def add_file_handler(self, name, log_dir):
+    def add_file_handler(self, name: str, log_dir: str) -> None:
 
         """Add a file handler for this logger with the specified `name` (and store the log file
         under `log_dir`)."""
@@ -85,36 +88,42 @@ class CustomLogger(logging.getLoggerClass()):
         if not os.path.exists(log_dir):
             try:
                 os.makedirs(log_dir)
-            except:
-                print(f'{self.__class__.__name__}: Cannot create directory {log_dir}. ',
-                      end='', file=sys.stderr)
+            except OSError as exc:  
+                print(f'{self.__class__.__name__}: Cannot create directory {log_dir}. ', end='', file=sys.stderr)
+                print(f'Reason: {exc}', file=sys.stderr)
                 log_dir = '/tmp' if sys.platform.startswith('linux') else '.'
                 print(f'Defaulting to {log_dir}.', file=sys.stderr)
-
         log_file = os.path.join(log_dir, log_name) + '.log'
 
         # Create file handler for logging to a file (log all five levels)
-        self.file_handler = logging.FileHandler(log_file)
-        self.file_handler.setLevel(logging.DEBUG)
-        self.file_handler.setFormatter(formatter)
-        self.addHandler(self.file_handler)
+        try:
+            fh = logging.FileHandler(log_file)
+        except OSError as exc:  # PermissionError covered
+            print(f'{self.__class__.__name__}: Cannot open log file {log_file}.', file=sys.stderr)
+            print(f'Reason: {exc}', file=sys.stderr)
+            return
+        fh.setLevel(logging.DEBUG)
+        fh.setFormatter(formatter)
+        self.file_handler = fh
+        self.addHandler(fh)
 
 
 
-    def has_console_handler(self):
+    def has_console_handler(self) -> bool:
 
-        return len([h for h in self.handlers if type(h) == logging.StreamHandler]) > 0
+        return any(isinstance(h, logging.StreamHandler) for h in self.handlers)
 
 
 
-    def has_file_handler(self):
+    def has_file_handler(self) -> bool:
 
-        return len([h for h in self.handlers if isinstance(h, logging.FileHandler)]) > 0
+        return any(isinstance(h, logging.FileHandler) for h in self.handlers)
 
 
 
     def disable_console_output(self):
-
+        if not hasattr(self, "stdout_handler"):
+            return
         if not self.has_console_handler():
             return
         self.removeHandler(self.stdout_handler)
@@ -129,19 +138,15 @@ class CustomLogger(logging.getLoggerClass()):
 
 
 
-    def disable_file_output(self):
+    def disable_file_output(self) -> None:
 
-        if not self.has_file_handler():
-            return
-        self.removeHandler(self.file_handler)
+        if self.file_handler and self.has_file_handler():
+            self.removeHandler(self.file_handler)
 
+    def enable_file_output(self) -> None:
 
-
-    def enable_file_output(self):
-
-        if self.has_file_handler():
-            return
-        self.addHandler(self.file_handler)
+        if self.file_handler and not self.has_file_handler():
+            self.addHandler(self.file_handler)
 
 
 
@@ -154,7 +159,7 @@ class CustomLogger(logging.getLoggerClass()):
     
 
 
-    def _custom_log(self, func, msg, *args, **kwargs):
+    def _custom_log(self, func, msg, *args, **kwargs) -> None:
 
         """Helper method for logging DEBUG through CRITICAL messages by calling the appropriate
         `func()` from the base class."""
@@ -162,12 +167,11 @@ class CustomLogger(logging.getLoggerClass()):
         if self.verbose:
             return func(msg, *args, **kwargs)
 
-        # If verbosity is off and there is no file handler, there is nothing left to do
+       
         if not self.has_file_handler():
             return
 
-        # If verbosity is off and a file handler is present, then disable stdout logging, log, and
-        # finally reenable stdout logging
+       
         self.disable_console_output()
         func(msg, *args, **kwargs)
         self.enable_console_output()
@@ -206,4 +210,5 @@ class CustomLogger(logging.getLoggerClass()):
 
 
 if __name__ == "__main__":
+    CustomLogger()
     CustomLogger()

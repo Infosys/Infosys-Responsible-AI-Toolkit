@@ -6,43 +6,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 -->
 <div class="col-md-12">
     <div class="card fixed-height-card" *ngIf="option === 'Sentiment'">
-        <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
+        <div class="card-header cursor border-bottom-0" style="background: none;" id="headingOne">
             <div>
                 <label role='button' class="mainLabel cursor" style="display: flex;">
-                    SENTIMENT <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
-                        [inline]="true"
+                    SENTIMENT <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true"
                         (click)="openRightSideModal({title:'Sentimental Analysis',type:'Sentiment'}); $event.stopPropagation()">info</mat-icon>
                 </label>
             </div>
             <div class="col-md-10 text-end ">
-                <p class="mainLabel mainLabelSM ">Time Taken: <span>{{explainabilityRes?.explanation[0].time_taken}}s</span>
+                <p class="mainLabel mainLabelSM ">Time Taken:
+                    <span>{{explainabilityRes?.explanation[0].time_taken}}s</span>
                 </p>
             </div>
         </div>
-        <!-- <div>
-            <label role='button' class="mainLabel cursor" style="display: flex;">
-                SENTIMENT <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
-                    [inline]="true"
-                    (click)="openRightSideModal({title:'Sentimental Analysis',type:'Sentiment'}); $event.stopPropagation()">info</mat-icon>
-            </label>
-        </div> -->
-
-        <!-- <div class="table-container" style="display: flex; justify-content: center;">
-            <table>
-                <tr class="mainLabel mainLabelSM">
-                    <th style="padding: 0 15px; text-align: center;">Token</th>
-                    <th style="padding: 0 15px; text-align: center;">Importance Score</th>
-                    <th style="padding: 0 15px; text-align: center;">Position</th>
-                </tr>
-            <tr *ngFor="let item of topSentiments" class="mainLabel mainLabelSM mainLabelLight">
-                <td style="padding: 0 15px; text-align: center;">{{item.token}}</td>
-                <td style="padding: 0 15px; text-align: center;">{{item.importance_score | number:'1.2-2'}}</td>
-                <td style="padding: 0 15px; text-align: center;">{{item.position}}</td>
-            </tr>
-            </table>
-        </div> -->
-        <p class="mainLabel mainLabelSM mainLabelLight  ms-3 mt-4 me-3"><span class="mainLabel mainLabelSM mb-0"><strong>Analysis: </strong>
-        </span>{{ explainabilityRes?.explanation[0].explanation }}</p>
+        <p class="mainLabel mainLabelSM mainLabelLight  ms-3 mt-4 me-3">
+            <span class="mainLabel mainLabelSM mb-0"><strong>Analysis: </strong></span>
+            {{ explainabilityRes?.explanation[0].explanation }}</p>
         <div class="d-flex mt-3 mb-2 flex-wrap">
             <div class="cardA  mb-3 ms-3  flex-1" style="flex: 0 0 60%;">
                 <p class="mainLabel ms-2" style="    color: #232323; margin: 0px; font-size: small;">
@@ -56,39 +35,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             </div>
         </div>
         <div style="display: block; width: 700px; height: 350px; align-self: center; margin-top: 20px; margin-bottom: 0px; padding: 0; box-sizing: border-box;">
-            <canvas id="myBarChart" width="700" height="350" style="display: block; box-sizing: border-box; height: 100%; width: 100%;"></canvas>
+            <canvas id="myBarChart" width="700" height="350"
+                style="display: block; box-sizing: border-box; height: 100%; width: 100%;"></canvas>
         </div>
-        <!-- <h5 class="mainLabel d-flex mt-1 mb-1" style="font-size: 0.94rem; color: #303030;">
-            EXPLAINABILITY
-        </h5> -->
-        <!-- <div class="card-body p-2 d-flex flex-column"> -->
-        <!-- Keywords Card -->
-        <!-- <div class="d-flex mb-3 me-2" style="width: 100%;">
-                <div class="card" style="flex: 0 0 70%;">
-                    <div class="mainLabel d-flex mt-1 mb-1" style="border-bottom: none; background-color: transparent; font-size: 0.94rem; color: #303030;">
-                        Keywords
-                    </div>
-                    <div class="card-body d-flex flex-wrap">
-                        <span *ngFor="let keyword of explainabilityRes.explanation[0].anchor" class="cardA badge badge-primary m-1">{{ keyword }}</span>
-                    </div>
-                </div>
-                <span class="custom-badge d-flex align-items-center justify-content-center"
-                      style="flex: 0 0 15%; margin-left: 10%;"
-                      [class.custom-badge-positive]="explainabilityRes.explanation[0].predictedTarget === 'Positive'"
-                      [class.custom-badge-negative]="explainabilityRes.explanation[0].predictedTarget === 'Negative'">
-                      {{ explainabilityRes.explanation[0].predictedTarget }}
-                </span>
-            </div> -->
-        <!-- Analysis Card -->
-        <!-- <div class="card mb-2 me-2" style="flex: 0 0 auto;">
-                <div class="mainLabel d-flex mt-1 mb-1" style="border-bottom: none; background-color: transparent; font-size: 0.94rem; color: #303030;">
-                    Analysis
-                </div>
-                <div class="mainLabel mainLabelSM mb-0">
-                    <p>{{ explainabilityRes.explanation[0].explanation }}</p>
-                </div>
-            </div> -->
-        <!-- </div> -->
     </div>
     <div *ngIf="option === 'LLM'">
         <div style="display: flex;">
@@ -111,7 +60,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <div *ngIf="isLoadingOpenAI" class="spinner-container">
                             <div class="spinner"></div>
                         </div>
-                        <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="openAIAnswer"></p>
+                        <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="safeOpenAIAnswer"></p>
                     </div>
                 </div>
             </div>
@@ -152,10 +101,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
                     <div>
                         <label role='button' class="mainLabel cursor" style="display: flex;">
-                            REASONING <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
-                                [inline]="true"
+                            REASONING <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true"
                                 (click)="openRightSideModal({title:'LLM Explanation',type:'llmExplain'}); $event.stopPropagation()">info</mat-icon>
-                        </label></div>
+                        </label>
+                    </div>
                     <div class="col-md-10 text-end " *ngIf="UncertaintyAIMetric!">
                         <p class="mainLabel mainLabelSM ">Time Taken: <span>{{UncertaintyAIMetric.time_taken}}s</span>
                         </p>
@@ -166,7 +115,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <div *ngIf="isLoadingCOV || isLoadingTHOT" class="spinner-container">
                         <div class="spinner"></div>
                     </div>
-                    <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="THOTAnswer"></p>
+                    <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="safeTHOTAnswer"></p>
                     <div class="mt-1" id="metricsTable" *ngIf="UncertaintyAIMetric!">
                         <table style="border-collapse: collapse; width: 100%;">
                             <tr>
@@ -178,10 +127,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </tr>
                             <tr *ngFor="let metric of metrics">
                                 <td style="padding: 8px;">{{metric.charAt(0).toUpperCase() + metric.slice(1)}}</td>
-                                <td style="padding: 8px;">{{metric === 'uncertainty' ? UncertaintyAIMetric[metric].uncertainty_level : UncertaintyAIMetric[metric].coherence_level}}</td>
+                                <td style="padding: 8px;">{{metric === 'uncertainty' ?
+                                    UncertaintyAIMetric[metric].uncertainty_level :
+                                    UncertaintyAIMetric[metric].coherence_level}}</td>
                                 <td style="padding: 8px;">{{UncertaintyAIMetric[metric].score}}</td>
-                                <td style="padding: 8px; vertical-align: top;">{{UncertaintyAIMetric[metric].explanation}}</td>
-                                <td style="padding: 8px; vertical-align: top;">{{UncertaintyAIMetric[metric].recommendation}}</td>
+                                <td style="padding: 8px; vertical-align: top;">
+                                    {{UncertaintyAIMetric[metric].explanation}}</td>
+                                <td style="padding: 8px; vertical-align: top;">
+                                    {{UncertaintyAIMetric[metric].recommendation}}</td>
                             </tr>
                         </table>
                     </div>
@@ -191,10 +144,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
                     <div>
                         <label role='button' class="mainLabel cursor" style="display: flex;">
-                            VERIFICATION <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
-                                [inline]="true"
+                            VERIFICATION <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true"
                                 (click)="openRightSideModal({title:'LLM Verification',type:'llmVerification'}); $event.stopPropagation()">info</mat-icon>
-                        </label></div>
+                        </label>
+                    </div>
                     <div class="col-md-10 text-end " *ngIf="COVAnswer!">
                         <p class="mainLabel mainLabelSM ">Time Taken: <span>{{COVTimeTaken}}s</span>
                         </p>
@@ -207,34 +160,37 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     <p class="mainLabel mainLabelSM mainLabelLight mt-1" [innerHTML]="COVAnswer"></p>
                 </div>
             </div>
-            <a mat-raised-button type="btn" class="mainBtn DecryptButton" color="DecryptBtnClr" (click)="toggleArrow()">Additional Explanation <span [innerHTML]="isArrowDown ? '&#9660;' : '&#9650;'"></span></a>
-            <br/><br/>
+            <a mat-raised-button type="btn" class="mainBtn DecryptButton" color="DecryptBtnClr"
+                (click)="toggleArrow()">Additional Explanation 
+                <span [innerHTML]="isArrowDown ? '&#9660;' : '&#9650;'"></span></a>
+            <br /><br />
             <div class="fixed-height-card2" *ngIf="!isArrowDown">
                 <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
                     <div>
                         <label role='button' class="mainLabel cursor" style="display: flex;">
-                            TOKEN IMPORTANCE <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
-                                [inline]="true"
+                            TOKEN IMPORTANCE <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true"
                                 (click)="openRightSideModal({title:'Token Importance',type:'token'}); $event.stopPropagation()">info</mat-icon>
                         </label>
                     </div>
-                    <div class="col-md-10 text-end " *ngIf="!isEmptyObject(tokenImportanceResponse)"> 
-                        <p class="mainLabel mainLabelSM ">Time Taken: <span>{{tokenImportanceResponse.time_taken}}s</span>
+                    <div class="col-md-10 text-end " *ngIf="!isEmptyObject(tokenImportanceResponse)">
+                        <p class="mainLabel mainLabelSM ">Time Taken:
+                            <span>{{tokenImportanceResponse.time_taken}}s</span>
                         </p>
                     </div>
                 </div>
-                
+
                 <div class="card-bodymainLabel mainLabelSM mainLabelLight p-0">
                     <div class="card-body" *ngIf="isEmptyObject(tokenImportanceResponse)">
                         <p *ngIf="tokenImportanceShowErrorMessage" class="mainLabel mainLabelSM pt-3">
                             API got failed. Please try again later.
-                             <a class="text-decoration-underline" (click)="TokenImportance()">Click here to retry</a>
+                            <a class="text-decoration-underline" (click)="TokenImportance()">Click here to retry</a>
                         </p>
                     </div>
                     <div *ngIf="isLoadingTokenImportance" class="spinner-container">
                         <div class="spinner"></div>
                     </div>
-                    <div class="table-container" style="display: flex; justify-content: center;" *ngIf="!isEmptyObject(tokenImportanceResponse)">
+                    <div class="table-container" style="display: flex; justify-content: center;"
+                        *ngIf="!isEmptyObject(tokenImportanceResponse)">
                         <table>
                             <tr>
                                 <th style="padding: 0 15px;">Token</th>
@@ -248,28 +204,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </tr>
                         </table>
                     </div>
-                    <div style="display: flex; margin-top:15px; margin-right:0px; padding: 0 0 0 0; justify-content: center;">
-                        <div style="display: block; width: 520px; height: 300px; align-self: center; margin-top: 20px; margin-bottom: 0px;  padding: 0 0 0 0; box-sizing: border-box;">
+                    <div
+                        style="display: flex; margin-top:15px; margin-right:0px; padding: 0 0 0 0; justify-content: center;">
+                        <div
+                            style="display: block; width: 520px; height: 300px; align-self: center; margin-top: 20px; margin-bottom: 0px;  padding: 0 0 0 0; box-sizing: border-box;">
                             <h3 class="mainLabel" style="text-align: center;">Importance Score Per Token</h3>
-                            <canvas id="myTokenBarChart" width="520" height="300" style="display: block; box-sizing: border-box; height: 100%; width: 100%;"></canvas>
+                            <canvas id="myTokenBarChart" width="520" height="300"
+                                style="display: block; box-sizing: border-box; height: 100%; width: 100%;"></canvas>
                         </div>
-                        <div style="display: block; width: 290px; height: 255px; align-self: top; margin-top: 20px; margin-left:10px; margin-bottom: 0px; margin-right:0px; padding: 0 0 0 0; box-sizing: border-box;">
+                        <div
+                            style="display: block; width: 290px; height: 255px; align-self: top; margin-top: 20px; margin-left:10px; margin-bottom: 0px; margin-right:0px; padding: 0 0 0 0; box-sizing: border-box;">
                             <h3 class="mainLabel" style="text-align: center;">Distribution of Importance Score</h3>
-                            <canvas id="myDistributionBarChart" width="290" height="255" style="display: block; box-sizing: border-box; height: 100%; width: 100%;"></canvas>
+                            <canvas id="myDistributionBarChart" width="290" height="255"
+                                style="display: block; box-sizing: border-box; height: 100%; width: 100%;"></canvas>
                         </div>
                     </div>
-                    <!-- <div style="display: block; width: 400px; height: 275px; align-self: center; margin-top: 20px; margin-bottom: 0px; padding: 0; box-sizing: border-box;">
-                        <h3 class="mainLabel" style="text-align: center;">Distribution of Importance Score</h3>
-                        <canvas id="myFrequencyBarChart" width="400" height="275" style="display: block; box-sizing: border-box; height: 100%; width: 100%;"></canvas>
-                    </div> -->
-                    <!-- <div class="row mt-2">
-                        <div class="col-md-6">
-                            <img [src]="'data:image/jpeg;base64,' +tokenImportanceResponse?.image_data[0]" class="tokenImage img-fluid" />
-                        </div>
-                        <div class="col-md-6">
-                            <img [src]="'data:image/jpeg;base64,' +tokenImportanceResponse?.image_data[1]" class="tokenImage img-fluid" />
-                        </div>
-                    </div> -->
                 </div>
             </div>
 
@@ -277,8 +226,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
                     <div>
                         <label role='button' class="mainLabel cursor" style="display: flex;">
-                            REREAD REASONING  <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
-                                [inline]="true" (click)="openRightSideModal({title: 'ReRead Reasoning',type: 'rereadDescription'}); $event.stopPropagation()">info</mat-icon>
+                            REREAD REASONING <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true"
+                                (click)="openRightSideModal({title: 'ReRead Reasoning',type: 'rereadDescription'}); $event.stopPropagation()">info</mat-icon>
                         </label>
                     </div>
                     <div class="col-md-10 text-end " *ngIf="!isEmptyObject(rereadResponse)">
@@ -290,11 +239,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">
                     <div class="card-body" *ngIf="isEmptyObject(rereadResponse)">
                         <p *ngIf="rereadShowErrorMessage" class="mainLabel mainLabelSM pt-3">
-                            API got failed. Please try again later. 
+                            API got failed. Please try again later.
                             <a class="text-decoration-underline" (click)="reread()">Click here to retry</a>
                         </p>
-                       <div *ngIf="rereadloading" class="spinner-container">
-                           <div class="spinner"></div>
+                        <div *ngIf="rereadloading" class="spinner-container">
+                            <div class="spinner"></div>
                         </div>
                     </div>
                     <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="rereadResponse?.rereadResult"></p>
@@ -310,10 +259,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </tr>
                             <tr *ngFor="let metric of metrics">
                                 <td style="padding: 8px;">{{metric.charAt(0).toUpperCase() + metric.slice(1)}}</td>
-                                <td style="padding: 8px;">{{metric === 'uncertainty' ? uncertaintyResult[metric].uncertainty_level : uncertaintyResult[metric].coherence_level}}</td>
+                                <td style="padding: 8px;">{{metric === 'uncertainty' ?
+                                    uncertaintyResult[metric].uncertainty_level :
+                                    uncertaintyResult[metric].coherence_level}}</td>
                                 <td style="padding: 8px;">{{uncertaintyResult[metric]?.score}}</td>
-                                <td style="padding: 8px; vertical-align: top;">{{uncertaintyResult[metric]?.explanation}}</td>
-                                <td style="padding: 8px; vertical-align: top;">{{uncertaintyResult[metric]?.recommendation}}</td>
+                                <td style="padding: 8px; vertical-align: top;">
+                                    {{uncertaintyResult[metric]?.explanation}}</td>
+                                <td style="padding: 8px; vertical-align: top;">
+                                    {{uncertaintyResult[metric]?.recommendation}}</td>
                             </tr>
                         </table>
                     </div>
@@ -323,9 +276,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
                     <div>
                         <label role='button' class="mainLabel cursor" style="display: flex;">
-                            LOGIC OF THOUGHT  <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
-                                [inline]="true" (click)="openRightSideModal({title: 'Logic Of Thought',type: 'lotDescription'}); $event.stopPropagation()">info</mat-icon>
-                        </label></div>
+                            LOGIC OF THOUGHT <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true"
+                                (click)="openRightSideModal({title: 'Logic Of Thought',type: 'lotDescription'}); $event.stopPropagation()">info</mat-icon>
+                        </label>
+                    </div>
                     <div class="col-md-10 text-end " *ngIf="!isEmptyObject(lotResponse)">
                         <p class="mainLabel mainLabelSM ">Time Taken: <span>{{lotResponse?.lotTimeTaken}}s</span>
                         </p>
@@ -335,7 +289,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">
                     <div class="card-body" *ngIf="isEmptyObject(lotResponse)">
                         <p *ngIf="lotShowErrorMessage" class="mainLabel mainLabelSM pt-3">
-                            API got failed. Please try again later. <a class="text-decoration-underline" (click)="logicOfThoughts()">Click here to retry</a>
+                            API got failed. Please try again later. <a class="text-decoration-underline"
+                                (click)="logicOfThoughts()">Click here to retry</a>
                         </p>
                         <div *ngIf="lotloading" class="spinner-container">
                             <div class="spinner"></div>
@@ -343,17 +298,30 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                     </div>
 
                     <div class="card-body" *ngIf="!isEmptyObject(lotResponse)">
-                        <p class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Explanation: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExplanation"></span></p>
-                            <p *ngIf="lotResponse?.lotPropositions" class="mainLabel mainLabelSM ms-0 mb-2 me-2 mt-3">Propositions:</p>
-                            <ul>
-                                <li *ngFor="let key of objectKeys(lotResponse.lotPropositions)"  class="mainLabel mainLabelSM ms-0 mb-2 me-2 mt-2">
-                                    <strong class="mainLabelLight ms-1">{{ key }}:</strong> <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotPropositions[key]"></span>
-                                  </li>
-                            </ul>
-                        <p *ngIf="lotResponse?.lotExpression" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Logical Expression: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExpression"></span></p>
-                        <p *ngIf="lotResponse?.lotExtendExplanation" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Extended Logical Expression: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExtendExplanation"></span></p>
-                        <p *ngIf="lotResponse?.lotReasoningLaw" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Law used to extend the logical expression: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotReasoningLaw"></span></p>
-                        <p *ngIf="lotResponse?.lotExtendInfo" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Extended Logical Information: <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotExtendInfo"></span></p>
+                        <p class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> 
+                            Explanation: <span class="mainLabelLight ms-1" 
+                                [innerHTML]="lotResponse?.lotExplanation"></span></p>
+                        <p *ngIf="lotResponse?.lotPropositions" class="mainLabel mainLabelSM ms-0 mb-2 me-2 mt-3">
+                            Propositions:</p>
+                        <ul>
+                            <li *ngFor="let key of objectKeys(lotResponse.lotPropositions)"
+                                class="mainLabel mainLabelSM ms-0 mb-2 me-2 mt-2">
+                                <strong class="mainLabelLight ms-1">{{ key }}:</strong>
+                                <span class="mainLabelLight ms-1" [innerHTML]="lotResponse?.lotPropositions[key]"></span>
+                            </li>
+                        </ul>
+                        <p *ngIf="lotResponse?.lotExpression" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> 
+                            Logical Expression: <span class="mainLabelLight ms-1" 
+                                [innerHTML]="lotResponse?.lotExpression"></span></p>
+                        <p *ngIf="lotResponse?.lotExtendExplanation" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3">
+                            Extended Logical Expression: <span class="mainLabelLight ms-1"
+                                [innerHTML]="lotResponse?.lotExtendExplanation"></span></p>
+                        <p *ngIf="lotResponse?.lotReasoningLaw" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> 
+                            Law used to extend the logical expression: <span class="mainLabelLight ms-1"
+                                [innerHTML]="lotResponse?.lotReasoningLaw"></span></p>
+                        <p *ngIf="lotResponse?.lotExtendInfo" class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3">
+                            Extended Logical Information: <span class="mainLabelLight ms-1"
+                                [innerHTML]="lotResponse?.lotExtendInfo"></span></p>
                     </div>
                 </div>
             </div>
@@ -365,7 +333,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             GRAPH OF THOUGHTS <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
                                 [inline]="true"
                                 (click)="openRightSideModal({title:'Graph of Thoughts',type:'got'}); $event.stopPropagation()">info</mat-icon>
-                        </label></div>
+                        </label>
+                    </div>
                     <div class="col-md-10 text-end " *ngIf="!isEmptyObject(apiResult)">
                         <p class="mainLabel mainLabelSM ">Time Taken: <span>{{apiResult.time_taken}}s</span>
                         </p>
@@ -375,16 +344,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">
                     <div class="card-body" *ngIf="isEmptyObject(apiResult)">
                         <p *ngIf="gotShowErrorMessage" class="mainLabel mainLabelSM pt-3">
-                            API got failed. Please try again later. 
+                            API got failed. Please try again later.
                             <a class="text-decoration-underline" (click)="GOT()">Click here to retry</a>
                         </p>
                         <div *ngIf="isLoadingGOT" class="spinner-container">
                             <div class="spinner"></div>
                         </div>
-                    </div>    
+                    </div>
                     <div *ngIf="apiResult !== null" style="display:flex">
-                        <p class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Cost Incurred: <span class="mainLabelLight ms-1" [innerHTML]="apiResult.token_cost"></span></p>
-                        <p class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Consistency Level: <span class="mainLabelLight ms-1" [innerHTML]="apiResult.consistency_level"></span></p>
+                        <p class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Cost Incurred: 
+                            <span class="mainLabelLight ms-1" [innerHTML]="apiResult.token_cost"></span></p>
+                        <p class="mainLabel mainLabelSM ms-0 mb-2 me-5 mt-3"> Consistency Level: 
+                            <span class="mainLabelLight ms-1" [innerHTML]="apiResult.consistency_level"></span></p>
                         <p class="mainLabel mainLabelSM ms-0 mb-4 mt-3"> Consistency Score:</p>
                         <div class="score-meter-container mt-3">
                             <div class="score-meter mb-4 ms-3">
@@ -393,14 +364,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 </div>
                                 <div class="score-meter-fill" [style.width.%]="apiResult.score"></div>
                                 <div class="score-markings">
-                                    <div class="score-marking" *ngFor="let i of [ 0, 20, 40, 60, 80, 100]" [style.--marking-position.%]="i">
+                                    <div class="score-marking" *ngFor="let i of [ 0, 20, 40, 60, 80, 100]"
+                                        [style.--marking-position.%]="i">
                                         <span class="score-marking-number">{{ i }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="GOTAnswer"></p>
+                    <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="safeGOTAnswer"></p>
                     <div class="mt-1" id="metricsTable" *ngIf="UncertaintyGotMetric!">
                         <table style="border-collapse: collapse; width: 100%;">
                             <tr>
@@ -412,10 +384,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                             </tr>
                             <tr *ngFor="let metric of metrics">
                                 <td style="padding: 8px;">{{metric.charAt(0).toUpperCase() + metric.slice(1)}}</td>
-                                <td style="padding: 8px;">{{metric === 'uncertainty' ? UncertaintyGotMetric[metric].uncertainty_level : UncertaintyGotMetric[metric].coherence_level}}</td>
+                                <td style="padding: 8px;">{{metric === 'uncertainty' ?
+                                    UncertaintyGotMetric[metric].uncertainty_level :
+                                    UncertaintyGotMetric[metric].coherence_level}}</td>
                                 <td style="padding: 8px;">{{UncertaintyGotMetric[metric]?.score}}</td>
-                                <td style="padding: 8px; vertical-align: top;">{{UncertaintyGotMetric[metric]?.explanation}}</td>
-                                <td style="padding: 8px; vertical-align: top;">{{UncertaintyGotMetric[metric]?.recommendation}}</td>
+                                <td style="padding: 8px; vertical-align: top;">
+                                    {{UncertaintyGotMetric[metric]?.explanation}}</td>
+                                <td style="padding: 8px; vertical-align: top;">
+                                    {{UncertaintyGotMetric[metric]?.recommendation}}</td>
                             </tr>
                         </table>
                     </div>
@@ -432,7 +408,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <div *ngIf="isLoadingCOVRAG" class="spinner-container">
                             <div class="spinner"></div>
                         </div>
-                        <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="finalAnswer1"></p>
+                        <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="safeFinalAnswer1"></p>
                     </div>
                 </div>
             </div>
@@ -444,7 +420,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <div *ngIf="isLoadingTHOTRAG" class="spinner-container">
                             <div class="spinner"></div>
                         </div>
-                        <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="ThotRagResult"></p>
+                        <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="safeThotRagResult"></p>
                     </div>
                 </div>
             </div>
@@ -468,8 +444,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div *ngIf="isLoadingTHOTRAG" class="spinner-container">
                     <div class="spinner"></div>
                 </div>
-                <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="ThotRagResult"></p>
-                <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="ThotRagExplanation"></p><br/><br/>
+                <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="safeThotRagResult"></p>
+                <p class="mainLabel mainLabelSM mainLabelLight m-0" [innerHTML]="safeThotRagExplanation"></p><br/><br/>
                 <p class="mainLabel mainLabelSM mainLabelLight m-0" *ngIf="THOTRAGSource"><strong>Source: </strong> {{THOTRAGSource.join(',')}}</p>
                 <!-- <p *ngIf="THOTRAGResponse" class="mainLabel mainLabelSM mainLabelLight m-0">Final Answer: <span [innerHTML]="finalAnswer1"></span></p> -->
             </div>
@@ -478,8 +454,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div class="card-header cursor  border-bottom-0" style="background: none;" id="headingOne">
                 <div>
                     <label role='button' class="mainLabel cursor" style="display: flex;">
-                        VERIFICATION <mat-icon class="ms-2 cursor-pointer" style="color: #727272;"
-                            [inline]="true"
+                        VERIFICATION <mat-icon class="ms-2 cursor-pointer" style="color: #727272;" [inline]="true"
                             (click)="openRightSideModal({title:'LLM Verification',type:'llmVerification'}); $event.stopPropagation()">info</mat-icon>
                     </label>
                 </div>

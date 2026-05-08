@@ -1,12 +1,16 @@
 '''
-MIT license https://opensource.org/licenses/MIT Copyright 2024 Infosys Ltd
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
+
+
 
 import traceback
 import openai
@@ -14,6 +18,9 @@ import anthropic
 import os
 import time
 import torch
+import threading
+import concurrent.futures
+import time as _time
 import gc
 import requests
 import logging,json
@@ -22,10 +29,15 @@ from dotenv import load_dotenv
 from typing import Dict, List
 from langchain_groq import ChatGroq
 
-from google import genai
+try:
+    import google.generativeai as genai  # Official google-generativeai client
+except ImportError:  # Fallback stub so rest of module can still load
+    genai = None
+    logging.warning("google-generativeai package not installed; GeminiModel will be unavailable.")
 from copy import deepcopy
 import urllib3
 from app.config.logger  import CustomLogger
+from app.utility.ssl_utils import get_ssl_verify
 
 import boto3
 from datetime import datetime,timedelta
@@ -35,9 +47,7 @@ from langchain_aws import ChatBedrock  # Ensure this is installed
 # from app.utils.utils import is_time_difference_12_hours  # Ensure this utility is defined
 # from app.utils.config import sslv, verify_ssl  # Adjust path if needed
 
-verify_ssl = os.getenv("sslVerify", "true") 
-
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+verify_ssl = get_ssl_verify()  
 import logging
 load_dotenv(override=True)
 log = CustomLogger()
@@ -74,10 +84,8 @@ class EndpointModel_Tap():
         extracted_text = extracted_text.replace("Here is the relevant text from the JSON response:", "").strip()
         return extracted_text.strip()
     def generate(self, prompt: str,target_endpoint_url,target_endpoint_headers,target_endpoint_payload,target_endpoint_prompt_variable) -> str:
-        print("reached ss")
         headers = {key: value for key, value in target_endpoint_headers.items()}
-        log.info(f"Request headers: {headers}")
-        data = {}
+        data: Dict[str, object] = {}
         for key, value in target_endpoint_payload.items():
             if isinstance(value, str):
                 try:
@@ -87,25 +95,36 @@ class EndpointModel_Tap():
             else:
                 data[key] = value
         data[target_endpoint_prompt_variable] = prompt
-        log.info(f"Request data: {data}")
+        attempts = int(self.max_retries[0])
+        for attempt in range(attempts):
+            try:
+                log.info(f"EndpointModel_Tap.generate - POST {target_endpoint_url} attempt {attempt+1}/{attempts}")
+                response = requests.post(
+                    self.target_endpoint_url,
+                    headers=headers,
+                    json=data,
+                    verify=verify_ssl,
+                    timeout=30
+                )
+            except requests.RequestException as net_exc:
+                log.error(f"EndpointModel_Tap.generate - network error: {net_exc}")
+                time.sleep(min(2 ** attempt, 8))
+                continue
 
-        for attempt in range(int(self.max_retries[0])):
-            log.info(f"Sending request to endpoint: {target_endpoint_url} (Attempt {attempt + 1}/{int(self.max_retries[0])})")
-            response = requests.post(self.target_endpoint_url, headers=headers, json=data, verify=False)
-            log.info(f"Received response status code: {response.status_code}")
-            if response.status_code == 200:
+            if response.status_code != 200:
+                log.error(f"EndpointModel_Tap.generate - HTTP {response.status_code}: {response.text[:200]}")
+                time.sleep(min(2 ** attempt, 8))
+                continue
+            try:
                 result = response.json()
-                log.info(f"Received response: {result}")
-                text = self.extract_text_with_gpt(result)
-                if text:
-                    log.info(f"Generated text: {text}")
-                    return text  # Return non-empty text
-                else:
-                    log.warning("Received empty text in response. Retrying...")
-            else:
-                log.error(f"Error {response.status_code}: {response.text}")
+            except ValueError:
+                log.error("EndpointModel_Tap.generate - non-JSON response body")
                 return "$ERROR$"
-        log.error("Max retries reached. Returning empty response.")
+            text = self.extract_text_with_gpt(result)
+            if text:
+                return text
+            log.warning("EndpointModel_Tap.generate - empty text, retrying")
+        log.error("EndpointModel_Tap.generate - exhausted retries")
         return "$ERROR$"
 
     def batched_generate(self, prompts_list: List[str],target_endpoint_url,target_endpoint_headers,target_endpoint_payload,target_endpoint_prompt_variable) -> List[str]:
@@ -160,10 +179,8 @@ class EndpointModel_Pair():
         extracted_text = extracted_text.replace("Here is the relevant text from the JSON response:", "").strip()
         return extracted_text.strip()
     def generate(self, prompt: str,target_endpoint_url,target_endpoint_headers,target_endpoint_payload,target_endpoint_prompt_variable) -> str:
-        print("reached ss")
         headers = {key: value for key, value in target_endpoint_headers.items()}
-        log.info(f"Request headers: {headers}")
-        data = {}
+        data: Dict[str, object] = {}
         for key, value in target_endpoint_payload.items():
             if isinstance(value, str):
                 try:
@@ -172,26 +189,37 @@ class EndpointModel_Pair():
                     data[key] = value
             else:
                 data[key] = value
-        data[target_endpoint_prompt_variable] = "Question: "+prompt+" Answer: "
-        log.info(f"Request data: {data}")
+        data[target_endpoint_prompt_variable] = f"Question: {prompt} Answer: "
+        attempts = int(self.max_retries[0])
+        for attempt in range(attempts):
+            try:
+                log.info(f"EndpointModel_Pair.generate - POST {target_endpoint_url} attempt {attempt+1}/{attempts}")
+                response = requests.post(
+                    self.target_endpoint_url,
+                    headers=headers,
+                    json=data,
+                    verify=verify_ssl,
+                    timeout=30
+                )
+            except requests.RequestException as net_exc:
+                log.error(f"EndpointModel_Pair.generate - network error: {net_exc}")
+                time.sleep(min(2 ** attempt, 8))
+                continue
 
-        for attempt in range(int(self.max_retries[0])):
-            log.info(f"Sending request to endpoint: {target_endpoint_url} (Attempt {attempt + 1}/{int(self.max_retries[0])})")
-            response = requests.post(self.target_endpoint_url, headers=headers, json=data, verify=False)
-            log.info(f"Received response status code: {response.status_code}")
-            if response.status_code == 200:
+            if response.status_code != 200:
+                log.error(f"EndpointModel_Pair.generate - HTTP {response.status_code}: {response.text[:200]}")
+                time.sleep(min(2 ** attempt, 8))
+                continue
+            try:
                 result = response.json()
-                log.info(f"Received response: {result}")
-                text = self.extract_text_with_gpt(result)
-                if text:
-                    log.info(f"Generated text: {text}")
-                    return text  # Return non-empty text
-                else:
-                    log.warning("Received empty text in response. Retrying...")
-            else:
-                log.error(f"Error {response.status_code}: {response.text}")
+            except ValueError:
+                log.error("EndpointModel_Pair.generate - non-JSON response body")
                 return "$ERROR$"
-        log.error("Max retries reached. Returning empty response.")
+            text = self.extract_text_with_gpt(result)
+            if text:
+                return text
+            log.warning("EndpointModel_Pair.generate - empty text, retrying")
+        log.error("EndpointModel_Pair.generate - exhausted retries")
         return "$ERROR$"
 
     def batched_generate(self, prompts_list: List[str],target_endpoint_url,target_endpoint_headers,target_endpoint_payload,target_endpoint_prompt_variable) -> List[str]:
@@ -222,6 +250,23 @@ class EndpointModel_Pair():
         log.info("-" * 50)
         return outputs_list
     
+###############################################
+# Inference Safety Limits and Concurrency Guard
+###############################################
+MAX_PROMPT_CHARS = 8000                 # Hard cap on incoming prompt length
+MAX_NEW_TOKENS = 512                    # Prevent runaway generation / OOM
+GENERATION_TIMEOUT_SECONDS = 60         # Wall-clock cap for one batch generation
+_GEN_SEMAPHORE = threading.Semaphore(2) # Limit concurrent GPU generations
+
+def _truncate_prompts(seq):
+    truncated = []
+    for p in seq:
+        if isinstance(p, str):
+            truncated.append(p[:MAX_PROMPT_CHARS])
+        else:
+            truncated.append(str(p)[:MAX_PROMPT_CHARS])
+    return truncated
+
 class HuggingFace(LanguageModel):
     def __init__(self, model_name, model, tokenizer):
         super().__init__(model_name)
@@ -234,179 +279,173 @@ class HuggingFace(LanguageModel):
         log.info(f"HuggingFace.__init__ - eos_token_ids: {self.eos_token_ids}")
         log.info("-" * 50)
 
-    def batched_generate(self, 
-                        full_prompts_list,
-                        max_n_tokens: int, 
-                        temperature: float,
-                        top_p: float = 1.0):
+    def batched_generate(self,
+                         full_prompts_list,
+                         max_n_tokens: int,
+                         temperature: float,
+                         top_p: float = 1.0):
+        """Safely generate a batch with concurrency, length, token, and timeout limits."""
         log.info(f"HuggingFace.batched_generate - full_prompts_list: {full_prompts_list}")
         log.info(f"HuggingFace.batched_generate - max_n_tokens: {max_n_tokens}")
         log.info(f"HuggingFace.batched_generate - temperature: {temperature}")
         log.info(f"HuggingFace.batched_generate - top_p: {top_p}")
         log.info("-" * 50)
-        
-        inputs = self.tokenizer(full_prompts_list, return_tensors='pt', padding=True)
-        inputs = {k: v.to(self.model.device.index) for k, v in inputs.items()}
-        log.info(f"HuggingFace.batched_generate - inputs: {inputs}")
+
+        # Enforce safety caps
+        safe_tokens = min(max_n_tokens, MAX_NEW_TOKENS)
+        full_prompts_list = _truncate_prompts(full_prompts_list)
+
+        acquired = _GEN_SEMAPHORE.acquire(timeout=120)
+        if not acquired:
+            log.error("HuggingFace.batched_generate - semaphore acquisition timeout")
+            return ["$ERROR-CONCURRENCY$"] * len(full_prompts_list)
+
+        inputs = {}
+        output_ids = None
+        try:
+            with torch.inference_mode():
+                inputs = self.tokenizer(full_prompts_list, return_tensors='pt', padding=True, truncation=True)
+            inputs = {k: v.to(self.model.device.index) for k, v in inputs.items()}
+            log.info("HuggingFace.batched_generate - inputs prepared")
+
+            def _do_generate():
+                with torch.inference_mode():
+                    if temperature > 0:
+                        return self.model.generate(
+                            **inputs,
+                            max_new_tokens=safe_tokens,
+                            do_sample=True,
+                            temperature=temperature,
+                            eos_token_id=self.eos_token_ids,
+                            top_p=top_p,
+                        )
+                    else:
+                        return self.model.generate(
+                            **inputs,
+                            max_new_tokens=safe_tokens,
+                            do_sample=False,
+                            eos_token_id=self.eos_token_ids,
+                            top_p=1,
+                            temperature=1,
+                        )
+
+            start_ts = _time.time()
+            with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
+                fut = ex.submit(_do_generate)
+                try:
+                    output_ids = fut.result(timeout=GENERATION_TIMEOUT_SECONDS)
+                except concurrent.futures.TimeoutError:
+                    log.error("HuggingFace.batched_generate - generation timeout after %ss", GENERATION_TIMEOUT_SECONDS)
+                    return ["$ERROR-TIMEOUT$"] * len(full_prompts_list)
+            log.info("HuggingFace.batched_generate - generation finished in %.2fs", _time.time() - start_ts)
+
+            if not self.model.config.is_encoder_decoder:
+                output_ids = output_ids[:, inputs["input_ids"].shape[1]:]
+
+            outputs_list = self.tokenizer.batch_decode(output_ids, skip_special_tokens=True)
+        except RuntimeError:
+            log.exception("HuggingFace.batched_generate - runtime error during generation")
+            return ["$ERROR-RUNTIME$"] * len(full_prompts_list)
+        finally:
+            if inputs:
+                try:
+                    for key in list(inputs.keys()):
+                        inputs[key] = inputs[key].to('cpu')
+                except Exception:
+                    pass
+            if output_ids is not None:
+                try:
+                    output_ids = output_ids.to('cpu')  # type: ignore[assignment]
+                except Exception:
+                    pass
+            gc.collect()
+            if torch.cuda.is_available():
+                try:
+                    torch.cuda.empty_cache()
+                except Exception:
+                    pass
+            _GEN_SEMAPHORE.release()
+
+        log.info(f"HuggingFace.batched_generate - outputs_list length: {len(outputs_list)}")
         log.info("-" * 50)
-    
-        # Batch generation
-        if temperature > 0:
-            output_ids = self.model.generate(
-                **inputs,
-                max_new_tokens=max_n_tokens, 
-                do_sample=True,
-                temperature=temperature,
-                eos_token_id=self.eos_token_ids,
-                top_p=top_p,
-            )
-            log.info(f"HuggingFace.batched_generate - output_ids (if): {output_ids}")
-        else:
-            output_ids = self.model.generate(
-                **inputs,
-                max_new_tokens=max_n_tokens, 
-                do_sample=False,
-                eos_token_id=self.eos_token_ids,
-                top_p=1,
-                temperature=1, # To prevent warning messages
-            )
-            log.info(f"HuggingFace.batched_generate - output_ids (else): {output_ids}")
-            
-        # If the model is not an encoder-decoder type, slice off the input tokens
-        if not self.model.config.is_encoder_decoder:
-            output_ids = output_ids[:, inputs["input_ids"].shape[1]:]
-            log.info(f"HuggingFace.batched_generate - output_ids (sliced): {output_ids}")
-
-        # Batch decoding
-        outputs_list = self.tokenizer.batch_decode(output_ids, skip_special_tokens=True)
-        log.info(f"HuggingFace.batched_generate - outputs_list: {outputs_list}")
-        log.info("-" * 50)
-
-        for key in inputs:
-            inputs[key].to('cpu')
-        output_ids.to('cpu')
-        del inputs, output_ids
-        gc.collect()
-        torch.cuda.empty_cache()
-
         return outputs_list
+    
+    # (Removed misplaced APIModel logic that was accidentally nested here)
 
-    def extend_eos_tokens(self):        
-        # Add closing braces for Vicuna/Llama eos when using attacker model
-        self.eos_token_ids.extend([
-            self.tokenizer.encode("}")[1],
-            29913, 
-            9092,
-            16675])
-        log.info(f"HuggingFace.extend_eos_tokens - eos_token_ids: {self.eos_token_ids}")
-        log.info("-" * 50)
-
-class APIModel(LanguageModel): 
-
-    API_HOST_LINK = "ADD_LINK"
-    API_RETRY_SLEEP = 10
+class APIModel(LanguageModel):
+    API_RETRY_SLEEP = 5
     API_ERROR_OUTPUT = "$ERROR$"
-    API_QUERY_SLEEP = 0.5
-    API_MAX_RETRY = 20
-    
-    API_TIMEOUT = 100
-    
-    MODEL_API_KEY = os.getenv("MODEL_API_KEY")
-    
+    API_QUERY_SLEEP = 1
+    API_MAX_RETRY = 2
+    API_TIMEOUT = 20
     API_HOST_LINK = ''
 
+    MODEL_API_KEY = os.getenv("MODEL_API_KEY")
+
     def generate(self, conv: List[Dict], 
-                max_n_tokens: int, 
-                temperature: float,
-                top_p: float):
-        '''
-        Args:
-            conv: List of dictionaries, OpenAI API format
-            max_n_tokens: int, max number of tokens to generate
-            temperature: float, temperature for sampling
-            top_p: float, top p for sampling
-        Returns:
-            str: generated response
-        ''' 
-        log.info("language_models.py - APIModel.generate called with max_n_tokens: %d, temperature: %f, top_p: %f", max_n_tokens, temperature, top_p)
-        output = self.API_ERROR_OUTPUT 
-        
-        for _ in range(self.API_MAX_RETRY):  
+                 max_n_tokens: int,
+                 temperature: float,
+                 top_p: float):
+        log.info("APIModel.generate max_n_tokens=%d temperature=%f top_p=%f", max_n_tokens, temperature, top_p)
+        output = self.API_ERROR_OUTPUT
+        for _ in range(self.API_MAX_RETRY):
             try:
-                # Batch generation
                 if temperature > 0:
-                    # Attack model
-                    json = {
-                        "top_p": top_p, 
-                        "num_beams": 1, 
-                        "temperature": temperature, 
+                    payload = {
+                        "top_p": top_p,
+                        "num_beams": 1,
+                        "temperature": temperature,
                         "do_sample": True,
-                        "prompt": '', 
+                        "prompt": '',
                         "max_new_tokens": max_n_tokens,
                         "system_prompt": conv,
-                    } 
+                    }
                 else:
-                    # Target model
-                    json = {
+                    payload = {
                         "top_p": 1,
-                        "num_beams": 1, 
-                        "temperature": 1, # To prevent warning messages
+                        "num_beams": 1,
+                        "temperature": 1,
                         "do_sample": False,
-                        "prompt": '', 
+                        "prompt": '',
                         "max_new_tokens": max_n_tokens,
                         "system_prompt": conv,
-                    }  
-
-                    # Do not use extra end-of-string tokens in target mode
-                    if 'llama' in self.model_name: 
-                        json['extra_eos_tokens'] = 0 
-    
+                    }
+                    if 'llama' in self.model_name:
+                        payload['extra_eos_tokens'] = 0
                 if 'llama' in self.model_name:
-                    # No system prompt for the Llama model
-                    assert json['prompt'] == ''
-                    json['prompt'] = deepcopy(json['system_prompt'])
-                    del json['system_prompt'] 
-                
+                    assert payload['prompt'] == ''
+                    payload['prompt'] = deepcopy(payload['system_prompt'])
+                    del payload['system_prompt']
+
                 resp = urllib3.request(
-                            "POST",
-                            self.API_HOST_LINK,
-                            headers={"Authorization": f"Api-Key {self.MODEL_API_KEY}"},
-                            timeout=urllib3.Timeout(self.API_TIMEOUT),
-                            json=json,
+                    "POST",
+                    self.API_HOST_LINK,
+                    headers={"Authorization": f"Api-Key {self.MODEL_API_KEY}"},
+                    timeout=urllib3.Timeout(self.API_TIMEOUT),
+                    json=payload,
                 )
-
                 resp_json = resp.json()
-
                 if 'vicuna' in self.model_name:
                     if 'error' in resp_json:
-                        print(self.API_ERROR_OUTPUT)
-    
-                    output = resp_json['output']
-                    
+                        log.error("APIModel.generate remote error: %s", resp_json.get('error'))
+                    output = resp_json.get('output', self.API_ERROR_OUTPUT)
                 else:
                     output = resp_json
-                    
-                if type(output) == type([]):
-                    output = output[0] 
-                
+                if isinstance(output, list) and output:
+                    output = output[0]
                 break
             except Exception as e:
-                log.error("language_models.py - APIModel.generate exception: %s", e)
+                log.error("APIModel.generate exception: %s", e)
                 time.sleep(self.API_RETRY_SLEEP)
-        
             time.sleep(self.API_QUERY_SLEEP)
-        log.info("language_models.py - APIModel.generate output: %s", output)
-        return output 
-    
-    def batched_generate(self, 
-                        convs_list: List[List[Dict]],
-                        max_n_tokens: int, 
-                        temperature: float,
-                        top_p: float = 1.0):
-        log.info("language_models.py - APIModel.batched_generate called with max_n_tokens: %d, temperature: %f, top_p: %f", max_n_tokens, temperature, top_p)
-        outputs = [self.generate(conv, max_n_tokens, temperature, top_p) for conv in convs_list]
-        log.info("language_models.py - APIModel.batched_generate outputs: %s", outputs)
-        return outputs
+        return output
+
+    def batched_generate(self,
+                          convs_list: List[List[Dict]],
+                          max_n_tokens: int,
+                          temperature: float,
+                          top_p: float = 1.0):
+        return [self.generate(conv, max_n_tokens, temperature, top_p) for conv in convs_list]
 
 class APIModelLlama7B(APIModel): 
     API_HOST_LINK = "LLAMA_API_LINK"
@@ -1139,18 +1178,15 @@ class BedrockModel(LanguageModel):
             log.error(f"BedrockModel - Exception during setup: {e}")
             log.error(traceback.format_exc())
 
+    # LEGACY (disabled) _setup_bedrock_client implementation below used verify=False.
+    # It is intentionally retained only for reference and MUST NOT be re-enabled.
+    # If resurrecting, always use: response_admin = requests.get(url, verify=verify_ssl, timeout=30)
     # def _setup_bedrock_client(self):
     #     try:
     #         url = os.getenv("AWS_KEY_ADMIN_PATH")
-            
     #         log.info(f"Fetching AWS credentials from: {url}")
-
-            
     #         log.info(f"SSL verification set to: {verify_ssl}")
-    #         response_admin = requests.get(url, verify=False)
-
-            
-    #         # response_admin = requests.get(url, verify=verify_ssl)
+    #         response_admin = requests.get(url, verify=verify_ssl, timeout=30)
     #         log.info(f"Received response with status code: {response_admin.status_code}")
 
     #         if response_admin.status_code == 200:
@@ -1173,7 +1209,7 @@ class BedrockModel(LanguageModel):
     #                     aws_access_key_id=aws_access_key_id,
     #                     aws_secret_access_key=aws_secret_access_key,
     #                     aws_session_token=aws_session_token,
-    #                     verify=False
+    #                     verify=verify_ssl
     #                 )
 
     #                 model_id = os.getenv("awsmodelid")
@@ -1226,6 +1262,10 @@ class BedrockModel(LanguageModel):
         """
         Returns True if the current time is within the expiration window from the creation time.
         """
-        now = datetime.utcnow()
+        from datetime import timezone
+        # Ensure creation_time is timezone-aware (assume UTC if naive)
+        if creation_time.tzinfo is None or creation_time.tzinfo.utcoffset(creation_time) is None:
+            creation_time = creation_time.replace(tzinfo=timezone.utc)
+        now = datetime.now(timezone.utc)
         expiration_time = creation_time + timedelta(hours=expiration_hours)
         return now < expiration_time

@@ -43,6 +43,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jose import jwt, JWTError
 import requests
 from fastapi.responses import JSONResponse
+
 load_dotenv()
 origins = os.getenv("ALLOW_ORIGINS")
 AZURE_TENANT_ID = os.getenv("AZURE_TENANT_ID")
@@ -63,6 +64,7 @@ app = FastAPI(**read_config_yaml('../config/metadata.yaml'))
     allow_headers - A list of HTTP request headers that should be supported for cross-origin requests. 
                     using ['*'] to allow all headers
 """
+
 class CacheControlMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
         response = await call_next(request)

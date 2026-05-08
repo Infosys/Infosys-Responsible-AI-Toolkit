@@ -112,8 +112,6 @@ class SecErrDtl:
         
         try:
             SecErrDtl.mycol.delete_many({})
-            # DocProcDtl.mycol.delete_many({})
-            # Docpagedtl.mycol.delete_many({})
         except Exception as e:
             if(telemetry_flg == 'True'):
                 with con.ThreadPoolExecutor() as executor:

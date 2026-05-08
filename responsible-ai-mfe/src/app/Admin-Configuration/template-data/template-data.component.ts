@@ -5,17 +5,20 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Input, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-template-data',
   templateUrl: './template-data.component.html',
   styleUrls: ['./template-data.component.css']
 })
-export class TemplateDataComponent {
+
+export class TemplateDataComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   customTemplateUpdateUrl: any;
   selectedPrompt: string="";
   testPromptUrl: any;
@@ -98,7 +101,7 @@ export class TemplateDataComponent {
     }
 
     console.log("payload=================",payload)
-    this.https.patch(this.customTemplateUpdateUrl,payload).subscribe((res)=>{
+    this.https.patch(this.customTemplateUpdateUrl,payload).pipe(takeUntil(this.destroy$)).subscribe((res)=>{
       console.log("res=================",res)
       
       this._snackBar.open("Template Saved Successfully", "Close", {
@@ -173,7 +176,7 @@ export class TemplateDataComponent {
     }
 
     const localUrl = "http://10.68.120.127:30026/rai/v1/moderations/evalLLM"
-    this.https.post(this.testPromptUrl,payload).subscribe((res:any)=>{
+    this.https.post(this.testPromptUrl,payload).pipe(takeUntil(this.destroy$)).subscribe((res:any)=>{
 
       this.testAnalysis = res["moderationResults"]["response"][0]["analysis"]
       this.testResult = res["moderationResults"]["response"][0]["result"]
@@ -254,5 +257,11 @@ export class TemplateDataComponent {
     this.template_type = this.data.template_type
     this.templateTest = this.data.templateTest
     console.log("data================",this.data)
+  }
+
+  // Cleanup on component destruction
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

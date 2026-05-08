@@ -1,0 +1,397 @@
+(new_env) PS C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files> pytest --cov=RAG --cov-report=term-missing rag_integration_tests.py test_service_defaultqa.py test_service_cot.py test_service_thot.py test_service_lot.py test_service_show_score.py test_admin_db.py test_router_exceptions.py
+========================================== test session starts ==========================================
+platform win32 -- Python 3.11.8, pytest-8.4.2, pluggy-1.6.0
+rootdir: C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files
+plugins: anyio-4.12.0, langsmith-0.4.59, asyncio-1.2.0, cov-7.0.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 63 items                                                                                       
+
+rag_integration_tests.py .............                                                             [ 20%]
+test_service_defaultqa.py ....                                                                     [ 26%]
+test_service_cot.py ......                                                                         [ 36%]
+test_service_thot.py ......                                                                        [ 46%]
+test_service_lot.py ......                                                                         [ 55%]
+test_service_show_score.py .                                                                       [ 57%]
+test_admin_db.py ...............                                                                   [ 80%]
+test_router_exceptions.py ............                                                             [100%]
+
+=========================================== warnings summary ============================================ 
+..\..\..\new_env\Lib\site-packages\pydantic\fields.py:826: 22 warnings
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\new_env\Lib\site-packages\pydantic\fields.py:826: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'example'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    warn(
+
+..\..\..\new_env\Lib\site-packages\pydantic\fields.py:826
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\new_env\Lib\site-packages\pydantic\fields.py:826: PydanticDeprecatedSince20: Using extra keyword arguments on `Field` is deprecated and will be removed. Use `json_schema_extra` instead. (Extra keys: 'enum'). Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    warn(
+
+..\src\RAG\service\service.py:13
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:13: LangChainDeprecationWarning: Importing PyPDFLoader from langchain.document_loaders is deprecated. Please replace deprecated imports:
+
+  >> from langchain.document_loaders import PyPDFLoader
+
+  with new imports of:
+
+  >> from langchain_community.document_loaders import PyPDFLoader
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.document_loaders import PyPDFLoader,DirectoryLoader, TextLoader, CSVLoader, JSONLoader, UnstructuredMarkdownLoader
+
+..\src\RAG\service\service.py:13
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:13: LangChainDeprecationWarning: Importing DirectoryLoader from langchain.document_loaders is deprecated. Please replace deprecated imports:
+
+  >> from langchain.document_loaders import DirectoryLoader
+
+  with new imports of:
+
+  >> from langchain_community.document_loaders import DirectoryLoader
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.document_loaders import PyPDFLoader,DirectoryLoader, TextLoader, CSVLoader, JSONLoader, UnstructuredMarkdownLoader
+
+..\src\RAG\service\service.py:13
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:13: LangChainDeprecationWarning: Importing TextLoader from langchain.document_loaders is deprecated. Please replace deprecated imports:
+
+  >> from langchain.document_loaders import TextLoader
+
+  with new imports of:
+
+  >> from langchain_community.document_loaders import TextLoader
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.document_loaders import PyPDFLoader,DirectoryLoader, TextLoader, CSVLoader, JSONLoader, UnstructuredMarkdownLoader
+
+..\src\RAG\service\service.py:13
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:13: LangChainDeprecationWarning: Importing CSVLoader from langchain.document_loaders is deprecated. Please replace deprecated imports:
+
+  >> from langchain.document_loaders import CSVLoader
+
+  with new imports of:
+
+  >> from langchain_community.document_loaders import CSVLoader
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.document_loaders import PyPDFLoader,DirectoryLoader, TextLoader, CSVLoader, JSONLoader, UnstructuredMarkdownLoader
+
+..\src\RAG\service\service.py:13
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:13: LangChainDeprecationWarning: Importing JSONLoader from langchain.document_loaders is deprecated. Please replace deprecated imports:
+
+  >> from langchain.document_loaders import JSONLoader
+
+  with new imports of:
+
+  >> from langchain_community.document_loaders import JSONLoader
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.document_loaders import PyPDFLoader,DirectoryLoader, TextLoader, CSVLoader, JSONLoader, UnstructuredMarkdownLoader
+
+..\src\RAG\service\service.py:13
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:13: LangChainDeprecationWarning: Importing UnstructuredMarkdownLoader from langchain.document_loaders is deprecated. Please replace deprecated imports:
+
+  >> from langchain.document_loaders import UnstructuredMarkdownLoader
+
+  with new imports of:
+
+  >> from langchain_community.document_loaders import UnstructuredMarkdownLoader
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.document_loaders import PyPDFLoader,DirectoryLoader, TextLoader, CSVLoader, JSONLoader, UnstructuredMarkdownLoader
+
+..\src\RAG\service\service.py:18
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:18: LangChainDeprecationWarning: Importing FAISS from langchain.vectorstores is deprecated. Please replace deprecated imports:
+
+  >> from langchain.vectorstores import FAISS
+
+  with new imports of:
+
+  >> from langchain_community.vectorstores import FAISS
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.vectorstores.faiss import FAISS
+
+..\src\RAG\service\service.py:19
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:19: LangChainDeprecationWarning: Importing OpenAIEmbeddings from langchain.embeddings is deprecated. Please replace deprecated imports:
+
+  >> from langchain.embeddings import OpenAIEmbeddings
+
+  with new imports of:
+
+  >> from langchain_community.embeddings import OpenAIEmbeddings
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.embeddings.openai import OpenAIEmbeddings
+
+..\src\RAG\service\service.py:22
+..\src\RAG\service\service.py:22
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:22: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+  `from langchain_community.chat_models import AzureChatOpenAI`.
+
+  To install langchain-community run `pip install -U langchain-community`.
+    from langchain.chat_models import AzureChatOpenAI
+
+..\src\RAG\service\service.py:23
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:23: LangChainDeprecationWarning: Importing SentenceTransformerEmbeddings from langchain.embeddings is deprecated. Please replace deprecated imports:
+
+  >> from langchain.embeddings import SentenceTransformerEmbeddings
+
+  with new imports of:
+
+  >> from langchain_community.embeddings import SentenceTransformerEmbeddings
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
+
+..\src\RAG\service\service.py:40
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:40: LangChainDeprecationWarning: Importing SentenceTransformerEmbeddings from langchain.embeddings is deprecated. Please replace deprecated imports:
+
+  >> from langchain.embeddings import SentenceTransformerEmbeddings
+
+  with new imports of:
+
+  >> from langchain_community.embeddings import SentenceTransformerEmbeddings
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
+
+..\src\RAG\service\geval.py:14
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\geval.py:14: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+  `from langchain_community.chat_models import AzureChatOpenAI`.
+
+  To install langchain-community run `pip install -U langchain-community`.
+    from langchain.chat_models import AzureChatOpenAI
+
+..\src\RAG\service\caching.py:13
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\caching.py:13: LangChainDeprecationWarning: Importing PyPDFLoader from langchain.document_loaders is deprecated. Please replace deprecated imports:
+
+  >> from langchain.document_loaders import PyPDFLoader
+
+  with new imports of:
+
+  >> from langchain_community.document_loaders import PyPDFLoader
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.document_loaders import PyPDFLoader,DirectoryLoader, TextLoader, CSVLoader
+
+..\src\RAG\service\caching.py:13
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\caching.py:13: LangChainDeprecationWarning: Importing DirectoryLoader from langchain.document_loaders is deprecated. Please replace deprecated imports:
+
+  >> from langchain.document_loaders import DirectoryLoader
+
+  with new imports of:
+
+  >> from langchain_community.document_loaders import DirectoryLoader
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.document_loaders import PyPDFLoader,DirectoryLoader, TextLoader, CSVLoader
+
+..\src\RAG\service\caching.py:13
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\caching.py:13: LangChainDeprecationWarning: Importing TextLoader from langchain.document_loaders is deprecated. Please replace deprecated imports:
+
+  >> from langchain.document_loaders import TextLoader
+
+  with new imports of:
+
+  >> from langchain_community.document_loaders import TextLoader
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.document_loaders import PyPDFLoader,DirectoryLoader, TextLoader, CSVLoader
+
+..\src\RAG\service\caching.py:13
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\caching.py:13: LangChainDeprecationWarning: Importing CSVLoader from langchain.document_loaders is deprecated. Please replace deprecated imports:
+
+  >> from langchain.document_loaders import CSVLoader
+
+  with new imports of:
+
+  >> from langchain_community.document_loaders import CSVLoader
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.document_loaders import PyPDFLoader,DirectoryLoader, TextLoader, CSVLoader
+
+..\src\RAG\service\caching.py:15
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\caching.py:15: LangChainDeprecationWarning: Importing FAISS from langchain.vectorstores is deprecated. Please replace deprecated imports:
+
+  >> from langchain.vectorstores import FAISS
+
+  with new imports of:
+
+  >> from langchain_community.vectorstores import FAISS
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.vectorstores.faiss import FAISS
+
+..\src\RAG\service\caching.py:16
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\caching.py:16: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+  `from langchain_community.chat_models import AzureChatOpenAI`.
+
+  To install langchain-community run `pip install -U langchain-community`.
+    from langchain.chat_models import AzureChatOpenAI
+
+..\src\RAG\service\cov.py:15
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\cov.py:15: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+  `from langchain_community.chat_models import AzureChatOpenAI`.
+
+  To install langchain-community run `pip install -U langchain-community`.
+    from langchain.chat_models import AzureChatOpenAI
+
+..\src\RAG\service\cov.py:18
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\cov.py:18: LangChainDeprecationWarning: Importing FAISS from langchain.vectorstores is deprecated. Please replace deprecated imports:
+
+  >> from langchain.vectorstores import FAISS
+
+  with new imports of:
+
+  >> from langchain_community.vectorstores import FAISS
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.vectorstores.faiss import FAISS
+
+..\src\RAG\service\cot.py:13
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\cot.py:13: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+  `from langchain_community.chat_models import AzureChatOpenAI`.
+
+  To install langchain-community run `pip install -U langchain-community`.
+    from langchain.chat_models import AzureChatOpenAI
+
+..\src\RAG\service\cot.py:14
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\cot.py:14: LangChainDeprecationWarning: Importing FAISS from langchain.vectorstores is deprecated. Please replace deprecated imports:
+
+  >> from langchain.vectorstores import FAISS
+
+  with new imports of:
+
+  >> from langchain_community.vectorstores import FAISS
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.vectorstores.faiss import FAISS
+
+..\src\RAG\service\thot.py:14
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\thot.py:14: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+  `from langchain_community.chat_models import AzureChatOpenAI`.
+
+  To install langchain-community run `pip install -U langchain-community`.
+    from langchain.chat_models import AzureChatOpenAI
+
+..\src\RAG\service\thot.py:15
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\thot.py:15: LangChainDeprecationWarning: Importing FAISS from langchain.vectorstores is deprecated. Please replace deprecated imports:
+
+  >> from langchain.vectorstores import FAISS
+
+  with new imports of:
+
+  >> from langchain_community.vectorstores import FAISS
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.vectorstores.faiss import FAISS
+
+..\src\RAG\service\lot.py:14
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\lot.py:14: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+  `from langchain_community.chat_models import AzureChatOpenAI`.
+
+  To install langchain-community run `pip install -U langchain-community`.
+    from langchain.chat_models import AzureChatOpenAI
+
+..\src\RAG\service\lot.py:15
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\lot.py:15: LangChainDeprecationWarning: Importing FAISS from langchain.vectorstores is deprecated. Please replace deprecated imports:
+
+  >> from langchain.vectorstores import FAISS
+
+  with new imports of:
+
+  >> from langchain_community.vectorstores import FAISS
+  You can use the langchain cli to **automatically** upgrade many imports. Please see documentation here <https://python.langchain.com/docs/versions/v0_2/>
+    from langchain.vectorstores.faiss import FAISS
+
+..\src\RAG\service\multimodal.py:16
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\multimodal.py:16: LangChainDeprecationWarning: Importing chat models from langchain is deprecated. Importing from langchain will no longer be supported as of langchain==0.2.0. Please import from langchain-community instead:
+
+  `from langchain_community.chat_models import AzureChatOpenAI`.
+
+  To install langchain-community run `pip install -U langchain-community`.
+    from langchain.chat_models import AzureChatOpenAI
+
+rag_integration_tests.py::TestRAGIntegration::test_01_file_upload_openai
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyPacked has no __module__ attribute
+
+rag_integration_tests.py::TestRAGIntegration::test_01_file_upload_openai
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type SwigPyObject has no __module__ attribute
+
+rag_integration_tests.py::TestRAGIntegration::test_01_file_upload_openai
+  <frozen importlib._bootstrap>:241: DeprecationWarning: builtin type swigvarlink has no __module__ attribute
+
+rag_integration_tests.py::TestRAGIntegration::test_02_retrieval_kepler_with_fileupload
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:291: LangChainDeprecationWarning: The class `AzureChatOpenAI` was deprecated in LangChain 0.0.10 and will be removed in 1.0. An updated version of the class exists in the :class:`~langchain-openai package and should be used instead. To use it run `pip install -U :class:`~langchain-openai` and import as `from :class:`~langchain_openai import AzureChatOpenAI``.
+    llm = AzureChatOpenAI(deployment_name=os.getenv("OPENAI_MODEL"), temperature=1)
+
+rag_integration_tests.py::TestRAGIntegration::test_02_retrieval_kepler_with_fileupload
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\service.py:372: LangChainDeprecationWarning: The method `Chain.__call__` was deprecated in langchain 0.1.0 and will be removed in 1.0. Use :meth:`~invoke` instead.
+    output = qa_chain({"query": text})
+
+rag_integration_tests.py::TestRAGIntegration::test_02_retrieval_kepler_with_fileupload
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\geval.py:244: LangChainDeprecationWarning: The method `BaseChatModel.__call__` was deprecated in langchain-core 0.1.7 and will be removed in 1.0. Use :meth:`~invoke` instead.
+    response=llm(messages=[msg])
+
+rag_integration_tests.py: 16 warnings
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\new_env\Lib\site-packages\pydantic\main.py:1114: PydanticDeprecatedSince20: The `dict` method is deprecated; use `model_dump` instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.9/migration/
+    warnings.warn('The `dict` method is deprecated; use `model_dump` instead.', category=PydanticDeprecatedSince20)
+
+rag_integration_tests.py::TestRAGIntegration::test_04_cot_step_by_step_reasoning
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files\..\src\RAG\service\cot.py:177: LangChainDeprecationWarning: The method `BaseRetriever.get_relevant_documents` was deprecated in langchain-core 0.1.46 and will be removed in 1.0. Use :meth:`~invoke` instead.
+    documents = retriever.get_relevant_documents(text)
+
+rag_integration_tests.py::TestRAGIntegration::test_12_multimodal_audio
+  C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\new_env\Lib\site-packages\audioread\rawread.py:19: DeprecationWarning: 'sunau' is deprecated and slated for removal in Python 3.13
+    import sunau
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+============================================ tests coverage ============================================= 
+____________________________ coverage: platform win32, python 3.11.8-final-0 ____________________________ 
+
+Name                                                                                                      
+                      Stmts   Miss  Cover   Missing
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\config\__init__.py                 0      0   100%
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\config\config.py                  16      4    75%   30, 36-38
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\config\logger.py                  91     28    69%   44-45, 79-85, 99, 102-104, 108, 112-114, 117-119, 124, 134-141, 154, 160, 164
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\constants\__init__.py              0      0   100%
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\constants\constants.py            17      0   100%
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\constants\local_constants.py       7      0   100%
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\dao\AdminDb.py                   137     35    74%   120-130, 133-145, 149-156, 193-197
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\exception\__init__.py              0      0   100%
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\exception\exception.py            17      4    76%   42-43, 51-52
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\mapper\__init__.py                 0      0   100%
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\mapper\mapper.py                  35      0   100%
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\routing\__init__.py                0      0   100%
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\routing\router.py                205      8    96%   78-81, 202-205
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\service\__init__.py                0      0   100%
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\service\audiorag.py              216     38    82%   56-61, 64-66, 102, 121, 203-204, 206, 224-226, 237, 261-263, 278-280, 317, 320-321, 325-327, 485-490, 505-507
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\service\caching.py                53     19    64%   47-66, 70, 74-76, 87-90
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\service\cot.py                    88      2    98%   110, 175
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\service\cov.py                    95     21    78%   61-62, 107-126, 132-142, 190
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\service\geval.py                  96     18    81%   31-33, 250-253, 258-278, 343-345
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\service\lot.py                    87      2    98%   112, 201
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\service\multimodal.py            211     57    73%   53-58, 60-61, 65-75, 81-83, 98-105, 108-110, 189-192, 204-206, 226-228, 244-246, 283, 286-287, 292-294, 451-456, 471-473
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\service\service.py               471     83    82%   99-101, 149-150, 156-158, 167-168, 184, 292-315, 317-319, 349, 387, 414-419, 435-436, 438, 501, 514, 529, 543-556, 568-569, 571, 604-606, 655, 669-671, 683, 686-697, 749, 752-753, 767-769, 785-787, 821, 825, 829-831
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\service\thot.py                   87      2    98%   112, 173
+C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\src\RAG\service\videorag.py              282     69    76%   61-66, 69-71, 98, 108, 115, 210-212, 222-225, 241-243, 257, 268, 279, 293, 298-301, 312, 336-338, 353-355, 392, 395-396, 400-402, 577-580, 584-587, 591-594, 598, 605-618, 633-636
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                                     
+                       2211    390    82%
+============================== 63 passed, 75 warnings in 396.93s (0:06:36) ============================== 
+--- Logging error ---
+pymongo.errors._OperationCancelled: operation cancelled
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\kirubhakaran.v\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+ValueError: I/O operation on closed file.
+Call stack:
+  File "C:\Users\kirubhakaran.v\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1002, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\kirubhakaran.v\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1045, in _bootstrap_inner
+    self.run()
+  File "C:\Users\kirubhakaran.v\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 982, in run
+    self._target(*self._args, **self._kwargs)
+  File "C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\new_env\Lib\site-packages\pymongo\periodic_executor.py", line 236, in _run
+    if not self._target():
+  File "C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\new_env\Lib\site-packages\pymongo\synchronous\monitor.py", line 80, in target
+    monitor._run()  # type:ignore[attr-defined]
+  File "C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\new_env\Lib\site-packages\pymongo\synchronous\monitor.py", line 214, in _run
+    self._server_description = self._check_server()
+  File "C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\new_env\Lib\site-packages\pymongo\synchronous\monitor.py", line 273, in _check_server
+    _debug_log(
+  File "C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\new_env\Lib\site-packages\pymongo\logger.py", line 108, in _debug_log
+    logger.debug(LogMessage(**fields))
+Message: <pymongo.logger.LogMessage object at 0x000001FAE4152DA0>
+Arguments: ()
+(new_env) PS C:\Users\kirubhakaran.v\Desktop\hallucination_new\2.2.1\responsible-ai-Hallucination\Rag\test_files>

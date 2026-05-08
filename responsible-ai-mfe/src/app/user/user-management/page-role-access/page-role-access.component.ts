@@ -4,7 +4,8 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { PageRoleAccessService } from './page-role-access.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -36,7 +37,8 @@ interface SelectType {
   templateUrl: './page-role-access.component.html',
   styleUrls: ['./page-role-access.component.css']
 })
-export class PageRoleAccessComponent {
+export class PageRoleAccessComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 @ViewChild('p') p!: NgbPopover;
 accessiblePagesFinalUrl : any
 newRoleUrl : any;
@@ -92,6 +94,7 @@ tabs!: Tab[];
     this.updatePagesUrl = this.data.accessiblePagesUrl + "/v1/rai/backend/pageauthoritynewupdate";
     let roleDefault = "ROLE_ADMIN"
     this.pageRoleAccessService.getAccessiblePages(this.accessiblePagesFinalUrl, roleDefault)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         data => {
           this.originalPages = data.pages;
@@ -118,6 +121,7 @@ tabs!: Tab[];
     this.workbenchTabs = workbenchTabs1['Unstructured-Text'];
 
     this.pageRoleAccessService.getAccessiblePages(this.accessiblePagesFinalUrl, this.selectedRole)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         data => {
           this.pages = data.pages;
@@ -383,7 +387,7 @@ onSubTabCheckboxChange(event: MatCheckboxChange, tabName: string, subTabName: st
     let databasestruct = this.transformToDatabaseFormat(this.originalpagestabs);
     console.log(databasestruct, "originalpagestabs after submit");
     // this.pageRoleAccessService.updateRoleAccess(this.selectedRole, databasestruct);
-    this.pageRoleAccessService.updateRoleAccess(this.selectedRole, databasestruct, this.updatePagesUrl).subscribe(
+    this.pageRoleAccessService.updateRoleAccess(this.selectedRole, databasestruct, this.updatePagesUrl).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         console.log('Data sent successfully', response);
         this.snackBar.open('Role access updated successfully', 'Close', {
@@ -512,7 +516,7 @@ submitRoleForm() {
   if (this.NewAccPort.valid) {
     const formData = this.NewAccPort.value;
     console.log("FORM SUBMIT",formData.role);
-    this.https.post(this.newRoleUrl, formData).subscribe(
+    this.https.post(this.newRoleUrl, formData).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
         // Handle success response
         console.log(response);
@@ -527,7 +531,7 @@ submitRoleForm() {
         console.error(error);
       }
     );
-    this.https.post(this.createPageAuthUrl, formData).subscribe(
+    this.https.post(this.createPageAuthUrl, formData).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
         // Handle success response
         console.log(response);
@@ -543,7 +547,7 @@ submitRoleForm() {
 
 // Fetches the updated list of roles
 getUpdatedRoles(){
-  this.https.get(this.getRoleUrl).subscribe(
+  this.https.get(this.getRoleUrl).pipe(takeUntil(this.destroy$)).subscribe(
     (response: any) => {
       // Handle successful response here
       console.log(response);
@@ -556,6 +560,11 @@ getUpdatedRoles(){
     }
   );
 }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 
 }

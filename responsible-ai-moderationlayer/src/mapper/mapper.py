@@ -1,11 +1,13 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 
 from dataclasses import dataclass
@@ -102,42 +104,6 @@ class PIICHECKS(str, Enum):
 
     class Config:
         orm_mode = True
-
-
-# class PIICHECKSToBlock(str, Enum):
-#     PERSON = 'PERSON'
-#     LOCATION = 'LOCATION'
-#     DATE  = 'DATE'
-#     AU_ABN  = 'AU_ABN'
-#     AU_ACN  = 'AU_ACN'
-#     AADHAR_NUMBER  = 'AADHAR_NUMBER'
-#     AU_MEDICARE  = 'AU_MEDICARE'
-#     AU_TFN  = 'AU_TFN'
-#     CREDIT_CARD = 'CREDIT_CARD'
-#     CRYPTO = 'CRYPTO'
-#     DATE_TIME  = 'DATE_TIME'
-#     EMAIL_ADDRESS  = 'EMAIL_ADDRESS'
-#     ES_NIF  = 'ES_NIF'
-#     IBAN_CODE  = 'IBAN_CODE'
-#     IP_ADDRESS  = 'IP_ADDRESS'
-#     IT_DRIVER_LICENSE  = 'IT_DRIVER_LICENSE'
-#     IT_FISCAL_CODE = 'IT_FISCAL_CODE'
-#     IT_IDENTITY_CARD = 'IT_IDENTITY_CARD'
-#     IT_PASSPORT  = 'IT_PASSPORT'
-#     IT_VAT_CODE  = 'IT_VAT_CODE'
-#     MEDICAL_LICENSE  = 'MEDICAL_LICENSE'
-#     PAN_Number  = 'PAN_Number'
-#     PHONE_NUMBER  = 'PHONE_NUMBER'
-#     SG_NRIC_FIN  = 'SG_NRIC_FIN'
-#     UK_NHS  = 'UK_NHS'
-#     URL  = 'URL'
-#     PASSPORT  = 'PASSPORT'
-#     US_ITIN  = 'US_ITIN'
-#     US_PASSPORT  = 'US_PASSPORT'
-#     US_SSN  = 'US_SSN'
-
-#     class Config:
-#         orm_mode = True
 
 class promptInjectionCheck(BaseModel):
     injectionConfidenceScore:str = Field(example="98")
@@ -274,7 +240,6 @@ class covRequest(BaseModel):
 
 class privacyPopupRequest(BaseModel):
     text: str = Field(example="Which is the biggest country in the world?")
-    # PiientitiesConfiguredToDetect:List[PIICHECKS] = Field(example=['PERSON','LOCATION','DATE','AU_ABN','AU_ACN','AADHAR_NUMBER','AU_MEDICARE','AU_TFN','CREDIT_CARD','CRYPTO','DATE_TIME','EMAIL_ADDRESS','ES_NIF','IBAN_CODE','IP_ADDRESS','IT_DRIVER_LICENSE','IT_FISCAL_CODE','IT_IDENTITY_CARD','IT_PASSPORT','IT_VAT_CODE','MEDICAL_LICENSE','PAN_Number','PHONE_NUMBER','SG_NRIC_FIN','UK_NHS','URL','PASSPORT','US_ITIN','US_PASSPORT','US_SSN'])
     PiientitiesConfiguredToBlock:List[PIICHECKS] = Field(example=["AADHAR_NUMBER","PAN_Number"])
 
 class textQuality(BaseModel):
@@ -298,7 +263,6 @@ class PiiEntitiesforPopup(BaseModel):
     endOffset: int = Field(example=28)
     value: str =Field(example = "Karan")
 
-# @dataclass
 class PrivacyPopup(BaseModel):
     entitiesToDetect:list = Field(example=["US_SSN"])
     entitiesToBlock :list = Field(example=["US_SSN"])
@@ -321,7 +285,6 @@ class RequestModeration(BaseModel):
     restrictedtopic : restrictedtopic
     textQuality : textQuality
     refusalCheck : refusalCheck
-    # textRelevance : textRelevanceCheck
     customThemeCheck : customThemeCheck
     sentimentCheck : sentimentCheck
     invisibleTextCheck : invisibleTextCheck
@@ -342,7 +305,6 @@ class CoupledRequestModeration(BaseModel):
     restrictedtopic : restrictedtopicTypes
     textQuality : textQuality
     refusalCheck : refusalCheck
-    # textRelevance : textRelevanceCheck
     customThemeCheck : customThemeCheck
     randomNoiseCheck : smoothLlmCheck
     advancedJailbreakCheck: bergeronCheck
@@ -407,7 +369,6 @@ class CustomThemeTexts(BaseModel):
 class MODTHRESHOLDS(BaseModel):
     PromptinjectionThreshold: float = Field(example=70)
     JailbreakThreshold: float = Field(example=0.70)
-    # PiientitiesConfiguredToDetect:List[PIICHECKS] = Field(example=['PERSON','LOCATION','DATE','AU_ABN','AU_ACN','AADHAR_NUMBER','AU_MEDICARE','AU_TFN','CREDIT_CARD','CRYPTO','DATE_TIME','EMAIL_ADDRESS','ES_NIF','IBAN_CODE','IP_ADDRESS','IT_DRIVER_LICENSE','IT_FISCAL_CODE','IT_IDENTITY_CARD','IT_PASSPORT','IT_VAT_CODE','MEDICAL_LICENSE','PAN_Number','PHONE_NUMBER','SG_NRIC_FIN','UK_NHS','URL','PASSPORT','US_ITIN','US_PASSPORT','US_SSN'])
     PiientitiesConfiguredToBlock:List[PIICHECKS] = Field(example=["AADHAR_NUMBER","PAN_Number"])
     RefusalThreshold: float = Field(example=0.70)
     ToxicityThresholds: TOXTHRESHOLDS
@@ -434,7 +395,6 @@ class SmoothLlmThreshold(BaseModel):
 class COUPLEDMODERATIONTHRESHOLD(BaseModel):
     PromptinjectionThreshold: float = Field(example=60)
     JailbreakThreshold: float = Field(example=60)
-    # PiientitiesConfiguredToDetect:List[PIICHECKS] = Field(example=['PERSON','LOCATION','DATE','AU_ABN','AU_ACN','AADHAR_NUMBER','AU_MEDICARE','AU_TFN','CREDIT_CARD','CRYPTO','DATE_TIME','EMAIL_ADDRESS','ES_NIF','IBAN_CODE','IP_ADDRESS','IT_DRIVER_LICENSE','IT_FISCAL_CODE','IT_IDENTITY_CARD','IT_PASSPORT','IT_VAT_CODE','MEDICAL_LICENSE','PAN_Number','PHONE_NUMBER','SG_NRIC_FIN','UK_NHS','URL','PASSPORT','US_ITIN','US_PASSPORT','US_SSN'])
     PiientitiesConfiguredToBlock:List[PIICHECKS] = Field(example=["AADHAR_NUMBER","PAN_Number"])
     RefusalThreshold: float = Field(example=60)
     ToxicityThresholds: TOXTHRESHOLDS
@@ -458,7 +418,6 @@ class completionRequest(BaseModel):
     Prompt: str = Field(example= "Which is the biggest country in the world?")
     ModerationChecks : List[MODCHECKS] = Field(example=['PromptInjection','JailBreak','Toxicity','Piidetct','Refusal','Profanity','RestrictTopic',"TextQuality","CustomizedTheme"])
     ModerationCheckThresholds: Union[COUPLEDMODERATIONTHRESHOLD,MODTHRESHOLDS]
-    # llm_BasedChecks: List[llm_Based_Checks] = Field(example=['smoothLlmCheck','bergeronCheck'])
     
 
     class Config:
@@ -500,10 +459,6 @@ class coupledcompletionRequest(BaseModel):
     lotNumber: Optional[int] =Field(None,example=1)
     temperature: str = Field(example="0")
     LLMinteraction: str = Field(example="yes")
-    
-    #LLMmodel:str = Field(example="Llama or Openai or Bloom")
-    # SelfReminder :bool =Field(example=True)
-    # GoalPriority: Optional[bool] =Field(None,example=True)
     PromptTemplate: str =Field(example="GoalPriority")
     Prompt: str = Field(example= "Which is the biggest country in the world?")
     InputModerationChecks : List[MODCHECKS] = Field(example=['PromptInjection','JailBreak','Toxicity','Piidetct','Refusal','Profanity','RestrictTopic',"TextQuality","CustomizedTheme"])

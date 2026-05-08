@@ -15,7 +15,6 @@ import pymongo
 from mongomock import MongoClient
 from dotenv import load_dotenv
 from src.config.logger import CustomLogger
-# from batch_processing.config.logger import CustomLogger
 import concurrent.futures as con
 import sys
 load_dotenv()
@@ -31,7 +30,6 @@ log = CustomLogger()
 class DB:
     
      def connect():
-        # from src.service.utility import Utility as UT
         try:
             db_type =os.getenv("DB_TYPE", "mongo").lower()
 

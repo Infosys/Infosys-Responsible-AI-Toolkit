@@ -4,32 +4,7 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-.HeadingLabel {
-    color: #7E7E7E;
-    padding: 5px 0px;
-    margin-bottom: 0px;
-    font-weight: 600;
-    font-size: 13px;
-    font-family: 'Segoe UI';
-    text-transform: uppercase;
-    transition: color 0.3s ease;
-}
 
-.button-container2 {
-    display: flex;
-    justify-content: space-between;
-    /* Distributes items along the main axis */
-}
-
-.buttonGen {
-    font-family: 'Segoe UI';
-    font-weight: semi-bold;
-    font-size: 12px;
-    height: 28px;
-    width: 118px;
-    color: #8626C3;
-
-}
 
 mat-label {
     font-family: 'Segoe UI';
@@ -42,18 +17,8 @@ mat-label {
     color: #8626C3;
 }
 
-.activeTab {
-    color: #8626C3;
-    position: relative;
-}
-
-.activeTab::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 35%;
-    border-bottom: 2px solid #8626C3;
+.toggleLableOff {
+    color: #7E7E7E; /* Default color when toggle is off */
 }
 
 /* Toggle Switch */

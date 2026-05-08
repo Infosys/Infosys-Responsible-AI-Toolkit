@@ -1,5 +1,5 @@
 import ipaddress
-import random
+import secrets
 from gibberish_detector import detector
 
 IGNORE = ["AMBIGUOUS", "USERNAME"]
@@ -78,11 +78,11 @@ def replace_ip(value, replacements_dict):
     """Replace an IP address with a synthetic IP address of the same format"""
     try:
         ipaddress.IPv4Address(value)
-        return random.choice(replacements_dict["IP_ADDRESS"]["IPv4"])
+        return secrets.choice(replacements_dict["IP_ADDRESS"]["IPv4"])
     except ValueError:
         try:
             ipaddress.IPv6Address(value)
-            return random.choice(replacements_dict["IP_ADDRESS"]["IPv6"])
+            return secrets.choice(replacements_dict["IP_ADDRESS"]["IPv6"])
         except ValueError:
             # this doesn't happen if we already use ipaddress filter in the detection
             print("Invalid IP address")
@@ -144,7 +144,7 @@ def redact_pii_text(text, secrets, replacements, add_references=False):
                 if secret["tag"] == "IP_ADDRESS":
                     replacement = replace_ip(secret["value"], replacements)
                 else:
-                    replacement = random.choice(replacements[secret["tag"]])
+                    replacement = secrets.choice(replacements[secret["tag"]])
                 replaced_secrets[secret["value"]] = replacement
             subparts.append(replacement)
             replaced_secrets[secret["value"]] = replacement

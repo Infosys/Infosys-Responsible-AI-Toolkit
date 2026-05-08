@@ -97,10 +97,10 @@ Once all the steps above are completed, you can start the service.
     ```
 
 3. **Access the Swagger UI**: Open the following URL in your browser to access the Swagger UI, Replace <portnumber> with the actual port number your application is running on:
- `http://localhost:<portnumber>/v1/redteaming/docs#`
+    [http://localhost:80/v1/redteaming/docs#](http://localhost:<portnumber>/v1/redteaming/docs#)
 
 ## License
-The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.md](License.md ) file.
+The source code for the project is licensed under the MIT license, which you can find in the [`LICENSE.md`](LICENSE.md ) file.
 
 ## Contact
-If you have more questions or need further insights, please feel free to connect with us at infosysraitoolkitt@infosys.com.
+If you have more questions or need further insights, please feel free to connect with us at Impact@infosys.com.

@@ -1,10 +1,13 @@
 '''
-MIT license https://opensource.org/licenses/MIT
-Copyright 2024 Infosys Ltd
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
  
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 from pydantic import BaseModel, Field,Extra
 from typing import Optional, Union, List
@@ -229,21 +232,7 @@ class ModerationResults(BaseModel):
     class Config:
         orm_mode = True
         
-# class TimeForCheck(BaseModel):
-#     toxicityCheck: str
-#     privacyCheck: str
-#     promptInjectionCheck: str
-#     customthemeCheck: str
-#     restrictedtopic: str
-#     jailbreakCheck: str
 
-# class TimeTakenByModel(BaseModel):
-#     toxicityCheck: str
-#     privacyCheck: str
-#     promptInjectionCheck: str
-#     customthemeCheck: str
-#     restrictedtopic: str
-#     jailbreakCheck: str
 
 
 class RequestModerationTime(BaseModel):
@@ -290,9 +279,7 @@ class ModerationLayerTime(BaseModel):
     Time_taken_by_each_model_in_requestModeration: Optional[ModelTime] = None
     Total_time_for_moderation_Check: Optional[str] = None
     Time_taken_by_each_model_in_responseModeration: Optional[ModelTime] = None
-    # Time_for_each_individual_check: TimeForCheck = Field(..., alias="Time for each individual check")
-    # Time_taken_by_each_model: TimeTakenByModel = Field(..., alias="Time taken by each model")
-    # Total_time_for_moderation_Check: str = Field(..., alias="Total time for moderation Check")
+
 
 class completionResponse(BaseModel):
     uniqueid:str=Field(example= "123e4567-e89b-12d3-a456-426614174000")
@@ -305,6 +292,7 @@ class completionResponse(BaseModel):
     moderationResults: ModerationResults
     portfolioName: str
     accountName: str
+    anonymize: Optional[bool] = True
     Moderation_layer_time: Optional[ModerationLayerTime] = Field(None, alias="Moderation layer time")
 
     class Config:

@@ -1,12 +1,13 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 from PIL import Image
@@ -110,7 +111,7 @@ class InprocessingService:
     pretrainMitigation_payload = ""
     ca_dict = {}
 
-    AWARE_MODEL_LOCAL_PATH='../output/aware_model/'
+    AWARE_MODEL_LOCAL_PATH=os.path.join(OUTPUT_BASE_PATH, 'aware_model') + os.sep
     AWARE_MODEL_UPLOAD_PATH='responsible-ai//responsible-ai-fairness//aware-model'
 
 
@@ -139,9 +140,16 @@ class InprocessingService:
 
 
     def inprocessing_exponentiated_gradient_reduction(self, payload: dict):
-        if payload['Batch_id'] is None or '':
+        # Handle both dict and Pydantic model (BatchId) objects
+        if isinstance(payload, dict):
+            batch_id_value = payload.get('Batch_id')
+        else:
+            # Assume it's a Pydantic model with Batch_id attribute
+            batch_id_value = getattr(payload, 'Batch_id', None)
+        
+        if batch_id_value is None or batch_id_value == '':
             log.error("Batch Id id missing")
-        batchId = payload['Batch_id']
+        batchId = batch_id_value
         self.batch.update(batch_id=batchId, value={"Status": "In-progress"})
         tenet_id = self.tenet.find(tenet_name='Fairness')
         batch_details = self.batch.find(batch_id=batchId, tenet_id=tenet_id)
@@ -166,7 +174,7 @@ class InprocessingService:
             raise HTTPException(status_code=500, detail="No content received from the POST request")
 
         df_train = pandas.read_csv(BytesIO(content['data']))
-        train, test = train_test_split(df_train, test_size=0.3)
+        train, test = train_test_split(df_train, test_size=0.3, random_state=42)
 
         favourable_label=int(favourableLabel)
         unfavourable_label=0 if favourable_label==1 else 1
@@ -187,7 +195,7 @@ class InprocessingService:
             protected_attribute_names=sensitiveFeatures
         )
 
-        exponentiated_gradient_reduction=ExponentiatedGradientReduction(estimator=RandomForestClassifier(), constraints='EqualizedOdds')
+        exponentiated_gradient_reduction=ExponentiatedGradientReduction(estimator=RandomForestClassifier(random_state=42), constraints='EqualizedOdds')
 
         exponentiated_gradient_reduction.fit(dataset=dataset_train)
 

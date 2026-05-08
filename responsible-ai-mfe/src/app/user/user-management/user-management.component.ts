@@ -4,20 +4,23 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { PagingConfig } from 'src/app/_models/paging-config.model';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { PageRoleAccessComponent } from './page-role-access/page-role-access.component';
+import { UserValidationService } from 'src/app/services/user-validation.service';
 @Component({
   selector: 'app-user-management',
   templateUrl: './user-management.component.html',
   styleUrls: ['./user-management.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class UserManagementComponent {
+export class UserManagementComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   searchQuery: string = '';
   filteredItems: string[] = [];
   isSearchOpen: boolean = false;
@@ -73,7 +76,7 @@ export class UserManagementComponent {
   // ...
 
   constructor(private https: HttpClient,private fb: FormBuilder,public _snackBar: MatSnackBar
-    , public dialog: MatDialog) {
+    , public dialog: MatDialog,private validationService: UserValidationService) {
     this.pagingConfig = {
       itemsPerPage: this.itemsPerPage,
       currentPage: this.currentPage,
@@ -82,7 +85,7 @@ export class UserManagementComponent {
   }
   ngOnInit() {
     let ip_port: any
-    ip_port = this.getLocalStoreApi()
+    ip_port = this.validationService.getLocalStoreApi()
     this.setApilist(ip_port)
     this.getUserData();
     this.getListofAuthorities();
@@ -132,15 +135,6 @@ toggleSearch() {
   this.filteredItems = [];
 }
 
-  getLocalStoreApi() {
-    let ip_port
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        return ip_port = JSON.parse(res)
-      }
-    }
-  }
   setApilist(ip_port: any) {
     // ip_port.result.Backend = "http://localhost:30019"
     this.accessiblePages = ip_port.result.Backend
@@ -150,7 +144,7 @@ toggleSearch() {
     this.Backend_DeleteUser = ip_port.result.Backend + ip_port.result.Backend_DeleteUser
   }
   getUserData() {
-    this.https.get(this.Backend_Users).subscribe(
+    this.https.get(this.Backend_Users).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
         // Handle successful response here
         console.log(response);
@@ -173,7 +167,7 @@ toggleSearch() {
 options = [];
 
 getListofAuthorities() {
-  this.https.get(this.Backend_authorities).subscribe((res:any)=>{
+  this.https.get(this.Backend_authorities).pipe(takeUntil(this.destroy$)).subscribe((res:any)=>{
     console.log(res);
     this.options = res;
   })
@@ -182,7 +176,7 @@ getListofAuthorities() {
     let x = this.Backend_DeleteUser
     let y = `${x}/delete?id=${id}`
     // console.log("http://10.66.155.13:30019/v1/rai/backend/users/delete?id="+id+"");
-    this.https.delete(y).subscribe({
+    this.https.delete(y).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response:any) => {
         console.log('User deleted successfully', response);
         this.getUserData();
@@ -242,7 +236,7 @@ getListofAuthorities() {
   }
 
   updateUser(header: any) {
-    this.https.patch(this.Backend_UpdateUser, header).subscribe({
+    this.https.patch(this.Backend_UpdateUser, header).pipe(takeUntil(this.destroy$)).subscribe({
       next: (response) => {
 
         console.log('User updated successfully', response);
@@ -252,6 +246,10 @@ getListofAuthorities() {
         // Handle the error appropriately here
       }
     });
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

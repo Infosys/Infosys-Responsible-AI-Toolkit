@@ -5,16 +5,18 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-accounts-configuration-modal-create-pm',
   templateUrl: './accounts-configuration-modal-create-pm.component.html',
   styleUrls: ['./accounts-configuration-modal-create-pm.component.css']
 })
-export class AccountsConfigurationModalCreatePmComponent{
+export class AccountsConfigurationModalCreatePmComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   constructor(public dialogRef: MatDialogRef<AccountsConfigurationModalCreatePmComponent>,  public _snackBar: MatSnackBar, public https: HttpClient
     , @Inject(MAT_DIALOG_DATA) public data: { x: any }) { 
       // this.pagingConfig = {
@@ -50,6 +52,10 @@ export class AccountsConfigurationModalCreatePmComponent{
   }
    
 
-  
+    // Cleanup on component destruction
+    ngOnDestroy(): void {
+      this.destroy$.next();
+      this.destroy$.complete();
+    }
 
 }

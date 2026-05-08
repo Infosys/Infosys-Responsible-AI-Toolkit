@@ -5,19 +5,22 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../../environments/environment';
+import { Subject, takeUntil } from 'rxjs';
+import { UserValidationService } from 'src/app/services/user-validation.service';
 
 @Component({
   selector: 'app-application-configurations',
   templateUrl: './application-configurations.component.html',
   styleUrls: ['./application-configurations.component.css']
 })
-export class ApplicationConfigurationsComponent implements OnInit {
+export class ApplicationConfigurationsComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
-  constructor(private _snackBar: MatSnackBar, public https: HttpClient, private modalservice: NgbModal,private cdr: ChangeDetectorRef) { }
+  constructor(private _snackBar: MatSnackBar, public https: HttpClient, private modalservice: NgbModal,private cdr: ChangeDetectorRef,private validationService: UserValidationService) { }
 
   public ip_port : any
 
@@ -41,7 +44,7 @@ export class ApplicationConfigurationsComponent implements OnInit {
     console.log(e.target.checked);
     console.log(roleV);
 
-    this.https.patch(this.admin_fm_admin_Update_OpenAiStatus,{isOpenAI: e.target.checked,role: roleV}).subscribe
+    this.https.patch(this.admin_fm_admin_Update_OpenAiStatus,{isOpenAI: e.target.checked,role: roleV}).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         
           if (res.isOpenAI == true) {
@@ -62,7 +65,7 @@ export class ApplicationConfigurationsComponent implements OnInit {
           }
           this.cdr.detectChanges();
 
-          this.https.get(this.admin_fm_admin_get_OpenAiStatusandRoll).subscribe
+          this.https.get(this.admin_fm_admin_get_OpenAiStatusandRoll).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         this.OpenAitoogleValue = res.isOpenAI
         this.dataSource = res.result
@@ -122,7 +125,7 @@ export class ApplicationConfigurationsComponent implements OnInit {
     this.OpenAitoogleNewValue = !e.target.checked;
     console.log(e.target.checked);
     console.log(roleV);
-    this.https.patch(this.admin_fm_admin_Update_OpenSelfReminderStatus,{selfReminder: e.target.checked,role: roleV}).subscribe // 
+    this.https.patch(this.admin_fm_admin_Update_OpenSelfReminderStatus,{selfReminder: e.target.checked,role: roleV}).pipe(takeUntil(this.destroy$)).subscribe // 
      ((res: any) => {
         
           if (res.isOpenAI == true) {
@@ -172,20 +175,14 @@ export class ApplicationConfigurationsComponent implements OnInit {
 
   // Initializes the component and sets up API configurations
   ngOnInit(): void {
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        this.ip_port = JSON.parse(res);
-        console.log("inside parse",this.ip_port.result)
-      }
-    }
+    this.ip_port = this.validationService.getLocalStoreApi()
     this.admin_fm_admin_get_OpenAiStatusandRoll =this.ip_port.result.Admin + this.ip_port.result.Admin_getOpenAI      // + environment.admin_fm_admin_get_OpenAiStatusandRoll
     this.admin_fm_admin_Update_OpenAiStatus =this.ip_port.result.Admin + this.ip_port.result.Admin_UpdateOpenAI       // + environment.admin_fm_admin_Update_OpenAiStatus
     this.admin_fm_admin_UserRole =this.ip_port.result.Admin + this.ip_port.result.Admin_userRole     //+ environment.admin_fm_admin_UserRole
     this.admin_fm_admin_Update_OpenSelfReminderStatus =this.ip_port.result.Admin + this.ip_port.result.Admin_UpdateReminder     // + "/api/v1/rai/admin/UpdateReminder"
     this.admin_fm_admin_Update_OpenNemoStatus =this.ip_port.result.Admin + this.ip_port.result.Admin_UpdateReminder      //+ "/api/v1/rai/admin/UpdateNemo"
 
-    this.https.get(this.admin_fm_admin_get_OpenAiStatusandRoll).subscribe
+    this.https.get(this.admin_fm_admin_get_OpenAiStatusandRoll).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         this.OpenAitoogleValue = res.isOpenAI
         this.dataSource = res.result
@@ -215,5 +212,11 @@ export class ApplicationConfigurationsComponent implements OnInit {
         }
       })
       
+  }
+
+  // Cleanup subscriptions
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

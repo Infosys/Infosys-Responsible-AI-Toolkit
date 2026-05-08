@@ -3,6 +3,42 @@
 ## Introduction
 The telemetry repository is used for getting the telemetry data from various other API's to push to elastic and visualize in the kibana.
 
+## Features
+
+### PII Masking Middleware
+The application includes a PII (Personally Identifiable Information) masking middleware that automatically anonymizes sensitive data in telemetry logs. This middleware uses Microsoft Presidio and spaCy models to detect and mask PII entities such as:
+- Names
+- Email addresses
+- Phone numbers
+- Credit card numbers
+- Social security numbers
+- Other sensitive information
+
+**How it works:**
+- PII masking is **enabled by default** for all telemetry requests
+- When `anonymize=true` is passed in the payload, PII masking is applied (default behavior)
+- When `anonymize=false` is explicitly passed in the payload, PII masking is disabled
+- If no `anonymize` parameter is provided, the system defaults to `anonymize=true`
+
+The middleware is implemented in `middleware/text_anonymize.py` and uses the following models:
+- **Presidio Analyzer** (v2.2.355): For PII entity detection
+- **Presidio Anonymizer** (v2.2.355): For PII entity anonymization
+- **spaCy** (v3.8.7): NLP processing engine
+- **en_core_web_lg** (v3.8.0): English language model for spaCy
+- **Transformers** (v4.54.1): For advanced NLP capabilities
+- **Privacy library** (v2.4.0): Custom privacy detection library
+
+### Security Headers
+The application implements comprehensive security headers middleware to protect against common web vulnerabilities:
+- **X-Content-Type-Options**: Prevents MIME type sniffing attacks
+- **X-Frame-Options**: Protects against clickjacking by blocking iframe embedding
+- **X-XSS-Protection**: Enables browser's built-in XSS protection
+- **Referrer-Policy**: Controls referrer information to protect user privacy
+- **Permissions-Policy**: Disables unnecessary browser features (geolocation, microphone, camera)
+- **Strict-Transport-Security**: Enforces HTTPS connections (production only)
+
+These headers are automatically applied to all API responses via middleware in `main.py`.
+
 ## Requirements
 - Python 3.9 - 3.11
 - VSCode
@@ -44,14 +80,29 @@ Replace the elastic URL with your elasticsearch IP address and uncomment all the
    pip install -r path/to/requirements.txt
    ```
 
-5. Open `.env` file in vscode and configure the entries in it
+5. Download and setup required models for PII masking:
+   
+   **Download the spaCy English Language Model:**
+   
+   The `privacy-2.4.0-py3-none-any.whl` file is already included in the `lib` folder of this repository.
+   
+   Download and install the **spaCy English Language Model** (v3.8.0) using:
+   ```sh
+   python -m spacy download en_core_web_lg
+   ```
+   
+   Alternatively, download directly from: [en_core_web_lg-3.8.0-py3-none-any.whl](https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.8.0/en_core_web_lg-3.8.0-py3-none-any.whl)
+   
+   These models are required for the PII masking middleware to function properly. The privacy library provides custom PII detection capabilities, while the spaCy model enables natural language processing for entity recognition.
 
-6. In the virtual environment go to src folder of cloned repository and run:
+6. Open `.env` file in vscode and configure the entries in it
+
+7. In the virtual environment go to src folder of cloned repository and run:
    ```sh
    python main.py
    ```
 
-7. Access the API documentation at:
+8. Access the API documentation at:
    ```
    http://localhost:<portno.>/rai/v1/telemetry/docs
    ```
@@ -156,7 +207,7 @@ To create an effective privacy monitoring dashboard:
 4. Apply filters to focus on specific tenants, date ranges, or high-confidence detections
 
 ## License
-The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](License.md) file.
+The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.
 
 ## Contact
 If you have more questions or need further insights please feel free to connect with us @ Infosysraitoolkit@infosys.com

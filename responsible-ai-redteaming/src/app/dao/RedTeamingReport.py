@@ -1,91 +1,84 @@
 '''
-MIT license https://opensource.org/licenses/MIT Copyright 2024-2025 Infosys Ltd.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
+
+
 
 from gridfs import GridFS
 import pymongo
-import datetime,time
+from pymongo.collection import Collection
+from pymongo.database import Database
+import datetime, time
 from dotenv import load_dotenv
 from app.config.logger import CustomLogger
 from app.dao.DatabaseConnection import DB
+from typing import Any, Mapping, List, Dict, Optional, TypeAlias  
+from datetime import timezone  
 
 load_dotenv()
 log = CustomLogger()
 
-mydb = DB.connect()
+mydb_conn: Optional[Database] = DB.connect()
+if mydb_conn is None:
+    raise RuntimeError("Database connection failed for RedTeamingReport")
+mydb: Database = mydb_conn  
 
-class AttributeDict(dict):
-    __getattr__ = dict.__getitem__
-    __setattr__ = dict.__setitem__
-    __delattr__ = dict.__delitem__
+from .JudgeModel import AttributeDict  
 
 
 class RedTeamingReport:
+    mycol: Collection = mydb["RedTeamingReport"]  
+    fs: GridFS = GridFS(mydb)
+    report_doc: TypeAlias = Dict[str, Any]  
+    @classmethod
+    def get_all(cls, field_name: str) -> List[Any]:
+        from .JudgeModel import _crud_get_all  
+        return _crud_get_all(cls.mycol, field_name)
 
-    mycol = mydb["RedTeamingReport"]
-    fs = GridFS(mydb)
+    @classmethod
+    def findOne(cls, doc_id: Any) -> AttributeDict:
+        from .JudgeModel import _crud_find_one
+        return _crud_find_one(cls.mycol, doc_id, "RedTeamingReport not found for")
 
+    find_one = findOne  
 
-    def get_all(payload):
+    @classmethod
+    def findall(cls, query: Mapping[str, Any]) -> List[AttributeDict]:
+        from .JudgeModel import _crud_find_all
+        return _crud_find_all(cls.mycol, query)
 
-        redTeamingReport = RedTeamingReport.mycol.distinct(payload)
-
-        return redTeamingReport
-
-
-    def findOne(id):
-
-        values = RedTeamingReport.mycol.find({"_id":id},{})[0]
-        values = AttributeDict(values)
-
-        return values
-    
-
-    def findall(query):
-
-        value_list = []
-        values = RedTeamingReport.mycol.find(query,{})
-        for v in values:
-            v = AttributeDict(v)
-            value_list.append(v)
-
-        return value_list
-    
-
-    def create(values):
-         
-        value = AttributeDict(values)
-        localTime = time.time()
+    @classmethod
+    def create(cls, values: Mapping[str, Any]) -> Any:
+        data = AttributeDict(dict(values))
+        timestamp = time.time()
         time.sleep(1/1000)
-        mydoc = {
-        "_id":localTime,
-        "UserId":value.userId,
-        "reportId":value.reportId,
-        "reportName":value.reportName,
-        "reportRedTeamingId":value.attackConfigurationId,  
-        "CreatedDateTime": datetime.datetime.now(),
-        "LastUpdatedDateTime": datetime.datetime.now(),
+        doc: Dict[str, Any] = {
+            "_id": timestamp,
+            "UserId": data.userId,
+            "reportId": data.reportId,
+            "reportName": data.reportName,
+            "reportRedTeamingId": data.attackConfigurationId,
+            "CreatedDateTime": datetime.datetime.now(timezone.utc),
+            "LastUpdatedDateTime": datetime.datetime.now(timezone.utc),
         }
-        redTeamingReportData = RedTeamingReport.mycol.insert_one(mydoc)
+        result = cls.mycol.insert_one(doc)
+        log.debug(f"Inserted RedTeamingReport id={result.inserted_id}")
+        return result.inserted_id
 
-        return redTeamingReportData.inserted_id
-    
+    @classmethod
+    def update(cls, doc_id: Any, update_values: Mapping[str, Any]) -> bool:
+        from .JudgeModel import _crud_update
+        return _crud_update(cls.mycol, doc_id, update_values, lambda m: log.debug(f"RedTeamingReport {m}"))
 
-    def update(id,value:dict):
-      
-        newvalues = { "$set": value }
-        redTeamingReportUpdatedData = RedTeamingReport.mycol.update_one({"_id":id},newvalues)
-        log.debug(str(newvalues)) 
-
-        return redTeamingReportUpdatedData.acknowledged
-    
-
-    def delete(query):
-
-        RedTeamingReport.mycol.delete_many(query)
+    @classmethod
+    def delete(cls, query: Mapping[str, Any]) -> int:
+        from .JudgeModel import _crud_delete
+        return _crud_delete(cls.mycol, query, lambda m: log.debug(f"RedTeamingReport {m}"))

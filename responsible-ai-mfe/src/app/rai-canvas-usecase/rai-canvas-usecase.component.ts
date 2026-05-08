@@ -5,20 +5,22 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup ,ReactiveFormsModule} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UseCaseServiceService } from '../use-case-parent/use-case-service.service';
 import { MatStepper } from '@angular/material/stepper';
 import { NonceService } from '../nonce.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-rai-canvas-usecase',
   templateUrl: './rai-canvas-usecase.component.html',
   styleUrls: ['./rai-canvas-usecase.component.css']
 })
-export class RaiCanvasUsecaseComponent implements OnChanges{
+export class RaiCanvasUsecaseComponent implements OnChanges, OnDestroy{
+  private destroy$ = new Subject<void>();
 
   @Input() step: any;
   @Input() stepper!: MatStepper;
@@ -125,12 +127,12 @@ export class RaiCanvasUsecaseComponent implements OnChanges{
       // this.editDataSet(this.aicanvasEditData)
     console.log("editValue===",this.editValue)
     if (this.editValue === true) {
-      this.useCaseService.geteditParameter.subscribe(msg => this.editParameter = msg)
+      this.useCaseService.geteditParameter.pipe(takeUntil(this.destroy$)).subscribe(msg => this.editParameter = msg)
 
       console.log("editParameter Rai Canvas===",this.editParameter)
 
       if(this.editParameter == true){
-        this.useCaseService.getRaiCanvas.subscribe(msg => this.raicanvasEditData = msg)
+        this.useCaseService.getRaiCanvas.pipe(takeUntil(this.destroy$)).subscribe(msg => this.raicanvasEditData = msg)
         console.log("this.raicanvasEditData===",this.raicanvasEditData)
         this.editDataSet(this.raicanvasEditData)
       }
@@ -218,6 +220,10 @@ export class RaiCanvasUsecaseComponent implements OnChanges{
           console.log("this.cureentscrenn====",this.currentScreen)
           console.log("this.aicanvas value====",this.raiCanvasForm.value)
         }
+      }
+      ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
       }
   
       // Navigates to the previous screen in the RAI Canvas workflow

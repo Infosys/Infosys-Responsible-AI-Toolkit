@@ -4,7 +4,8 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -18,7 +19,8 @@ import { UserValidationService } from 'src/app/services/user-validation.service'
   templateUrl: './template-mapping.component.html',
   styleUrls: ['./template-mapping.component.css']
 })
-export class TemplateMappingComponent {
+export class TemplateMappingComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   @ViewChild('select2') select2!: MatSelect;
   @ViewChild('select3') select3!: MatSelect;
@@ -664,7 +666,7 @@ submitMultiModel() {
 
  // Makes an API call to create a template mapping
 creatTemplateMappingApiCall(payload:any){
-  this.https.post(this.templateMappingPostUrl,payload).subscribe((res:any)=>{
+  this.https.post(this.templateMappingPostUrl,payload).pipe(takeUntil(this.destroy$)).subscribe((res:any)=>{
     console.log("res=================",res)
     if (res.status === "True") {
       const message = "Mpappings Added Successfully";
@@ -775,7 +777,7 @@ subcategoryChange(event: MatSelectChange)
 
     console.log("payload===",payload)
     console.log("=============",this.templateMappingPostUrl)
-    this.https.post(this.templateMappingPostUrl,payload).subscribe((res)=>{
+    this.https.post(this.templateMappingPostUrl,payload).pipe(takeUntil(this.destroy$)).subscribe((res)=>{
       console.log("res=================",res)
       // this.CustomTemplateForm.reset()
       // this.tempalteArray=[]
@@ -819,6 +821,7 @@ subcategoryChange(event: MatSelectChange)
     let urlx = `${this.customTemplateGetUrl}${this.userId}`
 
     this.https.get(urlx, { params, headers: { 'accept': 'application/json' } })
+      .pipe(takeUntil(this.destroy$))
       .subscribe
     // this.https.get(this.customTemplateGetUrl+this.userId+this.category).subscribe
     ((res: any) => {
@@ -873,6 +876,7 @@ subcategoryChange(event: MatSelectChange)
     let urlx = `${this.customTemplateGetUrl}${this.userId}`
 
     this.https.get(urlx, { params, headers: { 'accept': 'application/json' } })
+      .pipe(takeUntil(this.destroy$))
       .subscribe
     // this.https.get(this.customTemplateGetUrl+this.userId+this.category).subscribe
     ((res: any) => {
@@ -927,6 +931,7 @@ subcategoryChange(event: MatSelectChange)
     let urlx = `${this.customTemplateGetUrl}${this.userId}`
 
     this.https.get(urlx, { params, headers: { 'accept': 'application/json' } })
+      .pipe(takeUntil(this.destroy$))
       .subscribe
     // this.https.get(this.customTemplateGetUrl+this.userId+this.category).subscribe
     ((res: any) => {
@@ -969,33 +974,6 @@ subcategoryChange(event: MatSelectChange)
     
 }
 
-// Retrieves the logged-in user from local storage
-getLogedInUser(): any {
-  let role = localStorage.getItem('role');
-  console.log("role267===",role)
-  if (window && window.localStorage && typeof localStorage !== 'undefined') {
-    const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-    if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-      this.userId = x ;
-    }
-    console.log("userId", this.userId)
-    return this.userId;
-  }
-
-}
-
-// Retrieves API configuration from local storage
-  getLocalStoreApi() {
-    
-let ip_port
-if (window && window.localStorage && typeof localStorage !== 'undefined') {
-  const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-  if(res != null){
-    return ip_port = JSON.parse(res)
-  }
-}
-
-  }
 
   // Sets the API list URLs
   setApilist(ip_port: any) {
@@ -1016,6 +994,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
       .set('account', this.parAccount);
 
     this.https.get(url, { params, headers: { 'accept': 'application/json' } })
+      .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response:any) => {
           if (!response || (Array.isArray(response) && response.length === 0)) {
@@ -1058,6 +1037,12 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
       );
   }
 
+  // Cleanup on component destruction
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   onSubcategoryChange(value: any): void {
     if (value) {
       this.bodydisabledSatatus = false;
@@ -1075,9 +1060,9 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
     this.dropdownloader = true
     let ip_port: any
 
-    let user = this.getLogedInUser()
+this.userId = this.validationService.getLogedInUser();
 
-    ip_port = this.getLocalStoreApi()
+    ip_port = this.validationService.getLocalStoreApi()
     
     this.setApilist(ip_port)
     // this.getTemplateDetail()

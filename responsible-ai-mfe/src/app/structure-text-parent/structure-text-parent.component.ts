@@ -12,39 +12,30 @@ import { RoleManagerService } from '../services/role-maganer.service';
   templateUrl: './structure-text-parent.component.html',
   styleUrls: ['./structure-text-parent.component.css']
 })
-export class StructureTextParentComponent {
-  diffPrivacy = false;
-  structureText = true;
 
-  constructor(public roleService : RoleManagerService) { } 
+export class StructureTextParentComponent {
+
+  diffPrivacy: boolean = false;
+  structureText: boolean = true;
+
+  constructor(public roleService: RoleManagerService) { }
 
   ngOnInit(): void {
-    // console.log("HEYS",this.roleService.checkActiveTabExists('Workbench', 'Image', 'dicom'));
-    // if (!this.roleService.checkActiveTabExists('Workbench','Structured-Text','Differential-Privacy') && !this.roleService.checkActiveTabExists('Workbench', 'Image', 'T-AI-DICOM')) {
-    //   this.structureText = false;
-    //   this.dicomMode = false;
-    // }
     if (!this.roleService.checkActiveTabExists('Workbench', 'Unstructured-Text', 'Differential-Privacy')) {
       this.diffPrivacy = false;
       this.structureText = true;
     }
-    // if(!this.roleService.checkActiveTabExists('Workbench', 'Image', 'Traditional-AI')){
-    //   this.diffPrivacy = false;
-    //   this.structureText = true;
-    // }
   }
 
   // Toggles between Differential Privacy and Structured Text modes
   ontoglechange(event: any) {
-    if(event.checked == true){
+    if (event.checked == true) {
       this.diffPrivacy = false;
       this.structureText = true;
-    }else{
+    } else {
       this.structureText = false;
       this.diffPrivacy = true;
     }
-  } 
-
-
+  }
 
 }

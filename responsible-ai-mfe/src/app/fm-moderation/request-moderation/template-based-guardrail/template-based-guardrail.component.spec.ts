@@ -5,6 +5,10 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { TemplateBasedGuardrailComponent } from './template-based-guardrail.component';
 
@@ -13,13 +17,19 @@ describe('TemplateBasedGuardrailComponent', () => {
   let fixture: ComponentFixture<TemplateBasedGuardrailComponent>;
 
   beforeEach(async () => {
+    const mockResult = { result: { Prompt: { data: [] } } };
+    localStorage.setItem('res', JSON.stringify(mockResult));
     await TestBed.configureTestingModule({
-      declarations: [ TemplateBasedGuardrailComponent ]
+      declarations: [ TemplateBasedGuardrailComponent ],
+      imports: [ HttpClientTestingModule, MatSnackBarModule, MatDialogModule ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(TemplateBasedGuardrailComponent);
     component = fixture.componentInstance;
+    component.llmEvalPayload = { Prompt: '' };
+    component.requestModerationTemplates = [];
     fixture.detectChanges();
   });
 

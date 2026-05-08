@@ -5,8 +5,10 @@
     "outDir": "./out-tsc/spec",
     "types": [
       "jasmine",
-      "@angular/localize"
-    ]
+      "@angular/localize",
+      "node"
+    ],
+    "sourceMap": true
   },
   "files": [
     "src/test.ts",

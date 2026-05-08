@@ -1,11 +1,13 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 
 import os
@@ -115,7 +117,6 @@ class telemetry:
                         index_name = f"responsible-ai-moderation_{str(datetime.date.today()).replace('/','_')}"  # this is to make sure that the index name is unique per day and it eassy to clear the data after some day
                         doc_id = moderation_telemetry_request["uniqueid"]
 
-                        # log.info(f"index_name : {index_name}")
                         url=os.getenv("ETA_TELEMETRY_ENDPOINT")
                         url = f"{url}/{index_name}/_doc/{doc_id}"
                        
@@ -125,7 +126,6 @@ class telemetry:
                         }
 
                         payload = {"data": moderation_telemetry_request} # this is the data that you want to send to the open search
-                        #log.info(f"data --->>> {payload}")
                         log.info("Inside moderation Telemetry  1 ")
                         response = requests.request(
                             "POST",
@@ -143,12 +143,6 @@ class telemetry:
                             log.info(f"error - {response.text}")
                             log.info("--------------- Error from moderation ETA Telemetry  1 ----------- ")
                         
-                        
-                        # response = requests.post(privacytelemetryurl, json=schema,verify=False)
-                        # log.info("Inside moderation Telemetry  1 ")
-                        # log.info(f"moderation_telemetry_request--->>>{json.dumps(schema)}")
-                        # response.raise_for_status()
-                        # log.info("--------------- Sent from moderation ETA Telemetry  1 ----------- ")
                     else:
                         log.info("eta telemetry without  portfolioname")
                         moderation_telemetry_request["portfolioName"]="None"
@@ -167,7 +161,6 @@ class telemetry:
                         }
 
                         payload = {"data": moderation_telemetry_request} # this is the data that you want to send to the open search
-                        #log.info(f"data --->>>{payload}")
                         log.info("Inside moderation ETA Telemetry  2 ")
                         response = requests.request(
                             "POST",
@@ -175,7 +168,7 @@ class telemetry:
                             headers=headers,
                             auth=HTTPBasicAuth( username, password),
                             data=json.dumps(payload),
-                            verify = False
+                            verify = sslv[verify_ssl]
                         )
 
                         if response.status_code >= 200 and response.status_code < 300:
@@ -185,12 +178,6 @@ class telemetry:
                             log.info(f"error - {response.text}")
                             log.info("--------------- Error from moderation ETA Telemetry  2 ----------- ")
                         
-                        
-                        # log.info(f"moderation_telemetry_request--->>>{json.dumps(schema)}")
-                        # response = requests.post(privacytelemetryurl, json=schema)
-                        # log.info("Inside moderation Telemetry  2")
-                        # response.raise_for_status()
-                        # log.info("--------------- Sent from moderation Telemetry  2 ----------- ")
             elif tel_env=="IS":
                 if telemetry.tel_flag=="True":
                     if token_info is None:
@@ -207,7 +194,7 @@ class telemetry:
                                 "ver": "1.0",
                                 "mid": "1671857291575431168",
                                 "actor": {
-                                    "id": token_info["unique_name"],      # "id": token_info["unique_name"]
+                                    "id": token_info["unique_name"],     
                                     "type": "user"},
                                 "context": {
                                     "channel": "web",
@@ -386,7 +373,6 @@ class telemetry:
                         moderation_telemetry_request["userid"]="None"
                         moderation_telemetry_request["error"]=err_desc
                     payload = {"data": moderation_telemetry_request} # this is the data that you want to send to the open search
-                        #log.info(f"data --->>>{payload}")
                     log.info("Inside moderation Telemetry  1 ")
                     response = requests.request(
                         "POST",
@@ -394,7 +380,7 @@ class telemetry:
                         headers=headers,
                         auth=HTTPBasicAuth(username, password),
                         data=json.dumps(payload),
-                        verify = False
+                        verify = sslv[verify_ssl]
                     )
 
                     if response.status_code >= 200 and response.status_code < 300:
@@ -408,13 +394,11 @@ class telemetry:
                 telemetryurl = os.getenv("TELEMETRY_PATH")
                 if telemetry.tel_flag=="True":
                     if portfolioName:
-                        # moderation_telemetry_request = moderation_telemetry_request.dict()
                         moderation_telemetry_request["portfolioName"]=portfolioName
                         moderation_telemetry_request["accountName"]=accountName
                         moderation_telemetry_request["lotNumber"]=lotNumber
                         moderation_telemetry_request["userid"]=userid
-                        #log.info(f"moderation_telemetry_request---> {moderation_telemetry_request}")
-                        response = requests.post(telemetryurl, json=moderation_telemetry_request,verify=False)
+                        response = requests.post(telemetryurl, json=moderation_telemetry_request,verify=sslv[verify_ssl])
                         log.info("Inside moderation error Telemetry  1 , and tel_env!=IS ")
                         response.raise_for_status()
                         log.info("sent to telemetry from error telemetry ")
@@ -467,7 +451,6 @@ class telemetry:
                                 }
                             }
                         }
-                    #log.info(f"json.dumps(schema)   ---->>> {json.dumps(schema)}")
                     log.info("Inside moderation error Telemetry IS ")
                     response=requests.post(istelemetryurl,json=schema,headers=header)
                     

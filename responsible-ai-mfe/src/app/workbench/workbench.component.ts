@@ -16,24 +16,13 @@ export class WorkbenchComponent {
   // FOR SHIMMER LOADING
   isLoadingWorkbench=true;
   isLoadingTabs=true;
-  //
+
   constructor(public roleService : RoleManagerService){}
 
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    // make is loading and then after 2 seconds make it false
-    // setTimeout(() => {
       this.isLoadingWorkbench=false;
-    // }, 400);
-    // setTimeout(() => {
       this.isLoadingTabs=false;
-    // }, 1000);
-
-
-
-
-
   }
 
 }

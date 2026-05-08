@@ -23,7 +23,7 @@ from RAG.constants import constants as global_constants
 from abc import ABC
 
 
-class completionException(Exception, ABC):
+class CompletionException(Exception, ABC):
     """
     dscription: Abstract base class of UsecaseException.
     """
@@ -33,7 +33,7 @@ class completionException(Exception, ABC):
         super().__init__(detail)
 
 
-class completionNotFoundError(completionException):
+class CompletionNotFoundError(CompletionException):
     """
     description: UsecaseNotFoundError thrown by usecase service
                  when the requested usecase details not found for a specific user.
@@ -42,7 +42,7 @@ class completionNotFoundError(completionException):
         self.status_code = global_constants.HTTP_STATUS_NOT_FOUND
         self.detail =  USECASE_NOT_FOUND_ERROR.replace(PLACEHOLDER_TEXT,name)
 
-class completionNameNotEmptyError(completionException):
+class CompletionNameNotEmptyError(CompletionException):
     """
     description: UsecaseNameNotEmptyError thrown by create usecase service
                  when the requested usecase details not having usecase name.

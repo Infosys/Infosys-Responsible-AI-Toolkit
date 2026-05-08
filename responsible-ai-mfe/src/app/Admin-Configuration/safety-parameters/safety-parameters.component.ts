@@ -5,7 +5,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { FormControl, FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,7 +17,8 @@ import { NonceService } from 'src/app/nonce.service';
   templateUrl: './safety-parameters.component.html',
   styleUrls: ['./safety-parameters.component.css']
 })
-export class SafetyParametersComponent {
+export class SafetyParametersComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   constructor(private _fb: UntypedFormBuilder, public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog,public nonceService:NonceService) {
     this.fromCreation();
   }
@@ -63,7 +65,7 @@ export class SafetyParametersComponent {
 
   // Sends the safety parameters to the server
   safetySubmit(payload: any) {
-    this.https.post(this.Admin_SetSafetyParamter, payload).subscribe
+    this.https.post(this.Admin_SetSafetyParamter, payload).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         if (res.status === "Success") {
           const message = "Safety Parameter Set Successfully"
@@ -139,6 +141,12 @@ export class SafetyParametersComponent {
   Admin_SetSafetyParamter=""
   setApilist(ip_port: any) {
     this.Admin_SetSafetyParamter = ip_port.result.Admin + ip_port.result.setSafetyParameter
+  }
+
+  // Cleanup on component destruction
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

@@ -26,9 +26,6 @@
         }
       }
     },
-    "LLMScanner": {
-      "active": []
-    },
     "Models": {
       "active": [],
       "subtabs": {
@@ -48,15 +45,6 @@
     },
     "Multi-Model": {
       "active": []
-    },
-    "RedTeaming": {
-      "active": [],
-      "subtabs": {
-        "PairRedTeaming": {
-          "active": [],
-          "selectType": {}
-        }
-      }
     },
     "Usecase": {
       "active": []
@@ -102,7 +90,10 @@
             "Generative-AI": [
               "Safety",
               "Explainability"
-            ]
+            ],
+            "Traditional-AI": [],
+            "T-AI-Upload": [],
+            "T-AI-DICOM": []
           }
         },
         "Video": {
@@ -114,10 +105,35 @@
           "selectType": {}
         }
       }
+    },
+    "RedTeaming": {
+      "active": [],
+      "subtabs": {
+        "PairRedTeaming": {
+          "active": [],
+          "selectType": {}
+        }
+      }
+    },
+    "LLMScanner": {
+      "active": []
+    },
+    "ComplianceCheck": {
+      "active": []
+    },
+    "GitAnalytics": {
+      "active": []
+    },
+    "Data Curation": {
+      "active": []
+    },
+    "MarketScan ChatBot": {
+      "active": []
     }
   },
   "role": "ROLE_ADMIN"
-},{
+},
+{
   "_id": {
     "$oid": "66755b317273c8234cd72b73"
   },
@@ -145,9 +161,6 @@
         }
       }
     },
-    "LLMScanner": {
-      "active": []
-    },
     "Models": {
       "active": [],
       "subtabs": {
@@ -168,13 +181,6 @@
     "Multi-Model": {
       "active": []
     },
-    "RedTeaming": {
-      "subtabs": {
-        "PairRedTeaming": {
-          "active": []
-        }
-      }
-    },
     "Usecase": {
       "active": []
     },
@@ -190,7 +196,7 @@
             "Traditional-AI": [
               "Privacy",
               "Safety",
-              "FM-Moderation"              
+              "FM-Moderation"
             ],
             "Generative-AI": [
               "Privacy",
@@ -202,18 +208,27 @@
           }
         },
         "Structured-Text": {
-          "active": [],
+          "active": [
+            "Differential-Privacy",
+            "Structured-Text"
+          ],
           "selectType": {}
         },
         "Image": {
           "active": [
-            "Generative-AI"
+            "Generative-AI",
+            "Traditional-AI",
+            "T-AI-Upload",
+            "T-AI-DICOM"
           ],
           "selectType": {
             "Generative-AI": [
               "Safety",
               "Explainability"
-            ]
+            ],
+            "Traditional-AI": [],
+            "T-AI-Upload": [],
+            "T-AI-DICOM": []
           }
         },
         "Video": {
@@ -225,10 +240,35 @@
           "selectType": {}
         }
       }
+    },
+    "RedTeaming": {
+      "active": [],
+      "subtabs": {
+        "PairRedTeaming": {
+          "active": [],
+          "selectType": {}
+        }
+      }
+    },
+    "LLMScanner": {
+      "active": []
+    },
+    "ComplianceCheck": {
+      "active": []
+    },
+    "GitAnalytics": {
+      "active": []
+    },
+    "Data Curation": {
+      "active": []
+    },
+    "MarketScan ChatBot": {
+      "active": []
     }
   },
   "role": "ROLE_USER"
-},{
+},
+{
   "_id": {
     "$oid": "66755b317273c8234cd72b74"
   },
@@ -250,158 +290,5 @@
     }
   },
   "role": "ROLE_ML"
-},{
-  "_id": {
-    "$oid": "66755b317273c8234cd72b75"
-  },
-  "pages": {
-    "NewUser": {
-      "active": []
-    }
-  },
-  "role": "ROLE_EMPTY"
-},{
-  "_id": {
-    "$oid": "66a76236570b3bd2529ffdad"
-  },
-  "pages": {
-    "AI-Content-Detector": {
-      "active": []
-    },
-    "Models": {
-      "active": [],
-      "subtabs": {
-        "Model-Form": {
-          "active": [],
-          "selectType": {}
-        },
-        "Data-Form": {
-          "active": [],
-          "selectType": {}
-        },
-        "Preprocessor": {
-          "active": [],
-          "selectType": {}
-        }
-      }
-    },
-    "Workbench": {
-      "active": [],
-      "subtabs": {
-        "Unstructured-Text": {
-          "active": [
-            "Traditional-AI",
-            "Generative-AI"
-          ],
-          "selectType": {
-            "Traditional-AI": [
-              "Privacy",
-              "Safety",
-              "FM-Moderation",
-              "Explainability"
-            ],
-            "Generative-AI": [
-              "Privacy",
-              "Safety",
-              "FM-Moderation",
-              "Explainability",
-              "Fairness"
-            ]
-          }
-        },
-        "Structured-Text": {
-          "active": [],
-          "selectType": {}
-        },
-        "Image": {
-          "active": [
-            "Generative-AI"
-          ],
-          "selectType": {
-            "Generative-AI": [
-              "Safety",
-              "Explainability"
-            ]
-          }
-        },
-        "Video": {
-          "active": [],
-          "selectType": {}
-        },
-        "Code": {
-          "active": [],
-          "selectType": {}
-        }
-      }
-    }
-  },
-  "role": "ROLE_TEST_1"
-},{
-  "_id": {
-    "$oid": "66b1bcc68c0269743a0d2ad2"
-  },
-  "pages": {
-    "Workbench": {
-      "active": [],
-      "subtabs": {
-        "Unstructured-Text": {
-          "active": [
-            "Traditional-AI",
-            "Generative-AI"
-          ],
-          "selectType": {
-            "Traditional-AI": [
-              "Privacy",
-              "Safety",
-              "FM-Moderation",
-              "Explainability"
-            ],
-            "Generative-AI": [
-              "Privacy",
-              "Safety",
-              "FM-Moderation",
-              "Explainability",
-              "Fairness"
-            ]
-          }
-        },
-        "Structured-Text": {
-          "active": [
-            "Differential-Privacy",
-            "Structured-Text"
-          ],
-          "selectType": {
-            "Differential-Privacy": [],
-            "Structured-Text": []
-          }
-        },
-        "Image": {
-          "active": [
-            "Traditional-AI",
-            "Generative-AI",
-            "T-AI-Upload",
-            "T-AI-DICOM"
-          ],
-          "selectType": {
-            "Traditional-AI": [],
-            "Generative-AI": [
-              "Safety",
-              "Explainability"
-            ],
-            "T-AI-Upload": [],
-            "T-AI-DICOM": []
-          }
-        },
-        "Video": {
-          "active": [],
-          "selectType": {}
-        },
-        "Code": {
-          "active": [],
-          "selectType": {}
-        }
-      }
-    }
-  },
-  "role": "ROLETEST2"
-}]
+}
+]

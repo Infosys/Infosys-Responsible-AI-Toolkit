@@ -4,7 +4,7 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, SecurityContext } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -16,13 +16,15 @@ import { FormControl } from '@angular/forms';
 import { FmModerationService } from '../services/fm-moderation.service';
 import { NonceService } from '../nonce.service';
 import { UserValidationService } from '../services/user-validation.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-semi-structured-text',
   templateUrl: './semi-structured-text.component.html',
   styleUrls: ['./semi-structured-text.component.css']
 })
-export class SemiStructuredTextComponent implements OnInit{
+export class SemiStructuredTextComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
   selectType:any = 'Privacy';
   selectValue: string = '';
   files: any[] = [];
@@ -32,7 +34,7 @@ export class SemiStructuredTextComponent implements OnInit{
   form: FormGroup;
   ocrvalue: string = 'Tesseract';
   ocr_options = ['Tesseract', 'EasyOcr', 'ComputerVision'];
-  new_options: string[] = ['PDF Anonymize','PPT Anonymize', 'DOCX Anonymize', 'JSON Anonymize', 'CSV Anonymize' ];
+  new_options: string[] = ['PPT Anonymize', 'DOCX Anonymize', 'JSON Anonymize', 'CSV Anonymize' ];
   newDropdownValue: any="";
 
 
@@ -51,6 +53,7 @@ export class SemiStructuredTextComponent implements OnInit{
   pdfSrc: SafeResourceUrl | null = null;
   output : boolean = false;
   spinner : boolean = false;
+    private allowedBlobUrls: Set<string> = new Set(); // Track trusted blob URLs
   sampleImg = environment.imagePathurl + '/assets/image/Doc.png';
   sampleImgXLSX = environment.imagePathurl + '/assets/image/csvIcon2.png';
   sampleImgpptx = environment.imagePathurl + '/assets/image/pptxIcon.png';
@@ -81,7 +84,7 @@ export class SemiStructuredTextComponent implements OnInit{
   explainabilityForm: FormGroup;
   anotherOptionControl: FormControl;
   anotherOptions: any[] = [ 'Token-Importance','ThoT', 'ReRead-ThoT', 'GoT', 'CoT', 'CoV', 'LoT'];
-responseFileTypeOptions: any[] = ['json', 'excel'];
+  responseFileTypeOptions: any[] = ['json', 'excel'];
 
   constructor(private fb: FormBuilder,  public dialog: MatDialog,  public _snackBar: MatSnackBar, private https: HttpClient, private sanitizer: DomSanitizer,public fmService: FmModerationService,public nonceService:NonceService, private validationService:UserValidationService) {
     this.form = this.fb.group({
@@ -96,46 +99,36 @@ responseFileTypeOptions: any[] = ['json', 'excel'];
   // Initializes the component and sets up API calls
   ngOnInit() {
     let ip_port: any;
-    ip_port = this.getLocalStoreApi();
+    ip_port = this.validationService.getLocalStoreApi()
     this.setApilist(ip_port);
     this.getRecognizers();
     this.anotherOptionControl = new FormControl([]);
     this.explainabilityForm = this.fb.group({
       anotherOptionControl: this.anotherOptionControl
     })
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-        this.loggedUser = x ;
-      }
-      console.log("userId", this.loggedUser)
-    }
+    this.loggedUser = this.validationService.getLogedInUser();
   }
 
-  // Retrieves API configuration from local storage
-  getLocalStoreApi() { 
-let ip_port
-if (window && window.localStorage && typeof localStorage !== 'undefined') {
-  const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-  if(res != null){
-    return ip_port = JSON.parse(res)
+  // Cleanup on component destruction
+  ngOnDestroy() {
+    this.cleanupBlobUrl();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
-}
 
-  }
 
   // Sets the API endpoints for the component
   setApilist(ip_port: any) {
-    this.url = ip_port.result.Privacy + ip_port.result.Privacy_Pdf;  
-    this.Privacy_PPT_anonymize = ip_port.result.Privacy + ip_port.result.Privacy_PPT_anonymize;  
-    this.privacyRecognizersList = ip_port.result.Privacy + ip_port.result.Privacy_getRecognizer;  
+    this.url = ip_port.result.Privacy_Files + ip_port.result.Privacy_Pdf;
+    this.Privacy_PPT_anonymize = ip_port.result.Privacy_Files + ip_port.result.Privacy_PPT_anonymize;  
+    this.privacyRecognizersList = ip_port.result.Privacy_Files + ip_port.result.Privacy_getRecognizer;  
     this.llm_explainability_file_upload_explanation = ip_port.result.Llm_Explain + ip_port.result.llm_explainability_file_upload_explanation; 
-    this.Privacy_DOCX_anonymize = ip_port.result.Privacy + ip_port.result.Privacy_DOCX_anonymize;
-    this.Privacy_JSON_anonymize = ip_port.result.Privacy + ip_port.result.Privacy_JSON_anonymize;
-    this.Privacy_CSV_anonymize = ip_port.result.Privacy + ip_port.result.Privacy_CSV_anonymize; 
-   }
+    this.Privacy_DOCX_anonymize = ip_port.result.Privacy_Files + ip_port.result.Privacy_DOCX_anonymize;
+    this.Privacy_JSON_anonymize = ip_port.result.Privacy_Files + ip_port.result.Privacy_JSON_anonymize;
+    this.Privacy_CSV_anonymize = ip_port.result.Privacy_Files + ip_port.result.Privacy_CSV_anonymize; 
+  }
 
-    // Resets all form fields and file inputs
+  // Resets all form fields and file inputs
   resetAll() {
     this.portfolioName_value = '';
     this.accountName_value = '';
@@ -150,12 +143,58 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
   removeFile() {
     this.demoFile = [];
     this.files = [];
+    this.cleanupBlobUrl();
+  }
+
+  // Sanitizes and validates blob URL before trusting it
+  private sanitizeBlobUrl(blob: Blob, expectedType: string): SafeResourceUrl | null {
+    // Validate blob type matches expected type
+    if (!blob.type.startsWith(expectedType)) {
+      console.error('Invalid blob type received');
+      return null;
+    }
+
+    // Validate blob size
+    if (blob.size === 0) {
+      console.error('Empty blob received');
+      return null;
+    }
+
+    // Create blob URL
+    const url = URL.createObjectURL(blob);
+    
+    // Validate it's a proper blob URL format
+    if (!url.startsWith('blob:')) {
+      console.error('Invalid URL format');
+      URL.revokeObjectURL(url);
+      return null;
+    }
+
+    // Track the blob URL for cleanup
+    this.allowedBlobUrls.add(url);
+
+    // Since we've validated the blob comes from our trusted API response
+    // and validated its type and format, we can safely bypass Angular's security
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  // Cleanup blob URLs to prevent memory leaks
+  private cleanupBlobUrl(): void {
+    if (this.pdfSrc) {
+      this.allowedBlobUrls.forEach(url => {
+        URL.revokeObjectURL(url);
+      });
+      this.allowedBlobUrls.clear();
+      this.pdfSrc = null;
+    }
   }
   // pptSrc: SafeResourceUrl | null = null;
 
-  
-  submit1(){
-    console.log("this.piiEntitiesToBeRedactedOption::", this.piiEntitiesToBeRedactedOption.value!.join(','));
+  submit1() {
+    console.log(
+      'this.piiEntitiesToBeRedactedOption::',
+      this.piiEntitiesToBeRedactedOption.value!.join(',')
+    );
   }
 
   // Handles the form submission based on the selected type
@@ -176,12 +215,26 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
       }
       const formData = new FormData();
       formData.append('pdf', this.demoFile[0]);
-      formData.append('portfolio', this.portfolioName_value);
-      formData.append('account', this.accountName_value);
-      formData.append('exclusionList', this.exclusionList_value);
-      formData.append('nlp', this.nlpOption);
-      if (!this.accountName_value || !this.portfolioName_value) {
-        formData.append('piiEntitiesToBeRedacted', this.piiEntitiesToBeRedactedOption.value!.join(','));
+      [
+        ['portfolio', this.portfolioName_value],
+        ['account', this.accountName_value],
+        ['exclusionList', this.exclusionList_value],
+        ['nlp', this.nlpOption],
+      ].forEach(([key, value]) => {
+        if (value != null && value !== '') {
+          formData.append(key, value);
+        }
+      });
+      const piiValues = this.piiEntitiesToBeRedactedOption?.value;
+      if (
+        (!this.accountName_value || !this.portfolioName_value) &&
+        Array.isArray(piiValues) &&
+        piiValues.length > 0
+      ) {
+        formData.append(
+          'piiEntitiesToBeRedacted',
+          this.piiEntitiesToBeRedactedOption.value!.join(',')
+        );
       }
 
       if (this.newDropdownValue === 'PDF Anonymize') {
@@ -194,41 +247,54 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
           this.spinner = false;
           return;
         } else {
-          this.https.post(`${this.url}?ocrvalue=${encodeURIComponent(this.ocrvalue)}`, formData, { responseType: 'blob' }).subscribe(
+          this.https.post(`${this.url}?ocrvalue=${encodeURIComponent(this.ocrvalue)}`, formData, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe(
             response => {
-              console.log('Upload successful', response);
-              const blob = new Blob([response], { type: 'application/pdf' });
-              const url = URL.createObjectURL(blob);
-              this.pdfSrc = this.sanitizer.bypassSecurityTrustResourceUrl(url);
-              this.output = true;
-              this.spinner = false;
-            },
+                console.log('Upload successful', response);
+                const blob = new Blob([response], { type: 'application/pdf' });
+                
+                // Validate blob size and type before processing
+                if (blob.size === 0 || blob.type !== 'application/pdf') {
+                  this.openSnackBar('Invalid PDF response from server', 'Close');
+                  this.spinner = false;
+                  return;
+                }
+                
+                // Use secure sanitization method
+                this.pdfSrc = this.sanitizeBlobUrl(blob, 'application/pdf');
+                
+                if (this.pdfSrc) {
+                  this.output = true;
+                } else {
+                  this.openSnackBar('Failed to process PDF securely', 'Close');
+                }
+                this.spinner = false;
+              },
             error => {
-              console.error('Upload failed', error);
-              let errorMessage = 'API Failed';
-              if (error.error instanceof Blob) {
-                error.error.text().then((text: string) => {
-                  try {
-                    const errorJson = JSON.parse(text);
+                console.error('Upload failed', error);
+                let errorMessage = 'API Failed';
+                if (error.error instanceof Blob) {
+                  error.error.text().then((text: string) => {
+                    try {
+                      const errorJson = JSON.parse(text);
                     if (errorJson.detail === 'Portfolio/Account Is Incorrect') {
-                      errorMessage = errorJson.detail;
+                        errorMessage = errorJson.detail;
+                      }
+                    } catch (e) {
+                      console.error('Error parsing error response', e);
                     }
-                  } catch (e) {
-                    console.error('Error parsing error response', e);
+                    this.openSnackBar(errorMessage, 'Close');
+                  });
+                } else {
+                if (error.error?.detail === 'Portfolio/Account Is Incorrect') {
+                    errorMessage = error.error.detail;
                   }
                   this.openSnackBar(errorMessage, 'Close');
-                });
-              } else {
-                if (error.error?.detail === 'Portfolio/Account Is Incorrect') {
-                  errorMessage = error.error.detail;
                 }
                 this.openSnackBar(errorMessage, 'Close');
+                this.spinner = false;
+                this.output = false;
               }
-              this.openSnackBar(errorMessage, 'Close');
-              this.spinner = false;
-              this.output = false;
-            }
-          );
+            );
         }
       } else if (this.newDropdownValue === 'PPT Anonymize') {
         // Logic for PPT Anonymize
@@ -255,12 +321,12 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
 
           if (!this.accountName_value || !this.portfolioName_value) {
             formDatappt.append('piiEntitiesToBeRedacted', this.piiEntitiesToBeRedactedOption.value!.join(','));
-          }
+      }
 
           let url = this.Privacy_PPT_anonymize + `?ocr=${encodeURIComponent(this.ocrvalue)}`;
 
           console.log('Selected option: PPt Anonymize');
-          this.https.post(url, formDatappt, { responseType: 'blob' }).subscribe(
+          this.https.post(url, formDatappt, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe(
             response => {
               console.log('Upload successful', response);
               const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation' });
@@ -312,8 +378,10 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
         } else {
           const formDataDoc = new FormData();
           formDataDoc.append('docx', this.demoFile[0]);
-          formDataDoc.append('portfolio', this.portfolioName_value);
-          formDataDoc.append('account', this.accountName_value);
+          if (this.portfolioName_value != '' || this.accountName_value != '') {
+            formDataDoc.append('portfolio', this.portfolioName_value);
+            formDataDoc.append('account', this.accountName_value);
+          }
           formDataDoc.append('exclusionList', this.exclusionList_value);
           formDataDoc.append('nlp', this.nlpOption);
 
@@ -323,7 +391,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
 
           let url = this.Privacy_DOCX_anonymize + `?ocr=${encodeURIComponent(this.ocrvalue)}`;
 
-          this.https.post(url, formDataDoc, { responseType: 'blob' }).subscribe(
+          this.https.post(url, formDataDoc, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe(
             response => {
               console.log('Upload successful', response);
               const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
@@ -362,7 +430,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
           );
         }
       }
-      else if(this.newDropdownValue === 'JSON Anonymize'){
+      else if (this.newDropdownValue === 'JSON Anonymize') {
         console.log('Selected option: Json Anonymize');
         const file = this.demoFile[0];
         const allowedTypes = ['application/json'];
@@ -372,56 +440,88 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
           return;
         } else {
           const formDataJson = new FormData();
-          formDataJson.append('file', this.demoFile[0]);
-          formDataJson.append('keys_to_skip', this.keys_to_skip);
-          formDataJson.append('portfolio', this.portfolioName_value);
-          formDataJson.append('account', this.accountName_value);
-          formDataJson.append('exclusionList', this.exclusionList_value);
-          formDataJson.append('nlp', this.nlpOption);
+          formDataJson.append('scoreThreshold', '0.4');
 
-          if (!this.accountName_value || !this.portfolioName_value) {
-            formDataJson.append('piiEntitiesToBeRedacted', this.piiEntitiesToBeRedactedOption.value!.join(','));
+          // Append file only if present
+          if (this.demoFile && this.demoFile.length > 0 && this.demoFile[0]) {
+            formDataJson.append('file', this.demoFile[0]);
           }
 
-          let url = this.Privacy_JSON_anonymize + `?ocr=${encodeURIComponent(this.ocrvalue)}`;
+          // Append keys_to_skip only when non-empty
+          if (this.keys_to_skip != null && String(this.keys_to_skip).trim() !== '') {
+            formDataJson.append('keys_to_skip', this.keys_to_skip);
+          }
 
-          this.https.post(url, formDataJson, { responseType: 'blob' }).subscribe(
-            response => {
-              console.log('Upload successful', response);
-              const blob = new Blob([response], { type: 'application/json' });
-              const url = URL.createObjectURL(blob);
-              const link = document.createElement('a');
-              link.href = url;
-              link.download = 'anonymized_JSON.json';
-              link.click();
-              window.URL.revokeObjectURL(url);
-              this.spinner = false;
-            },
-            error => {
-              console.error('Upload failed', error);
-              let errorMessage = 'API Failed';
-              if (error.error instanceof Blob) {
-                error.error.text().then((text: string) => {
-                  try {
-                    const errorJson = JSON.parse(text);
-                    if (errorJson.detail === 'Portfolio/Account Is Incorrect') {
-                      errorMessage = errorJson.detail;
+          // Append portfolio/account only when provided
+          if (this.portfolioName_value != '' || this.accountName_value != '') {
+            formDataJson.append('portfolio', this.portfolioName_value);
+            formDataJson.append('account', this.accountName_value);
+          }
+
+          // Append exclusionList only when non-empty
+          if (this.exclusionList_value != null && String(this.exclusionList_value).trim() !== '') {
+            formDataJson.append('exclusionList', this.exclusionList_value);
+          }
+
+          // Append nlp only when non-empty
+          if (this.nlpOption != null && String(this.nlpOption).trim() !== '') {
+            formDataJson.append('nlp', this.nlpOption);
+          }
+
+          // Append piiEntitiesToBeRedacted only when account/portfolio not provided AND selection exists
+          const piiValues = this.piiEntitiesToBeRedactedOption?.value;
+          if ((!this.accountName_value || !this.portfolioName_value) && Array.isArray(piiValues) && piiValues.length > 0) {
+            formDataJson.append('piiEntitiesToBeRedacted', piiValues.join(','));
+          }
+
+          let url =
+            this.Privacy_JSON_anonymize +
+            `?ocr=${encodeURIComponent(this.ocrvalue)}`;
+
+          this.https
+            .post(url, formDataJson, { responseType: 'blob' })
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(
+              (response) => {
+                console.log('Upload successful', response);
+                const blob = new Blob([response], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'anonymized_JSON.json';
+                link.click();
+                window.URL.revokeObjectURL(url);
+                this.spinner = false;
+              },
+              (error) => {
+                console.error('Upload failed', error);
+                let errorMessage = 'API Failed';
+                if (error.error instanceof Blob) {
+                  error.error.text().then((text: string) => {
+                    try {
+                      const errorJson = JSON.parse(text);
+                      if (
+                        errorJson.detail === 'Portfolio/Account Is Incorrect'
+                      ) {
+                        errorMessage = errorJson.detail;
+                      }
+                    } catch (e) {
+                      console.error('Error parsing error response', e);
                     }
-                  } catch (e) {
-                    console.error('Error parsing error response', e);
+                    this.openSnackBar(errorMessage, 'Close');
+                  });
+                } else {
+                  if (
+                    error.error?.detail === 'Portfolio/Account Is Incorrect'
+                  ) {
+                    errorMessage = error.error.detail;
                   }
                   this.openSnackBar(errorMessage, 'Close');
-                });
-              } else {
-                if (error.error?.detail === 'Portfolio/Account Is Incorrect') {
-                  errorMessage = error.error.detail;
                 }
                 this.openSnackBar(errorMessage, 'Close');
+                this.spinner = false;
               }
-              this.openSnackBar(errorMessage, 'Close');
-              this.spinner = false;
-            }
-          );
+            );
         }
       }
       else if(this.newDropdownValue === 'CSV Anonymize'){
@@ -436,18 +536,31 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
           const formDataCSV = new FormData();
           formDataCSV.append('file', this.demoFile[0]);
           formDataCSV.append('keys_to_skip', this.keys_to_skip);
-          formDataCSV.append('portfolio', this.portfolioName_value);
-          formDataCSV.append('account', this.accountName_value);
-          formDataCSV.append('exclusionList', this.exclusionList_value);
-          formDataCSV.append('nlp', this.nlpOption);
-
-          if (!this.accountName_value || !this.portfolioName_value) {
-            formDataCSV.append('piiEntitiesToBeRedacted', this.piiEntitiesToBeRedactedOption.value!.join(','));
-          }
+          [
+        ['portfolio', this.portfolioName_value],
+        ['account', this.accountName_value],
+        ['exclusionList', this.exclusionList_value],
+        ['nlp', this.nlpOption],
+      ].forEach(([key, value]) => {
+        if (value != null && value !== '') {
+          formDataCSV.append(key, value);
+        }
+      });
+      const piiValues = this.piiEntitiesToBeRedactedOption?.value;
+      if (
+        (!this.accountName_value || !this.portfolioName_value) &&
+        Array.isArray(piiValues) &&
+        piiValues.length > 0
+      ) {
+        formDataCSV.append(
+          'piiEntitiesToBeRedacted',
+          this.piiEntitiesToBeRedactedOption.value!.join(',')
+        );
+      }
 
           let url = this.Privacy_CSV_anonymize + `?ocr=${encodeURIComponent(this.ocrvalue)}`;
 
-          this.https.post(url, formDataCSV, { responseType: 'blob' }).subscribe(
+          this.https.post(url, formDataCSV, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe(
             response => {
               console.log('Upload successful', response);
               const blob = new Blob([response], { type: 'text/csv' });
@@ -498,7 +611,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'text/csv'
       ];
-    
+
       if (!allowedTypes.includes(file.type)) {
         this.openSnackBar('Please upload a valid Excel or CSV file', 'Close');
         this.spinner = false;
@@ -519,7 +632,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
 
   }
 
-   // Displays a snackbar with a message
+  // Displays a snackbar with a message
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, '✖', {
       duration: 3000,
@@ -537,7 +650,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
 
   // Resets the selected value when the type changes
   handleSelectTypeChange(){
-      this.selectValue = '';
+    this.selectValue = '';
   }
 
   // Handles file input changes
@@ -545,12 +658,12 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const text = e.target.result;
-     // console.log(text);
+      // console.log(text);
     };
     reader.readAsText(event.target.files[0]);
   }
 
-   // Handles file browsing and prepares the file list
+  // Handles file browsing and prepares the file list
   fileBrowseHandler(File: any) {
     const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/csv', 'application/json','application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'];
     const allowedExtensions = ['.xlsx', '.xls', '.csv', '.json', '.pdf', '.docx', '.pptx']
@@ -563,17 +676,17 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
       });
       // return;
     }else{
-    this.prepareFilesList(File.target.files);
-    this.demoFile = this.files;
-    this.file = this.files[0];
-    const reader = new FileReader();
-    reader.readAsDataURL(this.files[0]);
-    reader.onload = (_event) => {
-      const base64String = reader.result as string;
-      this.filePreview = base64String;
-      //console.log("filePreview",this.filePreview )
-    };
-   }
+      this.prepareFilesList(File.target.files);
+      this.demoFile = this.files;
+      this.file = this.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(this.files[0]);
+      reader.onload = (_event) => {
+        const base64String = reader.result as string;
+        this.filePreview = base64String;
+        //console.log("filePreview",this.filePreview )
+      };
+    }
   }
 
   // Prepares the list of files for upload
@@ -611,19 +724,19 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
   // Uploads a sample PDF file
   uploadSampleFile(fileType: string) {
     const fileToFetch = fileType === 'sampleFile' ? this.sampleFile : this.sampleFile2;
-  
+
     fetch(fileToFetch)
         .then(response => response.blob())
         .then(blob => {
-            const fileName = fileToFetch.split('/').pop() || 'sample_document.pdf';
+        const fileName = fileToFetch.split('/').pop() || 'sample_document.pdf';
             const samplePdf = new File([blob], fileName, { type: "application/pdf" });
-            const event = { target: { files: [samplePdf] } };
-            this.onFileChange(event);
-            this.fileBrowseHandler(event);
-        })
+        const event = { target: { files: [samplePdf] } };
+        this.onFileChange(event);
+        this.fileBrowseHandler(event);
+      })
         .catch(error => {
             console.error('Error fetching the sample file:');
-        });
+      });
   }
 
   // Uploads a sample XLSX file
@@ -634,72 +747,72 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
     fetch(fileToFetch)
         .then(response => response.blob())
         .then(blob => {
-            const fileName = fileToFetch.split('/').pop() || 'Prompts.xlsx';
+        const fileName = fileToFetch.split('/').pop() || 'Prompts.xlsx';
             const sampleXlsx = new File([blob], fileName, { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
-            const event = { target: { files: [sampleXlsx] } };
-            this.onFileChange(event);
-            this.fileBrowseHandler(event);
-        })
+        const event = { target: { files: [sampleXlsx] } };
+        this.onFileChange(event);
+        this.fileBrowseHandler(event);
+      })
         .catch(error => {
             console.error('Error fetching the sample file:');
-        });
-}
+      });
+  }
 
-// Uploads a sample CSV file
-uploadSampleCsvFile(fileType: string) {
+  // Uploads a sample CSV file
+  uploadSampleCsvFile(fileType: string) {
   const fileToFetch = fileType === 'sampleFilePRivacycsv' ? this.sampleFilePRivacycsv : this.sampleFilePRivacycsv;
 
-  fetch(fileToFetch)
+    fetch(fileToFetch)
       .then(response => response.blob())
       .then(blob => {
           const fileName = fileToFetch.split('/').pop() || 'sampleFilePRivacycsv.csv';
           const sampleCsv = new File([blob], fileName, { type: "text/csv" });
-          const event = { target: { files: [sampleCsv] } };
-          this.onFileChange(event);
-          this.fileBrowseHandler(event);
+        const event = { target: { files: [sampleCsv] } };
+        this.onFileChange(event);
+        this.fileBrowseHandler(event);
       })
       .catch(error => {
           console.error('Error fetching the sample file:');
       });
-}
+  }
 
-// Uploads a sample PPTX file
-uploadSamplePptxFile(fileType: string) {
+  // Uploads a sample PPTX file
+  uploadSamplePptxFile(fileType: string) {
   const fileToFetch = fileType === 'sampleFilePRivacyppt' ? this.sampleFilePRivacyppt : this.sampleFilePRivacyppt;
 
-  fetch(fileToFetch)
+    fetch(fileToFetch)
       .then(response => response.blob())
       .then(blob => {
           const fileName = fileToFetch.split('/').pop() || 'sampleFilePRivacyppt.pptx';
           const samplePptx = new File([blob], fileName, { type: "application/vnd.openxmlformats-officedocument.presentationml.presentation" });
-          const event = { target: { files: [samplePptx] } };
-          this.onFileChange(event);
-          this.fileBrowseHandler(event);
+        const event = { target: { files: [samplePptx] } };
+        this.onFileChange(event);
+        this.fileBrowseHandler(event);
       })
       .catch(error => {
           console.error('Error fetching the sample file:');
       });
-}
+  }
 
- // Opens a dialog for file preview
-openDialog(data: any) {
-  const fileType = this.files[0].name.split('.').pop().toLowerCase();
-  if (fileType === 'pdf') {
+  // Opens a dialog for file preview
+  openDialog(data: any) {
+    const fileType = this.files[0].name.split('.').pop().toLowerCase();
+    if (fileType === 'pdf') {
       this.dialog.open(ImageDialogComponent, {
-          data: { pdf: data, flag: true },
+        data: { pdf: data, flag: true },
           backdropClass: 'custom-backdrop'
       });
       console.log("data", data);
-  } else {
+    } else {
       this._snackBar.open('Preview on this file type is not available', 'Close', {
           duration: 3000,
           horizontalPosition: 'center',
           verticalPosition: 'top',
       });
+    }
   }
-}
 
- // Retrieves selected portfolio and account values
+  // Retrieves selected portfolio and account values
   getSelectedValues(): void {
     this.portfolioName_value = localStorage.getItem('selectedPortfolio') ?? '';
     this.accountName_value = localStorage.getItem('selectedAccount') ?? '';
@@ -712,8 +825,8 @@ openDialog(data: any) {
     
     let url = this.privacyRecognizersList;
     const headers = { 'accept': 'application/json' };
-    
-    this.https.get(url, { headers }).subscribe(
+
+    this.https.get(url, { headers }).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
         const availableRecognizers = response['Available Recognizers'];
         this.available_Recognizers = availableRecognizers;
@@ -724,7 +837,7 @@ openDialog(data: any) {
     );
   }
 
-   // Updates the selected value for the new dropdown
+  // Updates the selected value for the new dropdown
   selectOptionNewDropdown(target: any): void {
     this.newDropdownValue = target.value;
     console.log('Selected new dropdown option:', this.newDropdownValue);
@@ -753,75 +866,81 @@ openDialog(data: any) {
       responseFileType: this.responseFileType,
       userId: this.loggedUser
     }
-    formData.append('payload', JSON.stringify(payload));
+    let payloadString = '';
+    try {
+      payloadString = JSON.stringify(payload);
+    } catch (error) {
+      console.error('Failed to stringify payload', error);
+      payloadString = '';
+    }
     formData.append('file', file, file.name);
 
     const headers = new HttpHeaders({
         'accept': '*/*'
     });
 
-    this.https.post(url, formData, { headers: headers, observe: 'response', responseType: 'blob' }).subscribe(
+    this.https.post(url, formData, { headers: headers, observe: 'response', responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe(
         response => {
-            console.log('Upload successful', response);
-            if (response.body) {
-                const blob = new Blob([response.body], { type: file.type });
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
+          console.log('Upload successful', response);
+          if (response.body) {
+            const blob = new Blob([response.body], { type: file.type });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
 
-                // Extract file name from response headers
+            // Extract file name from response headers
                 const contentDisposition = response.headers.get('Content-Disposition');
                 let fileName = "modified"+file.name; // Default to original file name
-                if (contentDisposition) {
+            if (contentDisposition) {
                     const matches = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition);
-                    if (matches != null && matches[1]) {
-                        fileName = matches[1].replace(/['"]/g, '');
-                    }
-                }
-
-                link.download = fileName;
-                link.click();
-                window.URL.revokeObjectURL(url);
-            } else {
-                console.error('Response body is null');
+              if (matches != null && matches[1]) {
+                fileName = matches[1].replace(/['"]/g, '');
+              }
             }
 
-            this.spinner = false;
+            link.download = fileName;
+            link.click();
+            window.URL.revokeObjectURL(url);
+          } else {
+            console.error('Response body is null');
+          }
+
+          this.spinner = false;
         },
         error => {
-            this.spinner = false;
-            console.error('Upload failed', error);
-            let errorMessage = 'API Failed';
-            if (error.error instanceof Blob) {
-                error.error.text().then((text: string) => {
-                    try {
-                        const errorJson = JSON.parse(text);
-                        if (errorJson.detail === 'Portfolio/Account Is Incorrect') {
-                            errorMessage = errorJson.detail;
-                        }
-                    } catch (e) {
-                        console.error('Error parsing error response', e);
-                    }
-                    this.openSnackBar(errorMessage, 'Close');
-                });
-            } else {
-                if (error.error?.detail === 'Portfolio/Account Is Incorrect') {
-                    errorMessage = error.error.detail;
+          this.spinner = false;
+          console.error('Upload failed', error);
+          let errorMessage = 'API Failed';
+          if (error.error instanceof Blob) {
+            error.error.text().then((text: string) => {
+              try {
+                const errorJson = JSON.parse(text);
+                if (errorJson.detail === 'Portfolio/Account Is Incorrect') {
+                  errorMessage = errorJson.detail;
                 }
-                this.openSnackBar(errorMessage, 'Close');
+              } catch (e) {
+                console.error('Error parsing error response', e);
+              }
+              this.openSnackBar(errorMessage, 'Close');
+            });
+          } else {
+            if (error.error?.detail === 'Portfolio/Account Is Incorrect') {
+              errorMessage = error.error.detail;
             }
-            this.spinner = false;
+            this.openSnackBar(errorMessage, 'Close');
+          }
+          this.spinner = false;
         }
-    );
-}
+      );
+  }
 
-// Downloads a file from the given URL
-downloadFile(file: string, event: MouseEvent) {
-  event.preventDefault(); // Prevent the default context menu from appearing
+  // Downloads a file from the given URL
+  downloadFile(file: string, event: MouseEvent) {
+    event.preventDefault(); // Prevent the default context menu from appearing
 
-  const link = document.createElement('a');
-  link.href = file; // Assuming `file` is the URL to the file
-  link.download = file.split('/').pop() || 'downloaded-file'; // Provide a default file name if undefined
-  link.click();
-}
+    const link = document.createElement('a');
+    link.href = file; // Assuming `file` is the URL to the file
+    link.download = file.split('/').pop() || 'downloaded-file'; // Provide a default file name if undefined
+    link.click();
+  }
 }

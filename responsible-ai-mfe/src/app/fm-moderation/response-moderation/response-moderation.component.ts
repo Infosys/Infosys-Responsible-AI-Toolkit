@@ -4,20 +4,12 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { FmModerationService } from 'src/app/services/fm-moderation.service';
 import { RightSidePopupComponent } from '../right-side-popup/right-side-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-interface TopicScore {
-  [topic: string]: string;
-}
-
-interface ToxicScore {
-  metricName: string;
-  metricScore: number;
-}
+import { Subject, takeUntil } from 'rxjs';
 
 interface ResponseModeration {
   generatedText: string;
@@ -59,7 +51,7 @@ interface ResponseModeration {
   };
   bancodeCheck: {
     result: string;
-   label: string;
+    label: string;
   };
   gibberishCheck: {
     gibberishScore: { gibberish_label: string; gibberish_score: number }[];
@@ -83,7 +75,8 @@ interface ResponseModeration {
   templateUrl: './response-moderation.component.html',
   styleUrls: ['./response-moderation.component.scss'],
 })
-export class ResponseModerationComponent {
+export class ResponseModerationComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   @Input() customApipayloadStatus: any;
   @Input() bannedCategoriesDisplay: any;
@@ -99,6 +92,7 @@ export class ResponseModerationComponent {
   @Input() setLoadTemplateResMod: Boolean = false;
   @Input() hallucinationSwitchCheck: any;
   @Input() templateBasedPayload: any;
+
   activeTab = 'Model-Based Guardrails';
   changeTab = (tab: string) => {
     this.activeTab = tab;
@@ -141,21 +135,52 @@ export class ResponseModerationComponent {
       threshold: '',
     },
     sentimentCheck: { result: '', score: '', threshold: '' },
-    //
   };
-  constructor(
-    private fmService: FmModerationService,
+
+  dummyDataResult = {
+    GibberishLabels: ['word salad', 'noise', 'mild gibberish', 'clean'],
+    BannedCategories: ['Cf', 'Co', 'Cn', 'So', 'Sc'],
+  };
+
+  constructor(private fmService: FmModerationService,
     public dialog: MatDialog,
-    public _snackBar: MatSnackBar
-  ) {}
+    public _snackBar: MatSnackBar) { }
+
+  // Initializes the component and sets up API calls
+  ngOnInit() {
+    if (this.responseModerationTemplates.length == 0) {
+      this.activeTab = 'Model-Based Guardrails';
+    }
+    this.fmService.currentData.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      if (data) {
+        // Display the data in your table
+        this.responseModerationResult = data.moderationResults.responseModeration;
+      } else {
+        console.log('No data');
+      }
+    });
+    if (this.customApipayloadStatus == true) {
+      this.dummyDataResult = {
+        GibberishLabels: this.bannedCategoriesDisplay,
+        BannedCategories: this.gibrishDisplayLabels,
+      };
+    } else {
+      this.dummyDataResult = {
+        GibberishLabels: ['word salad', 'noise', 'mild gibberish', 'clean'],
+        BannedCategories: ['Cf', 'Co', 'Cn', 'So', 'Sc'],
+      };
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   // Opens a right-side modal with the provided data
   openRightSideModal(data: any) {
     if (data.type == 'profanityCheckReq') {
-      if (
-        this.responseModerationResult?.profanityCheck['profaneWordsIdentified']
-          .length == 0
-      ) {
+      if (this.responseModerationResult?.profanityCheck['profaneWordsIdentified'].length == 0) {
         this._snackBar.open('No profane words identified', 'Close', {
           duration: 2000,
         });
@@ -168,50 +193,13 @@ export class ResponseModerationComponent {
       backdropClass: 'custom-backdrop',
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(() => {
       console.log('POPUP CLOSE');
     });
   }
 
-   // Checks if an object is empty
+  // Checks if an object is empty
   isEmptyObject(obj: any) {
     return Object.keys(obj).length === 0;
   }
-  
-  // Initializes the component and sets up API calls
-  ngOnInit() {
-    if (this.responseModerationTemplates.length == 0) {
-      this.activeTab = 'Model-Based Guardrails';
-    }
-    this.fmService.currentData.subscribe((data) => {
-      if (data) {
-        // Display the data in your table
-        console.log('_______________________________________________');
-        this.responseModerationResult =
-          data.moderationResults.responseModeration;
-        console.log(
-          '_______________responseModerationResult________________________________',
-          this.responseModerationResult
-        );
-      } else {
-        console.log('No data');
-      }
-    });
-    if(this.customApipayloadStatus== true){
-      this.dummyDataResult = {
-        GibberishLabels: this.bannedCategoriesDisplay,
-        BannedCategories: this.gibrishDisplayLabels,
-      };}else
-      {
-        this.dummyDataResult = {
-          GibberishLabels: ['word salad', 'noise', 'mild gibberish', 'clean'],
-          BannedCategories: ['Cf', 'Co', 'Cn', 'So', 'Sc'],
-        };
-      }
-  }
-  dummyDataResult = {
-    GibberishLabels: ['word salad', 'noise', 'mild gibberish', 'clean'],
-    BannedCategories: ['Cf', 'Co', 'Cn', 'So', 'Sc'],
-  };
-
 }

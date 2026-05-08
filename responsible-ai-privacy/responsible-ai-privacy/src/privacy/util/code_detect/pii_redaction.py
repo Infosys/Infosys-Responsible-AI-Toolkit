@@ -1,5 +1,5 @@
 import json
-import random
+import secrets
 import string
 import ipaddress
 
@@ -45,19 +45,19 @@ def load_json(sample):
 def random_replacements(n=10):
     letters = string.ascii_lowercase
     letters_digits = string.ascii_lowercase + string.digits
-    emails = ["".join(random.choice(letters) for i in range(5)) + "@example.com" for i in range(n)]
-    keys = ["".join(random.choice(letters_digits) for i in range(32)) for i in range(n)]
+    emails = ["".join(secrets.choice(letters) for i in range(5)) + "@example.com" for i in range(n)]
+    keys = ["".join(secrets.choice(letters_digits) for i in range(32)) for i in range(n)]
     ip_addresses = REPLACEMENTS_IP
     return {"EMAIL": emails, "KEY": keys, "IP_ADDRESS": ip_addresses}
 
 def replace_ip(value, replacements_dict):
     try:
         ipaddress.IPv4Address(value)
-        return random.choice(replacements_dict["IP_ADDRESS"]["IPv4"])
+        return secrets.choice(replacements_dict["IP_ADDRESS"]["IPv4"])
     except ValueError:
         try:
             ipaddress.IPv6Address(value)
-            return random.choice(replacements_dict["IP_ADDRESS"]["IPv6"])
+            return secrets.choice(replacements_dict["IP_ADDRESS"]["IPv6"])
         except ValueError:
             print("Invalid IP address")
             return value
@@ -127,5 +127,6 @@ def redact_pii_batch(examples, replacements, add_references=True):
     if add_references:
         result.update({"references": references})
     return result
+    
 
 

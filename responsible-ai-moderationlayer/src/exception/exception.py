@@ -1,11 +1,13 @@
 '''
-Copyright 2024 Infosys Ltd.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 
 """
@@ -22,13 +24,12 @@ from abc import ABC
 
 class completionException(Exception, ABC):
     """
-    dscription: Abstract base class of UsecaseException.
+    description: Abstract base class of UsecaseException.
     """
 
     def __init__(self, detail: str) -> None:
         self.status_code = HTTP_STATUS_BAD_REQUEST
         super().__init__(detail)
-
 
 class completionNotFoundError(completionException):
     """
@@ -47,13 +48,23 @@ class completionNameNotEmptyError(completionException):
     def __init__(self,name):
         self.status_code = HTTP_STATUS_409_CODE
         self.detail =  USECASE_NAME_VALIDATION_ERROR
+        
+class EmptyModerationChecksListException(Exception):
+    def __init__(self, message,error_code=310):
+        super().__init__(message)
+        self.error_code=error_code
 
 class InvalidTokenException(Exception):
-    def __init__(self, message):
+    def __init__(self, message, code=310):
         super().__init__(message)
+        self.code = code
+ 
+class ValidationException(Exception):
+    def __init__(self, message, code=310):
+        super().__init__(message)
+        self.code = code
 
-class EmptyModerationChecksListException(Exception):
-    def __init__(self, message,error_code):
+class PromptEmptyException(Exception):
+    def __init__(self, message, code=310):
         super().__init__(message)
-        self.message=message
-        self.error_code=error_code
+        self.code = code

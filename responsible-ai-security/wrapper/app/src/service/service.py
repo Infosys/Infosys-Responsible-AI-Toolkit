@@ -15,8 +15,6 @@ import datetime,time
 import requests
 from src.mappers.mappers import GetAttackDataRequest
 from src.service.art import Art
-#from src.service.augly import Augly
-from src.service.artendpoint import ArtEndPoint
 from src.config.urls import UrlLinks
 import shutil
 import json
@@ -64,7 +62,6 @@ errorRequestMethod = 'GET'
 class Infosys:
     
     
-    # SelectedModel : str = "Dummy"
     SelectedModel : float = 0.0
 
     ArtSupportedModel:list = sorted(["ProjectedGradientDescentTabular","ZerothOrderOptimization",
@@ -322,8 +319,6 @@ class Infosys:
                     response = Art.InferenceLabelOnlyAttack(payload['batchId'])
                 elif(AttackFunction == 'ElasticNet'):
                     response = Art.ElasticNetAttack(payload['batchId'])
-                # elif(AttackFunction == "Poisoning"):
-                #     response = Art.PoisoningAttackSVM(payload['batchId'])
                 elif(AttackFunction == "AttributeInferenceWhiteBoxDecisionTree"):
                     response = Art.AttributeInferenceWhiteBoxDecisionTreeAttack(payload['batchId'])
                 elif(AttackFunction == "AttributeInferenceWhiteBoxLifestyleDecisionTree"):
@@ -332,30 +327,6 @@ class Infosys:
                     response = Art.LabelOnlyDecisionBoundaryAttack(payload['batchId'])
                 elif(AttackFunction == "HopSkipJumpTabular"):
                     response = Art.HopSkipJumpCSV(payload['batchId'])
-                # elif(AttackFunction == "HopSkipJumpImage"):
-                #     response = Art.HopSkipJumpImage(payload['batchId'])
-                elif(AttackFunction == "QueryEfficientGradientAttackEndPoint"):
-                    response = ArtEndPoint.QueryEfficientGradientAttack(payload['batchId'])
-                elif(AttackFunction == "BoundaryAttackEndPoint"):
-                    response = ArtEndPoint.BoundaryAttack(payload['batchId'])
-                elif(AttackFunction == "HopSkipJumpAttackEndPoint"):
-                    response = ArtEndPoint.HopSkipJumpAttack(payload['batchId'])
-                elif(AttackFunction == "LabelOnlyGapAttackEndPoint"):
-                    response = ArtEndPoint.LabelOnlyGapAttack(payload['batchId'])
-                elif(AttackFunction == "MembershipInferenceBlackBoxRuleBasedAttackEndPoint"):
-                    response = ArtEndPoint.MembershipInferenceBlackBoxRuleBasedAttack(payload['batchId'])
-                elif(AttackFunction == "LabelOnlyDecisionBoundaryAttackEndPoint"):
-                    response = ArtEndPoint.LabelOnlyDecisionBoundaryAttack(payload['batchId'])
-                elif(AttackFunction == "MembershipInferenceBlackBoxAttackEndPoint"):
-                    response = ArtEndPoint.MembershipInferenceBlackBoxAttack(payload['batchId'])
-                # elif(AttackFunction == 'VirtualAdversarialMethod'):
-                #     response = Art.VirtualAdversarialMethod(payload['batchId'])
-                # elif(AttackFunction == "GeometricDecisionBasedAttack"):
-                #     response = Art.GeometricDecisionAttack(payload['batchId'])
-                # elif(AttackFunction == 'Threshold'):
-                #     response = Art.Threshold(payload['batchId']) 
-                elif(AttackFunction == "Augly"):
-                    response = Augly.Augly(payload['batchId'])   
                 return response
             
         except Exception as exc:
@@ -496,12 +467,6 @@ class Bulk:
             
             # creating defence model for combining report
             if payload_data['dataType'] == 'Tabular':
-                # originaldataContent = FileStoreDb.findOne(Model.findOne(modelid)['SampleDataID'])
-                # original_data_path = os.path.join(report_path,originaldataContent["fileName"]) 
-                # if os.path.exists(original_data_path):                          
-                #     os.remove(original_data_path)                                       
-                # with open(original_data_path, 'wb') as f:
-                #     f.write(originaldataContent["data"])
 
                 original_data_path = os.path.join(report_path, os.path.basename(data_path))
                 with open(data_path, 'r') as source_file:
@@ -512,45 +477,28 @@ class Bulk:
                             writer.writerow(row)
 
                 
-                # DF.generateCombinedDenfenseModel({'payloadData':payload_data, 'report_path':report_path, 'modelName':modelName, 'dataFileName':originaldataContent["fileName"].split('.')[0]})
-                # DF.generateCombinedDenfenseModel({'payloadData':payload_data, 'report_path':report_path, 'modelName':modelName, 'dataFileName':os.path.basename(data_path).split('.')[0]})
                 confusion_matrix, classification_reports, attack_accuracy_dict = DF.generateCombinedDenfenseModel({'payloadData':payload_data, 'report_path':report_path, 'modelName':modelName, 'dataFileName':os.path.basename(data_path).split('.')[0]})
                 UT.databaseDelete(original_data_path)
 
-                # print(list(os.listdir(report_path)))
-                # statusList,defenceList = UT.checkAttackListStatus1({'folder_path':report_path, 'modelName':modelName})
                 statusList,defenceList = UT.checkAttackListStatus({'folder_path':report_path, 'modelName':modelName, 'attackList':payload['attackList'], 'meta_data':payload_data, 'attack_accuracy_dict':attack_accuracy_dict})
-                # print(defenceList)
-                # print(statusList)
                 rows, mitigation_row, attack_list = UT.makeAttackListRow({'total_attacks':total_attacks,'attackList':payload['attackList'],'statusList':statusList,'defenceList':defenceList, 'meta_data':payload_data})
-                # print(attack_list)
 
             elif payload_data['dataType'] == 'Image':
-                # print(list(os.listdir(report_path)))
-                # statusList,defenceList = UT.checkAttackListStatus1({'folder_path':report_path, 'modelName':modelName})
                 statusList = UT.checkAttackListStatus({'folder_path':report_path, 'modelName':modelName, 'attackList':payload['attackList'], 'meta_data':payload_data})
-                # print(statusList)
                 rows, attack_list = UT.makeAttackListRow({'total_attacks':total_attacks,'attackList':payload['attackList'],'statusList':statusList, 'meta_data':payload_data})
-                # print(attack_list)
+
 
             # adding summary content and combine graph in combine html
             success_skipped_list = [len(total_attacks), count, (len(total_attacks)-count)]
 
-            # taking dateTime depend on server
-            # report_datetime = UT.dateTimeFormat()
 
             # generating confusion matrix for tabular
             if payload_data['dataType'] == 'Tabular':
-                # confusion_matrix = UT.confusionMatrix({'folder_path':report_path, 'modelName':modelName, 'attackList':payload['attackList'], 'meta_data':payload_data})
-            
-                #creating combined report file ".html"
-                # report_datetime = datetime.datetime.now()
                 report_datetime = payload['dateTime']
                 UT.graphForCombineAttack({'folder_path':report_path, 'modelName':modelName, 'model_metaData':payload_data, 'reportTime':report_datetime, 'success_skipped':success_skipped_list, 'target':payload_data['groundTruthClassLabel'], 'rows':rows, 'attack_list':attack_list, 'confusion_matrix':confusion_matrix, 'mitigation_row':mitigation_row, 'classification_reports':classification_reports})
             
             elif payload_data['dataType'] == 'Image':
                 #creating combined report file ".html"
-                # report_datetime = datetime.datetime.now()
                 report_datetime = payload['dateTime']
                 UT.graphForCombineAttack({'folder_path':report_path, 'modelName':modelName, 'model_metaData':payload_data, 'reportTime':report_datetime, 'success_skipped':success_skipped_list, 'target':payload_data['groundTruthClassLabel'], 'rows':rows, 'attack_list':attack_list})
 
@@ -563,17 +511,8 @@ class Bulk:
                             UT.databaseDelete(img_path)
                         elif filename.split('.')[0].split('^')[1][-1] == 'T':
                             img_old_path = os.path.join(report_path, filename)
-                            # print('img_old_path',img_old_path)
                             img_new_path = img_old_path.replace(os.path.basename(img_old_path),f"{os.path.basename(img_old_path).split('.')[0][:-1]}.{os.path.basename(img_old_path).split('.')[-1]}")
-                            # print('img_new_path',img_new_path)
                             os.rename(img_old_path, img_new_path)
-                            # print(img_new_path)
-
-                            # img_new_path = os.path.join(report_path, f"{filename.split('.')[0][:-1]}.{filename.split('.')[-1]}")
-                            # with open(img_old_path, 'rb') as old_file:
-                            #     with open(img_new_path, 'wb') as new_file:
-                            #         shutil.copyfileobj(old_file, new_file)
-                            # print(img_new_path)
 
                             UT.databaseDelete(img_old_path)
 

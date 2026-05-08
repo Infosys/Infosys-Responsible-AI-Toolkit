@@ -5,7 +5,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -26,7 +27,8 @@ import { NonceService } from 'src/app/nonce.service';
   templateUrl: './accounts-configuration.component.html',
   styleUrls: ['./accounts-configuration.component.css']
 })
-export class AccountsConfigurationComponent {
+export class AccountsConfigurationComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   accountDetail: any;
   listReconList: any=[];
   csrfToken: string;
@@ -112,7 +114,7 @@ export class AccountsConfigurationComponent {
 
     // Sends privacy parameters to the server
   setPrivacyParameter(header: any) {
-    this.https.post(this.Admin_SetPrivacyParameter, header).subscribe
+    this.https.post(this.Admin_SetPrivacyParameter, header).pipe(takeUntil(this.destroy$)).subscribe
         ((res: any) => {
           console.log("data sent to database" + res.status)
           if (res.status === "True") {
@@ -240,7 +242,7 @@ export class AccountsConfigurationComponent {
    // Fetches account master entry list
   getAccountMasterEntryList(){
     console.log("getAccountMasterEntryList")
-    this.https.get(this.admin_list_AccountMaping_AccMasterList).subscribe
+    this.https.get(this.admin_list_AccountMaping_AccMasterList).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
 
         this.dataSource = res.accList
@@ -273,7 +275,7 @@ export class AccountsConfigurationComponent {
   portfolioArr :any =[]
 // Fetches all account data
   getAllAccountData(){
-    this.https.get( this.admin_list_getAccountDetails).subscribe
+    this.https.get( this.admin_list_getAccountDetails).pipe(takeUntil(this.destroy$)).subscribe
         ((res: any) => {
           console.log("res=========>>>",res[0].AccountDetails)
           
@@ -525,7 +527,7 @@ test(p:any){
 createNewAccPot() {
   if (this.NewAccPort.valid) {
     const formData = this.NewAccPort.value;
-    this.https.post(this.admin_list_AccountMaping_AccMasterentry, formData).subscribe(
+    this.https.post(this.admin_list_AccountMaping_AccMasterentry, formData).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
         // Handle success response
         console.log(response);
@@ -541,7 +543,7 @@ createNewAccPot() {
 
 // Fetches the list of recognizers
 getadmin_list_rec_get_list(){
-  this.https.get(this.admin_list_rec_get_list).subscribe
+  this.https.get(this.admin_list_rec_get_list).pipe(takeUntil(this.destroy$)).subscribe
   ((res: any) => {
     console.log("res",res)
     this.listReconList = res.RecogList
@@ -623,8 +625,10 @@ deleteAccounttGroup(id: any) {
       accMasterId: id
     },
   };
-  this.https.delete(this.admin_list_AccountMaping_AccMasterList_Delete, options).subscribe
-    ((res: any) => {
+  this.https
+    .delete(this.admin_list_AccountMaping_AccMasterList_Delete, options)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((res: any) => {
       if (res.status === "True") {
 
         const message = "Account Deleted Successfully"
@@ -713,5 +717,11 @@ closeSearch() {
   this.currentPage = 1;
   this.pagingConfig.currentPage = 1;
   this.pagingConfig.totalItems = this.filteredDataSource.length;
+}
+
+// Cleanup on component destruction
+ngOnDestroy(): void {
+  this.destroy$.next();
+  this.destroy$.complete();
 }
 }

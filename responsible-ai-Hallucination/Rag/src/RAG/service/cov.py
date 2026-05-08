@@ -30,7 +30,8 @@ request_id_var.set("Startup")
 
 # Base directory for storing vectorstores
 VECTORSTORE_BASE_DIR = "../data/vectorstores/"
-embeddingmodelname=os.getenv("EMBEDDING_MODEL_NAME")
+# embeddingmodelname=os.getenv("EMBEDDING_MODEL_NAME")
+embeddingmodelname="text-embedding-ada-002"
 
 # llm = AzureChatOpenAI(deployment_name=os.getenv("OPENAI_MODEL"), temperature=1)
 

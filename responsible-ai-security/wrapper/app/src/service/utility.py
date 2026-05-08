@@ -15,7 +15,6 @@ import io
 import os
 import numpy as np
 import pickle
-#from keras.models import load_model
 import tempfile
 import datetime,time
 import pytz
@@ -52,12 +51,11 @@ from src.dao.SaveFileDB import FileStoreDb
 
 from src.dao.Security.SecReportDb import SecReport
 
-#from tensorflow.keras.preprocessing import image
 from art.estimators.classification import SklearnClassifier
 from art.attacks.poisoning.poisoning_attack_svm import PoisoningAttackSVM
-from art.estimators.classification.scikitlearn import SklearnAPIClassifier
 import concurrent.futures as con
 from src.config.logger import CustomLogger
+import joblib
 
 log =CustomLogger()
 
@@ -181,27 +179,13 @@ class Utility:
 
     def safe_load_from_file(file_path):
         try:
-            with open(file_path, 'rb') as f:
-                data = f.read()
-
-            file_like_object = io.BytesIO(data)
-
-            original_globals = globals().copy()
-            restricted_globals = {'__builtins__': __builtins__,}
-            globals().update(restricted_globals)
-
-            unpickler = pickle.Unpickler(file_like_object)
-            return unpickler.load()
-
+            data = joblib.load(file_path)
+            return data
         except Exception as e:
             if(telemetry_flg == 'True'):
                 with con.ThreadPoolExecutor() as executor:
                     executor.submit(log.log_error_to_telemetry, "safe_load_from_file", e, apiEndPoint, errorRequestMethod)    
-
-        finally:
-            globals().clear()
-            globals().update(original_globals)       
-
+     
 
     def readModelFile(payload):
         
@@ -245,8 +229,6 @@ class Utility:
                     modelFileType = content_disposition.split(';')[1].split('=')[1].split('.')[-1]
 
                 model_path = root_path + "/model"
-                # model_path = os.path.join(model_path,modelName+'.'+modelFileType)
-                # model_path = os.path.join(model_path,modelFile.filename)
                 model_path = os.path.join(model_path,modelName+'.'+modelFileType)
                 if os.path.exists(model_path):
                     os.remove(model_path)
@@ -257,7 +239,6 @@ class Utility:
                 if modelFileType == 'h5':
                     model_data = load_model(model_path) 
                 else:
-                    # model_data = pickle.load(open(model_path, "rb"))
                     model_data = Utility.safe_load_from_file(model_path)     
 
                 del batchList,modelList,attributesData,attributeValues,modelF
@@ -281,7 +262,6 @@ class Utility:
                     csv_file_path = csv_files[0]
                     data_path = os.path.join(data_path, csv_file_path)
                     with zip_file.open(csv_file_path) as csv_file:
-                        # os.makedirs(os.path.dirname(os.path.join(data_path, csv_file_path)), exist_ok=True)
                         with open(data_path, 'wb') as output_file:
                             output_file.write(csv_file.read())
 
@@ -308,13 +288,6 @@ class Utility:
                     with zip_file.open(image_file, 'r') as zip_data, open(output_file_path, 'wb') as output_file:
                         shutil.copyfileobj(zip_data, output_file)
 
-                    # OR
-                    
-                    # with zip_file.open(image_file, 'r') as image_data:
-                    #     image = Image.open(io.BytesIO(image_data.read()))
-                    #     output_file_path = os.path.join(data_path, os.path.basename(image_file))
-                    #     os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
-                    #     image.save(output_file_path)
 
             del file_list,image_files      
             return data_path
@@ -347,7 +320,6 @@ class Utility:
             sampleDataId = dataList['SampleData']
             if(os.getenv("DB_TYPE") == "mongo"):
                 dataFile = FileStoreDb.fs.get(sampleDataId)
-                # dataContent = FileStoreDb.findOne(dataList['SampleData'])
                 dataF = dataFile.read()
                 dataFileType = dataFile.filename.split('.')[-1]
             else: 
@@ -360,21 +332,11 @@ class Utility:
                 dataFileType = content_disposition.split(';')[1].split('=')[1].split('.')[-1]             
             
             data_path = root_path + "/data"
-            # data_path = os.path.join(data_path,datasetName + '.' + dataFileType)
             cache_path = root_path + "/cacheMemory"
-            # cache_path = os.path.join(cache_path, dataContent["fileName"]) 
             cache_path = os.path.join(cache_path,datasetName + '.' + dataFileType)
-            # print('run1',data_path)
-            # print('run1',cache_path)
-
-            # if os.path.exists(data_path):    
-            #     os.remove(data_path)                                       
-            # with open(data_path, 'wb') as f:
-            #     f.write(dataF)
             if os.path.exists(cache_path):    
                 os.remove(cache_path)                                       
             with open(cache_path, 'wb') as f:
-                # f.write(dataContent["data"])
                 f.write(dataF)
 
             if cache_path.endswith('.zip'):
@@ -388,7 +350,6 @@ class Utility:
                     data_path = Utility.extractIMAGEFromZip(cache_path, data_path)
             
             elif cache_path.endswith('.csv'):
-                # data_path = os.path.join(data_path, dataContent["fileName"]) 
                 data_path = os.path.join(data_path, datasetName + '.' + dataFileType) 
                 with open(cache_path, 'r') as source_file:
                     reader = csv.reader(source_file)
@@ -398,22 +359,10 @@ class Utility:
                             writer.writerow(row)  
 
             elif any(cache_path.endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif']):                   
-                # data_path = os.path.join(data_path, dataContent["fileName"])  
                 data_path = os.path.join(data_path, datasetName + '.' + dataFileType)            
                 with open(cache_path, 'rb') as source_file, open(data_path, 'wb') as dest_file:
                     shutil.copyfileobj(source_file, dest_file)
-            # print('run2',data_path)
-            # print('run2',cache_path)
             Utility.databaseDelete(cache_path)
-            
-            # raw_data:any
-            # if dataFileType != 'csv':
-            #     raw_data = image.load_img(data_path, target_size=(299, 299))
-            # else:
-            #     raw_data = pd.read_csv(data_path)
-            
-            # del dataF
-            # return raw_data, data_path
 
             raw_data:any
             if os.path.isdir(data_path):
@@ -616,8 +565,6 @@ class Utility:
             Current_Report_ID = UL.Current_ID
             data[20] = f"    Current_ID = {Current_Report_ID}\n"
     
-            # with open(path, 'w', encoding="utf8") as f1:
-            #     f1.writelines(data)
     
             # Persist the updated UL.Current_ID value
             with open(path, 'r', encoding="utf8") as f2:
@@ -648,18 +595,7 @@ class Utility:
             latestReportList = list(latestDict.values())
             
             # Sorting reports base on attack-type
-            # reportList_dict = {item['ReportName']: item for item in reportList}
-            # reportList = [reportList_dict[item] for item in payload['attackList'] if item in reportList_dict]
-            # reportList = [next(item for item in latestReportList if item['ReportName'].split('.')[0] == attackName) for attackName in payload['attackList']]
             reportList = [report for attack in payload['attackList'] for report in latestReportList if attack == report['ReportName'].split('.')[0]]
-            # reportList = []
-            # for attackName in payload['attackList']:
-            #     for report in latestReportList:
-            #         if attackName == report['ReportName'].split('.')[0]:
-            #             reportList.append(report)
-            #             break
-            #         else:
-            #             continue
 
             del latestDict,latestReportList
             return reportList
@@ -670,13 +606,6 @@ class Utility:
 
     
     def sortReportsList(payload):
-
-        # sort_reports = sorted(payload, key=
-        #         lambda x:datetime.datetime.strptime(
-        #             x['CreatedDateTime'].strftime("%Y-%m-%dT%H:%M:%S.%f"), "%Y-%m-%dT%H:%M:%S.%f"
-        #         ), reverse=True)
-
-        # OR
         try:
             sort_reports = sorted(payload, key=lambda x:x['CreatedDateTime'], reverse=True)
 
@@ -691,40 +620,6 @@ class Utility:
 
         try:
             # ------------------------------------------------------------------------------------
-            # # payload = "2023-12-27T18:22:10.015+00:00"
-            # # parsed_date = time.mktime(time.strptime(payload[:-6], "%Y-%m-%dT%H:%M:%S.%f"))
-            # # format_date = time.strftime("%d-%m-%Y %I:%M:%S %p", time.localtime(parsed_date))
-            # # print(format_date)
-
-            # # payload = datetime.datetime.now()
-            # format_date = payload.strftime("%d-%m-%Y %I:%M:%S %p")
-            # formatted_date = datetime.datetime.strptime(format_date, "%d-%m-%Y %I:%M:%S %p")
-
-            # # print('Parsed_Date', payload, type(payload))
-            # # print('Format_Date', format_date, type(format_date))
-            # # print('Formatted_Date', formatted_date, type(formatted_date))
-
-            # return format_date 
-            # ------------------------------------------------------------------------------------
-
-            # ------------------------------------------------------------------------------------
-            # reportTime:any
-            # d1_time = datetime.datetime.now().strftime("%d-%m-%Y %H:%M %p")
-            # # d2_time = datetime.datetime.now(pytz.utc).strftime("%d-%m-%Y %H:%M")
-
-            # # if d1_time[:-3] == d2_time:
-            #     # print('d2_time', f"{d2_time} UTC(-5:30)") 
-            #     # reportTime = f"{d1_time} UTC"  # UTC: Coordinated Universal Time
-            # # else:
-            # #     print('d1_time', f"{d1_time} IST(+5:30)") 
-            # #     reportTime = f"{d1_time} IST(+5:30)"  # IST: Indian Standard Time
-            # reportTime = f"{d1_time} UTC"
-
-            # return reportTime
-            # ------------------------------------------------------------------------------------
-
-            # ------------------------------------------------------------------------------------
-            # print(payload)
             dateTime:any
             if payload is None:
                 dateTime = f"{(datetime.datetime.now()).strftime('%d-%m-%Y %I:%M:%S %p')} UTC"
@@ -860,18 +755,13 @@ class Utility:
                                 else:
                                     data_without_style = data
                             with open(os.path.join(payload['report_path'],f"report.html"), 'a', encoding='utf-8') as f:
-                                # f.writelines(f"<h2 style='text-align:center; background-color:#8626C3; color:white'>{attackname}_Attack</h2>")
                                 f.writelines(data_without_style)
-                                # f.writelines('<br><br><br><br><br><br><br>')
                         elif file_info.filename.endswith('.csv'): 
                             with zip_file.open(file_info.filename, 'r') as csv_file:
                                 with open(os.path.join(payload['report_path'],f"{attackname}.csv"), 'wb') as f:
                                     shutil.copyfileobj(csv_file, f)   
-                        # elif file_info.filename.endswith('.png'): 
                         elif any(file_info.filename.endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif']): 
-                            # print(file_info.filename)
                             with zip_file.open(file_info.filename, 'r') as image_file:
-                                # with open(os.path.join(payload['report_path'],f"{attackname}.png"), 'wb') as f:
                                 with open(os.path.join(payload['report_path'],file_info.filename), 'wb') as f:
                                     shutil.copyfileobj(image_file, f)         
                 os.remove(data_path)
@@ -1458,10 +1348,6 @@ class Utility:
 
             if payload['model_metaData']['dataType'] == 'Tabular':
                 
-                # .full-page-table {
-                #             width: 90%;
-                #             height: 50vh;
-                #         }
                 
                 html_data = """
                     <style>
@@ -2092,12 +1978,6 @@ class Utility:
 
             if payload['model_metaData']['dataType'] == 'Tabular':
 
-                #706a6a
-                # <h3 class="heading-color heading-margin">ATTACK SUMMARY</h3>
-                # <table class="full-page-table">
-
-                # <p class="text-color">{Utility.dateTimeFormat(payload['reportTime'])}</p>
-
                 html_data = f"""
                     <body>
                         <div class="report-container">
@@ -2182,13 +2062,6 @@ class Utility:
                     return html_data
                     
             elif payload['model_metaData']['dataType'] == 'Image':
-
-                # <p class="remove-margin">Target Output Classes:</p>
-                # <p class="remove-margin text-color">{payload['model_metaData']['targetOutputClasses']}</p>
-                # <p class="remove-margin">Target ColumnNames:</p>
-                # <p class="remove-margin text-color">{payload['model_metaData']['targetColumnNames']}</p>
-
-                # <p class="text-color">{Utility.dateTimeFormat(payload['reportTime'])}</p>
                 
                 html_data = f"""
                     <body>
@@ -2281,9 +2154,7 @@ class Utility:
 
         try:
             if payload['model_metaData']['dataType'] == 'Tabular':
-                
-                # <h3 class="heading-color heading-margin">MITIGATION SUMMARY</h3>
-                # <table class="full-page-table">
+
                 
                 html_data = f"""
                     <body>
@@ -2307,46 +2178,6 @@ class Utility:
                 """
                 
                 return html_data
-            
-                # html_data = f"""
-                #     <div class="attack-summary">
-                #         <h3 class="heading-color heading-margin">MITIGATION SUMMARY</h3>
-                #         <table class="full-page-table">
-                #             <thead>
-                #                 <tr>
-                #                     <th>Attack Type</th>
-                #                     <th>Attack Name</th>
-                #                     <th>Detection Accuracy (XGB Model)</th>
-                #                 </tr>
-                #             </thead>
-                #             <tbody>
-                #                 {payload['mitigation_row']}
-                #             </tbody>
-                #         </table>
-                #     </div>
-
-                #     <div class="attack-summary">
-                #         <h3 class="heading-color heading-margin">DEFENCE MODEL CONFUSION MATRIX</h3>
-                #         <table class='full-page-table'>
-                #             <tr>
-                #                 <th> </th>
-                #                 <th>Attack</th>
-                #                 <th>Not Attack</th>
-                #             </tr>
-                #             <tr>
-                #                 <th>Attack</th>
-                #                 <td>{payload['confusion_matrix'][0][0]}</td>
-                #                 <td>{payload['confusion_matrix'][0][1]}</td>
-                #             </tr>
-                #             <tr>
-                #                 <th>Not Attack</th>
-                #                 <td>{payload['confusion_matrix'][1][0]}</td>
-                #                 <td>{payload['confusion_matrix'][1][1]}</td>
-                #             </tr>
-                #         </table>
-                #     </div>
-                # """
-                # return html_data
             
         except Exception as e:
             if(telemetry_flg == 'True'):
@@ -2593,11 +2424,6 @@ class Utility:
 
             if payload['type'] == 'Tabular':
 
-                # color: rgb(28, 160, 242);
-                # .full-page-table {
-                #         width: 90%;
-                #         height: 50vh;
-                #     }
                 
                 html_data = """
                 <style>
@@ -3204,22 +3030,6 @@ class Utility:
 
             if payload['type'] == 'Tabular':
 
-                # <div class="attack-data">
-                #     <h3 class="heading-color heading-margin">Adversial input used for attack and Adversial output generated</h3>
-                #     <table>
-                #         <thead>
-                #             <tr>
-                #                 <th>Sample Index</th>
-                #                 <th>Expected Value</th>
-                #                 <th>Predicated Value</th>
-                #                 <th>Success</th>
-                #             </tr>
-                #         </thead>
-                #         <tbody>
-                #             {payload['attack_ipop_row']}
-                #         </tbody>
-                #     </table>
-                # </div>
 
                 if payload['column_graph_data']:
                 
@@ -3315,7 +3125,6 @@ class Utility:
                 
                 if payload['graph_html']:
                     
-                    # <h3 class="heading-color heading-margin">Adversial input used for attack and Adversial output generated</h3>
                     html_data = f"""
                         <body>
                             <div class="report-container">
@@ -3359,28 +3168,12 @@ class Utility:
                             </div>
                         </body>
                     """  
-
-                    # <div class="attack-data-table-img">
-                    # <h3 class="heading-color heading-margin">Attack Status</h3>
-                    #     <table>
-                    #         <thead>
-                    #             <tr>
-                    #                 <th>Base Model Name</th>
-                    #                 <th>Actual Labels</th>
-                    #                 <th>Confidence Score</th>
-                    #             </tr>
-                    #         </thead>
-                    #         <tbody>
-                    #             {payload['attack_status_row']}
-                    #         </tbody>
-                    #     </table>
-                    # </div>       
+      
                     
                     return html_data
                 
                 else:
 
-                    # <h3 class="heading-color heading-margin">Adversial input used for attack and Adversial output generated</h3> 
                     html_data = f"""
                         <body>
                             <div class="report-container">
@@ -3434,10 +3227,6 @@ class Utility:
             option = {
                 'page-size':'A4',
                 'orientation':'Portrait',
-                # 'margin-top':'0.75in',
-                # 'margin-right':'0.75in',
-                # 'margin-bottom':'0.75in',
-                # 'margin-left':'0.75in',
                 'encoding':'UTF-8',
                 'no-outline':None,
                 'footer-center':'Page [page] of [toPage]',
@@ -3446,7 +3235,6 @@ class Utility:
 
             # create watermark.pdf file
             watermark_path = os.path.join(payload['folder_path'], 'watermark.pdf')
-            # txt = 'Infosys'
             txt = ''
             c = canvas.Canvas(watermark_path, pagesize=letter)
             c.setFont('Helvetica', 50)
@@ -3498,7 +3286,6 @@ class Utility:
                     # load model file
                     model_file = os.path.join(payload['folder_path'], filename)
                     with open(model_file, 'rb') as file:
-                        # load_model = pickle.load(file)
                         load_model = Utility.safe_load_from_file(file)
 
                     # reading attack dataset 
@@ -3512,7 +3299,6 @@ class Utility:
                     Y = df["Attack"]
                     y_pred = load_model.predict(X)
                     model_accuracy = accuracy_score(Y, y_pred)
-                    # print('model_accuracy',model_accuracy)
 
                     del df,X,Y,y_pred
                     return model_accuracy
@@ -3538,7 +3324,6 @@ class Utility:
                     # load model file
                     model_file = os.path.join(payload['folder_path'], filename)
                     with open(model_file, 'rb') as file:
-                        # load_model = pickle.load(file)
                         load_model = Utility.safe_load_from_file(file)
 
             y_pred_combined_list = []
@@ -3547,8 +3332,6 @@ class Utility:
                 if filename.endswith('.csv'):
                     csv_path = os.path.join(payload['folder_path'], filename)
                     df = pd.read_csv(csv_path)
-                    # df = df[df[df.columns[-1]] == True]
-                    # print(filename,':-',df.shape)
                     Y = df[Output_column].values
                     df.drop(columns=df.columns[-3:], axis=1, inplace=True)
                     X = df.iloc[:, :]
@@ -3559,10 +3342,6 @@ class Utility:
             Y_actual_combined = np.concatenate([np.array(sublist) for sublist in Y_actual_combined_list], axis=0)  
 
             tn, fp, fn, tp = confusion_matrix(Y_actual_combined, y_pred_combined).ravel()   
-            # print('true negative',tn)
-            # print('true positive',tp)
-            # print('false negative',fn)
-            # print('false positive',fp)   
 
             del y_pred_combined_list,Y_actual_combined_list,y_pred_combined,Y_actual_combined
             return [tn, fp, fn, tp]   
@@ -3588,7 +3367,6 @@ class Utility:
                         col = df[df[df.columns[-1]] == True][df.columns[-1]].value_counts().tolist()
                         if len(col) > 0:
                             value = (col[0] / df.shape[0]) * 100
-                            # score = Utility.generateDefenceAccuracy({'modelName':payload['modelName'], 'csv_path':csv_path, 'folder_path':payload['folder_path']})
                             score = payload['attack_accuracy_dict'][filename]
                             statusList.append({filename.split('.')[0]:value})
                             defenceList.append({filename.split('.')[0]:(score*100)})
@@ -3605,8 +3383,6 @@ class Utility:
             elif payload['meta_data']['dataType'] == 'Image':
 
                 statusList = []
-
-                # print('attackList:---', payload['attackList'])
                 for attackName in payload['attackList']:
                     count = 0
                     equal = 0
@@ -3619,13 +3395,7 @@ class Utility:
                                     equal += 1
                                 elif filename.split('.')[0].split('^')[1][-1] == 'F':
                                     unequal += 1
-                    # print(attackName,equal, count)
                     statusList.append({attackName:(equal/count)*100})
-                    # defenceList.append({attackName:0.0})
-
-                # print('statusList:---', statusList)
-                # print('defenceList:---', defenceList)
-                # return statusList,defenceList
                 del count,equal,unequal
                 return statusList
             
@@ -3672,19 +3442,11 @@ class Utility:
                         d['accuracy'] = val2
                         d['type'] = attack_type
                         attack_list_dict.append(d)
-                    # else:
-                    #     d['name'] = payload['total_attacks'][i]
-                    #     d['selectedAttack'] = '<i class="fail-icon">X</i>'
-                    #     d['status'] = "-"
-                    #     attack_list_dict.append(d)
 
                 # sort this list base on Attack Type key
                 attack_list_dict = sorted(attack_list_dict, key=lambda x: x['type'])
 
                 # take all these attacks base on sorting with type key
-                # attack_list = []
-                # for k in attack_list_dict:
-                #     attack_list.append(k['name'])
                 attack_list = [{k:v for k,v in d.items() if k in ['name', 'type']} for d in attack_list_dict]
 
                 # now all the rows write in html format
@@ -3734,7 +3496,6 @@ class Utility:
 
                 # get status message of all selected attackList
                 keys_list = [key for dictionary in payload['statusList'] for key in dictionary.keys()]
-                # print('keys_list',keys_list)
 
                 # all applicable attack arrange in list of dictionary
                 attack_list_dict = []
@@ -3760,20 +3521,11 @@ class Utility:
                         d['status'] = val1
                         d['type'] = attack_type
                         attack_list_dict.append(d)
-                    # else:
-                    #     d['name'] = payload['total_attacks'][i]
-                    #     d['selectedAttack'] = '<i class="fail-icon">X</i>'
-                    #     d['status'] = "-"
-                    #     attack_list_dict.append(d)
 
                 # sort this list base on Attack Type key
                 attack_list_dict = sorted(attack_list_dict, key=lambda x: x['type'])
-                # print('attack_list_dict',attack_list_dict)
 
                 # take all these attacks base on sorting with type key
-                # attack_list = []
-                # for k in attack_list_dict:
-                #     attack_list.append(k['name'])
                 attack_list = [{k:v for k,v in d.items() if k in ['name', 'type']} for d in attack_list_dict]
 
                 # now all the rows write in html format
@@ -3822,54 +3574,23 @@ class Utility:
             origional_evasion_path:any
             origional_inference_path:any
             folders = list(set(d['type'] for d in payload['attack_list']))
-            # print(payload['attack_list'])
-            # print(folders)
             for folder in folders:
                 if folder == 'Evasion':
                     evasion_path = os.path.join(payload['report_path'],'Art',folder)
-                    # print('origional_evasion_path',evasion_path)
-                    # if not os.path.exists(evasion_path):
-                    #     os.mkdir(evasion_path)
                     if not os.path.exists(evasion_path):
                         os.makedirs(evasion_path, exist_ok=True)
                     origional_evasion_path = evasion_path
                 elif folder == 'Inference':
                     inference_path = os.path.join(payload['report_path'],'Art',folder)
-                    # print('origional_inference_path',inference_path)
-                    # if not os.path.exists(inference_path):
-                    #     os.mkdir(inference_path)
                     if not os.path.exists(inference_path):
                         os.makedirs(inference_path, exist_ok=True)
                     origional_inference_path = inference_path
                 elif folder == 'Augmentation':
                     augly_path = os.path.join(payload['report_path'],'Augly',folder)
-                    # print('origional_augly_path',augly_path)
-                    # if not os.path.exists(inference_path):
-                    #     os.mkdir(inference_path)
                     if not os.path.exists(augly_path):
                         os.makedirs(augly_path, exist_ok=True)
                     origional_augly_path = augly_path
 
-            # folders = list(set(d['name'] for d in payload['attack_list']))
-            # for folder in folders:
-            #     if folder in Utility.ArtAttackTypes['Evasion']:
-            #         evasion_path = os.path.join(evasion_path,folder)
-            #         if not os.path.exists(evasion_path):
-            #             os.mkdir(evasion_path)
-            #     elif folder in Utility.ArtAttackTypes['Inference']:
-            #         inference_path = os.path.join(inference_path,folder)
-            #         if not os.path.exists(inference_path):
-            #             os.mkdir(inference_path)
-
-            # if evasion_path:
-            #     origional_evasion_path = evasion_path
-            # else:
-            #     evasion_path = ''
-
-            # if inference_path:
-            #     origional_inference_path = inference_path
-            # else:
-            #     inference_path = ''
             
             for filename in os.listdir(payload['report_path']):
                 filename = Utility.sanitize_filenameorfoldername(filename)
@@ -3894,70 +3615,31 @@ class Utility:
                     Utility.databaseDelete(csv_file_path)
                 elif any(filename.endswith(ext) for ext in ['.jpg', '.jpeg', '.png', '.gif']):
                     png_file_path = os.path.join(payload['report_path'], filename)
-                    # print(filename.split('.')[0].split('^')[1][:-1])
                     if filename.split('.')[0].split('^')[1] in Utility.AttackTypes['Art']['Evasion']:
                         new_folder = os.path.join(evasion_path,filename.split('.')[0].split('^')[1])
                         if not os.path.exists(new_folder):
                             os.mkdir(new_folder)
                         with open(png_file_path, 'rb') as png_file:
-                            # content = png_file.read()
-                            # with open(os.path.join(new_folder, filename), 'wb') as f:
                             with open(os.path.join(new_folder, f"{filename.split('.')[0].split('^')[0]}.{filename.split('.')[1]}"), 'wb') as f:
                                 shutil.copyfileobj(png_file, f)
-                                # f.write(content) 
                         evasion_path = origional_evasion_path
                     elif filename.split('.')[0].split('^')[1] in Utility.AttackTypes['Art']['Inference']:
                         new_folder = os.path.join(inference_path,filename.split('.')[0].split('^')[1])
                         if not os.path.exists(new_folder):
                             os.mkdir(new_folder)
                         with open(png_file_path, 'rb') as png_file:
-                            # content = png_file.read()
-                            # with open(os.path.join(new_folder, filename), 'wb') as f:
                             with open(os.path.join(new_folder, f"{filename.split('.')[0].split('^')[0]}.{filename.split('.')[1]}"), 'wb') as f:
                                 shutil.copyfileobj(png_file, f)
-                                # f.write(content) 
                         inference_path = origional_inference_path
                     elif filename.split('.')[0].split('^')[1] in Utility.AttackTypes['Augly']['Augmentation']:
                         new_folder = os.path.join(augly_path,filename.split('.')[0].split('^')[1])
                         if not os.path.exists(new_folder):
                             os.mkdir(new_folder)
                         with open(png_file_path, 'rb') as png_file:
-                            # content = png_file.read()
-                            # with open(os.path.join(new_folder, filename), 'wb') as f:
                             with open(os.path.join(new_folder, f"{filename.split('.')[0].split('^')[0]}.{filename.split('.')[1]}"), 'wb') as f:
                                 shutil.copyfileobj(png_file, f)
-                                # f.write(content) 
                         augly_path = origional_augly_path
                     Utility.databaseDelete(png_file_path)
-                # elif filename.endswith('.png'):
-                #     png_file_path = os.path.join(payload['report_path'], filename)
-                #     if filename.split('.')[0] in Utility.ArtAttackTypes['Evasion']:
-                #         with open(png_file_path, 'r', encoding='utf-8', errors='replace') as png_file:
-                #             # content = png_file.read()
-                #             with open(os.path.join(evasion_path, filename), 'w', encoding='utf-8') as f:
-                #                 shutil.copyfileobj(png_file, f)
-                #                 # f.write(content) 
-                #     elif filename.split('.')[0] in Utility.ArtAttackTypes['Inference']:
-                #         with open(png_file_path, 'r', encoding='utf-8', errors='replace') as png_file:
-                #             # content = png_file.read()
-                #             with open(os.path.join(inference_path, filename), 'w', encoding='utf-8') as f:
-                #                 shutil.copyfileobj(png_file, f)
-                #                 # f.write(content) 
-                #     Utility.databaseDelete(png_file_path)
-                # elif filename.endswith('.png'):
-                #     png_file_path = os.path.join(payload['report_path'], filename)
-                #     with open(png_file_path, 'r') as png_file:
-                #         result = chardet.detect(png_file.read())
-                #         encoding = result['encoding']
-                #     if filename.split('.')[0] in Utility.ArtAttackTypes['Evasion']:
-                #         with codecs.open(png_file_path, 'r', encoding=encoding, errors='ignore') as png_file:
-                #             with codecs.open(os.path.join(evasion_path, filename), 'w', encoding='utf-8') as f:
-                #                 shutil.copyfileobj(png_file, f)
-                #     elif filename.split('.')[0] in Utility.ArtAttackTypes['Inference']:
-                #         with codecs.open(png_file_path, 'r', encoding=encoding, errors='ignore') as png_file:
-                #             with codecs.open(os.path.join(inference_path, filename), 'w', encoding='utf-8') as f:
-                #                 shutil.copyfileobj(png_file, f)
-                #     Utility.databaseDelete(png_file_path)
         except Exception as e:
             if(telemetry_flg == 'True'):
                 with con.ThreadPoolExecutor() as executor:
@@ -4035,40 +3717,18 @@ class Utility:
                 if len(comparasion_counts) > 1:
                     comparasion_counts = {'Successful': comparasion_counts['Successful'], 
                                         'Unsuccessful':comparasion_counts['Unsuccessful']}
-                    # # plt.pie(list(comparasion_counts.values()), labels=list(comparasion_counts.keys()), 
-                    # #         colors=['#bf1029','#056517'], explode=(0.1,0), autopct='%1.1f%%', startangle=90)
-                    # plt.pie(list(comparasion_counts.values()), labels=list(comparasion_counts.keys()), 
-                    #         colors=['#1ca0f2','#05050F'], explode=(0.1,0), autopct='%1.1f%%', startangle=90)
                     plt.pie(list(comparasion_counts.values()), labels=list(comparasion_counts.keys()), 
                             colors=['#1ca0f2','#05050F'], explode=(0.1,0), startangle=90, autopct=lambda pct: "{:1.1f}%".format(pct), 
                             textprops={'color': '#FFFFFF','size': '20'})
                 else:
                     if 'Unsuccessful' in comparasion_counts and 'Successful' not in comparasion_counts:
-                        # # plt.pie(list(comparasion_counts.values()), labels=list(comparasion_counts.keys()), 
-                        # #     colors=['#056517'], startangle=90)
-                        # plt.pie(list(comparasion_counts.values()), labels=list(comparasion_counts.keys()), 
-                        #     colors=['#05050F'], startangle=90)
                         plt.pie(list(comparasion_counts.values()), labels=list(comparasion_counts.keys()), 
                             colors=['#05050F'], startangle=90, autopct=lambda pct: "{:1.1f}%".format(pct), 
                             textprops={'color': '#FFFFFF','size': '20'})
                     elif 'Successful' in comparasion_counts and 'Unsuccessful' not in comparasion_counts:
-                        # # plt.pie(list(comparasion_counts.values()), labels=list(comparasion_counts.keys()), 
-                        # #     colors=['#bf1029'], startangle=90)
-                        # plt.pie(list(comparasion_counts.values()), labels=list(comparasion_counts.keys()), 
-                        #     colors=['#1ca0f2'], startangle=90)
                         plt.pie(list(comparasion_counts.values()), labels=list(comparasion_counts.keys()), 
                             colors=['#1ca0f2'], startangle=90, autopct=lambda pct: "{:1.1f}%".format(pct), 
                             textprops={'color': '#FFFFFF','size': '20'})
-                # cols = comparasion_counts.index.to_list()
-                # plt.figure(figsize=(8,6))
-                # # plt.bar(comparasion_counts.index, comparasion_counts.values, label=['True','False'])
-                # if len(cols) > 1:
-                #     plt.pie(comparasion_counts.values, labels=['Unsuccessfull Data','Successfull Data'], colors=['#056517','#bf1029'], explode=(0.1,0), autopct='%1.1f%%', startangle=90)
-                # else:
-                #     if cols[0] == 'Successfull Data':
-                #         plt.pie(comparasion_counts.values, labels=['Successfull Data'], colors=['#bf1029'], autopct='%1.1f%%', startangle=90)
-                #     else:
-                #         plt.pie(comparasion_counts.values, labels=['Unsuccessfull Data'], colors=['#056517'], autopct='%1.1f%%', startangle=90)
                 plt.legend(loc='center right', bbox_to_anchor=(1.2, 0.9), prop={'size': 16}, markerscale=0)
                 plt.grid(True)
                 plt.savefig(graph_path)
@@ -4094,56 +3754,10 @@ class Utility:
 
                         graph_path = os.path.join(payload['folder_path'], 'graph.png')
 
-                        # if payload['basePrediction_class'] == payload['adversialPrediction_class']:
-                        #     plt.pie([100], labels=['UnSuccessfull Data'], colors=['#05050F'], startangle=90, 
-                        #             autopct=lambda pct: "{:1.1f}%".format(pct), textprops={'color': '#FFFFFF'})
-                        # else:
-                        #     plt.pie([100], labels=['Successfull Data'], colors=['#1ca0f2'], startangle=90, 
-                        #             autopct=lambda pct: "{:1.1f}%".format(pct), textprops={'color': '#FFFFFF'})    
-                        # plt.legend(loc='center right', bbox_to_anchor=(1.2, 0.9))
-                        # plt.grid(True)
-                        # plt.savefig(graph_path)
-                        # plt.close()
 
 
 
                         #---------------------------------------------------------------------
-
-                        # # def break_word(word, max_length=15):
-                        # #     lines = []
-                        # #     while len(word) > max_length:
-                        # #         lines.append(word[:max_length])
-                        # #         word = word[max_length:]
-                        # #     if word:
-                        # #         lines.append(word)
-                        # #     return '\n'.join(lines)
-
-                        # def break_word(word):
-                        #     max_length=len(word)
-                        #     parts = word.split('-')
-                        #     lines = []
-                        #     for part in parts:
-                        #         while len(part) > max_length:
-                        #             lines.append(part[:max_length])
-                        #             part = part[max_length:]
-                        #         if part:
-                        #             lines.append(part)
-                        #     return '\n'.join(lines)
-                        
-                        # composite_image = np.concatenate((payload['attackDataList'][keys][1][0], np.ones((payload['attackDataList'][keys][1].shape[1], 10, 3)), payload['attackDataList'][keys][2][0]), axis=1)
-                        # # fig, ax = plt.subplots(figsize=(14, 6))
-                        # fig, ax = plt.subplots(figsize=(80, 50))
-                        # ax.imshow(composite_image)
-                        # ax.axis('off')
-                        # # ax.text(0.25, -0.1, f"{keys.split('.')[0]}-{payload['attackDataList'][keys][3]}", transform=ax.transAxes, ha='center', fontsize=32, weight='bold')
-                        # # ax.text(0.75, -0.1, f"{keys.split('.')[0]}-{payload['attackDataList'][keys][4]}", transform=ax.transAxes, ha='center', fontsize=32, weight='bold')
-                        # ax.text(0.25, -0.2, break_word(f"{keys.split('.')[0]}-{payload['attackDataList'][keys][3]}"), transform=ax.transAxes, ha='center', fontsize=150, weight='bold')
-                        # ax.text(0.75, -0.2, break_word(f"{keys.split('.')[0]}-{payload['attackDataList'][keys][4]}"), transform=ax.transAxes, ha='center', fontsize=150, weight='bold')
-                        # ax.text(0.25, -0.28, "(Expected Value)", transform=ax.transAxes, ha='center', fontsize=130, weight='bold')
-                        # ax.text(0.75, -0.28, "(Predicted Value)", transform=ax.transAxes, ha='center', fontsize=130, weight='bold')
-                        # ax.set_title('     Original Image                  Adversarial Image', loc='center', fontsize=150, weight='bold')
-                        # plt.savefig(graph_path)
-                        # plt.close()
 
                         #---------------------------------------------------------------------
 
@@ -4160,20 +3774,9 @@ class Utility:
                             return '\n'.join(lines)
                         
                         composite_image = np.concatenate((payload['attackDataList'][keys][1][0], np.ones((payload['attackDataList'][keys][1].shape[1], 10, 3)), payload['attackDataList'][keys][2][0]), axis=1)
-                        # fig, ax = plt.subplots(figsize=(14, 6))
                         fig, ax = plt.subplots(figsize=(80, 50))
                         ax.imshow(composite_image)
                         ax.axis('off')
-                        # # ax.text(0.25, -0.1, f"{keys.split('.')[0]}-{payload['attackDataList'][keys][3]}", transform=ax.transAxes, ha='center', fontsize=32, weight='bold')
-                        # # ax.text(0.75, -0.1, f"{keys.split('.')[0]}-{payload['attackDataList'][keys][4]}", transform=ax.transAxes, ha='center', fontsize=32, weight='bold')
-                        # ax.text(0.25, -0.1, break_word(f"{payload['attackDataList'][keys][3]}"), transform=ax.transAxes, ha='center', fontsize=180, weight='bold')
-                        # ax.text(0.75, -0.1, break_word(f"{payload['attackDataList'][keys][4]}"), transform=ax.transAxes, ha='center', fontsize=180, weight='bold')
-                        # ax.text(0.25, -0.19, "(Predicted Value)", transform=ax.transAxes, ha='center', fontsize=160, weight='bold') # -0.18
-                        # ax.text(0.75, -0.19, "(Predicted Value)", transform=ax.transAxes, ha='center', fontsize=160, weight='bold') # -0.18
-                        # ax.text(0.25, -0.26, "(Original Image)", transform=ax.transAxes, ha='center', fontsize=140, weight='bold') # -0.25
-                        # ax.text(0.75, -0.26, "(Adversarial Image)", transform=ax.transAxes, ha='center', fontsize=140, weight='bold') # -0.25
-                        # # ax.text(0.25, -0.25, "(Original Prediction)", transform=ax.transAxes, ha='center', fontsize=140, weight='bold')
-                        # # ax.text(0.75, -0.25, "(Adversarial Prediction)", transform=ax.transAxes, ha='center', fontsize=140, weight='bold')
                         ax.text(0.25, -0.07, "Original Image", transform=ax.transAxes, ha='center', fontsize=140, weight='bold') # -0.25
                         ax.text(0.75, -0.07, "Adversarial Image", transform=ax.transAxes, ha='center', fontsize=140, weight='bold') # -0.25
                         ax.text(0.25, -0.20, break_word(f"{payload['attackDataList'][keys][3]}"), transform=ax.transAxes, ha='center', fontsize=180, weight='bold')
@@ -4225,7 +3828,6 @@ class Utility:
                     adversarial_df = adversarial_df.iloc[:, :-3]
 
                     # bar graph for most attack column 
-                    # exact_val = np.sqrt(np.mean((original_df - adversarial_df) ** 2, axis=0)) # RMSE
                     exact_val = np.mean(np.abs(original_df - adversarial_df), axis=0) # MAE
                     top_cols_indices = np.argsort(exact_val)[::-1][:5]
                     top_cols = adversarial_df.columns[top_cols_indices]
@@ -4243,12 +3845,10 @@ class Utility:
                             plt.text(i, value, f"{value:.2g}", ha='center', va='bottom') # f"{value:.2g}", f"{value:.2f}"
 
                         plt.xlabel('Column Name')
-                        # plt.ylabel('Root Mean Square Error (RMSE)')
                         plt.ylabel('Mean Absolute Value (Benign and Adversarial)')
                         plt.title('Top 5 Attacked Columns')
                         plt.xticks(rotation=45, ha='right')
                         plt.tight_layout()
-                        # plt.show()
                         plt.savefig(graph_path)
                         plt.close()
                     
@@ -4298,12 +3898,10 @@ class Utility:
                             
                     df_size.append(count)
                     data.append((attackName,unequal,equal))
-                # print('dataList:---', data)
                 result_df = pd.DataFrame(data, columns=['','Unsuccessful','Successful'])
                 result_df.set_index('')[['Unsuccessful','Successful']].plot(kind='bar', 
                                         stacked=True, figsize=(12,8), color=['#05050F','#1ca0f2']) # ['#05050F','#1ca0f2'] | ['#056517','#bf1029']
                 
-                # plt.title('Evasion Attack Robustness', color='white', bbox=dict(facecolor='darkorchid'))
                 plt.ylabel('Adversial Sample Size')
                 plt.xlabel('Attack Name')
                 plt.legend(title='Status', bbox_to_anchor=(1.05,1), loc='upper left')
@@ -4323,7 +3921,6 @@ class Utility:
                     base64_img = base64.b64encode(img_data).decode('utf-8')
 
                 graph_html = Utility.htmlContent({'modelName':payload['modelName'], 'model_metaData':payload['model_metaData'], 'reportTime':payload['reportTime'], 'success_skipped':payload['success_skipped'], 'rows':payload['rows'], 'graph':base64_img})
-                # graph_html = Utility.htmlContent({'modelName':payload['modelName'], 'model_metaData':payload['model_metaData'], 'reportTime':payload['reportTime'], 'success_skipped':payload['success_skipped'], 'rows':payload['rows'], 'graph':base64_img})
                 os.remove(graph_path)
 
                 # add appendix part in html
@@ -4363,11 +3960,8 @@ class Utility:
                                     data.append((filename.split('.')[0],unequal,equal))
                 
                 result_df = pd.DataFrame(data, columns=['','Unsuccessful','Successful'])
-                # result_df.set_index('')[['Unsuccessful','Successful']].plot(kind='bar', 
-                #                                     stacked=True, figsize=(12,8), color=['#056517','#bf1029'])
                 result_df.set_index('')[['Unsuccessful','Successful']].plot(kind='bar', 
                                                     stacked=True, figsize=(12,8), color=['#05050F','#1ca0f2'])
-                # plt.title('Evasion Attack Robustness', color='white', bbox=dict(facecolor='darkorchid'))
                 plt.ylabel('Adversial Sample Size')
                 plt.xlabel('Attack Name')
                 plt.legend(title='Status', bbox_to_anchor=(1.05,1), loc='upper left')
@@ -4408,7 +4002,6 @@ class Utility:
                 sns.heatmap(report_df.iloc[:,:], annot=True, fmt='.2f', cmap='Blues', ax=ax2, 
                             xticklabels=report_df.columns, yticklabels=report_df.index[:], 
                             )
-                # ax2.set_ylabel('Label', fontsize=13)
                 ax2.set_title('Classification Report', fontsize=14, pad=20) # fontweight='bold'
                 ax2.xaxis.set_label_position('top') 
                 ax2.set_xlabel('Metric', fontsize=13)
@@ -4515,7 +4108,6 @@ class Utility:
                     base64_img = base64.b64encode(img_data).decode('utf-8')
 
                 graph_html = Utility.htmlContent({'modelName':payload['modelName'], 'model_metaData':payload['model_metaData'], 'reportTime':payload['reportTime'], 'success_skipped':payload['success_skipped'], 'rows':payload['rows'], 'graph':base64_img})
-                # graph_html = Utility.htmlContent({'modelName':payload['modelName'], 'model_metaData':payload['model_metaData'], 'reportTime':payload['reportTime'], 'success_skipped':payload['success_skipped'], 'rows':payload['rows'], 'graph':base64_img})
                 os.remove(graph_path)
 
                 # add appendix part in html
@@ -4616,7 +4208,6 @@ class Utility:
                 sns.heatmap(report_df.iloc[:,:], annot=True, fmt='.2f', cmap='Blues', ax=ax2, 
                             xticklabels=report_df.columns, yticklabels=report_df.index[:], 
                             )
-                # ax2.set_ylabel('Label', fontsize=13)
                 ax2.set_title('Classification Report', fontsize=14, pad=20) # fontweight='bold'
                 ax2.xaxis.set_label_position('top') 
                 ax2.set_xlabel('Metric', fontsize=13)
@@ -4686,22 +4277,6 @@ class Utility:
         return prediction
     
 
-    def createArtEstimator(payload):
-        try:
-            sklearn_api_estimator = SklearnAPIClassifier(api=payload['modelEndPoint'],
-                                    nb_classes = payload['nb_classes'],
-                                    input_shape = payload['input_shape'],
-                                    api_data_variable = payload['api_data_variable'],
-                                    api_response_variable = payload['api_response_variable']
-                                )
-            
-            # return 'sklearn_api_estimator'
-            return sklearn_api_estimator
-        except Exception as e:
-            if(telemetry_flg == 'True'):
-                with con.ThreadPoolExecutor() as executor:
-                    executor.submit(log.log_error_to_telemetry, "createArtEstimator", e, apiEndPoint, errorRequestMethod)
-
     
     def generateImage(payload):
 
@@ -4724,8 +4299,6 @@ class Utility:
             img_path = os.path.join(payload['report_path'], f"{payload['attackName']}.png")
             plt.savefig(img_path)
 
-            # Show the plot
-            # plt.show()
             plt.close()
 
             del composite_image

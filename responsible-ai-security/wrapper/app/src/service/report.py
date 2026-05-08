@@ -1,12 +1,14 @@
 '''
-MIT license https://opensource.org/licenses/MIT
-Copyright 2024-2025 Infosys Ltd.
- 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 '''
 
 
@@ -56,23 +58,9 @@ class Report:
                 return foldername
             os.mkdir(report_path)
 
-            # Update the payload['attackDataList'] where labels are same
-            # labels_data_key_list = []
-            # for dataList in payload['attackDataList']:
-            #     if payload['attackDataList'][dataList][3] == payload['attackDataList'][dataList][4]:
-            #         labels_data_key_list.append(dataList)
-            # print('keys:--', labels_data_key_list)
-            # print('Before Dict:--', len(payload['attackDataList']))
-            # for key in list(payload['attackDataList']):
-            #     if key in labels_data_key_list:
-            #         del payload['attackDataList'][key]
-            # print('After Dict:--', len(payload['attackDataList']))
-
-
             attack_status_row = ""
             for dataList in payload['attackDataList']:
                 field_names = [f'Base Model Name','Actual Labels','Confidence Score']
-                # attack_status_dict={f'Base Model Name':payload["modelName"],'Actual Labels':payload['basePrediction_class'],'Confidence Score':payload['baseActual_confidence']}
                 attack_status_dict={f'Base Model Name':payload["modelName"],'Actual Labels':payload['attackDataList'][dataList][3],'Confidence Score':payload['attackDataList'][dataList][5]}
                 row = f"""
                     <tr>
@@ -96,60 +84,22 @@ class Report:
                 attack_status_row += row
 
 
-            # attack_ipop_row = ""
-            # for dataList in payload['attackDataList']:
-            #     field_names = [f'Image Name', 'Actual Labels', 'Final Labels','Confidence Score', 'Success']
-            #     val:any
-            #     # if payload['basePrediction_class'] == payload['adversialPrediction_class']:
-            #     if payload['attackDataList'][dataList][3] == payload['attackDataList'][dataList][4]:
-            #         val = 'False'
-            #     else:
-            #         val = 'True'
-            #         # attack_data_dict = {f'Image Name':payload["imageName"], 'Actual Labels':payload['basePrediction_class'], 'Final Labels':payload['adversialPrediction_class'], 'Confidence Score':payload['adversialActual_confidence'], 'Success':val}
-            #     attack_data_dict = {f'Image Name':payload['attackDataList'][dataList][0].split('_')[0], 'Actual Labels':payload['attackDataList'][dataList][3], 'Final Labels':payload['attackDataList'][dataList][4], 'Confidence Score':payload['attackDataList'][dataList][6], 'Success':val}
-            #     row = f"""
-            #         <tr>
-            #             <td>{attack_data_dict['Image Name']}</td>
-            #             <td>{attack_data_dict['Actual Labels']}</td>
-            #             <td>{attack_data_dict['Final Labels']}</td>
-            #             <td>{attack_data_dict['Confidence Score']:.4f}</td>
-            #             <td>{attack_data_dict['Success']}</td>
-            #         </tr>
-            #     """
-            #     attack_ipop_row += row
-
-            # items = [(key, value[6]) for key, value in payload['attackDataList'].items() if value[3] != value[4]]
-            # sorted_items = sorted(items, key=lambda x: x[1], reverse=True)
-            # top_keys = [item[0] for item in sorted_items]
-            # print(top_keys)
-            # new_sort_dict = {keys: payload['attackDataList'][keys] for keys in top_keys if keys in payload['attackDataList']}
-            # payload['attackDataList'] = new_sort_dict
-
             items_not_equal = [(key, value) for key, value in payload['attackDataList'].items() if value[3] != value[4]]
             sorted_items_not_equal = sorted(items_not_equal, key=lambda x: x[1][6], reverse=True)
             top_keys = [item[0] for item in sorted_items_not_equal]
-            # print(top_keys)
             sorted_dict = {key: value for key, value in sorted_items_not_equal}
             items_equal = [(key, value) for key, value in payload['attackDataList'].items() if value[3] == value[4]]
             sorted_dict.update({key: value for key, value in items_equal})
             payload['attackDataList'] = sorted_dict
 
-            # file_path = Path.home() / 'Downloads' / payload['modelName']
-            # file_path = os.path.join(Path.home(), 'Downloads', payload['modelName'])
-            # <td><a href='./Evasion/{payload['attackName']}/{payload['attackDataList'][dataList][0].split('_')[0]}.{dataList.split('.')[1]}'>{attack_data_dict['Image Name']}</a></td>
-            # <td><a href='{file_path}'>{attack_data_dict['Image Name']}</a></td>
-            # <td><a href='./Inference/{payload['attackName']}/{payload['attackDataList'][dataList][0].split('_')[0]}.{dataList.split('.')[1]}'>{attack_data_dict['Image Name']}</a></td>
-            # <td><a href='{file_path}'>{attack_data_dict['Image Name']}</a></td>
             attack_ipop_row = ""
             for dataList in payload['attackDataList']:
                 field_names = [f'Image Name', 'Actual Labels', 'Final Labels','Confidence Score', 'Success']
                 val:any
-                # if payload['basePrediction_class'] == payload['adversialPrediction_class']:
                 if payload['attackDataList'][dataList][3] == payload['attackDataList'][dataList][4]:
                     val = 'False'
                 else:
                     val = 'True'
-                    # attack_data_dict = {f'Image Name':payload["imageName"], 'Actual Labels':payload['basePrediction_class'], 'Final Labels':payload['adversialPrediction_class'], 'Confidence Score':payload['adversialActual_confidence'], 'Success':val}
                 attack_data_dict = {f'Image Name':payload['attackDataList'][dataList][0].split('^')[0], 'Actual Labels':payload['attackDataList'][dataList][3], 'Final Labels':payload['attackDataList'][dataList][4], 'Confidence Score':payload['attackDataList'][dataList][6], 'Success':val}
                 if payload['attackDataList'][dataList][0].split('^')[1] in UT.AttackTypes['Art']['Evasion']:
                     file_path = str(Path.home() / 'Downloads' / payload['modelName'] / 'Evasion' / f"{payload['attackName']}" / f"{payload['attackDataList'][dataList][0].split('^')[0]}.{dataList.split('.')[1]}").replace('\\', '/')
@@ -191,58 +141,24 @@ class Report:
 
 
             # Generating Attack Samples
-            # UT.generateImage({'base_sample':payload['base_sample'],'adversial_sample':payload['adversial_sample'],'attackName':payload['attackName'],'report_path':report_path})
             for dataList in payload['attackDataList']:
                 img_path:any
-                # if val == 'False':
                 if payload['attackDataList'][dataList][3] == payload['attackDataList'][dataList][4]:
-                    # img_path = os.path.join(report_path, f"{payload['imageName']+'F'}.jpeg")
                     img_path = os.path.join(report_path, f"{payload['attackDataList'][dataList][0]+'F'}.{dataList.split('.')[1]}")
                 else:
-                    # img_path = os.path.join(report_path, f"{payload['imageName']+'T'}.jpeg")
                     img_path = os.path.join(report_path, f"{payload['attackDataList'][dataList][0]+'T'}.{dataList.split('.')[1]}")
-                # plt.imshow(payload['adversial_sample'][0])
                 plt.imshow(payload['attackDataList'][dataList][2][0])
                 plt.axis('off')
                 plt.title('Adversarial Sample')
                 plt.savefig(img_path)
                 plt.close()
-            # img_path = os.path.join(report_path, f"{payload['imageName']}.jpeg")
-            # plt.imshow(payload['adversial_sample'][0])
-            # plt.axis('off')
-            # plt.title('Adversarial Sample')
-            # plt.savefig(img_path)
-            # plt.close()
-
-
-            # Take those key whose confidence score is greater
-            # max_index2_value = 0
-            # max_key = None
-            # for key, value in payload['attackDataList'].items():
-            #     if value[3] != value[4]:
-            #         if value[6] > max_index2_value:
-            #             max_index2_value = value[6]
-            #             max_key = key
-            
-            # items = [(key, value[6]) for key, value in payload['attackDataList'].items() if value[3] != value[4]]
-            # sorted_items = sorted(items, key=lambda x: x[1], reverse=True)
-            # top_keys = [item[0] for item in sorted_items]
-            
-            # generating graph for particular attack
-            # graph_html = UT.graphForAttack({'folder_path':report_path, 'attackName':payload["attackName"], 'basePrediction_class':payload['basePrediction_class'], 'adversialPrediction_class':payload['adversialPrediction_class'], 'type':'Image'})
-            # graph_html = UT.graphForAttack({'folder_path':report_path, 'attackName':payload["attackName"], 'x_art':payload['attackDataList'][max_key][1], 'x_art_adv':payload['attackDataList'][max_key][2], 'originalImageName':f"{max_key.split('.')[0]}-{payload['attackDataList'][max_key][3]}", 'adversialImageName':f"{max_key.split('.')[0]}-{payload['attackDataList'][max_key][4]}", 'type':'Image'})
             graph_html = UT.graphForAttack({'folder_path':report_path, 'attackName':payload["attackName"], 'attackDataList':payload['attackDataList'], 'top_keys':top_keys, 'type':'Image'})
-            # graph_html = ""
-
-            # Call htmlContentReport
-            # html_data = UT.htmlContentReport({'attackName':payload["attackName"],'graph_html':graph_html,'attack_status_row':attack_status_row,'attack_ipop_row':attack_ipop_row, 'type':'Image'})
             html_data = UT.htmlContentReport({'attackName':payload["attackName"],'graph_html':graph_html,'attack_ipop_row':attack_ipop_row, 'type':'Image'})
             
             with open(os.path.join(report_path,f"report.html"),"w") as file:
                 file.writelines(UT.htmlCssContentReport({'type':'Image'}))
                 file.writelines(html_data)
 
-            # UT.htmlToPdfWithWatermark({'folder_path':report_path})
 
             shutil.make_archive(report_path,'zip',report_path)
             UT.updateCurrentID()
@@ -296,7 +212,6 @@ class Report:
                     write.writerows(payload['adversial_sample'])
 
             #Generating Defense Model
-            # DF.generateDenfenseModel({'modelName':payload['modelName'],'folderName':foldername, 'dataFileName':payload['dataFileName']})
             DF.generateDenfenseModel({'modelName':payload['modelName'],'folderName':foldername, 'data_path':payload['data_path'], 'adversarial_path':os.path.join(report_path,csvfilename)})
             
             # generating graph for particular attack  
@@ -304,9 +219,6 @@ class Report:
             df = pd.read_csv(csv_path)
             cols = list(df.columns)
             key = 0
-            # if 'target' in cols and 'prediction' in cols:
-            #     graph_html = UT.graphForAttack({'folder_path':report_path})
-            #     key = 1
             if data['groundTruthClassLabel'] in cols and 'prediction' in cols:
                 graph_html = UT.graphForAttack({'folder_path':report_path, 'target':data['groundTruthClassLabel'], 'attackName':payload["attackName"], 'type':'Tabular'})
                 key = 1
@@ -314,15 +226,6 @@ class Report:
             # Attack Status Data
             field_names = ['Attack id', 'Model Name', 'Attack Name', 'Status', 'Mean Difference']
             attack_status_dict={'Attack id':f'InfosysModelReport{Current_Report_ID}','Model Name':payload['modelName'],'Attack Name':payload["attackName"],'Status':'Complete','Mean Difference':payload['perturbation']}
-            # attack_status_row = f"""
-            #     <tr>
-            #         <td>{attack_status_dict['Attack id']}</td>
-            #         <td>{attack_status_dict['Model Name']}</td>
-            #         <td>{attack_status_dict['Attack Name']}</td>
-            #         <td>{attack_status_dict['Status']}</td>
-            #         <td>{attack_status_dict['Mean Difference']:.4f}</td>
-            #     </tr>
-            # """
             attack_status_row = f"""
                 <tr>
                     <td>
@@ -352,28 +255,6 @@ class Report:
                     </td>
                 </tr>
             """
-
-            # # Attack Input-Output Data 
-            # attack_input_output_list = []
-            # for i in range(len(payload['attack_data_status'])):
-            #     d = {}
-            #     d['sample_index'] = payload['attack_data_status'][i][0]
-            #     d['actual_labels'] = payload['attack_data_status'][i][1]
-            #     d['final_labels'] = payload['attack_data_status'][i][2]
-            #     d['success'] = payload['attack_data_status'][i][3]
-            #     attack_input_output_list.append(d)
-            # attack_ipop_row = ""
-            # for data_list in attack_input_output_list:
-            #     row = f"""
-            #     <tr>
-            #         <td>{data_list['sample_index']}</td>
-            #         <td>{data_list['actual_labels']}</td>
-            #         <td>{data_list['final_labels']}</td>
-            #         <td>{data_list['success']}</td>
-            #     </tr>
-            #     """
-            #     attack_ipop_row += row
-
             # Attack Input-Output Data (take only 5 rows for sample)
             attack_input_output_list = []
             for i in range(len(payload['attack_data_status'])):
@@ -409,7 +290,6 @@ class Report:
                 file.writelines(UT.htmlCssContentReport({'type':'Tabular'}))
                 file.writelines(html_data)
             
-            # UT.htmlToPdfWithWatermark({'folder_path':report_path})
             
             shutil.make_archive(report_path,'zip',report_path)
             UT.updateCurrentID()

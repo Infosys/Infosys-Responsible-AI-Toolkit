@@ -588,6 +588,11 @@
                             "Terrorism",
                             "Explosives"
                         ]
+                    },
+                    "model": {
+                        "type": "string",
+                        "title": "Model",
+                        "example": "deberta"
                     }
                 },
                 "type": "object",
@@ -730,7 +735,7 @@
                             }
                         ],
                         "title": "Model",
-                        "example": "dberta"
+                        "example": "deberta"
                     }
                 },
                 "type": "object",

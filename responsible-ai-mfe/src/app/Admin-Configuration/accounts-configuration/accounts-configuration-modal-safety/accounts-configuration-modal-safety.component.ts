@@ -5,18 +5,20 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormGroup, Validators, FormControl, UntypedFormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NonceService } from 'src/app/nonce.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-accounts-configuration-modal-safety',
   templateUrl: './accounts-configuration-modal-safety.component.html',
   styleUrls: ['./accounts-configuration-modal-safety.component.css']
 })
-export class AccountsConfigurationModalSafetyComponent  {
+export class AccountsConfigurationModalSafetyComponent  implements OnDestroy {
+  private destroy$ = new Subject<void>();
   constructor(public dialogRef: MatDialogRef<AccountsConfigurationModalSafetyComponent>,  public _snackBar: MatSnackBar,private _fb: UntypedFormBuilder, public https: HttpClient,public nonceService:NonceService
     , @Inject(MAT_DIALOG_DATA) public data: { id: any }) { 
       // this.fromCreation();
@@ -141,7 +143,7 @@ export class AccountsConfigurationModalSafetyComponent  {
       "parameters": par,
       "value": v
     }
-    this.https.patch(this.Admin_SafetyUpdate, headers).subscribe
+    this.https.patch(this.Admin_SafetyUpdate, headers).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         // this.showSpinner1 = false
         console.log("value of res", res)
@@ -201,7 +203,7 @@ export class AccountsConfigurationModalSafetyComponent  {
     let payload = {
       accMasterId: this.data.id
     };
-    this.https.post(this.Admin_AccSafetyListAccountWise, payload).subscribe(
+    this.https.post(this.Admin_AccSafetyListAccountWise, payload).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
         console.log(response);
         this.isLoading = false;
@@ -240,6 +242,11 @@ export class AccountsConfigurationModalSafetyComponent  {
         });
       }
     );
+  }
+  // Cleanup subscriptions
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
 

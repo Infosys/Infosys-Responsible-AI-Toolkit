@@ -9,10 +9,7 @@ import threading
 from tqdm import tqdm
 import urllib3
 import traceback
-import logging
 
-log = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
 load_dotenv()
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -112,6 +109,7 @@ class LLMGeneration:
             return ans
         except Exception as e:
             tb = traceback.format_exc()
+            print(tb)
 
     def process_element(self, el, model, model_name, tokenizer, index, temperature, key_name='prompt'):
         """
@@ -134,7 +132,7 @@ class LLMGeneration:
                 el['res'] = res
         except Exception as e:
             # Print error message if there's an issue during processing
-            log.info(f"Error processing element at index {index}: {e}")
+            print(f"Error processing element at index {index}: {e}")
 
     def process_file(self, data_path, save_path, model_name, tokenizer, model, file_config, key_name='prompt'):
         """
@@ -149,7 +147,7 @@ class LLMGeneration:
             :param key_name: The key in the dictionary where the prompt is located.
             """
         if os.path.basename(data_path) not in file_config:
-            log.info(f"{os.path.basename(data_path)} not in file_config")
+            print(f"{os.path.basename(data_path)} not in file_config")
             return
 
         with open(data_path) as f:
@@ -161,7 +159,7 @@ class LLMGeneration:
         else:
             saved_data = original_data
 
-        GROUP_SIZE = 1 if self.online_model else 1
+        GROUP_SIZE = 8 if self.online_model else 1
         for i in tqdm(range(0, len(saved_data), GROUP_SIZE), desc=f"Processing {data_path}", leave=False):
             group_data = saved_data[i:i + GROUP_SIZE]
             threads = []
@@ -272,11 +270,11 @@ class LLMGeneration:
             :return: "OK" if successful, None otherwise.
             """
         model_name = self.model_name
-        log.info(f"Beginning generation with {self.test_type} evaluation at temperature {self.temperature}.")
-        log.info(f"Evaluation target model: {model_name}")
+        print(f"Beginning generation with {self.test_type} evaluation at temperature {self.temperature}.")
+        print(f"Evaluation target model: {model_name}")
         #********Change for Inhouse*******
         if (self.online_model and trustllm.config.inhouse_url!=None) or ((model_name in self.online_model_dict) and ((self.online_model and self.use_replicate) or (self.online_model and self.use_deepinfra))):
-            log.info("Inhouse model")
+            print("Inhouse model")
             model, tokenizer = (None, None) 
         else:
             model, tokenizer = load_model(
@@ -300,7 +298,7 @@ class LLMGeneration:
             test_func(model_name=model_name, model=model, tokenizer=tokenizer)
             return "OK"
         else:
-            log.info("Invalid test_type. Please provide a valid test_type.")
+            print("Invalid test_type. Please provide a valid test_type.")
             return None
 
     def generation_results(self, max_retries=10, retry_interval=3):
@@ -313,7 +311,7 @@ class LLMGeneration:
             :return: Final state of the test run.
             """
         if not os.path.exists(self.data_path):
-            log.info(f"Dataset path {self.data_path} does not exist.")
+            print(f"Dataset path {self.data_path} does not exist.")
             return None
 
         if self.use_replicate:
@@ -324,11 +322,12 @@ class LLMGeneration:
             try:
                 state = self.run_single_test()
                 if state:
-                    log.info(f"Test function successful on attempt {attempt + 1}")
+                    print(f"Test function successful on attempt {attempt + 1}")
                     return state
             except Exception as e:
-                log.info(f"Test function failed on attempt {attempt + 1}: {e}")
-                log.info(f"Retrying in {retry_interval} seconds...")
+                print(f"Test function failed on attempt {attempt + 1}: {e}")
+                print(f"Retrying in {retry_interval} seconds...")
                 time.sleep(retry_interval)
 
+        print("Test failed after maximum retries.")
         return None

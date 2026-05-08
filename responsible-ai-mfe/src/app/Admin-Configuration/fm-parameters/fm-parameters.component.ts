@@ -5,7 +5,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, OnDestroy } from '@angular/core';
 import { UntypedFormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,13 +13,15 @@ import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NonceService } from 'src/app/nonce.service';
 import { UserValidationService } from 'src/app/services/user-validation.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-fm-parameters',
   templateUrl: './fm-parameters.component.html',
   styleUrls: ['./fm-parameters.component.css']
 })
-export class FmParametersComponent {
+export class FmParametersComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
 
   constructor(private _fb: UntypedFormBuilder, public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog,public nonceService:NonceService,private validationService:UserValidationService) {
@@ -180,7 +182,7 @@ export class FmParametersComponent {
 
    // Sends the FM configuration data to the server
   setFMConfigData(payload: any) {
-    this.https.post(this.fm_config_entry, payload).subscribe(
+    this.https.post(this.fm_config_entry, payload).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         if (res.status === "True") {
           const message = "Mapping Added Successfully";
@@ -218,35 +220,13 @@ export class FmParametersComponent {
   ngOnInit(): void {
     let ip_port: any
 
-    let user = this.getLogedInUser()
+    this.userId = this.validationService.getLogedInUser();
 
-    ip_port = this.getLocalStoreApi()
+    ip_port = this.validationService.getLocalStoreApi()
     this.setApilist(ip_port)
     this.getSelectDRopDownArrray()
   }
 
-   // Retrieves the logged-in user from local storage
-  getLogedInUser() {
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-        this.userId = x ;
-        console.log(" userId", this.userId)
-      }
-      return this.userId;
-    }
-  }
-
-  // Retrieves API configuration from local storage
-  getLocalStoreApi() {
-    let ip_port
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        return ip_port = JSON.parse(res)
-      }
-    }
-  }
 
   // Sets the API list URLs
   setApilist(ip_port: any) {
@@ -573,7 +553,7 @@ export class FmParametersComponent {
   Restrictedtopics: any = [];
   InputModerationChecks: any = [];
   getSelectDRopDownArrray() {
-    this.https.get(this.fm_config_modCheck).subscribe(
+    this.https.get(this.fm_config_modCheck).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.InputModerationChecks = res.dataList;
         // this.getAccountMasterEntryList();
@@ -611,18 +591,20 @@ export class FmParametersComponent {
       }
     );
 
-
-    this.https.get(this.fm_config_topicList).subscribe(
+    this.https.get(this.fm_config_topicList).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.Restrictedtopics = res.dataList;
       })
 
-    this.https.get(this.fm_config_outputModCheck).subscribe(
+    this.https.get(this.fm_config_outputModCheck).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.OutputModerationChecks = res.dataList;
       })
   }
 
-
-
+  // Cleanup subscriptions
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

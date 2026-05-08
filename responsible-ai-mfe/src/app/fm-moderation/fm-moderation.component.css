@@ -9,7 +9,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 
 .optional-label {
-    /* padding-bottom: 7px; */
     position: absolute;
     top: -17px;
     right: 0;
@@ -17,6 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     color: #7E7E7E;
     font-family: 'Segoe UI';
 }
+
 .mat-primary {
     color: #8626C3;
 }
@@ -58,11 +58,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     margin-left: -10px;
 }
 
-.rightContainer {
-    padding-left: 2.5rem;
-    padding-right: 1.5rem;
-}
-
 .labelSM {
     font-weight: 600;
     font-size: 11px;
@@ -81,8 +76,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     resize: none;
     height: 115px;
     padding-right: 110px;
-    /* padding-top: 30px;
-    padding-bottom: 30px; */
 }
 
 .icon-pointer {
@@ -130,9 +123,7 @@ input[type='range']::-webkit-slider-thumb {
     text-align: center;
 }
 
-
 /* Toggle Switch */
-
 .switch {
     display: inline-block;
 }
@@ -247,38 +238,6 @@ input[type="text"]:focus,
     border-color: #8626C3;
 }
 
-
-/*  */
-
-
-/* input[type='radio']:after {
-    width: 15px;
-    height: 15px;
-    border-radius: 15px;
-    top: -2px;
-    left: -1px;
-    position: relative;
-    background-color: #d1d3d1;
-    content: '';
-    display: inline-block;
-    visibility: visible;
-    border: 2px solid white;
-}
-
-input[type='radio']:checked:after {
-    width: 15px;
-    height: 15px;
-    border-radius: 15px;
-    top: -2px;
-    left: -1px;
-    position: relative;
-    background-color: #8626C3;
-    content: '';
-    display: inline-block;
-    visibility: visible;
-    border: 2px solid #8626C3;
-} */
-
 input[type='radio'] {
     accent-color: #8626C3;
 }
@@ -307,23 +266,6 @@ input[type='radio'] {
     left: 0;
     width: 35%;
     border-bottom: 2px solid #8626C3;
-}
-
-
-/* collapsible checkbox */
-
-.collapsible {
-    margin-bottom: 10px;
-}
-
-.collapsible-content {
-    display: none;
-    padding: 10px;
-}
-
-.collapsible-content.show {
-    display: block;
-    /* Add additional styles for the expanded content */
 }
 
 .mat-expansion-panel {
@@ -363,14 +305,12 @@ input[type='radio'] {
 
 .panel-container {
     position: relative;
-    width: 300px;
-    /* Adjust the width as needed */
+    width: 300px; /* Adjust the width as needed */
     transition: width 0.3s ease;
 }
 
 .panel-container.collapsed {
-    width: 50px;
-    /* Adjust the collapsed width as needed */
+    width: 50px; /* Adjust the collapsed width as needed */
 }
 
 .panel-content {
@@ -402,46 +342,10 @@ input[type='radio'] {
     border-radius: 5px;
     font-size: 12px;
     display: flex;
-    /* Add this */
     align-items: center;
-    /* Add this */
     justify-content: center;
-    /* Add this */
     gap: 5px;
-    /* Add this */
     margin-right: 20px;
-}
-
-.option-container {
-    width: 200px;
-    overflow-x: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-}
-
-.dropdown-menu {
-    width: 200px;
-    max-height: 200px;
-    overflow-y: auto;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    padding: 0;
-    margin: 0;
-    list-style: none;
-}
-
-.dropdown-menu li {
-    padding: 8px 12px;
-    cursor: pointer;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.dropdown-menu li:hover {
-    background-color: #f1f1f1;
 }
 
 .pill-button {
@@ -453,7 +357,6 @@ input[type='radio'] {
     cursor: pointer;
     font-size: 12px;
     font-family: 'Segoe UI';
-    /* text-transform: uppercase; */
     transition: color 0.3s ease;
 }
 
@@ -476,22 +379,18 @@ input[type='radio'] {
     bottom: 0;
     left: 0;
     width: 100%;
-    /* height: 1px; */
     background-color: #ddd;
 }
 
 .list-item {
     padding: 4px;
-    /* background-color: #f0f0f0; */
     cursor: pointer;
     font-size: 11px;
     font-family: 'Segoe UI';
-    /* text-transform: uppercase; */
     transition: color 0.3s ease;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
-    /* border-bottom: 1.33px solid #ccc; */
     font-weight: 500;
     border-radius: 10px;
     margin-top: 5px;
@@ -511,13 +410,11 @@ input[type='radio'] {
 }
 
 ::ng-deep.dropdown {
-    /* max-width: 13.2rem; */
     width: 100%;
     border: 1px solid #dee2e6;
     border-radius: 3px;
     padding: 0px 10px;
     font-size: smaller;
-    /* margin-bottom: 1rem; */
 }
 
 ::ng-deep.mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
@@ -537,17 +434,13 @@ input[type='radio'] {
     fill: currentColor;
     overflow: hidden;
     margin-top: 2px;
-    /* Optional: Adds space between the icon and the dropdown */
 }
 
 .icon-dropdown-container {
     display: flex;
     flex-direction: column;
-    /* Align elements vertically */
     align-items: flex-end;
-    /* Align items to the right */
     width: 100%;
-    /* Ensure the container spans the full width */
 }
 
 .optional-label2 {

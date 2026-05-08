@@ -309,7 +309,6 @@ class ResponsibleAIExplain:
             task = "answer the following question"
             question = prompt
             approaches = [GraphOfThoughts.got]
-            modelName = modelName
             
             formatted_graph, formatted_thoughts = GraphOfThoughts.run(task=task, question=question, 
                                                                       methods=approaches, 

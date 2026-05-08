@@ -5,7 +5,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -14,13 +14,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { PagingConfig } from 'src/app/_models/paging-config.model';
 import { NonceService } from 'src/app/nonce.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-accounts-configuration-modal-privacy',
   templateUrl: './accounts-configuration-modal-privacy.component.html',
   styleUrls: ['./accounts-configuration-modal-privacy.component.css']
 })
-export class AccountsConfigurationModalPrivacyComponent {
+export class AccountsConfigurationModalPrivacyComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   constructor(public dialogRef: MatDialogRef<AccountsConfigurationModalPrivacyComponent>, public _snackBar: MatSnackBar, public https: HttpClient,public nonceService:NonceService
     , @Inject(MAT_DIALOG_DATA) public data: { id: any, ThresholdScore: any, }) {
       this.formCreation();
@@ -188,7 +190,7 @@ selectRecognizertype() {
     // element.activate = !element.activate;
 
 
-    this.https.post(this.admin_list_AccountMaping_Acc_PrivacyEncrypt, { accMasterId: this.data.id, dataRecogGrpId: RecogId, isHashify: element.checked }).subscribe
+    this.https.post(this.admin_list_AccountMaping_Acc_PrivacyEncrypt, { accMasterId: this.data.id, dataRecogGrpId: RecogId, isHashify: element.checked }).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         if (res.status === "True") {
 
@@ -221,7 +223,7 @@ selectRecognizertype() {
     let payload = {
       accMasterId: this.data.id
     };
-    this.https.post(this.admin_list_AccountMaping_AccMasterList_dataList, payload).subscribe(
+    this.https.post(this.admin_list_AccountMaping_AccMasterList_dataList, payload).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
         console.log(response);
 
@@ -261,68 +263,57 @@ selectRecognizertype() {
     this.thresholdDisplay = valuex
     console.log("slide value",valuex)
     // this.showSpinner1 = true;
-    this.https.patch(this.admin_list_AccountMaping_Acc_ThresholdUpdate, { accMasterId: this.data.id, thresholdScore: valuex }).subscribe
-      ((res: any) => {
+    this.https.patch(this.admin_list_AccountMaping_Acc_ThresholdUpdate, { accMasterId: this.data.id, thresholdScore: valuex }).pipe(takeUntil(this.destroy$)).subscribe(
+      (res: any) => {
         if (res.status === "True") {
-          // this.showSpinner1 = false;
-          const message = "Threshold Score Updated Successfully "
-          const action = "Close"
+          const message = "Threshold Score Updated Successfully ";
+          const action = "Close";
           this._snackBar.open(message, action, {
             duration: 3000,
             panelClass: ['le-u-bg-black'],
           });
-
-          //
-
-          //
         } else if (res.status === "False") {
-          // this.showSpinner1 = false;
-          const message = "Threshold Score Updation Failed"
-          const action = "Close"
+          const message = "Threshold Score Updation Failed";
+          const action = "Close";
           this._snackBar.open(message, action, {
-            duration: 3000, panelClass: ['le-u-bg-black']
+            duration: 3000,
+            panelClass: ['le-u-bg-black']
           });
-
         }
-
-
-      }, error => {
-        // You can access status:
+      },
+      (error) => {
         console.log(error.status);
         if (error.status == 430) {
-          // this.showSpinner1 = false;
           this.edited = false;
-          console.log(error.error.detail)
-          console.log(error)
-          const message = error.error.detail
-          const action = "Close"
+          console.log(error.error.detail);
+          console.log(error);
+          const message = error.error.detail;
+          const action = "Close";
           this._snackBar.open(message, action, {
             duration: 3000,
             horizontalPosition: 'left',
             panelClass: ['le-u-bg-black']
           });
         } else {
-          // this.showSpinner1 = false;
           this.edited = false;
-          // console.log(error.error.detail)
-          console.log(error)
-          const message = "The Api has failed"
-          const action = "Close"
+          console.log(error);
+          const message = "The Api has failed";
+          const action = "Close";
           this._snackBar.open(message, action, {
             duration: 3000,
             horizontalPosition: 'left',
             panelClass: ['le-u-bg-black']
           });
-
         }
-      })
+      }
+    );
 
   }
 
   // Adds a recognizer to the list
   editReconList:any[] = []
   addRecognizerInList() {
-    this.https.get(this.admin_list_rec_get_list).subscribe
+    this.https.get(this.admin_list_rec_get_list).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         this.editReconList = (getDifference(res.RecogList, this.dataSource2));
 
@@ -397,7 +388,7 @@ selectRecognizertype() {
       dataRecogGrpId: listShowlist1
     }
 
-    this.https.patch(this.admin_list_AccountMaping_AccMasterList_Update_Data, { dataGrpList: this.accountUpdateForm.value.updateRecList, accMasterId: this.data.id }).subscribe
+    this.https.patch(this.admin_list_AccountMaping_AccMasterList_Update_Data, { dataGrpList: this.accountUpdateForm.value.updateRecList, accMasterId: this.data.id }).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         console.log("vale updated in " + res.status)
         if (res.status === "True") {
@@ -467,7 +458,7 @@ selectRecognizertype() {
         accMasterId: this.data.id
       },
     };
-    this.https.delete(this.admin_list_AccountMaping_AccMasterList_Delete_Data, options).subscribe
+    this.https.delete(this.admin_list_AccountMaping_AccMasterList_Delete_Data, options).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         if (res.status === "True") {
           const message = "Account Data Deleted Successfully"
@@ -483,7 +474,6 @@ selectRecognizertype() {
           this._snackBar.open(message, action, {
             duration: 1000, panelClass: ['le-u-bg-black'],
           });
-
         }
 
        this.getAccountMasterEntryList()
@@ -533,6 +523,9 @@ selectRecognizertype() {
   }
 
 
-
-
+  // Cleanup on component destruction
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

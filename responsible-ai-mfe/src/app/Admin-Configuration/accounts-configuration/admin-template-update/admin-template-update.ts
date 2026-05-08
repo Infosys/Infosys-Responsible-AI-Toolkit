@@ -5,7 +5,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Component, Inject, Input, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, Input, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -13,6 +13,7 @@ import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NgbPopover } from '@ng-bootstrap/ng-bootstrap';
 import { UserValidationService } from 'src/app/services/user-validation.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-accounts-configuration-modal-create-template-update',
@@ -20,7 +21,8 @@ import { UserValidationService } from 'src/app/services/user-validation.service'
   styleUrls: ['./admin-template-update.css'],
   encapsulation: ViewEncapsulation.Emulated // This is the default setting
 })
-export class AccountsConfigurationModalCreateTemplateUpdateComponent {
+export class AccountsConfigurationModalCreateTemplateUpdateComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   constructor(public dialogRef: MatDialogRef<AccountsConfigurationModalCreateTemplateUpdateComponent>, public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog,private validationService:UserValidationService
     , @Inject(MAT_DIALOG_DATA) public data: { id: any, account: any, portfolio: any }) {
     this.fromCreation();
@@ -271,30 +273,6 @@ selectRecognizertype3() {
 
 }
 
-// Retrieves the logged-in user from local storage
-  getLogedInUser():any {
-    let role = localStorage.getItem('role');
-    console.log("role267===",role)  
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-        this.userId = x ;
-        return this.userId
-      }
-      console.log("userId", this.userId)
-    }
-  }
-
-   // Retrieves API configuration from local storage
-  getLocalStoreApi() {
-    let ip_port
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        return ip_port = JSON.parse(res)
-      }
-    }
-  }
 
   // Sets the API list URLs
   setApilist(ip_port: any) {
@@ -316,9 +294,9 @@ selectRecognizertype3() {
     this.isLoading = true
     let ip_port: any
 
-    let user = this.getLogedInUser()
+    this.userId= this.validationService.getLogedInUser();
 
-    ip_port = this.getLocalStoreApi()
+    ip_port = this.validationService.getLocalStoreApi()
 
     this.setApilist(ip_port)
     // this.getTemplateDetail()
@@ -974,7 +952,7 @@ clickDeleteValue(category:any,subcategory:any,type:any,value:any){
       templateName: value
     };
 
-    this.https.delete(url, { headers: headers, body: body }).subscribe(
+    this.https.delete(url, { headers: headers, body: body }).pipe(takeUntil(this.destroy$)).subscribe(
       response => {
         console.log('Delete successful', response);
         const message = "Data Deleted Successfully"
@@ -1040,6 +1018,12 @@ test(subcategory: string) {
       console.log('Popover is closed');
     }
   }
+// Cleanup subscriptions
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 
 }
+  

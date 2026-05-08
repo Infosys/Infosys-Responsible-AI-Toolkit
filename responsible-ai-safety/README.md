@@ -20,29 +20,13 @@ To run the application, first we need to install Python and the necessary packag
    
 # Models needed
 
-1. Detoxify model for Unstructured text: Download from https://huggingface.co/FacebookAI/roberta-base/tree/main 
+To work with the ML models in this repository, you must have Git Large File Storage (Git LFS) installed. The models are stored using LFS to keep the repository lightweight.
 
-   Now download the model checkpoint file from this url and keep it under this folder -
-   toxic_model_ckpt_file (https://github.com/unitaryai/detoxify/releases/download/v0.3-alpha/toxic_debiased-c7548aa0.ckpt) 
-
-   Name the folder as 'detoxify'.
-
-2. NFSW model for image : https://github.com/GantMan/nsfw_model . You can download models from 
-   https://s3.amazonaws.com/ir_public/ai/nsfw_models/nsfw.299x299.h5
-
-   Place the file directly named as 'nsfw.299x299.h5'.
-
-3. NSFW model for image : You can download model from 
-   https://s3.amazonaws.com/ir_public/nsfwjscdn/nsfw_mobilenet2.224x224.h5
-
-   Place the file directly named as 'nsfw_mobilenet2.224x224.h5'.
-
-4. Codebert base Malicious model : You can download model from
-   https://huggingface.co/DunnBC22/codebert-base-Malicious_URLs/tree/main
-
-   Name the folder as 'codebert-base-Malicious_URLs'.
-
- Place the above model folders in a new folder named 'models' in the following way: 'responsible-ai-toxicity/models'.
+You can install it with the following command:
+`bash`
+  ```sh
+  git lfs install
+  ```
  
 ## Set Configuration Variables
 After installing all the required packages, configure the variables necessary to run the APIs.
@@ -79,6 +63,14 @@ After installing all the required packages, configure the variables necessary to
       VERIFY_SSL="${verify_ssl}"
    ```
 
+   **DB Connection** : For local development, add the following database configuration to your `.env` file:
+   ```sh
+   dbname=<set the db name>
+   DB_NAME="${dbname}" #[MANDATORY]
+   mongo_path=<set the mongo db path>
+   MONGO_PATH="${mongo_path}" #[MANDATORY]
+   ```
+   
 4. Replace the placeholders with your actual values.
 
 
@@ -106,17 +98,18 @@ After installing all the required packages, configure the variables necessary to
 
    Note: If you get any error like : "DDL load failed.Some module is missing" after executing main.py then it is due to compatability issues of onnxruntime version so try with different versions of onnxruntime e.g. onnxruntime==1.21.0 or onnxruntime==1.22.0.
 
-3. PORT_NO : Use the Port No that is configured in `.env` file.
-
-   Open the following URL in your browser:
-`http://localhost:8001/api/v1/safety/docs`
+3. PORT_NO : Replace the port no as 8001 for running it locally:
+```sh
+http://localhost:<PORTNO>/api/v1/safety/docs
+```
+Navigate to main.py and port no can be changed according to the project requirements.
 
 Note: The '/api/v1/safety/profanity/imageGenerate' API is currently not working due to its dependency on the LLM module, DALL·E 2 subscription is required to use the endpoint /rai/v1/llm/image.
 
 
   
 ## License
-The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](License.md) file.
+The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.
 
 ## Open Source tools Used:
 1. Detoxify model for Unstructured text

@@ -1,12 +1,16 @@
 '''
-MIT license https://opensource.org/licenses/MIT Copyright 2024 Infosys Ltd
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
+
+
 
 import dataclasses
 import itertools
@@ -18,15 +22,16 @@ from openai import ChatCompletion
 from tenacity import retry, stop_after_attempt
 from datetime import datetime
 import openai
-import pickle
+import json
 import os
 class Cache:
     def __init__(self, model_version) -> None:
         path_compatible_model_version = model_version.replace("/", "-")
-        self.cache_file_name = f"cache_{path_compatible_model_version}.pkl"
+        self.cache_file_name = f"cache_{path_compatible_model_version}.json"
         try:
-            self.cache = pickle.load(open(self.cache_file_name, "rb"))
-        except FileNotFoundError:
+            with open(self.cache_file_name, "r", encoding="utf-8") as f:
+                self.cache = json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError):
             self.cache = {}
 
     def get(self, key):
@@ -36,7 +41,8 @@ class Cache:
         self.cache[key] = value
 
     def save(self):
-        pickle.dump(self.cache, open(self.cache_file_name, "wb"))
+        with open(self.cache_file_name, "w", encoding="utf-8") as f:
+            json.dump(self.cache, f, indent=2, ensure_ascii=False)
 
 import logging
 log_file = "run.log"
@@ -167,59 +173,7 @@ class MultifacetedEvaluation:
         log.debug(f"MultifacetedEvaluation.is_exclude - Text is not excluded: {text}")
         return False
 
-    # def preprocess_response(self, response: str) -> ResponsePreprocessResult:
-    #     log.debug(f"MultifacetedEvaluation.preprocess_response - Preprocessing response: {response}")
-    #     document = response.strip()
 
-    #     response_paragraph_list = list(
-    #         filter(
-    #             lambda paragraph: not self.is_exclude(paragraph),
-    #             filter(
-    #                 lambda paragraph: paragraph,
-    #                 map(
-    #                     lambda paragraph: paragraph.strip(),
-    #                     document.split("\n"),
-    #                 ),
-    #             ),
-    #         )
-    #     )
-    #     log.debug(f"MultifacetedEvaluation.preprocess_response - Extracted paragraphs: {response_paragraph_list}")
-
-    #     response_sentence_list = list(
-    #         filter(
-    #             lambda sentence: not self.is_exclude(sentence),
-    #             filter(
-    #                 lambda sentence: sentence,
-    #                 map(
-    #                     lambda sentence: sentence.strip(),
-    #                     itertools.chain.from_iterable(
-    #                         map(
-    #                             lambda paragraph: sent_tokenize(paragraph),
-    #                             response_paragraph_list,
-    #                         )
-    #                     ),
-    #                 ),
-    #             ),
-    #         )
-    #     )
-    #     log.debug(f"MultifacetedEvaluation.preprocess_response - Extracted sentences: {response_sentence_list}")
-
-    #     if len(response_sentence_list):
-    #         last_sentence = response_sentence_list[-1]
-    #         is_last_sentence_complete = (
-    #                 last_sentence.endswith(".")
-    #                 or last_sentence.endswith("?")
-    #                 or last_sentence.endswith("!")
-    #         )
-    #         if not is_last_sentence_complete:
-    #             response_sentence_list.pop()
-    #             log.debug(f"MultifacetedEvaluation.preprocess_response - Dropped incomplete last sentence")
-
-    #     result = ResponsePreprocessResult(
-    #         document, response_paragraph_list, response_sentence_list
-    #     )
-    #     log.debug(f"MultifacetedEvaluation.preprocess_response - Preprocessed response result: {result}")
-    #     return result
     def preprocess_response(self, response: str) -> ResponsePreprocessResult:
         log.debug(f"MultifacetedEvaluation.preprocess_response - Preprocessing response: {response}")
         document = response.strip()

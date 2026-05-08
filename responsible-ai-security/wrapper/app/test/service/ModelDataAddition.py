@@ -28,7 +28,11 @@ import joblib
 from io import BytesIO
 from src.dao.DatabaseConnection import DB
 import json
-import keras
+try:
+    import keras
+except ImportError:
+    import unittest.mock as mock
+    keras = mock.Mock()
 from src.service.service import Infosys
 class AttributeDict(dict):
     __getattr__ = dict.__getitem__
@@ -78,11 +82,11 @@ class GetDataRequest(BaseModel):
     DataFile: Union[UploadFile] = None  
 
 class GetBatchPayloadRequest(BaseModel):
-    userId:Optional[str] = Field(example="admin")
-    title:Optional[str] = Field(example="Preprocessor1")
-    modelId:Optional[float] = Field(example="1.1")
-    dataId:Optional[float] = Field(example="2.1")
-    tenetName: Optional[List[str]]
+    userId:Optional[str] = Field(default=None, description="admin")
+    title:Optional[str] = Field(default=None, description="Preprocessor1")
+    modelId:Optional[float] = Field(default=None, description="1.1")
+    dataId:Optional[float] = Field(default=None, description="2.1")
+    tenetName: Optional[List[str]] = None
     appAttacks: Optional[List[str]] = None
     appExplanationMethods: Optional[List[str]] = None
     biasType: Optional[str] = None
@@ -120,13 +124,22 @@ class AddModelData:
             data_extensionModified = Payload2.DataFile.filename
             Payload1["fileName"] = data_extensionModified
             if data_file:
+                try:
+                    existing_data = Data.findall({"DataSetName":Payload1.dataFileName})
+                    if not existing_data:
+                        FileStoreDb.fs.delete(data_file._id)
+                        data_file = None
+                except Exception as e:
+                    print(f"Error checking existing data: {e}")
+
+            if data_file:
                 return "DataFile Already Added"
             else:
                 print('d1')
                 commonTenetId = Tenet.findOne("Common")
                 dataFileId = FileStoreDb.create(Payload2.DataFile,Payload1.dataFileName+data_extension[1])
                 print('dataFileId',dataFileId)
-                dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":dataFileId,"userId":userId})
+                dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":dataFileId,"userId":userId,"groundTruthImageFileId":"NA"})
                 print('dataId',dataId)
                 for key in keys:
                     if key == "dataFileName":
@@ -136,7 +149,7 @@ class AddModelData:
                         print('d3')
                         dataAttributesId = DataAttributes.findall({"DataAttributeName":key,"TenetId":commonTenetId})
                         if(len(dataAttributesId) > 1 or len(dataAttributesId) == 0):
-                            print('d4')
+                            print(f'd4: Failed for key={key}, count={len(dataAttributesId)}')
                             return f"No Entry or Multiple entries are present for {key} "
                         else:
                             print('d5')
@@ -146,6 +159,7 @@ class AddModelData:
                 return "Data Added Sucessfully"
         
         except Exception as exc:
+            print(f"EXCEPTION IN AddData: {exc}")
             return f"DataFile Addition Failed! Please Try Again{exc}"    
 
 
@@ -268,7 +282,7 @@ class AddModelData:
     def loadtenets():
         try:
             collist = AddModelData.mydb.list_collection_names()
-            root_path = os.getcwd()
+            root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             tenant_jsonPath = root_path +'/service/tenet.json'
             f=open(tenant_jsonPath,'r')
             tenetList = json.loads(f.read())
@@ -285,7 +299,7 @@ class AddModelData:
     def loadmodelattributes():
         try:
             collist = AddModelData.mydb.list_collection_names()
-            root_path = os.getcwd()
+            root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             modelattributes_jsonPath = root_path +'/service/modelattributes.json'
             f=open(modelattributes_jsonPath,'r')
             modelAttributesList = json.loads(f.read())
@@ -304,7 +318,7 @@ class AddModelData:
     def loaddataattributes():
         try:
             collist = AddModelData.mydb.list_collection_names()
-            root_path = os.getcwd()
+            root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             datasetattributes_jsonPath = root_path +'/service/datasetattributes.json'
             f=open(datasetattributes_jsonPath,'r')
             dataAttributesList = json.loads(f.read())
@@ -323,11 +337,16 @@ class AddModelData:
 
 
     def loadApi():
-        root_path = os.getcwd()
-        directories = root_path.split(os.path.sep)
-        src_index = directories.index("test")
-        new_path = os.path.sep.join(directories[:src_index])
-        json_path = new_path + '/app/config/attack.json'
+        # root_path = os.getcwd()
+        # directories = root_path.split(os.path.sep)
+        # src_index = directories.index("test")
+        # new_path = os.path.sep.join(directories[:src_index])
+        
+        # Robust path finding
+        base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        json_path = os.path.join(base_dir, 'src', 'config', 'attack.json')
+        
+        # json_path = new_path + '/app/config/attack.json'
         collist = AddModelData.mydb.list_collection_names()
         f=open(json_path,'r')
         attackList=json.loads(f.read())

@@ -1,17 +1,16 @@
-'''
-MIT license https://opensource.org/licenses/MIT
-Copyright 2024 Infosys Ltd
- 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-'''
 from pydantic import BaseModel,Field,Extra
 from datetime import date
 from typing import List
 from datetime import datetime
 from enum import Enum
 from typing import Optional, Union, List
+
+# Field alias constants for Pydantic models
+TOXICITY_CHECK_ALIAS = "Toxicity Check"
+PROMPT_INJECTION_CHECK_ALIAS = "Prompt Injection Check"
+RESTRICTED_TOPIC_CHECK_ALIAS = "Restricted Topic Check"
+JAILBREAK_CHECK_ALIAS = "Jailbreak Check"
+CUSTOM_THEME_CHECK_ALIAS = "Custom Theme Check"
 
 class Choice(BaseModel):
     text:str= Field(example="Russia is the biggest country by area.")
@@ -130,6 +129,30 @@ class customThemeCheck(BaseModel):
     result:Result =Field(example="PASSED")
 
 
+
+
+class sentimentCheck(BaseModel):
+    score: str = Field(example="0.0")
+    threshold: str = Field(example="-0.01")
+    result: Result = Field(example="PASSED")
+
+
+class invisibleTextCheck(BaseModel):
+    invisibleTextIdentified: List = Field(example=[])
+    result: Result = Field(example="PASSED")
+
+
+class gibberishCheck(BaseModel):
+    gibberishScore: List = Field(example=[{'gibberish_label': 'clean', 'gibberish_score': 0.97}])
+    threshold: str = Field(example="0.7")
+    result: Result = Field(example="PASSED")
+
+
+class bancodeCheck(BaseModel):
+    label: str = Field(example="CODE")
+    result: Result = Field(example="UNMODERATED")
+
+
 class RequestModeration(BaseModel):
     text :str = Field(example="Which is the biggest country in the world?")
     promptInjectionCheck : promptInjectionCheck
@@ -141,35 +164,49 @@ class RequestModeration(BaseModel):
     textQuality : textQuality
     refusalCheck : refusalCheck
     customThemeCheck : customThemeCheck
+    sentimentCheck : sentimentCheck
+    invisibleTextCheck : invisibleTextCheck
+    gibberishCheck : gibberishCheck
+    bancodeCheck : bancodeCheck
     summary : summary
 
 class TimeForCheck(BaseModel):
     Privacy_Check: Optional[str] = Field(None, alias="Privacy Check")
     Text_Quality_Check: Optional[str] = Field(None, alias="Text Quality Check")
-    Toxicity_Check: Optional[str] = Field(None, alias="Toxicity Check")
+    Toxicity_Check: Optional[str] = Field(None, alias=TOXICITY_CHECK_ALIAS)
     Profanity_Check: Optional[str] = Field(None, alias="Profanity Check")
-    Prompt_Injection_Check: Optional[str] = Field(None, alias="Prompt Injection Check")
-    Restricted_Topic_Check: Optional[str] = Field(None, alias="Restricted Topic Check")
-    Jailbreak_Check: Optional[str] = Field(None, alias="Jailbreak Check")
+    Prompt_Injection_Check: Optional[str] = Field(None, alias=PROMPT_INJECTION_CHECK_ALIAS)
+    Restricted_Topic_Check: Optional[str] = Field(None, alias=RESTRICTED_TOPIC_CHECK_ALIAS)
+    Jailbreak_Check: Optional[str] = Field(None, alias=JAILBREAK_CHECK_ALIAS)
     Refusal_Check: Optional[str] = Field(None, alias="Refusal Check")
-    Custom_Theme_Check: Optional[str] = Field(None, alias="Custom Theme Check")
+    Custom_Theme_Check: Optional[str] = Field(None, alias=CUSTOM_THEME_CHECK_ALIAS)
+    Profanity_Standalone_Check: Optional[str] = Field(None, alias="Profanity Standalone Check")
+    Sentiment_Check: Optional[str] = Field(None, alias="Sentiment Check")
+    Invisible_Text_Check: Optional[str] = Field(None, alias="Invisible Text Check")
+    Gibberish_Check: Optional[str] = Field(None, alias="Gibberish Check")
+    Embed_Check: Optional[str] = Field(None, alias="Embed Check")
+
 
 class TimeTakenByModel(BaseModel):
     Privacy_Check: Optional[str] = Field(None, alias="Privacy Check")
-    Toxicity_Check: Optional[str] = Field(None, alias="Toxicity Check")
-    Prompt_Injection_Check: Optional[str] = Field(None, alias="Prompt Injection Check")
-    Restricted_Topic_Check: Optional[str] = Field(None, alias="Restricted Topic Check")
-    Jailbreak_Check: Optional[str] = Field(None, alias="Jailbreak Check")
-    Custom_Theme_Check: Optional[str] = Field(None, alias="Custom Theme Check")
+    Toxicity_Check: Optional[str] = Field(None, alias=TOXICITY_CHECK_ALIAS)
+    Prompt_Injection_Check: Optional[str] = Field(None, alias=PROMPT_INJECTION_CHECK_ALIAS)
+    Restricted_Topic_Check: Optional[str] = Field(None, alias=RESTRICTED_TOPIC_CHECK_ALIAS)
+    Jailbreak_Check: Optional[str] = Field(None, alias=JAILBREAK_CHECK_ALIAS)
+    Custom_Theme_Check: Optional[str] = Field(None, alias=CUSTOM_THEME_CHECK_ALIAS)
+    Sentiment_Check: Optional[str] = Field(None, alias="Sentiment Check")
+    Invisible_Text_Check: Optional[str] = Field(None, alias="Invisible Text Check")
+    Gibberish_Check: Optional[str] = Field(None, alias="Gibberish Check")
+    Embed_Check: Optional[str] = Field(None, alias="Embed Check")
 
 class TimeTakenByAPI(BaseModel):
-    Toxicity_Check: Optional[float] = Field(None, alias="Toxicity Check")
+    Toxicity_Check: Optional[float] = Field(None, alias=TOXICITY_CHECK_ALIAS)
     Profanity_Check: Optional[float] = Field(None, alias="Profanity Check")
-    Prompt_Injection_Check: Optional[float] = Field(None, alias="Prompt Injection Check")
-    Restricted_Topic_Check: Optional[float] = Field(None, alias="Restricted Topic Check")
-    Jailbreak_Check: Optional[float] = Field(None, alias="Jailbreak Check")
+    Prompt_Injection_Check: Optional[float] = Field(None, alias=PROMPT_INJECTION_CHECK_ALIAS)
+    Restricted_Topic_Check: Optional[float] = Field(None, alias=RESTRICTED_TOPIC_CHECK_ALIAS)
+    Jailbreak_Check: Optional[float] = Field(None, alias=JAILBREAK_CHECK_ALIAS)
     Refusal_Check: Optional[float] = Field(None, alias="Refusal Check")
-    Custom_Theme_Check: Optional[float] = Field(None, alias="Custom Theme Check")
+    Custom_Theme_Check: Optional[float] = Field(None, alias=CUSTOM_THEME_CHECK_ALIAS)
 
 class ModerationLayerTime(BaseModel):
     Time_for_each_individual_check: Optional[TimeForCheck] = Field(None, alias="Time for each individual check")
@@ -189,6 +226,8 @@ class ModerationResults(BaseModel):
     created: datetime
     accountName: str
     userid: Optional[str]=Field(None)
+    Source:Optional[str] =Field(default=None, example="chatgpt/gemini")
+    anonymize: Optional[bool] = True
     lotNumber: Optional[str] = Field(None)
 
 

@@ -5,12 +5,13 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, ViewChild } from '@angular/core';
+import { Component, Inject, ViewChild,OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelect } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject, takeUntil } from 'rxjs';
 import { NonceService } from 'src/app/nonce.service';
 import { UserValidationService } from 'src/app/services/user-validation.service';
 
@@ -19,7 +20,9 @@ import { UserValidationService } from 'src/app/services/user-validation.service'
   templateUrl: './accounts-configuration-modal-fm.component.html',
   styleUrls: ['./accounts-configuration-modal-fm.component.css']
 })
-export class AccountsConfigurationModalFmComponent {
+export class AccountsConfigurationModalFmComponent implements OnDestroy {
+ private destroy$ = new Subject<void>();
+
   constructor(public dialogRef: MatDialogRef<AccountsConfigurationModalFmComponent>, public _snackBar: MatSnackBar, public https: HttpClient,public nonceService:NonceService,private validationService:UserValidationService
     , @Inject(MAT_DIALOG_DATA) public data: { id: any }) {
     this.fromCreation();
@@ -54,37 +57,13 @@ export class AccountsConfigurationModalFmComponent {
 
     let ip_port: any
 
-    let user = this.getLogedInUser()
+    this.userId  = this.validationService.getLogedInUser();
 
-    ip_port = this.getLocalStoreApi()
+    ip_port = this.validationService.getLocalStoreApi()
     this.setApilist(ip_port)
     this.getSelectDRopDownArrray()
     this.get_fmdataforFmConfigResponseform()
     this.recognizerList = ['PERSON', 'LOCATION', 'DATE', 'AU_ABN', 'AU_ACN', 'AADHAR_NUMBER', 'AU_MEDICARE', 'AU_TFN', 'CREDIT_CARD', 'CRYPTO', 'DATE_TIME', 'EMAIL_ADDRESS', 'ES_NIF', 'IBAN_CODE', 'IP_ADDRESS', 'IT_DRIVER_LICENSE', 'IT_FISCAL_CODE', 'IT_IDENTITY_CARD', 'IT_PASSPORT', 'IT_VAT_CODE', 'MEDICAL_LICENSE', 'PAN_Number', 'PHONE_NUMBER', 'SG_NRIC_FIN', 'UK_NHS', 'URL', 'PASSPORT', 'US_ITIN', 'US_PASSPORT', 'US_SSN'];
-  }
-
-    // Retrieves the logged-in user from local storage
-  getLogedInUser():any {
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-        this.userId = x ;
-        return this.userId;
-      }
-      console.log("userId", this.userId)
-      return this.userId;
-    }
-  }
-
-    // Retrieves API configuration from local storage
-  getLocalStoreApi() {
-    let ip_port
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        return ip_port = JSON.parse(res)
-      }
-    }
   }
   admin_list_rec_get_list = ""
   admin_list_AccountMaping_AccMasterList = ""
@@ -182,7 +161,7 @@ export class AccountsConfigurationModalFmComponent {
          "ModerationCheckThresholds": payload1
          }
          console.log("payload======",payload)
-         this.https.patch(this.fm_config_dataUpdate,payload).subscribe(
+         this.https.patch(this.fm_config_dataUpdate,payload).pipe(takeUntil(this.destroy$)).subscribe(
            (res:any) =>{
              const message = 'FM Parameters has been updated successfully';
                const action = 'Close';
@@ -571,7 +550,7 @@ export class AccountsConfigurationModalFmComponent {
 
   // Fetches FM configuration data for the response form
   get_fmdataforFmConfigResponseform() {
-    this.https.post(this.fm_config_dataList, { accMasterId: this.data.id }).subscribe
+    this.https.post(this.fm_config_dataList, { accMasterId: this.data.id }).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         this.isLoading = false;
         if(res==null){
@@ -652,7 +631,7 @@ export class AccountsConfigurationModalFmComponent {
 
   // set the value of the form in base
   getSelectDRopDownArrray() {
-    this.https.get(this.fm_config_modCheck).subscribe(
+    this.https.get(this.fm_config_modCheck).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.InputModerationChecks = res.dataList;
         // this.getAccountMasterEntryList();
@@ -691,18 +670,22 @@ export class AccountsConfigurationModalFmComponent {
     );
 
 
-    this.https.get(this.fm_config_topicList).subscribe(
+    this.https.get(this.fm_config_topicList).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.Restrictedtopics = res.dataList;
       })
 
-    this.https.get(this.fm_config_outputModCheck).subscribe(
+    this.https.get(this.fm_config_outputModCheck).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.OutputModerationChecks = res.dataList;
       })
   }
 
-
+// Cleanup on component destruction
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 
 }

@@ -2,10 +2,7 @@ import numpy as np
 from scipy.stats import chi2_contingency
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-import logging
 
-log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
 
 def calculate_toxicity(data, key='toxicity'):
     """
@@ -203,7 +200,7 @@ def count_stereotype_recognition(data):
                 else:
                     correct_num += 1
     if valid_num != len(data):
-        log.info('{}/{} samples evaluated successfully!'.format(valid_num, len(data)))
+        print('{}/{} samples evaluated successfully!'.format(valid_num, len(data)))
     return correct_num / valid_num
 
 
@@ -260,6 +257,7 @@ def p_value(data, attribute, res_column='res'):
     - p-value from the chi-square test of independence.
     """
     df = pd.DataFrame(data)
+    print(df)
     df['res'] = df['eval_res'].map(
         {0: 'Not Sure', 1: 'Less than $50,000', 2: '$50,000 - $70,000', 3: 'More than $70,000'})
     contingency_table = pd.crosstab(df[attribute], df[res_column])

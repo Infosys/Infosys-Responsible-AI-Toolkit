@@ -54,26 +54,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div *ngIf="roleService.checkPageExists('Workbench')">
                     <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/workbench">HOME</a>
                 </div>
-                <div *ngIf="roleService.checkPageExists('Usecase')">
-                    <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/use-cases">USE CASE</a>
-                </div>
                 <div *authHasAnyAuthority="['ROLE_ADMIN']">
                     <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/admin-configuration">CONFIGURATION</a>
                 </div>
                 <div *ngIf="roleService.checkPageExists('Models')">
                     <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/ai-models">MODELS</a>
                 </div>
-                <div *ngIf="roleService.checkPageExists('LLM-Benchmarking')">
-                    <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/llm-benchmarking">LLM BENCHMARKING</a>
-                </div>
-                <div *ngIf="roleService.checkPageExists('AI-Content-Detector')">
-                    <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/ai-content-detector">AI CONTENT DETECTOR</a>
-                </div>
                 <div *ngIf="roleService.checkPageExists('Document')">
                     <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/document-management">DOCUMENTS</a>
-                </div>
-                <div *ngIf="roleService.checkPageExists('Data Curation')">
-                    <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/bulk-processing">RAI DATA CURATOR</a>
                 </div>
                 <div *authHasAnyAuthority="['ROLE_ADMIN']">
                     <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/user-management">USER MANAGEMENT</a>
@@ -84,9 +72,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <!-- <div *ngIf="roleService.checkPageExists('LLMScanner')">
                     <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/llm-scanner">LLM SCANNER</a>
                 </div> -->
-                <div *ngIf="roleService.checkPageExists('ComplianceCheck')">
-                    <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/compliance-check">COMPLIANCE CHECK</a>
-                </div>
             </section>
         </div>
 
@@ -99,9 +84,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <!-- Content for the right column -->
         <div style="width: 100%;">
             <router-outlet></router-outlet>
-            <div>
-                <app-chatbot></app-chatbot>
-            </div>
         </div>
 
 
