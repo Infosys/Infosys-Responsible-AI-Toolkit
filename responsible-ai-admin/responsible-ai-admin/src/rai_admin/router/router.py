@@ -1512,7 +1512,7 @@ async def pdfFile_anonymize(embId:str=Form(...))->list:
 
 
 @router.delete('/rai/admin/deleteFile')
-async def pdfFile_anonymize(docid:str=Form(...),userid:str=Form()):
+async def pdfFile_anonymize(docid:str=Form(...),userid:str=Form(...)):
     id = uuid.uuid4().hex
     request_id_var.set(id)
     log.info("Entered create usecase routing method")
@@ -1535,6 +1535,12 @@ async def pdfFile_anonymize(docid:str=Form(...),userid:str=Form()):
         # print("res----",response)
         return response
         
+    except PermissionError as pe:
+        log.error(str(pe))
+        log.info("exit create usecase routing method")
+        raise HTTPException(
+            status_code=403,
+            detail=str(pe))
     except RaiAdminException as cie:
         log.error(cie.__dict__)
         log.info("exit create usecase routing method")
@@ -1546,7 +1552,7 @@ async def pdfFile_anonymize(docid:str=Form(...),userid:str=Form()):
             status_code=500,
             detail="Please check with administration!!",
             headers={"X-Error": "Please check with administration!!"})
-    
+
 
 
 @modRouter.post('/rai/admin/createCustomeTemplate', response_model=CustomeTemplateStatus)

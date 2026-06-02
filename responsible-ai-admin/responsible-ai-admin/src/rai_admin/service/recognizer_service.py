@@ -1397,9 +1397,12 @@ class RAG:
             raise Exception(e)
         
     def delFiles(payload):
-        try:        
+        try:
             payload=AttributeDict(payload)
             # url=os.getenv("RAG_IP")+"/rag/v1/removeCache"
+            ownerCheck=docDetailDb.findall({"fileId":payload.docid,"userId":payload.userId})
+            if len(ownerCheck)==0:
+                raise PermissionError("User does not have permission to delete this document")
             isCache=docDetailDb.findall({"fileId":payload.docid,"isCache":"Y"})
             msg="Document Deleted Successfully"
             if(len(isCache)>0):
@@ -1418,6 +1421,8 @@ class RAG:
             # res=cacheDetailDb.delete(res.json())
             # print(res)
             return msg
+        except PermissionError:
+            raise
         except Exception as e:
             log.error(str(e))
             log.error("Line No:"+str(e.__traceback__.tb_lineno))
