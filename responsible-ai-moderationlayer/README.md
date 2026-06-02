@@ -706,7 +706,21 @@ Gemini-Flash for Gemini 2.5 Flash model
 2. The Bancode check in Moderation is designed to specifically identify and block prompts that consist purely of code. It intelligently distinguishes between natural language (NL) and code, and classifies mixed inputs (text + code) as natural language. This ensures that only code-only prompts are restricted, while allowing flexibility for mixed or textual inputs.
 
 3. There are two restricted topic models available. In the moderation input payload under RestrictedtopicDetails, you can specify "model": "deberta" or "model": "fine-tuned distilbert". Please test both models and choose the one that provides better accuracy for your specific use case.
-    
+
+4. In the textTemplate_service.py file under the service folder, the score field format needs to be standardized (line 65) to: `"score" :[Assign a decimal score between 0.0-1.0]`. This applies to the NORMAL_OUTPUT template used for template-based evaluations, ensuring consistent decimal score assignments between 0.0 and 1.0 across all API responses.
+
+5. Install the `language_data` package, which is required for the `rai/v1/moderations/translate` endpoint:
+```sh
+pip install language_data==1.4.0
+```
+
+4. In the textTemplate_service.py file under the service folder, the score field format needs to be standardized (line 65) to: `"score" :[Assign a decimal score between 0.0-1.0]`. This applies to the NORMAL_OUTPUT template used for template-based evaluations, ensuring consistent decimal score assignments between 0.0 and 1.0 across all API responses.
+
+5. Install the `language_data` package, which is required for the `rai/v1/moderations/translate` endpoint:
+```sh
+pip install language_data==1.4.0
+```
+
 ## License
 The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.
 
