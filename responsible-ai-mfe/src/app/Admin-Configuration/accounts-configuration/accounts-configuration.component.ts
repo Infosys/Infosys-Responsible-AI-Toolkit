@@ -15,10 +15,10 @@ import { PagingConfig } from 'src/app/_models/paging-config.model';
 import { NgbPopover, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
-import { AccountsConfigurationModalPrivacyComponent } from './accounts-configuration-modal-privacy/accounts-configuration-modal-privacy.component';
-import { AccountsConfigurationModalSafetyComponent } from './accounts-configuration-modal-safety/accounts-configuration-modal-safety.component';
-import { AccountsConfigurationModalFmComponent } from './accounts-configuration-modal-fm/accounts-configuration-modal-fm.component';
-import { AccountsConfigurationModalCreatePmComponent } from './accounts-configuration-modal-create-pm/accounts-configuration-modal-create-pm.component';
+import { AccModalPrivacyComponent } from './acc-modal-privacy/acc-modal-privacy.component';
+import { AccModalSafetyComponent } from './acc-modal-safety/acc-modal-safety.component';
+import { AccModalFmComponent } from './acc-modal-fm/acc-modal-fm.component';
+import { AccCreatePmModalComponent } from './acc-create-pm-modal/acc-create-pm-modal.component';
 import { AccountsConfigurationModalCreateTemplateUpdateComponent } from './admin-template-update/admin-template-update';
 import { NonceService } from 'src/app/nonce.service';
 
@@ -314,7 +314,7 @@ export class AccountsConfigurationComponent implements OnDestroy {
 
    // Opens the privacy modal
   openRightSideModal1(a:any,b:any){
-    const dialogRef = this.dialog.open(AccountsConfigurationModalPrivacyComponent, {
+    const dialogRef = this.dialog.open(AccModalPrivacyComponent, {
       data: {
         id: a,
         ThresholdScore: b,
@@ -338,7 +338,7 @@ export class AccountsConfigurationComponent implements OnDestroy {
 
   // Opens the safety modal
   openRightSideModal2(a:any){
-    const dialogRef = this.dialog.open(AccountsConfigurationModalSafetyComponent, {
+    const dialogRef = this.dialog.open(AccModalSafetyComponent, {
       data: {
         id: a,
       },
@@ -361,7 +361,7 @@ export class AccountsConfigurationComponent implements OnDestroy {
 
   // Opens the FM configuration modal
   openRightSideModal3(a:any){
-    const dialogRef = this.dialog.open(AccountsConfigurationModalFmComponent, {
+    const dialogRef = this.dialog.open(AccModalFmComponent, {
       data: {
         id: a,
        
@@ -412,7 +412,7 @@ export class AccountsConfigurationComponent implements OnDestroy {
   // Opens the create PM modal
   openRightSideModal4(a:any){
     console.log("acccount from value",a)
-    const dialogRef = this.dialog.open(AccountsConfigurationModalCreatePmComponent, {
+    const dialogRef = this.dialog.open(AccCreatePmModalComponent, {
       data: {
         x: a,
        

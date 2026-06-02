@@ -350,7 +350,8 @@ export class ResponseComparisonComponent {
         fileupload: this.fileupload,
         text: this.prompt,
         vectorstoreid: this.vectorId,
-        complexity: "simple"
+        complexity: "simple",
+        llmtype:'openai',
       };
       apiObservable = this.responseService.hallucinateCOV(payload);
     } 
@@ -486,12 +487,6 @@ export class ResponseComparisonComponent {
 
   // Thread of Thoughts (THOT) API
   callTHOT() {
-    this.thotState.payload = {
-        "fileUpload": this.fileupload,
-        "text": this.prompt,
-         "llmtype": "openai",
-        "vectorstoreid": this.vectorId
-    };
     if (this.ApiCallHappened.has('openAiTHOTApi')) {
       return;
     }

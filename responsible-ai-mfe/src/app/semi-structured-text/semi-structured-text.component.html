@@ -42,9 +42,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <p class="HeadingLabel2">*right click to download sample file</p>
         </div>
         <div style="display: flex;" *ngIf="selectType == 'Privacy'">
-            <div class="mt-1 ms-2">
+            <!-- <div class="mt-1 ms-2">
                 <img src={{sampleImg}} matTooltip="Health Care Application" class="custom_image" (click)="uploadSampleFile('sampleFile')" (contextmenu)="downloadFile(sampleFile, $event)">
-            </div>
+            </div> -->
             <div class="mt-1 ms-2">
                 <img src={{sampleImgCSV}} matTooltip="Customer Finance Data" class="custom_image" (click)="uploadSampleCsvFile('sampleFilePRivacycsv')" (contextmenu)="downloadFile(sampleFilePRivacycsv, $event)">
             </div>

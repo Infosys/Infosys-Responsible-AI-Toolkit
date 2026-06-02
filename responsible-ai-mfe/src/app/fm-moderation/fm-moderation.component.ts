@@ -1556,9 +1556,9 @@ export class FmModerationComponent implements OnDestroy {
       this.isLoadingCOV = true;
       const payload: COVPayload = {
         complexity: 'simple',
-        model_name: this.selectedExplainabilityModel,
+        modelName: this.selectedExplainabilityModel,
         translate: this.selectedTranslate,
-        text: this.prompt
+        inputPrompt: this.prompt
       };
       if (this.activeTab == '') {
         this.changeTab('Explainability');
@@ -2153,9 +2153,11 @@ export class FmModerationComponent implements OnDestroy {
 
   test(p: any) {
     if (this.p.isOpen()) {
+      console.log('Popover is open');
       this.p.toggle();
     } else {
       this.p.toggle();
+      console.log('Popover is closed');
     }
   }
 

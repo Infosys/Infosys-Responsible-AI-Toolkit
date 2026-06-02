@@ -541,38 +541,20 @@ export class ExplainabilityResultComponent implements OnInit, AfterViewInit, OnD
     this.isLoadingTHOT = true;
     const payload2 = {
       temperature: '0',
-      model_name: this.selectedExplainabilityModel,
-      Prompt: this.prompt
+      modelName: this.selectedExplainabilityModel,
+      inputPrompt: this.prompt
     };
 
-    this.https.post(this.THOTUrl, payload2).pipe(takeUntil(this.destroy$)).subscribe((response: any) => {
-      let formattedText = response.text
-        .replace(/Result:/g, '<br>Result:<br>')
-        .replace(/Explanation:/g, '<br>Explanation:<br>')
-        .replace(/\n\n/g, '<br>');
-      const lines = response?.text?.split('\n');
-      const resultLine = lines.find((line: any) => line.startsWith('Result:'));
-      const resultExplain = lines.find((line: any) => line.startsWith('Explanation:'));
-
-      let resultValue = '';
-      let explanationValue = '';
-      let text = response.text;
-      text = text.replace(/\n\n/g, '<br>');
-      text = text.replace(/\n/g, '<br>');
-      const parts = text.split("Explanation:");
-      resultValue = parts[0].replace("Result:", "").trim();  // Remove 'Result:' and trim spaces
-     explanationValue = parts[1]?.trim();  // Trim spaces around the explanation part
-
-       this.THOTAnswer= `${resultValue}<br>${explanationValue}`;
-       // Create sanitized version for safe display
-       const sanitizedResult = this.sanitizeForHtml(resultValue);
-       const sanitizedExplanation = this.sanitizeForHtml(explanationValue);
-       this.safeTHOTAnswer = this.sanitizer.bypassSecurityTrustHtml(`${sanitizedResult}<br>${sanitizedExplanation}`);
+    this.https.post(this.THOTUrl, payload2)
+.pipe(takeUntil(this.destroy$)).subscribe((apiResponse: any) => {
+const resultValue = apiResponse.response.result;
+const explanationValue = apiResponse.response.explanation;
+       this.THOTAnswer= `${resultValue}<br><br/>${explanationValue}`;
     
         const payload3 = {
           inputPrompt: this.prompt,
           response: this.openAIAnswer,
-          modelName:this.selectedExplainabilityModel
+          modelName: 'gpt-4o'
         };
         this.Uncertanity(payload3,"thot");
         this.isLoadingTHOT = false;
@@ -818,7 +800,7 @@ export class ExplainabilityResultComponent implements OnInit, AfterViewInit, OnD
       fileupload: 'true',
       text: this.prompt,
       vectorstoreid: this.ExplanabilityFileId?.id,
-      llmtype: 'gemini'
+      llmtype: 'openai'
     };
 
     this.https.post(this.COVRAGUrl, payload7)
@@ -849,7 +831,7 @@ export class ExplainabilityResultComponent implements OnInit, AfterViewInit, OnD
       fileupload: 'true',
       text: this.prompt,
       vectorstoreid: this.ExplanabilityFileId?.id,
-      llmtype: 'gemini',
+      llmtype: 'openai',
       embeddingmodel: 'local'
     };
 
