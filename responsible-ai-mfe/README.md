@@ -75,6 +75,7 @@ The `npm run` command will list all of the scripts available to run for this pro
  2. For template based guardrails- from UI we are passing user id as none, and hence we are able to see all the default templates that are added
  3.  Configuration -> Fm-Chat Configuration : (Embedding is not working) & Currently this is hidden in UI.
  4.  LLM Benchmarking is an internal screen which displays benchmarking data , so hidden from UI.
+ 5. FM Moderation - Translate pop is having issue in selecting the options , Hence this will be fixed in the next version release.
  
 If the user wants to use customized templates and not our default templates, they can create the customized template from ui and pass in the payload send to moderation layer the userid
 

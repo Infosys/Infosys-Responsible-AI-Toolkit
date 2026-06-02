@@ -84,9 +84,9 @@ export interface ExplainabilityPayload {
 
 export interface COVPayload {
   complexity: string;
-  model_name: string;
+  modelName: string;
   translate: string;
-  text: string;
+  inputPrompt: string;
 }
 
 // ====== FAIRNESS API INTERFACES ======

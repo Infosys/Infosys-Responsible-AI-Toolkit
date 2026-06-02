@@ -621,9 +621,9 @@ export class FmModerationService {
     const formData = new FormData();
     
     files.forEach(file => {
-      formData.append('file', file);
+      formData.append('files', file);
     });
-    formData.append('select-model', "openai");
+    formData.append('llmtype', "openai");
     if (additionalData) {
       Object.keys(additionalData).forEach(key => {
         formData.append(key, additionalData[key]);
