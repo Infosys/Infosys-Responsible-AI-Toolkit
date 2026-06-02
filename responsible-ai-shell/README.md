@@ -122,7 +122,6 @@ update src/main/webapp/app/app.module.ts
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-
 ## Dependency
  As these are frontend modules , they have dependency on these modules
 1. responsible-ai-mfe
