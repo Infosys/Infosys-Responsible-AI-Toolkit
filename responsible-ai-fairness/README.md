@@ -10,6 +10,7 @@
       - [Database Configurations](#database-configurations)
       - [Header Configurations](#header-configurations)
       - [Blob Containers and API Configurations](#blob-containers-and-api-configurations)
+      - [LLM Connection Configurations](#llm-connection-configurations)
   - [Tests](#tests)
   - [Features](#features)
   - [License](#license)
@@ -139,6 +140,31 @@ GEMINI_PRO_MODEL_NAME                | "${gemini_pro_model_name}"            |  
 |ANTHROPIC_VERSION | "${anthropicversion}" | | Yes |
 |VERIFY_SSL | "${verify_ssl}" | Options: True, False | Yes |
 
+#### LLM Connection Configurations
+
+> **Note:** If your LLM deployment does not support or enforce a `max_tokens` limit (e.g., certain Azure OpenAI or custom endpoints where token limits are managed server-side), you may need to comment out the `max_tokens` parameter in the LLM connection file to avoid request errors.
+
+**File location:**
+```
+fairness/src/dao/LLMconnection.py
+```
+
+**Lines to comment out:** Line **97** and Line **141**
+
+**The line reads:**
+```python
+"max_tokens": kwargs.get('max_tokens', 800)
+```
+
+**How to comment it out:**
+Open `fairness/src/dao/LLMconnection.py` and prefix the above line with `#` at both line 97 and line 141, as shown below:
+
+```python
+# "max_tokens": kwargs.get('max_tokens', 800)
+```
+
+> **When to do this:** Apply this change if you encounter errors related to `max_tokens` being an unsupported or unexpected parameter for your configured LLM endpoint.
+
 ## Tests
   - When testing, the `env` variables:
       - `MONGO_PATH` should be set to `mongodb://localhost:27017/`
@@ -149,7 +175,7 @@ GEMINI_PRO_MODEL_NAME                | "${gemini_pro_model_name}"            |  
     **OPTIONAL**
   - To view the coverage of the codebase - please install: `pip install pytest-cov`.
   - Then, from the same project root, run `pytest --cov=. --cov-report=html`. After the test is successful, a folder named `htmlcov` will be generated. In that folder, you can open the `index.html` file to view the overall coverage of the codebase.
-
+    
 ## Features
 For more details refer to:
   - [API Documentation](responsible-ai-fairness/docs/FAIRNESS_API_DOCUMENTATION.pdf)
