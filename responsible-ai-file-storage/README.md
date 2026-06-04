@@ -213,7 +213,6 @@ Follow these steps to download the service account JSON key and get the file pat
    ```bash
    realpath ./secrets/gcp-key.json
 
-
 ## License
 
 The source code for the project is licensed under MIT license, which you can find in the [LICENSE.md](LICENSE.md) file.
