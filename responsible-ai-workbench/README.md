@@ -25,7 +25,6 @@ Please find the link for Responsible AI Explainability repo : [Explainability re
 
 2. **Installation of Python** : Install Python (version 3.11.x) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
 
-
 3. **Installation of pip** :
 
 **Linux:**
@@ -270,7 +269,6 @@ allow_method = "${allow_method}" # [Mandatory]
 VERIFY_SSL="${verify_ssl}" # [Mandatory]
 
 ```
-
 ## License
 The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.
 
