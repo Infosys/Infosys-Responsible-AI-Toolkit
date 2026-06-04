@@ -60,6 +60,8 @@ Please follow the setup instructions in the README file of the moderation layer 
 
 - Currently not added Gemini support for `Graph of Thought`. Except GOT all features have Gemini Support.
 
+- To run `Graph of Thought` (GOT), the model **`gpt-35-turbo-16k`** is required. Please ensure your Azure OpenAI deployment uses `gpt-35-turbo-16k` for GOT functionality.
+
 - For `Bulk Processing` current version not supporting (Evaluation Metrices, Sentiment, Safesearch, All) methods.
 
 ## Installation
