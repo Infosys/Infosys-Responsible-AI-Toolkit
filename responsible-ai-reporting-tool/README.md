@@ -105,10 +105,8 @@ Once we have completed all the aforementioned steps, we can start the service.
 
     User can also change the port which mentioned in main.py file
 
-
 ## License
 The source code for the project is licensed under MIT license, which you can find in the [LICENSE.md](LICENSE.md) file.
-
 
 ## Contact
 If you have more questions or need further insights, feel free to Connect with us @ Infosysraitoolkit@infosys.com
