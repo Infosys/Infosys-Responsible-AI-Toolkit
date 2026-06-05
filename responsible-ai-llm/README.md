@@ -90,6 +90,10 @@ After installing all the required packages, configure the variables necessary to
     ```sh
     To allow access to all sites, use the value "*" in "${allowed_origins}". Alternatively, you can specify a list of sites that should have access.
     ```
+     ```sh
+    OPENAI_MODEL_GPT3 = "${openaimodel_gpt3}"
+    The GPT-3.5 model deployment must use gpt-35-turbo-16k. Ensure your Azure OpenAI deployment for OPENAI_MODEL_GPT3 is set to gpt-35-turbo-16k.
+    ```
     ```sh
     AZURE_OPENAI_API_KEY_DALL_E_2 = "${azure_openai_api_key_dall_e_2}"
     AZURE_OPENAI_ENDPOINT_DALL_E_2 = "${azure_openai_endpoint_dall_e_2}"

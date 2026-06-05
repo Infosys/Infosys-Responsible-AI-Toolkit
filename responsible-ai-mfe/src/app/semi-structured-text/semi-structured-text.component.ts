@@ -121,7 +121,7 @@ export class SemiStructuredTextComponent implements OnInit, OnDestroy{
   setApilist(ip_port: any) {
     this.url = ip_port.result.Privacy_Files + ip_port.result.Privacy_Pdf;
     this.Privacy_PPT_anonymize = ip_port.result.Privacy_Files + ip_port.result.Privacy_PPT_anonymize;  
-    this.privacyRecognizersList = ip_port.result.Privacy_Files + ip_port.result.Privacy_getRecognizer;  
+    this.privacyRecognizersList = ip_port.result.Privacy + ip_port.result.Privacy_getRecognizer;  
     this.llm_explainability_file_upload_explanation = ip_port.result.Llm_Explain + ip_port.result.llm_explainability_file_upload_explanation; 
     this.Privacy_DOCX_anonymize = ip_port.result.Privacy_Files + ip_port.result.Privacy_DOCX_anonymize;
     this.Privacy_JSON_anonymize = ip_port.result.Privacy_Files + ip_port.result.Privacy_JSON_anonymize;
@@ -311,18 +311,29 @@ export class SemiStructuredTextComponent implements OnInit, OnDestroy{
         } else {
 
           // Add any additional form data or logic specific to PPt Anonymize
-
-          const formDatappt = new FormData();
+ const formDatappt = new FormData();
           formDatappt.append('ppt', this.demoFile[0]);
-          formDatappt.append('portfolio', this.portfolioName_value);
-          formDatappt.append('account', this.accountName_value);
-          formDatappt.append('exclusionList', this.exclusionList_value);
-          formDatappt.append('nlp', this.nlpOption);
-
-          if (!this.accountName_value || !this.portfolioName_value) {
-            formDatappt.append('piiEntitiesToBeRedacted', this.piiEntitiesToBeRedactedOption.value!.join(','));
+           [
+        ['portfolio', this.portfolioName_value],
+        ['account', this.accountName_value],
+        ['exclusionList', this.exclusionList_value],
+        ['nlp', this.nlpOption],
+      ].forEach(([key, value]) => {
+        if (value != null && value !== '') {
+          formDatappt.append(key, value);
+        }
+      });
+      const piiValues = this.piiEntitiesToBeRedactedOption?.value;
+      if (
+        (!this.accountName_value || !this.portfolioName_value) &&
+        Array.isArray(piiValues) &&
+        piiValues.length > 0
+      ) {
+        formDatappt.append(
+          'piiEntitiesToBeRedacted',
+          this.piiEntitiesToBeRedactedOption.value!.join(',')
+        );
       }
-
           let url = this.Privacy_PPT_anonymize + `?ocr=${encodeURIComponent(this.ocrvalue)}`;
 
           console.log('Selected option: PPt Anonymize');
@@ -873,6 +884,7 @@ export class SemiStructuredTextComponent implements OnInit, OnDestroy{
       console.error('Failed to stringify payload', error);
       payloadString = '';
     }
+    formData.append('payload', payloadString);
     formData.append('file', file, file.name);
 
     const headers = new HttpHeaders({

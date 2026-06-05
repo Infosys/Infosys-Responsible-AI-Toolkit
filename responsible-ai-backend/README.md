@@ -9,7 +9,6 @@
 - [Contact](#contact)
 - [Issue](#issueUpdate)
 
-
 ## Introduction
 The backend repository is used for managing Log in, Register and Authentication of the users.
 

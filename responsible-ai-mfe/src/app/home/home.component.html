@@ -66,9 +66,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 <div *authHasAnyAuthority="['ROLE_ADMIN']">
                     <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/user-management">USER MANAGEMENT</a>
                 </div>
-                <div *ngIf="roleService.checkPageExists('RedTeaming')">
+                <!-- <div *ngIf="roleService.checkPageExists('RedTeaming')">
                     <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/red-teaming">RED TEAMING</a>
-                </div>
+                </div> -->
                 <!-- <div *ngIf="roleService.checkPageExists('LLMScanner')">
                     <a class="custom-button d-flex align-items-center gap-2 p-3 px-3 homeNavOptions" (click)="showSidebar = false;" routerLink="/responsible-ui/llm-scanner">LLM SCANNER</a>
                 </div> -->

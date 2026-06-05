@@ -104,7 +104,7 @@ http://localhost:<PORTNO>/api/v1/safety/docs
 ```
 Navigate to main.py and port no can be changed according to the project requirements.
 
-Note: The '/api/v1/safety/profanity/imageGenerate' API is currently not working due to its dependency on the LLM module, DALL·E 2 subscription is required to use the endpoint /rai/v1/llm/image.
+Note: The '/api/v1/safety/profanity/imageGenerate' API is currently not working due to its dependency on the LLM module, DALL·E 2 model used for image generation to use the endpoint /rai/v1/llm/image is now deprecated by Microsoft, we are actively monitoring for any alternative models or replacements. Once a suitable option becomes available, this feature will be updated and restored accordingly.
 
 
   
