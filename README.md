@@ -53,9 +53,7 @@ For technical details and usage instructions on the Infosys Responsible AI toolk
 
 ## Upcoming Features
 * Multi-lingual support for FM-Moderation Guardrails
-* Red Teaming using Datasets and Garak based Technique & Libraries
 * Counterfactual explanation for ML model prediction
-
 
 We appreciate your feedback and aim to keep you updated on our plans regularly. This approach ensures we're prioritizing the right tasks and enables you to make informed decisions based on our development roadmap.
 
