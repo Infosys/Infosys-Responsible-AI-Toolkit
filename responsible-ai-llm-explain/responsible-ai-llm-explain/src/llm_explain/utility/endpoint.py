@@ -50,7 +50,7 @@ class APIEndpoint:
             headers = {
                 'Content-Type': 'application/json'
             }
-            result = requests.request("POST", modelEndpointUrl, headers=headers, data=payload, verify=False).json()
+            result = requests.request("POST", modelEndpointUrl, headers=headers, data=payload).json()
             explanation = result
             # Parse the endpointOutputParam string into a list of keys/indices
             parsed_output_param = APIEndpoint.convert_path_to_list(endpointOutputParam)

@@ -70,7 +70,7 @@ class Llamacompletion:
             }
             }
         log.info(f"inside Llama completions function")
-        response = requests.post(self.url, json=input, verify=False)
+        response = requests.post(self.url, json=input)
         response.raise_for_status()
         generated_text = response.json()[0]["generated_text"]
         output_text = generated_text.split("[/INST]")[1]

@@ -186,10 +186,8 @@ Once we have completed all the aforementioned steps, we can start the service.
     python main.py
     ```
 
-3. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running:
-
-   `http://localhost:31016/rai/v1/image-explainability/docs`
-    
+3.Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running:  `http://localhost:<PORT_NUMBER>/rai/v1/image-explainability/docs`
+  
 For API calls, please refer to the [API Documnet](responsible-ai-image-explain/docs/API_Doc.pdf)
 
 ## License

@@ -1,12 +1,13 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 """
@@ -37,15 +38,15 @@ from starlette.responses import Response
 # from
 
 log=CustomLogger()
-cache_control = os.getenv("cache_control")
-allow_methods = os.getenv("allow_methods")
-allow_origins = os.getenv("allow_origin")
-content_security_policy = os.getenv("content_security_policy")
-XSS_header = os.getenv("XSS_header")
-Vary_header = os.getenv("Vary_header")
-Pragma = os.getenv("Pragma")
-X_Content_Type_Options = os.getenv("X-Content-Type-Options")
-X_Frame_Options = os.getenv("X-Frame-Options")
+cache_control = os.getenv("cache_control", "no-store, no-cache, must-revalidate, max-age=0")
+allow_methods = os.getenv("allow_methods", "*")
+allow_origins = os.getenv("allow_origin", "*")
+content_security_policy = os.getenv("content_security_policy", "default-src 'self'")
+XSS_header = os.getenv("XSS_header", "1; mode=block")
+Vary_header = os.getenv("Vary_header", "Origin")
+Pragma = os.getenv("Pragma", "no-cache")
+X_Content_Type_Options = os.getenv("X-Content-Type-Options", "nosniff")
+X_Frame_Options = os.getenv("X-Frame-Options", "DENY")
 
 
 ## initialize the app with openapi and docs url

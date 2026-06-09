@@ -5,7 +5,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,7 +22,8 @@ import { NonceService } from '../nonce.service';
   templateUrl: './image-generate.component.html',
   styleUrls: ['./image-generate.component.css']
 })
-export class ImageGenerateComponent implements AfterViewInit {
+export class ImageGenerateComponent implements AfterViewInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('form') form: NgForm | undefined;
   @ViewChild('tooltip', { static: false }) tooltip!: MatTooltip;
 
@@ -164,7 +166,7 @@ export class ImageGenerateComponent implements AfterViewInit {
     this.imageGenerateModeration = ip_port.result.FairnessAzure + ip_port.result.GenerateImage;
     // Analyze apis
     this.imageExplainabilityUrl = ip_port.result.Image_Explain + ip_port.result.ImageGen_Explain
-    this.fairness_image = ip_port.result.FairnessAzure + ip_port.result.FairnessImage;
+    this.fairness_image = ip_port.result.Fairness + ip_port.result.FairnessImage;
     this.image_explainability_analyze = ip_port.result.ExplainabilityAzure + ip_port.result.image_explainability_analyze;
     this.image_superpixel_segment_image = ip_port.result.image_superpixel_segment_image_ip + ip_port.result.image_superpixel_segment_image;
   }
@@ -206,7 +208,7 @@ export class ImageGenerateComponent implements AfterViewInit {
   // Calls the image explainability API
   imageExplainability(fileData: any) {
     const localImageExplainabilityUrl = "http://10.68.120.142:31016/api/v1/rai/helm/imageGenerate"
-    this.https.post(this.imageExplainabilityUrl, fileData).subscribe((data: any) => {
+    this.https.post(this.imageExplainabilityUrl, fileData).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.imageOutput = true
       this.imagePath = data.img;
       this.analyze = data
@@ -347,7 +349,7 @@ export class ImageGenerateComponent implements AfterViewInit {
 
   // Calls the image profanity API
   imageProfanity(fileData: any) {
-    this.https.post(this.imageGenerateUrl, fileData).subscribe((data: any) => {
+    this.https.post(this.imageGenerateUrl, fileData).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
     // this.https.post("http://localhost:8001/api/v1/safety/profanity/imageGenerate", fileData).subscribe((data: any) => {
       this.imageOutput = true
       this.imagePath = data.img;
@@ -372,7 +374,7 @@ export class ImageGenerateComponent implements AfterViewInit {
   imageFairness(prompt: any) {  
     const fileData = new FormData();
     fileData.append('prompt', prompt);
-    this.https.post(this.imageGenerateModeration, { prompt: prompt,model: "DALL-E-2"}).subscribe((data: any) => {
+    this.https.post(this.imageGenerateModeration, { prompt: prompt,model: "DALL-E-2"}).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       // console.log(typeof data)
       // this.imagePath = data;
       // this.imageOutput = true
@@ -397,7 +399,7 @@ export class ImageGenerateComponent implements AfterViewInit {
       formPayload.append('prompt', prompt);
       formPayload.append('evaluator', "GPT_4o");
       formPayload.append('image', blob, 'image.jpg');
-      this.https.post(this.fairness_image, formPayload).subscribe((res: any) => {
+      this.https.post(this.fairness_image, formPayload).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
         this.fairnessRes.status = true;
         this.fairnessRes.report = res;
         console.log("fairnessRes.report", this.fairnessRes.report['Bias score'])
@@ -573,7 +575,7 @@ export class ImageGenerateComponent implements AfterViewInit {
     //   'accept': 'application/json'
     // });
 
-    this.https.post(this.imageGenerateModeration,{ prompt: prompt,model: "DALL-E-2"})
+    this.https.post(this.imageGenerateModeration,{ prompt: prompt,model: "DALL-E-2"}).pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (data: any) => {
           // Assuming the response is an HTML document, parse it to extract the image URL
@@ -610,8 +612,8 @@ export class ImageGenerateComponent implements AfterViewInit {
     const formData = new FormData();
     formData.append('file', file, 'image.png'); 
 
-    // Call the Second API
-    this.https.post(this.image_superpixel_segment_image, formData)
+    // Call the Second API , hidden as its not opensource yet
+   /* this.https.post(this.image_superpixel_segment_image, formData).pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (response:any) => {
         this.image = `data:image/png;base64,${response.superpixel_data}`;
@@ -619,7 +621,7 @@ export class ImageGenerateComponent implements AfterViewInit {
       }, error: (error) =>{
         console.error('Error:', error);
       }
-    });
+    }); */
   }
   triggerSegmentImage2(file:any,name:any) {
     // Prepare the base64 string as a file
@@ -629,8 +631,8 @@ export class ImageGenerateComponent implements AfterViewInit {
     const formData = new FormData();
     formData.append('file', file, name); 
 
-    // Call the Second API
-    this.https.post(this.image_superpixel_segment_image, formData)
+    // Call the Second API, hidden as its not opensource yet
+   /* this.https.post(this.image_superpixel_segment_image, formData).pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (response:any) => {
         this.image = `data:image/png;base64,${response.superpixel_data}`;
@@ -638,7 +640,7 @@ export class ImageGenerateComponent implements AfterViewInit {
       }, error: (error) =>{
         console.error('Error:', error);
       }
-    });
+    });*/
   }
 
   // Method to handle image file explain anazlyse
@@ -652,7 +654,7 @@ export class ImageGenerateComponent implements AfterViewInit {
       'accept': 'multipart/form-data'
     });
   
-    this.https.post(this.image_explainability_analyze, formData, { headers })
+    this.https.post(this.image_explainability_analyze, formData, { headers }).pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           console.log('Response:', response);
@@ -705,5 +707,11 @@ export class ImageGenerateComponent implements AfterViewInit {
     } catch (error) {
       console.error('Error converting image to Base64:', error);
     }
+  }
+
+  // Cleanup on component destruction
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

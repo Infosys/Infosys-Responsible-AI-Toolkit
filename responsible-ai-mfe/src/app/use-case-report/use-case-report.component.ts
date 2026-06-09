@@ -5,11 +5,12 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { UseCaseServiceService } from '../use-case-parent/use-case-service.service';
+import { Subject, takeUntil } from 'rxjs';
 // import { Input } from 'hammerjs';
 
 @Component({
@@ -18,6 +19,7 @@ import { UseCaseServiceService } from '../use-case-parent/use-case-service.servi
   styleUrls: ['./use-case-report.component.css']
 })
 export class UseCaseReportComponent {
+  private destroy$ = new Subject<void>();
   userId: any;
   Ques_Risk_Dashboard: any;
   dataSource: any = [];
@@ -43,7 +45,7 @@ export class UseCaseReportComponent {
     // this.https.get(this.getRiskDash+this.userId).subscribe
     // this.useCaseService.getMessage.subscribe(msg => this.UseCaseName = msg)
     // this.https.get(this.Ques_Risk_Dashboard + '"' + this.userId + '"/'+this.UseCaseName).subscribe
-    this.https.get(this.Ques_Risk_Dashboard + '"' + this.userId + '"/'+this.useCaseName).subscribe
+    this.https.get(this.Ques_Risk_Dashboard + '"' + this.userId + '"/'+this.useCaseName).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
 
         if (res == "No Record Found...") {
@@ -151,7 +153,7 @@ previousScreen() {
 // Navigates to the main use case page
 useCaseMainPage(){
   this.useCasePage=true
-  this.useCaseService.getGenerateReport.subscribe(msg => this.useCaseReport = msg)
+  this.useCaseService.getGenerateReport.pipe(takeUntil(this.destroy$)).subscribe(msg => this.useCaseReport = msg)
   console.log("this.usecaseReport139=====",this.useCaseReport)
 }
 
@@ -165,12 +167,17 @@ useCaseMainPage(){
 
   let user = this.getLogedInUser()
   console.log("useCaseName124=======",this.useCaseName)
-  this.useCaseService.getGenerateReport.subscribe(msg => this.useCaseReport = msg)
+  this.useCaseService.getGenerateReport.pipe(takeUntil(this.destroy$)).subscribe(msg => this.useCaseReport = msg)
   console.log("useCaseReport=======",this.useCaseReport)
   ip_port = this.getLocalStoreApi()
   this.setApilist(ip_port)
   // this.getDetails()
   this.onSubmit()
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 

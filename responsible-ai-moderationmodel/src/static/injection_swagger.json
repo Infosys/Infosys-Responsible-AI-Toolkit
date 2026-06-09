@@ -163,15 +163,14 @@
           "model": {
             "type": "string",
             "title": "Model",
-            "example": "distilroberta"
+            "example": "deberta"
           },
           "labels": {
             "items": {},
             "type": "array",
             "title": "Labels",
             "default": [
-              "Terrorism",
-              "Explosives"
+              ""
             ]
           }
         },

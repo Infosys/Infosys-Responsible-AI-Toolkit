@@ -122,7 +122,7 @@ By abstracting away provider-specific implementations, the module delivers a str
   `GET /api/v1/s3/getObjectProperties`  
   Retrieves metadata and properties of a specific object in S3.
 
-For more details refer our [API Documentation](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/Release-2.2.0/responsible-ai-file-storage/docs/File_Storage_API_Documentation.pdf)
+For more details refer our [API Documentation](./docs/File_Storage_API_Documentation.pdf)
 
 ## Installation
 1.	Clone the repository
@@ -147,7 +147,7 @@ and activate it by going to
       ```bash 
          python main.py 
       ```
-6. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: `http://localhost:8000/api/v1/azureBlob/docs#/`
+6. Once server is running successfully, go to `http://localhost:<port>/api/v1/azureBlob/docs`
 
 
 ## Configurations
@@ -156,7 +156,7 @@ and activate it by going to
 | Key         | Placeholder Value | sample Value     | Required |
 |-------------|-------------------|------------------|----------|
 | AZURE_BLOB_STORAGE_CONNECTION_KEY    | "${azure_connection_key}" | YOUR_CONNECTION_KEY  |  yes     |
-| GOOGLE_APPLICATION_CREDENTIALS    | "${google_application_credentials_path}"     | PATH TO JSON FILE WITH GCP KEYS DOWNLOADED FROM CLOUD CONSOLE  |  yes     |
+| GOOGLE_APPLICATION_CREDENTIALS    | "${google_application_credentials_path}"     | PATH TO JSON FILE WITH GCP KEYS DOWNLOADED FROM CLOUD CONSOLE - This Json file should be placed under the SRC folder. No modification of the key-value pairs are required - the JSON file downloaded from GCP should be placed under SRC folder as is. The credentials JSON should have the following key-value pairs: "type", "project_id", "private_key_id", "private_key", "client_email", "client_id", "auth_url", "token_url", "auth_provider_x509_cert_url", "client_x509_cert_url", "universe_domain" |  yes     |
 | AWS_ACCESS_KEY_ID    | "${aws_access_key_id}"     | YOUR_CONNECTION_KEY  |  yes     |
 | AWS_SECRET_ACCESS_KEY    | "${aws_secret_access_key}"     | YOUR_CONNECTION_KEY  |  yes     |
 | AWS_SESSION_TOKEN    | "${aws_session_token}"     | YOUR_CONNECTION_KEY  |  yes     |
@@ -169,6 +169,8 @@ and activate it by going to
 | X-Frame-Options         | "${X-Frame-Options}"    |            SAMEORIGIN       | yes |
 | X-Content-Type-Options  | "${X-Content-Type-Options}" |     nosniff         | yes |
 | Pragma                  | "${Pragma}"             |     no-cache             | yes |
+| VERIFY_SSL                  | "${sslVerify}"        |  Options:  "***True***" OR "***False***"            | yes |
+| CLOUD_TYPE                  | "${cloud_type}"        |  Options:  '***azure***' OR '***gcp***' OR '***aws***' OR '***azure-gcp***' OR '***gcp-aws***' OR '***azure-aws***' OR '***all***'             | yes |
 
 ## How to Get GCP Credentials JSON File
 
@@ -210,7 +212,6 @@ Follow these steps to download the service account JSON key and get the file pat
 
    ```bash
    realpath ./secrets/gcp-key.json
-
 
 ## License
 

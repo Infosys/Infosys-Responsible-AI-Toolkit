@@ -19,10 +19,6 @@ import { AddModelComponent } from '../add-model/add-model.component';
 import { AddvectorComponent } from '../addvector/addvector.component';
 import { RightSidePopupComponent } from '../fm-moderation/right-side-popup/right-side-popup.component';
 import { MagnifyImageReportComponent } from '../magnify-image-report/magnify-image-report.component';
-import { ModelValidationComponent } from '../llm-benchmarking/model-validation/model-validation.component';
-import { InfosysLeaderboardComponent } from '../llm-benchmarking/infosys-leaderboard/infosys-leaderboard.component';
-import { PreviewModalComponent } from '../llm-benchmarking/model-validation/preview-modal/preview-modal.component';
-import { ChatbotComponent } from '../chatbot/chatbot.component';
 import { PageRoleAccessComponent } from '../user/user-management/page-role-access/page-role-access.component';
 import { TemplateDataComponent } from '../Admin-Configuration/template-data/template-data.component';
 import { NewUserComponent } from '../new-user/new-user.component';
@@ -30,7 +26,6 @@ import { FormatTemplateNamePipe } from '../pipes/format-template-name.pipe';
 import { ImageHashifyRightModalComponent } from '../image/image-hashify-right-modal/image-hashify-right-modal.component';
 import { ImageDialogComponent } from '../image-dialog/image-dialog.component';
 import { FairnessSideModalComponent } from '../image-generate/fairness-side-modal/fairness-side-modal.component';
-import { LegalAgentComponent } from '../new-use-case/legal-agent/legal-agent.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -55,18 +50,13 @@ import { RemoteMfeRoutingModule } from './remote-mfe-routing.module';
     AddvectorComponent,
     RightSidePopupComponent,
     MagnifyImageReportComponent,
-    ModelValidationComponent,
-    InfosysLeaderboardComponent,
-    PreviewModalComponent,
-    ChatbotComponent,
     PageRoleAccessComponent,
     TemplateDataComponent,
     NewUserComponent,
     FormatTemplateNamePipe,
     ImageHashifyRightModalComponent,
     ImageDialogComponent,
-    FairnessSideModalComponent,
-    LegalAgentComponent,
+    FairnessSideModalComponent
   ],
   imports: [
     CommonModule,

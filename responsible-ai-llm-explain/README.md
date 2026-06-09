@@ -60,6 +60,8 @@ Please follow the setup instructions in the README file of the moderation layer 
 
 - Currently not added Gemini support for `Graph of Thought`. Except GOT all features have Gemini Support.
 
+- To run `Graph of Thought` (GOT), the model **`gpt-35-turbo-16k`** is required. Please ensure your Azure OpenAI deployment uses `gpt-35-turbo-16k` for GOT functionality.
+
 - For `Bulk Processing` current version not supporting (Evaluation Metrices, Sentiment, Safesearch, All) methods.
 
 ## Installation
@@ -156,9 +158,11 @@ Once we have completed all the aforementioned steps, we can start the service.
     python main.py
     ```
 
-3. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: `http://localhost:8002/rai/v1/llm-explainability/docs`
+3. Open the following URL in your browser:
 
-For API calls, please refer to the [API Document](responsible-ai-llm-explain/docs/API_Doc.pdf)
+    [http://localhost:8002/rai/v1/llm-explainability/docs](http://localhost:8002/rai/v1/llm-explainability/docs)
+
+For API calls, please refer to the [API Documnet](responsible-ai-llm-explain/docs/API_Doc.pdf)
 
 
 ## Referred Citations

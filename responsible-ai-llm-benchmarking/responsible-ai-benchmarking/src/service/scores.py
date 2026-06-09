@@ -1,19 +1,23 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
+
 from dao.databaseConnection import DataBase
 from dao.mappers.fairness import Fairness
 from dao.mappers.truthfullness import Truthfullness
 from dao.mappers.ethics import Ethics
 from dao.mappers.privacy import Privacy
 from dao.mappers.saftey import Saftey
+from config.logger import CustomLogger
+log=CustomLogger()
 import json
 class Scores:
     def __init__(self):
@@ -23,6 +27,7 @@ class Scores:
         self.saftey_coll = self.db['saftey']
         self.ethics_coll = self.db['ethics']
         self.truthfullness_coll=self.db['truthfullness']
+        self.explain_coll=self.db['explain']
 
     def getScores(self,category:str):
         
@@ -36,6 +41,14 @@ class Scores:
             return self.getPrivacyScores()
         elif "safety" in category:
             return self.getSafteyScores()
+
+    
+    def getscores_explain(self,category: str, sub_category:str):
+        if "explain" in category:
+            return self.getExplainScores(sub_category)
+
+
+
     
     def addScore(self,payload:dict):
         category=payload['category']
@@ -49,6 +62,8 @@ class Scores:
             return self.addPrivacyScore(payload)
         elif "safety" in category:
             return self.addSafteyScore(payload)
+        elif "explain" in category:
+            return self.addExplainabilityScore(payload)
 
     def deleteScores(self,category,model_name):
           
@@ -114,6 +129,19 @@ class Scores:
         modified_records = []
         for record in records:
             modified_records.append(record)      
+        return modified_records
+
+    
+    def getExplainScores(self, sub_category:str):
+        log.info("Entered getExplainScores")
+        if sub_category == "all":
+            records = self.explain_coll.find({},{'_id': False})
+        else:
+            records = self.explain_coll.find({"sub_category": sub_category},{'_id': False})
+        # Create a list to store the modified records
+        modified_records = []
+        for record in records:
+            modified_records.append(record)     
         return modified_records
     
     
@@ -308,6 +336,13 @@ class Scores:
             raise RuntimeError('Insertion not acknowledged by the server')
         print('Insertion successful')
         return ('Insertion Successful')
-        
-        
     
+
+    def addExplainabilityScore(self,payload: dict): 
+        del payload['inhouse_model']
+        del payload['category']
+        result = self.explain_coll.insert_one(payload)
+        if result.acknowledged == False:
+            raise RuntimeError('Insertion not acknowledged by the server')
+        print('Insertion successful')
+        return 'Insertion Successful'

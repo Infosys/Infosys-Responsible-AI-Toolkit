@@ -4,17 +4,19 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { NonceService } from 'src/app/nonce.service';
 import { AccountService } from '../../../app/core/auth/account.service';
 import { Account } from '../../../app/core/auth/account.model';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-settings',
   templateUrl: './settings.component.html',
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
   account!: Account;
   success = false;
   csrfToken: string;
@@ -31,7 +33,7 @@ export class SettingsComponent implements OnInit {
    * @returns {void}
    */
   ngOnInit(): void {
-    this.accountService.identity().subscribe(account => {
+    this.accountService.identity().pipe(takeUntil(this.destroy$)).subscribe(account => {
       if (account) {
         this.settingsForm.patchValue({
           firstName: account.firstName,
@@ -55,10 +57,16 @@ export class SettingsComponent implements OnInit {
     this.account.lastName = this.settingsForm.get('lastName')!.value;
     this.account.email = this.settingsForm.get('email')!.value;
 
-    this.accountService.save(this.account).subscribe(() => {
+    this.accountService.save(this.account).pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.success = true;
 
       this.accountService.authenticate(this.account);
     });
+  }
+  private destroy$ = new Subject<void>();
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

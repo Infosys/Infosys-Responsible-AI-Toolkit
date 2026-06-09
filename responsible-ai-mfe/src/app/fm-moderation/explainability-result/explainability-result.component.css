@@ -4,6 +4,7 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
+
 .mainLabel {
     color: #2e2e2e;
     padding: 0px;
@@ -13,6 +14,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 }
 
 .mainLabelSM {
+    font-size: 12px;
+}
+
+.labelSM {
     font-size: 12px;
 }
 
@@ -28,20 +33,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 .cardA {
     color: black;
     padding: 10px;
-    /* border-radius: 8px; */
-    /* border-left: 8px solid #8626C3; */
     background-color: #ececec;
     border-radius: 8px;
-}
-
-.custom-badge-positive {
-    color: rgb(20 83 45);
-    background-color: rgb(220 252 231);
-}
-
-.custom-badge-negative {
-    color: rgb(255 0 78);
-    background-color: rgb(255 228 230);
 }
 
 .fixed-height-card1 {
@@ -166,10 +159,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     left: 1px;
 }
 
-.tokenImage {
-    height: 280px;
-}
-
 .spinner-container {
     display: flex;
     justify-content: center;
@@ -257,11 +246,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     padding: 0 8px 0 8px !important;
 }
 
-.sentimentalCard {
-    font-size: 14px;
-    font-weight: bold;
-    color: #3e3e3e;
-    margin-bottom: 0px;
+.DecryptButton {
+    background-color: #8626C3;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .card-header {

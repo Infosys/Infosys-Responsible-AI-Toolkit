@@ -4,24 +4,30 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,OnDestroy  } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { mergeMap } from 'rxjs/operators';
+import { mergeMap, takeUntil } from 'rxjs/operators';
 
 import { ActivateService } from './activate.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'jhi-activate',
   templateUrl: './activate.component.html',
 })
-export class ActivateComponent implements OnInit {
+export class ActivateComponent implements OnInit,OnDestroy  {
   error = false;
   success = false;
+private destroy$ = new Subject<void>();
 
   constructor(private activateService: ActivateService, private route: ActivatedRoute) {}
+  ngOnDestroy(): void {
+  this.destroy$.next();
+    this.destroy$.complete();  }
 
   ngOnInit(): void {
-    this.route.queryParams.pipe(mergeMap(params => this.activateService.get(params['key']))).subscribe(
+    this.route.queryParams.pipe(mergeMap(params => this.activateService.get(params['key'])),takeUntil(this.destroy$)
+      ).subscribe(
       () => (this.success = true),
       () => (this.error = true)
     );

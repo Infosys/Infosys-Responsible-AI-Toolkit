@@ -181,7 +181,6 @@ Once we have completed all the aforementioned steps, we can start the service.
 3. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: `http://localhost:<Port_No>/rai/v1/explainability/docs`
 
 For API calls, please refer to the [API Documnet](responsible-ai-explain/docs/API_Doc.pdf)
-
   
 ## License
 

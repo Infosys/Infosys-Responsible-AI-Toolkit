@@ -6,6 +6,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 // This file is required by karma.conf.js and loads recursively all the .spec and framework files
 
+// Mock webpack public path to fix cornerstone-wado-image-loader error
+(window as any).__webpack_public_path__ = '/';
+
 import 'zone.js/testing';
 import { getTestBed } from '@angular/core/testing';
 import {

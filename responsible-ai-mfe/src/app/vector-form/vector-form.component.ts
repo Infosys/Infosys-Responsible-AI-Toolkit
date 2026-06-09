@@ -4,7 +4,8 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { PagingConfig } from '../_models/paging-config.model';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -16,7 +17,8 @@ import { AddvectorComponent } from '../addvector/addvector.component';
   templateUrl: './vector-form.component.html',
   styleUrls: ['./vector-form.component.css']
 })
-export class VectorFormComponent {
+export class VectorFormComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   // FOR SHIMMER EFFECT
   isLoadingTable = true;
   ////
@@ -74,7 +76,7 @@ export class VectorFormComponent {
   getBatches() {
     const formData =new FormData;
     formData.append("userId",this.user)
-    this.https.post(this.getVector , formData).subscribe(
+    this.https.post(this.getVector , formData).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.dataSource_getBatches = res;
         this.onTableDataChange(this.currentPage);
@@ -101,7 +103,7 @@ export class VectorFormComponent {
       body: params,
     };
     this.showSpinner1 = true;
-    this.https.delete(this.deleteVector, options).subscribe(
+    this.https.delete(this.deleteVector, options).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.getBatches();
         const message = 'Record Deleted Successfully';
@@ -151,7 +153,7 @@ export class VectorFormComponent {
           }
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getBatches()
     });
   }
@@ -160,5 +162,9 @@ export class VectorFormComponent {
     this.currentPage = event;
     this.pagingConfig.currentPage = event;
     this.pagingConfig.totalItems = this.dataSource_getBatches.length;
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

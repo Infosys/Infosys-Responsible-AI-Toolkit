@@ -32,7 +32,7 @@ export class PrivacyParametersComponent {
 
   Admin_SetPrivacyParameter = "" 
   admin_list_rec_get_list = ""
-
+  userId: string = "";
 
 
   @ViewChild('select1') select1!: MatSelect;
@@ -169,38 +169,16 @@ selectRecognizertype() {
   ngOnInit(): void {
     let ip_port: any
 
-    let user = this.getLogedInUser()
+    this.userId= this.validationService.getLogedInUser();
 
-    ip_port = this.getLocalStoreApi()
+    ip_port = this.validationService.getLocalStoreApi()
     this.setApilist(ip_port)
     // this.getAccountMasterEntryList()
     // this.getAllAccountData()
     this.getadmin_list_rec_get_list()
     console.log("oninit");
   }
-  userId: any
-  // Retrieves the logged-in user from local storage
-  getLogedInUser() {
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-        this.userId = x ;
-        console.log(" userId", this.userId)
-      }
-      return this.userId;
-    }
-  }
 
-  // Retrieves API configuration from local storage
-  getLocalStoreApi() {
-    let ip_port
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        return ip_port = JSON.parse(res)
-      }
-    }
-  }
 
   // Sets the API list URLs
   setApilist(ip_port: any) {

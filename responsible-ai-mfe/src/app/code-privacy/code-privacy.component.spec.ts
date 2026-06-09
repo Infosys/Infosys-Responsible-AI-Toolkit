@@ -5,6 +5,10 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FormsModule } from '@angular/forms';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { CodePrivacyComponent } from './code-privacy.component';
 
@@ -13,8 +17,11 @@ describe('CodePrivacyComponent', () => {
   let fixture: ComponentFixture<CodePrivacyComponent>;
 
   beforeEach(async () => {
+    localStorage.setItem('res', JSON.stringify({ result: {} }));
     await TestBed.configureTestingModule({
-      declarations: [ CodePrivacyComponent ]
+      declarations: [ CodePrivacyComponent ],
+      imports: [ MatSnackBarModule, HttpClientTestingModule, FormsModule ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
 

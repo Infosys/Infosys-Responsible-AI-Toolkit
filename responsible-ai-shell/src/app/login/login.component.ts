@@ -4,7 +4,7 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, ViewChild, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, ElementRef, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -14,12 +14,12 @@ import { environment } from 'src/environments/environment';
 // for azure login
 import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
 import { EventMessage, EventType, AuthenticationResult } from '@azure/msal-browser';
-import { filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 // for register
 import { RegisterService } from 'src/app/account/register/register.service';
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from '../../app/config/error.constants';
 import { HttpErrorResponse } from '@angular/common/http';
-import { forkJoin } from 'rxjs';
+import { forkJoin, Subject } from 'rxjs';
 import { NonceService } from '../nonce.service';
 import { UserValidationService } from '../user-validation.service';
 import { urlList } from '../utils/urlList';
@@ -28,7 +28,7 @@ import { urlList } from '../utils/urlList';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('username', { static: false })
   username!: ElementRef;
   formBased = true;
@@ -49,6 +49,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   errorUserExists = false;
   success = false;
   csrfToken: string;
+  private destroy$ = new Subject<void>();
   constructor(
     private authService: MsalService,
     private accountService: AccountService,
@@ -64,7 +65,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.loginService.getConfigApiList(this.masterUrl).subscribe((res: any) => {
+    this.loginService.getConfigApiList(this.masterUrl).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       localStorage.setItem('res', JSON.stringify(res));
     });
 
@@ -85,7 +86,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       }
     } else {
       // if already authenticated then navigate to home page
-      this.accountService.identity().subscribe(() => {
+      this.accountService.identity().pipe(takeUntil(this.destroy$)).subscribe(() => {
         if (this.accountService.isAuthenticated()) {
           this.router.navigate(['']);
         }
@@ -112,29 +113,35 @@ export class LoginComponent implements OnInit, AfterViewInit {
       rememberMe: this.loginForm.get('rememberMe')!.value,
     };
 
-    this.loginService.login(credentials).subscribe(
-      (res: any) => {
-        this.authenticationError = false;
-        if (!this.router.getCurrentNavigation()) {
-          // There were no routing during login (eg from navigationToStoredUrl)
-          this.router.navigate(['responsible-ui']);
-        }
-        console.log('login response', res.login);
-        console.log('login response', res.authorities);
+    this.loginService
+      .login(credentials)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (res: any) => {
+          this.authenticationError = false;
+          if (!this.router.getCurrentNavigation()) {
+            // There were no routing during login (eg from navigationToStoredUrl)
+            this.router.navigate(['responsible-ui']);
+          }
+          console.log('login response', res.login);
+          console.log('login response', res.authorities);
 
-        localStorage.setItem('role', JSON.stringify(res.authorities[0]));
-        localStorage.setItem('userid', JSON.stringify(res.login));
+          localStorage.setItem('role', JSON.stringify(res.authorities[0]));
+          localStorage.setItem('userid', JSON.stringify(res.login));
 
-        this.roles = res.authorities;
-        console.log('ROLES FROM LOCAL STORAGE' + this.roles);
+          this.roles = res.authorities;
+          console.log('ROLES FROM LOCAL STORAGE' + this.roles);
 
-        this.loginService.getPages(this.roles).subscribe((pages: any) => {
-          this.pages = pages;
-          console.log(this.pages);
-        });
-      },
-      () => (this.authenticationError = true)
-    );
+          this.loginService
+            .getPages(this.roles)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((pages: any) => {
+              this.pages = pages;
+              console.log(this.pages);
+            });
+        },
+        () => (this.authenticationError = true)
+      );
   }
 
   /**
@@ -155,7 +162,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     } else {
       const login = userName;
       const email = userName;
-      this.registerService.save({ login, email, cred, langKey: 'en' }).subscribe(
+      this.registerService.save({ login, email, cred, langKey: 'en' }).pipe(takeUntil(this.destroy$)).subscribe(
        () => (this.success = true),
        response => this.processError(response),// modified backend to make this work
        ()=> this.loginBySSO()
@@ -196,26 +203,37 @@ export class LoginComponent implements OnInit, AfterViewInit {
       rememberMe: true,
     };
 
-    this.loginService.login(credentials).subscribe(
-      (res: any) => {
-        this.authenticationError = false;
-        if (!this.router.getCurrentNavigation()) {
-          this.router.navigate(['responsible-ui']);
-        }
-        console.log('login response', res.login);
-        console.log('login response', res.authorities[0]);
+    this.loginService
+      .login(credentials)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (res: any) => {
+          this.authenticationError = false;
+          if (!this.router.getCurrentNavigation()) {
+            this.router.navigate(['responsible-ui']);
+          }
+          console.log('login response', res.login);
+          console.log('login response', res.authorities[0]);
 
-        localStorage.setItem('role', JSON.stringify(res.authorities[0]));
-        localStorage.setItem('userid', JSON.stringify(res.login));
-        this.roles = res.authorities;
-        console.log('ROLES FROM LOCAL STORAGE' + this.roles);
+          localStorage.setItem('role', JSON.stringify(res.authorities[0]));
+          localStorage.setItem('userid', JSON.stringify(res.login));
+          this.roles = res.authorities;
+          console.log('ROLES FROM LOCAL STORAGE' + this.roles);
 
-        this.loginService.getPages(this.roles).subscribe((pages: any) => {
-          this.pages = pages;
-             console.log(this.pages)
-      },
-      () => (this.authenticationError = true)
-    );
-  })
-}
+          this.loginService
+            .getPages(this.roles)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((pages: any) => {
+              this.pages = pages;
+              console.log(this.pages);
+            });
+        },
+        () => (this.authenticationError = true)
+      );
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

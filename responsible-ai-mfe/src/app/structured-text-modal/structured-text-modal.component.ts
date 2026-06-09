@@ -5,7 +5,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewChild,ElementRef  } from '@angular/core';
+import { Component, ViewChild,ElementRef, OnDestroy  } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { MatOption } from '@angular/material/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSelect, MatSelectChange } from '@angular/material/select';
@@ -44,7 +45,8 @@ export interface Payload {
   templateUrl: './structured-text-modal.component.html',
   styleUrls: ['./structured-text-modal.component.css', './structured-text-modal.component.scss']
 })
-export class StructuredTextModalComponent {
+export class StructuredTextModalComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('select3') select3!: MatSelect;
   @ViewChild('select2') select2!: MatSelect;
   @ViewChild('selectRef') selectRef!: ElementRef;
@@ -85,13 +87,7 @@ export class StructuredTextModalComponent {
   // INITIAL DATA FETCHING
   ngOnInit(): void {
     console.log("STRUCTURED TEXT")
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-        this.loggedin_userId = x
-        console.log(" userId", this.loggedin_userId)
-      }
-    }
+    this.loggedin_userId = this.validationService.getLogedInUser();
     let ip_port: any
     ip_port = this.getLocalStoreApi()
     this.setApilist(ip_port)
@@ -146,7 +142,7 @@ export class StructuredTextModalComponent {
     // this.showSpinner1 = true;
     const formData = new FormData;
     formData.append("userId", this.loggedin_userId)
-    this.https.post(this.apiEndpoints.getAllModels, formData).subscribe((res: any) => {
+    this.https.post(this.apiEndpoints.getAllModels, formData).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       this.allModels = (Array.isArray(res)) ? res : [];
       // this.showSpinner1 = false;
       console.log("ALL MODELS", this.allModels)
@@ -160,7 +156,7 @@ export class StructuredTextModalComponent {
   getDataFiles() {
     const formData = new FormData;
     formData.append("userId", this.loggedin_userId)
-    this.https.post(this.apiEndpoints.getAllData, formData).subscribe((res: any) => {
+    this.https.post(this.apiEndpoints.getAllData, formData).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       this.allDataFiles = res;
       console.log(this.allDataFiles)
     }, error => {
@@ -172,7 +168,7 @@ export class StructuredTextModalComponent {
   getAllPreprocessor() {
     const formData = new FormData;
     formData.append("userId", this.loggedin_userId)
-    this.https.post(this.apiEndpoints.getVector, formData).subscribe(
+    this.https.post(this.apiEndpoints.getVector, formData).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.allVectors = res;
       }, (error: any) => {
@@ -183,7 +179,7 @@ export class StructuredTextModalComponent {
 
   // Fetches all tenants
   getAllTenants() {
-    this.https.get(this.apiEndpoints.allTenantsApi).subscribe((res: any) => {
+    this.https.get(this.apiEndpoints.allTenantsApi).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       this.allTenants = res;
     })
   }
@@ -199,7 +195,7 @@ export class StructuredTextModalComponent {
       "scope": null
     }
     if (this.tenantarr.includes('Security')) {
-      this.https.post(this.apiEndpoints.security_applicableAttacks, fdata).subscribe(
+      this.https.post(this.apiEndpoints.security_applicableAttacks, fdata).pipe(takeUntil(this.destroy$)).subscribe(
         (res: any) => {
           this.applicableAttack = res
           console.log(this.applicableAttack)
@@ -210,13 +206,17 @@ export class StructuredTextModalComponent {
       )
     }
     if (this.tenantarr.includes('Explainability')) {
-      this.https.post(this.apiEndpoints.ExplainMethods, payload).subscribe(
+      this.https.post(this.apiEndpoints.ExplainMethods, payload).pipe(takeUntil(this.destroy$)).subscribe(
         (data: any) => {
           this.applicableMethod = data.methods;
           // this.cdr.detectChanges();
         }
       )
     }
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   // Toggle Screens 
@@ -469,7 +469,7 @@ export class StructuredTextModalComponent {
         fileData.append('taskType', this.selectedTaskTypeOption);   
     }
     // return
-    this.structuredTextService.api(endpointUrl, fileData).subscribe({
+    this.structuredTextService.api(endpointUrl, fileData).pipe(takeUntil(this.destroy$)).subscribe({
      // next: (data: { AttributesInTheDataset: { CategoricalAttributesList: any;FeatureList :any; }; }) => {
         next: (data:any) => {
         console.log(data)      
@@ -760,7 +760,7 @@ export class StructuredTextModalComponent {
       payload.preProcessorId = this.selectedVectorId;
     }
     console.log("PAYLOADS::", payload)
-    this.https.post(this.apiEndpoints.batchGeneration, payload).subscribe((res: any) => {
+    this.https.post(this.apiEndpoints.batchGeneration, payload).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       console.log
       this._snackBar.open("Batch Added Successful", "Close", {
         duration: 3000,
@@ -778,7 +778,7 @@ export class StructuredTextModalComponent {
 
   // Calls the batch generation API for fairness
   callBatchGenerationFairness(batchId: any) {
-    this.structuredTextService.api(this.apiEndpoints.inProcessGenerate,{Batch_id:batchId}).subscribe({
+    this.structuredTextService.api(this.apiEndpoints.inProcessGenerate,{Batch_id:batchId}).pipe(takeUntil(this.destroy$)).subscribe({
           next: (data: any) => {
             console.log(data);
             const fileName = data?.modelfileId;
@@ -788,7 +788,7 @@ export class StructuredTextModalComponent {
               horizontalPosition: 'center',
               panelClass: ['le-u-bg-black'],
             });
-            this.https.get(this.apiEndpoints.inProcessDwnld + fileName, { responseType: 'blob' }).subscribe
+            this.https.get(this.apiEndpoints.inProcessDwnld + fileName, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe
             ((response: Blob)=>{
             //const blob = new Blob([response], { type: 'text/csv' });
              saveAs(response, fileName);
@@ -825,7 +825,7 @@ export class StructuredTextModalComponent {
 
   // Calls the batch audit API
   callBatchAudit(url:any,batchId: any){
-    this.https.post(url,{Batch_id:batchId}).subscribe((data:any)=>{
+    this.https.post(url,{Batch_id:batchId}).pipe(takeUntil(this.destroy$)).subscribe((data:any)=>{
       this._snackBar.open("Report Generated Successfully", "Close", {
         duration: 3000,
         horizontalPosition: 'center',
@@ -924,7 +924,7 @@ onChange(type: string){
   const endpointUrl =  this.apiEndpoints.inProcessUpload;
  const fileData = new FormData();
   fileData.append('fileId',this.fairSampleId);
-  this.structuredTextService.api(endpointUrl, fileData).subscribe({
+  this.structuredTextService.api(endpointUrl, fileData).pipe(takeUntil(this.destroy$)).subscribe({
        next: (data:any) => {
        console.log(data)
          this.resultLabel = data['feature_list'];      

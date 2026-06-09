@@ -61,22 +61,50 @@ class Gibberish:
         try:
             st = time.time()
             text=payload['text']
-            gibberish_labels = payload['labels']
-            nlp = pipeline(task="text-classification", model=gibberishModel, tokenizer=gibberishTokenizer, device=device,model_kwargs=pipeline_kwargs)
-            match_type = MatchType(MatchType.FULL)
+            gibberish_labels=payload['labels']
+            score_threshold = payload.get('gibberish_threshold', 0.7)
+
+            nlp = pipeline(task="text-classification", model=gibberishModel, tokenizer=gibberishTokenizer, device=device,
+                        model_kwargs=pipeline_kwargs)
+
+            tokens = gibberishTokenizer.tokenize(text)
+            num_tokens = len(tokens)
+
+            match_type = MatchType.FULL
+
+            if num_tokens > 500:
+                match_type = MatchType.SENTENCE
+
             results_all = nlp(match_type.get_inputs(text))
             log.debug(f"Gibberish detection finished :{results_all}")
-            output={}
-            res=[]
-            for result in results_all:
-                score = round(
-                    result["score"] if result["label"] in gibberish_labels else 1 - result["score"],
-                    2,
-                )
-                output['gibberish_label'] =  result["label"]
-                output['gibberish_score'] = score
 
-                res.append(output)
+            hierarchy = {"noise": 0, "word salad": 1, "mild gibberish": 2, "clean": 3}
+            final_label = "clean"
+            final_score = 0.0
+            
+            highest_score_label = "clean"
+            highest_score = 0.0
+
+            for result in results_all:
+                label = result["label"]
+                score = round(result["score"], 2)
+
+                if label in gibberish_labels:
+                    if score > highest_score:
+                        highest_score = score
+                        highest_score_label = label
+                        
+                    if score >= score_threshold and hierarchy[label] < hierarchy[final_label]:
+                        final_label = label
+                        final_score = score
+
+            if final_label == "clean" and highest_score > 0:
+                final_label = highest_score_label
+                final_score = highest_score
+
+            output = {}
+            output['gibberish_label'] = final_label
+            output['gibberish_score'] = final_score
 
             del nlp
             er=log_dict[request_id_var.get()]
@@ -84,10 +112,10 @@ class Gibberish:
             if len(er)!=0:
                 log.debug(str(logobj))
             del log_dict[id]
-            return {"result":res,"time_taken":str(round(time.time()-st,3))+"s"}
-        
+            return {"result": [output], "time_taken": str(round(time.time() - st, 3)) + "s"}
+
         except Exception as e:   
-            log.error("Error occured in gibberish_check")
+            log.error("Error occurred in gibberish_check")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
                                                     "Error Module":"Failed at gibberish_check call"})

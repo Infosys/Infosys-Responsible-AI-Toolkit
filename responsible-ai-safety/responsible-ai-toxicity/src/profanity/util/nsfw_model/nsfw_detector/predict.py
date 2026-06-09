@@ -1,7 +1,17 @@
-#! python
+'''
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+'''
+
 
 import argparse
-# from datetime import time
 import time
 import json
 from os import listdir
@@ -18,7 +28,6 @@ from profanity.config.logger import CustomLogger
 log = CustomLogger()
 
 IMAGE_DIM = 224   # required/default image dimensionality
-# IMAGE_DIM = 299
 
 
 
@@ -42,21 +51,26 @@ def load_images(image_paths, image_size, verbose=True):
 
     if isdir(image_paths):
         parent = abspath(image_paths)
-        image_paths = [join(parent, f) for f in listdir(image_paths) if isfile(join(parent, f))]
+        try:
+            files = listdir(parent)
+            image_paths = [join(parent, f) for f in files if isfile(join(parent, f))]
+        except (OSError, PermissionError) as e:
+            log.error("Unable to access directory for image processing")
+            image_paths = []
     elif isfile(image_paths):
         image_paths = [image_paths]
 
     for img_path in image_paths:
         try:
             if verbose:
-                print(img_path, "size:", image_size)
+                log.debug(f"Processing image with target size: {image_size}")
             image = keras.preprocessing.image.load_img(img_path, target_size=image_size)
             image = keras.preprocessing.image.img_to_array(image)
             image /= 255
             loaded_images.append(image)
             loaded_image_paths.append(img_path)
         except Exception as ex:
-            print("Image Load Failure: ", img_path, ex)
+            log.error("Failed to load image due to processing error")
     
     return np.asarray(loaded_images), loaded_image_paths
 
@@ -88,7 +102,6 @@ def classify_nd(model, nd_images, predict_args={}):
     Optionally, pass predict_args that will be passed to tf.keras.Model.predict().
     """
     model_preds = model.predict(nd_images, **predict_args)
-    # preds = np.argsort(model_preds, axis = 1).tolist()
     
     categories = ['drawings', 'hentai', 'neutral', 'porn', 'sexy']
 
@@ -123,8 +136,6 @@ class Detector:
             startTime = time.time()
             image_preds_inception = classify(modelInception, source, img_dim_high)
             image_preds_mobilenet = classify(modelMobilenet, source, img_dim)
-            # print(json.dumps(image_preds_inception, indent=2), '\n')
-            # print(json.dumps(image_preds_mobilenet, indent=2), '\n')
             endTime = time.time()
             log.debug("Total Time Taken for high accuracy=====" + str(endTime - startTime))
             
@@ -150,40 +161,8 @@ class Detector:
             raise ValueError("Invalid accuracy value. Choose 'high' or 'low'.")
 
         res = source
-        print(json.dumps(image_preds, indent=2), '\n')
+        log.debug(json.dumps(image_preds, indent=2), '\n')
         shutil.rmtree(id)
         log.debug(str(id) + " Folder Deleted")
         return image_preds[res]
 
-# def main(args=None):
-#     parser = argparse.ArgumentParser(
-#         description="""A script to perform NFSW classification of images""",
-#         epilog="""
-#         Launch with default model and a test image
-#             python nsfw_detector/predict.py --saved_model_path mobilenet_v2_140_224 --image_source test.jpg
-#     """, formatter_class=argparse.RawTextHelpFormatter)
-    
-#     submain = parser.add_argument_group('main execution and evaluation functionality')
-#     submain.add_argument('--image_source', dest='image_source', type=str, required=True, 
-#                             help='A directory of images or a single image to classify')
-#     submain.add_argument('--saved_model_path', dest='saved_model_path', type=str, required=True, 
-#                             help='The model to load')
-#     submain.add_argument('--image_dim', dest='image_dim', type=int, default=IMAGE_DIM,
-#                             help="The square dimension of the model's input shape")
-#     if args is not None:
-#         config = vars(parser.parse_args(args))
-#     else:
-#         config = vars(parser.parse_args())
-
-#     if config['image_source'] is None or not exists(config['image_source']):
-#     	raise ValueError("image_source must be a valid directory with images or a single image to classify.")
-    
-#     model = load_model(config['saved_model_path'])    
-#     image_preds = classify(model, config['image_source'], config['image_dim'])
-#     # model = load_model('saved_model.h5')    
-#     # image_preds = classify(model, 'KARAN.png', (224, 224))
-#     print(json.dumps(image_preds, indent=2), '\n')
-
-
-# if __name__ == "__main__":
-	# main()

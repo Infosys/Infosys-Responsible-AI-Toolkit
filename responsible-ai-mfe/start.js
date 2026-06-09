@@ -1,5 +1,5 @@
-/** SPDX-License-Identifier: MIT
-Copyright 2024 - 2025 Infosys Ltd.
+/** MIT
+Copyright 2025 - 2026 Infosys Ltd.
 "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
@@ -24,7 +24,6 @@ const URLDATA = {
     ENABLESEARCH: null,
     NG_SERVE_CMD: null,
     AUTHORITY_API: null,
-    ENABLEINTERPRET: null,
     WEBSOCKET_URL: null,
     AUTH_TOKEN: null
 };
@@ -117,7 +116,6 @@ const updateURLlistTs = async() => {
             .replace(/HOMEFILEPATHURL/g, URLDATA.HOMEFILEPATHURL)
             .replace(/DICOMFILEPATHURL/g, URLDATA.DICOMFILEPATHURL)
             .replace(/MASTERURL/g, URLDATA.MASTERURL)
-            .replace(/'ENABLESEARCH'/g, JSON.stringify(URLDATA.ENABLESEARCH)).replace(/'ENABLEINTERPRET'/g, URLDATA.ENABLEINTERPRET)
             .replace(/AUTHORITY_API/g, URLDATA.AUTHORITY_API)
             .replace(/AUTH_TOKEN/g, URLDATA.AUTH_TOKEN)
             .replace(/WEBSOCKET_URL/g, URLDATA.WEBSOCKET_URL);
@@ -131,7 +129,6 @@ const setDataFromENV = () => {
     (URLDATA['DICOMFILEPATHURL'] = process.env['DICOMFILEPATHURL']),
     (URLDATA['MASTERURL'] = process.env['MASTERURL']),
     (URLDATA['ENABLESEARCH'] = process.env['ENABLESEARCH']),
-    (URLDATA['ENABLEINTERPRET'] = process.env['ENABLEINTERPRET']),
     (URLDATA['AUTHORITY_API'] = process.env['AUTHORITY_API']),
     (URLDATA['WEBSOCKET_URL'] = process.env['WEBSOCKET_URL']),
     (URLDATA['AUTH_TOKEN'] = process.env['AUTH_TOKEN']),
@@ -144,7 +141,6 @@ const runLocally = async() => {
     (URLDATA['DICOMFILEPATHURL'] = 'http://localhost:30055'),
     (URLDATA['MASTERURL'] = 'https://rai-toolkit-dev.az.ad.idemo-ppc.com/api/v1/rai/admin/ConfigApi'),
     (URLDATA['ENABLESEARCH'] = ['admin', 'user']),
-    (URLDATA['ENABLEINTERPRET'] = true),
     (URLDATA['AUTHORITY_API'] = 'https://rai-toolkit-dev.az.ad.idemo-ppc.com/v1/rai/backend/pageauthoritynew'),
     (URLDATA['WEBSOCKET_URL'] = 'ws://100.78.104.175:5001'),
     (URLDATA['AUTH_TOKEN'] = '<YOUR_AUTH_TOKEN>'),

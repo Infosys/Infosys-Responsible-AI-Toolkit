@@ -4,18 +4,20 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, ViewChild, OnDestroy } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { NonceService } from 'src/app/nonce.service';
 import { EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from '../../../app/config/error.constants';
 import { RegisterService } from './register.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-register',
   templateUrl: './register.component.html',
 })
-export class RegisterComponent implements AfterViewInit {
+export class RegisterComponent implements AfterViewInit, OnDestroy {
   @ViewChild('login', { static: false })
   login?: ElementRef;
 
@@ -68,7 +70,7 @@ export class RegisterComponent implements AfterViewInit {
     } else {
       const login = this.registerForm.get(['login'])!.value;
       const email = this.registerForm.get(['email'])!.value;
-      this.registerService.save({ login, email, cred, langKey: 'en' }).subscribe(
+      this.registerService.save({ login, email, cred, langKey: 'en' }).pipe(takeUntil(this.destroy$)).subscribe(
         () => (this.success = true),
         response => this.processError(response)
       );
@@ -88,5 +90,11 @@ export class RegisterComponent implements AfterViewInit {
     } else {
       this.error = true;
     }
+  }
+  private destroy$ = new Subject<void>();
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

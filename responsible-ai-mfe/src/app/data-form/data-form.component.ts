@@ -5,11 +5,12 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { PagingConfig } from '../_models/paging-config.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { AddDataModelComponent } from '../add-data-model/add-data-model.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-data-form',
@@ -18,7 +19,8 @@ import { AddDataModelComponent } from '../add-data-model/add-data-model.componen
   encapsulation: ViewEncapsulation.None
 
 })
-export class DataFormComponent implements PagingConfig{
+export class DataFormComponent implements PagingConfig, OnDestroy{
+  private destroy$ = new Subject<void>();
   // FOR SHIMMER EFFECT
   isLoadingTable = true;
   ///
@@ -76,7 +78,7 @@ export class DataFormComponent implements PagingConfig{
   getBatches() {
     const formData =new FormData;
     formData.append("userId",this.user)
-    this.https.post(this.getData , formData).subscribe(
+    this.https.post(this.getData , formData).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.dataSource_getBatches = res;
         this.onTableDataChange(this.currentPage);
@@ -103,7 +105,7 @@ export class DataFormComponent implements PagingConfig{
       body: params,
     };
     this.showSpinner1 = true;
-    this.https.delete(this.deleteData, options).subscribe(
+    this.https.delete(this.deleteData, options).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.getBatches();
         const message = 'Record Deleted Successfully';
@@ -152,7 +154,7 @@ export class DataFormComponent implements PagingConfig{
           }
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getBatches()
     });
   }
@@ -161,5 +163,9 @@ export class DataFormComponent implements PagingConfig{
     this.currentPage = event;
     this.pagingConfig.currentPage = event;
     this.pagingConfig.totalItems = this.dataSource_getBatches.length;
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

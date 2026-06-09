@@ -29,16 +29,40 @@ module.exports = function (config) {
       subdir: '.',
       reporters: [
         { type: 'html' },
-        { type: 'text-summary' }
+        { type: 'text-summary' },
+        { type: 'lcovonly' }
       ]
     },
-    reporters: ['progress', 'kjhtml'],
+    reporters: ['progress', 'coverage'],
+    webpack: {
+      module: {
+        exprContextCritical: false
+      },
+      resolve: {
+        alias: {
+          'cornerstone-wado-image-loader': false
+        }
+      }
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
+    customLaunchers: {
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: [
+          '--no-sandbox',
+          '--disable-gpu',
+          '--disable-dev-shm-usage'
+        ]
+      }
+    },
     singleRun: false,
-    restartOnFileChange: true
+    restartOnFileChange: true,
+    browserNoActivityTimeout: 60000,
+    browserDisconnectTolerance: 3,
+    captureTimeout: 210000
   });
 };

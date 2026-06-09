@@ -17,7 +17,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SO
 
 import backoff
 import os
-import random
 import time
 from typing import List, Dict, Union
 from openai import OpenAI, OpenAIError
@@ -104,7 +103,7 @@ class ChatGPT(AbstractLanguageModel):
                     self.logger.warning(
                         f"Error in chatgpt: {e}, trying again with {next_try} samples"
                     )
-                    time.sleep(random.randint(1, 3))
+                    time.sleep(5)
                     total_num_attempts -= 1
 
         if self.cache:

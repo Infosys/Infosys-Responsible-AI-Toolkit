@@ -1,11 +1,13 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 
 import random
@@ -176,7 +178,7 @@ class SMOOTHLLM:
             result = smooth(sample_prompts, perturb_pct=pertub_per, n=no_of_samples)   
             openai.api_type = os.getenv('OPENAI_API_TYPE')
         
-            openai.verify_ssl_certs = False
+            openai.verify_ssl_certs = sslv[verify_ssl]
         
             log.info('Sending a test completion job')
             
@@ -227,7 +229,6 @@ class SMOOTHLLM:
                                 top_p=0.95,
                                 frequency_penalty=0,
                                 presence_penalty=0,
-                                #logprobs=True,
                                 stop=None
                             )
                             all_responses.append(response.choices[0].message.content)
@@ -280,13 +281,8 @@ class SMOOTHLLM:
             # Wait for all threads to complete
             for thread in threads:
                 thread.join()
-
-            # for i in all_responses:
-                # print("responses ----- >",i,"  ------ ")
-           
             # Check whether the outputs jailbreak the LLM
             are_copies_jailbroken = [is_jailbroken(s) for s in all_responses]
-            #print("boolean response: --- ",are_copies_jailbroken)
             if len(are_copies_jailbroken) == 0:
                 raise ValueError("LLM did not generate any outputs.")
         
@@ -300,6 +296,5 @@ class SMOOTHLLM:
             return output_percentage,outputs_and_jbs
 
         except openai.BadRequestError as IR:
-            # log.error(f"Exception: {IR}")
             return str(IR),""
         

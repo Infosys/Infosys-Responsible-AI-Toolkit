@@ -4,18 +4,20 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import Chart from 'chart.js/auto';
 import { MagnifyImageReportComponent } from '../magnify-image-report/magnify-image-report.component';
+import { Subject, takeUntil } from 'rxjs';
 @Component({
   selector: 'app-image-report-chart',
   templateUrl: './image-report-chart.component.html',
   styleUrls: ['./image-report-chart.component.css']
 })
-export class ImageReportChartComponent implements OnInit {
+export class ImageReportChartComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   analyze:any;
   public chart: any;
   labelValue:any;
@@ -184,11 +186,16 @@ else if(metric == "Bias"){
     //     }
   });
 
-  dialogRef.afterClosed().subscribe(() => {
+  dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(() => {
   });
   // const modalRef = this.modalService.open(MagnifyImageReportComponent);
   // modalRef.componentInstance.chartData = this.aesData;
 }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 // Creates a bar chart for aesthetics analysis
 createAestheticsChart() { 

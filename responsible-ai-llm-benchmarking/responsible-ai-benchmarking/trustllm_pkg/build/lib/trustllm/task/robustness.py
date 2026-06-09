@@ -220,6 +220,8 @@ class RobustnessEval:
                                 if 0 < len(res) and len(res) < 50:
                                     target = res
                                 else:
+                                    print(f"Response: {res}")
+                                    print(f"Label: {label}")
                                     prompt = trustllm.config.task_prompt.get('ood_generalization', '')['prompt']
                                     prompt = prompt.replace('[res]', res).replace('[label]', label)
                                     ans = gpt_auto_eval.get_res(prompt)

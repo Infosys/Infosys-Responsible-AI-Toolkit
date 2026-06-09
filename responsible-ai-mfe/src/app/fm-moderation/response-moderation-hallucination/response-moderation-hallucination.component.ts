@@ -15,46 +15,55 @@ import { RightSidePopupComponent } from '../right-side-popup/right-side-popup.co
   styleUrls: ['./response-moderation-hallucination.component.css']
 })
 export class ResponseModerationHallucinationComponent {
+
   @Input() customApipayloadStatus: any;
   @Input() bannedCategoriesDisplay: any;
   @Input() gibrishDisplayLabels: any;
-  @Input() responseTime:any;
-  @Input() nemoModerationRailRes:any;
+  @Input() responseTime: any;
+  // @Input() nemoModerationRailRes: any; // Unused - not referenced in HTML template or component logic
   @Input() openAIRes: any;
   @Input() summaryStatus: any;
-  @Input() responseModerationResult:any;
+  @Input() responseModerationResult: any;
   @Input() llmEvalPayload: any;
-  @Input() responseModerationTemplates:any;
+  @Input() responseModerationTemplates: any;
   @Input() selectedUseCaseName: any;
-  @Input() setLoadTemplateResMod:Boolean = false;
-  @Input() templateBasedPayload:any;
-  constructor(public dialog: MatDialog,public _snackBar:MatSnackBar) {
-  }
+  @Input() setLoadTemplateResMod: Boolean = false;
+  @Input() templateBasedPayload: any;
+
   activeTab = 'Model-Based Guardrails';
+
+  dummyDataResult = {
+    GibberishLabels: ['word salad', 'noise', 'mild gibberish', 'clean'],
+    BannedCategories: ['Cf', 'Co', 'Cn', 'So', 'Sc'],
+  };
+
+  constructor(public dialog: MatDialog, public _snackBar: MatSnackBar) { }
+
   ngOnInit() {
     if (this.responseModerationTemplates && this.responseModerationTemplates.length == 0) {
       this.activeTab = 'Model-Based Guardrails';
     }
-    if(this.customApipayloadStatus== true){
+    if (this.customApipayloadStatus == true) {
       this.dummyDataResult = {
         GibberishLabels: this.bannedCategoriesDisplay,
         BannedCategories: this.gibrishDisplayLabels,
-      };}else
-      {
-        this.dummyDataResult = {
-          GibberishLabels: ['word salad', 'noise', 'mild gibberish', 'clean'],
-          BannedCategories: ['Cf', 'Co', 'Cn', 'So', 'Sc'],
-        };
-      }
+      };
+    } else {
+      this.dummyDataResult = {
+        GibberishLabels: ['word salad', 'noise', 'mild gibberish', 'clean'],
+        BannedCategories: ['Cf', 'Co', 'Cn', 'So', 'Sc'],
+      };
+    }
   }
+
   changeTab = (tab: string) => {
     this.activeTab = tab;
   }
 
   // Opens a right-side modal 
-  openRightSideModal(data:any) {
+  openRightSideModal(data: any) {
     if (data.type == 'profanityCheckReq') {
-      if (this.responseModerationResult?.profanityCheck['profaneWordsIdentified'].length == 0){
+      if (this.responseModerationResult?.profanityCheck['profaneWordsIdentified'].length == 0) {
         this._snackBar.open('No profane words identified', 'Close', {
           duration: 2000,
         });
@@ -67,14 +76,4 @@ export class ResponseModerationHallucinationComponent {
       backdropClass: 'custom-backdrop'
     });
   }
-
-  // Checks if an object is empty
-  isEmptyObject(obj: any) {
-    return Object.keys(obj).length === 0;
-  }
-
-  dummyDataResult = {
-    GibberishLabels: ['word salad', 'noise', 'mild gibberish', 'clean'],
-    BannedCategories: ['Cf', 'Co', 'Cn', 'So', 'Sc'],
-  };
 }

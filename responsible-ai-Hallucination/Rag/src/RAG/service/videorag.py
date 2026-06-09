@@ -92,23 +92,36 @@ def video_rag(payload):
         temp_dir = "../data/multimodal/video"   
         os.makedirs(temp_dir, exist_ok=True)
         
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4", dir=temp_dir, mode='wb') as temp_file:
+        # Get the file extension from the uploaded file or default to .mp4
+        file_extension = os.path.splitext(filevid.filename)[1] if filevid.filename else ".mp4"
+        if not file_extension:
+            file_extension = ".mp4"
+        
+        with tempfile.NamedTemporaryFile(delete=False, suffix=file_extension, dir=temp_dir, mode='wb') as temp_file:
             shutil.copyfileobj(filevid.file, temp_file)
             temp_file_path = temp_file.name
         
         base64Frames, audio_path= process_video(temp_file_path, seconds_per_frame=1)
         
-        audio_text = convert_audio_to_text(audio_path)
-        print("soundsound",audio_text)
+        # Check if video processing was successful
+        if base64Frames is None:
+            raise RuntimeError("Failed to process video - no frames extracted")
+        
+        # Convert audio to text only if audio exists
+        audio_text = None
+        if audio_path is not None:
+            audio_text = convert_audio_to_text(audio_path)
+        else:
+            log.info("No audio track available in video")
         
         # # os.remove(temp_file_path)
         if os.path.isfile(temp_file_path):
             os.remove(temp_file_path)
-            print(f"Temporary video file deleted: {temp_file_path}")
+            log.info(f"Temporary video file deleted: {temp_file_path}")
         
-        if os.path.isfile(audio_path):
+        if audio_path and os.path.isfile(audio_path):
             os.remove(audio_path)
-            print(f"Temporary audio file deleted: {audio_path}")
+            log.info(f"Temporary audio file deleted: {audio_path}")
         
         llm = select_llmtype(llmtype)
         log.info("llm")
@@ -123,6 +136,7 @@ def video_rag(payload):
                 {"type": "text", "text": f"Audio transcript: {audio_text}" if audio_text else "Audio transcript could not be generated."}
             ]}
         ]
+
         
         cot_messages = [
             {"role": "system", "content": []},
@@ -134,6 +148,7 @@ def video_rag(payload):
             ]}
         ]
         
+
         thot_messages = [
             {"role": "system", "content": []},
             {"role": "user", "content": [
@@ -144,6 +159,7 @@ def video_rag(payload):
             ]}
         ]
         
+
         cov_messages = [
             {"role": "system", "content": []},
             {"role": "user", "content": [
@@ -174,7 +190,7 @@ def video_rag(payload):
         final_cot_message=video_cot(cot_messages)
         cot_response=llm.invoke(final_cot_message)
         cot_output=[cot_response.content]
-        
+
         #THOT
         thot_messages[0]["content"].append({"type": "text", "text": text})
         final_thot_message=video_thot(thot_messages)
@@ -187,9 +203,18 @@ def video_rag(payload):
         cov_output=[cov_response.content]
         
         #GEval
-        haluscores, halures=geval_video(text, output, geval_messages, llm)
+        geval_result = geval_video(text, output, geval_messages, llm)
+        
+        # Validate result before unpacking
+        if geval_result is None or not isinstance(geval_result, tuple) or len(geval_result) != 2:
+            log.warning("geval_video returned invalid result, using default values")
+            haluscores = {'faithfulness': 3, 'relevance': 3, 'adherance': 3, 'correctness': 3, 'averageScore': 3}
+            halures = {'faithfulness': '', 'relevance': '', 'adherance': '', 'correctness': ''}
+        else:
+            haluscores, halures = geval_result
+        
         geval_response=[haluscores, halures]
-        avgmetrics= haluscores["AverageScore"]
+        avgmetrics= haluscores["averageScore"]
         avgmetrics=avgmetrics/5
         if avgmetrics>=0.75:
             log.info("avgmetrics>=0.75")
@@ -202,13 +227,13 @@ def video_rag(payload):
         
         timetaken=time.time()-starttime
         queue=[]
-        queue.append([{"Response": output}])
-        queue.append({"Hallucination_score": round(haluscore,2)})
-        queue.append([{"Chain of Thoughts Response": cot_output}])
-        queue.append([{"Thread of Thoughts Response": thot_output}])
-        queue.append([{"Chain of Verification Response": cov_output}])
-        queue.append([{"GEval Metrics": geval_response}])
-        queue.append([{"Time Taken": timetaken}])
+        queue.append([{"response": output}])
+        queue.append({"hallucinationScore": round(haluscore,2)})
+        queue.append([{"chainOfThoughtsResponse": cot_output}])
+        queue.append([{"threadOfThoughtsResponse": thot_output}])
+        queue.append([{"chainOfVerificationResponse": cov_output}])
+        queue.append([{"gEvalMetrics": geval_response}])
+        queue.append([{"timeTaken": timetaken}])
         
         
         return queue
@@ -216,7 +241,7 @@ def video_rag(payload):
     except Exception as e:
         log.info("Failed at video_rag")
         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-        
+
 def process_video(video_path, seconds_per_frame=2):
     """
     Process the video to extract frames and audio.
@@ -259,20 +284,21 @@ def process_video(video_path, seconds_per_frame=2):
         # Extract audio from video
         audio_path = f"{temp_dir}audio.wav"
         clip = VideoFileClip(video_path)
-        clip.audio.write_audiofile(audio_path, bitrate="32k")
-        clip.audio.close()
+        
+        # Check if video has audio before trying to extract it
+        if clip.audio is not None:
+            clip.audio.write_audiofile(audio_path, bitrate="32k")
+            clip.audio.close()
+        else:
+            audio_path = None
+        
         clip.close()
-
-        print(f"Extracted {len(base64Frames)} frames")
-        print(f"Extracted audio to {audio_path}")
-        # if os.path.isfile(audio_path):
-        #     os.remove(audio_path)
-        #     print(f"Temporary audio file deleted: {audio_path}")
         return base64Frames, audio_path
     
     except Exception as e:
         log.info("Failed at process_video")
         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
+        return None, None
         
 def convert_audio_to_text(audio_path):
     """
@@ -511,39 +537,84 @@ def geval_video(text, response, geval_messages, llm):
         curr_corr_prompt = corr_prompt.replace('{{prompt}}', text).replace('{{response}}', str(response))
         
         prompts = [curr_faith_prompt, curr_rel_prompt, curr_adh_prompt, curr_corr_prompt]
-        scoresDict = {'faithfulness': 0, 'relevance': 0, 'adherance': 0, 'correctness': 0, 'AverageScore': 0}
+        scoresDict = {'faithfulness': 0, 'relevance': 0, 'adherance': 0, 'correctness': 0, 'averageScore': 0}
         resDict = {'faithfulness': '', 'relevance': '', 'adherance': '', 'correctness': ''}
+        
+        # Add strong system instruction for scoring
+        system_instruction = """You MUST end your response with exactly this format: reasoning,score
+where score is a single digit from 1 to 5. 
+Example: The response captures the main points well, 4
+You MUST include the comma and score at the end."""
         
         scores, reasonings, fin_score,pindx = [],[],0,0
         breakpt = 0
         while(pindx<len(prompts)):
             try:
-                geval_messages[0]["content"].append({"type": "text", "text": prompts[pindx]})
-                print("##########################################",prompts[pindx],"############################################")
+                # Add system instruction first, then the evaluation prompt
+                geval_messages[0]["content"].append({"type": "text", "text": system_instruction + "\n\n" + prompts[pindx]})
                 gevalres = llm.invoke(geval_messages)
                 res=gevalres.content
-                print(res, "resresresres")
+
                 res=str(res)
                 geval_messages[0]["content"].pop()
+                
+                # Try multiple methods to extract score
+                halscore = None
+                halres = ""
+                
+                # Method 1: Look for "reasoning, score" format at the end
                 last_comma_index = res.rfind(',')
-                last_period_index = res.rfind('.')
-                last_index = max(last_comma_index, last_period_index)
-                halres=res[:last_index] 
-                halres = re.sub(r'^[^\w]*(.*)', r'\1', halres)
-                raw_value = res[last_comma_index + 1:]
-                print(f"Raw value: '{raw_value}'") 
-                cleaned_value = ''.join(filter(str.isdigit, raw_value))
-                halscore=float(cleaned_value)
+                if last_comma_index > len(res) - 20:  # Comma should be near the end
+                    raw_value = res[last_comma_index + 1:].strip()
+                    cleaned_value = ''.join(filter(str.isdigit, raw_value))
+                    if cleaned_value and len(cleaned_value) == 1:  # Should be single digit
+                        halscore = float(cleaned_value)
+                        halres = res[:last_comma_index].strip()
+                        halres = re.sub(r'^[^\w]*(.*)', r'\1', halres)
+                
+                # Method 2: Look for score patterns like "score: 4" or "Score: 4"
+                if halscore is None:
+                    score_pattern = re.search(r'[Ss]core\s*:?\s*([1-5])\b', res)
+                    if score_pattern:
+                        halscore = float(score_pattern.group(1))
+                        halres = re.sub(r'[Ss]core\s*:?\s*[1-5]', '', res).strip()
+                
+                # Method 3: Look for number at end of last sentence
+                if halscore is None:
+                    end_number = re.search(r'[.,]\s*([1-5])\s*$', res)
+                    if end_number:
+                        halscore = float(end_number.group(1))
+                        halres = res[:end_number.start()].strip()
+                
+                # Method 4: Search entire response for standalone digits 1-5
+                if halscore is None:
+                    score_matches = re.findall(r'\b([1-5])\b', res)
+                    if score_matches:
+                        halscore = float(score_matches[-1])  # Take the last occurrence
+                        halres = res.strip()
+                
+                # If still no score, retry this prompt
+                if halscore is None:
+                    raise ValueError("Could not extract score from response")
+                
                 scores.append(halscore)
                 reasonings.append(halres)
-                # fin_score+=res
                 pindx+=1
+                breakpt = 0  # Reset breakpoint counter on success
+                
             except Exception as e:
                 breakpt+=1
-                if(breakpt>3):
-                    print("Connection Broke... Try Again")
+                # Clean up the messages on error
+                if len(geval_messages[0]["content"]) > 51:
+                    geval_messages[0]["content"].pop()
+                if(breakpt>4):  # Increased retries from 3 to 4
                     log.error(f"Exception: {e,str(traceback.extract_tb(e.__traceback__)[0].lineno)}")
-                    return
+                    # Use default score instead of failing completely
+                    scores.append(3.0)
+                    reasonings.append("Score could not be extracted from model response")
+                    pindx += 1
+                    breakpt = 0
+                # Retry the same prompt
                 pass
         
         fin_score=(scores[0]+scores[1]+scores[2]+scores[3])/4

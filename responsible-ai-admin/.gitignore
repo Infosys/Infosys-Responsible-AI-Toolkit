@@ -1,0 +1,17 @@
+*.pyc
+*.csv
+myenv/
+*.png
+*.mp4
+*.pptx
+*.dcm
+*.jpeg
+*.jpg
+*.xlsx
+*.pdf
+
+
+#*.csv
+
+myenv/
+VM/

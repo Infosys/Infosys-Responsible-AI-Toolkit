@@ -4,11 +4,13 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
+import { ElementRef } from '@angular/core';
 import { CornerstoneDirective } from './cornerstone.directive';
 
 describe('CornerstoneDirective', () => {
   it('should create an instance', () => {
-    const directive = new CornerstoneDirective();
+    const mockElementRef = { nativeElement: document.createElement('div') } as ElementRef;
+    const directive = new CornerstoneDirective(mockElementRef);
     expect(directive).toBeTruthy();
   });
 });

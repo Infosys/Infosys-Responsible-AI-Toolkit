@@ -4,9 +4,10 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 
 @Injectable({
@@ -14,10 +15,34 @@ import { Observable } from 'rxjs';
 })
 export class UnstructuredTextService {
 
-  constructor(private https: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  getallLotDetalils(url: any):Observable<any> {
-    return this.https.get(url)
+  // Get all lot details for a user
+  getAllLotDetails(url: string): Observable<any> {
+    return this.http.get(url).pipe(
+      catchError(this.handleError)
+    );
   }
-  
+
+  // Upload file to workbench
+  uploadFileToWorkbench(url: string, fileData: FormData): Observable<any> {
+    return this.http.post(url, fileData).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  // Error handling method
+  private handleError(error: HttpErrorResponse): Observable<never> {
+    let errorMessage = 'An unknown error occurred';
+    
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = `Client Error: ${error.error.message}`;
+    } else {
+      // Server-side error
+      errorMessage = error.error?.detail || error.error?.message || `Server Error: ${error.status} - ${error.message}`;
+    }
+    
+    return throwError(error);
+  }
 }

@@ -1,12 +1,13 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 import base64
@@ -33,12 +34,13 @@ from fpdf import FPDF
 from PIL import Image
 from scipy import stats   
 from fairness.config.logger import CustomLogger
+from fairness.constants.local_constants import OUTPUT_BASE_PATH
 
 log = CustomLogger()
 
-LOCAL_FILE_PATH="../output/datasets/"
-SUCCESS_RATE_LOCAL_PATH='../output/graphs/success_rates/'
-OUTPUT_FOLDER='../output/'
+LOCAL_FILE_PATH=os.path.join(OUTPUT_BASE_PATH, 'datasets') + os.sep
+SUCCESS_RATE_LOCAL_PATH=os.path.join(OUTPUT_BASE_PATH, 'graphs', 'success_rates') + os.sep
+OUTPUT_FOLDER=OUTPUT_BASE_PATH + os.sep
 class SuccessRateService:
     def __init__(self, db=None):
         self.db = DataBase().db
@@ -157,6 +159,8 @@ class SuccessRateService:
     def create_graphs(success_rates):
         pdf_name="population_success_rate_"+str(uuid.uuid4())+".pdf"
         pdf_path=os.path.join(SUCCESS_RATE_LOCAL_PATH,pdf_name)
+        # Ensure the output directory exists
+        os.makedirs(SUCCESS_RATE_LOCAL_PATH, exist_ok=True)
         image_paths=[]
         try:
             with PdfPages(pdf_path) as pdf:
@@ -498,8 +502,8 @@ class SuccessRateService:
             url = os.getenv("REPORT_URL")
             payload = {"batchId": batchId}
             response = requests.request(
-            "POST", url, data=payload, verify=False).json()
-            print(response)
+            "POST", url, data=payload, verify=True).json()
+            
             if response['status'] != "SUCCESS":
                 raise HTTPException(status_code=500, detail="Report could not be generated")
             update_status=self.batch.update(batch_id=batchId, value={"Status": "Completed"})

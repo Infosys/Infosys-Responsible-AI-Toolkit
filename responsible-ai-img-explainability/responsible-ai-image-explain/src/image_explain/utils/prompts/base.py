@@ -19,8 +19,8 @@ from image_explain.utils.prompts.output_format import *
 from image_explain.utils.prompts.few_shot import *
 
 class Prompt:
-        
-    def image_analyze_prompt():
+
+    def image_analyze_prompt(self):
         template = f'''
             You are a detail-oriented LLM which pays close attention to the details. You are given a prompt and an image. Your job is to evaluate the image and provide a detailed analysis of the image.
 
@@ -38,7 +38,7 @@ class Prompt:
         '''
         return template
 
-    def analyze_bias_without_prompt():
+    def analyze_bias_without_prompt(self):
         template = f'''
             You are an evaluator tasked to identify all potential bias(es) in the Image. Analyze the image and identify all possible potential bias(es) in it. Prioritize Human based biases over other types of biases. Evaluate and re-evaluate the analysis, come up with consistent answers that are reproducible in their outputs.
 
@@ -56,7 +56,7 @@ class Prompt:
         '''
         return template
     
-    def query_based_image_analysis_prompt(prompt):
+    def query_based_image_analysis_prompt(self, prompt):
         template = f'''
             You are a detail-oriented LLM which pays close attention to the details. You are given a question and an image. 
             Your job is to analyze the given image in detail and provide answer in response to the given question.
@@ -76,7 +76,7 @@ class Prompt:
         '''
         return template
 
-    def object_detection_img_prompt():
+    def object_detection_img_prompt(self):
         return f'''
             You will be provided with an image containing bounding boxes drawn around specific objects. Each bounding box includes the object's name and score displayed at its top. Your tasks are as follows:
 
@@ -98,7 +98,7 @@ class Prompt:
             You shoud provide output only in json format.
         '''
 
-    def detect_objects_prompt():
+    def detect_objects_prompt(self):
         return """
                 TASK: Detect and list all objects present in the given image.
                 INPUT: An image containing various entities.
@@ -117,7 +117,7 @@ class Prompt:
                     "objects": ["car", "person", "tree"]
                 }
             """
-    def detect_objects_slm_prompt():
+    def detect_objects_slm_prompt(self):
         return """
             You are a highly capable and detail-oriented Responsible AI Assistant. Your task is to analyze the given image thoroughly and accurately detect all objects present within it. Follow the instructions below to ensure consistency and clarity:
             TASK: Detect and list all objects visually present in the provided image.
@@ -151,11 +151,11 @@ class Prompt:
                 - Example Output:
                 ```json
                 {
-                "objects": ["cat", "bicycle", "bench"]
+                 "objects": ["cat", "bicycle", "bench"]
                 }
         """
     
-    def bounding_boxes_prompt():
+    def bounding_boxes_prompt(self):
         return """
                 TASK: Extract the names associated with bounding boxes in the given image.
                 INPUT: An image with bounding boxes around specific objects, each labeled with a name at its top-left corner.
@@ -175,7 +175,7 @@ class Prompt:
                 }
             """
     
-    def bounding_boxes_slm_prompt():
+    def bounding_boxes_slm_prompt(self):
         return """
             You are a highly capable and detail-oriented Responsible AI Assistant. Your task is to accurately extract the names associated with bounding boxes from the given image. Follow the instructions below to ensure consistency and clarity:
             TASK: Extract and list the names associated with bounding boxes in the provided image.
@@ -217,7 +217,7 @@ class Prompt:
             Do not provide any description in the response, just the json is required.
         """
     
-    def validate_objects_prompt(objects):
+    def validate_objects_prompt(self, objects):
         return f"""
                 TASK: Verify the presence of specific objects in the given image.
                 
@@ -247,7 +247,7 @@ class Prompt:
                 }}
             """
     
-    def validate_objects_slm_prompt(img_objs, img_bounding_boxes):
+    def validate_objects_slm_prompt(self, img_objs, img_bounding_boxes):
         return f"""
                 TASK: Verify the presence of objects in the given image.
                 INSTRUCTIONS:
@@ -257,7 +257,7 @@ class Prompt:
                     Provide your analysis as a paragraph in string format without bold or other formating styles.
             """
     
-    def obj_detection_exp_prompt(img_objs, img_bounding_boxes, add_objs, add_objs_presence):
+    def obj_detection_exp_prompt(self, img_objs, img_bounding_boxes, add_objs, add_objs_presence):
         return f"""
                 TASK: Generate a detailed explanation for object detection results in the given image.
                 
@@ -293,7 +293,7 @@ class Prompt:
                 }}
             """
     
-    def obj_detection_exp_slm_prompt(img_objs, img_bounding_boxes, add_objs, add_objs_presence):
+    def obj_detection_exp_slm_prompt(self, img_objs, img_bounding_boxes, add_objs, add_objs_presence):
         return f"""
                 TASK: Generate a detailed explanation for object detection results in the given image.
                 
@@ -329,7 +329,7 @@ class Prompt:
                 }}
             """
     
-    def object_detection_azure(object_name: str):
+    def object_detection_azure(self, object_name: str):
         return f"""
             TASK: Generate a detailed explanation for object detection results in the given image.
             INPUT: 
@@ -346,7 +346,7 @@ class Prompt:
                 }}
             """
     
-    def object_detection_azure_summarize(object_name: str):
+    def object_detection_azure_summarize(self, object_name: str):
         return f"""
             You are expert Responsible AI assistance, below is the observation of individual objects identified in the image.
             You are required to generate a detailed explanation for the object detection results by considering the observations given. 
@@ -360,7 +360,7 @@ class Prompt:
             }}
             """
     
-    def object_detection_slm(object_name: str):
+    def object_detection_slm(self, object_name: str):
         return  f"""
             You are a highly capable and detail-oriented Responsible AI Assistant. Your task is to:
             1. Analyse the image thoroughly:
@@ -381,7 +381,7 @@ class Prompt:
             OBJECT NAME: {object_name}
             """
     
-    def object_detection_slm_summarize(analysis: str):
+    def object_detection_slm_summarize(self, analysis: str):
         return f"""
             You are a Responsible AI Assistant tasked with summarizing a detailed analysis of multiple objects. Your responsibilities are as follows:      
             Input Analysis Parsing:
@@ -406,7 +406,7 @@ class Prompt:
             INPUT: {analysis}
             """
     
-    def uncertainty_template(input):
+    def uncertainty_template(self, input):
 
         template = f'''
         

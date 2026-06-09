@@ -102,12 +102,8 @@ Link provided above will directly download the model version 3.7.1.
       pip install torch==2.3.1
   ```
   Note: If you face any issue with the torch library then uninstall the torch `pip uninstall torch` and then reinstall the latest version `pip install torch` .
-  Note:To anonymize PDF file which is part of privacyfiles_main please install PyMuPDF (which is a AGPL Licensed package) using following command:
-  ```sh
-     pip install PyMuPDF
-   ```
-
-Download and install the tesseract in your system. After installation, set the tessaract path in environment variables of account or system : [Tessaract](https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-v5.3.0.20221214.exe).
+  
+Download and install the tesseract in your system. After installation, set the tessaract path in environment variables of account or system : [Tessaract](https://digi.bib.uni-   mannheim.de/tesseract/tesseract-ocr-w64-setup-v5.3.0.20221214.exe).
   Different versions of tesseract : [Versions](https://digi.bib.uni-mannheim.de/tesseract/).
   Tesseract Github : [Github](https://github.com/tesseract-ocr/tessdoc).
 
@@ -142,7 +138,7 @@ After installing all the required packages, configure the variables necessary to
    ```
     
     *TELE_FLAG is made true only if user wants to request the response in telemetry. Otherwise for the normal flow it can be set as False.
-    For Telemetry setup, refer this link [responsible-ai-telemetry](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-telemetry)
+    For Telemetry setup, refer this link [responsible-ai-telemetry](https://github.com/Infosys-AI-Cloud-MMS/responsible-ai-telemetry)
     set the below env variables for connecting with telemetry alongside Telemetry flag.
    
    ```sh
@@ -174,11 +170,6 @@ After installing all the required packages, configure the variables necessary to
 
 ## Running the Application
 
-Before running the application:
-
-Note: We are currently working on anonymizing PDF content, which will be available in the next release.
-Please comment out the PDF anonymize router (from privacy.service.pdf_service import PDFService) and the privacy file anonymize router (@fileRouter.post('/privacy-files/anonymize')) with its respective import statements (i.e., linenumber 1319-1384 and 1546-1621 in [privacy_router.py](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/master/responsible-ai-privacy/responsible-ai-privacy/src/privacy/routing/privacy_router.py) file), also comment the [pdf_service.py](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/master/responsible-ai-privacy/responsible-ai-privacy/src/privacy/service/pdf_service.py)file.
-
 Once we have completed all the aforementioned steps, we can start the service.
 
 1. Navigate to the `src` directory:
@@ -200,11 +191,11 @@ Once we have completed all the aforementioned steps, we can start the service.
 
 3. Open the following URL in your browser:
     For privacy_main :
-    [http://localhost:30002/v1/privacy/docs#/](http://localhost:30002/v1/privacy/docs#/)
+    `http://localhost:<portno>/v1/privacy/docs`
         User can also change the port which is mentioned in privacy_main.py file
 
     For privacyfiles_main :
-    `http://localhost:<portnumber>/rai/v1/privacy-files/docs#/`
+    [http://localhost:30003/rai/v1/privacy-files/docs#/](http://localhost:30003/rai/v1/privacy-files/docs#/)
         User can also change the port which is mentioned in privacyfiles_main.py file
     
     Note: For the video anonymize endpoint (rai/v1/privacy-files/video/anonymize) use ocr as "Tesseract".

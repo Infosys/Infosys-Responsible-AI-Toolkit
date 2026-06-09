@@ -1,11 +1,14 @@
 '''
-MIT license https://opensource.org/licenses/MIT Copyright 2024-2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 '''
 
 from ast import If
@@ -133,7 +136,7 @@ class InfosysRAI:
     
     
     
-    def addData(userId,Payload1:GetDataPayloadRequest,Payload2:GetDataRequest):    #Payload3:GetGroundtruthFileRequest
+    def addData(userId,Payload1:GetDataPayloadRequest,Payload2:GetDataRequest):    
 
         try:
             Payload1 = AttributeDict(Payload1)
@@ -150,21 +153,12 @@ class InfosysRAI:
                 else:
                     commonTenetId = Tenet.findOne("Common")
                     dataFileId = FileStoreDb.create(Payload2.DataFile,Payload1.dataFileName+data_extension[1])
-                    # if Payload3.GroundTruthFile is not None:
-                    #     groundTruthFile_Extension = os.path.splitext(Payload3.GroundTruthFile.filename)
-                    #     groundTruthFileName = Payload1.dataFileName+'_groundtruthFile'+groundTruthFile_Extension[1]
-                    #     groundTruthFileId = FileStoreDb.create(Payload3.GroundTruthFile,groundTruthFileName)
-                    #     dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":dataFileId,"userId":userId,'groundTruthImageFileId':groundTruthFileId})
-                    # else:
-                    #     dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":dataFileId,"userId":userId,'groundTruthImageFileId':'NA'}) 
                     dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":dataFileId,"userId":userId,'groundTruthImageFileId':'NA'})       
-                    # dataFileId = str(dataFileId)
                     for key in keys:
                         if key == "dataFileName":
                             pass
                         else:
                             dataAttributesId = DataAttributes.findall({"DataAttributeName":key,"TenetId":commonTenetId})
-                            # dataAttributesId = DataAttributes.create({"dataAttributeName":key,"tenetId":commonTenetId})
                             if(len(dataAttributesId) > 1 or len(dataAttributesId) == 0):
                                 return f"No Entry or Multiple entries are present for {key} "
                             else:
@@ -182,25 +176,14 @@ class InfosysRAI:
                     upload_file_api = os.getenv('AZURE_UPLOAD_API') 
                     Payload2.DataFile.file.seek(0)
                     response =requests.post(url =upload_file_api, files ={"file":(Payload2.DataFile.filename,Payload2.DataFile.file)}, data ={"container_name":container_name}, verify = sslv[sslVerify]).json()
-                    # dataFileId = FileStoreDb.create(Payload2.DataFile,Payload1.dataFileName+data_extension[1])
                     blob_name =response["blob_name"]
                     print(blob_name,"blob_name")
-                    # if Payload3.GroundTruthFile is not None:
-                    #     Payload3.GroundTruthFile.file.seek(0)
-                    #     groundTruthFile_Extension = os.path.splitext(Payload3.GroundTruthFile.filename)
-                    #     groundTruthFileName = Payload1.dataFileName+'_groundtruthFile'+groundTruthFile_Extension[1]
-                    #     response =requests.post(url =upload_file_api, files ={"file":(groundTruthFileName,Payload3.GroundTruthFile.file)}, data ={"container_name":container_name}, verify = sslv[sslVerify]).json()
-                    #     groundTruthFileId_blob_name =response["blob_name"]
-                    #     dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":blob_name,"userId":userId,'groundTruthImageFileId':groundTruthFileId_blob_name})
-                    # else:
-                    #     dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":blob_name,"userId":userId,'groundTruthImageFileId':'NA'}) 
                     dataId = Data.create({"dataSetName":Payload1.dataFileName,"sampleData":blob_name,"userId":userId,'groundTruthImageFileId':'NA'}) 
                     for key in keys:
                         if key == "dataFileName":
                             pass
                         else:
                             dataAttributesId = DataAttributes.findall({"DataAttributeName":key,"TenetId":commonTenetId})
-                            # dataAttributesId = DataAttributes.create({"dataAttributeName":key,"tenetId":commonTenetId})
                             if(len(dataAttributesId) > 1 or len(dataAttributesId) == 0):
                                 return f"No Entry or Multiple entries are present for {key} "
                             else:
@@ -208,7 +191,6 @@ class InfosysRAI:
                             dataAttributesValuesId = DataAttributesValues.create({"dataAttributeId":dataAttributesId,"dataId":dataId,"dataAttributeValues":Payload1[key]})
                     
                     return "Data Added Sucessfully"
-                # return "Data Added Sucessfully"
         
         except Exception as exc:
             return f"DataFile Addition Failed! Please Try Again{exc}"
@@ -237,11 +219,6 @@ class InfosysRAI:
                     attributes = DataAttributes.findall({"DataAttributeId":value.DataAttributeId})
                     if attributes:
                         attributesData[attributes[0]['DataAttributeName']] = value.DataAttributeValues
-                    # attributes = DataAttributes.findall({"DataAttributeId":value.DataAttributeId})
-                    #print( attributes,"attributes")
-                    #print(attributesData,"attributesData")
-                    
-                    # attributesData[attributes['DataAttributeName']] = value.DataAttributeValues
                 
                 Payload1['fileName'] = Payload2.DataFile.filename
                 print(Payload1.keys(),"Payload1.keys()")
@@ -250,9 +227,7 @@ class InfosysRAI:
                     if attributesData[key] == Payload1[key]:
                         continue
                     else:
-                        #print( attributeValues,"attributes")
                         attributeValues = DataAttributesValues.findall({"DataId":payload['dataid']})
-                        #print( attributeValues,"AFTERattributes")
                         for value in attributeValues:
                             dataAttributeList = DataAttributes.findall({"DataAttributeId":value.DataAttributeId})[0]
                             if key == dataAttributeList['DataAttributeName']:
@@ -263,7 +238,6 @@ class InfosysRAI:
                     if Payload2.DataFile:
                         data_file_id = FileStoreDb.fs.find_one({'_id':dataList['SampleData']})
                         FileStoreDb.delete(dataList['SampleData'])
-                        # FileStoreDb.delete(data_file_id)
                         data_extension = os.path.splitext(Payload2.DataFile.filename)
                         dataFileId = FileStoreDb.create(Payload2.DataFile,Payload2.DataFile.filename)
                         Data.update(dataList['_id'], {'SampleData':dataFileId})
@@ -359,10 +333,6 @@ class InfosysRAI:
                 v = 0
                 if(len(x) > 0 ):
                     v  = x[-1].ModelVersion + 1
-                # data_extension = os.path.splitext(Payload2.ModelFile.filename)
-                # data_extensionModified = Payload2.ModelFile.filename
-                # print("data_extensionModified===>",data_extensionModified)
-                # Payload1["fileName"] = data_extensionModified
                 # this will checking modelFile present in Database or not
                 model_Name,model_file = None,None
                 if Payload1.useModelApi.lower() == "yes":
@@ -390,7 +360,6 @@ class InfosysRAI:
                     else:
                         modelFileId = FileStoreDb.create(Payload2.ModelFile,Payload1.modelName+model_extension[1])
                         modelId = Model.create({"userId":userId,"modelName":Payload1.modelName,"modelVersion":v,"modelData":modelFileId,"modelEndPoint":"NA"}) 
-                        # modelId = str(modelFileId)
                         model_file = FileStoreDb.fs.get(modelFileId)
                         if Payload1["fileName"].split('.')[-1] == "pkl":
                             model = joblib.load(BytesIO(model_file.read()))
@@ -436,10 +405,6 @@ class InfosysRAI:
                 v = 0
                 if(len(x) > 0 ):
                     v  = x[-1].ModelVersion + 1
-                # data_extension = os.path.splitext(Payload2.ModelFile.filename)
-                # data_extensionModified = Payload2.ModelFile.filename
-                # print("data_extensionModified===>",data_extensionModified)
-                # Payload1["fileName"] = data_extensionModified
                 # this will checking modelFile present in Database or not
                 model_Name,model_file = None,None
                 if Payload1.useModelApi.lower() == "yes":
@@ -473,13 +438,11 @@ class InfosysRAI:
                         response =requests.post(url =upload_file_api, files ={"file":(Payload2.ModelFile.filename,Payload2.ModelFile.file)}, data ={"container_name":container_name},verify = sslv[sslVerify]).json()
                         blob_name =response["blob_name"]
                         modelId = Model.create({"userId":userId,"modelName":Payload1.modelName,"modelVersion":v,"modelData":blob_name,"modelEndPoint":"NA"}) 
-                        # responseGet = requests.get(url=get_file_api, data={"container_name": container_name, "blob_name": blob_name})
                         responseGet = requests.get(
                             url=get_file_api, 
                             params={"container_name": container_name, "blob_name": blob_name}, verify = sslv[sslVerify]
                         )
                         print(type(responseGet.content),"MODEL BLOB TYPE")
-                        # dataFileId = FileStoreDb
                         if Payload1["fileName"].split('.')[-1] == "pkl":
                             modelFileObj = responseGet.content
                             model = joblib.load(BytesIO(modelFileObj))
@@ -593,10 +556,6 @@ class InfosysRAI:
             if len(Modelslist):
                 for Models in Model_AttributesValues:
                     ModelAttributesValues.update(Models['_id'], {'IsActive':'N'})
-
-                    # ModelAttributes_list = ModelAttributes.findall({"ModelAttributeId":Models["ModelAttributeId"]})
-                    # for ModelAttribute in ModelAttributes_list:
-                    #     ModelAttributes.update(ModelAttribute['_id'], {'IsActive':'N'})
 
                 for Models in Modelslist:
                     Model.update(Models['_id'], {'IsActive':'N'})
@@ -733,15 +692,12 @@ class InfosysRAI:
                     data_attribute_names = ["biasType", "methodType", "taskType", "label", "favorableOutcome", "protectedAttribute", "privilegedGroup","mitigationType","mitigationTechnique", "predLabel", "knn","sensitiveFeatures","favourableLabel"]
                     batchedTenetId = Batch.create(payload,tenantId)
                     fairnessBatchIdValidation = batchedTenetId
-                    # getBatchId = batchedTenetId[0]
                     for name in data_attribute_names:
                         fairnessDataAttribute = DataAttributes.findDAVId({"DataAttributeName": name}, {"tenetId": fairnessTenetId})
-                        # print("fairnessDataAttribute==",fairnessDataAttribute)
                         if fairnessDataAttribute is not None and payloadInDictionary[name] is not None:
                             payloadInDictionary['DataAttributeId'] = fairnessDataAttribute  
                             payloadInDictionary['DataAttributevalues'] = payloadInDictionary[name]
                             payloadInDictionary['BatchId'] = batchedTenetId['BatchId']
-                            #print("PAYLOAD IN DICT in IF LOOP===",payloadInDictionary)
                             fairnessDataAdd = DataAttributesValues.createForBatchData(payloadInDictionary)
                             del payloadInDictionary['DataAttributeId']
                             del payloadInDictionary['DataAttributevalues']
@@ -754,7 +710,6 @@ class InfosysRAI:
                     print("Fairness batch completed")
                     batchedTenetIds.append({"BatchId": batchedTenetId["BatchId"], "TenetId": tenantId})
                     uniqueBatchIds.add(batchedTenetId['BatchId'])
-                    # print("batchedTenetIdsFair===",batchedTenetIds)
                 ## MODEL CREATION DATA FROM BATCH FOR SECURITY
                 if(tenetName=="Security"):
                     def send_seurity_request(batch_id):
@@ -769,12 +724,10 @@ class InfosysRAI:
                     batchedTenetId = Batch.create(payload,tenantId)
                     for name in data_attribute_names:
                         securityDataAttribute = ModelAttributes.findMAVId({"ModelAttributeName": name}, {"tenetId": securityTenetId})
-                        # print("securityDataAttribute==",securityDataAttribute)
                         if securityDataAttribute is not None and payloadInDictionary[name] is not None:
                             payloadInDictionary['ModelAttributeId'] = securityDataAttribute  
                             payloadInDictionary['ModelAttributevalues'] = payloadInDictionary[name]
                             payloadInDictionary['BatchId'] = batchedTenetId['BatchId']
-                            #print("PAYLOAD IN DICT IN IF LOOP===",payloadInDictionary)
                             securityDataAdd = ModelAttributesValues.createForBatchData(payloadInDictionary)
                             del payloadInDictionary['ModelAttributeId']
                             del payloadInDictionary['ModelAttributevalues']
@@ -802,7 +755,6 @@ class InfosysRAI:
                             payloadInDictionary['ModelAttributeId'] = fairnessModelAttribute  
                             payloadInDictionary['ModelAttributevalues'] = payloadInDictionary[name]
                             payloadInDictionary['BatchId'] = batchedTenetId['BatchId']
-                            #print("PAYLOAD IN DICT in IF LOOP===",payloadInDictionary)
                             fairnessDataAdd = ModelAttributesValues.createForBatchData(payloadInDictionary)
                             del payloadInDictionary['ModelAttributeId']
                             del payloadInDictionary['ModelAttributevalues']
@@ -819,7 +771,6 @@ class InfosysRAI:
 
                         # Append the BatchId and TenetId to the list
                         batchedTenetIds.append({"BatchId": batchedTenetId["BatchId"], "TenetId": tenantId})
-                    # batchedTenetIds.append({"BatchId": batchedTenetId["BatchId"], "TenetId": tenantId})
                     
                     print("batchedTenetIdsFair===",batchedTenetIds)
                     print("uniqueBatchIds===",uniqueBatchIds)
@@ -850,7 +801,6 @@ class InfosysRAI:
                     print("Explainability batch completed")
                     batchedTenetIds.append({"BatchId": batchedTenetId["BatchId"], "TenetId": tenantId})  # Add the new entry to the list
                     uniqueBatchIds.add(batchedTenetId['BatchId'])
-                    # print("batchedTenetIdsExplain===",batchedTenetIds)
             return batchedTenetIds
         except Exception as exc:
             return f"Batch Creation Failed {exc}"

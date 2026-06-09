@@ -14,40 +14,39 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
   templateUrl: './multi-modal.component.html',
   styleUrls: ['./multi-modal.component.css']
 })
+
 export class MultiModalComponent implements OnInit {
   response: any = {}
   status: any = {}
 
   templateList = ['Image Prompt Injection Check', 'Image Jailbreak Check', 'Image Toxicity Check', 'Image Profanity Check', 'Image Restricted Topic Check']
-  // templateList:any = [] to be used for dynamic template list
 
-  constructor(private templateBasedService: TemplateBasedGuardrailService, public fmService: FmModerationService, private sharedDataService: SharedDataService) { }
+  constructor(private templateBasedService: TemplateBasedGuardrailService,
+    public fmService: FmModerationService,
+    private sharedDataService: SharedDataService) { }
+
   ngOnInit() {
     this.templateBasedService.fetchApiUrl()
-    // this.templateList = this.fmService.getMultiModal().templateList // to be used for dynamic template list
     this.callBatch();
   }
+
   async callBatch() {
-    console.log('Multi Modal Triggered');
     this.templateList.forEach((element: any) => {
       this.status[element] = '';
       this.response[element] = {};
     });
     const batchSize = 3;
     for (let i = 0; i < this.templateList.length; i += batchSize) {
-      console.log('Batch started');
       const batchPromises = [];
       for (let j = i; j < i + batchSize && j < this.templateList.length; j++) {
-        console.log('Processing', this.templateList[j]);
         batchPromises.push(this.callMultiModal(this.templateList[j]));
       }
       await Promise.all(batchPromises).then(results => {
-        console.log('Batch completed', results);
-      }).catch(error => {
-        console.error('Error in batch');
-      });
+      })
+        .catch(error => {
+          console.error('Error in batch');
+        });
     }
-    console.log('All requests processed');
   }
 
   // Function to check if an object is empty
@@ -55,7 +54,7 @@ export class MultiModalComponent implements OnInit {
     return obj != null && typeof obj === 'object' && Object.keys(obj).length === 0;
   }
 
-// Function to call the multi-modal API
+  // Function to call the multi-modal API
   callMultiModal(templateName: any, Context?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       if (this.status[templateName] === 'loading' || this.status[templateName] === 'done') {
@@ -77,29 +76,24 @@ export class MultiModalComponent implements OnInit {
       formPayload.append('TemplateName', templateName);
       formPayload.append('Restrictedtopics', "Terrorism,Explosives");
       formPayload.append('model_name', "gpt4O");
-      console.log(formPayload, "MultiModal Payload")
       this.templateBasedService.multiModal(formPayload).subscribe(
         (res: any) => {
-          console.log(res,"RESPONSE FROM MULTIMODAL");
-
-          if(typeof res?.['moderationResults'] != 'object'){
+          if (typeof res?.['moderationResults'] != 'object') {
             this.status[templateName] = 'failed';
             reject("Error in response from multiModal");
-            return 
+            return
           }
           this.response[templateName] = res?.['moderationResults'];
           this.response[templateName]['description'] = res?.['description'];
           this.response[templateName]['timetaken'] = res?.['timeTaken'];
-          // this.response[templateName]['description'] = res?.['description'];
           let data = {
             'analysis': this.response[templateName].explanation,
             'result': this.response[templateName].result,
           };
-          if (data.result === 'FAILED'){
-            this.sharedDataService.updateImageBasedModels(templateName,data,'templateBased')
+          if (data.result === 'FAILED') {
+            this.sharedDataService.updateImageBasedModels(templateName, data, 'templateBased')
           }
           this.status[templateName] = 'done';
-          console.log(this.response);
           resolve(data); // Resolve the promise with the data
         },
         error => {

@@ -1,12 +1,14 @@
 import os
 '''
-Copyright 2024 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 import multiprocessing
 import threading
@@ -16,7 +18,6 @@ import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 from sentence_transformers import SentenceTransformer,util
 from detoxify import Detoxify
-#from presidio_analyzer import AnalyzerEngine, RecognizerRegistry
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, pipeline
 from werkzeug.exceptions import InternalServerError
 from fastapi.encoders import jsonable_encoder
@@ -41,20 +42,11 @@ try:
     log=CustomLogger()
     log.info("before loading model")
     request_id_var = contextvars.ContextVar("request_id_var")
-    #pipe = StableDiffusionPipeline.from_pretrained('/model/stablediffusion/fp32/model')
     device = "cuda"
-#    registry = RecognizerRegistry()
-#    registry.load_predefined_recognizers()
-#    analyzer_engine = AnalyzerEngine(registry=registry)
 
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
     print("device",device)
     gpu=0 if torch.cuda.is_available() else -1
-    # BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    # # for i in os.walk(BASE_DIR)
-    # print(BASE_DIR)
-    # print(os.listdir(BASE_DIR))
-    # print(os.listdir())
     check_point = 'toxic_debiased-c7548aa0.ckpt'
     toxicityModel = Detoxify(checkpoint=os.path.join(application_path, 'models/detoxify/'+ check_point),
                         device=device,
@@ -65,25 +57,10 @@ try:
     PromptModel_dberta = AutoModelForSequenceClassification.from_pretrained(os.path.join(application_path, "models/dbertaInjection")).to(device)
     Prompttokens_dberta = AutoTokenizer.from_pretrained(os.path.join(application_path, "models/dbertaInjection"))
     promtModel = pipeline("text-classification", model=PromptModel_dberta, tokenizer=Prompttokens_dberta, device=device)
-
-    #topictokenizer_Facebook = AutoTokenizer.from_pretrained("../models/facebook")
-    #topicmodel_Facebook = AutoModelForSequenceClassification.from_pretrained("../models/facebook").to(device)
-
     topictokenizer_dberta = AutoTokenizer.from_pretrained(os.path.join(application_path,"models/restricted-dberta-base-zeroshot-v2"))
     topicmodel_dberta = AutoModelForSequenceClassification.from_pretrained(os.path.join(application_path,"models/restricted-dberta-base-zeroshot-v2")).to(device)
     nlp = pipeline('zero-shot-classification', model=topicmodel_dberta, tokenizer=topictokenizer_dberta,device=gpu)
-    # nlidist = pipeline('zero-shot-classification', model="../models/nli-distilroberta-base",device=gpu)
-    # bartlarge = pipeline('zero-shot-classification', model="../models/bart-large-mnli",device=gpu)
-    # nildeberta = pipeline('zero-shot-classification', model="../models/nli-deberta-v3-small",device=gpu)
-    # debertasmall = pipeline('zero-shot-classification', model="../models/deberta-small-long-nli",device=gpu)
     nlimini = pipeline('zero-shot-classification', model="../models/nli-MiniLM2-L6-H768",device=gpu)
-    # nlimini = pipeline('zero-shot-classification', model=r"C:\Users\amitumamaheshwar.h\Downloads\nli-MiniLM2-L6-H768",device=gpu)
-    # distilbart = pipeline('zero-shot-classification', model="../models/distilbart-mnli-12-6",device=gpu)
-    # classifier = pipeline("zero-shot-classification",model="../../../models/facebook",device=device)
-    # classifier2 = pipeline("zero-shot-classification",model="../../../models/restricted-dberta-large-zeroshot",device=device)
-    # encoder = SentenceTransformer("../models/multi-qa-mpnet-base-dot-v1").to(device)
-    # classifier = pipeline("zero-shot-classification",model="../../models/facebook",device=device)
-    # classifier2 = pipeline("zero-shot-classification",model="../../models/restricted-dberta-large-zeroshot",device=device)
     encoder = SentenceTransformer(os.path.join(application_path, "models/multi-qa-mpnet-base-dot-v1")).to(device)
 
     jailbreakModel = encoder
@@ -108,9 +85,6 @@ def privacy(id,text):
                     "fakeData": "false"})
         et = time.time()
         rt = et-st
-        #print("result start",res.PIIEntities,"result end", "time",rt)
-        
-        # output['PIIresult'] = {"PIIresult":res.PIIEntities,"modelcalltime":round(rt,3)}
         return {"PIIresult":res.PIIEntities,"modelcalltime":round(rt,3)}
     except Exception as e:
              
@@ -150,7 +124,6 @@ def multi_q_net_embedding(id,lst):
     
     try:
         st = time.time()
-        # print("start time JB===========",lst,st)
         
         res = []
         for text in lst:
@@ -161,10 +134,7 @@ def multi_q_net_embedding(id,lst):
         del text_embedding
         et = time.time()
         rt = et-st
-        # output['multi_q_net_embedding'] =(res,{'time_taken': str(round(rt,3))+"s"})
         return res,{'time_taken': str(round(rt,3))+"s"}
-        # return output
-        # return text_embedding.numpy().tolist()
     except Exception as e:
              
             log.error("Error occured in multi_q_net text embedding")
@@ -178,10 +148,6 @@ def restricttopic_check(payload,id):
     
     try:
         st = time.time()
-        # topicmodel = topicmodel_Facebook
-        # topictokenizer = topictokenizer_Facebook
-
-        # nlp = pipeline('zero-shot-classification', model=classifier, tokenizer=topictokenizer)
 
         text=payload['text']
         if('model' in payload):
@@ -189,7 +155,6 @@ def restricttopic_check(payload,id):
         else:
             model="nliMini"
         labels=payload['labels']
-        #hypothesis_template = "The topic of this text is {}"
         hypothesis_template="This text falls under and is strictly related to topic {}"
         
     
@@ -197,31 +162,15 @@ def restricttopic_check(payload,id):
             cls=nlimini
         else:
             cls=nlp
-        # print(model,cls)
-        #commented to use just dberta model
-        #model =payload['model'] if hasattr(payload, 'model') else "facebook"
-        #if model==None:
-        #    model="dberta"
-        
-        # if model=="facebook":
-        #     # nlp = classifier
-        #     nlp = pipeline('zero-shot-classification', model=topicmodel_Facebook, tokenizer=topictokenizer_Facebook, device=gpu)
-        # elif model=="dberta": 
-        #     # nlp = classifier2
-        #     nlp = pipeline('zero-shot-classification', model=topicmodel_dberta, tokenizer=topictokenizer_dberta,device=gpu)
-        # nlp = pipeline('zero-shot-classification', model=topicmodel_dberta, tokenizer=topictokenizer_dberta,device=gpu)
         with torch.no_grad():    
             output=cls(text, labels,hypothesis_template=hypothesis_template,multi_label=True)
-        # print("=================",output)
         for i in range(len(output["scores"])):
             output["scores"][i] = round(output["scores"][i],4)
 
-        # del nlp
         del cls
         et = time.time()
         rt = et-st
         output['time_taken'] = str(round(rt,3))+"s"
-        # output1['restricttopic'] = output
         return output
     
     except Exception as e:
@@ -306,7 +255,6 @@ def toxicity_check(payload,id) :
         et = time.time()
         rt = et-st
         objProfanityAnalyzeResponse['time_taken'] = str(round(rt,3))+"s"
-        # output1['toxicity'] = objProfanityAnalyzeResponse
         return objProfanityAnalyzeResponse
     
     except Exception as e:
@@ -323,13 +271,10 @@ def promptInjection_check(text,id):
     try:
         st = time.time()
         result = promtModel(text)
-        # print("============:",result)
         predicted_label_name = result[0]["label"]
         predicted_probabilities = result[0]["score"]
-        # del tokens
         et = time.time()
         rt = et-st
-        # output['promptInjection'] = (predicted_label_name,predicted_probabilities, {'time_taken':str(round(rt,3))+"s"})
         
         return predicted_label_name,predicted_probabilities, {'time_taken':str(round(rt,3))+"s"}
     except Exception as e:
@@ -339,48 +284,3 @@ def promptInjection_check(text,id):
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
                                                    "Error Module":"Failed at promptInjection_check call"})
             raise InternalServerError()
-        
-# def checkall(id,payload):
-#     try:
-#         st = time.time()
-#         output = {}
-#         x=[]
-#         threads = []
-#         results = []
-#         thread = threading.Thread(target=toxicity_check, args=(payload['text'],id,output))
-#         threads.append(thread)
-#         thread.start()
-#         thread1 = threading.Thread(target=promptInjection_check, args=(payload['text']['text'],id,output))
-#         threads.append(thread1)
-#         thread1.start()
-#         thread2 = threading.Thread(target=restricttopic_check, args=(payload["restric"],id,output))
-#         threads.append(thread2)
-#         thread2.start()
-#         thread3 = threading.Thread(target=multi_q_net_embedding, args=(id,payload['embed']["text"],output))
-#         threads.append(thread3)
-#         thread3.start()
-#         thread4 = threading.Thread(target=privacy, args=(id,payload['text']['text'],output))
-#         threads.append(thread4)
-#         thread4.start()
-#         for thread in threads:
-#             thread.join()
-#             # print("=======================:",result)
-#             # results.append(thread.result)
-#         # with multiprocessing.Pool() as pool:
-#         #     output['toxicity'] =pool.starmap(toxicity_check, [(payload["text"],id)])
-#         #     output['promptInjection'] = pool.starmap(promptInjection_check, [(payload['text'],id)])
-#         #     output['restricttopic'] = pool.starmap(restricttopic_check, [(payload["restric"],id)])
-#         #     output['multi_q_net_embedding'] = pool.starmap(multi_q_net_embedding, [(id,payload['embed']["text"])])
-#         #     output['privacy'] = pool.starmap(privacy, [(id,payload['text'])])
-#         # print("output",output)
-#         et = time.time()
-#         rt = et-st
-#         output['time_taken'] = str(round(rt,3))+"s"
-#         return output
-#     except Exception as e:
-            
-#             log.error("Error occured in checkall")
-#             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-#             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-#                                                    "Error Module":"Failed at checkall call"})
-#             raise InternalServerError()

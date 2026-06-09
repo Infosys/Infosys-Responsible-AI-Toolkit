@@ -41,10 +41,10 @@ spec:
       containers:
         - envFrom:
           - configMapRef:
-              name: privacy-config
+              name: moderation-model-config
           image: <Image Name>
           imagePullPolicy: Always
-          name: responsible-ai-privacy
+          name: responsible-ai-moderation-model
           ports:
             - containerPort: 8000
           securityContext:
@@ -58,5 +58,5 @@ spec:
           resources:
             limits:
                 #cpu: '2'
-                memory: '8Gi'
+                memory: '10Gi'
                 nvidia.com/gpu: 1

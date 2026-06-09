@@ -4,16 +4,19 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'jhi-error',
   templateUrl: './error.component.html',
 })
-export class ErrorComponent implements OnInit {
+export class ErrorComponent implements OnInit, OnDestroy {
   errorMessage?: string;
   errorType?: number;
+  private destroy$ = new Subject<void>();
 
   constructor(private route: ActivatedRoute) {}
 
@@ -22,7 +25,7 @@ export class ErrorComponent implements OnInit {
    * @returns void
    */
   ngOnInit(): void {
-    this.route.data.subscribe(routeData => {
+    this.route.data.pipe(takeUntil(this.destroy$)).subscribe(routeData => {
       if (routeData['errorMessage']) {
         this.errorMessage = routeData['errorMessage'];
       }
@@ -30,5 +33,10 @@ export class ErrorComponent implements OnInit {
         this.errorType = routeData['errorType'];
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

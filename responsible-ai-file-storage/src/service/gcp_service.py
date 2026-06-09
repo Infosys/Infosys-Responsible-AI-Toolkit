@@ -1,7 +1,20 @@
+"""
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
+
 from google.cloud import storage
 from google.cloud.exceptions import NotFound, GoogleCloudError
 from fastapi import HTTPException
 from dotenv import load_dotenv
+load_dotenv()
 import uuid
 import os
 import time
@@ -12,11 +25,14 @@ import re
 from typing import Optional, List, Generator
 from io import BytesIO
 
+ssl_verify = os.getenv('VERIFY_SSL', 'True').strip()
+verify = False if ssl_verify == "False" else True
+
 import requests
 from google.oauth2 import service_account
 
 requests.packages.urllib3.disable_warnings()
-requests.Session.verify = False
+requests.Session.verify = verify
 
 logger = logging.getLogger("gcp")
 logger.setLevel(logging.DEBUG)
@@ -36,7 +52,7 @@ print(
     f"DEBUG={logger.isEnabledFor(logging.DEBUG)}"
 )
 
-load_dotenv()
+
 CHUNK_SIZE = 15 * 1024 * 1024  # 15MB chunks
 
 
@@ -50,17 +66,30 @@ class FairnessUIservice:
         
         credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
         if credentials_path:
+            # If the path is relative, resolve it relative to the src directory
+            if not os.path.isabs(credentials_path):
+                # Get the directory containing this file (service/gcp_service.py)
+                current_dir = os.path.dirname(os.path.abspath(__file__))
+                # Go up one level to src directory
+                src_dir = os.path.dirname(current_dir)
+                credentials_path = os.path.join(src_dir, credentials_path)
+                print(f"credentials_path: {credentials_path}")
             self.storage_client = storage.Client.from_service_account_json(credentials_path)
         else:
-            # Use default credentials (works on GCP or if gcloud auth is configured)
-            self.storage_client = storage.Client()
+            # Skip initialization if no credentials available (e.g., during test collection)
+            try:
+                # Use default credentials (works on GCP or if gcloud auth is configured)
+                self.storage_client = storage.Client()
+            except Exception:
+                # If credentials are not available, set to None
+                self.storage_client = None
     
     def list_buckets(self) -> List[str]:
         """List all buckets in the project"""
         try:
             buckets = self.storage_client.list_buckets()
             return [bucket.name for bucket in buckets]
-        except GoogleCloudError as e:
+        except Exception as e:
             logger.error(f"Failed to list buckets: {e}")
             raise HTTPException(status_code=500, detail=f"Failed to list buckets: {str(e)}")
     
@@ -97,7 +126,7 @@ class FairnessUIservice:
             
             return response
             
-        except GoogleCloudError as e:
+        except Exception as e:
             logger.error(f"Failed to upload file: {e}")
             raise HTTPException(status_code=500, detail=f"Failed to upload file: {str(e)}")
     
@@ -122,7 +151,7 @@ class FairnessUIservice:
             
             return response
             
-        except GoogleCloudError as e:
+        except Exception as e:
             logger.error(f"Failed to update file: {e}")
             raise HTTPException(status_code=500, detail=f"Failed to update file: {str(e)}")
     
@@ -156,9 +185,10 @@ class FairnessUIservice:
                 yield chunk
                 start_byte = end_byte + 1
                 
-        except NotFound:
-            raise HTTPException(status_code=404, detail=f"Object '{object_name}' not found in bucket '{bucket_name}'")
-        except GoogleCloudError as e:
+        except Exception as e:
+            # Check if it's a NotFound exception (by class name or message)
+            if e.__class__.__name__ == 'NotFound' or 'not found' in str(e).lower():
+                raise HTTPException(status_code=404, detail=f"Object '{object_name}' not found in bucket '{bucket_name}'")
             logger.error(f"Failed to download object: {e}")
             raise HTTPException(status_code=500, detail=f"Failed to download object: {str(e)}")
     
@@ -170,9 +200,10 @@ class FairnessUIservice:
             blob.delete()
             print(f"Object '{object_name}' deleted from bucket '{bucket_name}'")
             
-        except NotFound:
-            raise HTTPException(status_code=404, detail=f"Object '{object_name}' not found in bucket '{bucket_name}'")
-        except GoogleCloudError as e:
+        except Exception as e:
+            # Check if it's a NotFound exception
+            if e.__class__.__name__ == 'NotFound' or 'not found' in str(e).lower():
+                raise HTTPException(status_code=404, detail=f"Object '{object_name}' not found in bucket '{bucket_name}'")
             logger.error(f"Failed to delete object: {e}")
             raise HTTPException(status_code=500, detail=f"Failed to delete object: {str(e)}")
     
@@ -183,7 +214,7 @@ class FairnessUIservice:
             bucket.create()
             return {"message": f"Bucket '{bucket_name}' created successfully"}
             
-        except GoogleCloudError as e:
+        except Exception as e:
             logger.error(f"Failed to create bucket: {e}")
             raise HTTPException(status_code=500, detail=f"Failed to create bucket: {str(e)}")
     
@@ -260,9 +291,10 @@ class FairnessUIservice:
                 "md5_hash": blob.md5_hash,
             }
             
-        except NotFound:
-            raise HTTPException(status_code=404, detail=f"Object '{object_name}' not found in bucket '{bucket_name}'")
-        except GoogleCloudError as e:
+        except Exception as e:
+            # Check if it's a NotFound exception
+            if e.__class__.__name__ == 'NotFound' or 'not found' in str(e).lower():
+                raise HTTPException(status_code=404, detail=f"Object '{object_name}' not found in bucket '{bucket_name}'")
             logger.error(f"Failed to get object properties: {e}")
             raise HTTPException(status_code=500, detail=f"Failed to get object properties: {str(e)}")
     
@@ -299,8 +331,9 @@ class FairnessUIservice:
             
             return filtered_objects
             
-        except NotFound:
-            raise HTTPException(status_code=404, detail=f"Bucket '{bucket_name}' not found")
-        except GoogleCloudError as e:
+        except Exception as e:
+            # Check if it's a NotFound exception (bucket not found)
+            if e.__class__.__name__ == 'NotFound' or 'not found' in str(e).lower():
+                raise HTTPException(status_code=404, detail=f"Bucket '{bucket_name}' not found")
             logger.error(f"Failed to list objects: {e}")
             raise HTTPException(status_code=500, detail=f"Failed to list objects: {str(e)}")

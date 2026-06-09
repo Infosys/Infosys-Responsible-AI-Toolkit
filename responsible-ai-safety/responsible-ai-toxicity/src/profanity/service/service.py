@@ -1,12 +1,13 @@
 '''
-MIT license https://opensource.org/licenses/MIT
-Copyright 2024 Infosys Ltd
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
  
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 
 import importlib
@@ -56,18 +57,11 @@ log = CustomLogger()
 sslv={"False":False,"True":True,"None":True}
 
 
-# data = pd.read_csv('../data/wordlist.csv')
-# encoder = SentenceTransformer(model_name_or_path="../models/paraphrase-mpnet-base-v2")
-# vectors = encoder.encode(data['word_list'])
-# index = faiss.IndexFlatL2(vectors.shape[1])
-# faiss.normalize_L2(vectors)
 check_point = 'toxic_debiased-c7548aa0.ckpt'
 toxicityModel = Detoxify(checkpoint='../models/detoxify/'+ check_point,
                             device="cpu",
                             huggingface_config_path='../models/detoxify')
-# index.add(vectors)
 safetyconfig = os.getenv("SAFETY_COFIG")
-# config = os.getenv("PROFANITY_TELEMETRY_URL")
 class AttributeDict(dict):
     __getattr__ = dict.__getitem__
     __setattr__ = dict.__setitem__
@@ -78,39 +72,19 @@ class ProfanityService:
     def analyze (payload: ProfanityAnalyzeRequest) -> ProfanityAnalyzeResponse:
         log.debug(f"payload: {payload}")
         text = payload.inputText
-        # search_vector = np.array([encoder.encode(text)])
-        # faiss.normalize_L2(search_vector)
-        # k = index.ntotal
-        # distances, ann = index.search(search_vector, k=k)
-        # results = pd.DataFrame({'distances': distances[0], 'ann': ann[0]})
-        # merge = pd.merge(results,data,left_on = 'ann', right_index=True)
-        # top_five_words = merge.head(5)
-        # cen_words = top_five_words['word_list'].to_list()
         List_profanity = []
-        # profanity_score_dict = {}
-        # for i in cen_words:
-        #     match = re.finditer(i, text)
-        #     for a in match:
-        #         obj_profanity = profanity(profaneWord=a.group(),
-        #                               beginOffset=a.start(),
-        #                               endOffset=a.end())
-        #         log.debug(f"obj_profanity: {obj_profanity}")
-        #         List_profanity.append(obj_profanity)
         
         output = toxicityModel.predict(text)
         toxic_score = output['toxicity']
-        print("toxic_score:",toxic_score)
         if toxic_score > 0.6:
             res = profanity.censor(text)
         else:
             res =[text,[],[]]
 
-        print('res:',res)
         for i in range(len(res[1])):
             List_profanity.append({"profaneWord": res[1][i],"beginOffset":res[2][i][0],"endOffset":res[2][i][1]})
 
         log.info(f"List_profanity: {List_profanity}")
-        print("ttt",type(output['toxicity']))
         List_profanity_score = []
         obj_profanityScore_toxic = profanityScoreList(metricName='toxicity',
                                       metricScore=round(float(output['toxicity']),3))
@@ -147,16 +121,12 @@ class ProfanityService:
        
         censor_text = ""
        
-        # print("x===",x)
         output = toxicityModel.predict(text)
-        # print("Output=====",output)
         toxic_score = output['toxicity']
-        # print("toxic_score:",toxic_score)
         if toxic_score > 0.6:
             censor_text = profanity.censor(text)[0]
         else:
             censor_text = text
-        # censor_text = profanity.censor(text)
 
         log.info(f"censor_text: {censor_text}")
 
@@ -176,44 +146,29 @@ class ProfanityService:
     def imageAnalyze(payload):
         payload=AttributeDict(payload)
         if(payload.portfolio==None or payload.account==None):
-            # config = os.getenv("SAFETY_COFIG")
             config=safetyconfig
             config = json.loads(config)
-            # print("config169=====",config)
-            # config={"drawings":0.5,"hentai":0.25,"neutral":0.5,"porn":0.25,"sexy":0.25}
         else:
             data = ApiCall.request(payload)
-            # print("data======",data)
             if(data==404):
-                        # print( response_value)
                 return data
             if(len(data)==0):
                 return None
-            # raise ProfanityException("No Config Found , Check with admin")
             config = data
 
         image = Image.open(payload.image.file)
-        # print("image====",image)
         res = Detector.detector(image,payload.accuracy)
-        # print("res=====",res)
         
         response={"analyze":res,"ORIGINAL":ProfanityService.imageToByte(image)}
-        # return [result]
-         # Check if the scores exceed the configured thresholds
         if (res["sexy"] > float(config["sexy"]) or 
             res["hentai"] > float(config["hentai"]) or 
             res["porn"] > float(config["porn"])):
-            # If any of the explicit categories exceed their thresholds, blur the image
             image = image.filter(ImageFilter.GaussianBlur(radius=30))
         elif (res["sexy"] > res["neutral"] and res["sexy"] > res["drawings"] or 
             res["hentai"] > res["neutral"] and res["hentai"] > res["drawings"] or 
             res["porn"] > res["neutral"] and res["porn"] > res["drawings"]):
-            # If any category exceeds neutral and also exceeds drawings, blur the image
             image = image.filter(ImageFilter.GaussianBlur(radius=30))
         response["BLURRED"]=ProfanityService.imageToByte(image)
-        # processed_image_path = 'processed_image.png'
-        # image.save(processed_image_path)
-        # print(processed_image_path,"PATH")
         log.debug(str(res))
         return response
     
@@ -223,16 +178,12 @@ class ProfanityService:
             payload=AttributeDict(payload)
             payload=AttributeDict(payload)
             if(payload.portfolio==None or payload.account==None):
-                # config = os.getenv("SAFETY_COFIG")
                 config=safetyconfig
                 config = json.loads(config)
-                # config={"drawings":0.5,"hentai":0.25,"neutral":0.5,"porn":0.25,"sexy":0.25}
             else:
                 data = ApiCall.request(payload)
                 if(data==404):
-                        # print( response_value)
                     return data
-                # print("data======",data)
                 if(len(data)==0):
                     return "Portfolio/Account Not Found"
                 config = data
@@ -254,21 +205,17 @@ class ProfanityService:
             img = base64.b64decode(img_data)
            
             image=Image.open(BytesIO(img))
-            # image.show()
             accuracy = "high"
             res = Detector.detector(image,accuracy)
           
     
             response={"analyze":res,"ORIGINAL":ProfanityService.imageToByte(image)}
-            # return [result]
             if(res["sexy"]>float(config["sexy"]) or res["hentai"]>float(config["hentai"]) or res["porn"]>float(config["porn"])):
-                # print("bad")
                 image = image.filter(ImageFilter.GaussianBlur(radius=30))
             elif(res["sexy"]>res["neutral"] or res["hentai"]>res["neutral"] or res["porn"]>res["neutral"]):
                 image = image.filter(ImageFilter.GaussianBlur(radius=30))
             response["BLURRED"]=ProfanityService.imageToByte(image)
 
-            # log.debug(str(res))
             return response
         except Exception as e:
             log.error(str(e))
@@ -278,11 +225,8 @@ class ProfanityService:
         try:
             payload=AttributeDict(payload)
             payload=AttributeDict(payload)
-            # if(payload.portfolio==None or payload.account==None):
             config = os.getenv("SAFETY_COFIG")
-            print("config====",config)
-            # config = json.loads(config)
-            # config={"drawings":0.5,"hentai":0.25,"neutral":0.5,"porn":0.5,"sexy":0.5}
+            log.info("config====",config)
             safetyconfig=config  
             videoBase64 = process_video(payload,safetyconfig)
                  
@@ -294,12 +238,6 @@ class ProfanityService:
     def nudCensor(payload):
         try:
             payload=AttributeDict(payload)
-            # if(payload.portfolio==None or payload.account==None):
-            # config = os.getenv("NUD_CONFIG")
-            # print("config====",config)
-            # config = json.loads(config)
-            # config={"drawings":0.5,"hentai":0.25,"neutral":0.5,"porn":0.5,"sexy":0.5}
-            # nudconfig=config  
             imageBase64 = nudeNetImages(payload)
                  
             return imageBase64
@@ -311,12 +249,6 @@ class ProfanityService:
         try:
             payload=AttributeDict(payload)
             payload=AttributeDict(payload)
-            # # if(payload.portfolio==None or payload.account==None):
-            # config = os.getenv("SAFETY_CONFIG")
-            # print("config====",config)
-            # config = json.loads(config)
-            # config={"drawings":0.5,"hentai":0.25,"neutral":0.5,"porn":0.5,"sexy":0.5}
-            # safetyconfig=config  
             videoBase64 = nudeNetVideo(payload)
                  
             return videoBase64
@@ -345,15 +277,12 @@ class AddProfaneWordService:
         try:
             # Read the content of the uploaded file
             payload=AttributeDict(payload)
-            print("Inside add Profane function")
             payload_content = payload.file.file.read()
             payload_content = payload_content.decode('utf-8')  # Decode to string if necessary
             
             # Split the uploaded content into a list of words
             payload_list = payload_content.splitlines()
 
-            # Print the payload_list (for debugging)
-            # print("payload_list====", payload_list)
 
             # Path to the profanity word list file (already present)
             profanity_file_path = r'profanity\util\profanity_wordlist.txt'  # Replace with the actual path
@@ -388,7 +317,6 @@ class ApiCall:
         try:
             if(os.getenv("ADMIN_CONNECTION")=="False" or os.getenv("ADMIN_CONNECTION")=="false"):
            
-                # print("--------------------------------------------------------------")
                 return 404
             payload=AttributeDict({"portfolio":data.portfolio,"account":data.account})
 
@@ -404,7 +332,6 @@ class ApiCall:
             if(data_dict == None):
                 return []
             
-            print("x=====",data_dict)
             safetyData=data_dict["safetyParameter"][0]
             safetyData = AttributeDict(safetyData)
             safety = {"drawings":safetyData.drawings,"hentai":safetyData.hentai,"neutral":safetyData.neutral,"porn":safetyData.porn,"sexy":safetyData.sexy}
@@ -416,7 +343,6 @@ class ApiCall:
             raise Exception("Process Failed , Check with admin")
 
   
-        # record=[ele for ele in records if ele.RecogName=="PASSPORT"][0]  
     
 
 
@@ -425,20 +351,15 @@ class CheckSafety:
     def check_toxicity_and_add_label(text: str) -> str:
         """Analyzes the text and returns if it's 'Safe' or 'Not Safe' based on toxicity score."""
         try:
-            # Assuming `Toxic.analyze()` returns a dictionary with toxicity scores.
             data = Toxic.analyze(text)
-            # print("data3777=====",data)
             toxic_score = data['toxicity']
-            # print("toxic_score:",toxic_score)
             if toxic_score > 0.6:
                 censor_text = profanity.censor(text)[0]
             else:
                 censor_text = text
             threshold = 0.6
             toxic_score = any(score > threshold for score in data.values())
-            # print("censor_text:",censor_text)
             return censor_text
-            # return "Not Safe" if toxic_score else "Safe"
         except Exception as e:
             log.error(f"Error analyzing toxicity for text: {text}. Error: {e}")
             return "Error"  # Handle cases where toxicity analysis fails
@@ -461,7 +382,6 @@ class CheckSafety:
         
        
         t1 = time.time()
-        # print(df.head())
         
         def apply_toxicity_check(partition):
             partition[0] = partition[0].apply(CheckSafety.check_toxicity_and_add_label)
@@ -487,7 +407,6 @@ class CheckSafety:
                 log.error(f"Error saving filtered data to {output_file}. Error: {e}")
        
         anonymized_df = pd.DataFrame(df_filtered.compute())
-        # log.debug("Anonymized DataFrame: " + str(anonymized_df))
 
             # Convert the DataFrame to CSV
         output = io.StringIO()
@@ -519,9 +438,7 @@ class CsvSafetyService:
         checker = CheckSafety()
         
             
-        # with ProgressBar():
         safe_df = checker.checkSafety("temp.csv", output_file="output1.csv")
-        # print("safe_df",safe_df)
         os.remove("temp.csv")
         os.remove("output1.csv")
         

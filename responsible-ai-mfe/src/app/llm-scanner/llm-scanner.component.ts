@@ -5,7 +5,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { FmModerationService } from '../services/fm-moderation.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,7 +23,8 @@ import { NonceService } from 'src/app/nonce.service';
   styleUrls: ['./llm-scanner.component.css']
 })
 
-export class LlmScannerComponent {
+export class LlmScannerComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   constructor(
     private imageService: ImageService,
@@ -374,7 +376,7 @@ export class LlmScannerComponent {
   getProbesList() {
     const probeData = new FormData();
     probeData.append('category', this.selectedProbesCategory);
-    this.https.post(this.getProbeList, probeData).subscribe
+    this.https.post(this.getProbeList, probeData).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         this.probesList = res
         if (this.probesList.length > 1) {
@@ -406,7 +408,7 @@ export class LlmScannerComponent {
         "modelname": this.selectedModel,
         "probes": this.selectedProbesCategory + '.' + this.selectedProbesList
       }
-      this.https.post(this.getGarakResult, payload).subscribe
+      this.https.post(this.getGarakResult, payload).pipe(takeUntil(this.destroy$)).subscribe
         ((res: any) => {
           this.scannerres = res
           // this.scannerres.attempt.sort((a: { score: string[] }, b: { score: string[] }) => {
@@ -470,7 +472,7 @@ export class LlmScannerComponent {
         "model_payload": this.payload,
         "model_prompt_variable": this.promptvariable
       }
-      this.https.post(this.getGarakResult, payload).subscribe
+      this.https.post(this.getGarakResult, payload).pipe(takeUntil(this.destroy$)).subscribe
         ((res: any) => {
           this.scannerres = res
           this.shimmerLoader = false;
@@ -616,7 +618,7 @@ export class LlmScannerComponent {
     console.log("callFMApi");
     this.promptLoader = true;
     let data = payload ? payload : this.comp_Payload(prompt, tempStringValue, 'yes', 'GoalPriority');
-    this.fmService.getFMService(this.apiEndpoints.fm_api, data, false)?.subscribe(
+    this.fmService.getFMService(this.apiEndpoints.fm_api, data, false)?.pipe(takeUntil(this.destroy$)).subscribe(
       async (res: any) => {
         this.templateBasedPayload['status'] = true;
         this.coupledModerationRes = res;
@@ -734,7 +736,7 @@ export class LlmScannerComponent {
   }
 
   callFMTimeApi(hallucinationPostCall: boolean = false, prompt: any) {
-    this.https.get(this.apiEndpoints.fm_api_time).subscribe((res: any) => {
+    this.https.get(this.apiEndpoints.fm_api_time).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       console.log(res);
       if (hallucinationPostCall) {
         console.log("Hallucination Post Call")
@@ -752,7 +754,7 @@ export class LlmScannerComponent {
 
   callOpenAiApi(prompt: string, tempStringValue: string) {
     this.promptLoader = true;
-    this.https.post(this.apiEndpoints.fm_api_openAi, { Prompt: prompt, temperature: tempStringValue, model_name: this.selectedLlmModel })
+    this.https.post(this.apiEndpoints.fm_api_openAi, { Prompt: prompt, temperature: tempStringValue, model_name: this.selectedLlmModel }).pipe(takeUntil(this.destroy$))
       .subscribe((res: any) => {
         console.log(res.text.length);
         if (res.textlength == 0) {
@@ -808,4 +810,10 @@ export class LlmScannerComponent {
     else ev.stopPropagation();
   }
 
+
+  // Cleanup on component destruction
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

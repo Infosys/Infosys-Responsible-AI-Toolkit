@@ -1,3 +1,15 @@
+'''
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+'''
+
 import cv2
 from nudenet import NudeDetector
 import numpy as np
@@ -15,10 +27,10 @@ def nudeNetImages(payload):
 
     file_contents = input_img.file.read()
 
-    image = np.fromstring(file_contents, np.uint8)
+    image = np.frombuffer(file_contents, np.uint8)
     image = cv2.imdecode(image, cv2.IMREAD_COLOR)
 
-    imageOriginal = np.fromstring(file_contents, np.uint8)
+    imageOriginal = np.frombuffer(file_contents, np.uint8)
     imageOriginal = cv2.imdecode(imageOriginal, cv2.IMREAD_COLOR)
 
     # Save the image to a temporary file
@@ -50,13 +62,6 @@ def nudeNetImages(payload):
             roi = image[y1:y1+height, x1:x1+width]
             blurred_roi = cv2.GaussianBlur(roi, (75, 75), 0)
             image[y1:y1+height, x1:x1+width] = blurred_roi
-
-            # # Draw the bounding box on the image
-            # cv2.rectangle(image, (x1, y1), (x1 + width, y1 + height), (0, 0, 255), 2)
-
-            # # Put the class and score on the image
-            # text = f"{detection_class}: {detection['score']:.2f}"
-            # cv2.putText(image, text, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
         else:
             # Handle non-explicit detections (e.g., faces)
             pass
@@ -65,7 +70,6 @@ def nudeNetImages(payload):
     # Convert the processed image to base64
     originalImageBase64=imageToByte(imageOriginal)
     imageBase64=imageToByte(image)
-    # base64_string = base64.b64encode(image).decode("utf-8")
     cv2.imwrite('output.jpg', image)
     response = {
         "blurredImage": imageBase64,
@@ -87,93 +91,6 @@ def imageToByte(img):
     base64_string = base64.b64encode(image_data).decode("utf-8")
     return base64_string
 
-
-# def nudeNetVideo(payload):
-#     input_video = payload['video']
-
-#     # Save the video file to a temporary location
-#     with tempfile.NamedTemporaryFile(delete=False) as temp_file:
-#         temp_file.write(input_video.file.read())
-#         temp_file_path = temp_file.name
-
-#     # Open the video file
-#     video = cv2.VideoCapture(temp_file_path)
-
-#     if not video.isOpened():
-#         raise Exception("Failed to open the video file.")
-
-#     # Get video properties
-#     fps = video.get(cv2.CAP_PROP_FPS)
-#     frame_width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
-#     frame_height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
-
-#     # Create a VideoWriter object to save the processed video
-#     output_filename = 'output.mp4'
-#     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-#     output_video = cv2.VideoWriter(output_filename, fourcc, fps, (frame_width, frame_height))
-#     # Define the explicit nudity labels
-#     explicit_labels = ["FEMALE_GENITALIA_COVERED", "BUTTOCKS_EXPOSED", 
-#                     "FEMALE_BREAST_EXPOSED", "FEMALE_GENITALIA_EXPOSED", "MALE_BREAST_EXPOSED",
-#                     "ANUS_EXPOSED", "FEET_EXPOSED", "BELLY_COVERED", "FEET_COVERED", "ARMPITS_COVERED", 
-#                     "ARMPITS_EXPOSED", "BELLY_EXPOSED", "MALE_GENITALIA_EXPOSED", 
-#                     "ANUS_COVERED", "FEMALE_BREAST_COVERED", "BUTTOCKS_COVERED"
-#                     ]
-#     nudanalyze = {}
-
-#     # Process each frame in the video
-#     while video.isOpened():
-#         ret, frame = video.read()
-
-#         if not ret:
-#             break
-
-#         frame_original = frame.copy()
-#         image = np.fromstring(frame, np.uint8)
-#         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
-#         # Detect nudity in the frame
-#         detections = nude_detector.detect(image)
-
-#         for detection in detections:
-#             detection_class = detection['class']
-#             score = detection['score']
-
-#             if detection_class in explicit_labels and score > 0.5:
-#                 nudanalyze[detection_class] = nudanalyze.get(detection_class, 0) + 1
-
-#                 # Get the bounding box
-#                 box = detection['box']
-#                 x1, y1, width, height = box
-
-#                 # Blur the exposed body part
-#                 roi = frame[y1:y1+height, x1:x1+width]
-#                 blurred_roi = cv2.GaussianBlur(roi, (75, 75), 0)
-#                 frame[y1:y1+height, x1:x1+width] = blurred_roi
-
-#         # Write the processed frame to the output video
-#         output_video.write(frame)
-
-#     # Release the video and output file
-#     video.release()
-#     output_video.release()
-
-#     # Convert the processed video to base64
-#     with open(output_filename, 'rb') as f:
-#         video_bytes = f.read()
-
-#     video_base64 = base64.b64encode(video_bytes).decode("utf-8")
-
-#     response = {
-#         "processedVideo": video_base64,
-#         "nudanalyze": nudanalyze
-#     }
-
-#     return response
-
-# def videoToByte(file_path):
-#     with open(file_path, "rb") as file:
-#         file_data = file.read()
-#         base64_string = base64.b64encode(file_data).decode("utf-8")
-#     return base64_string
 
 def nudeNetVideo(payload):
     input_video = payload['video']
@@ -203,13 +120,6 @@ def nudeNetVideo(payload):
                     "ANUS_COVERED", "FEMALE_BREAST_COVERED", "BUTTOCKS_COVERED"
                     ]
     
-    # # Define the explicit nudity labels original
-    # explicit_labels = ["FEMALE_GENITALIA_COVERED", "BUTTOCKS_EXPOSED", 
-    #                 "FEMALE_BREAST_EXPOSED", "FEMALE_GENITALIA_EXPOSED", "MALE_BREAST_EXPOSED",
-    #                 "ANUS_EXPOSED", "BELLY_COVERED", "ARMPITS_COVERED", 
-    #                 "ARMPITS_EXPOSED", "BELLY_EXPOSED", "MALE_GENITALIA_EXPOSED", 
-    #                 "ANUS_COVERED", "FEMALE_BREAST_COVERED", "BUTTOCKS_COVERED"
-    #                 ]
 
     # Create a temporary directory to store image frames
     temp_dir = 'temp_frames'
@@ -237,7 +147,7 @@ def nudeNetVideo(payload):
             # Get the class and check if it is explicit nudity with a score above 0.8
             detection_class = detection['class']
             detection_score = detection['score']
-            print(detection)
+            
             if detection_class in explicit_labels and detection_score > 0.3:
                 # Get the bounding box
                 box = detection['box']
@@ -248,13 +158,6 @@ def nudeNetVideo(payload):
                 blurred_roi = cv2.GaussianBlur(roi, (51, 51), 0)
                 frame[y1:y1 + height, x1:x1 + width] = blurred_roi
 
-                # # Draw the bounding box on the frame
-                # cv2.rectangle(frame, (x1, y1), (x1 + width, y1 + height), (0, 0, 255), 2)
-
-                # # Put the class and score on the frame
-                # text = f"{detection_class}: {detection_score:.2f}"
-                # cv2.putText(frame, text, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
-                # print(text)
                 nudanalyze[detection_class] = detection_score
             else:
                 # Handle non-explicit detections (e.g., faces)

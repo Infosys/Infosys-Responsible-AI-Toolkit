@@ -1,21 +1,22 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 from http.client import HTTPException
 import json
 import os
-import threading
 import time
 import jwt
 from dotenv import load_dotenv
 from config.logger import CustomLogger, request_id_var
-from exception.exception import completionException, InvalidTokenException, EmptyModerationChecksListException
+from exception.exception import completionException, InvalidTokenException, EmptyModerationChecksListException, ValidationException, PromptEmptyException
 from flask import request,jsonify
 import traceback
 import uuid
@@ -58,6 +59,30 @@ class AttributeDict(dict):
 def handle_object(obj):
     return vars(obj) 
 
+def validate_response(data, allowed_types=None):
+    """
+    Validate that all values in response are of expected types (string validation).
+    Raises ValidationException for invalid data types.
+    """
+    if allowed_types is None:
+        allowed_types = (str, int, float, bool, type(None))
+   
+    if isinstance(data, dict):
+        validated_dict = {}
+        for key, value in data.items():
+            if not isinstance(key, str):
+                raise ValidationException(f"Invalid key type: {type(key).__name__}. Dictionary keys must be strings.")
+            validated_dict[key] = validate_response(value, allowed_types)
+        return validated_dict
+    elif isinstance(data, list):
+        return [validate_response(item, allowed_types) for item in data]
+    elif isinstance(data, str):
+        return str(data)
+    elif isinstance(data, allowed_types):
+        return data
+    else:
+        raise ValidationException(f"Invalid data type: {type(data).__name__}. Expected one of: {[t.__name__ for t in allowed_types]}")
+
 @app.route("/health",methods=[ 'GET'])
 def health():
     if(logcheck=="true"):
@@ -76,14 +101,53 @@ def generate_text():
         response = None
         token_info = None
         payload=AttributeDict(request.get_json())
+
+        #adding validations
+        if payload.Prompt == "":
+            raise PromptEmptyException("400- Prompt is Empty",310)
+
+        if len(payload.ModerationChecks)==0:
+            raise EmptyModerationChecksListException("Moderation checks list is empty",310)
+        
+        payload.ModerationChecks = list(dict.fromkeys(payload.ModerationChecks))
+        for check in payload.ModerationChecks:
+            if not isinstance(check, str):
+                raise ValidationException("Invalid check format",310)
+
         headers = {'Authorization': authorization}
         token_env = payload.token_env if "token_env" in payload else "others"
-
+        verify_signature_str = os.getenv("VERIFY_SIGNATURE", "True")
+        verify_signature = verify_signature_str == "True"
+        secret_key = os.getenv("SECRET_KEY")
         #any env other than edgeverve
         if token_env=='others':
             if authorization != None: 
                 log.info("got auth from headers")
-                decoded_token = jwt.decode(authorization.split(" ")[1], algorithms=["HS256"], options={"verify_signature": False})
+                if verify_signature and secret_key:
+                    log.info("verifying signature")
+                    try:
+                        decoded_token = jwt.decode(
+                            authorization.split(" ")[1],
+                            key=secret_key,
+                            algorithms=["HS256"],
+                            options={"verify_signature": verify_signature}
+                        )
+                    except jwt.InvalidSignatureError:
+                        log.error("Invalid token signature")
+                        return jsonify({'error_code': 401, 'message': 'Invalid token signature'}), 401
+                    except jwt.ExpiredSignatureError:
+                        log.error("Token has expired")
+                        return jsonify({'error_code': 401, 'message': 'Token has expired'}), 401
+                    except jwt.InvalidTokenError as e:
+                        log.error(f"Invalid token: {str(e)}")
+                        return jsonify({'error_code': 401, 'message': f'Invalid token: {str(e)}'}), 401
+                else:
+                    log.warning("JWT signature verification disabled via VERIFY_SIGNATURE=False - should only be used in development/testing")
+                    decoded_token = jwt.decode(
+                        authorization.split(" ")[1],
+                        algorithms=["HS256"],
+                        options={"verify_signature": verify_signature}  # nosec B507 - Only when VERIFY_SIGNATURE=False
+                    )
                 X_Correlation_ID = request.headers.get('X-Correlation-ID')
                 X_Span_ID = request.headers.get('X-Span-ID')
                 if 'unique_name' in decoded_token:
@@ -123,21 +187,40 @@ def generate_text():
             raise completionException("400- Prompt is Empty")
         
         response = json.loads(json.dumps(response, default=handle_object))
+        response = validate_response(response)
         log.info("after invoking create usecase service ")
         log.info("exit create usecase routing method")
         log.info(f"Total time taken=======> {time.time()-st}")
         return response
-    except InvalidTokenException as e:
+    
+    except PromptEmptyException as e:
         log.error(str(traceback.extract_tb(e.__traceback__)[0].lineno))
         log.info(str(e))
+        return jsonify({'error_code': 310, 'message': str(e)}), 310
+    
     except EmptyModerationChecksListException as e:
         log.error(str(traceback.extract_tb(e.__traceback__)[0].lineno))
         log.info(str(e))
         return jsonify({'error_code': 310, 'message': str(e)}), 310
- 
+    
+    except InvalidTokenException as e:
+        log.error(str(traceback.extract_tb(e.__traceback__)[0].lineno))
+        log.info(str(e))
+        return jsonify({'error_code': 310, 'message': str(e)}), 310
+
+    except ValidationException as e:
+        log.error(str(traceback.extract_tb(e.__traceback__)[0].lineno))
+        log.info("validation exception")
+        log.info(str(e))
+        return jsonify({'error_code': 310, 'message': str(e)}), 310
+
     except Exception as e:     
         log.error(str(traceback.extract_tb(e.__traceback__)[0].lineno))
         log.info(e)
+        return jsonify({
+            'error_code': 500, 
+            'message': f'Internal server error: {str(e)}'
+        }), 500
 
 
 @app.route("/rai/v1/moderations/coupledmoderations",methods=[ 'POST'])
@@ -145,28 +228,49 @@ def generate_text2():
     log.info("Entered create usecase routing method")
     log.info("Couple Moderation API STARTED")
     st=time.time()
+
     try:
         log.info("before invoking create usecase service ")
+
         authorization = request.headers.get('authorization')
+        headers = {}
         if authorization !=None:
             headers = {'Authorization': authorization}
-        else:
+        elif not Auth.is_env_vars_present() is None:
             tok = Auth.get_valid_bearer_token()
             if tok:
-                headers = {'Authorization': f'Bearer {tok}'}
+                headers['Authorization'] = f'Bearer {tok}'
             else:
                 log.info("No valid token available.")
-        
-        payload=AttributeDict(request.get_json())
+        elif os.getenv("TELEMETRY_ENVIRONMENT")=='AZURE' and (os.getenv('TARGETENVIRONMENT')=='azure' or os.getenv('TARGETENVIRONMENT')=='aicloud' or os.getenv('TARGETENVIRONMENT')=='aicloud-raitest'):
+            log.info("Going without authorization as this is non prod environment.")
+        else:
+            raise InvalidTokenException("Invalid token, enter correct token in headers or provide authurl")
 
+        payload = AttributeDict(request.get_json())
+        
+        #adding validations
         if payload.Prompt == "":
-            raise completionException("400- Prompt is Empty")
+            raise PromptEmptyException("400- Prompt is Empty",310)
         
         if len(payload.InputModerationChecks)==0:
             raise EmptyModerationChecksListException("Input moderation checks list is empty",310)
         
+        payload.InputModerationChecks = list(dict.fromkeys(payload.InputModerationChecks))
+        for check in payload.InputModerationChecks:
+            if not isinstance(check, str):
+                raise ValidationException("Invalid input check format")
+        
+        payload.OutputModerationChecks = list(dict.fromkeys(payload.OutputModerationChecks))
+        if len(payload.OutputModerationChecks)>0:
+            payload.OutputModerationChecks = list(dict.fromkeys(payload.OutputModerationChecks))
+            for check in payload.OutputModerationChecks:
+                if not isinstance(check, str):
+                    raise ValidationException("Invalid output check format")
+
         response = getCoupledModerationResult(payload=payload,headers=headers)
         response = json.loads(json.dumps(response, default=handle_object))
+        response = validate_response(response)
         log.info("after invoking create usecase service ")
         log.info("exit create usecase routing method")
         log.info(f"Total time taken=======> {time.time()-st}")
@@ -177,12 +281,25 @@ def generate_text2():
         log.info("exit create usecase routing method")
         raise HTTPException(cie)
     
+    except InvalidTokenException as e:
+        log.error(str(traceback.extract_tb(e.__traceback__)[0].lineno))
+        log.info(str(e))
+        return jsonify({'error_code': 310, 'message': str(e)}), 310
+    
+    except PromptEmptyException as e:
+        log.error(str(traceback.extract_tb(e.__traceback__)[0].lineno))
+        log.info(str(e))
+        return jsonify({'error_code': 310, 'message': str(e)}), 310
+    
+    except ValidationException as e:
+        log.error(str(traceback.extract_tb(e.__traceback__)[0].lineno))
+        log.info(str(e))
+        return jsonify({'error_code': 310, 'message': str(e)}), 310
+    
     except EmptyModerationChecksListException as e:
         log.error(str(traceback.extract_tb(e.__traceback__)[0].lineno))
         log.info(str(e))
         return jsonify({'error_code': 310, 'message': str(e)}), 310
-
-
     
 # To access admin url to retrieve Prompt Templates
 @app.route("/rai/v1/moderations/getTemplates/<userId>",methods=[ 'GET'])
@@ -249,6 +366,7 @@ def translate():
             print("Inside Azure Translate")
             text,language = Translate.azure_translate(payload.Prompt)
         responseObj={"text":text,"language" :language,"timetaken":round(time.time()-st,3)}
+        responseObj = validate_response(responseObj)
         log.info("after invoking create usecase service")
         log.info("exit create usecase routing method")
         return responseObj
@@ -365,8 +483,6 @@ def generate_text3():
         output_text,index,finish_reason,hallucinationScore = interact.textCompletion(payload.Prompt,float(payload.temperature),PromptTemplate="GoalPriority",deployment_name=payload.model_name)
         if index == -1:
             return output_text
-        # output_text,index,finish_reason = interact.textCompletion(payload.Prompt,float(payload.temperature),SelfReminder=False,GoalPriority=False)
-        # respoonseObj=Choice(text=output_text,index=index,finishReason = finish_reason)
         respoonseObj={"text":output_text,"index":index,"finishReason" :finish_reason,"timetaken":round(time.time()-st,3)}
 
         log.info("after invoking create usecase service")
@@ -404,8 +520,6 @@ def generate_text4():
         output_text,index,finish_reason,hallucinationScore = interact.textCompletion(payload.Prompt,float(payload.temperature),PromptTemplate="GoalPriority",deployment_name=payload.model_name,Moderation_flag=False,COT=True)
         if index == -1:
             return output_text
-        # output_text,index,finish_reason = interact.textCompletion(payload.Prompt,float(payload.temperature),SelfReminder=False,GoalPriority=False,Moderation_flag=False,COT=True)
-        # responseObj=Choice(text=output_text,index=index,finishReason = finish_reason)
         respoonseObj={"text":output_text,"index":index,"finishReason" :finish_reason,"timetaken":round(time.time()-st,3)}
         log.info("after invoking create usecase service ")
         log.info("exit create usecase routing method")
@@ -442,8 +556,6 @@ def generate_text4_healthcare():
         output_text,index,finish_reason,hallucinationScore = interact.textCompletion(payload.Prompt,float(payload.temperature),PromptTemplate="GoalPriority",deployment_name=payload.model_name,Moderation_flag=False,COT=True)
         if index == -1:
             return output_text
-        # output_text,index,finish_reason = interact.textCompletion(payload.Prompt,float(payload.temperature),SelfReminder=False,GoalPriority=False,Moderation_flag=False,COT=True)
-        # responseObj=Choice(text=output_text,index=index,finishReason = finish_reason)
         respoonseObj={"text":output_text,"index":index,"finishReason" :finish_reason,"timetaken":round(time.time()-st,3)}
         log.info("after invoking create usecase service ")
         log.info("exit create usecase routing method")
@@ -482,8 +594,6 @@ def generate_Thot():
         output_text,index,finish_reason,hallucinationScore = interact.textCompletion(payload.Prompt,float(payload.temperature),PromptTemplate="GoalPriority",deployment_name=payload.model_name,Moderation_flag=False,THOT=True)
         if index == -1:
             return output_text
-        # output_text,index,finish_reason = interact.textCompletion(payload.Prompt,float(payload.temperature),SelfReminder=False,GoalPriority=False,Moderation_flag=False,COT=True)
-        # responseObj=Choice(text=output_text,index=index,finishReason = finish_reason)
         respoonseObj={"text":output_text,"index":index,"finishReason" :finish_reason,"timetaken":round(time.time()-st,3)}
         log.info("after invoking create usecase service ")
         log.info("exit create usecase routing method")
@@ -492,22 +602,6 @@ def generate_Thot():
         log.error(cie.__dict__)
         log.info("exit create usecase routing method")
         raise HTTPException(**cie.__dict__)
-
-
-# @router.get("/ModerationTime")
-# def generate_text(authenticated: bool = Depends(authenticate_token)):
-#     log.info("Entered create usecase routing method")
-#     try:
-#         log.info("before invoking create usecase service")
-#         obj=moderationTime()
-#         log.info("after invoking create usecase service ")
-#         #log.debug("response : " + str(response))
-#         log.info("exit create usecase routing method")
-#         return obj
-#     except completionException as cie:
-#         log.error(cie.__dict__)
-#         log.info("exit create usecase routing method")
-#         raise HTTPException(**cie.__dict__)
     
 @app.route("/rai/v1/moderations/ModerationTime",methods=[ 'GET'])
 def generate_text5():
@@ -518,7 +612,6 @@ def generate_text5():
         request_id_var.set(id)
         obj=moderationTime()
         log.info("after invoking create usecase service ")
-        #log.debug("response : " + str(response))
         log.info("exit create usecase routing method")
         return obj
     except completionException as cie:
@@ -535,12 +628,10 @@ def settelemetry():
         id = uuid.uuid4().hex
         request_id_var.set(id)
         payload = request.data
-        # print("checkpoint in telemetary func 1 -> ",payload)
         payload=AttributeDict(payload)
         telemetry.tel_flag=payload
         response = "Success"
         log.info("after invoking create usecase service ")
-        # log.debug("response : " + str(response))
         log.info("exit create usecase routing method")
         log.info(f"Total time taken=======> {time.time()-st}")
         return response
@@ -561,7 +652,6 @@ async def generate_text6():
         payload=AttributeDict(payload)
         obj= await toxicity_popup(payload,authorization)
         log.info("after invoking create usecase service ")
-        #log.debug("response : " + str(response))
         log.info("exit create usecase routing method")
         return obj
     except completionException as cie:
@@ -581,7 +671,6 @@ def generate_text7():
         request_id_var.set(id)
         obj=profanity_popup(payload.text,authorization)
         log.info("after invoking create usecase service ")
-        #log.debug("response : " + str(response))
         log.info("exit create usecase routing method")
         return obj
     except completionException as cie:
@@ -600,7 +689,6 @@ def generate_text8():
         request_id_var.set(id)
         obj=privacy_popup(payload)
         log.info("after invoking create usecase service ")
-        #log.debug("response : " + str(response))
         log.info("exit create usecase routing method")
         json_string = json.dumps(obj, default=handle_object)
         obj = json.loads(json_string)
@@ -651,6 +739,7 @@ def generate_text9():
             response['translated_final_answer'] = translated_final_answer
 
         final_respose =json.dumps(response)
+        final_respose = validate_response(final_respose)
         return final_respose
     except completionException as cie:
         log.error(cie.__dict__)
@@ -670,7 +759,6 @@ def org_policy():
         request_id_var.set(id)
         response = organization_policy(payload,authorization)
         log.info("after invoking create usecase service ")
-        # log.debug("response : " + str(response))
         log.info("exit create usecase routing method")
         log.info(f"Total time taken=======> {time.time()-st}")
         return response
@@ -692,7 +780,6 @@ def Faithfullness():
         request_id_var.set(id)
         response = gEval(payload,authorization)
         log.info("after invoking create usecase service ")
-        # log.debug("response : " + str(response))
         log.info("exit create usecase routing method")
         log.info(f"Total time taken=======> {time.time()-st}")
         return response

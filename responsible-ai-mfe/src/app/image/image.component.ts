@@ -4,7 +4,7 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, ViewEncapsulation} from '@angular/core';
+import { Component, ViewEncapsulation, OnDestroy} from '@angular/core';
 import { ImageService } from './image.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -19,13 +19,16 @@ import * as saveAs from 'file-saver';
 import { ImageHashifyRightModalComponent } from './image-hashify-right-modal/image-hashify-right-modal.component';
 import { FmModerationService } from '../services/fm-moderation.service';
 import { NonceService } from '../nonce.service';
+import { Subject, takeUntil } from 'rxjs';
+import { UserValidationService } from '../services/user-validation.service';
 
 @Component({
   selector: 'app-image',
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.css'],
 })
-export class ImageComponent {
+export class ImageComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   // FOR SHIMMER EFFECT
   isLoadingUpload = true;
   //////
@@ -175,7 +178,8 @@ export class ImageComponent {
     public dialog: MatDialog,
     private fb: FormBuilder,
     public fmService: FmModerationService,
-    public nonceService:NonceService
+    public nonceService:NonceService,
+    private validationService:UserValidationService
   ) {
     this.form = this.fb.group({
       languageModel: ['', Validators.required],
@@ -198,7 +202,7 @@ export class ImageComponent {
     // user call should happen here
     this.user = temuser;
     // geting list of api from  local sotragge
-    ip_port = this.getLocalStoreApi();
+    ip_port = this.validationService.getLocalStoreApi()
 
     // seting up api list
     this.setApilist(ip_port);
@@ -312,21 +316,11 @@ export class ImageComponent {
     this.profImageAnalyse = ip_port.result.Profanity + ip_port.result.Profan_Image_Analyse;
     this.security_yolo_attack = ip_port.result.YOLODEMO + ip_port.result.YOLODEMO_Attack;
     this.security_yolo_defense = ip_port.result.YOLODEMO + ip_port.result.YOLODEMO_Defense;
-    this.fairness_image = ip_port.result.FairnessAzure + ip_port.result.FairnessImage;
+    this.fairness_image = ip_port.result.Fairness + ip_port.result.FairnessImage;
     this.objectDetectionYolo = ip_port.result.Image_Explain + ip_port.result.objectDetectionYolo;
     this.objectDetectionExplain = ip_port.result.Image_Explain + ip_port.result.objectDetectionExplain;
   }
 
-  // Retrieves API configuration from local storage
-  getLocalStoreApi() {
-let ip_port
-if (window && window.localStorage && typeof localStorage !== 'undefined') {
-  const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-  if(res != null){
-    return ip_port = JSON.parse(res)
-  }
-}
-  }
 
   // Opens a dialog to display an image
   openDialog(data: any) {
@@ -657,7 +651,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
       fileData1.append('account', this.accountName_value)
       }
 
-    this.https.post(this.profImageAnalyse, fileData1).subscribe(
+    this.https.post(this.profImageAnalyse, fileData1).pipe(takeUntil(this.destroy$)).subscribe(
       (data: any) => {
         console.log(data);
         this.imageOutput = true;
@@ -689,7 +683,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
     const fileData1 = new FormData();
     this.selectedFile = this.demoFile[0];
     fileData1.append('image', this.selectedFile);
-    this.https.post(this.imageExplainabilityUrl, fileData1).subscribe((data: any) => {
+    this.https.post(this.imageExplainabilityUrl, fileData1).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       // this.imageOutput = true
       // this.imageOutput = false;
       this.imagePath = data.img;
@@ -743,7 +737,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
         this.selectedFile = this.demoFile[i];
         attackForm.append('DataFile', this.selectedFile);
       }
-      this.https.post(this.security_yolo_attack, attackForm, { responseType: 'blob' }).subscribe((resp: Blob) => {
+      this.https.post(this.security_yolo_attack, attackForm, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe((resp: Blob) => {
         const filename = this.genFile();
         saveAs(resp, filename);
         const message = 'Your file has been downloaded. Please check your downloads folder.';
@@ -764,7 +758,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
         this.selectedFile = this.demoFile[i];
         defenseForm.append('DataFile', this.selectedFile);
       }
-      this.https.post(this.security_yolo_defense, defenseForm, { responseType: 'blob' }).subscribe((resp: any) => {
+      this.https.post(this.security_yolo_defense, defenseForm, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe((resp: any) => {
         const filename = this.genFile();
         saveAs(resp, filename);
         this.spinner = false;
@@ -794,7 +788,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
       if ( this.selectedExplainabilityOption == 'Custom model') {
         formData1.append('custom_model', this.modelFiles[0]);
       } 
-      this.https.post(this.objectDetectionYolo, formData1).subscribe((res: any) => {
+      this.https.post(this.objectDetectionYolo, formData1).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
         console.log('Explainability response:', res);
         this.yoloExplanation = res.explanation;
         this.yoloImg = res.predicted_image;
@@ -816,7 +810,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
         console.error('Invalid evaluator value. Allowed values are GPT_4o or Llama.');
         return;
       }
-      this.https.post(this.objectDetectionExplain, formData2).subscribe((res: any) => {
+      this.https.post(this.objectDetectionExplain, formData2).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
         console.log('Explainability response:', res);
         this.explanation = res.explanation;
         this.timeTaken= res.time_taken;
@@ -837,7 +831,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
       this.openSnackBar('Please enter a prompt before submitting', 'Close',);
       return;
     }
-    this.https.post(this.fairness_image, formPayload).subscribe((res: any) => {
+    this.https.post(this.fairness_image, formPayload).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       this.fairness_response = res;
       this.imgOp = true;
       this.spinner = false;
@@ -882,7 +876,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
       }
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(() => {
     });
   }
 
@@ -1091,7 +1085,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
       },
     });
 
-    dialogRef.afterClosed().subscribe(() => { });
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(() => { });
   }
 
   // Resets all the component data
@@ -1245,7 +1239,7 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
     let url = this.privacyRecognizersList;
     const headers = { 'accept': 'application/json' };
     
-    this.https.get(url, { headers }).subscribe(
+    this.https.get(url, { headers }).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
         const availableRecognizers = response['Available Recognizers'];
         this.available_Recognizers = availableRecognizers;
@@ -1254,6 +1248,12 @@ if (window && window.localStorage && typeof localStorage !== 'undefined') {
         console.error('API error:', error);
       }
     );
+  }
+
+  // Cleanup on component destruction
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

@@ -4,7 +4,7 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild,Input, EventEmitter, Output  } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild,Input, EventEmitter, Output, OnDestroy  } from '@angular/core';
 import { UseCaseServiceService } from './use-case-service.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
@@ -12,6 +12,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject, takeUntil } from 'rxjs';
 import { environment } from 'src/environments/environment';
 // import { Input } from 'hammerjs';
 // import Stepper from 'bs-stepper';
@@ -22,7 +23,8 @@ import { environment } from 'src/environments/environment';
   templateUrl: './use-case-parent.component.html',
   styleUrls: ['./use-case-parent.component.css']
 })
-export class UseCaseParentComponent {
+export class UseCaseParentComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @Output() closeEvent = new EventEmitter<void>();
   // Emits the close event
   onClose() {
@@ -62,7 +64,7 @@ export class UseCaseParentComponent {
 
   ) {
     this.childFormGroup = new FormGroup({})
-    const d = this.useCaseService.getcurrentScreen.subscribe((msg) => (this.currentScreen = msg));
+    const d = this.useCaseService.getcurrentScreen.pipe(takeUntil(this.destroy$)).subscribe((msg) => (this.currentScreen = msg));
     console.log("data from constructor=======", d)
     console.log("current Screeen from constructor=======", this.currentScreen)
     this.currentScreen=1
@@ -84,7 +86,7 @@ export class UseCaseParentComponent {
 
   // Retrieves data from the child component
   getDataFromChild() {
-    this.useCaseService.getAiCanvas.subscribe(msg => this.aiCanvasData = msg)
+    this.useCaseService.getAiCanvas.pipe(takeUntil(this.destroy$)).subscribe(msg => this.aiCanvasData = msg)
     console.log("data from aiCanvasData 43child===", this.aiCanvasData)
     console.log("data from child===", this.childData)
   }
@@ -98,7 +100,7 @@ export class UseCaseParentComponent {
 
   // Retrieves RAI canvas data from the child component
   getRaiCanvasDataFromChild() {
-    this.useCaseService.getRaiCanvas.subscribe(msg => this.raiCanvasDatDetail = msg)
+    this.useCaseService.getRaiCanvas.pipe(takeUntil(this.destroy$)).subscribe(msg => this.raiCanvasDatDetail = msg)
     console.log("data from raiCanvasDatDetail 43child===", this.raiCanvasDatDetail)
 
   }
@@ -117,6 +119,10 @@ export class UseCaseParentComponent {
   });
 
   currentScreen: any=1;
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
    // Navigates to the next screen
   nextScreen() {
@@ -165,9 +171,9 @@ export class UseCaseParentComponent {
   submit() {
 
 
-    this.useCaseService.getQuestionnaireResponse.subscribe((msg) => this.map = msg)
+    this.useCaseService.getQuestionnaireResponse.pipe(takeUntil(this.destroy$)).subscribe((msg) => this.map = msg)
     console.log("map==========", this.map)
-    this.useCaseService.getUsecaseName.subscribe((msg) => (this.useCaseName = msg));
+    this.useCaseService.getUsecaseName.pipe(takeUntil(this.destroy$)).subscribe((msg) => (this.useCaseName = msg));
     const payload = {
       "UserId": '"' + this.userId + '"',
       "UseCaseName": this.useCaseName
@@ -180,7 +186,7 @@ export class UseCaseParentComponent {
       });
       return
     }
-    this.useCaseService.getAiCanvas.subscribe(msg => this.aiCanvasData = msg)
+    this.useCaseService.getAiCanvas.pipe(takeUntil(this.destroy$)).subscribe(msg => this.aiCanvasData = msg)
 
     console.log("This.aiCanvasData147========", this.aiCanvasData)
 
@@ -201,7 +207,7 @@ export class UseCaseParentComponent {
       }
     }
 
-    this.useCaseService.getRaiCanvas.subscribe(msg => this.raiCanvasDatDetail = msg)
+    this.useCaseService.getRaiCanvas.pipe(takeUntil(this.destroy$)).subscribe(msg => this.raiCanvasDatDetail = msg)
 
     console.log("aiCanvaspayload========", aiCanvaspayload)
     // raiCanvasDatDetail
@@ -234,7 +240,14 @@ export class UseCaseParentComponent {
         // "RAI_Risk_Index":value[6]
       }
 
-      const jsonPayload = JSON.stringify(payload);
+      let payloadString = '';
+    try {
+      payloadString = JSON.stringify(payload);
+    } catch (error) {
+      console.error('Failed to stringify payload', error);
+      payloadString = '';
+    }
+      const jsonPayload = payloadString;
       console.log(jsonPayload);
       this.questionPayload.push(jsonPayload)
 
@@ -303,12 +316,12 @@ export class UseCaseParentComponent {
   ngOnInit() {
     console.log("cureent===", this.currentScreen);
     
-    this.useCaseService.getcurrentScreen.subscribe((msg) => (this.currentScreen = msg));
+    this.useCaseService.getcurrentScreen.pipe(takeUntil(this.destroy$)).subscribe((msg) => (this.currentScreen = msg));
     console.log("cureent===", this.currentScreen);
 
-    this.useCaseService.getUsecaseName.subscribe((msg) => (this.useCaseName = msg));
+    this.useCaseService.getUsecaseName.pipe(takeUntil(this.destroy$)).subscribe((msg) => (this.useCaseName = msg));
 
-    this.useCaseService.getcurrentPage.subscribe((msg) => (this.currentPage = msg));
+    this.useCaseService.getcurrentPage.pipe(takeUntil(this.destroy$)).subscribe((msg) => (this.currentPage = msg));
 
     console.log("cureentPageNumber275=====", this.currentPage);
     let ip_port: any
@@ -323,7 +336,7 @@ export class UseCaseParentComponent {
 
   // Creates a new use case
   creatUsecsse(payload: any, aiCanvaspayload: any, raiCanvasPayload: any, quesPayload: any) {
-    this.https.post(this.createUseCase, payload).subscribe(
+    this.https.post(this.createUseCase, payload).pipe(takeUntil(this.destroy$)).subscribe(
 
       (res: any) => {
         // console.log("Payload===",payload)
@@ -357,7 +370,7 @@ export class UseCaseParentComponent {
 
    // Submits the AI canvas data
   aiCanvasSubmit(aiCanvaspayload: any, raiCanvasPayload: any, quesPayload: any) {
-    this.https.post(this.aiCanvasSubmitResponse, aiCanvaspayload).subscribe(
+    this.https.post(this.aiCanvasSubmitResponse, aiCanvaspayload).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         console.log("Successfully Added AI canvas====", res);
 
@@ -411,7 +424,7 @@ export class UseCaseParentComponent {
 
   // Submits the RAI canvas data
   raiCanvasSubmit(raiCanvasPayload: any, quesPayload: any) {
-    this.https.post(this.raiCanvasSubmitResponse, raiCanvasPayload).subscribe(
+    this.https.post(this.raiCanvasSubmitResponse, raiCanvasPayload).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         console.log(res);
         if (res == "Added Successfully" || res == " Updated Successfully...") {
@@ -466,7 +479,7 @@ export class UseCaseParentComponent {
       // "data":this.questionPayload
       "data": payload
     }
-    this.https.post(this.submit_Response, payload1).subscribe(
+    this.https.post(this.submit_Response, payload1).pipe(takeUntil(this.destroy$)).subscribe(
 
       (res: any) => {
         // console.log("Payload===",payload)

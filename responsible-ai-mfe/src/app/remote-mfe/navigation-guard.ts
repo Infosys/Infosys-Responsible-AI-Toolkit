@@ -28,9 +28,9 @@ export class UsecaseGuard implements CanActivate {
 
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    this.ip_port = this.getLocalStoreApi();
+    this.ip_port = this.validationService.getLocalStoreApi()
     this.setApilist(this.ip_port);
-    this.userRole1 = this.getLogedInUserRole();
+    this.userRole1 = this.validationService.getLogedInUserRole();
     console.log("userRole1",this.userRole1)
     return this.checkIfUsecasesAvailable().pipe(
       tap(usecasesAvailable => {
@@ -49,10 +49,10 @@ export class UsecaseGuard implements CanActivate {
 
   // Checks if use cases are available for the logged-in user
   checkIfUsecasesAvailable(): Observable<Boolean> {
-    const user = this.getLogedInUser();
+    this.userId = this.validationService.getLogedInUser()
 
-    console.log("User", user);
-    return this.https.get(this.getUseCase + '"' + user + '"').pipe(
+    console.log("User", this.userId);
+    return this.https.get(this.getUseCase + '"' + this.userId + '"').pipe(
 
       map((res: any) => {
         console.log( "res",res)
@@ -72,41 +72,7 @@ export class UsecaseGuard implements CanActivate {
 
   }
 
-// Retrieves the logged-in user's ID from local storage
-  getLogedInUser() {
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-        this.userId = x ;
-        console.log(" userId", this.userId)
-      }
-      return this.userId;
-    }
 
-  }
-
-  // Retrieves the logged-in user's role from local storage
-  getLogedInUserRole() {
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("role") ? JSON.parse(localStorage.getItem("role")!) : "NA";
-      if (x != null ) {
-        this.userRole = x ;
-        console.log(" userId", this.userId)
-      }
-      return this.userRole;
-    }
-  }
-
- // Retrieves API configuration from local storage
-  getLocalStoreApi() {
-    let ip_port
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        return ip_port = JSON.parse(res)
-      }
-    }
-  }
 
   // Sets the API endpoints for use case operations
   setApilist(ip_port: any) {

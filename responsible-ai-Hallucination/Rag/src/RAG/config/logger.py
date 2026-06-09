@@ -79,10 +79,10 @@ class CustomLogger(logging.getLoggerClass()):
             try:
                 os.makedirs(log_dir)
             except:
-                print(f'{self.__class__.__name__}: Cannot create directory {log_dir}. ',
+                self.info(f'{self.__class__.__name__}: Cannot create directory {log_dir}. ',
                       end='', file=sys.stderr)
                 log_dir = '/tmp' if sys.platform.startswith('linux') else '.'
-                print(f'Defaulting to {log_dir}.', file=sys.stderr)
+                self.info(f'Defaulting to {log_dir}.', file=sys.stderr)
 
         log_file = os.path.join(log_dir, log_name) + '.log'
 
@@ -140,24 +140,24 @@ class CustomLogger(logging.getLoggerClass()):
         func(msg, *args, **kwargs)
         self.enable_console_output()
 
-    def getSeesionId():
+    def getSeesionId(self):
         request_id = request_id_var.get()
         return request_id
     
     def debug(self, msg, *args, **kwargs ):
-        self._custom_log(super().debug, msg,extra = {'user_id':CustomLogger.getSeesionId()}, *args, **kwargs)
+        self._custom_log(super().debug, msg,extra = {'user_id':self.getSeesionId()}, *args, **kwargs)
 
     def info(self, msg, *args, **kwargs):
-        self._custom_log(super().info, msg,extra = {'user_id':CustomLogger.getSeesionId()}, *args, **kwargs)
+        self._custom_log(super().info, msg,extra = {'user_id':self.getSeesionId()}, *args, **kwargs)
 
     def warning(self, msg,user_id=None, *args, **kwargs):
-        self._custom_log(super().warning, msg,extra = {'user_id':CustomLogger.getSeesionId()}, *args, **kwargs)
+        self._custom_log(super().warning, msg,extra = {'user_id':self.getSeesionId()}, *args, **kwargs)
 
     def error(self, msg,user_id=None, *args, **kwargs):
-        self._custom_log(super().error, msg,extra = {'user_id':CustomLogger.getSeesionId()}, *args, **kwargs)
+        self._custom_log(super().error, msg,extra = {'user_id':self.getSeesionId()}, *args, **kwargs)
 
     def critical(self, msg,user_id=None, *args, **kwargs):
-        self._custom_log(super().critical, msg,extra = {'user_id':CustomLogger.getSeesionId()}, *args, **kwargs)
+        self._custom_log(super().critical, msg,extra = {'user_id':self.getSeesionId()}, *args, **kwargs)
 
 
 if __name__ == "__main__":

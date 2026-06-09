@@ -1,3 +1,15 @@
+"""
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
+
 import boto3
 from botocore.exceptions import ClientError, NoCredentialsError
 from fastapi import HTTPException
@@ -60,7 +72,7 @@ class FairnessUIservice:
         try:
             response = self.s3_client.list_buckets()
             return [bucket['Name'] for bucket in response['Buckets']]
-        except ClientError as e:
+        except Exception as e:
             logger.error(f"Error listing buckets: {e}")
             raise HTTPException(status_code=500, detail=str(e))
 
@@ -81,9 +93,14 @@ class FairnessUIservice:
             try:
                 self.s3_client.head_object(Bucket=bucket_name, Key=object_key)
                 raise HTTPException(status_code=409, detail=f"Object '{object_key}' already exists")
-            except ClientError as e:
-                if e.response['Error']['Code'] != '404':
-                    raise
+            except HTTPException:
+                raise  # Re-raise HTTPException as-is
+            except Exception as e:
+                # Check if it's a 404 error (object doesn't exist) - this is expected
+                if hasattr(e, 'response') and e.response.get('Error', {}).get('Code') == '404':
+                    pass  # Object doesn't exist, proceed with upload
+                else:
+                    raise HTTPException(status_code=500, detail=str(e))
 
             print("Uploading to AWS S3 as object:", object_key)
 
@@ -115,7 +132,9 @@ class FairnessUIservice:
             print("Total time it takes to upload the file is", end_time - start_time, "seconds")
             return response
 
-        except ClientError as e:
+        except HTTPException:
+            raise
+        except Exception as e:
             logger.error(f"Error uploading file: {e}")
             raise HTTPException(status_code=500, detail=str(e))
 
@@ -147,7 +166,7 @@ class FairnessUIservice:
             }
             return response
 
-        except ClientError as e:
+        except Exception as e:
             logger.error(f"Error updating file: {e}")
             raise HTTPException(status_code=500, detail=str(e))
 
@@ -164,17 +183,18 @@ class FairnessUIservice:
                 end_time = time.time()
                 print("Time taken to download the chunk is", end_time - start_time, "seconds")
 
-        except ClientError as e:
+        except Exception as e:
             logger.error(f"Error downloading object: {e}")
-            raise HTTPException(status_code=404 if e.response['Error']['Code'] == 'NoSuchKey' else 500, 
-                              detail=str(e))
+            # Check if it's a NoSuchKey error
+            status_code = 404 if (hasattr(e, 'response') and e.response.get('Error', {}).get('Code') == 'NoSuchKey') else 500
+            raise HTTPException(status_code=status_code, detail=str(e))
 
     def delete_object(self, bucket_name: str, object_key: str):
         """Delete S3 object"""
         try:
             self.s3_client.delete_object(Bucket=bucket_name, Key=object_key)
             logger.info(f"Successfully deleted object: {object_key}")
-        except ClientError as e:
+        except Exception as e:
             logger.error(f"Error deleting object: {e}")
             raise HTTPException(status_code=500, detail=str(e))
 
@@ -194,9 +214,10 @@ class FairnessUIservice:
 
             return {"message": f"Bucket '{bucket_name}' created successfully"}
 
-        except ClientError as e:
+        except Exception as e:
             logger.error(f"Error creating bucket: {e}")
-            if e.response['Error']['Code'] == 'BucketAlreadyExists':
+            # Check if bucket already exists
+            if hasattr(e, 'response') and e.response.get('Error', {}).get('Code') == 'BucketAlreadyExists':
                 raise HTTPException(status_code=409, detail=f"Bucket '{bucket_name}' already exists")
             raise HTTPException(status_code=500, detail=str(e))
 
@@ -257,9 +278,10 @@ class FairnessUIservice:
                 "metadata": response.get('Metadata', {})
             }
 
-        except ClientError as e:
+        except Exception as e:
             print(f"Failed to get object properties: {e}")
-            if e.response['Error']['Code'] == 'NoSuchKey':
+            # Check if object not found
+            if hasattr(e, 'response') and e.response.get('Error', {}).get('Code') == 'NoSuchKey':
                 raise HTTPException(status_code=404, detail=f"Object '{object_key}' not found")
             raise HTTPException(status_code=500, detail=str(e))
 
@@ -295,7 +317,7 @@ class FairnessUIservice:
 
                         if obj_content_type != content_type:
                             continue
-                    except ClientError:
+                    except Exception:
                         # If we can't get the head, skip content type filtering for this object
                         if content_type:
                             continue
@@ -318,6 +340,6 @@ class FairnessUIservice:
 
             return filtered_objects
 
-        except ClientError as e:
+        except Exception as e:
             logger.error(f"Error listing objects: {e}")
             raise HTTPException(status_code=500, detail=str(e))

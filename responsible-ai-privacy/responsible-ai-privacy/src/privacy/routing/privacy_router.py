@@ -1,11 +1,12 @@
 '''
-MIT license https://opensource.org/licenses/MIT Copyright 2024 Infosys Ltd
+License textMIT Licensehttps://mit-license.org/Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 '''
 
 from io import BytesIO
@@ -1316,72 +1317,72 @@ async def videoPrivacy(ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr"
             detail="Please check with administration!!",
             headers={"X-Error": "Please check with administration!!"})
 
-from privacy.service.pdf_service import PDFService
-@fileRouter.post('/privacy-files/PDF/anonymize')
-async def PDF(pdf:UploadFile=File(...),nlp:str=Form(default=None,example="basic/good/roberta/ranha"),ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","ComputerVision"]),portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),exclusionList:Optional[str]=Form(None),piiEntitiesToBeRedacted:Optional[str]=Form(None),scoreThreshold:Optional[float] = Form(default=float(0.4)),auth= Depends(auth)):
-    # payload = {"video": video, "easyocr": ocr}
-    id = uuid.uuid4().hex
-    request_id_var.set(id)
-    log.info("Entered create into image_anonymize routing method" )
-    try:
-        start_time = datetime.now()
-        log.info(f"start_time: {start_time}")
-        log.info("Before invoking create usecase service ")
+# from privacy.service.pdf_service import PDFService
+# @fileRouter.post('/privacy-files/PDF/anonymize')
+# async def PDF(pdf:UploadFile=File(...),nlp:str=Form(default=None,example="basic/good/roberta/ranha"),ocr: str = Query('Tesseract', enum=['Tesseract',"EasyOcr","ComputerVision"]),portfolio:Optional[str]=Form(None),account:Optional[str]=Form(None),exclusionList:Optional[str]=Form(None),piiEntitiesToBeRedacted:Optional[str]=Form(None),scoreThreshold:Optional[float] = Form(default=float(0.4)),auth= Depends(auth)):
+#     # payload = {"video": video, "easyocr": ocr}
+#     id = uuid.uuid4().hex
+#     request_id_var.set(id)
+#     log.info("Entered create into image_anonymize routing method" )
+#     try:
+#         start_time = datetime.now()
+#         log.info(f"start_time: {start_time}")
+#         log.info("Before invoking create usecase service ")
 
-        payload={"easyocr":ocr,"mag_ratio":False,"rotationFlag":False,"file": pdf,"nlp":nlp if nlp!="" else None,"portfolio":portfolio,"account":account,"exclusion":exclusionList,"piiEntitiesToBeRedacted":piiEntitiesToBeRedacted,"scoreThreshold":scoreThreshold}
+#         payload={"easyocr":ocr,"mag_ratio":False,"rotationFlag":False,"file": pdf,"nlp":nlp if nlp!="" else None,"portfolio":portfolio,"account":account,"exclusion":exclusionList,"piiEntitiesToBeRedacted":piiEntitiesToBeRedacted,"scoreThreshold":scoreThreshold}
       
-        log.debug("Request payload: "+ str(payload))
-        response = PDFService.mask_pdf(AttributeDict(payload))
-        if(response==None):
-            raise NoAccountException
-        log.info("After invoking create usecase service ")
-        log.debug("Response : "+ str(response))
-        log.info("Exit create usecase routing method")
-        end_time = datetime.now()
-        log.info(f"end_time: {end_time}")
-        total_time = end_time - start_time
-        log.info(f"total_time: {total_time}")
-        response = Response(content=response.read(), media_type="application/pdf")
-        response.headers["Content-Disposition"] = "attachment; filename="+pdf.filename
+#         log.debug("Request payload: "+ str(payload))
+#         response = PDFService.mask_pdf(AttributeDict(payload))
+#         if(response==None):
+#             raise NoAccountException
+#         log.info("After invoking create usecase service ")
+#         log.debug("Response : "+ str(response))
+#         log.info("Exit create usecase routing method")
+#         end_time = datetime.now()
+#         log.info(f"end_time: {end_time}")
+#         total_time = end_time - start_time
+#         log.info(f"total_time: {total_time}")
+#         response = Response(content=response.read(), media_type="application/pdf")
+#         response.headers["Content-Disposition"] = "attachment; filename="+pdf.filename
 
-        return response
+#         return response
         
-    except PrivacyException as cie:
-        log.error("Exception for encrypt")
-        log.error(cie.__dict__)
-        er=[{"UUID":id,"function":"textEncryptRouter","msg":cie.__dict__,"description":cie.__dict__}]
-        er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
-        logobj = {"uniqueid":id,"error":er}
-        # 
-        if len(er)!=0:
-            thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
-            thread.start()
-            if request_id_var.get() in error_dict:
-                del error_dict[id] 
-        log.error(cie, exc_info=True)
-        log.info("exit create from encrypt routing method")
-        raise HTTPException(**cie.__dict__)
-    except NoAccountException:
-        raise HTTPException(
-            status_code=430,
-            detail="Portfolio/Account Is Incorrect",
-            headers={"X-Error": "There goes my error"},
-        )
-    except Exception as e:
-        log.error(str(e))
-        # ExceptionDb.create({"UUID":request_id_var.get(),"function":"textAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        er=[{"UUID":request_id_var.get(),"function":"textAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
-        er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
-        logobj = {"uniqueid":id,"error":er}
-        if len(er)!=0:
-            thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
-            thread.start()
-            if request_id_var.get() in error_dict:
-                del error_dict[id] 
-        raise HTTPException(
-            status_code=500,
-            detail="Please check with administration!!",
-            headers={"X-Error": "Please check with administration!!"})   
+#     except PrivacyException as cie:
+#         log.error("Exception for encrypt")
+#         log.error(cie.__dict__)
+#         er=[{"UUID":id,"function":"textEncryptRouter","msg":cie.__dict__,"description":cie.__dict__}]
+#         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
+#         logobj = {"uniqueid":id,"error":er}
+#         # 
+#         if len(er)!=0:
+#             thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
+#             thread.start()
+#             if request_id_var.get() in error_dict:
+#                 del error_dict[id] 
+#         log.error(cie, exc_info=True)
+#         log.info("exit create from encrypt routing method")
+#         raise HTTPException(**cie.__dict__)
+#     except NoAccountException:
+#         raise HTTPException(
+#             status_code=430,
+#             detail="Portfolio/Account Is Incorrect",
+#             headers={"X-Error": "There goes my error"},
+#         )
+#     except Exception as e:
+#         log.error(str(e))
+#         # ExceptionDb.create({"UUID":request_id_var.get(),"function":"textAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
+#         er=[{"UUID":request_id_var.get(),"function":"textAnonimyzeRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)}]
+#         er.extend(error_dict[request_id_var.get()] if request_id_var.get() in error_dict else [])
+#         logobj = {"uniqueid":id,"error":er}
+#         if len(er)!=0:
+#             thread = threading.Thread(target=Telemetry.error_telemetry_request, args=(logobj,id))
+#             thread.start()
+#             if request_id_var.get() in error_dict:
+#                 del error_dict[id] 
+#         raise HTTPException(
+#             status_code=500,
+#             detail="Please check with administration!!",
+#             headers={"X-Error": "Please check with administration!!"})   
 
 from privacy.service.ppt_service import PPTService  
 @fileRouter.post('/privacy-files/PPT/anonymize')
@@ -1608,8 +1609,8 @@ def anonymize_file(file: UploadFile = File(...), nlp: str = Form(default=None, e
             media_type = 'text/csv'
         elif file_extension == 'json':
             media_type = 'application/json'
-        elif file_extension == 'pdf':
-            media_type = 'application/pdf'
+        # elif file_extension == 'pdf':
+        #     media_type = 'application/pdf'
         elif file_extension == 'ppt':
             media_type = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
         elif file_extension == 'docx':

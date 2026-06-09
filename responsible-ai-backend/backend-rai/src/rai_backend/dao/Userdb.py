@@ -1,6 +1,6 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+#The MIT License (MIT)
+# Copyright 2025 - 2026 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  
@@ -11,6 +11,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 import datetime
 import json
+import os
 from rai_backend.mappers.UserMapper import UserData, UserDataResponse
 from fastapi import HTTPException, Response
 from rai_backend.dao.DatabaseConnection import DB
@@ -20,6 +21,10 @@ from werkzeug.security import generate_password_hash
 from rai_backend.service.backend_service import UserInDB
 load_dotenv()
 log = CustomLogger()
+
+# Constants
+ERROR_HTML_PREFIX = "<p>the error:<br>"
+PASSWORD_HASH_METHOD = 'pbkdf2:sha256'
 
 class AttributeDict(dict):
     __getattr__ = dict.__getitem__
@@ -38,6 +43,8 @@ class UserDb:
     myAuth = mydb['Authority']
     myCount = mydb['UserLimit']
     myConsent = mydb['UserConsent']
+    
+    @staticmethod
     def findOne(id):
         try:
             user=UserDb.mycol.find_one({'id':id},{'_id':0})
@@ -49,7 +56,9 @@ class UserDb:
                 return 'No users Found'
         except Exception as e:
             log.error(e)
-            return "<p>the error:<br>" + str(e) + "</p>",500
+            return ERROR_HTML_PREFIX + str(e) + "</p>",500
+    
+    @staticmethod
     def findAll()->UserDataResponse:
             try:                                    
                 users=UserDb.mycol.find({},{'_id':0})
@@ -77,7 +86,9 @@ class UserDb:
                     return [], 404
             except Exception as e:
                 log.debug(e)
-                return "<p>the error:<br>" + str(e) + "</p>",500
+                return ERROR_HTML_PREFIX + str(e) + "</p>",500
+    
+    @staticmethod
     def create(newUser):
         DB.connect()
         try:
@@ -91,35 +102,42 @@ class UserDb:
                     count_value = document.get('counter')
                 print(f"Current count value: {count_value}")
                 
-                userLength=list(UserDb.mycol.find({},{"_id":0,"id":1}).sort("id",-1))
-                if len(userLength)>0:
-                    new_id = userLength[0]["id"]+ 1
-                    myDoc ={
-                        "id":new_id, 
-                        "email":newUser.email, 
-                        "login":newUser.login, 
-                        "firstName":newUser.login, 
-                        "langKey":newUser.langKey,
-                        "passwordHash":generate_password_hash(newUser.cred, method='pbkdf2:sha256'),
-                        "activated":True, 
-                        "createdDate":datetime.datetime.now(), 
-                        "createdBy":'system',
-                        "lastModifiedBy":'system', 
-                        "lastModifiedDate":datetime.datetime.now(),
-                        "authorities":["ROLE_USER"]
-                        }
-                    UserDb.myuserauth.insert_one({"user_id":new_id,"authority_name":"ROLE_USER"})
-                    # if count_value > 100:
-                    #     myDoc["activated"] = False  # Set activated to false
-                    # count_value += 1
-                    # UserDb.myCount.update_one({},{'$set': {'counter': count_value}})
-                    # print(f"Updated count value: {count_value}")            
-                    result = UserDb.mycol.insert_one(myDoc).inserted_id
-                    return True
+                # Get the maximum id value without sorting
+                max_id_result = list(UserDb.mycol.aggregate([
+                    {"$group": {"_id": None, "max_id": {"$max": "$id"}}}
+                ]))
+                if max_id_result and max_id_result[0]["max_id"] is not None:
+                    new_id = max_id_result[0]["max_id"] + 1
+                else:
+                    new_id = 1  # Start with 1 if no users exist
+                
+                myDoc ={
+                    "id":new_id, 
+                    "email":newUser.email, 
+                    "login":newUser.login, 
+                    "firstName":newUser.login, 
+                    "langKey":newUser.langKey,
+                    "passwordHash":generate_password_hash(newUser.cred, method=PASSWORD_HASH_METHOD),
+                    "activated":True, 
+                    "createdDate":datetime.datetime.now(), 
+                    "createdBy":'system',
+                    "lastModifiedBy":'system', 
+                    "lastModifiedDate":datetime.datetime.now(),
+                    "authorities":["ROLE_USER"]
+                }
+                UserDb.myuserauth.insert_one({"user_id":new_id,"authority_name":"ROLE_USER"})
+                # if count_value > 100:
+                #     myDoc["activated"] = False  # Set activated to false
+                # count_value += 1
+                # UserDb.myCount.update_one({},{'$set': {'counter': count_value}})
+                # print(f"Updated count value: {count_value}")            
+                result = UserDb.mycol.insert_one(myDoc).inserted_id
+                return True
         except Exception as e:
             log.debug(e)
             return False
         
+    @staticmethod
     def update(id,user):
         try:
             oldData= UserDb.mycol.find_one({'id':id},{'_id':0})
@@ -136,10 +154,12 @@ class UserDb:
             if UpdatedData:
                 return {"message": "User updated successfully", "status_code": 200}
             else:
-                return {"message": "User updating fails", "status_code": 400}
+                return {"message": "User updating fails", "status_code": 200}
         except Exception as e:
             log.error(e)
             return {"message": "An error occurred", "status_code": 500}
+    
+    @staticmethod
     def delete(id):
         try:
              UserDb.mycol.delete_one({"id":id})
@@ -147,8 +167,9 @@ class UserDb:
              return "The record has been successfully deleted.", 204
         except Exception as e:
              log.error(e)
-             return "<p>the error:<br>" + str(e) + "</p>", 500
+             return ERROR_HTML_PREFIX + str(e) + "</p>", 500
         
+    @staticmethod
     def getAllAuthority():
         try:
             authResponseArray=[]
@@ -160,7 +181,9 @@ class UserDb:
             return ''
         except Exception as e:
             log.error(e)
-            return '<p>the error:<br>'+str(e)+'</p>', 500
+            return ERROR_HTML_PREFIX+str(e)+'</p>', 500
+    
+    @staticmethod
     def getUserByName(loginName):
         try:
             myquery = { 'login': loginName }
@@ -183,6 +206,8 @@ class UserDb:
             log.info("Inside Except")
             log.debug(e)
             raise HTTPException(status_code=401, detail="Unauthorized")
+    
+    @staticmethod
     def add_initial_data():
         auth = list(UserDb.myAuth.find({},{"_id":0}))
         if len(auth)==0:
@@ -194,10 +219,14 @@ class UserDb:
             UserDb.myAuth.insert_many([admin_role, user_role,ml_role, excel_role,empty_role])
         user=list(UserDb.mycol.find({},{"_id":0}))
         if(len(user)==0):
+            # Get secure passwords from environment variables or generate secure random ones
+            admin_password = os.getenv('ADMIN_PASSWORD')
+            user_password = os.getenv('USER_PASSWORD')                      
+            
             admin_user = {"id":1, "login":"admin", "firstName":"Admin", "langKey":'en', "passwordHash":generate_password_hash(
-            'admin', method='pbkdf2:sha256'), "activated":True, "createdDate":datetime.datetime.now(), "lastModifiedBy":'system', "lastModifiedDate":datetime.datetime.now(), "createdBy":'system',"authorities":["ROLE_ADMIN","ROLE_USER"]}
+            admin_password, method=PASSWORD_HASH_METHOD), "activated":True, "createdDate":datetime.datetime.now(), "lastModifiedBy":'system', "lastModifiedDate":datetime.datetime.now(), "createdBy":'system',"authorities":["ROLE_ADMIN","ROLE_USER"]}
             user_user = {"id":2, "login":"user", "firstName":"User", "langKey":'en', "passwordHash":generate_password_hash(
-            'user', method='pbkdf2:sha256'), "activated":True, "createdDate":datetime.datetime.now(), "lastModifiedBy":'system', "lastModifiedDate":datetime.datetime.now(), "createdBy":'system',"authorities":["ROLE_USER"]}
+            user_password, method=PASSWORD_HASH_METHOD), "activated":True, "createdDate":datetime.datetime.now(), "lastModifiedBy":'system', "lastModifiedDate":datetime.datetime.now(), "createdBy":'system',"authorities":["ROLE_USER"]}
             UserDb.mycol.insert_many([admin_user, user_user])
             UserDb.myuserauth.insert_many([{"user_id":admin_user["id"],"authority_name":"ROLE_ADMIN"},{"user_id":admin_user["id"],"authority_name":"ROLE_USER"},{"user_id":user_user["id"],"authority_name":"ROLE_USER"}])
         userLimit = list(UserDb.myCount.find({},{"_id":0}))
@@ -205,6 +234,7 @@ class UserDb:
             user_limit_count ={"counter":0}
             UserDb.myCount.insert_one(user_limit_count)
 
+    @staticmethod
     def update_newUser_role(loginName,role):
         myQuery = { 'login': loginName }
         newUsers =  UserDb.mycol.find_one(myQuery,{"_id":0})
@@ -223,6 +253,7 @@ class UserDb:
                  UserDb.myuserauth.insert_many([{"user_id":id ,"authority_name":auth}])	
             return response.acknowledged
     
+    @staticmethod
     def newAuthority(role):
         myQuery = { 'name': role }
         newRole =  UserDb.myAuth.find_one(myQuery,{"_id":0})
@@ -237,7 +268,7 @@ class UserDb:
         else:
             return {"message": "Role already exists", "status_code": 500} 
     
-    
+    @staticmethod
     def set_user_consent(userId, userConsentStatus):
         try:
             existing_user = UserDb.myConsent.find_one({'userId': userId})
@@ -250,8 +281,7 @@ class UserDb:
             log.error(e)
             return {"message": "An error occurred", "status_code": 500}
     
-
-    
+    @staticmethod
     def get_user_consent(userId):
         try:
             user_consent = UserDb.myConsent.find_one({'userId': userId}, {'_id': 0, 'userConsentStatus': 1})

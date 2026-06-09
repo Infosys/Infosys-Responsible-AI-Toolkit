@@ -41,7 +41,7 @@ load_dotenv()
 log = CustomLogger()
 
 path="../image"
-
+Prompt = Prompt()
 class ImageService:
 
     @staticmethod
@@ -242,8 +242,6 @@ class ImageService:
 
             if prompt is None:
                 method_names.append('certainity_score')
-            else:
-                method_names.append('certainity_score')
 
             if aes_score is not None and query_flag == False:
                 # Scale the scores to a range of 1-100
@@ -336,9 +334,6 @@ class ImageService:
             if mime_type is None:
                 mime_type = "application/octet-stream"
 
-            if 'gpt' in evaluator.lower():
-                mime_type = mime_type
-                generated_image_base64 = generated_image_base64
             if 'llama' in evaluator.lower():
                 mime_type = None
                 generated_image_base64 = image_path
