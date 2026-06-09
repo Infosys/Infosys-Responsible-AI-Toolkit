@@ -33,8 +33,8 @@ This application is built using the Flask web framework.Leveraging the flexibili
 ## Prerequisites
 
 1. Before installing the repo for Moderation Layer, first you need to install the repo for Moderation Models.
-Please find the link for **Moderation Model** repo : (https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/main/responsible-ai-ModerationModel).
-If you want to use template based guardrails then use **Admin Module** repo : (https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-admin)
+Please find the link for [Moderation Model](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/main/responsible-ai-ModerationModel).
+If you want to use template based guardrails then use [Admin Module](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-admin)
 
 2. **Installation of Python** : Install Python (version 3.11.x) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
 
@@ -131,7 +131,14 @@ git clone <repository-url>
 cd responsible-ai-moderationLayer
 ```
 
-**Step 3**  : Activate the virtual environment for different OS.
+**Step 3**  : Use the below link to download `en_core_web_lg` whl file -
+
+[Download Link](https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.7.1/en_core_web_lg-3.7.1-py3-none-any.whl)
+This will take 30-40 mins. 
+Once done, put this inside `lib` folder of the repo `responsible-ai-moderationLayer`.
+
+
+**Step 4**  : Activate the virtual environment for different OS.
 
 **Windows:**
 1. Open Command Prompt or PowerShell: Find and open the appropriate command-line interface
@@ -185,7 +192,7 @@ source ./myenv/bin/activate
 ```
 
 
-**Step 4** : Go to the `requirements` directory where the `requirement.txt` file is present :
+**Step 5** : Go to the `requirements` directory where the `requirement.txt` file is present :
 
 Now, install the requirements as shown below :
 ```sh
@@ -219,6 +226,7 @@ SENTIMENT="${sentiment}" #[MANDATORY]
 INVISIBLETEXT="${invisibletext}" #[MANDATORY]
 GIBBERISH="${gibberish}" #[MANDATORY]
 BANCODE="${bancode}" #[MANDATORY]
+
 ```
 We need to pass the Model Urls in the same env file, which are nothing but apis for each Model that have been exposed in Moderation Model repo.
 
@@ -428,21 +436,6 @@ TARGETENVIRONMENT="${environmentname}" #[MANDATORY]
 environmentname=<set it as azure>
 ```
 
-8. **JWT Token Variables** : 
-   If you are working in local environment can define verify signature as 'false' :
-  ```sh
-  verify_signature = 'false'
-  VERIFY_SIGNATURE="${verify_signature}"
-  ```
-
-  In production environment always pass verify signature as 'true' and pass the secret key as well :
-  ```sh
-  verify_signature = 'false'
-  secret_key = 'key'
-  VERIFY_SIGNATURE="${verify_signature}"
-  SECRET_KEY = "${secret_key}"
-  ```
-
 **Optional Parameters**
 -------------------------------------------------------------------------------------------------------
 
@@ -527,6 +520,8 @@ VERIFY_SSL="${verify_ssl}" #[OPTIONAL]
 
 
 ## Running the Application
+
+**Note** : Please don't run the api for feedback i.e. `/rai/vi/moderations/feedback` as this endpoint will be deprecated from the next release onwards.
 
 Once we have completed all the above mentioned steps, we can start the service.
 
@@ -693,34 +688,17 @@ which can be added as below :
      }
      ```
 
-**Notes :**
+     **Note :** Change model_name in payload according to the model which you want to use:
+     gpt4 for GPT4o-mini or GPT4-Turbo model
+     gpt3 for GPT35-Turbo model
+     Llama3-70b for Llama3-70b model
+     AWS_CLAUDE_V3_5 for AWS Bedrock Claude model
+     Gemini-Pro for Gemini 2.5 Pro model
+     Gemini-Flash for Gemini 2.5 Flash model
 
-1. Change model_name in payload according to the model which you want to use:
-gpt4 for GPT4o-mini or GPT4-Turbo model
-gpt3 for GPT35-Turbo model
-Llama3-70b for Llama3-70b model
-AWS_CLAUDE_V3_5 for AWS Bedrock Claude model
-Gemini-Pro for Gemini 2.5 Pro model
-Gemini-Flash for Gemini 2.5 Flash model
- 
-2. The Bancode check in Moderation is designed to specifically identify and block prompts that consist purely of code. It intelligently distinguishes between natural language (NL) and code, and classifies mixed inputs (text + code) as natural language. This ensures that only code-only prompts are restricted, while allowing flexibility for mixed or textual inputs.
-
-3. There are two restricted topic models available. In the moderation input payload under RestrictedtopicDetails, you can specify "model": "deberta" or "model": "fine-tuned distilbert". Please test both models and choose the one that provides better accuracy for your specific use case.
-
-4. In the textTemplate_service.py file under the service folder, the score field format needs to be standardized (line 65) to: `"score" :[Assign a decimal score between 0.0-1.0]`. This applies to the NORMAL_OUTPUT template used for template-based evaluations, ensuring consistent decimal score assignments between 0.0 and 1.0 across all API responses.
-
-5. Install the `language_data` package, which is required for the `rai/v1/moderations/translate` endpoint:
-```sh
-pip install language_data==1.4.0
-```
-
-4. In the textTemplate_service.py file under the service folder, the score field format needs to be standardized (line 65) to: `"score" :[Assign a decimal score between 0.0-1.0]`. This applies to the NORMAL_OUTPUT template used for template-based evaluations, ensuring consistent decimal score assignments between 0.0 and 1.0 across all API responses.
-
-5. Install the `language_data` package, which is required for the `rai/v1/moderations/translate` endpoint:
-```sh
-pip install language_data==1.4.0
-```
-
+## Docker Image
+The Docker image for the Moderationlayer module has been published on Docker Hub. You can access it here: [ModerationLayer image](https://hub.docker.com/repository/docker/infosysresponsibleaitoolkit/responsible-ai-moderationlayer)
+  
 ## License
 The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.
 
