@@ -59,7 +59,7 @@ We appreciate your feedback and aim to keep you updated on our plans regularly. 
 
 [Explore the roadmap »](https://github.com/users/InfosysResponsibleAI/projects/2/views/1) 
 
-[Contribute to our roadmap »](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/Release-2.1.0/CONTRIBUTING.md)
+[Contribute to our roadmap »](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/Release-2.2.1/CONTRIBUTING.md)
 
 Note: These API-based guardrails are optimized for Azure OpenAI. Users employing alternative LLMs should make the necessary client configuration adjustments. For Azure OpenAI api subscription, follow instructions provided in the [Microsoft Azure website](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account?icid=ai-services&azure-portal=true).
 
