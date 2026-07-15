@@ -33,7 +33,7 @@ export class NewUseCaseComponent {
   record=false
   newUseCaseCreation=false
   getAICanvasEndPoint: any;
-  dataRecieved=false
+  dataReceived=false
   edit=false
   getRaiICanvasEndPoint: any;
   activeTab = "Available Use cases";
@@ -157,7 +157,7 @@ export class NewUseCaseComponent {
               console.log("Ai Canvas Data==========",res);
               this.useCaseService.setAiCanvas(res)
               this.edit=true
-              this.dataRecieved =true
+              this.dataReceived =true
               if(res.BusinessProblem == "" && res.BusinessValue == "" && res.EndUserValue == "" && res.DataStrategy == "" && res.ModellingApproach == "" && res.ModelTraining == "" && res.ObjectiveFunction == "" && res.AICloudEngineeringServices == "" && res.ResponsibleAIApproach == ""){
                 console.log("All values are empty")
                 // this.aiCanvasEdit = true;
