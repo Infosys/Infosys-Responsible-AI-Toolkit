@@ -41,7 +41,9 @@
 - **Chain of Thought**
 
     It refers to a structured problem-solving approach that breaks down complex tasks into a series of logical, step-by-step processes. It allows the model to systematically explore each part of the problem, making the reasoning more transparent and improving the accuracy of the solution by focusing on each individual step before arriving at a final answer.
+- **Chain of Draft**
 
+    Chain of Draft is a prompt engineering method that generates structured, step-by-step reasoning for answering user queries in a responsible and factual manner. It provides a deterministic approach to problem-solving by breaking down the reasoning process into minimal draft steps, with each step limited to 5 words maximum. This ensures consistent outputs when given the same input, focusing on logical and concise reasoning. Perfect for creating transparent, auditable explanations of AI decision-making processes.
 - **Thread of Thoughts**
 
     Thread of Thoughts addresses challenges in chaotic or complex contexts where large language models (LLMs) struggle to sift through and prioritize relevant information amidst an overwhelming amount of data. It helps organize and guide the model’s reasoning by maintaining a clear path of thought, ensuring that important details are identified and addressed without getting lost in extraneous information.
