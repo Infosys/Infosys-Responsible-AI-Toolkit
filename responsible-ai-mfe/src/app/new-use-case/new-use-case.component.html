@@ -96,6 +96,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <!-- <div *ngIf="edit== true">
     <app-use-case-parent></app-use-case-parent>
 </div> -->
-<div *ngIf="newUseCaseCreation=== true || edit == true && record===false && dataRecieved== true">
+<div *ngIf="newUseCaseCreation=== true || edit == true && record===false && dataReceived== true">
     <app-use-case-parent [editFun]="edit" (closeEvent)="onCloseUseCaseParent()"></app-use-case-parent>
 </div>
