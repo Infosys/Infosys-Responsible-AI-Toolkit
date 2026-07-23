@@ -164,8 +164,14 @@ async def post_request(url, data=None, json=None, headers=None, verify=sslv[veri
       headers["Authorization"]="None"
 
   ssl_context = ssl.create_default_context()
-  ssl_context.check_hostname = False
-  ssl_context.verify_mode = ssl.CERT_NONE
+  # Enable proper SSL verification for security
+  if os.getenv("DEVELOPMENT_MODE") != "true":
+      ssl_context.check_hostname = True
+      ssl_context.verify_mode = ssl.CERT_REQUIRED
+  else:
+      log.warning("Development mode: SSL verification disabled")
+      ssl_context.check_hostname = False
+      ssl_context.verify_mode = ssl.CERT_NONE
   
   async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
     async with session.post(url, data=data, json=json, headers=headers) as response:

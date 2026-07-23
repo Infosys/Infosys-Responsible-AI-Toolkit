@@ -53,7 +53,7 @@ class Auth:
         if response.status_code == 200:
                 token_info = response.json()
                 bearer_token = token_info['access_token']
-                log.info(f"Bearer Token: {bearer_token}")
+                log.info("Bearer token successfully obtained")
                 # Calculate token expiration time
                 expires_in = token_info['expires_in']
                 token_expiration_time = time.time() + expires_in - 60  # Subtract 60 seconds to account for possible delays

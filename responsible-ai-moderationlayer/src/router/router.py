@@ -83,7 +83,18 @@ def generate_text():
         if token_env=='others':
             if authorization != None: 
                 log.info("got auth from headers")
-                decoded_token = jwt.decode(authorization.split(" ")[1], algorithms=["HS256"], options={"verify_signature": False})
+                # Enable JWT signature verification for security
+                jwt_secret = os.getenv("JWT_SECRET_KEY", "your-secret-key-here")
+                try:
+                    if os.getenv("DEVELOPMENT_MODE") == "true":
+                        log.warning("Development mode: JWT signature verification disabled")
+                        decoded_token = jwt.decode(authorization.split(" ")[1], algorithms=["HS256"], options={"verify_signature": False})
+                    else:
+                        decoded_token = jwt.decode(authorization.split(" ")[1], key=jwt_secret, algorithms=["HS256"], options={"verify_signature": True})
+                except jwt.ExpiredSignatureError:
+                    raise InvalidTokenException("Token has expired")
+                except jwt.InvalidTokenError:
+                    raise InvalidTokenException("Invalid token")
                 X_Correlation_ID = request.headers.get('X-Correlation-ID')
                 X_Span_ID = request.headers.get('X-Span-ID')
                 if 'unique_name' in decoded_token:

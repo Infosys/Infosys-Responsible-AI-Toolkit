@@ -175,7 +175,7 @@ class telemetry:
                             headers=headers,
                             auth=HTTPBasicAuth( username, password),
                             data=json.dumps(payload),
-                            verify = False
+                            verify=sslv[verify_ssl]
                         )
 
                         if response.status_code >= 200 and response.status_code < 300:
@@ -394,7 +394,7 @@ class telemetry:
                         headers=headers,
                         auth=HTTPBasicAuth(username, password),
                         data=json.dumps(payload),
-                        verify = False
+                        verify=sslv[verify_ssl]
                     )
 
                     if response.status_code >= 200 and response.status_code < 300:
