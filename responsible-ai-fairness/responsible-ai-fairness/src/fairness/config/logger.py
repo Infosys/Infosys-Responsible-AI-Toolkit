@@ -1,12 +1,13 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 import datetime
@@ -41,7 +42,14 @@ class CustomLogger(logging.getLoggerClass()):
 
         name = log_params['file_name']
         try:
-            verbose = bool(log_params['verbose'])
+            verbose_value = log_params['verbose']
+            # Check if it's a boolean or a valid boolean string
+            if isinstance(verbose_value, bool):
+                verbose = verbose_value
+            elif isinstance(verbose_value, str):
+                verbose = verbose_value.lower() in ('true', '1', 'yes')
+            else:
+                verbose = bool(verbose_value)
         except:
             verbose = False
 
@@ -115,18 +123,55 @@ class CustomLogger(logging.getLoggerClass()):
         if self.has_file_handler():
             return
         self.addHandler(self.file_handler)
+    
+    def close(self):
+        """Close all handlers to release file handles."""
+        handlers = self.handlers[:]  # Make a copy to avoid modification during iteration
+        for handler in handlers:
+            try:
+                handler.close()
+                self.removeHandler(handler)
+            except:
+                pass
 
     def framework(self, msg, *args, **kwargs):
         """Logging method for the FRAMEWORK level. The `msg` gets logged both to stdout and to file
         (if a file handler is present), irrespective of verbosity settings."""
         return super().info(msg, *args, **kwargs)
 
+    def _format_message(self, msg, *args):
+        """Helper method to handle flexible message formatting.
+        Supports both standard format (with %s placeholders) and concatenation style."""
+        # Normalize msg to string so logging.formatter won't try to apply %-formatting
+        # on non-string objects which causes TypeError when args are present.
+        msg_str = msg if isinstance(msg, str) else str(msg)
+
+        # No additional args => message is ready
+        if not args:
+            return msg_str, ()
+
+        # Count % placeholders in the message string (simple heuristic)
+        import re
+        placeholder_count = len(re.findall(r'%(?:\d+\$)?[sdifr]', msg_str))
+
+        # If the message contains placeholders, return as-is so the logging
+        # framework can handle formatting with the provided args.
+        if placeholder_count > 0:
+            return msg_str, args
+
+        # No placeholders: concatenate all args (converted to strings) to the message.
+        concatenated = msg_str + ' ' + ' '.join(str(a) for a in args)
+        return concatenated, ()
+
     def _custom_log(self, func, msg, *args, **kwargs):
         """Helper method for logging DEBUG through CRITICAL messages by calling the appropriate
         `func()` from the base class."""
+        # Format the message to handle both standard and non-standard logging calls
+        formatted_msg, formatted_args = self._format_message(msg, *args)
+        
         # Log normally if verbosity is on
         if self.verbose:
-            return func(msg, *args, **kwargs)
+            return func(formatted_msg, *formatted_args, **kwargs)
 
         # If verbosity is off and there is no file handler, there is nothing left to do
         if not self.has_file_handler():
@@ -135,7 +180,7 @@ class CustomLogger(logging.getLoggerClass()):
         # If verbosity is off and a file handler is present, then disable stdout logging, log, and
         # finally reenable stdout logging
         self.disable_console_output()
-        func(msg, *args, **kwargs)
+        func(formatted_msg, *formatted_args, **kwargs)
         self.enable_console_output()
 
     def debug(self, msg, *args, **kwargs):

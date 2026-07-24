@@ -4,8 +4,9 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { Subject } from 'rxjs';
 // Generated Import Start
 // Generated Import End
 // Custom Code Start
@@ -15,7 +16,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   selector: 'jhi-modal2',
   templateUrl: './modal2.component.html',
 })
-export class Modal2PopupComponent implements OnInit {
+export class Modal2PopupComponent implements OnInit, OnDestroy {
   // Generated Data Start
   // Generated Data End
   // Custom Code Start
@@ -36,5 +37,11 @@ export class Modal2PopupComponent implements OnInit {
     // Generated Load Data Function Calls End
     // Custom Code Start
     // Custom Code End
+  }
+  private destroy$ = new Subject<void>();
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

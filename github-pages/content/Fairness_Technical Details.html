@@ -74,6 +74,11 @@
 <h4 id="aPretrainPosttrainMethods"><u>a. Pretrain &amp; Post-train Methods: </u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
 <h5 id="iStatisticalParityDifference"><u>i. Statistical Parity Difference: </u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h5>
 <p>The Statistical parity difference metric calculates the difference in the ratio of favorable outcomes between privileged groups and un-privileged groups.</p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="1074" style="max-width: 1074px;" width="1074"><img alt="image-20240927-062922.png" class="confluence-embedded-image image-center cursor-pointer" data-height="51" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240927-062922.png" data-linked-resource-id="1057489351" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="e1d2293d-9c4c-42c9-a9b2-bec1d42b7c6f" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/TTRQSmNvenlWU3NaSVdWQ2xydlhUaUtWQzV1SFowT1lKei1sUElVVXhCST0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXlOZz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURZeU9USXlMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGcyTkNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU9EVTVKbWhsYVdkb2REMDBNUT09/image-20240927-062922.png" data-unresolved-comment-count="0" data-width="1074" loading="lazy" name="image-attachment" src="github-pages/images/image-20240927-062922.png" style="width: 1074px" width="1074"/></span>
+<p>Interpretation</p>
+<li><p>An SPD of 0 indicates perfect statistical parity (no difference in outcomes between groups).</p></li>
+<li><p>A positive SPD means the privileged group has a higher rate of positive outcomes.</p></li>
+<li><p>A negative SPD means the unprivileged group has a higher rate of positive outcomes.</p></li>
+<li><p>The further the SPD is from zero, the greater the disparity.</p></li>
 <h5 id="iiDisparateImpactRatio"><u> ii. Disparate Impact Ratio:</u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h5>
 <p>The Disparate Impact Ratio metric calculates the ratio of favorable outcomes between privileged groups and un-privileged groups.</p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="1041" style="max-width: 1041px;" width="1041"><img alt="image-20240927-063014.png" class="confluence-embedded-image image-center cursor-pointer" data-height="49" data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20240927-063014.png" data-linked-resource-id="1057489358" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="418cde47-9bb2-48cc-a803-e1b4a727309a" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/eGVuMmRFZzJiMkV6Q0g4MDZLeGdUSW1GQjcxRHRfTDhQd0I2NkUtN29Saz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXlOdz09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURZek1ERTBMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGt4TWlaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU9ETXpKbWhsYVdkb2REMHpPUT09/image-20240927-063014.png" data-unresolved-comment-count="0" data-width="1041" loading="lazy" name="image-attachment" src="github-pages/images/image-20240927-063014.png" style="width: 1041px" width="1041"/></span>
 <h5 id="iiiSmoothEmpiricalDifferential"><u>iii. Smooth Empirical Differential:</u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h5>
@@ -116,6 +121,203 @@
 <h3 id="ModelMitigationResearch"><span data-colorid="tmm3r0awx5"><u>Model Mitigation (Research)</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
 <h4 id="Thresholdoptimizer"><u>Threshold optimizer: </u><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
 <p> Threshold optimizer is based on the paper Equality of Opportunity in Supervised Learning built to satisfy the specified fairness criteria exactly and with no remaining disparity. Threshold optimizer requires the sensitive features to be available at deployment time (i.e., for the predict method). For each sensitive feature value, Threshold optimizer creates separate thresholds and applies them to the predictions of the user-provided estimator. To decide on the thresholds, it generates all possible thresholds and selects the best combination in terms of the objective and the fairness constraints. The technique has too much randomness involved, and it's still in research phase. </p>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="8aea240e-af0c-4fe0-91de-6aee7a96d75e" data-macro-name="expand" id="expander-638438141">
+<div class="expand-control" id="expander-control-638438141" onclick="expandContent('expander-content-638438141', 'expander-control-638438141')">
+<span class="expand-control-icon icon"> </span><span class="expand-control-text">Fairness Monitoring (Generic, Decisive)</span>
+<h3 id="Generic Audit"><span data-colorid="drtuvqsoo9"><u>Generic Audit</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Objective</p>
+<p>This functionality monitors AI-generated text outputs over time to detect bias trends. It is useful for auditing generative AI systems that produce unstructured content like summaries or text responses.</p>
+<p>How it works</p>
+<p>1.Upload a file containing AI-generated text.</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-141034.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-141034.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-141034.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-141034.png" style="width: 759px" width="759"/></span>
+<p>2.In the Responsible AI toolkit, we:</p>
+<p>a.Go to the structured data tab:</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144006.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144006.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144006.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144006.png" style="width: 759px" width="759"/></span>
+<p>b.Click on ADD DATA & fill in the details</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144033.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144033.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144033.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144033.png" style="width: 759px" width="759"/></span>
+<p>c.Click on Generate Report</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144206.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144206.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144206.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144206.png" style="width: 759px" width="759"/></span>
+<p>d.Once the analysis is complete, click on download to download the report</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144300.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144300.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144300.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144300.png" style="width: 759px" width="759"/></span>
+<p>3.The system analyzes each entry for bias in the statement and compiles a report with detailed metrics and visualizations</p>
+<p>Data & Fields</p>
+<p>Prompt:</p>
+<li><p>Column containing the text to be analyzed. It is in the Question(Q) Answer(A) format where a question(Q) was asked and an answer(A) to that question was given by the AI system. It is for this statement that we will be analyzing for bias.</p></li>
+<p>How to interpret results</p>
+<p>There are two reports generated.</p>
+<p>The first report is an excel report. It displays:</p>
+<li><p>Privileged groups (which group from the statement has been favored by the AI
+response)</p></li>
+<li><p>Unprivileged groups (which group from the statement has NOT been favored
+by the AI response)</p></li>
+<li><p>Bias types (What is the type of bias present in the statement. E.g. Gender bias,
+Socio-economic bias, Racial bias etc.)</p></li>
+<li><p>Bias level Indicator (The severity of the bias present in the statement. Can be
+Low/Medium/High)</p></li>
+<p>The second report provides charts showing bias distribution across the dataset. This
+report shows charts on:</p>
+<li><p>Bias types (e.g., age, gender, race) that occur most often</p></li>
+<li><p>How frequent are the Privileged or Unprivileged groups occurring</p></li>
+<li><p>Severity of bias based on scores</p></li>
+<li><p>Frequency of different bias types</p></li>
+<li><p>Average Bias Score by Bias Level –</p></li>
+    <p>This chart shows how strong the bias is for each category (High, Medium, Low). The threshold (70%) is the line we use to decide what counts as serious bias. Bias Density (68%) means the average bias score of all flagged items. In this report, all cases are in the Medium range, so there are no very high or very low bias issues, just moderate ones that need attention.</p>
+<p>Result Screenshot</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144918.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144918.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144918.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144918.png" style="width: 759px" width="759"/></span>
+<p></p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-144925.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-144925.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-144925.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-144925.png" style="width: 759px" width="759"/></span>
+
+<h3 id="Decisive Audit"><span data-colorid="drtuvqsoo9"><u>Decisive Audit</u></span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
+<p>Objective</p>
+<p>This functionality checks fairness in decision-making processes, such as loan approvals or hiring decisions. It calculates success rates for different groups to identify potential disparities.</p>
+<p>How it works</p>
+<p>1.We upload structured decision data</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145323.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145323.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145323.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145323.png" style="width: 759px" width="759"/></span>
+<p>2.In the Responsible AI toolkit, we:</p>
+<p>a.Go to the structured data tab:</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145436.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145436.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145436.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145436.png" style="width: 759px" width="759"/></span>
+<p>b.Click on ADD DATA & fill in the details</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145521.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145521.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145521.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145521.png" style="width: 759px" width="759"/></span>
+<p>c.Click on Generate Report</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145536.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145536.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145536.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145536.png" style="width: 759px" width="759"/></span>
+<p>d.Once the analysis is complete, click on download to download the report</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145614.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145614.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145614.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145614.png" style="width: 759px" width="759"/></span>
+<p>3.The system:</p>
+<p>a.Takes the decision data (model predictions and actual outcomes) along with sensitive attributes like race or gender and groups the data by these attributes.</p>
+<p>b.It then calculates the success rate (percentage of favorable outcomes) for each group.</p>
+<p>c.Then it compares these success rates and shows them in charts. If one group has a much higher success rate than others, it may indicate bias.</p>
+<p>Data & Fields</p>
+<p>1.Prediction Column: The column in your dataset that contains the model’s predicted outcomes(e.g., labels_pred).</p>
+<p>2.Favorable Outcome: The value that represents a positive result (e.g., 1 for approved).</p>
+<p>3.Categorical Attributes: The sensitive attributes you want to analyze for fairness (e.g., race, sex).</p>
+<p>4.File: The structured dataset that includes predictions and these attributes.</p>
+<p>How to interpret results</p>
+<p>The report shows the success rate (percentage of favorable outcomes) and population share for each group (e.g., race, sex, or combined race-sex). A higher success rate for one group compared to others may indicate potential bias. Look for large gaps between groups or patterns where smaller populations consistently have lower success rates—these are signals for deeper fairness review. The report displays the following information:</p>
+<li><p>Grouped Success Rate: The total number of individuals (or data points) belonging to a particular group or category of an attribute. It allows comparison of fairness between different groups. If one group has a much higher or lower success rate than others, it indicates possible bias.</p></li>
+<li><p>Success Rate: The percentage of individuals in the entire dataset who received a favorable outcome, regardless of group membership. It gives the overall success rate of the model, i.e.: how often it predicts a favorable outcome.</p></li>
+<li><p>Population: The total number of individuals (or data points) belonging to a particular group or category of an attribute. Population tells us how big each group is in the dataset.</p></li>
+
+<p>Result Screenshot</p>
+<p> </p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="759" style="max-width: 760px;" width="759"><img alt="image-20251014-145926.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="418" 
+data-linked-resource-container-id="1057587656" data-linked-resource-container-version="11" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image-20251014-145926.png" 
+data-linked-resource-id="1057489370" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="1aa89d4e-c20d-4f56-bcfe-e2f359b0b4ef" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/232489771/1057587656/media/aEItWmI4alhsa1I4MThMNk9sMUJaQllIY3REeWZnSXNJSlo1WThnN1F3Yz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJM016WXpNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5NVEExTnpVNE56WTFOZz09LmFXMWhaMlV0TWpBeU5EQTVNamN0TURreE5USXdMbkJ1Wnc9PS5kbVZ5YzJsdmJqMHhKbTF2WkdsbWFXTmhkR2x2YmtSaGRHVTlNVGN5T0RRME1UQTBORGszTUNaallXTm9aVlpsY25OcGIyNDlNU1poY0drOWRqSW1kMmxrZEdnOU56VTVKbWhsYVdkb2REMDBNVGc9/image-20251014-145926.png" 
+data-unresolved-comment-count="0" data-width="759" loading="lazy" name="image-attachment" 
+src="github-pages/images/image-20251014-145926.png" style="width: 759px" width="759"/></span>
+</div>
+
 </div>
 </div>
 </div>

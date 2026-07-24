@@ -1,11 +1,13 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 
 import os
@@ -47,6 +49,7 @@ from botocore.exceptions import ClientError
 import Llama_auth
 import google.generativeai as genai
 from fkscore import fkscore
+from constants.local_constants import (PROFANITY_THRESHOLD, TOXICITY_THRESHOLD, REQUEST_TIMEOUT)
 
 log=CustomLogger()
 request_id_var.set("Startup")
@@ -137,6 +140,7 @@ try:
     with open(inappropriate_emoji_path,  encoding="utf-8",mode="r") as emoji_file:
         data=emoji_file.read()
         emoji_data=json.loads(data)
+
     
 
 
@@ -147,32 +151,62 @@ except Exception as e:
 
 
 
-async def post_request(url, data=None, json=None, headers=None, verify=sslv[verify_ssl]):
-  """
-  Performs a POST request using aiohttp.
+async def post_request(url, data=None, json=None, headers=None):
+    """
+    Performs a POST request using aiohttp.
 
-  Args:
-      url (str): The URL of the endpoint to send the request to.
-      data (dict, optional): A dictionary of data to send as form-encoded data. Defaults to None.
-      json (dict, optional): A dictionary of data to be JSON-encoded and sent in the request body. Defaults to None.
-      headers (dict, optional): A dictionary of headers to include in the request. Defaults to None.
+    Args:
+        url (str): The URL of the endpoint to send the request to.
+        data (dict, optional): A dictionary of data to send as form-encoded data. Defaults to None.
+        json (dict, optional): A dictionary of data to be JSON-encoded and sent in the request body. Defaults to None.
+        headers (dict, optional): A dictionary of headers to include in the request. Defaults to None.
 
-  Returns:
-      aiohttp.ClientResponse: The response object from the server.
-  """
-  if(headers["Authorization"]==None):
-      headers["Authorization"]="None"
+    Returns:
+        bytes: The response body from the server.
+    
+    Note:
+        SSL verification is controlled by the VERIFY_SSL environment variable.
+    """
+    # Handle SSL configuration based on environment variable
+    if sslv[verify_ssl]:
+        # VERIFY_SSL=True: Use secure SSL with full certificate verification
+        session_ssl = True
+        log.debug("Using secure SSL configuration with full certificate verification")
+    else:
+        # VERIFY_SSL=False: Disable SSL verification (development/testing only)
+        ssl_context = ssl.create_default_context()
+        ssl_context.check_hostname = False  # nosec B501 - Only when VERIFY_SSL=False
+        ssl_context.verify_mode = ssl.CERT_NONE  # nosec B501 - Only when VERIFY_SSL=False
+        session_ssl = ssl_context
+        log.warning("SSL certificate verification disabled via VERIFY_SSL=False - should only be used in development/testing")
 
-  ssl_context = ssl.create_default_context()
-  ssl_context.check_hostname = False
-  ssl_context.verify_mode = ssl.CERT_NONE
-  
-  async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=ssl_context)) as session:
-    async with session.post(url, data=data, json=json, headers=headers) as response:
-      
-      response.raise_for_status() # Raise an exception for non-2xx status codes
-      
-      return await response.read()
+    req_headers = {}
+    if headers:
+        req_headers.update(headers)
+
+    # Log headers before processing
+    log.debug(f"Raw headers before processing: {req_headers}")
+
+    # Explicitly check for None values and log if found
+    if 'Authorization' in req_headers:
+        if req_headers['Authorization'] is None:
+            log.warning("Authorization header is explicitly set to None. Removing it.")
+            del req_headers['Authorization']
+        elif not req_headers['Authorization']:  # Also catch empty strings, False, etc.
+            log.warning("Authorization header is empty. Removing it.")
+            del req_headers['Authorization']
+        elif not isinstance(req_headers['Authorization'], str):
+            log.error(f"Authorization header is not a string. It is of type {type(req_headers['Authorization'])}. Removing it.")
+            del req_headers['Authorization']
+    # Log headers after processing
+    log.debug(f"Headers after processing: {req_headers}")
+
+    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(ssl=session_ssl)) as session:
+        async with session.post(url, data=data, json=json, headers=req_headers, ssl=session_ssl) as response:
+
+            response.raise_for_status()
+
+            return await response.read()
 
 dict_timecheck={"requestModeration": 
                     {"Prompt Injection Check": "0s", 
@@ -209,20 +243,12 @@ dictcheck={"Prompt Injection Check": "0s",
            "Custom Theme Check": "0s"}
 
 moderation_timecheck = {}
-# def writejson(dict_timecheck):            
-#     json_object = json.dumps(dict_timecheck)
-#     with open("data/moderationtime.json", "w") as outfile:
-#         outfile.write(json_object)
-
 
 # PATH MODIFIED FOR EXE
 def writejson(dict_timecheck):            
     json_object = json.dumps(dict_timecheck)
 
     if(EXE_CREATION == "True"):
-        # # Get the directory of the .exe file
-        # exe_dir = os.path.dirname(sys.executable)
-        # Create the path for the json file
         json_path = moderation_time_json
     else:
         # Get the directory of the current script
@@ -240,14 +266,11 @@ def writeDecoupledTime(timecheck):
     json_object = json.dumps(timecheck)
 
     if(EXE_CREATION == "True"):
-        # # Get the directory of the .exe file
-        # exe_dir = os.path.dirname(sys.executable)
-        # Create the path for the json file
         json_path = os.path.join(base_path, "data/decoupledModerationtime.json")
     else:
         # Get the directory of the current script
         script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        # Create the path for the json file
+        # Create the path for the json file        
         json_path = os.path.join(script_dir, "data/decoupledModerationtime.json")
 
     with open(json_path, "w") as outfile:
@@ -256,39 +279,58 @@ def writeDecoupledTime(timecheck):
 ###########################################
 
 class PromptInjection:
-    async def classify_text(self, text,headers):
+    async def classify_text(self, text, headers):
         
         try:
-            #response with azure moderation model endpoints
-            if target_env=="azure":
+            if target_env == "azure":
                 log.info("Using azure prompt injection model endpoint")
-                output=await post_request(url=promptInjectionurl,json={"text": text},headers=headers)
-                output=json.loads(output.decode('utf-8'))
-                modeltime = output[2]["time_taken"]
-                if output[0]=='LEGIT':
-                    injectionscore = 1 - output[1]
-                else:
-                    injectionscore = output[1]
-            #response with aicloud moderation model endpoints
-            elif target_env=="aicloud":
-                log.info("Using aicloud prompt injection model endpoint")
-                st=time.time()
-                output=await post_request(url=promptInjectionraiurl,json={"inputs": [text]},headers=headers)
-                et=time.time()
-                output=json.loads(output.decode('utf-8'))
-                modeltime = str(round(st-et,3))+"s"
-                if output[0]['label']=='LEGIT':
-                    injectionscore = 1 - output[0]['score']
-                else:
-                    injectionscore = output[0]['score']
+                
+                response = await post_request(url=promptInjectionurl, json={"text": text}, headers=headers)
+                output_data = json.loads(response.decode('utf-8'))
 
-            return round(injectionscore,3),modeltime
+                assigned_label = output_data[0]
+                label_score = output_data[1]
+                azure_timing_info = output_data[2]
+                
+                modeltime = azure_timing_info["time_taken"]
+                
+                if assigned_label == 'SAFE':
+                    injectionscore = 1 - label_score
+                else:
+                    injectionscore = label_score
+            
+            elif target_env == "aicloud":
+                log.info("Using aicloud prompt injection model endpoint")
+
+                response = await post_request(url=promptInjectionraiurl, json={"inputs": text}, headers=headers)
+                response_data = json.loads(response.decode('utf-8'))
+                
+                assigned_label = response_data[0]
+                label_score = response_data[1]
+                timing_info = response_data[2]
+                
+                modeltime = timing_info["time_taken"]
+
+                if assigned_label == 'SAFE':
+                    injectionscore = 1 - label_score
+                else:
+                    injectionscore = label_score
+
+            return round(injectionscore, 3), modeltime
+            
         except Exception as e:
-            log.error("Error occured in PromptInjection")
-            line_number = traceback.extract_tb(e.__traceback__)[0].lineno
-            log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-                                                   "Error Module":"Failed at PromptInjection model call"})
-            log.error(f"Exception: {line_number,e}")
+            log.error("Error occurred in PromptInjection classify_text", exc_info=True)
+            
+            current_request_id = request_id_var.get()
+            if current_request_id and current_request_id != "Startup":
+                line_number = traceback.extract_tb(e.__traceback__)[-1].lineno
+                log_dict[current_request_id].append({
+                    "Line number": str(line_number),
+                    "Error": str(e),
+                    "Error Module": "Failed at PromptInjection classify_text call"
+                })
+            
+            log.error(f"Exception details: {e}")
 
 class SentimentAnalysis:
     async def classify_text(self, text,headers):
@@ -369,18 +411,12 @@ class promptResponse:
                 url=mpnetsimilarityraiurl
             output =await post_request(url = url,json={"text1": prompt,"text2": output_text},headers=headers)
             similarity=json.loads(output.decode('utf-8'))[0][0][0]
-            
-            # output = requests.post(url = mpnetsimilarityurl,json={"text1": prompt,"text2": output_text},headers=headers,verify=False)
-            # similarity=output.json()[0][0]
-            # log.info(f"Max similarity : {max(similarity)}")
             return similarity
         except Exception as e:
             log.error("Error occured in promptResponse")
-         
-            # line_number = traceback.extract_tb(e.__traceback__)[0].lineno
           
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-                                                   "Error Module":"Failed at PromptInjection model call"})
+                                                   "Error Module":"Failed at promptResponse"})
       
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
@@ -416,7 +452,7 @@ class Jailbreak:
             log.error("Error occured in Jailbreak")
       
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-                                                   "Error Module":"Failed at PromptInjection model call"})
+                                                   "Error Module":"Failed at Jailbreak model call"})
        
             log.error(f"Exception: {e}")
 
@@ -431,7 +467,6 @@ class Customtheme:
                 customTheme_embeddings_decoded = json.loads(customTheme_embeddings.decode('utf-8'))
                 modelcalltime = customTheme_embeddings_decoded[1]['time_taken']
                 text_embedding=customTheme_embeddings_decoded[0]   
-                # customTheme_embeddings=customTheme_embeddings_decoded[0][:-1]
                 return text_embedding,modelcalltime
             #response with aicloud moderation model endpoints
             elif target_env=='aicloud':
@@ -442,16 +477,7 @@ class Customtheme:
                 customTheme_embeddings_decoded = json.loads(customTheme_embeddings.decode('utf-8'))
                 modelcalltime = str(round(et-st,3))+"s"
                 text_embedding=customTheme_embeddings_decoded  
-                # customTheme_embeddings=customTheme_embeddings_decoded[:-1]
                 return text_embedding,modelcalltime
-
-            # similarities = []
-            # for embedding in customTheme_embeddings:
-            #     dot_product = np.dot(text_embedding, embedding)
-            #     norm_product = np.linalg.norm(text_embedding) * np.linalg.norm(embedding)
-            #     similarity = round(dot_product / norm_product,4)
-            #     similarities.append(similarity)
-            # return max(similarities),modelcalltime
         except Exception as e:
             log.error("Error occured in Customtheme")
          
@@ -467,11 +493,11 @@ class CustomthemeRestricted:
             #Using azure jailbreak endpoint for custom theme restricted
             if target_env=='azure':
                 log.info("Using azure jailbreak endpoint for custom theme restricted")
-                text_embedding = requests.post(url = jailbreakurl,json={"text": [text]},headers=headers,verify=sslv[verify_ssl]).json()[0][0]
+                text_embedding = requests.post(url = jailbreakurl,json={"text": [text]},headers=headers,verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT).json()[0][0]
             #Using aicloud jailbreak endpoint for custom theme restricted
             elif target_env=='aicloud':
                 log.info("Using aicloud jailbreak endpoint for custom theme restricted")
-                text_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text]},headers=headers,verify=sslv[verify_ssl]).json()[0]
+                text_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text]},headers=headers,verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT).json()[0]
             if theme:
                 embed_array = orgpolicy_embeddings
             else:
@@ -481,16 +507,14 @@ class CustomthemeRestricted:
                 dot_product = np.dot(text_embedding, embedding)
                 norm_product = np.linalg.norm(text_embedding) * np.linalg.norm(embedding)
                 similarity = round(dot_product / norm_product,4)
-                # similarity = util.pytorch_cos_sim(text_embedding, embedding)
                 similarities.append(similarity)
         
-            # print("1111",max(similarities).tolist()[0][0])
             return max(similarities)
         except Exception as e:
             log.error("Error occured in CustomthemeRestricted")
          
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-                                                   "Error Module":"Failed at PromptInjection model call"})
+                                                   "Error Module":"Failed at CustomthemeRestricted"})
           
             log.error(f"Exception: {e}")
 
@@ -513,28 +537,27 @@ class Refusal:
                 dot_product = np.dot(text_embedding, embedding)
                 norm_product = np.linalg.norm(text_embedding) * np.linalg.norm(embedding)
                 similarity = round(dot_product / norm_product,4)
-                # similarity = util.pytorch_cos_sim(text_embedding, embedding)
-                # similarity = requests.post(url = mpnetsimilarityurl,json={"emb1":text_embedding,"emb2":embedding},verify=False).json()[0][0]
                 similarities.append(similarity)
             return max(similarities)
         except Exception as e:
             log.error("Error occured in Refusal")
           
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-                                                   "Error Module":"Failed at PromptInjection model call"})
+                                                   "Error Module":"Failed at Refusal"})
           
-            # log.error(f"Exception: {e}")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
 class Restrict_topic:
-    async def restrict_topic(self,text,config_details,headers,model="dberta"): 
+    async def restrict_topic(self,text,config_details,headers,model="deberta"): 
         try:
             labels= config_details["ModerationCheckThresholds"]["RestrictedtopicDetails"]["Restrictedtopics"]
             #Using azure moderation model endpoint
             if target_env=='azure':
                 log.info("Using the azure endpoint for restricted topic")
-                output =await post_request(url = topicurl,json={"text": text,"labels":labels,"model":model},headers=headers)
-                output=json.loads(output.decode('utf-8'))
+                model = config_details["ModerationCheckThresholds"]["RestrictedtopicDetails"].get("model", model)
+                payload = {"text": text, "labels": labels, "model": model}
+                output = await post_request(url = topicurl, json=payload, headers=headers)
+                output = json.loads(output.decode('utf-8'))
                 modelcalltime = output['time_taken']
                 d={}
                 for i in range(len(labels)):
@@ -561,124 +584,44 @@ class Restrict_topic:
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
                                                    "Error Module":"Failed at Restrict_topic model call"})
           
-
 class Toxicity:
-    async def toxicity_check(self,text,headers):
+    async def toxicity_check(self, text, headers):
         try:
             if identifyIDP(text):
-                text=text.replace('IDP','idp')
-            # tokens = TreebankWordTokenizer().tokenize
-            tokens = nltk.word_tokenize(text)  
-            # print("len(tokens)",len(tokens))
-            if len(tokens) > 400:
-                chunked_texts = []
-                chunk = []
-                token_count = 0
+                text = text.replace('IDP', 'idp')
 
-                for token in tokens:
-                    if token_count + len(token) <= 400:
-                        chunk.append(token)
-                        token_count += len(token)
-                    else:
-                        chunked_texts.append(' '.join(chunk))
-                        chunk = [token]
-                        token_count = len(token)
-
-                # Add the last chunk if it's not empty
-                
-                if chunk:
-                    chunked_texts.append(' '.join(chunk))
-            
-                toxicity_scoreslist = []
-                toxicity_scores = {
-                'toxicity': 0,
-                'severe_toxicity': 0,
-                'obscene': 0,
-                'threat': 0,
-                'insult': 0,
-                'identity_attack': 0,
-                'sexual_explicit': 0
-                }
-                
-                count = 0
-
-                #Using azure moderation model endpoint 
-                if target_env=='azure':
-                    log.info("Using azure model endpoints for toxicity")
-                    for chunk in chunked_texts:
-                        result =await post_request(url=detoxifyurl,json={"text": chunk},headers=headers)
-                        result=json.loads(result.decode('utf-8'))
-                        modelcalltime = result["time_taken"]
-                        toxicity_scoreslist.append(result)
-
-                    for item in toxicity_scoreslist:
-                        toxic_score_list = item['toxicScore']
-                        for metric in toxic_score_list:
-                            metric_name = metric['metricName']
-                            metric_score = metric['metricScore']
-                            toxicity_scores[metric_name] += metric_score
-                        count += 1   
-
-                #Using aicloud moderation model endpoint
-                elif target_env=='aicloud':
-                    log.info("Using aicloud model endpoints for toxicity")
-                    for chunk in chunked_texts:
-                        st=time.time()
-                        result =await post_request(url=detoxifyraiurl,json={"inputs": [chunk]},headers=headers)
-                        et=time.time()
-                        result=json.loads(result.decode('utf-8'))
-                        modelcalltime =str(round(et-st,3))+"s"
-                        toxicity_scoreslist.append(result[0])
-
-                    for item in toxicity_scoreslist:
-                        for key,value in item.items():
-                            metric_name = key
-                            metric_score = value
-                            toxicity_scores[metric_name] += metric_score
-                        count += 1 
-                toxicity_averages = {key: value / count for key, value in toxicity_scores.items()}
-                
-                l=[]
-                for i in toxicity_averages:
-                    l.append({'metricName': i, 'metricScore': toxicity_averages[i]})
-                output = {"toxicScore":l}
+            #Using azure moderation model endpoint 
+            if target_env=='azure':
+                log.info("Using azure model endpoints for toxicity")
+                output = await post_request(url=detoxifyurl,json={"text": text},headers=headers)
+                output=json.loads(output.decode('utf-8'))
+                modelcalltime = output["time_taken"]
                 toxic_score = output["toxicScore"][0]["metricScore"]
-    
-            else:
-                #Using azure moderation model endpoint 
-                if target_env=='azure':
-                    log.info("Using azure model endpoints for toxicity")
-                    output = await post_request(url=detoxifyurl,json={"text": text},headers=headers,verify=False)
-                    output=json.loads(output.decode('utf-8'))
-                    modelcalltime = output["time_taken"]
-                    toxic_score = output["toxicScore"][0]["metricScore"]
 
-                #Using aicloud moderation model endpoint
-                elif target_env=='aicloud':
-                    log.info("Using aicloud model endpoints for toxicity")
-                    st=time.time()
-                    output=await post_request(url=detoxifyraiurl,json={"inputs":[text]},headers=headers,verify=False)
-                    et=time.time()
-                    output=json.loads(output.decode('utf-8'))
-                    modelcalltime=str(round(et-st,3))+"s"
-                    toxic_score = output[0]["toxicity"]
-                    lst=[]
-                    for key, value in output[0].items():
-                        lst.append({"metricName":key,"metricScore":value})
-                    output={'time_taken':modelcalltime,'toxicScore':lst}
+            #Using aicloud moderation model endpoint
+            elif target_env=='aicloud':
+                log.info("Using aicloud model endpoints for toxicity")
+                st=time.time()
+                output=await post_request(url=detoxifyraiurl,json={"inputs":[text]},headers=headers)
+                et=time.time()
+                output=json.loads(output.decode('utf-8'))
+                modelcalltime=str(round(et-st,3))+"s"
+                toxic_score = output[0]["toxicity"]
+                lst=[]
+                for key, value in output[0].items():
+                    lst.append({"metricName":key,"metricScore":value})
+                output={'time_taken':modelcalltime,'toxicScore':lst}
             return toxic_score,output,modelcalltime
         except Exception as e:
-        
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
                                                    "Error Module":"Failed at Toxicity model call"})
-         
             log.error("Error occured in Toxicity")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
+    
     
 async def toxicity_popup(payload,token):
     try:
         log.info(f"Initialising toxicity popup")
-        # st = time.time()
         toxicity = Toxicity()
         headers = {'Authorization': token}
         payload = AttributeDict(payload)
@@ -714,7 +657,6 @@ async def toxicity_popup(payload,token):
         return {"toxicity":[toxicity_dict]}
     except Exception as e:
             log.error("Error occured in toxicity_popup")
-            # log.error(f"Exception: {e}")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
 def profanity_popup(text,headers):
@@ -727,75 +669,19 @@ def profanity_popup(text,headers):
     else:
         text=text_ogn
     try:
-        max_chunk_size = 512
-        list_ = text.split()
-        length_list = len(list_)
-        if length_list > 300:
-            chunks = [text[i:i + max_chunk_size] for i in range(0, len(text), max_chunk_size)]
-        
-            toxicity_scoreslist = []
-
-            toxicity_scores = {
-            'toxicity': 0,
-            'severe_toxicity': 0,
-            'obscene': 0,
-            'threat': 0,
-            'insult': 0,
-            'identity_attack': 0,
-            'sexual_explicit': 0
-            }
-            
-            count = 0
-            #Using azure endpoints for profanity popup
-            if target_env=='azure':
-                log.info("Using azure endpoints for profanity popup")
-                for chunk in chunks:
-                    result = requests.post(url=detoxifyurl,json={"text": chunk},headers=headers,verify=sslv[verify_ssl]).json()
-                    toxicity_scoreslist.append(result)
-                for item in toxicity_scoreslist:
-                    toxic_score_list = item['toxicScore']
-                    for metric in toxic_score_list:
-                        metric_name = metric['metricName']
-                        metric_score = metric['metricScore']
-                        toxicity_scores[metric_name] += metric_score
-                    count += 1
-            #Using aicloud endpoints for profanity popup
-            elif target_env=='aicloud':
-                log.info("Using aicloud endpoints for profanity popup")
-                for chunk in chunks:
-                    result = requests.post(url=detoxifyraiurl,json={"inputs": [chunk]},headers=headers,verify=sslv[verify_ssl]).json()
-                    toxicity_scoreslist.append(result[0])
-                for item in toxicity_scoreslist:
-                        for key,value in item.items():
-                            metric_name = key
-                            metric_score = value
-                            toxicity_scores[metric_name] += metric_score
-                        count += 1 
-           
-            toxicity_averages = {key: value / count for key, value in toxicity_scores.items()}
-            
-            l=[]
-            for i in toxicity_averages:
-                l.append({'metricName': i, 'metricScore': toxicity_averages[i]})
-            output = {"toxicScore":l}
+        #Using azure endpoints for profanity popup
+        if target_env=='azure':
+            log.info("Using azure endpoints for profanity popup")
+            output = requests.post(url=detoxifyurl,json={"text": text},headers=headers,verify=sslv[verify_ssl]).json()
             toxic_score = output["toxicScore"][0]["metricScore"]
-        else:
-            #Using azure endpoints for profanity popup
-            if target_env=='azure':
-                log.info("Using azure endpoints for profanity popup")
-                output = requests.post(url=detoxifyurl,json={"text": text},headers=headers,verify=sslv[verify_ssl]).json()
-                toxic_score = output["toxicScore"][0]["metricScore"]
-            #Using aicloud endpoints for profanity popup
-            elif target_env=='aicloud':
-                log.info("Using aicloud endpoints for profanity popup")
-                output = requests.post(url=detoxifyraiurl,json={"inputs": [text]},headers=headers,verify=sslv[verify_ssl]).json()
-                toxic_score = output[0]["toxicity"]              
+        #Using aicloud endpoints for profanity popup
+        elif target_env=='aicloud':
+            log.info("Using aicloud endpoints for profanity popup")
+            output = requests.post(url=detoxifyraiurl,json={"inputs": [text]},headers=headers,verify=sslv[verify_ssl]).json()
+            toxic_score = output[0]["toxicity"]
 
-
-        # output = requests.post(url=detoxifyurl,json={"text": text},verify=False).json()
-        # toxic_score = output["toxicScore"][0]["metricScore"]
         List_profanity = []
-        if toxic_score > 0.6:
+        if toxic_score > TOXICITY_THRESHOLD:
             res = profanity.censor(text)
             if emoji_flag:
                 res[1]=wordToEmoji(text=text_ogn,current_emoji_dict=current_emoji_dict,result=res[1])
@@ -805,9 +691,14 @@ def profanity_popup(text,headers):
         return {"profanity":List_profanity}
     except Exception as e:
             log.error("Error occured in profanity_popup")
-            # log.error(f"Exception: {e}")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-            
+    finally:
+        # cleanup
+        del text, text_ogn, emoji_dict, emoji_flag, headers
+        if 'output' in locals(): del output
+        if 'res' in locals(): del res
+        if 'List_profanity' in locals(): del List_profanity
+
 def privacy_popup(payload,headers=None):
     try:
         entityList= []
@@ -846,16 +737,13 @@ def privacy_popup(payload,headers=None):
                                         value = analyze_result["PIIresult"][i]["responseText"]) 
                 entityList.append(entity_obj)
 
-            if analyze_result["PIIresult"][i]["type"] in entitiesconfigured and analyze_result["PIIresult"][i]["score"]>0.4 and analyze_result["PIIresult"][i]["type"] not in entitiesconfiguredToBlock:
+            if analyze_result["PIIresult"][i]["type"] in entitiesconfigured and analyze_result["PIIresult"][i]["score"]> 0.4 and analyze_result["PIIresult"][i]["type"] not in entitiesconfiguredToBlock:
                 entity_obj = PiiEntitiesforPopup(EntityType = analyze_result["PIIresult"][i]["type"] ,
                                         beginOffset = analyze_result["PIIresult"][i]["beginOffset"],
                                         endOffset = analyze_result["PIIresult"][i]["endOffset"],
                                         score= analyze_result["PIIresult"][i]["score"],
                                         value = analyze_result["PIIresult"][i]["responseText"]) 
                 entityList.append(entity_obj)
-
-
-
 
         popup_obj = PrivacyPopup(entitiesToDetect = entitiesconfigured,
                     entitiesToBlock = entitiesconfiguredToBlock,
@@ -874,91 +762,21 @@ class Profanity:
 
     async def recognise(self,text,headers):
         try:
-            tokens = nltk.word_tokenize(text)    
-            if len(tokens) > 400:
-                chunked_texts = []
-                chunk = []
-                token_count = 0
-
-                for token in tokens:
-                    if token_count + len(token) <= 400:
-                        chunk.append(token)
-                        token_count += len(token)
-                    else:
-                        chunked_texts.append(' '.join(chunk))
-                        chunk = [token]
-                        token_count = len(token)
-
-                # Add the last chunk if it's not empty
-                if chunk:
-                    chunked_texts.append(' '.join(chunk))
-            
-                toxicity_scoreslist = []
-                toxicity_scores = {
-                'toxicity': 0,
-                'severe_toxicity': 0,
-                'obscene': 0,
-                'threat': 0,
-                'insult': 0,
-                'identity_attack': 0,
-                'sexual_explicit': 0
-                }
-                
-                count = 0
-
-                #Using azure moderation model endpoint 
-                if target_env=='azure':
-                    log.info("Using azure model endpoints for profanity")
-                    for chunk in chunked_texts:
-                        result =await post_request(url=detoxifyurl,json={"text": chunk},headers=headers)
-                        result=json.loads(result.decode('utf-8'))
-                    toxicity_scoreslist.append(result)
-
-                    for item in toxicity_scoreslist:
-                        toxic_score_list = item['toxicScore']
-                        for metric in toxic_score_list:
-                            metric_name = metric['metricName']
-                            metric_score = metric['metricScore']
-                            toxicity_scores[metric_name] += metric_score
-                        count += 1   
-
-                #Using aicloud moderation model endpoint
-                elif target_env=='aicloud':
-                    log.info("Using aicloud model endpoints for profanity")
-                    for chunk in chunked_texts:
-                        result =await post_request(url=detoxifyraiurl,json={"inputs": [chunk]},headers=headers)
-                        result=json.loads(result.decode('utf-8'))
-                    toxicity_scoreslist.append(result[0])
-
-                    for item in toxicity_scoreslist:
-                        for key,value in item.items():
-                            metric_name = key
-                            metric_score = value
-                            toxicity_scores[metric_name] += metric_score
-                        count += 1 
-                
-                toxicity_averages = {key: value / count for key, value in toxicity_scores.items()}
-                
-                l=[]
-                for i in toxicity_averages:
-                    l.append({'metricName': i, 'metricScore': toxicity_averages[i]})
-                output = {"toxicScore":l}
+            #Using azure moderation model endpoint 
+            if target_env=='azure':
+                log.info("Using azure model endpoints for toxicity")
+                output = await post_request(url=detoxifyurl,json={"text": text},headers=headers)
+                output=json.loads(output.decode('utf-8'))
                 toxic_score = output["toxicScore"][0]["metricScore"]
-            else:
-                #Using azure moderation model endpoint 
-                if target_env=='azure':
-                    log.info("Using azure model endpoints for toxicity")
-                    output = await post_request(url=detoxifyurl,json={"text": text},headers=headers,verify=False)
-                    output=json.loads(output.decode('utf-8'))
-                    toxic_score = output["toxicScore"][0]["metricScore"]
 
-                #Using aicloud moderation model endpoint
-                elif target_env=='aicloud':
-                    log.info("Using aicloud model endpoints for toxicity")
-                    output=await post_request(url=detoxifyraiurl,json={"inputs":[text]},headers=headers,verify=False)
-                    output=json.loads(output.decode('utf-8'))
-                    toxic_score = output[0]["toxicity"]
-            if toxic_score > 0.6:
+            #Using aicloud moderation model endpoint
+            elif target_env=='aicloud':
+                log.info("Using aicloud model endpoints for toxicity")
+                output=await post_request(url=detoxifyraiurl,json={"inputs":[text]},headers=headers)
+                output=json.loads(output.decode('utf-8'))
+                toxic_score = output[0]["toxicity"]
+                
+            if toxic_score > PROFANITY_THRESHOLD:
                 res = profanity.censor(text)
                 return res[1]
             else:
@@ -1431,92 +1249,15 @@ class validation_input:
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
                                                    "Error Module":"Failed at validate_prompt"})
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-            
-            
-    # async def validate_jailbreak(self,headers):
-    #     try:
-    #         log.info(f"Initialising jailbreak validation")
-    #         st = time.time()
-    #         jailbreak = Jailbreak()
-    #         result, modelcalltime = await jailbreak.identify_jailbreak(self.text, headers)
-    #         self.modeltime['Jailbreak Check'] = modelcalltime
-    #         self.dict_jailbreak['key'] = 'Jailbreak Check'
-    #         if result <= self.Jailbreak_threshold:
-    #             obj_jailbreak = jailbreakCheck(jailbreakSimilarityScore = str(round(float(result),2)),
-    #                                         jailbreakThreshold = str(self.Jailbreak_threshold),
-    #                                         result = 'PASSED')
-    #             self.dict_jailbreak['status'] = True
-    #         else:
-    #             obj_jailbreak = jailbreakCheck(jailbreakSimilarityScore =  str(round(float(result),2)),
-    #                                         jailbreakThreshold = str(self.Jailbreak_threshold),
-    #                                         result = 'FAILED')
-    #             self.dict_jailbreak['status'] = False
-
-    #         self.dict_jailbreak['object'] = obj_jailbreak
-    #         et = time.time()
-    #         rt = et - st
-    #         dictcheck["Jailbreak Check"]=str(round(rt,3))+"s"
-    #         log.debug(f"jailbreak run time: {rt}")
-    #         self.timecheck["Jailbreak Check"]=str(round(rt,3))+"s"
-                
-    #         return self.dict_jailbreak
-    #     except Exception as e:
-    #         log.error("Failed at validate jailbreak")
-          
-    #         log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-    #                                                "Error Module":"Failed at validate jailbreak"})
-
-    #         # log.error(f"Exception: {e}")
-    #         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-
-    # async def validate_customtheme(self,theme,headers):
-    #     try:
-    #         log.info(f"Initialising Customtheme validation")
-    #         st = time.time()
-    #         customtheme = Customtheme()
-    #         result, modelcalltime = await customtheme.identify_jailbreak(self.text,headers,theme.ThemeTexts)
-    #         self.modeltime["Custom Theme Check"]=modelcalltime
-    #         self.dict_customtheme['key'] = 'Custom Theme Check'
-    #         if result <= theme.Themethresold:
-    #             obj_jailbreak = customThemeCheck(customSimilarityScore = str(round(float(result),2)),
-    #                                         themeThreshold = str(theme.Themethresold),
-    #                                         result = 'PASSED')
-    #             self.dict_customtheme['status'] = True 
-    #         else:
-    #             obj_jailbreak = customThemeCheck(customSimilarityScore =  str(round(float(result),2)),
-    #                                         themeThreshold = str(theme.Themethresold),
-    #                                         result = 'FAILED')
-    #             self.dict_customtheme['status'] = False
-            
-    #         self.dict_customtheme['object'] = obj_jailbreak
-    #         et = time.time()
-    #         rt = et - st
-    #         dictcheck["Custom Theme Check"]=str(round(rt,3))+"s"
-    #         log.debug(f"CustomTheme run time: {rt}")
-    #         self.timecheck["Custom Theme Check"]=str(round(rt,3))+"s"
-    #         return self.dict_customtheme
-        
-    #     except Exception as e:
-    #         log.error("Failed at validate customtheme")
-
-    #         log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-    #                                                "Error Module":"Failed at validate customtheme"})
-    #         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-
 
     def jailbreak_val(self,text_embedding,modelcalltime,st,checkRes):
-                    #print("---------------------------InsideJailbreak---------------------------")
                     similarities = []
-                    # st=time.time()
                     for embedding in jailbreak_embeddings:
-                        # similarity = requests.post(url = mpnetsimilarityurl,json={"emb1":text_embedding,"emb2":embedding},verify=False).json()[0][0]
-                        # similarity = util.pytorch_cos_sim(text_embedding, embedding)
                         dot_product = np.dot(text_embedding, embedding)
                         norm_product = np.linalg.norm(text_embedding) * np.linalg.norm(embedding)
                         similarity = round(dot_product / norm_product,4)
                         similarities.append(similarity)
                     result = max(similarities)
-                    # self.modelcall["Jailbreak Check"]=mt
                     self.modeltime['Jailbreak Check'] = modelcalltime
                     self.dict_jailbreak['key'] = 'Jailbreak Check'
                     if result <= self.Jailbreak_threshold:
@@ -1539,17 +1280,13 @@ class validation_input:
                     checkRes.append(self.dict_jailbreak)
     
     def refusal_val(self,text_embedding,modelcalltime,st,checkRes):
-                    #print("---------------------------InsideRefusal---------------------------")
                     similarities = []
                     for embedding in refusal_embeddings:
                         dot_product = np.dot(text_embedding, embedding)
                         norm_product = np.linalg.norm(text_embedding) * np.linalg.norm(embedding)
                         similarity = round(dot_product / norm_product,4)
-                        # similarity = util.pytorch_cos_sim(text_embedding, embedding)
-                        # similarity = requests.post(url = mpnetsimilarityurl,json={"emb1":text_embedding,"emb2":embedding},verify=False).json()[0][0]
                         similarities.append(similarity)
                     result = max(similarities)
-                    # self.modelcall["Refusal Check"]=mt
                     self.dict_refusal['key'] = 'Refusal Check'
                     if result <= self.RefusalThreshold:
                         obj_refusal= refusalCheck(refusalSimilarityScore = str(round(float(result),2)),
@@ -1571,12 +1308,9 @@ class validation_input:
                     checkRes.append(self.dict_refusal)
         
     def custome_val(self,theme,customTheme_embeddings,text_embedding,modelcalltime,st,checkRes):
-                    #print("---------------------------InsideCustomizedTheme---------------------------")
                     similarities = []
 
                     for embedding in customTheme_embeddings:
-                        # similarity = requests.post(url = mpnetsimilarityurl,json={"emb1":text_embedding,"emb2":embedding},verify=False).json()[0][0]
-                        # similarity = util.pytorch_cos_sim(text_embedding, embedding)
                         dot_product = np.dot(text_embedding, embedding)
                         norm_product = np.linalg.norm(text_embedding) * np.linalg.norm(embedding)
                         similarity = round(dot_product / norm_product,4)
@@ -1585,7 +1319,6 @@ class validation_input:
                     if(len(similarities)!=0):
                         result=max(similarities)
                     self.modeltime["Custom Theme Check"]=modelcalltime
-                    # self.modelcall["Custom Theme Check"]=mt
                     self.dict_customtheme['key'] = 'Custom Theme Check'
                     if result <= theme.Themethresold:
                         obj_jailbreak = customThemeCheck(customSimilarityScore = str(round(float(result),2)),
@@ -1611,38 +1344,28 @@ class validation_input:
             log.info(f"Initialising Customtheme validation")
             st = time.time()
             customtheme = Customtheme()
-            #print("Theam----",theme)
             results, modelcalltime= await customtheme.identify_jailbreak(self.text,headers,theme.ThemeTexts)
             checkRes=[]
             text_embedding=results[-1]
             threads=[]
             if("JailBreak" in self.Checks_selected):
-                    #print("---------------------------Jailbreak---------------------------")
                     thread=threading.Thread(target=self.jailbreak_val,args=(text_embedding,modelcalltime,st,checkRes))
                     thread.start()
                     threads.append(thread)
-                    # threads.append(threading.Thread(target=self.jailbreak_val,args=(text_embedding,modelcalltime,mt,st,checkRes)))
             if("Refusal" in self.Checks_selected):
-                    #print("---------------------------Refusal---------------------------")
                     thread=threading.Thread(target=self.refusal_val,args=(text_embedding,modelcalltime,st,checkRes))
                     thread.start()
                     threads.append(thread)
-                    # threads.append(threading.Thread(target=self.refusal_val,args=(text_embedding,modelcalltime,mt,st,checkRes)))
             if("CustomizedTheme" in self.Checks_selected):
-                    #print("---------------------------CustomizedTheme---------------------------")
                 
                     customTheme_embeddings=results[:-1]
                     thread=threading.Thread(target=self.custome_val,args=(theme,customTheme_embeddings,text_embedding,modelcalltime,st,checkRes))
                     thread.start()
                     threads.append(thread)
-                    # threads.append(threading.Thread(target=self.custome_val,args=(theme,customTheme_embeddings,text_embedding,modelcalltime,mt,st,checkRes)))
-                    # #print("customTheme_embeddings",len(customTheme_embeddings))
-
-        
-
             for thread in threads:
                 thread.join()       
                     # return [self.dict_customtheme]
+            del customtheme, results, text_embedding, threads
             return checkRes
         except Exception as e:
             log.error("Failed at validate customtheme")
@@ -1650,50 +1373,6 @@ class validation_input:
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
                                                    "Error Module":"Failed at validate customtheme"})
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-
-        
-    # async def validate_profanity(self):
-    #     try:
-    #         log.info(f"Initialising profanity validation")
-    #         st = time.time()
-    #         profanity = Profanity()
-    #         #check emoji
-    #         if self.emoji_flag:
-    #             result = await profanity.recognise(self.converted_text)
-    #             #check and convert profane word back to emoji
-    #             result=wordToEmoji(self.text,self.current_emoji_dict,result)
-                
-    #         else:
-    #             result = await profanity.recognise(self.text)
-    #         self.dict_profanity['key'] = 'Profanity Check'
-    #         if len(result) < self.Profanity_threshold:
-    #             obj_profanity = profanityCheck(profaneWordsIdentified = result,
-    #                                         profaneWordsthreshold = str(self.Profanity_threshold),
-    #                                         result = 'PASSED')
-    #             self.dict_profanity['status'] = True
-            
-    #         else:
-    #             obj_profanity = profanityCheck(profaneWordsIdentified = result,
-    #                                         profaneWordsthreshold = str(self.Profanity_threshold),
-    #                                         result = 'FAILED')
-    #             self.dict_profanity['status'] = False
-
-    #         self.dict_profanity['object'] = obj_profanity
-    #         et = time.time()
-    #         rt = et - st
-    #         dictcheck["Profanity Check"]=str(round(rt,3))+"s"
-    #         log.debug(f"profanity run time: {rt}")
-    #         self.timecheck["Profanity Check"]=str(round(rt,3))+"s"
-
-    #         return self.dict_profanity
-    #     except Exception as e:
-    #         log.error("Failed at validate profanity")
-           
-    #         log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-    #                                                "Error Module":"Failed at validate profanity"})
-           
-    #         # log.error(f"Exception: {e}")
-    #         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
     # Integrating Privacy into Moderation
     async def validate_pii(self,headers):
@@ -1745,7 +1424,7 @@ class validation_input:
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
 
-    async def validate_restrict_topic(self,config_details,headers,model="dberta"):
+    async def validate_restrict_topic(self,config_details,headers,model="deberta"):
         try:
             log.info(f"Initialising Restricted Topic validation")
             st = time.time()
@@ -1784,111 +1463,37 @@ class validation_input:
          
             log.error(f"Exception: {e,str(traceback.extract_tb(e.__traceback__)[0].lineno)}")
             
-    
-    # async def validate_toxicity(self,headers):
-    #     try:
-    #         log.info(f"Initialising toxicity validation")
-    #         st = time.time()
-    #         toxicity = Toxicity()
-    #         #emoji check
-    #         if self.emoji_flag:
-    #             result,toxic_dict, modelcalltime =await toxicity.toxicity_check(self.converted_text,headers)
-    #         else:
-    #             result,toxic_dict, modelcalltime =await toxicity.toxicity_check(self.text,headers)
-            
-    #         self.dict_toxicity['key'] = 'Toxicity Check'
-    #         self.modeltime['Toxicity Check']=modelcalltime
-    #         list_toxic = []
-    #         list_toxic.append(toxic_dict)
-    #         rounded_toxic = []
-    #         for item in list_toxic:
-    #             toxic_score = item['toxicScore']
-    #             rounded_score = [{'metricName': score['metricName'], 'metricScore': round(score['metricScore'], 3)} for score in toxic_score]
-    #             rounded_item = {'toxicScore': rounded_score}
-    #             rounded_toxic.append(rounded_item)
-                
-    #         if result < self.ToxicityThreshold:
-    #             obj_toxicity = toxicityCheck(toxicityScore =rounded_toxic,
-    #                                         toxicitythreshold = str(self.ToxicityThreshold),
-    #                                         result = 'PASSED')
-    #             self.dict_toxicity['status'] = True
-                
-    #         else:
-    #             obj_toxicity = toxicityCheck(toxicityScore = list_toxic,
-    #                                         toxicitythreshold = str(self.ToxicityThreshold),
-    #                                         result = 'FAILED')
-    #             self.dict_toxicity['status'] = False
-            
-    #         self.dict_toxicity['object'] = obj_toxicity
-    #         et = time.time()
-    #         rt = et - st
-    #         dictcheck["Toxicity Check"]=str(round(rt,3))+"s"
-    #         log.info(f"toxicity run time: {rt}")
-    #         self.timecheck["Toxicity Check"]=str(round(rt,3))+"s"
-    #         return self.dict_toxicity
-    #     except Exception as e:
-    #         log.error("Failed at validate toxicity")
-           
-    #         log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-    #                                                "Error Module":"Failed at validate toxicity"})
-    #         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-    
-
-    # async def validate_profanity(self,header):
-    #     try:
-    #         log.info(f"Initialising profanity validation")
-    #         st = time.time()
-    #         profanity = Profanity()
-    #         #check emoji
-    #         if self.emoji_flag:
-    #             result = await profanity.recognise(self.converted_text,header)
-    #             #check and convert profane word back to emoji
-    #             result=wordToEmoji(self.text,self.current_emoji_dict,result)
-                        
-    #         else:
-    #             result = await profanity.recognise(self.text,header)
-    #         self.dict_profanity['key'] = 'Profanity Check'
-    #         if len(result) < self.Profanity_threshold:
-    #             obj_profanity = profanityCheck(profaneWordsIdentified = result,
-    #                                         profaneWordsthreshold = str(self.Profanity_threshold),
-    #                                         result = 'PASSED')
-    #             self.dict_profanity['status'] = True
-                
-            
-    #         else:
-    #             obj_profanity = profanityCheck(profaneWordsIdentified = result,
-    #                                         profaneWordsthreshold = str(self.Profanity_threshold),
-    #                                         result = 'FAILED')
-    #             self.dict_profanity['status'] = False
-
-    #         self.dict_profanity['object'] = obj_profanity
-    #         et = time.time()
-    #         rt = et - st
-    #         dictcheck["Profanity Check"]=str(round(rt,3))+"s"
-    #         log.debug(f"profanity run time: {rt}")
-    #         self.timecheck["Profanity Check"]=str(round(rt,3))+"s"
-    #         return self.dict_profanity
-        
-    #     except Exception as e:
-    #         log.error("Failed at validate profanity")
-    #         log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-    #                                                "Error Module":"Failed at validate profanity"})
-    #         # log.error(f"Exception: {e}")
-    #         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-
     def toxicity_val(self,result,rounded_toxic,list_toxic,st,checkRes):
                 #print("---------------------ToxicityVal----------------------")
-                if result < self.ToxicityThreshold:
-                    obj_toxicity = toxicityCheck(toxicityScore =rounded_toxic,
-                                                toxicitythreshold = str(self.ToxicityThreshold),
-                                                result = 'PASSED')
-                    self.dict_toxicity['status'] = True
-
-                else:
+                # First condition: Check if toxicity score exceeds threshold
+                if result >= self.ToxicityThreshold:
                     obj_toxicity = toxicityCheck(toxicityScore = list_toxic,
                                                 toxicitythreshold = str(self.ToxicityThreshold),
                                                 result = 'FAILED')
                     self.dict_toxicity['status'] = False
+                else:
+                    # Second condition: Check if other label scores are above 0.7 when toxicity is below threshold
+                    other_labels_high = False
+                    if list_toxic and len(list_toxic) > 0:
+                        toxic_scores = list_toxic[0].get('toxicScore', [])
+                        for metric in toxic_scores:
+                            metric_name = metric.get('metricName', '')
+                            metric_score = metric.get('metricScore', 0)
+                            # Check other labels (excluding 'toxicity')
+                            if metric_name != 'toxicity' and metric_score > 0.7:
+                                other_labels_high = True
+                                break
+                    
+                    if other_labels_high:
+                        obj_toxicity = toxicityCheck(toxicityScore = list_toxic,
+                                                    toxicitythreshold = str(self.ToxicityThreshold),
+                                                    result = 'FAILED')
+                        self.dict_toxicity['status'] = False
+                    else:
+                        obj_toxicity = toxicityCheck(toxicityScore =rounded_toxic,
+                                                    toxicitythreshold = str(self.ToxicityThreshold),
+                                                    result = 'PASSED')
+                        self.dict_toxicity['status'] = True
 
                 self.dict_toxicity['object'] = obj_toxicity
             
@@ -1898,16 +1503,13 @@ class validation_input:
                 log.info(f"toxicity run time: {rt}")
                 self.timecheck["Toxicity Check"]=str(round(rt,3))+"s"
                 checkRes.append(self.dict_toxicity)
-
+                
     def profanity_val(self,result,st,checkRes):
-                    #print("---------------------ProfanityVal----------------------")
                     profRes=[]
-                    if result > 0.6:
+                    if result > PROFANITY_THRESHOLD:
                         res = profanity.censor(self.text)
-                        # #print("==",res)
                         
                         profRes=res[1]
-                    # self.modelcall["Profanity Check"]=mt
                     self.dict_profanity['key'] = 'Profanity Check'
                     if len(profRes) < self.Profanity_threshold:
                         obj_profanity = profanityCheck(profaneWordsIdentified = profRes,
@@ -1940,7 +1542,6 @@ class validation_input:
             else:
                 result,toxic_dict, modelcalltime =await toxicity.toxicity_check(self.text,headers)
             
-            # self.modelcall["Toxicity Check"]=mt
             self.dict_toxicity['key'] = 'Toxicity Check'
             self.modeltime['Toxicity Check']=modelcalltime
             list_toxic = []
@@ -1954,20 +1555,16 @@ class validation_input:
             checkRes=[]
             threads=[]
             if("Toxicity" in self.Checks_selected):
-                #print("---------------------Tocixity----------------------")
                 thread=threading.Thread(target=self.toxicity_val,args=(result,rounded_toxic,list_toxic,st,checkRes))
                 thread.start()
                 threads.append(thread)
             if("Profanity" in self.Checks_selected):
-                    #print("---------------------Profanity----------------------")
                     thread=threading.Thread(target=self.profanity_val,args=(result,st,checkRes))
                     thread.start()
                     threads.append(thread)
-            # for thread in threads:
-            #     thread.start()
             for thread in threads:
                 thread.join()
-                    
+            del toxicity, result, toxic_dict, rounded_toxic, list_toxic, threads, thread       
             return checkRes
         except Exception as e:
             log.error("Failed at validate toxicity")
@@ -1975,41 +1572,6 @@ class validation_input:
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
                                                    "Error Module":"Failed at validate toxicity"})
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-    
-
-    
-    # async def validate_refusal(self,headers):
-    #     try:
-    #         log.info(f"Initialising Refusal validation")
-    #         st = time.time()
-    #         refusal = Refusal()
-    #         result = await refusal.refusal_check(self.text,headers)
-    #         self.dict_refusal['key'] = 'Refusal Check'
-    #         if result <= self.RefusalThreshold:
-    #             obj_refusal= refusalCheck(refusalSimilarityScore = str(round(float(result),2)),
-    #                                         RefusalThreshold = str(self.RefusalThreshold),
-    #                                         result = 'PASSED')
-    #             self.dict_refusal['status'] = True
-    #         else:
-    #             obj_refusal = refusalCheck(refusalSimilarityScore =  str(round(float(result),2)),
-    #                                         RefusalThreshold = str(self.RefusalThreshold),
-    #                                         result = 'FAILED')
-    #             self.dict_refusal['status'] = False
-
-    #         self.dict_refusal['object'] = obj_refusal
-    #         et = time.time()
-    #         rt = et - st
-    #         dictcheck["Refusal Check"]=str(round(rt,3))+"s"
-    #         log.debug(f"refusal run time: {rt}")
-    #         self.timecheck["Refusal Check"]=str(round(rt,3))+"s"
-    #         return self.dict_refusal
-        
-    #     except Exception as e:
-    #         log.error("Failed at validate refusal")
-    #         log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-    #                                                "Error Module":"Failed at validate refusal"})
-    #         # log.error(f"Exception: {e}")
-    #         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
     async def validate_text_relevance(self,output_text,headers):
         try:
@@ -2025,6 +1587,7 @@ class validation_input:
             log.debug(f"Text relevance run time: {rt}")
             self.timecheck["Text Relevance Check"]=str(round(rt,3))+"s"
 
+            del prSimilarity, prSimilarityscore, rt, st, output_text
             return [self.dict_relevance]
         except Exception as e:
             log.error("Failed at validate_text_relevance")
@@ -2061,13 +1624,7 @@ class validation_input:
             tasks=[]
             checkdict={
                 'PromptInjection':"self.validate_prompt(headers)",
-                # 'JailBreak':"self.validate_jailbreak(headers)",
-                # 'Toxicity':"self.validate_toxicity(headers)",
                 'Piidetct':"self.validate_pii(headers)",
-                # 'Profanity':"self.validate_profanity(headers)",
-                # "CustomizedTheme":"self.validate_customtheme(theme,headers)",
-                # 'RestrictTopic':"self.validate_restrict_topic(self.config_details,headers)",
-                # 'Refusal' : "self.validate_refusal(headers)",
                 'TextRelevance' : "self.validate_text_relevance(output_text,headers)",
                 'TextQuality' : "self.validate_text_quality()",
                 'randomNoiseCheck':'self.validate_smoothllm(headers)',
@@ -2091,10 +1648,9 @@ class validation_input:
                             tasks.append(self.validate_customtheme(theme,headers))
                     elif("RestrictTopic" in i):
                         if("RestrictTopic-lite" in i):
-                            tasks.append(self.validate_restrict_topic(self.config_details,headers,model="nliMini"))
+                            tasks.append(self.validate_restrict_topic(self.config_details,headers,model="fine-tuned distilbert"))
                         else:    
-                            tasks.append(self.validate_restrict_topic(self.config_details,headers,model="dberta"))
-                            
+                            tasks.append(self.validate_restrict_topic(self.config_details,headers,model="deberta"))
                     else:
                         tasks.append(eval(checkdict[i]))
             for i in llm_BasedChecks:
@@ -2107,15 +1663,14 @@ class validation_input:
             for i in results:
                 list_tasks.append(i['status'])
             final_result = all(list_tasks)
+            del tasks, checkdict, profanFlag, jailFlag
             return final_result,results
         except Exception as e:
-          #  print("=======err",e)
             log.error(f"Exception: {e}")
             log.error("Failed at Validate Main ------ ", str(traceback.extract_tb(e.__traceback__)[0].lineno))
             
             log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
                                                    "Error Module":"Failed at Validate Main"})
-            # log.error(f"Exception: {e}")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
 
@@ -2161,6 +1716,7 @@ def callModerationModels(text,payload,headers,deployment_name=None,output_text=N
     objSummary = summary(status = status,reason = list_checks)
     log.debug(f'objSummary:{objSummary}')
     check_obs['summary'] = objSummary
+    del validate_input, dict_all, passed_text
     return check_obs
 
 
@@ -2209,7 +1765,6 @@ class moderation:
             
             obj_ModerationResults = ModerationResults(lotNumber=lotNumber,created=str(created) ,moderationResults = obj_requestmoderation)
         
-            # log.info("res="+str(obj_ModerationResults)+str(obj['time check'])+str(obj['model time']))
             return obj_ModerationResults,obj['time check'],obj['model time']
         except Exception as e:
             print(e)
@@ -2231,8 +1786,6 @@ class coupledModeration:
         bergeronResponse = bergeronCheck(text="",result = 'UNMODERATED')
         objprofanity_out = profanityCheck(profaneWordsIdentified=[],profaneWordsthreshold = '0',result = 'UNMODERATED')
         objprivacy_out = privacyCheck(entitiesRecognised=[],entitiesConfiguredToBlock = [],result = 'UNMODERATED')
-        # objtoxicity_out = toxicityCheck(toxicityScore= [],toxicitythreshold = '',result = 'UNMODERATED')
-        # objtopic_out = restrictedtopic(topicScores=[],topicThreshold="0",result = "UNMODERATED")
         objtoxicity_out = toxicityCheckTypes(toxicityTypesRecognised = [],
 									toxicityTypesConfiguredToBlock=[t.value for t in TOXICITYTYPES][0:-1],
 									toxicityScore= [],
@@ -2328,8 +1881,8 @@ class coupledModeration:
                                                     jailbreakCheck = obj['Jailbreak Check'],
                                                     privacyCheck = obj['Privacy Check'],
                                                     profanityCheck = obj['Profanity Check'],
-                                                    toxicityCheck = toxicityCheck,#inputModResult.moderationResults.toxicityCheck,
-                                                    restrictedtopic = restrictedTopicCheck,#inputModResult.moderationResults.restrictedtopic,
+                                                    toxicityCheck = toxicityCheck,
+                                                    restrictedtopic = restrictedTopicCheck,
                                                     textQuality = obj['Text Quality Check'],
                                                     customThemeCheck = obj['Custom Theme Check'],
                                                     refusalCheck = obj['Refusal Check'],
@@ -2445,8 +1998,8 @@ class coupledModeration:
                                                         hallucinationScore =hallucinationScore,
                                                         privacyCheck = obj_out['Privacy Check'],
                                                         profanityCheck = obj_out['Profanity Check'],
-                                                        toxicityCheck = toxicityCheck_out,#outModResult.moderationResults.toxicityCheck,
-                                                        restrictedtopic = restrictedTopicCheck_out,#outModResult.moderationResults.restrictedtopic,
+                                                        toxicityCheck = toxicityCheck_out,
+                                                        restrictedtopic = restrictedTopicCheck_out,
                                                         textQuality = obj_out['Text Quality Check'],
                                                         textRelevanceCheck = obj_out['Text Relevance Check'],
                                                         refusalCheck = obj_out['Refusal Check'],
@@ -2522,7 +2075,7 @@ class LlamaDeepSeekcompletion:
             log.info("Inside COT Llama2 or DeepSeek")
             # messages = f"""[INST]Think step by step. Explain each intermediate step. Only when you are done with all your steps,
             #             Provide the answer based on your intermediate steps. User Query : {text}[/INST]
-            #            """
+            #            """ 
             messages = f"""[INST]<<SYS>>You should be a responsible Assistant and should not generate harmful or 
             misleading content! Please answer the following user query in a responsible way. 
             Let's think the answer step by step and explain step by step how you got the answer. 
@@ -2573,7 +2126,7 @@ class LlamaDeepSeekcompletion:
                     "do_sample": True
                 }
             }
-            response = requests.post(url, json=input, verify=sslv[verify_ssl])
+            response = requests.post(url, json=input, verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT)
             response.raise_for_status()
             generated_text = response.json()[0]["generated_text"]
             output_text = generated_text.split("[/INST]")[1]
@@ -2593,7 +2146,7 @@ class LlamaDeepSeekcompletion:
                     "max_tokens": 128
             }
             headers={"Authorization": "Bearer "+aicloud_access_token,"Content-Type": contentType,"Accept": "*"}
-            response = requests.post(url,json=input,headers=headers,verify=sslv[verify_ssl])
+            response = requests.post(url,json=input,headers=headers,verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT)
             response.raise_for_status()
             response = json.loads(response.text)['choices'][0]['text']
             output_text = response.replace("\n</think>\n\n","") if "\n</think>\n\n" in response else response
@@ -2609,7 +2162,7 @@ class Llamacompletionazure:
             input = {
                 "input": text
             }
-            response = requests.post(self.url, json=input, verify=sslv[verify_ssl])
+            response = requests.post(self.url, json=input, verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT)
             generated_text = response.json()["output"]
             return generated_text, 0, "","0"
         except Exception as e:
@@ -2696,7 +2249,7 @@ class Llama3completions:
             "stop": "null"
             }
             st=time.time()
-            response = requests.post(url=self.url, json=input, headers=headers)
+            response = requests.post(url=self.url, json=input, headers=headers, timeout=REQUEST_TIMEOUT)
             et= time.time()
             rt = et - st
             dict_timecheck["Llama3InteractionTime"]=str(round(rt,3))+"s"
@@ -2854,7 +2407,7 @@ class Bloomcompletion:
         self.url = os.environ.get("BLOOM_ENDPOINT")
 
     def textCompletion(self,text,temperature=None,PromptTemplate="GoalPriority",deployment_name=None,Moderation_flag=None,COT=None,THOT=None):
-        response = requests.post(self.url,text,verify=sslv[verify_ssl])
+        response = requests.post(self.url,text,verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT)
         generated_text = response.json()[0]["generated_text"]
         return generated_text,0,"","0"
 
@@ -2879,7 +2432,7 @@ class Openaicompletions:
             openai.api_base = self.openai_api_base
             openai.api_type = self.openai_api_type
             openai.api_version = self.openai_api_version
-            openai.verify_ssl_certs = False
+            openai.verify_ssl_certs = sslv[verify_ssl]
 
             log.info(f"Interaction with GPT ")
             st = time.time()
@@ -2947,8 +2500,6 @@ class Openaicompletions:
                 finish_reason= response.choices[0].finish_reason
                 if not COT and not THOT:
                     try:
-                        # hallucinationscore = re.findall(r'\[([^\]]+)\]', text)[0]
-                        # text = re.sub(r'\[.*?\]', '', text)
                         hallucinationscore = re.findall(r'\[([^\]]+)\]', text)[-1]
                         text = re.sub(r"\[(\d+(\.\d)?)\](?!.*\[\d+(\.\d)?\])", '', text)
                     except:
@@ -3093,11 +2644,12 @@ def getModerationResult(payload,headers,result_flag=1,telemetryFlag=False,token_
         lotNumber = str(payload.lotNumber) if "lotNumber" in payload else "None"
         headers["id"]=id
         if os.getenv("DBTYPE") != "False":# send request payload into DB #
-            thread2=threading.Thread(target=Results.createRequestPayload,args=("moderation",payload,id,
+            thread2=threading.Thread(target=Results().createRequestPayload,args=("moderation",payload,id,
                                                                                str(payload.PortfolioName), 
                                                                  str(payload.AccountName),str(userid),str(lotNumber)
                                                                  ))
             thread2.start()
+    
         
         try:
             log.info(f"cache flag- Moderation : {cache_flag}")
@@ -3108,13 +2660,13 @@ def getModerationResult(payload,headers,result_flag=1,telemetryFlag=False,token_
 
            
             starttime=time.time()
-            # print("mt===",moderation_timecheck)
             
-            updated_timecheck= copy.deepcopy(moderation_timecheck)
-            # print("ut===",updated_timecheck)
+            updated_timecheck= {
+                k: (v.copy() if isinstance(v, dict) else v)
+                for k, v in moderation_timecheck.items()
+            }
+            
             reset_moderation_timecheck(starttime)
-            # print("mt1===",moderation_timecheck)
-            # print("ut1===",updated_timecheck)
            
             final_response = response.model_dump()
          
@@ -3125,8 +2677,10 @@ def getModerationResult(payload,headers,result_flag=1,telemetryFlag=False,token_
                 thread.start()
                 
             if result_flag and os.getenv("DBTYPE") != "False":
-                thread2=threading.Thread(target=Results.create,args=(final_response,id,portfolio, accountname,userid, lotNumber))
+                thread2=threading.Thread(target=Results().create,args=(final_response,id,portfolio, accountname,userid, lotNumber))
                 thread2.start()
+            
+            # Do not delete updated_timecheck here; it may be needed in finally for conditional cleanup
             return final_response
             
         except Exception as e:
@@ -3142,19 +2696,23 @@ def getModerationResult(payload,headers,result_flag=1,telemetryFlag=False,token_
                 thread_err = threading.Thread(target=telemetry.send_telemetry_error_request, args=(logobj,id,lotNumber,portfolio,accountname,userid,err_desc,headers,token_info))
                 thread_err.start()
                 del log_dict[id]
-       
+        finally:
+            # Cleanup temporary objects only if they were created; avoid UnboundLocalError
+            local_vars = locals()
+            for name in ["updated_timecheck","response","st","starttime","final_response"]:
+                if name in local_vars:
+                    try:
+                        del local_vars[name]
+                    except Exception:
+                        pass
             
 
     except Exception as e:
         log_dict[request_id_var.get()].append({"Line number":str(traceback.extract_tb(e.__traceback__)[0].lineno),"Error":str(e),
-                                                   "Error Module":"Failed at getModerationResult Function"})
+                                                   "Error Module":"Failed at    ationResult Function"})
         log.error(f"Error starting telemetry thread: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
         log.error(traceback.format_exc())
     
-
-
-
-
 
 def getCoupledModerationResult(payload,headers):
     
@@ -3174,8 +2732,8 @@ def getCoupledModerationResult(payload,headers):
             return "Error Occured due to empty prompt"
         
         headers["id"]=id
-        if os.getenv("DBTYPE") != "False": # send request payload into DB #
-            thread=threading.Thread(target=Results.createRequestPayload,args=("coupledModeration",payload,id,
+        if os.getenv("DBTYPE") != "False": # send request payload into DB 
+            thread=threading.Thread(target=Results().createRequestPayload,args=("coupledModeration",payload,id,
                                                                               str(payload.PortfolioName),
                                                                               str(payload.AccountName),
                                                                               str(userid),str(lotNumber)))
@@ -3205,7 +2763,7 @@ def getCoupledModerationResult(payload,headers):
                 log.info("THREAD STARTED")
             
             if os.getenv("DBTYPE") != "False":
-                thread2=threading.Thread(target=Results.create,args=(final_response,id,str(PortfolioName), str(AccountName),userid,lotNumber))
+                thread2=threading.Thread(target=Results().create,args=(final_response,id,str(PortfolioName), str(AccountName),userid,lotNumber))
                 thread2.start()
         except Exception as e:
             log.error("Failed at Coupled Completion Function")
@@ -3217,7 +2775,7 @@ def getCoupledModerationResult(payload,headers):
         if len(er)!=0:
             logobj = {"_id":id,"error":er}
             if os.getenv("DBTYPE") != "False":
-                Results.createlog(logobj)
+                Results().createlog(logobj)
             err_desc = er
             payload=AttributeDict(payload)
             token_info = {"unique_name":"None","X-Correlation-ID":"None","X-Span-ID":"None"}
@@ -3225,8 +2783,6 @@ def getCoupledModerationResult(payload,headers):
             thread_err = threading.Thread(target=telemetry.send_telemetry_error_request, args=(logobj,id,payload.lotNumber,payload.PortfolioName,payload.AccountName,payload.userid,err_desc,headers,token_info))
             thread_err.start()
             del log_dict[id]
-
-        
         return final_response
     
     except Exception as e:
@@ -3234,7 +2790,6 @@ def getCoupledModerationResult(payload,headers):
                                                    "Error Module":"Failed at getCoupledModerationResult Function"})
         log.error(f"Error starting telemetry thread: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
         log.error(traceback.format_exc())
-    
 
 
 def reset_dict_timecheck(starttime):
@@ -3292,22 +2847,23 @@ def moderationTime():
     try:
         with open("data/moderationtime.json", "r") as openfile:
             json_object = json.load(openfile)
-        # print("json_object:",json_object)
         return json_object
     except Exception as e:
         print("Moderation time check Failed")
+    finally:
+        del openfile, json_object
 
 def feedback_submit(feedback):
     user_id = feedback.user_id
     message = feedback.message
     rating = feedback.rating
     
-    res = Results.findOne(user_id)
+    res = Results().findOne(user_id)
     res["message"] = message
     res["rating"] = rating
-    Results.delete(user_id)
-    Results.createwithfeedback(res)
-    # print("Result from db",type(Results.findOne(user_id)))
+    Results().delete(user_id)
+    Results().createwithfeedback(res)
+    # print("Result from db",type(Results.findOne(user_id))
     # Process the feedback as needed
 
     return "Feedback submitted successfully"
@@ -3319,13 +2875,13 @@ def organization_policy(payload,headers):
         #Using azure restricted topic model endpoint for organization policy
         if target_env=='azure':
             log.info("Using azure restricted topic model endpoint for organization policy")
-            output = requests.post(url = topicurl,json={"text": text,"labels":labels},headers=headers,verify=sslv[verify_ssl])
+            output = requests.post(url = topicurl,json={"text": text,"labels":labels},headers=headers,verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT)
             output=output.json()
 
         #Using aicloud restricted topic model endpoint for organization policy
         elif target_env=='aicloud':
             log.info("Using aicloud restricted topic model endpoint for organization policy")
-            output = requests.post(url = topicraiurl,json={"inputs": [{"text":text,"labels":labels}]},headers=headers,verify=sslv[verify_ssl])
+            output = requests.post(url = topicraiurl,json={"inputs": [{"text":text,"labels":labels}]},headers=headers,verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT)
             output=output.json()[0]
 
         d={}
@@ -3338,20 +2894,24 @@ def organization_policy(payload,headers):
         return d
     except Exception as e:
         log.error("Error occured in Restrict_topic")
-        # log.error(f"Exception: {e}")
         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
 def promptResponseSimilarity(text_1, text_2,headers):
     if target_env=='azure':
-        text_1_embedding = requests.post(url = jailbreakurl,json={"text": [text_1]},headers=headers,verify=sslv[verify_ssl]).json()[0][0]
-        text_2_embedding = requests.post(url = jailbreakurl,json={"text": [text_2]},headers=headers,verify=sslv[verify_ssl]).json()[0][0]
+        text_1_embedding = requests.post(url = jailbreakurl,json={"text": [text_1]},headers=headers,verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT).json()[0][0]
+        text_2_embedding = requests.post(url = jailbreakurl,json={"text": [text_2]},headers=headers,verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT).json()[0][0]
     elif target_env=='aicloud':
-        text_1_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text_1]},headers=headers,verify=sslv[verify_ssl]).json()[0]
-        text_2_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text_2]},headers=headers,verify=sslv[verify_ssl]).json()[0]
+        text_1_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text_1]},headers=headers,verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT).json()[0]
+        text_2_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text_2]},headers=headers,verify=sslv[verify_ssl], timeout=REQUEST_TIMEOUT).json()[0]
     
     dot_product = np.dot(text_1_embedding, text_2_embedding)
     norm_product = np.linalg.norm(text_1_embedding) * np.linalg.norm(text_2_embedding)
     similarity = round(dot_product / norm_product,4)
+
+    del text_1_embedding
+    del text_2_embedding
+    del dot_product
+    del norm_product
     return similarity
     
 
@@ -3413,7 +2973,9 @@ def identifyEmoji(text):
         emoji_dict['flag']=False
     emoji_dict['value']=list(emoji_values.keys())
     emoji_dict['mean']=list(emoji_values.values())
+    del emoji_values
     return emoji_dict
+    
 
 def emojiToText(text,emoji_dict):
     '''Function to convert emojis in a sentence to text
@@ -3430,7 +2992,7 @@ def emojiToText(text,emoji_dict):
             privacy_text=privacy_text.replace(emoji,' ')
             for i in range(0,len(occurrences)):
                 current_emoji_dict[emoji]=emoji_data[emoji]
-            
+            del occurrences
     #replacing rest of the emojis with their meaning from emoji_dict
     for i in range(0,len(emoji_dict['value'])): 
             if emoji_dict['value'][i] in text:
@@ -3440,6 +3002,8 @@ def emojiToText(text,emoji_dict):
                 privacy_text=privacy_text.replace(emoji_dict['value'][i],' ')
                 for j in occurrences:
                     current_emoji_dict[j] = emoji_dict['mean'][emoji_dict['value'].index(j)]
+                del occurrences
+    del emoji_list
     return text,privacy_text,current_emoji_dict
 
 def wordToEmoji(text,current_emoji_dict,result):
@@ -3462,6 +3026,7 @@ def wordToEmoji(text,current_emoji_dict,result):
                         break
             else:
                 text1=text1.replace(result[i],'',1)
+    del temp_dict
     return result
 
 def profaneWordIndex(text,profane_list):
@@ -3472,6 +3037,7 @@ def profaneWordIndex(text,profane_list):
             index_list.append([(text.find(i)),(text.find(i)+grapheme.length(str(i)))])
             alphabet_sequence = (string.ascii_lowercase * (grapheme.length(i) // 26 + 1))[:grapheme.length(i)]
             text=text.replace(i,alphabet_sequence,1)
+    del alphabet_sequence
     return index_list
 
 #Custom dictionary class

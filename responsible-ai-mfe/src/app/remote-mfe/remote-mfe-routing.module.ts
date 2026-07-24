@@ -16,20 +16,11 @@ export const remoteRoutes: Route[] = [
       { path: 'workbench', 
         loadChildren: () => import('../workbench/workbench.module').then(m => m.WorkbenchModule)
       },
-      { path: 'use-cases', 
-        loadChildren: () => import('../new-use-case/new-use-case.module').then(m => m.NewUseCaseModule)
-      },
       { path: 'admin-configuration', 
         loadChildren: () => import('../Admin-Configuration/configuration-parent/configuration-parent.module').then(m => m.ConfigurationParentModule)
       },
       { path: 'ai-models', 
         loadChildren: () => import('../ai-models/ai-models.module').then(m => m.AiModelsModule)
-      },
-      { path: 'llm-benchmarking', 
-        loadChildren: () => import('../llm-benchmarking/llm-benchmarking.module').then(m => m.LlmBenchmarkingModule)
-      },
-      { path: 'ai-content-detector', 
-        loadChildren: () => import('../ai-content-detector/ai-content-detector.module').then(m => m.AiContentDetectorModule)
       },
       { path: 'document-management', 
         loadChildren: () => import('../semi-structured-text/semi-structured-text.module').then(m => m.SemiStructuredTextModule)
@@ -39,15 +30,6 @@ export const remoteRoutes: Route[] = [
       },
       { path: 'red-teaming', 
         loadChildren: () => import('../llm-red-teaming/llm-red-teaming.module').then(m => m.LlmRedTeamingModule)
-      },
-      // { path: 'llm-scanner', 
-      //   loadChildren: () => import('../llm-scanner/llm-scanner.module').then(m => m.LlmScannerModule)
-      // },
-      { path: 'compliance-check', 
-        loadChildren: () => import('../compliance-check/compliance-check.module').then(m => m.ComplianceCheckModule)
-      },
-      { path: 'bulk-processing', 
-        loadChildren: () => import('../bulk-processing/bulk-processing.module').then(m => m.BulkProcessingModule)
       },
       { path: '',   redirectTo: '/responsible-ui/workbench', pathMatch: 'full' },
       // ====== add routes for wild card ======

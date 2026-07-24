@@ -53,8 +53,11 @@ class HuggingFaceEvaluator:
                 logging.warning("No saved progress file found at %s. Starting a new evaluation.", load_path)
 
         assert isinstance(data, list), "Data must be a list."
+        print('Total data number: {}'.format(len(data)))
         # Filter out invalid data
         data = [el for el in data if el['res'] is not None and el != ""]
+        print('Valid data number: {}'.format(len(data)))
+        print('Evaluating...')
         for item in tqdm(data):
             try:
                 if 'eval_res' not in item:

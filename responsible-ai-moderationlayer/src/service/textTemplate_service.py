@@ -1,15 +1,17 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 ########################################### IMPORT LIBRARIES ############################################
 
-from langchain.prompts import PromptTemplate
+from langchain_core.prompts import PromptTemplate
 import openai
 from openai import AzureOpenAI
 from langchain_openai import AzureChatOpenAI
@@ -551,7 +553,7 @@ def get_deepseek_response(prompt,template_name,userId,modelName):
         }
         headers={"Authorization": "Bearer "+aicloud_access_token,"Content-Type": contentType,"Accept": "*"}
         response=requests.post(url=deep_seek_completion_url,
-                               json=payload,headers=headers,verify=False)
+                               json=payload,headers=headers,verify=sslv[verify_ssl])
         if response.status_code == 200:
             response = json.loads(response.text)['choices'][0]['text']
             response = response.split("{")[1] if response[0]!=" {\n\\" else response
@@ -592,9 +594,10 @@ class TextTemplateService:
             
             final_response = {}
             if os.getenv("DBTYPE") != "False":# send request payload into DB #
-                thread=threading.Thread(target=Results.createRequestPayload,args=("evalLLM",req,id,
+                thread=threading.Thread(target=Results().createRequestPayload,args=("evalLLM",req,id,
                                                                                 str(PortfolioName), 
-                                                                    str(AccountName),userid,lotNumber))
+                     
+                                                                                    str(AccountName),userid,lotNumber))
                 thread.start()
             
             try:
@@ -629,13 +632,13 @@ class TextTemplateService:
                 final_resp=copy.deepcopy(final_response)
                 del final_resp['evaluation_check']
                 starttime = time.time()
-                if telemetryFlag==True: # sent response payload to Telemetry #
+                if telemetryFlag==True: # sent response payload to Telemetry 
                     thread1 = threading.Thread(target=telemetry.send_evalLLM_telemetry_request, args=(final_response,id,lotNumber, PortfolioName, AccountName,userid))
                     thread1.start()
                 log.debug(f"Time taken in adding to telemetry {time.time()-starttime}")
 
                 if os.getenv("DBTYPE") != "False": # sent response payload to DB #
-                    thread2=threading.Thread(target=Results.create,args=(final_response,id,str(PortfolioName), str(AccountName),userid,lotNumber))
+                    thread2=threading.Thread(target=Results().create,args=(final_response,id,str(PortfolioName), str(AccountName),userid,lotNumber))
                     thread2.start()
 
             except Exception as e:
@@ -648,7 +651,7 @@ class TextTemplateService:
             logobj = {"_id":id,"error":er}
             if len(er)!=0:
                 if os.getenv("DBTYPE") != "False":
-                    Results.createlog(logobj)
+                    Results().createlog(logobj)
                 err_desc = er
                 log.info(f"error---->>> {err_desc}")
                 token_info = {"unique_name":"None","X-Correlation-ID":"None","X-Span-ID":"None"}

@@ -84,12 +84,13 @@ To run the application, first we need to install Python and the necessary packag
    ```sh
     pip install moviepy==1.0.3
     ```
+8. You can either use embedding model = "local" or "openai" while executing FileUpload and RetrievalKepler endpoints. Choosing openai needs proper deployment of the model in azure. Choosing local doesn't need deployments.
 
-8. Download the following open source model: ["nreimers/MiniLM-L6-H384-uncased"] (https://huggingface.co/nreimers/MiniLM-L6-H384-uncased).
+9. For local embedding model you need to download this glove.6B.50d.txt file from "https://huggingface.co/JeremiahZ/glove/blob/main/glove.6B.50d.txt" and paste it inside model folder "Infosys-Responsible-AI-Toolkit\responsible-ai-Hallucination\Rag\models".
 
-9. Replace the relative path for the similarity_model variable in the `service.py` file with the model's path.
+10. For Similarity model no need to download anything, sentence-transformers/all-MiniLM-L6-v2. ( will be auto downloaded during code execution)
     
-10. In case, openaiembedding() is not used, you can use the same "MiniLM-L6-H384-uncased" model path as the embedding model path.
+
 
 ## Set Configuration Variables
 

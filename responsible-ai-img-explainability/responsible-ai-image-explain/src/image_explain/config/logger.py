@@ -1,5 +1,5 @@
 '''
-Copyright 2024-2025 Infosys Ltd.
+Copyright 2025-2026 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), 
 to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, 
@@ -162,23 +162,23 @@ class CustomLogger(logging.getLoggerClass()):
         func(msg, *args, **kwargs)
         self.enable_console_output()
 
-    def getSeesionId():
+    def getSeesionId(self):
         return request_id_var.get()
 
     def debug(self, msg, *args, **kwargs ):
-        self._custom_log(super().debug, msg,extra = {'user_id':CustomLogger.getSeesionId()}, *args, **kwargs)
+        self._custom_log(super().debug, msg, extra={'user_id': self.getSeesionId()}, *args, **kwargs)
 
     def info(self, msg, *args, **kwargs):
-        self._custom_log(super().info, msg,extra = {'user_id':CustomLogger.getSeesionId()}, *args, **kwargs)
+        self._custom_log(super().info, msg, extra={'user_id': self.getSeesionId()}, *args, **kwargs)
 
-    def warning(self, msg,user_id=None, *args, **kwargs):
-        self._custom_log(super().warning, msg,extra = {'user_id':CustomLogger.getSeesionId()}, *args, **kwargs)
+    def warning(self, msg, user_id=None, *args, **kwargs):
+        self._custom_log(super().warning, msg, extra={'user_id': self.getSeesionId()}, *args, **kwargs)
 
-    def error(self, msg,user_id=None, *args, **kwargs):
-        self._custom_log(super().error, msg,extra = {'user_id':CustomLogger.getSeesionId()}, *args, **kwargs)
+    def error(self, msg, user_id=None, *args, **kwargs):
+        self._custom_log(super().error, msg, extra={'user_id': self.getSeesionId()}, *args, **kwargs)
 
-    def critical(self, msg,user_id=None, *args, **kwargs):
-        self._custom_log(super().critical, msg,extra = {'user_id':CustomLogger.getSeesionId()}, *args, **kwargs)
+    def critical(self, msg, user_id=None, *args, **kwargs):
+        self._custom_log(super().critical, msg, extra={'user_id': self.getSeesionId()}, *args, **kwargs)
 
 if __name__ == "__main__":
     logger= CustomLogger()

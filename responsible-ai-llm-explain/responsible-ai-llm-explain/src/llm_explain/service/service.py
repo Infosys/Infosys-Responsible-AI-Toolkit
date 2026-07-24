@@ -405,15 +405,15 @@ class ExplainService:
                 # Define the mapping of methods to their corresponding request functions
                 method_to_request = {
                     "Token-Importance": lambda: METHODS_MAPPING["Token-Importance"](TokenImportanceRequest(inputPrompt=inputPrompt, modelName='GPT', endpointDetails=endpointDetails)),
-                    "Evalution-Metrics": lambda: METHODS_MAPPING["Evalution-Metrics"](UncertainityRequest(inputPrompt=inputPrompt, response=response, endpointDetails=endpointDetails)),
+                    "Evalution-Metrics": lambda: METHODS_MAPPING["Evalution-Metrics"](UncertainityRequest(inputPrompt=inputPrompt, response=response, endpointDetails=endpointDetails,modelName='GPT4')),
                     "ThoT": lambda: METHODS_MAPPING["ThoT"](openAIRequest(inputPrompt=inputPrompt, modelName='GPT4', endpointDetails=endpointDetails, temperature="0.1")),
                     "ReRead-ThoT": lambda: METHODS_MAPPING["ReRead-ThoT"](rereadRequest(inputPrompt=inputPrompt, modelName='GPT4', endpointDetails=endpointDetails)),
                     "CoT": lambda: METHODS_MAPPING["CoT"](openAIRequest(inputPrompt=inputPrompt, modelName='GPT4', endpointDetails=endpointDetails, temperature="0.1")),
                     "CoV": lambda: METHODS_MAPPING["CoV"](CoVRequest(inputPrompt=inputPrompt, modelName='GPT4', endpointDetails=endpointDetails, complexity="simple", translate="no")),
                     "LoT": lambda: METHODS_MAPPING["LoT"](lotRequest(inputPrompt=inputPrompt, llmResponse=response, modelName='GPT4', endpointDetails=endpointDetails)),
-                    "Sentiment-Analysis": lambda: METHODS_MAPPING["Sentiment-Analysis"](SentimentAnalysisRequest(inputPrompt=inputPrompt)),
+                    "Sentiment-Analysis": lambda: METHODS_MAPPING["Sentiment-Analysis"](SentimentAnalysisRequest(inputPrompt=inputPrompt,modelName='GPT4')),
                     "GoT": lambda: METHODS_MAPPING["GoT"](GoTRequest(inputPrompt=inputPrompt, modelName='gpt4')),
-                    "Safe-Search": lambda: METHODS_MAPPING["Safe-Search"](SafeSearchRequest(inputPrompt=inputPrompt, llm_response=response))
+                    "Safe-Search": lambda: METHODS_MAPPING["Safe-Search"](SafeSearchRequest(inputPrompt=inputPrompt, llm_response=response,modelName='GPT4'))
                 }
                 for method in selected_methods:
                     try:
@@ -460,18 +460,14 @@ class ExplainService:
             # Get the file name without extension
             base_filename, file_extension = os.path.splitext(file.filename)
             if response_type == 'excel':
-                # Get the number of rows in the dataframe
-                num_rows = len(final_df)
-
-                # Insert two empty rows after the last data row
-                empty_rows = pd.DataFrame([[''] * len(df.columns)] * 2, columns=df.columns)
-
-                # Append the empty rows after the last row of the data
-                final_df = pd.concat([final_df, empty_rows], ignore_index=True)
-
-                # Add the sum to the "Total Token Cost" column in the row after the two empty rows
-                final_df.loc[num_rows, 'Token Cost'] = 'Total Token Cost'
-                final_df.loc[num_rows + 1, 'Token Cost'] = total_cost_sum
+                # Add a new "Total Token Cost" column initialized with empty strings
+                final_df['Total Token Cost'] = ''
+                
+                # Convert the "Total Token Cost" column to object dtype to allow numeric values
+                final_df['Total Token Cost'] = final_df['Total Token Cost'].astype(object)
+                
+                # Add the sum to the first row (same row as first InputPrompt)
+                final_df.loc[0, 'Total Token Cost'] = total_cost_sum
 
                 # Convert the modified DataFrame back to an Excel file format
                 final_output = io.BytesIO()

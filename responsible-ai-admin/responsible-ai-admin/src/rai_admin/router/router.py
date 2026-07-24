@@ -1,13 +1,14 @@
-"""
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+'''
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
  
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
  
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-"""
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+'''
 
 from ast import Dict
 from fastapi import Body, Depends, Form,Request,APIRouter, HTTPException
@@ -1330,222 +1331,190 @@ def analyze():
     
     
     
-@router.post('/rai/admin/uploadFile')
-def pdfFile_anonymize(file: List[UploadFile] = File(...),userId:str=Form(...))->List:
-    id = uuid.uuid4().hex
-    request_id_var.set(id)
-    log.info("Entered create usecase routing method")
+# @router.post('/rai/admin/uploadFile')
+# def pdfFile_anonymize(file: List[UploadFile] = File(...),userId:str=Form(...))->List:
+#     id = uuid.uuid4().hex
+#     request_id_var.set(id)
+#     log.info("Entered create usecase routing method")
 
-    try:
-        # re = payload.file._file
-        # b = io.BytesIO()
-        # print(b.read)
-        # print("ressssss",re)
-        payload={"file":file,"userId":userId}
+#     try:
+#         payload={"file":file,"userId":userId}
         
-        log.debug(str(payload))
+#         log.debug(str(payload))
         
-        response=RAG.storeFile(payload)
-        log.debug(str(response))
+#         response=RAG.storeFile(payload)
+#         log.debug(str(response))
         
-        log.info("exit create usecase routing method")
-        # print("res----",response)
-        return response
+#         log.info("exit create usecase routing method")
+#         return response
         
-    except RaiAdminException as cie:
-        log.error(cie.__dict__)
-        log.info("exit create usecase routing method")
-        raise HTTPException(**cie.__dict__)
-    except Exception as e:
-        log.error(str(e))
-        ExceptionDb.create({"UUID":request_id_var.get(),"function":"uploadFileRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        raise HTTPException(
-            status_code=500,
-            detail="Please check with administration!!",
-            headers={"X-Error": "Please check with administration!!"})
+    # except RaiAdminException as cie:
+    #     log.error(cie.__dict__)
+    #     log.info("exit create usecase routing method")
+    #     raise HTTPException(**cie.__dict__)
+    # except Exception as e:
+    #     log.error(str(e))
+    #     ExceptionDb.create({"UUID":request_id_var.get(),"function":"uploadFileRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
+    #     raise HTTPException(
+    #         status_code=500,
+    #         detail="Please check with administration!!",
+    #         headers={"X-Error": "Please check with administration!!"})
     
     
-@router.post('/rai/admin/getFiles')
-async def pdfFile_anonymize(userId:str=Form(...))->list:
-    id = uuid.uuid4().hex
-    request_id_var.set(id)
-    log.info("Entered create usecase routing method")
+# @router.post('/rai/admin/getFiles')
+# async def pdfFile_anonymize(userId:str=Form(...))->list:
+#     id = uuid.uuid4().hex
+#     request_id_var.set(id)
+#     log.info("Entered create usecase routing method")
 
-    try:
-        # re = payload.file._file
-        # b = io.BytesIO()
-        # print(b.read)
-        # print("ressssss",re)
-        payload={"userId":userId}
+#     try:
+#         payload={"userId":userId}
         
-        log.debug(str(payload))
+#         log.debug(str(payload))
         
-        response=RAG.getFiles(payload)
-        log.debug(str(response))
+#         response=RAG.getFiles(payload)
+#         log.debug(str(response))
         
         
-        log.info("exit create usecase routing method")
-        # print("res----",response)
-        return response
+#         log.info("exit create usecase routing method")
+#         return response
         
-    except RaiAdminException as cie:
-        log.error(cie.__dict__)
-        log.info("exit create usecase routing method")
-        raise HTTPException(**cie.__dict__)
-    except Exception as e:
-        log.error(str(e))
-        ExceptionDb.create({"UUID":request_id_var.get(),"function":"getFilesRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        raise HTTPException(
-            status_code=500,
-            detail="Please check with administration!!",
-            headers={"X-Error": "Please check with administration!!"})
+#     except RaiAdminException as cie:
+#         log.error(cie.__dict__)
+#         log.info("exit create usecase routing method")
+#         raise HTTPException(**cie.__dict__)
+#     except Exception as e:
+#         log.error(str(e))
+#         ExceptionDb.create({"UUID":request_id_var.get(),"function":"getFilesRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
+#         raise HTTPException(
+#             status_code=500,
+#             detail="Please check with administration!!",
+#             headers={"X-Error": "Please check with administration!!"})
     
     
-@router.post('/rai/admin/setCache')
-def pdfFile_anonymize(embName:str=Form(...),userId:str=Form(...),docid:List[str]=Form(...)):
-# def pdfFile_anonymize(items:dict[str,str]):
-    id = uuid.uuid4().hex
-    request_id_var.set(id)
-    log.info("Entered create usecase routing method")
+# @router.post('/rai/admin/setCache')
+# def pdfFile_anonymize(embName:str=Form(...),userId:str=Form(...),docid:List[str]=Form(...)):
+#     id = uuid.uuid4().hex
+#     request_id_var.set(id)
+#     log.info("Entered create usecase routing method")
 
-    try:
-        # re = payload.file._file
-        # b = io.BytesIO()
-        # print(b.read)
-        # print("ressssss",re)
-        # payload=items
-        # print(docid)
-        payload={"docid":[i for i in docid[0].split(",")],"uid":userId,"ename":embName}
+#     try:
+#         payload={"docid":[i for i in docid[0].split(",")],"uid":userId,"ename":embName}
         
-        log.debug(str(payload))
+#         log.debug(str(payload))
         
-        response=RAG.setCache(payload)
-        log.debug(str(response))
+#         response=RAG.setCache(payload)
+#         log.debug(str(response))
         
-        log.info("exit create usecase routing method")
-        # print("res----",response)
-        return response
+#         log.info("exit create usecase routing method")
+#         return response
         
-    except RaiAdminException as cie:
-        log.error(cie.__dict__)
-        log.info("exit create usecase routing method")
-        raise HTTPException(**cie.__dict__)
-    except Exception as e:
-        log.error(str(e))
-        ExceptionDb.create({"UUID":request_id_var.get(),"function":"setCacheRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        raise HTTPException(
-            status_code=500,
-            detail="Please check with administration!!",
-            headers={"X-Error": "Please check with administration!!"})
+#     except RaiAdminException as cie:
+#         log.error(cie.__dict__)
+#         log.info("exit create usecase routing method")
+#         raise HTTPException(**cie.__dict__)
+#     except Exception as e:
+#         log.error(str(e))
+#         ExceptionDb.create({"UUID":request_id_var.get(),"function":"setCacheRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
+#         raise HTTPException(
+#             status_code=500,
+#             detail="Please check with administration!!",
+#             headers={"X-Error": "Please check with administration!!"})
     
-@router.post('/rai/admin/getEmbedings')
-async def pdfFile_anonymize(userId:str=Form(...))->list:
-    id = uuid.uuid4().hex
-    request_id_var.set(id)
-    log.info("Entered create usecase routing method")
+# @router.post('/rai/admin/getEmbedings')
+# async def pdfFile_anonymize(userId:str=Form(...))->list:
+#     id = uuid.uuid4().hex
+#     request_id_var.set(id)
+#     log.info("Entered create usecase routing method")
 
-    try:
-        # re = payload.file._file
-        # b = io.BytesIO()
-        # print(b.read)
-        # print("ressssss",re)
-        payload={"userId":userId}
+#     try:
+#         payload={"userId":userId}
         
-        log.debug(str(payload))
+#         log.debug(str(payload))
         
-        response=RAG.getEmbedings(payload)
-        log.debug(str(response))
+#         response=RAG.getEmbedings(payload)
+#         log.debug(str(response))
         
         
-        log.info("exit create usecase routing method")
-        # print("res----",response)
-        return response
+#         log.info("exit create usecase routing method")
+#         return response
         
-    except RaiAdminException as cie:
-        log.error(cie.__dict__)
-        log.info("exit create usecase routing method")
-        raise HTTPException(**cie.__dict__)
-    except Exception as e:
-        log.error(str(e))
-        ExceptionDb.create({"UUID":request_id_var.get(),"function":"getEmbedingsRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        raise HTTPException(
-            status_code=500,
-            detail="Please check with administration!!",
-            headers={"X-Error": "Please check with administration!!"})
+#     except RaiAdminException as cie:
+#         log.error(cie.__dict__)
+#         log.info("exit create usecase routing method")
+#         raise HTTPException(**cie.__dict__)
+#     except Exception as e:
+#         log.error(str(e))
+#         ExceptionDb.create({"UUID":request_id_var.get(),"function":"getEmbedingsRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
+#         raise HTTPException(
+#             status_code=500,
+#             detail="Please check with administration!!",
+#             headers={"X-Error": "Please check with administration!!"})
     
 
-@router.delete('/rai/admin/clearEmbedings')
-async def pdfFile_anonymize(embId:str=Form(...))->list:
-    id = uuid.uuid4().hex
-    request_id_var.set(id)
-    log.info("Entered create usecase routing method")
+# @router.delete('/rai/admin/clearEmbedings')
+# async def pdfFile_anonymize(embId:str=Form(...))->list:
+#     id = uuid.uuid4().hex
+#     request_id_var.set(id)
+#     log.info("Entered create usecase routing method")
 
-    try:
-        # re = payload.file._file
-        # b = io.BytesIO()
-        # print(b.read)
-        # print("ressssss",re)
+#     try:
         
-        payload={"eid":float(embId)}
+#         payload={"eid":float(embId)}
         
-        log.debug(str(payload))
+#         log.debug(str(payload))
         
-        response=RAG.delEmbedings(payload)
-        log.debug(str(response))
+#         response=RAG.delEmbedings(payload)
+#         log.debug(str(response))
         
         
-        log.info("exit create usecase routing method")
-        # print("res----",response)
-        return response
+#         log.info("exit create usecase routing method")
+#         return response
         
-    except RaiAdminException as cie:
-        log.error(cie.__dict__)
-        log.info("exit create usecase routing method")
-        raise HTTPException(**cie.__dict__)
-    except Exception as e:
-        log.error(str(e))
-        ExceptionDb.create({"UUID":request_id_var.get(),"function":"clearEmbedingsRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        raise HTTPException(
-            status_code=500,
-            detail="Please check with administration!!",
-            headers={"X-Error": "Please check with administration!!"})
+#     except RaiAdminException as cie:
+#         log.error(cie.__dict__)
+#         log.info("exit create usecase routing method")
+#         raise HTTPException(**cie.__dict__)
+#     except Exception as e:
+#         log.error(str(e))
+#         ExceptionDb.create({"UUID":request_id_var.get(),"function":"clearEmbedingsRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
+#         raise HTTPException(
+#             status_code=500,
+#             detail="Please check with administration!!",
+#             headers={"X-Error": "Please check with administration!!"})
 
 
-@router.delete('/rai/admin/deleteFile')
-async def pdfFile_anonymize(docid:str=Form(...),userid:str=Form()):
-    id = uuid.uuid4().hex
-    request_id_var.set(id)
-    log.info("Entered create usecase routing method")
+# @router.delete('/rai/admin/deleteFile')
+# async def pdfFile_anonymize(docid:str=Form(...),userid:str=Form()):
+#     id = uuid.uuid4().hex
+#     request_id_var.set(id)
+#     log.info("Entered create usecase routing method")
 
-    try:
-        # re = payload.file._file
-        # b = io.BytesIO()
-        # print(b.read)
-        # print("ressssss",re)
+#     try:
         
-        payload={"docid":float(docid),"userId":userid}
+#         payload={"docid":float(docid),"userId":userid}
         
-        log.debug(str(payload))
+#         log.debug(str(payload))
         
-        response=RAG.delFiles(payload)
-        log.debug(str(response))
+#         response=RAG.delFiles(payload)
+#         log.debug(str(response))
         
         
-        log.info("exit create usecase routing method")
-        # print("res----",response)
-        return response
+#         log.info("exit create usecase routing method")
+#         # print("res----",response)
+#         return response
         
-    except RaiAdminException as cie:
-        log.error(cie.__dict__)
-        log.info("exit create usecase routing method")
-        raise HTTPException(**cie.__dict__)
-    except Exception as e:
-        log.error(str(e))
-        ExceptionDb.create({"UUID":request_id_var.get(),"function":"clearDocsRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-        raise HTTPException(
-            status_code=500,
-            detail="Please check with administration!!",
-            headers={"X-Error": "Please check with administration!!"})
+#     except RaiAdminException as cie:
+#         log.error(cie.__dict__)
+#         log.info("exit create usecase routing method")
+#         raise HTTPException(**cie.__dict__)
+#     except Exception as e:
+#         log.error(str(e))
+#         ExceptionDb.create({"UUID":request_id_var.get(),"function":"clearDocsRouter","msg":str(e),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
+#         raise HTTPException(
+#             status_code=500,
+#             detail="Please check with administration!!",
+#             headers={"X-Error": "Please check with administration!!"})
     
 
 

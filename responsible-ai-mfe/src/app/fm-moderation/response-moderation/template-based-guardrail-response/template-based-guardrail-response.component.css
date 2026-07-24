@@ -4,49 +4,9 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-.cursor{
-    cursor: pointer;
-}
 
 .cardContainerTemp {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
-  }
-
-.sbmtButton {
-    width: 73px;
-    height: 27px;
-    background-color: #8626C3;
-    color: #FFFFFF;
-    letter-spacing: 0px;
-    border-radius: 3px;
-    border: none;
-    font-family: 'Segoe UI';
-    font-size: 12px;
-    cursor: pointer;
-    text-align: center;
-    align-content: center;
-    font-weight: 400;
-}
-.sendIcon {
-    background: none;
-    color: #8626C3;
-    bottom: 0;
-    right: 0;
-    i {
-        font-size: 22px;
-    }
-}
-
-.txtAreaContext {
-    font-size: 12px;
-    font-family: 'Segoe UI';
-    resize: none;
-    height: 70px;
-    padding-right: 30px;
-}
-.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
 }

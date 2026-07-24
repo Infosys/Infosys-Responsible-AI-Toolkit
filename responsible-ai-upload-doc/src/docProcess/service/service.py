@@ -64,7 +64,6 @@ class AttributeDict(dict):
 class DocProcess:
     def storeFile(file,filetype,fileName,docid):
         storage_option = os.getenv("STORAGE_OPTION")
-        print("STORAGE OPTION ->"+storage_option)
 
         if(storage_option=="azure"):
              surl=os.getenv("AZURE_STORE_ADD_API")
@@ -98,7 +97,7 @@ class DocProcess:
                     
                     storageDetails=res
                 else:    
-                    res=requests.post(url=surl,files=file,data=payload,verify=False)
+                    res=requests.post(url=surl,files=file,data=payload)
                     print("=========================================="+str(res)+"==========================================")
                     storageDetails=res.json()
                 print("storageDetails------------------------------------------------------>",storageDetails)
@@ -118,8 +117,6 @@ class DocProcess:
                     print("inside mongodb ---------------------------------------------------------->")
                     base_url = os.getenv("BASE_URL")
                     storelink = docDb.get_download_link_with_base_url(storageDetails['object_id'],base_url)
-                    print("--------------------------------------------------URL PRINT-----------------------------------")
-                    print("storelink for mongodb", storelink)
 
                     # Update the document to include the file ID reference
                 print("storelink---------------------------------------------------->",storelink)
@@ -205,7 +202,7 @@ class DocProcess:
                         }
                         
                         docDb.update(docid,{"status":"PIIAnonymize Processing"})
-                        print(reqUrl)
+                
                         response = requests.request("POST", reqUrl, data=payload, files=post_files,verify=sslv[os.getenv("VERIFY_SSL","None")])
                         if(file.closed==False):
                             file.close()
@@ -226,7 +223,7 @@ class DocProcess:
                         
                 if("FaceAnonymize" in subCat):
                         reqUrl = os.getenv("PRIVACY_FaceVIDEO_IP")+"/rai/v1/video/anonymize"
-                        print(reqUrl)
+                        
                         post_files = {
                     #   "payload": open("c:\WORK\GIT\responsible-ai-admin\responsible-ai-admin\src\rai_admin\temp\test4.mp4", "rb"),
                         "payload":file

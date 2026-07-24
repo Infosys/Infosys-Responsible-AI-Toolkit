@@ -4,13 +4,14 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-             import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+             import { ChangeDetectorRef, Component, ElementRef, ViewChild, OnDestroy } from '@angular/core';
              import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
              import { MatSnackBar } from '@angular/material/snack-bar';
              import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
              import { FormGroup, FormControl, Validators } from '@angular/forms';
              import { environment } from 'src/environments/environment';
              import { NonceService } from '../nonce.service';
+             import { Subject, takeUntil } from 'rxjs';
              
              
              @Component({
@@ -18,7 +19,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                templateUrl: './code-privacy.component.html',
                styleUrls: ['./code-privacy.component.css']
              })
-             export class CodePrivacyComponent {
+             export class CodePrivacyComponent implements OnDestroy {
+               private destroy$ = new Subject<void>();
                form: FormGroup;
                constructor(private _snackBar: MatSnackBar, private cdr: ChangeDetectorRef, public https: HttpClient, private modalservice: NgbModal,public nonceService:NonceService) {
                  this.form = new FormGroup({
@@ -185,6 +187,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                  if(this.selectType=='Privacy'){
                  if(this.demoFile.length > 0 || this.sampleFileFlag === true) {
                    this.https.post(this.privacy_codefile_anonymize, fileData, { headers, observe: 'response', responseType: 'text' })
+                     .pipe(takeUntil(this.destroy$))
                      .subscribe((res: any) => {
                        this.showSpinner = false
              
@@ -204,6 +207,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                      })
                  } else {
                    this.https.post(this.privacy_code_anonymize, this.textDesc, { headers, observe: 'response', responseType: 'text' } )
+                     .pipe(takeUntil(this.destroy$))
                      .subscribe((res: any) => {
                        this.showSpinner = false;
              
@@ -223,7 +227,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                  }
                  else if(this.selectType=='CodeShield'){
                    console.log("CodeShield");
-                   this.https.post(this.CodeShield, this.textDesc, { responseType: 'text' }).subscribe((res: any) => {
+                   this.https.post(this.CodeShield, this.textDesc, { responseType: 'text' }).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
                      this.showSpinner = false;
                      console.log("response body", res);
                      const formattedResponse = res
@@ -243,6 +247,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                      });
                    });
                  }
+               }
+               
+               // Cleanup subscriptions
+               ngOnDestroy(): void {
+                 this.destroy$.next();
+                 this.destroy$.complete();
                }
 
                // Extracts the file name from HTTP headers

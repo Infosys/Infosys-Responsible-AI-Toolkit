@@ -1,11 +1,14 @@
 '''
-MIT license https://opensource.org/licenses/MIT Copyright 2024-2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 '''
 
 
@@ -14,7 +17,6 @@ import os
 import os
 import zipfile
 import pdfkit
-#import logging as log
 
 from app.config.logger import CustomLogger
 from reportlab.lib.pagesizes import letter
@@ -48,13 +50,8 @@ class Utility:
                         option = {
                             'page-size':'A4',
                             'orientation':'Portrait',
-                            # 'margin-top':'0.75in',
-                            # 'margin-right':'0.75in',
-                            # 'margin-bottom':'0.75in',
-                            # 'margin-left':'0.75in',
                             'encoding':'UTF-8',
                             'no-outline':None,
-                            # 'header-html':'water.html'
                         }
                         pdfkit.from_file(html_path, output_path=pdf_path, options=option)
                         os.remove(html_path)
@@ -99,4 +96,3 @@ class Utility:
         except Exception :
             # Log the detailed error for debugging purposes
             log.error("An error occurred during frame processing.")
-            # print(e)

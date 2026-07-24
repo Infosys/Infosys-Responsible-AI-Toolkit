@@ -42,7 +42,7 @@ def get_access_token():
 
 
 def get_ernie_res(string, temperature):
-    if (temperature == 0.0):
+    if (temperature == 0):
         temperature = 0.00000001
     url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" + get_access_token()
     payload = json.dumps({
@@ -206,8 +206,7 @@ def gen_online(model_name, prompt, temperature, replicate=False, deepinfra=False
     elif model_name == model_info['google_model']:
         res = palm_api(prompt, model=model_name, temperature=temperature)
     elif model_name in model_info['openai_model']:
-        res = get_res_chatgpt(prompt, gpt_model=model_name,
-                              temperature=temperature)
+        res = get_res_chatgpt(prompt, model=model_name, temperature=temperature)
     elif model_name in model_info['deepinfra_model']:
         res = deepinfra_api(prompt, model=model_name, temperature=temperature)
     elif model_name in model_info['claude_model']:
@@ -226,20 +225,18 @@ def gen_online(model_name, prompt, temperature, replicate=False, deepinfra=False
 def http_requ(prompt,temp):
     url = trustllm.config.inhouse_url
     payload = {
-        "inputs": prompt,
-        "parameters": {
-            "max_new_tokens": 512,
-            "temperature": 0.1,
-            "num_return_sequences": 1,
-            "do_sample": True
-                    }
-        }
+            "inputs": [prompt],
+    "parameters": {
+        "max_new_tokens": 100,
+            }
+    }
     json_payload = json.dumps(payload)
     if trustllm.config.auth_token is None:
         headers = {'Content-Type': 'application/json'}
     else:
         headers = {'Content-Type': 'application/json',"Authorization": "Bearer "+trustllm.config.auth_token}
-    response = requests.post(url, data=payload, verify=False)
+    response = requests.post(url, data=json_payload,
+                            headers=headers, verify=True)
     if response.status_code == 200:
         predictions = response.json()
     else:
@@ -262,7 +259,7 @@ def gen_inhouse(prompt, temperature):
     #     api_name="/predict"
     # )
         print(result)
-        result = result[0]['generated_text']
+        result = result['generated_text']
     except Exception as e:
         raise e
     return result

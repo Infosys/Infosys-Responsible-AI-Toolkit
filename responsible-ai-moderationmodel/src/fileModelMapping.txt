@@ -1,0 +1,19 @@
+// MIT license https://opensource.org/licenses/MIT
+// Copyright 2024 Infosys Ltd
+// 
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+// 
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+// 
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+Main File	        Requirement File	        Models
+
+main_detoxify.py	detoxify_requirement.txt	detoxify
+main_embeding.py	embending_requirement.txt	multi-qa-mpnet-base-dot-v1
+main_injection.py	injection_requirement.txt	dbertaInjection
+main_privacy.py	    privacy_requirement.txt	    NA
+main_topic.py	    topic_requirement.txt	    restricted-dberta-base-zeroshot-v2,nli-MiniLM2-L6-H768
+main_MM.py	        requirement.txt	            ALL
+main.py	            requirement.txt	            ALL

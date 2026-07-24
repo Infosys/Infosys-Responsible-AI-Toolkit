@@ -81,90 +81,99 @@ class CovAWS:
             retries = 0
             max_retries = 10
             while retries < max_retries:
-                st=time.time()
-                original_question = text
+                try:
+                    st=time.time()
+                    original_question = text
 
-                BASELINE_PROMPT_LONG = f"""[INST]Answer the below question correctly. Do not give options.
-                                    Question: {original_question}
-                                    Answer:[/INST]"""
+                    BASELINE_PROMPT_LONG = f"""[INST]Answer the below question correctly. Do not give options.
+                                        Question: {original_question}
+                                        Answer:[/INST]"""
 
-                if complexity=="simple":
-                    baseline_response = CovAWS.call_AWS(BASELINE_PROMPT_LONG,temp["simple"])
-                    log.info(f"baseline_response : {baseline_response}")
-                    VERIFICATION_QUESTION_PROMPT_LONG_simple = f"""[INST]Your task is to create verification questions based on the below original question and the baseline response and the question should be very simple. The verification questions are meant for verifying the factual acuracy in the baseline response. Output should be numbered list of verification questions.Always come up with 5 to the point questions. Do not give options.
-                                Actual Question: {original_question}
-                                Baseline Response: {baseline_response}
-                                Final Verification Questions:[/INST]"""
-                    verification_question = CovAWS.call_AWS(VERIFICATION_QUESTION_PROMPT_LONG_simple,temp["simple"])
-                    log.info(f"verification_question : {verification_question}")
-
-                elif complexity=="medium":
-                    baseline_response = CovAWS.call_AWS(BASELINE_PROMPT_LONG,temp["medium"])
-                    log.info(f"baseline_response : {baseline_response}")
-                    VERIFICATION_QUESTION_PROMPT_LONG_medium = f"""[INST]Your task is to create verification questions based on the below original question and the baseline response and the question should be moderate neither complex nor simple. The verification questions are meant for verifying the factual acuracy in the baseline response. Output should be numbered list of verification questions. Always come up with 5 to the point questions. Do not give options.
-                            Actual Question: {original_question}
-                            Baseline Response: {baseline_response}
-                            Final Verification Questions:[/INST]"""
-                    verification_question = CovAWS.call_AWS(VERIFICATION_QUESTION_PROMPT_LONG_medium,temp["medium"])
-                    log.info(f"verification_question : {verification_question}")
-
-                elif complexity=="complex":
-                    baseline_response = CovAWS.call_AWS(BASELINE_PROMPT_LONG,temp["complex"])
-                    log.info(f"baseline_response : {baseline_response}")
-                    VERIFICATION_QUESTION_PROMPT_LONG_complex = f"""[INST]Your task is to create verification questions based on the below original question and the baseline response and the question should be more complex not a simple question. The verification questions are meant for verifying the factual acuracy in the baseline response. Output should be numbered list of verification questions.Always come up with 5 to the point questions. Do not give options.
-                                Actual Question: {original_question}
-                                Baseline Response: {baseline_response}
-                                Final Verification Questions:[/INST]"""
-                    verification_question = CovAWS.call_AWS(VERIFICATION_QUESTION_PROMPT_LONG_complex,temp["complex"])
-                    log.info(f"verification_question : {verification_question}")
-
-                questions = [qt for qt in verification_question.split("\n") if qt[0].isnumeric()]
-
-                verification_answers=[]
-                for q in questions:
-                    EXECUTE_PLAN_PROMPT_SELF_LLM = f"""[INST]Answer the following question correctly to the point. Be succinct.
-                                Question: {q}
-                                Answer:[/INST]"""
                     if complexity=="simple":
-                        ans = CovAWS.call_AWS(EXECUTE_PLAN_PROMPT_SELF_LLM,temp["simple"])
+                        baseline_response = CovAWS.call_AWS(BASELINE_PROMPT_LONG,temp["simple"])
+                        log.info(f"baseline_response : {baseline_response}")
+                        VERIFICATION_QUESTION_PROMPT_LONG_simple = f"""[INST]Your task is to create verification questions based on the below original question and the baseline response and the question should be very simple. The verification questions are meant for verifying the factual acuracy in the baseline response. Output should be numbered list of verification questions.Always come up with 5 to the point questions. Do not give options.
+                                    Actual Question: {original_question}
+                                    Baseline Response: {baseline_response}
+                                    Final Verification Questions:[/INST]"""
+                        verification_question = CovAWS.call_AWS(VERIFICATION_QUESTION_PROMPT_LONG_simple,temp["simple"])
+                        log.info(f"verification_question : {verification_question}")
+
                     elif complexity=="medium":
-                        ans = CovAWS.call_AWS(EXECUTE_PLAN_PROMPT_SELF_LLM,temp["medium"])
+                        baseline_response = CovAWS.call_AWS(BASELINE_PROMPT_LONG,temp["medium"])
+                        log.info(f"baseline_response : {baseline_response}")
+                        VERIFICATION_QUESTION_PROMPT_LONG_medium = f"""[INST]Your task is to create verification questions based on the below original question and the baseline response and the question should be moderate neither complex nor simple. The verification questions are meant for verifying the factual acuracy in the baseline response. Output should be numbered list of verification questions. Always come up with 5 to the point questions. Do not give options.
+                                Actual Question: {original_question}
+                                Baseline Response: {baseline_response}
+                                Final Verification Questions:[/INST]"""
+                        verification_question = CovAWS.call_AWS(VERIFICATION_QUESTION_PROMPT_LONG_medium,temp["medium"])
+                        log.info(f"verification_question : {verification_question}")
+
+                    elif complexity=="complex":
+                        baseline_response = CovAWS.call_AWS(BASELINE_PROMPT_LONG,temp["complex"])
+                        log.info(f"baseline_response : {baseline_response}")
+                        VERIFICATION_QUESTION_PROMPT_LONG_complex = f"""[INST]Your task is to create verification questions based on the below original question and the baseline response and the question should be more complex not a simple question. The verification questions are meant for verifying the factual acuracy in the baseline response. Output should be numbered list of verification questions.Always come up with 5 to the point questions. Do not give options.
+                                    Actual Question: {original_question}
+                                    Baseline Response: {baseline_response}
+                                    Final Verification Questions:[/INST]"""
+                        verification_question = CovAWS.call_AWS(VERIFICATION_QUESTION_PROMPT_LONG_complex,temp["complex"])
+                        log.info(f"verification_question : {verification_question}")
+
+                    questions = [qt for qt in verification_question.split("\n") if qt and qt[0].isnumeric()]
+
+                    verification_answers=[]
+                    for q in questions:
+                        EXECUTE_PLAN_PROMPT_SELF_LLM = f"""[INST]Answer the following question correctly to the point. Be succinct.
+                                    Question: {q}
+                                    Answer:[/INST]"""
+                        if complexity=="simple":
+                            ans = CovAWS.call_AWS(EXECUTE_PLAN_PROMPT_SELF_LLM,temp["simple"])
+                        elif complexity=="medium":
+                            ans = CovAWS.call_AWS(EXECUTE_PLAN_PROMPT_SELF_LLM,temp["medium"])
+                        else:
+                            ans = CovAWS.call_AWS(EXECUTE_PLAN_PROMPT_SELF_LLM,temp["complex"])
+                        
+                        verification_answers.append(ans)
+
+                    verification_qustion_answers_pair = ''
+                    for q,a in zip(questions,verification_answers):
+                        verification_qustion_answers_pair = verification_qustion_answers_pair + 'Question. '+q
+                        verification_qustion_answers_pair = verification_qustion_answers_pair + 'Answer. '+a+"\n\n"
+                        
+                    log.info(f"verification_qustion_answers_pair : {verification_qustion_answers_pair}")
+                    
+                    FINAL_REFINED_PROMPT = f"""[INST]Given the below `Original Query` and `Baseline Answer`, analyze the `Verification Questions & Answers` to finally filter the refined answer. Be succinct.
+                                Original Query: {original_question}
+                                Baseline Answer: {baseline_response}
+                                Verification Questions & Answer Pairs:
+                                {verification_qustion_answers_pair}
+                                Final Refined Answer:[/INST]"""
+
+                    if complexity=="simple":
+                        final_answer = CovAWS.call_AWS(FINAL_REFINED_PROMPT,temp["simple"])
+                    elif complexity=="medium":
+                        final_answer = CovAWS.call_AWS(FINAL_REFINED_PROMPT,temp["medium"])
                     else:
-                        ans = CovAWS.call_AWS(EXECUTE_PLAN_PROMPT_SELF_LLM,temp["complex"])
-                    
-                    verification_answers.append(ans)
+                        final_answer = CovAWS.call_AWS(FINAL_REFINED_PROMPT,temp["complex"])
+                    log.info(f"final answer : {final_answer}")
 
-                verification_qustion_answers_pair = ''
-                for q,a in zip(questions,verification_answers):
-                    verification_qustion_answers_pair = verification_qustion_answers_pair + 'Question. '+q
-                    verification_qustion_answers_pair = verification_qustion_answers_pair + 'Answer. '+a+"\n\n"
-                    
-                log.info(f"verification_qustion_answers_pair : {verification_qustion_answers_pair}")
-                
-                FINAL_REFINED_PROMPT = f"""[INST]Given the below `Original Query` and `Baseline Answer`, analyze the `Verification Questions & Answers` to finally filter the refined answer. Be succinct.
-                            Original Query: {original_question}
-                            Baseline Answer: {baseline_response}
-                            Verification Questions & Answer Pairs:
-                            {verification_qustion_answers_pair}
-                            Final Refined Answer:[/INST]"""
+                    response = {}
+                    response["original_question"] = original_question
+                    response["baseline_response"] = baseline_response
+                    response["verification_questions"] = verification_question
+                    response["verification_answers"] = verification_qustion_answers_pair
+                    response["final_answer"] = final_answer
+                    response["time_taken"]=round(time.time()-st,3)
+                    log.info(f"response from cov : {response}")
+                    return response
 
-                if complexity=="simple":
-                    final_answer = CovAWS.call_AWS(FINAL_REFINED_PROMPT,temp["simple"])
-                elif complexity=="medium":
-                    final_answer = CovAWS.call_AWS(FINAL_REFINED_PROMPT,temp["medium"])
-                else:
-                    final_answer = CovAWS.call_AWS(FINAL_REFINED_PROMPT,temp["complex"])
-                log.info(f"final answer : {final_answer}")
-
-                response = {}
-                response["original_question"] = original_question
-                response["baseline_response"] = baseline_response
-                response["verification_questions"] = verification_question
-                response["verification_answers"] = verification_qustion_answers_pair
-                response["final_answer"] = final_answer
-                response["time_taken"]=round(time.time()-st,3)
-                log.info(f"response from cov : {response}")
-                return response
+                except Exception as e:
+                    retries += 1
+                    log.error(f"Error in iteration {retries}: {e}")
+                    if retries >= max_retries:
+                        log.error("Max retries exceeded inside loop")
+                        raise
+                    time.sleep(1)
         except Exception as e:
             log.error("Error occured in cov")
             log.error(f"Exception: {e}")

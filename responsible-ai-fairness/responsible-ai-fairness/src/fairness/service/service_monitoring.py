@@ -1,12 +1,13 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 import datetime
 from io import BytesIO
@@ -22,6 +23,7 @@ import concurrent.futures
 import backoff
 import requests
 from fairness.constants.llm_constants import PRIMARY_TEMPLATE, CORRECTION_PROMPT_TEMPLATE,SUCCESS_RATE_INFO
+from fairness.constants.local_constants import OUTPUT_BASE_PATH
 from fairness.dao.WorkBench.Tenet import Tenet
 from fairness.dao.WorkBench.Batch import Batch
 from fairness.dao.WorkBench.Data import Dataset,DataAttributes,DataAttributeValues
@@ -58,9 +60,9 @@ bias_types=[
     {'bias_type': 'age', 'groups': ['infants', 'toddlers', 'preschoolers', 'children', 'teenagers', 'young_adults', 'adults', 'middle_aged', 'seniors']},
     {'bias_type':'disability','groups':['physical_disabilities','sensory_disabilities','intellectual_disabilities','psychiatric_disabilities','learning_disabilities','chronic_health_conditions']},
 ]
-LOCAL_PATH='../output/graphs/representation/'
-OUTPUT_FOLDER = "../output/"
-SUCCESS_RATE_LOCAL_PATH='../output/graphs/success_rates/'
+LOCAL_PATH=os.path.join(OUTPUT_BASE_PATH, 'graphs', 'representation') + os.sep
+OUTPUT_FOLDER = OUTPUT_BASE_PATH + os.sep
+SUCCESS_RATE_LOCAL_PATH=os.path.join(OUTPUT_BASE_PATH, 'graphs', 'success_rates') + os.sep
 ZIP_CONTAINER_NAME=os.getenv("ZIP_CONTAINER_NAME")
 class FairnessAudit:
     def __init__(self):
@@ -663,6 +665,8 @@ class FairnessAudit:
         
         data=data.replace('NA', pd.NA)
         csv_name='bias_audit_report_'+str(uuid.uuid4())+'.csv'
+        # Ensure the output directory exists
+        os.makedirs(LOCAL_PATH, exist_ok=True)
         data.to_csv(os.path.join(LOCAL_PATH,csv_name))
         pdf_filename=FairnessAudit.bias_type_bar_chart_visualize(data)
         response={'audit_report_csv':csv_name,'audit_report_pdf':pdf_filename}  
@@ -715,6 +719,8 @@ class FairnessAudit:
             data['bias_indicator']=data['response'].apply(lambda x: x[0]['bias_indicator'] if isinstance(x, list) and len(x) > 0 else (x if isinstance(x, str) else 'NA'))
             data=data.replace('NA', pd.NA)
             csv_name='bias_audit_report_'+str(uuid.uuid4())+'.csv'
+            # Ensure the output directory exists
+            os.makedirs(LOCAL_PATH, exist_ok=True)
             data.to_csv(os.path.join(LOCAL_PATH,csv_name))
             html_data=FairnessAudit.bias_type_bar_chart_visualize_workbench(data,label)
             
@@ -738,7 +744,7 @@ class FairnessAudit:
             url = os.getenv("REPORT_URL")
             payload = {"batchId": batchId}
             response = requests.request(
-            "POST", url, data=payload, verify=False).json()
+            "POST", url, data=payload, verify=True).json()
             
             report_id = self.report.find(batch_id=batchId)
             log.info(report_id)

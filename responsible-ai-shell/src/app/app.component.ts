@@ -4,38 +4,46 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { BaseHrefService } from './base-href.service';
 import { environment } from 'src/environments/environment';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
   title = 'AI_Demo';
+  private destroy$ = new Subject<void>();
 
   // subscription: any;
 
-   constructor(private baseHrefService: BaseHrefService) {}
-   ngOnInit(): void {
-       const condition = environment.isSSO;
+     constructor(private baseHrefService: BaseHrefService) {}
+     ngOnInit(): void {
+       const isSSO: unknown = (environment as any).isSSO;
+       const condition: boolean = typeof isSSO === 'string' ? isSSO.toLowerCase() === 'true' : !!isSSO;
        this.baseHrefService.setBaseHref(condition);
 
        const baseHref = this.baseHrefService.getBaseHref();
        const baseElement = document.querySelector('base');
        if (baseElement) {
         baseElement.setAttribute('href', baseHref);
-        }
+           }
 
-   }
+         }
   //   this.subscription = router.events.subscribe((event) => {
   //     if (event instanceof NavigationStart) {
   //       const browserRefresh = !router.navigated;
   //     }
   //   });
   // }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

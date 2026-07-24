@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component,OnInit,ViewChild } from '@angular/core';
+import { Component,OnInit,ViewChild, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup,Validators } from '@angular/forms';
 import { NgbPopover, NgbPopoverModule } from '@ng-bootstrap/ng-bootstrap';
 import { PagingConfig } from 'src/app/_models/paging-config.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NonceService } from 'src/app/nonce.service';
+import { Subject, takeUntil } from 'rxjs';
  
 interface ApiResponse {
   [key: string]: {
@@ -17,7 +18,8 @@ interface ApiResponse {
   templateUrl: './api-configuration.component.html',
   styleUrls: ['./api-configuration.component.css']
 })
-export class ApiConfigurationComponent implements OnInit{
+export class ApiConfigurationComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
   @ViewChild('p') popover!: NgbPopover;
 
   apis: any[] = [];
@@ -80,6 +82,7 @@ setApiList(ip_port: any) {
 // Fetches the list of APIs from the server
 getApis(): void {
   this.https.get(this.getConfigs)
+    .pipe(takeUntil(this.destroy$))
     .subscribe((data: any) => {
       console.log("res2", data)
       const result: ApiResponse = data.result; 
@@ -101,6 +104,7 @@ createApi(): void {
     ApiPort: null
   };
   this.https.post(this.createNewApi, apiData)
+    .pipe(takeUntil(this.destroy$))
     .subscribe(() => {
       const newApi = { name: apiData.ApiName, ip: `${apiData.ApiIp}:${apiData.ApiPort}`, port: apiData.ApiPort, isNew: true };
       this.apis.push(newApi);    
@@ -118,6 +122,7 @@ deleteConfig(name: string): void {
       ApiName: name
     };
   this.https.delete(this.deleteApi, { body: apiData })
+  .pipe(takeUntil(this.destroy$))
   .subscribe((res: any) => {
         this.apis.splice(apiIndex, 1);
           this.pagingConfig.totalItems = this.apis.length;
@@ -166,6 +171,7 @@ toggleEdit(api: any): void {
     };
 
     this.https.patch(this.updateApi, apiData)
+      .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.editingApi = null;  // Clear the editing state
         this.getApis();  // Refresh the API list
@@ -212,5 +218,11 @@ toggleEdit(api: any): void {
     this.currentPage = 1;
     this.pagingConfig.currentPage = 1;
     this.pagingConfig.totalItems = this.apis.length;
+  }
+
+  // Cleanup subscriptions
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

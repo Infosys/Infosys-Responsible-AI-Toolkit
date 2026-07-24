@@ -5,18 +5,20 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NonceService } from '../nonce.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-addvector',
   templateUrl: './addvector.component.html',
   styleUrls: ['./addvector.component.css']
 })
-export class AddvectorComponent {
+export class AddvectorComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   VectorForm!: FormGroup;
   VectorUpdateForm!: FormGroup;
   spinner = false;
@@ -208,7 +210,7 @@ setApilist(ip_port: any) {
       this.selectedVectorFile = this.demoFile[i];
       fileData.append('PreprocessorFile', this.selectedVectorFile);
     }
-    this.https.post(this.addVector,fileData).subscribe((res: any)=>{
+    this.https.post(this.addVector,fileData).pipe(takeUntil(this.destroy$)).subscribe((res: any)=>{
       this.resetForm();
       this.spinner = false;
       this._snackBar.open(res, "Close", {
@@ -247,7 +249,7 @@ setApilist(ip_port: any) {
       this.selectedVectorFile = this.demoFile[i];
       fileData.append('PreprocessorFile', this.selectedVectorFile);
     }
-    this.https.patch(this.updateVector,fileData).subscribe((res:any)=>{
+    this.https.patch(this.updateVector,fileData).pipe(takeUntil(this.destroy$)).subscribe((res:any)=>{
       this.spinner = false;
       this.resetForm();
       this._snackBar.open("Data Updated", "Close", {
@@ -271,6 +273,12 @@ setApilist(ip_port: any) {
     // Resets the form and clears file uploads
   resetForm(){
     this.VectorForm.reset();
+  }
+
+  // Cleanup subscriptions
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

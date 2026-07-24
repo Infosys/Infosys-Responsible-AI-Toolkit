@@ -4,8 +4,10 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 //import { VERSION } from '../../../app/app.constants';
 import { AccountService } from '../../../app/core/auth/account.service';
@@ -18,12 +20,13 @@ declare const $: any;
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnInit, AfterViewInit {
+export class SidebarComponent implements OnInit, AfterViewInit, OnDestroy {
   inProduction?: boolean;
   isNavbarCollapsed = true;
   swaggerEnabled?: boolean;
  // version: string;
   public currentWidth = '250px';
+  private destroy$ = new Subject<void>();
   constructor(
     private loginService: LoginService,
     private accountService: AccountService,
@@ -34,7 +37,7 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.profileService.getProfileInfo().subscribe(profileInfo => {
+    this.profileService.getProfileInfo().pipe(takeUntil(this.destroy$)).subscribe(profileInfo => {
       this.inProduction = profileInfo.inProduction;
       this.swaggerEnabled = profileInfo.openAPIEnabled;
     });
@@ -90,4 +93,9 @@ export class SidebarComponent implements OnInit, AfterViewInit {
   // getImageUrl(): string {
   //   return this.isAuthenticated() ? this.accountService.getImageUrl() : '';
   // }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

@@ -4,70 +4,42 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-.cursor {
-    cursor: pointer;
-}
-
-.sbmtButton {
-    width: 73px;
-    height: 27px;
-    background-color: #8626C3;
-    color: #FFFFFF;
-    letter-spacing: 0px;
-    border-radius: 3px;
-    border: none;
-    font-family: 'Segoe UI';
-    font-size: 12px;
-    cursor: pointer;
-    text-align: center;
-    align-content: center;
-    font-weight: 400;
-}
-
-.sendIcon {
-    background: none;
-    color: #8626C3;
-    bottom: 0;
-    right: 0;
-    i {
-        font-size: 22px;
-    }
-}
-
-.txtAreaContext {
-    font-size: 12px;
-    font-family: 'Segoe UI';
-    resize: none;
-    height: 70px;
-    padding-right: 30px;
-}
-
-.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.panel-title {
-    position: relative;
-}
-
-.panel-title::after {
-    content: "\f107";
-    color: #333;
-    top: -2px;
-    right: 0px;
-    position: absolute;
-    font-family: "FontAwesome"
-}
-
-.panel-title[aria-expanded="true"]::after {
-    content: "\f106";
-}
 
 .cardContainerTemp {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 8px;
+}
+
+.outerResultCard {
+    box-shadow: 0 2px 4px #00000029 !important;
+    border: none;
+    margin-left: 1px;
+    background: #efefef;
+    border-radius: 14px;
+    min-height: 250px;
+    height: fit-content;
+    width: auto;
+}
+
+.card-header-outerResultCard {
+    background: none;
+    border: none;
+    padding-bottom: 0px;
+}
+
+.innerResultCard {
+    border-radius: 14px;
+    box-shadow: 0 1px 4px #00000016 !important;
+    background: #ffffff;
+    border: none;
+}
+
+.cardA {
+    color: black;
+    padding: 10px;
+    background-color: #ececec;
+    border-radius: 8px;
 }
 
 .flex-1 {
@@ -112,27 +84,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-weight: 400;
 }
 
-.custom-badge-yellow {
-    background-color: #fff3d6;
-    color: #f9a701;
-}
-
 .meter-container {
     position: relative;
     width: 125px;
     /* Set the width of the meter to 100px */
     margin-top: 10%;
-}
-
-.meter {
-    display: flex;
-    height: 20px;
-    width: 100%;
-    /* Ensure the meter takes the full width of the container */
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    overflow: hidden;
-    background: linear-gradient(to right, green, yellow, red);
 }
 
 .indicator {

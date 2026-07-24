@@ -5,7 +5,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Renderer2, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { HomeService } from './home.service';
 import { RoleManagerService } from '../services/role-maganer.service';
 import { urlList } from '../urlList';
@@ -18,7 +19,8 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   master_url = urlList.masterurl;
   authorityAPI = urlList.authorityAPI;
   pages: any;
@@ -98,7 +100,7 @@ export class HomeComponent {
       this.showComponent = "workbench";
     }
     console.log(this.showComponent, "showComponent")
-    this.homeService.getConfigApiList(this.master_url).subscribe
+    this.homeService.getConfigApiList(this.master_url).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         localStorage.setItem("res", JSON.stringify(res))
       })
@@ -112,7 +114,7 @@ export class HomeComponent {
   getUserConsent(userId: string) {
     // console.log("the local url", this.localUrlList.getUserConsent);
     const url = `${this.localUrlList.getUserConsent}${userId}`;
-    this.https.get(url, { headers: { 'accept': 'application/json' } }).subscribe(
+    this.https.get(url, { headers: { 'accept': 'application/json' } }).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
         console.log('User consent:', response);
         if (response.userConsentStatus == true) {
@@ -131,7 +133,7 @@ export class HomeComponent {
   // Loads the configuration from the server
   async loadConfig() {
     return new Promise<void>((resolve, reject) => {
-      this.homeService.getConfigApiList(this.master_url).subscribe(
+      this.homeService.getConfigApiList(this.master_url).pipe(takeUntil(this.destroy$)).subscribe(
         (res: any) => {
           this.apiList = res;
           localStorage.setItem('res', JSON.stringify(res));
@@ -183,5 +185,11 @@ export class HomeComponent {
     };
 
     console.log("localUrlList initialized", this.localUrlList);
+  }
+
+  // Cleanup on component destruction
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

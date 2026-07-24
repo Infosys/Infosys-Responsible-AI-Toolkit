@@ -1,11 +1,13 @@
 '''
-Copyright 2024 Infosys Ltd.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+ 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 
 import openai
@@ -15,8 +17,13 @@ import os
 from config.logger import CustomLogger,request_id_var
 log = CustomLogger()
 import traceback
+
+# SSL verification configuration
+verify_ssl = os.getenv("VERIFY_SSL")
+sslv = {"False": False, "True": True, "None": True}
+
 try:
-    openai.verify_ssl_certs = False
+    openai.verify_ssl_certs = sslv[verify_ssl]
     request_id_var.set("Startup")
     deployment_name=os.environ.get("OPENAI_MODEL_GPT4")
 
@@ -129,7 +136,6 @@ def call_openai_model(prompt, model, temperature):
         openai.api_base = os.environ.get("OPENAI_API_BASE_GPT4")
         openai.api_key = os.environ.get("OPENAI_API_KEY_GPT4")
         openai.api_version = os.environ.get("OPENAI_API_VERSION_GPT4")
-    # print("deployment_name in geval ",deployment_name)
 
     while response is None:
         try:
@@ -189,7 +195,6 @@ def gEval(payload,headers):
             try:
                 res = int(call_openai_model(prompts[pindx], payload.model_name, 2.0)[0])                
                 scores.append(res)
-                # fin_score+=res
                 pindx+=1
             except Exception as e:
                 breakpt+=1
@@ -198,7 +203,6 @@ def gEval(payload,headers):
                     return
                 pass
         fin_score=round((scores[0]+scores[1]+0.5*scores[2]+scores[3])/3.5,3)
-        # fin_score/=4
         scores.append(fin_score)
         indx=0
         for key in scoresDict:

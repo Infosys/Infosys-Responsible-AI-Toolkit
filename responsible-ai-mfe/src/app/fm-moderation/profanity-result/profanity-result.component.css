@@ -4,6 +4,7 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
+
 .mainLabel {
     color: #7E7E7E;
     padding: 0px;
@@ -11,17 +12,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-size: 13px;
     font-family: 'Segoe UI';
 }
-.mainLabelSM{
+
+.mainLabelSM {
     font-size: 12px;
 }
 
-.mainLabelLight{
+.mainLabelLight {
     font-weight: 400;
-}
-
-.fixed-height-card{
-    height: 150px;
-    overflow-y: auto;
 }
 
 .styled-table td {
@@ -33,31 +30,26 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     color: #061838;
     opacity: 70%;
 }
+
 .styled-table tr {
     border-bottom: .5px solid rgba(0, 0, 0, 0.2);
 }
 
 .styled-table {
-    /* margin-left: 1rem; */
     width: 95%;
     border-collapse: collapse;
 }
 
 .styled-table th.header {
-    /* Segoe UI, Semibold .75rem */
     font-size: 0.70rem;
     font-family: 'Segoe UI';
     font-weight: 600;
-    /* padding-top: 10px; */
     padding-bottom: 10px;
     padding-right: 10px;
-    /* background-color: #4CAF50; */
     color: #382261;
     opacity: 70%;
     text-transform: uppercase;
-
 }
-
 
 .styled-table th {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -79,16 +71,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 :host ::ng-deep .ngx-pagination .current {
     background: #963596;
-  }
-  :host ::ng-deep .ngx-pagination a{
+}
+
+:host ::ng-deep .ngx-pagination a {
     text-decoration: none;
     font-weight: 500;
-  }
+}
 
-  .card {
+.card {
     padding: 10px;
-  }
+}
 
-  .min-h-235 {
+.min-h-235 {
     min-height: 235px;
 }

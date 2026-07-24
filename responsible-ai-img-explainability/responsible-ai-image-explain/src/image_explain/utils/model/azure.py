@@ -41,8 +41,6 @@ class Azure:
 
         if model_name == "GPT_4o":
             deployment_engine = os.getenv("AZURE_DEPLOYMENT_ENGINE")
-        else:
-            deployment_engine = os.getenv("AZURE_DEPLOYMENT_ENGINE")
 
         if generated_image_base64:
             messages = [

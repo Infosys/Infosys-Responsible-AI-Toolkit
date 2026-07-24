@@ -1,0 +1,9 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+**/__pycache__/
+__pycache__
+__pycache__/
+.scannerwork/
+Issue Tracker/
+responsible-ai-fairness/src/static/

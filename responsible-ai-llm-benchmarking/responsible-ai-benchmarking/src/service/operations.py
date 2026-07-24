@@ -1,22 +1,24 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
+
 from io import BytesIO
 import zipfile
-import torch
 import tqdm
 from trustllm.task import fairness
 from trustllm.utils import file_process
 from trustllm import config
 from trustllm.generation import generation
 from trustllm.task.pipeline import *
+from trustllm.task.pipeline import run_fairness, run_privacy, run_ethics, run_safety, run_truthfulness
 import os
 import csv
 import datetime
@@ -32,7 +34,7 @@ import json
 evaluator = fairness.FairnessEval()
 # log=CustomLogger()
 logging.basicConfig(
-    level=logging.INFO,  # Set the desired logging level
+    level=logging.DEBUG,  # Set the desired logging level
     # Specify the file name for the log file
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     #     Set the file mode to 'w' for overwriting or 'a' for appending
@@ -42,6 +44,7 @@ log = logging.getLogger()
 
 
 class Operations:
+    @staticmethod
     def dataset_download():
         # unqiue datasets for each opearions, for not loosing the generation results.
         path = "dataset_"+datetime.datetime.now().strftime("%m%d%Y%H%M%S")
@@ -52,14 +55,14 @@ class Operations:
     def generation(model_name, test_type, dataset_name):
         log.info("Generation started......")
         try:
-            dataset_path = os.path.join("../datasets", os.path.join(dataset_name,"dataset"))
+            dataset_path = os.path.join("../datasets", dataset_name)
             if not os.path.exists(dataset_path):
                 raise (FileNotFoundError)
             llm_gen = generation.LLMGeneration(
                 model_path=model_name,
                 test_type=test_type,
                 data_path=dataset_path,
-                device="cuda" if torch.cuda.is_available() else "cpu"
+                device="cuda"
             )
              #run generation for 1 times, to get the best results and avoid null values.
             iterations = 1
@@ -73,8 +76,9 @@ class Operations:
             log.info("Dataset not found")
             raise e.__dict__
         except Exception as e:
-            log.exception("There is some problem"+e)
-            raise e
+            log.error(e.__dict__)
+            raise e.__dict__
+
     def onlineGeneration(model_name, test_type, dataset_name, model_url, auth_token):
         log.info("Generation started......")
         try:
@@ -84,7 +88,7 @@ class Operations:
             online_model = True
             config.inhouse_url = model_url
             config.auth_token = auth_token
-            dataset_path = os.path.join("../datasets",  os.path.join(dataset_name,"dataset"))
+            dataset_path = os.path.join("../datasets", dataset_name)
             if not os.path.exists(dataset_path):
                 raise (FileNotFoundError)
             
@@ -93,7 +97,7 @@ class Operations:
                 model_path=model_name,
                 test_type=test_type,
                 data_path=dataset_path,
-                device="cuda" if torch.cuda.is_available() else "cpu"
+                device="cuda"
             )
             #run generation for 5 times, to get the best results and avoid null values.
             iterations = 3
@@ -132,7 +136,6 @@ class Operations:
             extracted_folder_name = first_entry.split('/')[0]
             dataset_name = extracted_folder_name
         print(dataset_name)
-        dataset_name=os.path.join(dataset_name,"dataset")
         config.azure_openai = True
         config.azure_engine = os.getenv("azure_engine")
         config.azure_api_base = os.getenv("azure_api_base")

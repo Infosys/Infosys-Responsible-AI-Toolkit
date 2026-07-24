@@ -1,12 +1,13 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 from fairness.dao.bias_model import Bias, TrainingDataset, PredictionDataset
@@ -39,6 +40,7 @@ import requests
 from sklearn.neighbors import NearestNeighbors
 from fairness.service.preprocessing import FairnessUIservicePreproc
 from fairness.dao.WorkBench.FileStoreDb import FileStoreReportDb
+from fairness.constants.local_constants import OUTPUT_BASE_PATH
 from fairness.dao.WorkBench.databaseconnection import DataBase_WB
 from fairness.mappers.mappers import BiasAnalyzeResponse, BiasAnalyzeRequest, BiasPretrainMitigationResponse, BiasResults, IndividualFairnessRequest, \
     metricsEntity, MitigateBiasRequest, MitigationAnalyzeResponse, PreprocessingMitigationAnalyzeResponse, PreprocessingMitigateBiasRequest, BatchId
@@ -68,9 +70,9 @@ class AttributeDict(dict):
     __delattr__ = dict.__delitem__
 
 class FairnessWorkbench:
-    MITIGATED_LOCAL_FILE_PATH="../output/MitigatedData/"
+    MITIGATED_LOCAL_FILE_PATH=os.path.join(OUTPUT_BASE_PATH, 'MitigatedData') + os.sep
     MITIGATED_UPLOAD_PATH="responsible-ai//responsible-ai-fairness//MitigatedData"
-    LOCAL_FILE_PATH="../output/datasets/"
+    LOCAL_FILE_PATH=os.path.join(OUTPUT_BASE_PATH, 'datasets') + os.sep
 
     def __init__(self, db=None):
         if db is not None:

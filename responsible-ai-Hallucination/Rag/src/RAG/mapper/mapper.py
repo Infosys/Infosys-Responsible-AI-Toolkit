@@ -29,17 +29,18 @@ class defaultRetrievalRequest(BaseModel):
     fileupload:bool = Field(example=True)
     text: str = Field(example="Total area of India")
     llmtype: str = Field(example="openai")
-    vectorestoreid :Optional[str] = Field(example="764r876634874")
+    embeddingmodel: str = Field(example="local")
+    vectorstoreid :Optional[str] = Field(example="764r876634874")
     
 class covRequest(BaseModel):
     fileupload:bool = Field(example=True)
     text: str = Field(example="Total area of India")
-    vectorestoreid :Optional[str] = Field(example="764r876634874")
+    vectorstoreid :Optional[str] = Field(example="764r876634874")
     complexity : str = Field(enum=["simple", "medium", "complex"])
     llmtype: str = Field(example="openai")   
     
 class cachingRequest(BaseModel):
-    vectorestoreid: str = Field(example="764r876634874")
+    vectorstoreid: str = Field(example="764r876634874")
     llmtype: str = Field(example="openai")
 
 class removecachingRequest(BaseModel):

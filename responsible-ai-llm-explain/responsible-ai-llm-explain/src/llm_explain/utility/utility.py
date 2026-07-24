@@ -147,10 +147,19 @@ class Utils:
 
             # Apply scaling factor and bias
             scaled_values = scaling_factor * scaled_values + bias
-
+            log.info(f"Scaled Values: {scaled_values}")
+            log.info(f"scaled np.max {(np.max(scaled_values))}")
+            log.info(f"scaled np.min {(np.min(scaled_values))}")
+                     
             # Normalize to the range [0, 1]
-            scaled_values = (scaled_values - np.min(scaled_values)) / (np.max(scaled_values) - np.min(scaled_values))
-
+            # Avoid division by zero
+            value_range = np.max(scaled_values) - np.min(scaled_values)
+            if value_range == 0:
+                scaled_values = np.full_like(scaled_values, 0.5)
+                log.info("Normalizing scaled values to 0.5 as the lenght of token is less than 3")  # All values are equal → assign 0.5
+            else:
+                scaled_values = (scaled_values - np.min(scaled_values)) / value_range
+            log.info(f"Normalized Scaled Values: {scaled_values}")
             # Pair the scaled values with the original tokens
             scaled_importance_scores = [(token, scaled_value) for token, scaled_value in zip([score[0] for score in importance_scores], scaled_values)]
 
@@ -207,6 +216,9 @@ class Utils:
 
         Parameters:
         model (str): Model name (Ex: gpt-4)
+        
+        Returns:
+        tuple: (prompt_price_per_1000_tokens, response_price_per_1000_tokens) or (0, 0) if model not found
         '''
         prompt_price_per_1000_tokens = {
             "gpt-4o": 0.0050,
@@ -225,25 +237,38 @@ class Utils:
         try:
             return prompt_price_per_1000_tokens[model], response_price_per_1000_tokens[model]
         except KeyError:
-            raise ValueError(f"Model '{model}' is not found in the pricing details. Only gpt-4o, gpt-35-turbo, gpt-35-turbo-instruct & gpt4 are available. Please contact administrator")
+            log.warning(f"Model '{model}' is not found in the pricing details. Returning 0 for pricing.")
+            return 0, 0
         
     def get_token_cost(input_tokens: int, output_tokens: int, model: str):
         '''
         Calculates the total cost for tokens.
 
         Parameters:
-        tokens (int): Total token (Prompt tokens + Completion tokens)
+        input_tokens (int): Prompt tokens
+        output_tokens (int): Completion tokens
         model (str): Model name (Ex: gpt4)
-        '''
-
-        if 'gpt-4o' in model:
-            model = 'gpt-4o'
-        # Example pricing (this should be replaced with actual pricing from Azure documentation)
-        prompt_price_per_1000_tokens, response_price_per_1000_tokens = Utils.get_price_details(model)
         
-        # Calculate cost
-        total_cost = ((input_tokens / 1000) * prompt_price_per_1000_tokens) + ((output_tokens / 1000) * response_price_per_1000_tokens)
-        return round(total_cost, 3)
+        Returns:
+        float: Total cost rounded to 3 decimal places, or 0 if model not found
+        '''
+        try:
+            if 'gpt-4o' in model:
+                model = 'gpt-4o'
+            
+            # Get pricing details
+            prompt_price_per_1000_tokens, response_price_per_1000_tokens = Utils.get_price_details(model)
+            
+            # If pricing is 0 (model not found), return 0
+            if prompt_price_per_1000_tokens == 0 and response_price_per_1000_tokens == 0:
+                return 0
+            
+            # Calculate cost
+            total_cost = ((input_tokens / 1000) * prompt_price_per_1000_tokens) + ((output_tokens / 1000) * response_price_per_1000_tokens)
+            return round(total_cost, 3)
+        except Exception as e:
+            log.error(f"Error calculating token cost for model '{model}': {e}")
+            return 0
     
     def calculate_token_count(text: str, model_name: str = "text-embedding-ada-002") -> int:
         # Load the appropriate tokenizer for the model

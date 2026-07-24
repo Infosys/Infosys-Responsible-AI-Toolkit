@@ -29,8 +29,9 @@ request_id_var.set("Startup")
 
 # llm = AzureChatOpenAI(deployment_name=os.getenv("OPENAI_MODEL"), temperature=1)
 VECTORSTORE_BASE_DIR = "../data/vectorstores/" 
-embeddingmodelname=os.getenv("EMBEDDING_MODEL_NAME")
-print("Embedding model name:", embeddingmodelname)
+# embeddingmodelname=os.getenv("EMBEDDING_MODEL_NAME")
+embeddingmodelname="text-embedding-ada-002"
+log.debug(f"Embedding model name: {embeddingmodelname}")
 
 def get_price_details(model: str):
     '''

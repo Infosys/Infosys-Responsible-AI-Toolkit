@@ -1,12 +1,13 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 """
@@ -18,7 +19,7 @@ description: Project management services helps to create Usecase and projects .
 
 """
 from typing import List
-
+from dotenv import load_dotenv
 import os
 import uvicorn
 from config.logger import CustomLogger
@@ -27,13 +28,10 @@ from fastapi.exceptions import RequestValidationError
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.base import BaseHTTPMiddleware
-from routing.router import router
-from routing.gcp_router import gcp_router
-from routing.aws_router import aws_router
 from exception.exception import RegisterExceptions
-
+load_dotenv()
 log=CustomLogger()
-
+cloud_type = os.getenv("CLOUD_TYPE")
 allow_methods = os.getenv("allow_methods")
 allow_origins = os.getenv("allow_origin")
 content_security_policy = os.getenv("content_security_policy")
@@ -88,15 +86,35 @@ app.add_middleware(XSSProtectionMiddleware)
 """
 incude the routing details of service
 """
-app.include_router(router, prefix='/api/v1', tags=['Infosys Responsible AI - Azure Blob Storage'])
-app.include_router(gcp_router, prefix='/api/v1', tags=['Infosys Responsible AI - GCP Cloud Storage'])
-app.include_router(aws_router, prefix='/api/v1', tags=['Infosys Responsible AI - AWS Cloud Storage'])
+
+router_tags = {
+    'azure': 'Infosys Responsible AI - Azure Blob Storage',
+    'gcp': 'Infosys Responsible AI - GCP Cloud Storage',
+    'aws': 'Infosys Responsible AI - AWS Cloud Storage',
+}
+
+
+def _parse_cloud_types(value: str):
+    if not value:
+        return []
+    if value == 'all':
+        return ['azure', 'gcp', 'aws']
+    return value.split('-')
+
+
+for ct in _parse_cloud_types(cloud_type):
+    if ct == 'azure':
+        from routing.router import router
+        app.include_router(router, prefix='/api/v1', tags=[router_tags[ct]])
+    elif ct == 'gcp':
+        from routing.gcp_router import gcp_router
+        app.include_router(gcp_router, prefix='/api/v1', tags=[router_tags[ct]])
+    elif ct == 'aws':
+        from routing.aws_router import aws_router
+        app.include_router(aws_router, prefix='/api/v1', tags=[router_tags[ct]])
 
 
 if __name__ == "__main__":
     print("************************************main start******************************")
     uvicorn.run(app, host="0.0.0.0", port=8000)
     print("************************************** main end ***************************************")
-
-
-

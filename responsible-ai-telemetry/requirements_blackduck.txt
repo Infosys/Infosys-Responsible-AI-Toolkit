@@ -18,7 +18,6 @@ MarkupSafe
 pip               
 pydantic          
 pydantic_core     
-pymongo==4.6.3
 python-dateutil   
 python-dotenv     
 pytz              
@@ -32,3 +31,4 @@ tzdata
 urllib3          
 uvicorn           
 Werkzeug          
+torch==2.8.0  

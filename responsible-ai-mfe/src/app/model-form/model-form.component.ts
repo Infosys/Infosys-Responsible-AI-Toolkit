@@ -4,12 +4,13 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { PagingConfig } from '../_models/paging-config.model';
 import { MatDialog } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AddModelComponent } from '../add-model/add-model.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-model-form',
@@ -17,7 +18,8 @@ import { AddModelComponent } from '../add-model/add-model.component';
   styleUrls: ['./model-form.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class ModelFormComponent {
+export class ModelFormComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   // SHIMMER EFFECT
   isLoadingTable = true;
   ///
@@ -72,7 +74,7 @@ export class ModelFormComponent {
   getBatches() {
     const formData =new FormData;
     formData.append("userId",this.user)
-    this.https.post(this.getModel ,formData).subscribe(
+    this.https.post(this.getModel ,formData).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.dataSource_getBatches = res;
         this.onTableDataChange(this.currentPage);
@@ -106,7 +108,7 @@ export class ModelFormComponent {
       body: params,
     };
     this.showSpinner1 = true;
-    this.https.delete(this.deleteModels, options).subscribe(
+    this.https.delete(this.deleteModels, options).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.getBatches();
         const message = 'Record Deleted Successfully';
@@ -155,7 +157,7 @@ export class ModelFormComponent {
           }
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getBatches()
     });
   }
@@ -166,5 +168,9 @@ export class ModelFormComponent {
     this.currentPage = event;
     this.pagingConfig.currentPage = event;
     this.pagingConfig.totalItems = this.dataSource_getBatches.length;
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

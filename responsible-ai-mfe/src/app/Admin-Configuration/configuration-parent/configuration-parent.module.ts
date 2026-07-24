@@ -11,17 +11,17 @@ import { RecognizersComponent } from '../recognizers/recognizers.component';
 import { AccountMapingComponent } from '../account-maping/account-maping.component';
 import { CustomTemplateComponent } from '../custom-template/custom-template.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ApplicationConfigurationsComponent } from '../application-configurations/application-configurations.component';
+import { AppConfigsComponent } from '../app-configs/app-configs.component';
 import { FMChatConfigurationComponent } from '../fm-chat-configuration/fm-chat-configuration.component';
 import { AccountsConfigurationComponent } from '../accounts-configuration/accounts-configuration.component';
 import { TemplateMappingComponent } from '../template-mapping/template-mapping.component';
 import { SafetyParametersComponent } from '../safety-parameters/safety-parameters.component';
 import { FmParametersComponent } from '../fm-parameters/fm-parameters.component';
 import { PrivacyParametersComponent } from '../accounts-configuration/privacy-parameters/privacy-parameters.component';
-import { AccountsConfigurationModalPrivacyComponent } from '../accounts-configuration/accounts-configuration-modal-privacy/accounts-configuration-modal-privacy.component';
-import { AccountsConfigurationModalFmComponent } from '../accounts-configuration/accounts-configuration-modal-fm/accounts-configuration-modal-fm.component';
-import { AccountsConfigurationModalSafetyComponent } from '../accounts-configuration/accounts-configuration-modal-safety/accounts-configuration-modal-safety.component';
-import { AccountsConfigurationModalCreatePmComponent } from '../accounts-configuration/accounts-configuration-modal-create-pm/accounts-configuration-modal-create-pm.component';
+import { AccModalPrivacyComponent } from '../accounts-configuration/acc-modal-privacy/acc-modal-privacy.component';
+import { AccModalFmComponent } from '../accounts-configuration/acc-modal-fm/acc-modal-fm.component';
+import { AccModalSafetyComponent } from '../accounts-configuration/acc-modal-safety/acc-modal-safety.component';
+import { AccCreatePmModalComponent } from '../accounts-configuration/acc-create-pm-modal/acc-create-pm-modal.component';
 import { AccountsConfigurationModalCreateTemplateUpdateComponent } from '../accounts-configuration/admin-template-update/admin-template-update';
 import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 import { ChunkPipe } from 'src/app/chunk.pipe';
@@ -39,17 +39,17 @@ const routes: Routes = [
     RecognizersComponent,
     AccountMapingComponent,
     CustomTemplateComponent,
-    ApplicationConfigurationsComponent,
+    AppConfigsComponent,
     FMChatConfigurationComponent,
     AccountsConfigurationComponent,
     TemplateMappingComponent,
     SafetyParametersComponent,
     FmParametersComponent,
     PrivacyParametersComponent,
-    AccountsConfigurationModalPrivacyComponent,
-    AccountsConfigurationModalFmComponent,
-    AccountsConfigurationModalSafetyComponent,
-    AccountsConfigurationModalCreatePmComponent,
+    AccModalPrivacyComponent,
+    AccModalFmComponent,
+    AccModalSafetyComponent,
+    AccCreatePmModalComponent,
     AccountsConfigurationModalCreateTemplateUpdateComponent,
     ChunkPipe,
     FilterBySubcategoryPipe,

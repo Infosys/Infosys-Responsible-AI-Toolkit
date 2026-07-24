@@ -5,7 +5,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup ,ReactiveFormsModule, Validators} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -13,13 +13,15 @@ import { UseCaseServiceService } from '../use-case-parent/use-case-service.servi
 import { MatStepper } from '@angular/material/stepper';
 import { NonceService } from '../nonce.service';
 import { UserValidationService } from '../services/user-validation.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-questionnaire-usecase',
   templateUrl: './questionnaire-usecase.component.html',
   styleUrls: ['./questionnaire-usecase.component.css']
 })
-export class QuestionnaireUsecaseComponent {
+export class QuestionnaireUsecaseComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   result: any;
   cnt: any;
   map = new Map<string, any[]>()
@@ -162,28 +164,6 @@ export class QuestionnaireUsecaseComponent {
    this.Ques_selectedResponse = ip_port.result.Questionnaire + ip_port.result.Ques_selectedResponse
     }
 
-     // Retrieves the logged-in user ID from local storage
-    getLogedInUser() {
-      if (window && window.localStorage && typeof localStorage !== 'undefined') {
-        const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-        if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-          this.userId = x ;
-          console.log(" userId", this.userId)
-        }
-        return this.userId;
-      }
-    }
-
-    // Retrieves API configuration from local storage
-    getLocalStoreApi() {
-      let ip_port
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        return ip_port = JSON.parse(res)
-      }
-    }
-    }
 
     // Moves to the next step in the stepper
     goToNextStep() {
@@ -273,11 +253,11 @@ saveResponse(result:any){
 
  // Stores the response data for a specific question
 responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_secore:any){
-  this.userId = this.getLogedInUser()
+ // this.userId = this.getLogedInUser()
   // console.log("Id====",Id,QuestionId,OptionsValue,this.userId,this.quesUseCaseName,Question_Weightage,RAI_secore)
   // this.useCaseService.questionGetMessage.subscribe(msg => this.quesUseCaseName = msg)
   console.log("this.quesUseCaseName=====",this.UseCaseName)
-  this.useCaseService.getUsecaseName.subscribe(msg => this.UseCaseName = msg)
+  this.useCaseService.getUsecaseName.pipe(takeUntil(this.destroy$)).subscribe(msg => this.UseCaseName = msg)
   console.log("Id====",Id,QuestionId,OptionsValue,this.userId,this.UseCaseName,Question_Weightage,RAI_secore)
   // this.map.set("")
   this.map.set(QuestionId,[Id,QuestionId,OptionsValue,this.userId,this.UseCaseName,Question_Weightage,RAI_secore])
@@ -295,9 +275,9 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
 
    // Submits the questionnaire responses and related data
   submit() {
-    this.useCaseService.getQuestionnaireResponse.subscribe((msg) => this.map1 = msg)
+    this.useCaseService.getQuestionnaireResponse.pipe(takeUntil(this.destroy$)).subscribe((msg) => this.map1 = msg)
     console.log("map==========", this.map1)
-    this.useCaseService.getUsecaseName.subscribe((msg) => (this.useCaseName = msg));
+    this.useCaseService.getUsecaseName.pipe(takeUntil(this.destroy$)).subscribe((msg) => (this.useCaseName = msg));
     const payload = {
       "UserId": '"' + this.userId + '"',
       "UseCaseName": this.useCaseName
@@ -310,7 +290,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
       });
       return
     }
-    this.useCaseService.getAiCanvas.subscribe(msg => this.aiCanvasData = msg)
+    this.useCaseService.getAiCanvas.pipe(takeUntil(this.destroy$)).subscribe(msg => this.aiCanvasData = msg)
 
     console.log("This.aiCanvasData147========", this.aiCanvasData)
 
@@ -331,7 +311,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
       }
     }
 
-    this.useCaseService.getRaiCanvas.subscribe(msg => this.raiCanvasDatDetail = msg)
+    this.useCaseService.getRaiCanvas.pipe(takeUntil(this.destroy$)).subscribe(msg => this.raiCanvasDatDetail = msg)
 
     console.log("aiCanvaspayload========", aiCanvaspayload)
     // raiCanvasDatDetail
@@ -363,8 +343,14 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
         // "Q_Weightage":value[5],
         // "RAI_Risk_Index":value[6]
       }
-
-      const jsonPayload = JSON.stringify(payload);
+let payloadString = '';
+    try {
+      payloadString = JSON.stringify(payload);
+    } catch (error) {
+      console.error('Failed to stringify payload', error);
+      payloadString = '';
+    }
+      const jsonPayload = payloadString;
       console.log(jsonPayload);
       this.questionPayload.push(jsonPayload)
 
@@ -386,7 +372,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
 
   // Creates a new use case with the provided payloads
   creatUsecsse(payload: any, aiCanvaspayload: any, raiCanvasPayload: any, quesPayload: any) {
-    this.https.post(this.createUseCase, payload).subscribe(
+    this.https.post(this.createUseCase, payload).pipe(takeUntil(this.destroy$)).subscribe(
 
       (res: any) => {
         // console.log("Payload===",payload)
@@ -424,7 +410,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
 
   // Submits the AI Canvas data to the API
   aiCanvasSubmit(aiCanvaspayload: any, raiCanvasPayload: any, quesPayload: any) {
-    this.https.post(this.aiCanvasSubmitResponse, aiCanvaspayload).subscribe(
+    this.https.post(this.aiCanvasSubmitResponse, aiCanvaspayload).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         console.log("Successfully Added AI canvas====", res);
 
@@ -478,7 +464,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
 
   // Submits the RAI Canvas data to the API
   raiCanvasSubmit(raiCanvasPayload: any, quesPayload: any) {
-    this.https.post(this.raiCanvasSubmitResponse, raiCanvasPayload).subscribe(
+    this.https.post(this.raiCanvasSubmitResponse, raiCanvasPayload).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         console.log(res);
         if (res == "Added Successfully" || res == " Updated Successfully...") {
@@ -533,7 +519,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
       // "data":this.questionPayload
       "data": payload
     }
-    this.https.post(this.submit_Response, payload1).subscribe(
+    this.https.post(this.submit_Response, payload1).pipe(takeUntil(this.destroy$)).subscribe(
 
       (res: any) => {
         // console.log("Payload===",payload)
@@ -571,7 +557,7 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
     // this.userId = localStorage.getItem("userid")
     // this.https.get(this.getResetData+this.userId+"/"+this.UseCaseName).subscribe
     console.log("====this.Ques_selectedResponse",this.Ques_selectedResponse)
-    this.https.get(this.Ques_selectedResponse+'"'+this.userId+'"'+"/"+this.UseCaseName).subscribe
+    this.https.get(this.Ques_selectedResponse+'"'+this.userId+'"'+"/"+this.UseCaseName).pipe(takeUntil(this.destroy$)).subscribe
     ((res: any) => {
       // this.OpenAitoogleValue = res.isOpenAI
       // this.dataSource = res.result
@@ -610,19 +596,20 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
       let ip_port: any
 
 
-    let user = this.getLogedInUser()
+    this.userId = this.validationService.getLogedInUser()
 
-    ip_port = this.getLocalStoreApi()
+    ip_port = this.validationService.getLocalStoreApi()
     this.setApilist(ip_port)
 
-    this.useCaseService.geteditParameter.subscribe(msg => this.editValue = msg) 
-    this.useCaseService.getUsecaseName.subscribe(msg => this.UseCaseName = msg)
+    this.useCaseService.geteditParameter.pipe(takeUntil(this.destroy$)).subscribe(msg => this.editValue = msg) 
+    this.useCaseService.getUsecaseName.pipe(takeUntil(this.destroy$)).subscribe(msg => this.UseCaseName = msg)
 
     if(this.editValue == true){
       this.getResubmitDetails()
     }else{
       this.getDetails()
     }
+
     
 
     console.log("firstFormGroup2====",this.firstFormGroup2)
@@ -630,6 +617,10 @@ responseData(Id:any,QuestionId:any,OptionsValue:any,Question_Weightage:any,RAI_s
     
     // Initialize the form controls for each question
     // this.initializeFormControls();
+    }
+        ngOnDestroy(): void {
+      this.destroy$.next();
+      this.destroy$.complete();
     }
 
   //   const questionGroups = this.subdata.OptionsDetail.map(question => {

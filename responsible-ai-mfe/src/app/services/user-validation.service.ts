@@ -11,6 +11,70 @@ import { Injectable } from '@angular/core';
 })
 export class UserValidationService {
 
+    // Retrieves the logged-in user from local storage
+    getLogedInUser() {
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      let userId: string | null = null;
+  
+      const storedValue = localStorage.getItem('userid');
+  
+      if (storedValue) {
+        try {
+          userId = JSON.parse(storedValue);
+        } catch (error) {
+          console.error('Invalid JSON in localStorage for userid', error);
+          userId = null;
+        }
+      }
+  
+      if (
+        userId &&
+        (this.isValidEmail(userId) ||
+         this.isValidName(userId))
+      ) {
+      console.log('userId', userId);
+      return userId;
+      }
+  
+    } 
+    return 'NA';
+  }
+  getLocalStoreApi() {
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+  let ip_port: any = null;
+
+  const storedValue = localStorage.getItem('res');
+
+  if (storedValue) {
+    try {
+      ip_port = JSON.parse(storedValue);
+    } catch (error) {
+      console.error('Invalid JSON in localStorage key: res', error);
+      ip_port = null;
+    }
+  }
+
+  return ip_port;
+}
+}
+
+  // Retrieves the logged-in user's role from local storage
+  getLogedInUserRole() {
+    if (window && window.localStorage && typeof localStorage !== 'undefined') {
+      let userRole: string="NA";
+      const storedValue = localStorage.getItem("role") ;
+      if (storedValue ) {
+        try{
+          userRole = JSON.parse(storedValue );
+        } catch (error) {
+          console.error('Invalid JSON in localStorage for role', error);
+          userRole = "NA";
+        }
+      }
+      return userRole;
+    }
+    return "NA";
+  }
   // Validates if the input is a valid email address
      isValidEmail(email: any) {
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

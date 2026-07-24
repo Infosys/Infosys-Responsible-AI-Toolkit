@@ -4,84 +4,7 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
-<!-- <ng-container *ngFor="let template of templateOptions">
-    <div id="{{template.parentId}}" class="mt-3" *ngIf="responseModerationTemplates.includes(template.value)">
-        <div class="card">
-            <div class="card-header cursor border-bottom-0 py-2" style="background: none;" id="headingOne"
-                data-toggle="collapse" [attr.data-target]="'#' + template.dataTarget" aria-expanded="true"
-                (click)="callEvalLLM(template.value)">
-                <div class="d-flex justify-content-between">
-                    <label class="mainLabel cursor m-0"
-                        style="font-size: 0.9rem; color: #303030;">{{template.title}}</label>
-                    <div *ngIf="response[template.value]?.result" class="custom-badge"
-                        [class.custom-badge-passed]="response[template.value]?.result == 'PASSED'"
-                        [class.custom-badge-failed]="response[template.value]?.result == 'FAILED'">
-                        {{response[template.value]?.result}}</div>
-                </div>
-            </div>
-            <div [id]="template.dataTarget" class="collapse" aria-labelledby="headingOne"
-                [attr.data-target]="'#' + template.parentId">
-                <div class="card-body" *ngIf="isEmptyObject(response[template.value])">
-                    <p class="mainLabel mainLabelSM" *ngIf="status[template.value] == 'failed'; else loaderCOT">API got
-                        failed. Please try again later. <a class="text-decoration-underline"
-                            (click)="callEvalLLM(template.value)">Click here to retry</a></p>
-                    <ng-template #loaderCOT>
-                        <div class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
-                            <div class="spinner-border" role="status">
-                                <span class="sr-only">Loading...</span>
-                            </div>
-                        </div>
-                    </ng-template>
-                </div>
-                <div class="card-body" *ngIf="!isEmptyObject(response[template.value])">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p class="mainLabel mainLabelSM mb-0">Analysis/Justification</p>
-                        </div>
-                        <div class="col-md-6 d-flex justify-content-end">
-                            <p class="mainLabel mainLabelSM mb-0 mt-n3">Time Taken:
-                                <span>{{response[template.value]?.timetaken}}</span>
-                            </p>
-                        </div>
-                    </div>
-                    <p class="mainLabel mainLabelSM mainLabelLight m-0">{{response[template.value]?.analysis}}</p>
-                    <div class="d-flex mt-3">
-                        <div class="cardA  me-3 flex-1">
-                            <p class="mainLabel" style="    color: #232323;
-                            margin: 0px;
-                            font-size: x-large;">
-                                {{response[template.value]?.score |
-                                number:'1.0-3'}}</p>
-                            <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Actual Score</p>
-                        </div>
-                        <div class="cardA  me-3 flex-1">
-                            <p class="mainLabel" style="    color: #232323;
-                            margin: 0px;
-                            font-size: x-large;">
-                                {{response[template.value]?.threshold |
-                                number:'1.0-3'}}</p>
-                            <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
-                        </div>
-                        <div class="cardA  me-3 flex-1" *ngIf="response[template.value]?.bias_type">
-                            <p class="mainLabel" style="    color: #232323;
-                            margin: 0px;
-                            font-size: small;">
-                                {{response[template.value]?.bias_type}}</p>
-                            <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Bias Type</p>
-                        </div>
-                        <div class="cardA  me-3 flex-1" *ngIf="response[template.value]?.group">
-                            <p class="mainLabel" style="    color: #232323;
-                            margin: 0px;
-                            font-size: small;">
-                                {{response[template.value]?.group}}</p>
-                            <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Affected Group</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</ng-container> -->
+
 <div class="card outerResultCard">
     <div class="card-header pb-0 card-header-outerResultCard">
         <h5 class="mainLabel d-flex mt-2 ms-2" style="font-size: 1rem; color: #303030;">
@@ -93,29 +16,28 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <ng-container *ngFor="let template of responseModerationTemplates">
                 <div class="mt-1">
                     <div class="card innerResultCard h-100">
-                        <div class="card-header border-bottom-0 py-2" style="background: none;" id="headingOne" aria-expanded="true">
+                        <div class="card-header border-bottom-0 py-2" style="background: none;" id="headingOne"
+                            aria-expanded="true">
                             <div class="d-flex justify-content-between">
-                                <label class="mainLabel m-0 d-flex" style="font-size: 0.9rem; color: #303030;">{{ shouldTrim(template) ? template.substring(8) : template }}
-                                    <!-- <mat-icon
-                                        *ngIf="response[template] && response[template].description && response[template]?.description != ''"
-                                        class="ms-2 cursor-pointer" [matTooltip]="response[template].description"
-                                        style="color: #727272;" [inline]="true">info</mat-icon> -->
-                                        <!-- the tooltip is commented as description is not getting passed -->
-
-                                </label>
+                                <label class="mainLabel m-0 d-flex" style="font-size: 0.9rem; color: #303030;">
+                                    {{ shouldTrim(template) ? template.substring(8) : template }}</label>
                                 <div class="d-flex">
-                                    <mat-icon class="ms-2 cursor-pointer" style="color: #727272;width: 18px;"
-                                    [inline]="true"
-                                    (click)="openRightSideModal({title:template,type:template+'-temp'})">info</mat-icon>
-                                    <div *ngIf="response[template]?.result" class="custom-badge" [class.custom-badge-passed]="response[template]?.result == 'PASSED'" [class.custom-badge-failed]="response[template]?.result == 'FAILED'" style="margin-left: 7px;">
+                                    <mat-icon class="ms-2 cursor-pointer" style="color: #727272;width: 18px;" [inline]="true"
+                                        (click)="openRightSideModal({title:template,type:template+'-temp'})">info</mat-icon>
+                                    <div *ngIf="response[template]?.result" class="custom-badge"
+                                        [class.custom-badge-passed]="response[template]?.result == 'PASSED'"
+                                        [class.custom-badge-failed]="response[template]?.result == 'FAILED'"
+                                        style="margin-left: 7px;">
                                         {{response[template]?.result}}</div>
                                 </div>
-                                </div>
+                            </div>
                         </div>
                         <div aria-labelledby="headingOne">
                             <div class="card-body" *ngIf="isEmptyObject(response[template])">
                                 <p class="mainLabel mainLabelSM" *ngIf="status[template] == 'failed'; else loaderCOT">
-                                    API got failed. Please try again later. <a class="text-decoration-underline" (click)="callEvalLLM(template)">Click here to retry</a></p>
+                                    API got failed. Please try again later.
+                                    <a class="text-decoration-underline" (click)="callEvalLLM(template)">Click here to retry</a>
+                                </p>
                                 <ng-template #loaderCOT>
                                     <div class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
                                         <div class="spinner-border" role="status">
@@ -125,61 +47,37 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                                 </ng-template>
                             </div>
                             <div class="card-body" *ngIf="!isEmptyObject(response[template])">
-                                <!-- <div class="row">
-                            <div class="col-md-6">
-                                <p class="mainLabel mainLabelSM mb-0">Analysis/Justification</p>
-                            </div>
-                            <div class="col-md-6 d-flex justify-content-end">
-                                <p class="mainLabel mainLabelSM mb-0 mt-n3" style="font-size: 0.7rem;">Time Taken:
-                                    <span>{{response[template]?.timetaken}}</span>
-                                </p>
-                            </div>
-                        </div> -->
-                                <p class="mainLabel mainLabelSM mb-2 mt-n3 text-end" style="font-size: 0.7rem;">Time Taken:
-                                    <span>{{response[template]?.timetaken}}</span>
-                                </p>
-                                <p class="mainLabel mainLabelSM mainLabelLight m-0"><span class="mainLabel mainLabelSM mb-0">Analysis:
-                                    </span>
-                                    <span *ngIf="!showFullAnalysis[template]">
-                                        {{response[template]?.analysis | slice:0:80}}...
+                                <p class="mainLabel mainLabelSM mb-2 mt-n3 text-end" style="font-size: 0.7rem;">
+                                    Time Taken: <span>{{response[template]?.timetaken}}</span></p>
+                                <p class="mainLabel mainLabelSM mainLabelLight m-0">
+                                    <span class="mainLabel mainLabelSM mb-0">Analysis:</span>
+                                    <span *ngIf="!showFullAnalysis[template]">{{response[template]?.analysis | slice:0:80}}...
                                         <a (click)="toggleAnalysis(template)">Show more</a>
                                     </span>
-                                    <span *ngIf="showFullAnalysis[template]">
-                                        {{response[template]?.analysis}}
+                                    <span *ngIf="showFullAnalysis[template]">{{response[template]?.analysis}}
                                         <a (click)="toggleAnalysis(template)">Show less</a>
                                     </span>
                                 </p>
                                 <div class="d-flex mt-3 flex-wrap">
                                     <div class="cardA  m-1 flex-1">
-                                        <p class="mainLabel" style="    color: #232323;
-                                margin: 0px;
-                                font-size: x-large;">
-                                            {{response[template]?.score | number:'1.0-3'}}
-                                        </p>
+                                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                                            {{response[template]?.score | number:'1.0-3'}}</p>
                                         <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Actual Score</p>
                                     </div>
                                     <div class="cardA  m-1 flex-1">
-                                        <p class="mainLabel" style="    color: #232323;
-                                margin: 0px;
-                                font-size: x-large;">
-                                            {{response[template]?.threshold | number:'1.0-3'}}
-                                        </p>
+                                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
+                                            {{response[template]?.threshold | number:'1.0-3'}}</p>
                                         <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
                                     </div>
                                     <div class="cardA  m-1 flex-1" *ngIf="response[template]?.bias_type">
-                                        <p class="mainLabel" style="    color: #232323;
-                                margin: 0px;
-                                font-size: small;">
+                                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: small;">
                                             {{response[template]?.bias_type}}</p>
                                         <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Bias Type</p>
                                     </div>
                                     <div class="cardA  m-1 flex-1" *ngIf="response[template]?.group">
-                                        <p class="mainLabel" style="    color: #232323;
-                                margin: 0px;
-                                font-size: small;">
+                                        <p class="mainLabel" style="color: #232323; margin: 0px; font-size: small;">
                                             {{response[template]?.group}}</p>
-                                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Affected Group
-                                        </p>
+                                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Affected Group</p>
                                     </div>
                                 </div>
                             </div>
@@ -192,10 +90,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <!-- NAVI TONE  -->
         <div id="naviTone" class="mt-3" *ngIf="selectedUseCaseName == 'Navi'">
             <div class="card innerResultCard">
-                <div class="card-header border-bottom-0 py-2" style="background: none;" id="headingOne" data-target="#naviToneCard" aria-expanded="true">
+                <div class="card-header border-bottom-0 py-2" style="background: none;" id="headingOne"
+                    data-target="#naviToneCard" aria-expanded="true">
                     <div class="d-flex justify-content-between">
-                        <label class="mainLabel m-0" style="font-size: 0.9rem; color: #303030;">NAVI TONEMODERATION
-                            CORRECTNESS</label>
+                        <label class="mainLabel m-0" style="font-size: 0.9rem; color: #303030;">
+                            NAVI TONEMODERATION CORRECTNESS</label>
                     </div>
                 </div>
                 <div id="naviToneCard" aria-labelledby="headingOne" data-target="#naviTone">
@@ -213,30 +112,22 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                         <p class="mainLabel mainLabelSM mainLabelLight m-0">{{naviResponse?.analysis}}</p>
                         <div class="d-flex mt-3">
                             <div class="cardA  me-3 flex-1">
-                                <p class="mainLabel" style="    color: #232323;
-                        margin: 0px;
-                        font-size: small;">
+                                <p class="mainLabel" style="color: #232323; margin: 0px; font-size: small;">
                                     {{naviResponse?.sentiment}}</p>
                                 <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Sentiment</p>
                             </div>
                             <div class="cardA  me-3 flex-1">
-                                <p class="mainLabel" style="    color: #232323;
-                        margin: 0px;
-                        font-size: small;">
+                                <p class="mainLabel" style="color: #232323; margin: 0px; font-size: small;">
                                     {{naviResponse?.context}}</p>
                                 <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Context</p>
                             </div>
                             <div class="cardA  me-3 flex-1">
-                                <p class="mainLabel" style="    color: #232323;
-                        margin: 0px;
-                        font-size: x-large;">
+                                <p class="mainLabel" style="color: #232323; margin: 0px; font-size: x-large;">
                                     {{naviResponse?.toneScore}}</p>
                                 <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Tone Score</p>
                             </div>
                             <div class="cardA  me-3 flex-1">
-                                <p class="mainLabel" style="    color: #232323;
-                        margin: 0px;
-                        font-size: small;">
+                                <p class="mainLabel" style="color: #232323; margin: 0px; font-size: small;">
                                     {{naviResponse?.domain}}</p>
                                 <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Domain</p>
                             </div>
@@ -247,77 +138,3 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
     </div>
 </div>
-
-<!-- RESPONSE_COMPLETENESS_WRT_CONTEXT -->
-<!-- <div id="accordionContextRel" class="mt-3"
-    *ngIf="responseModerationTemplates.includes('RESPONSE_COMPLETENESS_WRT_CONTEXT')">
-    <div class="card">
-        <div class="card-header  border-bottom-0 py-2" style="background: none;" id="headingOne"
-             data-target="#collapseContextRel" aria-expanded="true">
-            <div class="d-flex justify-content-between">
-                <label class="mainLabel  m-0" style="font-size: 0.9rem; color: #303030;">
-                    RESPONSE COMPLETENESS WRT CONTEXT</label>
-                <div *ngIf="response['RESPONSE_COMPLETENESS_WRT_CONTEXT']?.result" class="custom-badge"
-                    [class.custom-badge-passed]="response['RESPONSE_COMPLETENESS_WRT_CONTEXT']?.result == 'PASSED'"
-                    [class.custom-badge-failed]="response['RESPONSE_COMPLETENESS_WRT_CONTEXT']?.result == 'FAILED'">
-                    {{response['RESPONSE_COMPLETENESS_WRT_CONTEXT']?.result}}</div>
-            </div>
-        </div>
-        <div id="collapseContextRel"  aria-labelledby="headingOne" data-target="#accordionContextRel">
-            <div class="position-relative p-3">
-                <textarea class="form-control w-100 txtAreaContext shadow-none" rows="2" placeholder="Enter Context"
-                    [(ngModel)]="textareaContext"></textarea>
-                <span class="border-0 position-absolute m-2 pe-4 pb-3 sendIcon cursor"
-                    [class.disabled]="!textareaContext"
-                    (click)="textareaContext && callEvalLLM('RESPONSE_COMPLETENESS_WRT_CONTEXT' ,textareaContext)">
-                    <i class="material-icons">send</i>
-                </span>
-            </div>
-            <div class="card-body" *ngIf="status['RESPONSE_COMPLETENESS_WRT_CONTEXT'] == 'loading'">
-                <p class="mainLabel mainLabelSM"
-                    *ngIf="status['RESPONSE_COMPLETENESS_WRT_CONTEXT'] == 'failed'; else loaderCOT">API got
-                    failed. Please try again later. <a class="text-decoration-underline"
-                        (click)="callEvalLLM('RESPONSE_COMPLETENESS_WRT_CONTEXT')">Click here to retry</a></p>
-                <ng-template #loaderCOT>
-                    <div class=" d-flex justify-content-center align-items-center" style="color: #8626C3;">
-                        <div class="spinner-border" role="status">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                    </div>
-                </ng-template>
-            </div>
-            <div class="card-body" *ngIf="status['RESPONSE_COMPLETENESS_WRT_CONTEXT'] == 'done'">
-                <div class="row">
-                    <div class="col-md-6">
-                        <p class="mainLabel mainLabelSM mb-0">Analysis/Justification</p>
-                    </div>
-                    <div class="col-md-6 d-flex justify-content-end">
-                        <p class="mainLabel mainLabelSM mb-0 mt-n3">Time Taken:
-                            <span>{{response['RESPONSE_COMPLETENESS_WRT_CONTEXT']?.timetaken}}</span>
-                        </p>
-                    </div>
-                </div>
-                <p class="mainLabel mainLabelSM mainLabelLight m-0">
-                    {{response['RESPONSE_COMPLETENESS_WRT_CONTEXT']?.analysis}}</p>
-                <div class="d-flex mt-3">
-                    <div class="cardA  me-3 flex-1">
-                        <p class="mainLabel" style="    color: #232323;
-                            margin: 0px;
-                            font-size: x-large;">
-                            {{response['RESPONSE_COMPLETENESS_WRT_CONTEXT']?.score |
-                            number:'1.0-3'}}</p>
-                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Actual Score</p>
-                    </div>
-                    <div class="cardA  me-3 flex-1">
-                        <p class="mainLabel" style="    color: #232323;
-                            margin: 0px;
-                            font-size: x-large;">
-                            {{response['RESPONSE_COMPLETENESS_WRT_CONTEXT']?.threshold |
-                            number:'1.0-3'}}</p>
-                        <p class="mainLabel mainLabelSM mb-0" style="font-weight: 400;">Threshold</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> -->
