@@ -61,6 +61,10 @@ token_expiration=0
 verify_ssl = os.getenv("VERIFY_SSL")
 sslv={"False":False,"True":True,"None":True}
 
+# Performance: named constants replace magic numbers throughout this module.
+CHUNK_TOKEN_LIMIT = 400   # Maximum number of tokens per text chunk.
+HTTP_TIMEOUT = 30         # Seconds before an outbound HTTP request is aborted.
+
 def handle_object(obj):
     return vars(obj) 
 
@@ -68,6 +72,39 @@ class AttributeDict(dict):
     __getattr__ = dict.__getitem__
     __setattr__ = dict.__setitem__
     __delattr__ = dict.__delitem__
+
+
+def chunk_text(text: str, limit: int = CHUNK_TOKEN_LIMIT) -> list:
+    """Split *text* into token-based chunks of at most *limit* tokens each.
+
+    Centralises the chunking logic that was previously duplicated in the
+    ``Toxicity`` and ``Profanity`` service classes, and fixes a latent bug
+    where the original code used ``len(token)`` (character count) instead
+    of 1 when accumulating the per-chunk token count.
+
+    Args:
+        text:  The input string to split.
+        limit: Maximum number of NLTK tokens allowed in each chunk.
+               Defaults to :data:`CHUNK_TOKEN_LIMIT`.
+
+    Returns:
+        A list of text chunks.  If the text is already within *limit* tokens
+        the list contains only the original string.
+    """
+    tokens = nltk.word_tokenize(text)
+    if len(tokens) <= limit:
+        return [text]
+    chunks = []
+    current = []
+    for token in tokens:
+        if len(current) < limit:
+            current.append(token)
+        else:
+            chunks.append(' '.join(current))
+            current = [token]
+    if current:
+        chunks.append(' '.join(current))
+    return chunks
 
 
 try:
@@ -370,7 +407,7 @@ class promptResponse:
             output =await post_request(url = url,json={"text1": prompt,"text2": output_text},headers=headers)
             similarity=json.loads(output.decode('utf-8'))[0][0][0]
             
-            # output = requests.post(url = mpnetsimilarityurl,json={"text1": prompt,"text2": output_text},headers=headers,verify=False)
+            # output = requests.post(url = mpnetsimilarityurl,json={"text1": prompt,"text2": output_text},headers=headers,verify=False,timeout=HTTP_TIMEOUT)
             # similarity=output.json()[0][0]
             # log.info(f"Max similarity : {max(similarity)}")
             return similarity
@@ -467,11 +504,11 @@ class CustomthemeRestricted:
             #Using azure jailbreak endpoint for custom theme restricted
             if target_env=='azure':
                 log.info("Using azure jailbreak endpoint for custom theme restricted")
-                text_embedding = requests.post(url = jailbreakurl,json={"text": [text]},headers=headers,verify=sslv[verify_ssl]).json()[0][0]
+                text_embedding = requests.post(url = jailbreakurl,json={"text": [text]},headers=headers,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT).json()[0][0]
             #Using aicloud jailbreak endpoint for custom theme restricted
             elif target_env=='aicloud':
                 log.info("Using aicloud jailbreak endpoint for custom theme restricted")
-                text_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text]},headers=headers,verify=sslv[verify_ssl]).json()[0]
+                text_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text]},headers=headers,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT).json()[0]
             if theme:
                 embed_array = orgpolicy_embeddings
             else:
@@ -567,27 +604,8 @@ class Toxicity:
         try:
             if identifyIDP(text):
                 text=text.replace('IDP','idp')
-            # tokens = TreebankWordTokenizer().tokenize
-            tokens = nltk.word_tokenize(text)  
-            # print("len(tokens)",len(tokens))
-            if len(tokens) > 400:
-                chunked_texts = []
-                chunk = []
-                token_count = 0
-
-                for token in tokens:
-                    if token_count + len(token) <= 400:
-                        chunk.append(token)
-                        token_count += len(token)
-                    else:
-                        chunked_texts.append(' '.join(chunk))
-                        chunk = [token]
-                        token_count = len(token)
-
-                # Add the last chunk if it's not empty
-                
-                if chunk:
-                    chunked_texts.append(' '.join(chunk))
+            chunked_texts = chunk_text(text)
+            if len(chunked_texts) > 1:
             
                 toxicity_scoreslist = []
                 toxicity_scores = {
@@ -750,7 +768,7 @@ def profanity_popup(text,headers):
             if target_env=='azure':
                 log.info("Using azure endpoints for profanity popup")
                 for chunk in chunks:
-                    result = requests.post(url=detoxifyurl,json={"text": chunk},headers=headers,verify=sslv[verify_ssl]).json()
+                    result = requests.post(url=detoxifyurl,json={"text": chunk},headers=headers,verify=sslv[verify_ssl]),timeout=HTTP_TIMEOUT).json()
                     toxicity_scoreslist.append(result)
                 for item in toxicity_scoreslist:
                     toxic_score_list = item['toxicScore']
@@ -763,7 +781,7 @@ def profanity_popup(text,headers):
             elif target_env=='aicloud':
                 log.info("Using aicloud endpoints for profanity popup")
                 for chunk in chunks:
-                    result = requests.post(url=detoxifyraiurl,json={"inputs": [chunk]},headers=headers,verify=sslv[verify_ssl]).json()
+                    result = requests.post(url=detoxifyraiurl,json={"inputs": [chunk]},headers=headers,verify=sslv[verify_ssl]),timeout=HTTP_TIMEOUT).json()
                     toxicity_scoreslist.append(result[0])
                 for item in toxicity_scoreslist:
                         for key,value in item.items():
@@ -783,16 +801,16 @@ def profanity_popup(text,headers):
             #Using azure endpoints for profanity popup
             if target_env=='azure':
                 log.info("Using azure endpoints for profanity popup")
-                output = requests.post(url=detoxifyurl,json={"text": text},headers=headers,verify=sslv[verify_ssl]).json()
+                output = requests.post(url=detoxifyurl,json={"text": text},headers=headers,verify=sslv[verify_ssl]),timeout=HTTP_TIMEOUT).json()
                 toxic_score = output["toxicScore"][0]["metricScore"]
             #Using aicloud endpoints for profanity popup
             elif target_env=='aicloud':
                 log.info("Using aicloud endpoints for profanity popup")
-                output = requests.post(url=detoxifyraiurl,json={"inputs": [text]},headers=headers,verify=sslv[verify_ssl]).json()
+                output = requests.post(url=detoxifyraiurl,json={"inputs": [text]},headers=headers,verify=sslv[verify_ssl]),timeout=HTTP_TIMEOUT).json()
                 toxic_score = output[0]["toxicity"]              
 
 
-        # output = requests.post(url=detoxifyurl,json={"text": text},verify=False).json()
+        # output = requests.post(url=detoxifyurl,json={"text": text},verify=False,timeout=HTTP_TIMEOUT).json()
         # toxic_score = output["toxicScore"][0]["metricScore"]
         List_profanity = []
         if toxic_score > 0.6:
@@ -828,7 +846,7 @@ def privacy_popup(payload,headers=None):
             url=privacyurl
         elif target_env=='aicloud':
             url=privacyraiurl
-        analyze_result =requests.post(url=url,json={"text": text},headers=headers)
+        analyze_result =requests.post(url=url,json={"text": text},headers=headers,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT)
         analyze_result=analyze_result.json()
         entitiesconfigured = payload.PiientitiesConfiguredToDetect
         entitiesconfiguredToBlock = payload.PiientitiesConfiguredToBlock
@@ -874,24 +892,8 @@ class Profanity:
 
     async def recognise(self,text,headers):
         try:
-            tokens = nltk.word_tokenize(text)    
-            if len(tokens) > 400:
-                chunked_texts = []
-                chunk = []
-                token_count = 0
-
-                for token in tokens:
-                    if token_count + len(token) <= 400:
-                        chunk.append(token)
-                        token_count += len(token)
-                    else:
-                        chunked_texts.append(' '.join(chunk))
-                        chunk = [token]
-                        token_count = len(token)
-
-                # Add the last chunk if it's not empty
-                if chunk:
-                    chunked_texts.append(' '.join(chunk))
+            chunked_texts = chunk_text(text)
+            if len(chunked_texts) > 1:
             
                 toxicity_scoreslist = []
                 toxicity_scores = {
@@ -2573,7 +2575,7 @@ class LlamaDeepSeekcompletion:
                     "do_sample": True
                 }
             }
-            response = requests.post(url, json=input, verify=sslv[verify_ssl])
+            response = requests.post(url, json=input, verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT)
             response.raise_for_status()
             generated_text = response.json()[0]["generated_text"]
             output_text = generated_text.split("[/INST]")[1]
@@ -2593,7 +2595,7 @@ class LlamaDeepSeekcompletion:
                     "max_tokens": 128
             }
             headers={"Authorization": "Bearer "+aicloud_access_token,"Content-Type": contentType,"Accept": "*"}
-            response = requests.post(url,json=input,headers=headers,verify=sslv[verify_ssl])
+            response = requests.post(url,json=input,headers=headers,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT)
             response.raise_for_status()
             response = json.loads(response.text)['choices'][0]['text']
             output_text = response.replace("\n</think>\n\n","") if "\n</think>\n\n" in response else response
@@ -2609,7 +2611,7 @@ class Llamacompletionazure:
             input = {
                 "input": text
             }
-            response = requests.post(self.url, json=input, verify=sslv[verify_ssl])
+            response = requests.post(self.url, json=input, verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT)
             generated_text = response.json()["output"]
             return generated_text, 0, "","0"
         except Exception as e:
@@ -2696,7 +2698,7 @@ class Llama3completions:
             "stop": "null"
             }
             st=time.time()
-            response = requests.post(url=self.url, json=input, headers=headers)
+            response = requests.post(url=self.url, json=input, headers=headers,timeout=HTTP_TIMEOUT)
             et= time.time()
             rt = et - st
             dict_timecheck["Llama3InteractionTime"]=str(round(rt,3))+"s"
@@ -2854,7 +2856,7 @@ class Bloomcompletion:
         self.url = os.environ.get("BLOOM_ENDPOINT")
 
     def textCompletion(self,text,temperature=None,PromptTemplate="GoalPriority",deployment_name=None,Moderation_flag=None,COT=None,THOT=None):
-        response = requests.post(self.url,text,verify=sslv[verify_ssl])
+        response = requests.post(self.url,text,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT)
         generated_text = response.json()[0]["generated_text"]
         return generated_text,0,"","0"
 
@@ -3027,7 +3029,7 @@ class AWScompletions:
         request = json.dumps(native_request)
         if deployment_name == "AWS_CLAUDE_V3_5":
             url = os.getenv("AWS_KEY_ADMIN_PATH")
-            response = requests.get(url,verify=sslv[verify_ssl])
+            response = requests.get(url,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT)
                 
             if response.status_code == 200:
                 expiration_time = int(response.json()['expirationTime'].split("hrs")[0])
@@ -3319,13 +3321,13 @@ def organization_policy(payload,headers):
         #Using azure restricted topic model endpoint for organization policy
         if target_env=='azure':
             log.info("Using azure restricted topic model endpoint for organization policy")
-            output = requests.post(url = topicurl,json={"text": text,"labels":labels},headers=headers,verify=sslv[verify_ssl])
+            output = requests.post(url = topicurl,json={"text": text,"labels":labels},headers=headers,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT)
             output=output.json()
 
         #Using aicloud restricted topic model endpoint for organization policy
         elif target_env=='aicloud':
             log.info("Using aicloud restricted topic model endpoint for organization policy")
-            output = requests.post(url = topicraiurl,json={"inputs": [{"text":text,"labels":labels}]},headers=headers,verify=sslv[verify_ssl])
+            output = requests.post(url = topicraiurl,json={"inputs": [{"text":text,"labels":labels}]},headers=headers,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT)
             output=output.json()[0]
 
         d={}
@@ -3343,11 +3345,11 @@ def organization_policy(payload,headers):
 
 def promptResponseSimilarity(text_1, text_2,headers):
     if target_env=='azure':
-        text_1_embedding = requests.post(url = jailbreakurl,json={"text": [text_1]},headers=headers,verify=sslv[verify_ssl]).json()[0][0]
-        text_2_embedding = requests.post(url = jailbreakurl,json={"text": [text_2]},headers=headers,verify=sslv[verify_ssl]).json()[0][0]
+        text_1_embedding = requests.post(url = jailbreakurl,json={"text": [text_1]},headers=headers,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT).json()[0][0]
+        text_2_embedding = requests.post(url = jailbreakurl,json={"text": [text_2]},headers=headers,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT).json()[0][0]
     elif target_env=='aicloud':
-        text_1_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text_1]},headers=headers,verify=sslv[verify_ssl]).json()[0]
-        text_2_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text_2]},headers=headers,verify=sslv[verify_ssl]).json()[0]
+        text_1_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text_1]},headers=headers,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT).json()[0]
+        text_2_embedding = requests.post(url = jailbreakraiurl,json={"inputs": [text_2]},headers=headers,verify=sslv[verify_ssl],timeout=HTTP_TIMEOUT).json()[0]
     
     dot_product = np.dot(text_1_embedding, text_2_embedding)
     norm_product = np.linalg.norm(text_1_embedding) * np.linalg.norm(text_2_embedding)
