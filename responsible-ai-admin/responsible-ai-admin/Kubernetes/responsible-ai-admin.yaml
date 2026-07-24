@@ -4,6 +4,7 @@ metadata:
   name: responsible-ai-reporting-tool-sa
   namespace: irai-toolkit-test
 automountServiceAccountToken: false
+---
 apiVersion: v1
 kind: Service
 metadata:
@@ -13,10 +14,12 @@ metadata:
     app: responsible-ai-admin
 spec:
   type: ClusterIP
-  ports:
-  - port: 30016
   selector:
     app: responsible-ai-admin
+  ports:
+    - name: http
+      port: 30016
+      targetPort: 30016
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -38,27 +41,33 @@ spec:
         app: responsible-ai-admin
         version: v1
     spec:
-      automountServiceAccountToken: false # Disable token mounting
+      serviceAccountName: responsible-ai-reporting-tool-sa
+      automountServiceAccountToken: false
       imagePullSecrets:
-         - name: docker-secret
+        - name: docker-secret
       containers:
-      - envFrom:
-        - configMapRef:
-            name: admin-config
-        image: <Image Name>
-        imagePullPolicy: Always
-        name: responsible-ai-admin
-        ports:
-        - containerPort: 30016
-        securityContext:
-            runAsUser: 1000  # Non-root user
+        - name: responsible-ai-admin
+          image: <IMAGE_NAME>
+          imagePullPolicy: Always
+          envFrom:
+            - configMapRef:
+                name: admin-config
+          ports:
+            - containerPort: 30016
+          securityContext:
+            runAsUser: 1000
             runAsGroup: 1000
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
             capabilities:
               drop:
-                - ALL  # Drop all capabilities
+                - ALL
             seccompProfile:
               type: RuntimeDefault
-        resources:
+          resources:
             limits:
-                cpu: '1'
-                memory: '3Gi'
+              cpu: "1"
+              memory: 3Gi
+            requests:
+              cpu: "250m"
+              memory: 512Mi

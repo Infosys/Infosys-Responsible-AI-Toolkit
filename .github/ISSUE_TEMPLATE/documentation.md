@@ -1,11 +1,17 @@
 ---
 name: Documentation
-about: Spotted a typo? Help improve our documentation by opening an issue
-title: ''
-labels: ''
-assignees: ''
-
+about: Report a documentation issue or typo
+title: "[Docs]: "
+labels: documentation
+assignees: ""
 ---
 
-**Describe **
-Please provide a clear and concise description of the specific typo issue, including the folder or document where it was found
+## Description
+Provide a clear and concise description of the documentation issue.  
+Please include the file name, folder path, and details of the typo or correction needed.
+
+## Suggested Correction (Optional)
+If possible, provide the corrected text or a suggested improvement.
+
+## Additional Context
+Add any other information that may help improve the documentation.

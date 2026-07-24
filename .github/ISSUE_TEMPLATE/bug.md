@@ -1,21 +1,26 @@
 ---
 name: Bug
-about: Found a bug? Open an issue using the label bug.
-title: ''
-labels: ''
-assignees: ''
-
+about: Report an issue or unexpected behavior
+title: "[Bug]: "
+labels: bug
+assignees: ""
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is. Tag it to @InfosysResponsibleAI with the appropriate label.
+## Bug Description
+Provide a clear and concise description of the issue.  
+Please tag **@InfosysResponsibleAI** and apply the appropriate label.
 
+## Guardrail Name
+Specify the name of the Guardrail where the bug was encountered.
 
-**Guardrail Name**
-Please specify the name of the Guardrail where you encountered the bug.
+## Expected Behavior
+Describe what you expected to happen instead of the observed behavior.
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+## Actual Behavior
+Describe what actually happened.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+## Screenshots / Logs
+If applicable, add screenshots, logs, or other supporting artifacts to help explain the issue.
+
+## Additional Context
+Add any other relevant information that may help with investigation (e.g., environment, inputs, steps to reproduce).

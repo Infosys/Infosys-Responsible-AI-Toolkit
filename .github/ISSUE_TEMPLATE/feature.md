@@ -1,19 +1,23 @@
 ---
-name: Feature
-about: Suggest an idea for this project
-title: ''
-labels: ''
-assignees: ''
-
+name: Feature Request
+about: Suggest a new feature or enhancement
+title: "[Feature]: "
+labels: enhancement
+assignees: ""
 ---
-**Module Name.**
-Mention the module name <e.g responsible-ai-Hallucination>
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Tag it to @InfosysResponsibleAI with the appropriate labels
+## Module Name
+Specify the relevant module (e.g., `responsible-ai-hallucination`).
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+## Problem Statement
+Describe the problem this feature aims to solve.  
+Please tag **@InfosysResponsibleAI** and apply the appropriate labels.
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+## Proposed Solution
+Provide a clear and concise description of the feature or enhancement you would like to see.
+
+## Alternatives Considered
+Describe any alternative solutions or approaches you have considered.
+
+## Additional Context
+Include any other relevant details, mockups, or examples that may help with evaluation.

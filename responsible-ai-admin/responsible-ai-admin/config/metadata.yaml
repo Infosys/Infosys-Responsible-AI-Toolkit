@@ -1,17 +1,25 @@
 openapi_url: /api/v1/rai/admin/openapi.json
 docs_url: /api/v1/rai/admin/docs
-title: Infosys Responsible AI - responsible-ai-admin - OpenAPI 3.0
-description: API specs for Infosys Responsible AI rai_admin pillar in OpenAPI 3.0 format
+
+title: Infosys Responsible AI – Responsible AI Admin (OpenAPI 3.0)
+description: >
+  OpenAPI 3.0 specifications for the Infosys Responsible AI
+  Responsible AI Admin (rai_admin) pillar.
+
 terms_of_service: https://www.infosys.com
+
 contact:
-    email: aina@infosys.com
+  email: aina@infosys.com
+
 license_info:
-    name: Infosys
-    url: https://www.infosys.com
+  name: Infosys
+  url: https://www.infosys.com
+
 version: v$version
+
 openapi_tags:
-    - name: rai_admin
-      description: creating recognizer and account mapping
-      externalDocs:
-        description: Find out more
-        url: https://www.infosys.com
+  - name: rai_admin
+    description: APIs for managing recognizers and account mappings
+    externalDocs:
+      description: Additional documentation
+      url: https://www.infosys.com
