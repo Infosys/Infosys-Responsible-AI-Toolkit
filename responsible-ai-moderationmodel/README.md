@@ -22,7 +22,7 @@ To run the application, first we need to install Python and the necessary packag
 
 1. Install Python (version 3.11.x) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
 
-2. Clone the repository : responsible-ai-moderationmodel:
+2. Clone the repository : Infosys-Responsible-AI-Toolkit:
     ```sh
     git clone <repository-url>
     ```
@@ -115,13 +115,9 @@ Once we have completed all the aforementioned steps, we can start the service.
 
 2. Do not use this Moderation Model repository as a standalone repository. It serves as the base or dependency for the Moderation Layer repository, which provides the 'Guardrail' functionality, so access this repository APIs through Moderation layer.
 
-3. The restricted topic model by default will be deberta model, if you want to use the fine-tuned distilbert model change - "model": "fine-tuned distilbert" from "model" : "deberta" in input payload for restricted topic model.
-
-4. For the DeBERTa model, zero-shot classification is supported. You can specify any label in the payload to classify the input text accordingly.
-For the fine-tuned DistilBERT model, classification is restricted to the following 14 predefined labels:
-terrorism, explosives, nudity, cruelty, cheating, fraud, crime, hacking, immoral, unethical, illegal, robbery, forgery, misinformation.
-
-  
+## Docker Image
+The Docker image for the ModerationModel module (IP2.2.0) has been published on Docker Hub. You can access it here: [ModerationModel image](https://hub.docker.com/repository/docker/infosysresponsibleaitoolkit/responsible-ai-moderationmodel)
+ 
 ## License
 The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.
 
