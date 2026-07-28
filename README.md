@@ -19,7 +19,7 @@ The following table lists the modules of the Infosys Responsible AI Toolkit.  In
 
 ** Endpoints for explainability are located in both the explainability and moderation layer repositories. Refer to the README files in these repositories for more details on specific features.
 
-Please refer [Features and Endpoints](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/master/Features%20and%20Endpoints.docx) document for more details on endpoints and their usage. 
+Please refer [Features and Endpoints](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/master/Features%20and%20Endpoints-2.2.1.docx) document for more details on endpoints and their usage. 
 
 
 ### Modules for the Responsible AI Toolkit Interface
