@@ -208,7 +208,7 @@ To create an effective privacy monitoring dashboard:
 
 
 ## License
-The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.
+The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/master/responsible-ai-telemetry/License.md) file.
 
 
 ## Contact
