@@ -138,7 +138,7 @@ After installing all the required packages, configure the variables necessary to
    ```
     
     *TELE_FLAG is made true only if user wants to request the response in telemetry. Otherwise for the normal flow it can be set as False.
-    For Telemetry setup, refer this link [responsible-ai-telemetry](https://github.com/Infosys-AI-Cloud-MMS/responsible-ai-telemetry)
+    For Telemetry setup, refer this link [responsible-ai-telemetry](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-telemetry)
     set the below env variables for connecting with telemetry alongside Telemetry flag.
    
    ```sh
