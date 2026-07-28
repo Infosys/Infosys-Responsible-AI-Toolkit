@@ -68,6 +68,5 @@ class Azure:
                 log.error(f"Error generating image: {e}")
                 if attempt < max_retries - 1:
                     time.sleep(retry_wait_time)
-            except Exception as e:
-                log.error(f"Error generating image: {e}")
-                raise Exception(f"Error generating image: {e}")
+                else:
+                    raise RuntimeError(f"Error generating image after {max_retries} attempts: {e}")

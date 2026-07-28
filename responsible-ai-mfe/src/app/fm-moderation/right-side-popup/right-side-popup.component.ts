@@ -5,7 +5,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -14,7 +15,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './right-side-popup.component.html',
   styleUrls: ['./right-side-popup.component.css']
 })
-export class RightSidePopupComponent {
+export class RightSidePopupComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   @Input() data: any;
   apiUrlList: any = {};
   privacyCheckRes: any;
@@ -126,7 +128,7 @@ export class RightSidePopupComponent {
     const options = {
       inputText: prompt,
     };
-    this.https.post(this.apiUrlList.privacyPopup, payload).subscribe(
+    this.https.post(this.apiUrlList.privacyPopup, payload).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         console.log(res.privacyCheck);
         this.privacyCheckRes = res.privacyCheck[0];
@@ -155,7 +157,7 @@ export class RightSidePopupComponent {
       };
       this.toxicityRes = [];
 
-      this.https.post(this.apiUrlList.fm_api_inf_ToxicityPopup, options).subscribe(
+      this.https.post(this.apiUrlList.fm_api_inf_ToxicityPopup, options).pipe(takeUntil(this.destroy$)).subscribe(
         (res: any) => {
           this.toxicityRes = res.toxicity;
         },
@@ -188,7 +190,7 @@ export class RightSidePopupComponent {
     };
     this.toxicityRes = [];
 
-    this.https.post(this.apiUrlList.fm_api_inf_ToxicityPopup, options).subscribe(
+    this.https.post(this.apiUrlList.fm_api_inf_ToxicityPopup, options).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.toxicityRes = res.toxicity;
       },
@@ -204,7 +206,7 @@ export class RightSidePopupComponent {
     const options = {
       text: inputText,
     };
-    this.https.post(this.apiUrlList.fm_api_inf_ProfanityPopup, options).subscribe(
+    this.https.post(this.apiUrlList.fm_api_inf_ProfanityPopup, options).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         if (res.profanity.length == 0) {
           const message = 'There are no Profane Words in the Input Text';
@@ -223,5 +225,11 @@ export class RightSidePopupComponent {
         this.handleError(error)
       }
     );
+  }
+
+  // Cleanup on component destruction
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

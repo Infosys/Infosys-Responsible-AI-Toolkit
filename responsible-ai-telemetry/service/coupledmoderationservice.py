@@ -1,13 +1,15 @@
 '''
-MIT license https://opensource.org/licenses/MIT
-Copyright 2024 Infosys Ltd
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
  
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ 
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 '''
 from elasticsearch import Elasticsearch
-import pymongo
 from datetime import datetime, timedelta
 import pytz
 from zoneinfo import ZoneInfo
@@ -15,17 +17,31 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 import json
-from bson import ObjectId
 from mapper.coupledmoderationtelemetrydata import ModerationResults,completionResponse
 from service.elasticconnectionservice import es
-    
+from middleware.text_anonymize import textAnonymize
 def coupledModerationElasticDataPush(data):
         if data.Moderation_layer_time is not None:
             moderation_layer_time = data.Moderation_layer_time.dict()
         else:
             moderation_layer_time = None
-            
-        data = {
+
+        anonymize_flag = getattr(data, 'anonymize', True) 
+        input_prompt =data.moderationResults.requestModeration.text
+        choices_text = data.choices[0].text
+        responseModeration_generatedText=data.moderationResults.responseModeration.generatedText
+        if anonymize_flag is not False:  
+            try:
+                
+                input_prompt = textAnonymize(input_prompt)
+                choices_text = textAnonymize(choices_text)
+                responseModeration_generatedText=textAnonymize(responseModeration_generatedText)
+            except Exception as e:
+                print(f"Error occurred during anonymization: {e}")
+                anonymize_flag=False
+        else:
+            print(f"Anonymization disabled - using original inputText: {input_prompt}")        
+        data_dict = {
             "uniqueid": data.uniqueid,
             "object":data.object,
             "userid":data.userid,
@@ -36,24 +52,17 @@ def coupledModerationElasticDataPush(data):
             "moderationResults": data.moderationResults.dict(),
             "Moderation_layer_time":moderation_layer_time,
             "portfolioName":data.portfolioName, 
-            "accountName":data.accountName
+            "accountName":data.accountName,
+            "anonymize":anonymize_flag
             }
-        # print("DATA MODIFIED FROM SERVER", json.dumps(data))
-        # Connect to Elasticsearch
-        # print("ELASTIC URL BEFORE EXEC CONNECTION")
-        # print("ELASTIC URL BEFORE EXEC CONNECTION===",os.getenv("ELASTIC_URL"))
-        # es = Elasticsearch(
-        #     [os.getenv("ELASTIC_URL")],
-        #     basic_auth=('elastic', ''),
-        #     verify_certs=False
-        # )
+        data_dict['moderationResults']['requestModeration']['text']=input_prompt
+        data_dict['choices']['text']=choices_text
+        data_dict['moderationResults']['responseModeration']['generatedText']=responseModeration_generatedText
         print("ELASTIC SERVER AVAILABLE.....?",es.ping())
         
         now = datetime.now()
-        # Index Creation
 
         index_name = 'couplemoderationindexv3'
-        # index_name = 'testindex1'
         if not es.indices.exists(index=index_name):
             
 
@@ -65,6 +74,7 @@ def coupledModerationElasticDataPush(data):
             "userid": {"type": "keyword"},
             "lotNumber": {"type": "keyword"},
             "created": {"type": "date"},
+            "anonymize": {"type": "keyword"},
             "model": {"type": "keyword"},
             "choices": {
                 "properties": {
@@ -307,73 +317,62 @@ def coupledModerationElasticDataPush(data):
     }
 }
 
-            ##########################
             es.indices.create(index=index_name, body=index_body)
 
 
 
-        # Retrieve data from MongoDB
-        # mongo_client = pymongo.MongoClient(os.getenv("MONGO_PATH"))
-        # db = mongo_client[os.getenv("MONGO_DB_NAME")]
-        # collection = db['moderationtelemetrydata']
-        # print(mongoid)
-        # mongo_data = data
+    
         
         es_data = []
-        # print("MONGODATA=======",mongo_data)
         
-        # for data in mongo_data:
-        # print("TTTTTTTTTTTTTTT",type(data['moderationResults']['responseModeration']['toxicityCheck'])) 
-        # print("TTTTTTTTTTTTTTT",type(data['moderationResults']['responseModeration']['toxicityCheck']['toxicityScore']))
-        # print("TTTTTTTTTTTTTTT",type(data['moderationResults']['responseModeration']['toxicityCheck']['toxicityScore'][0].metricScore))
-            # print(data['moderationResults']['responseModeration']['toxicityCheck']['toxicityScore'][0]['toxicity'])
-        toxicity_check = data.get('moderationResults', {}).get('requestModeration', {}).get('toxicityCheck', {})
+
+        toxicity_check = data_dict.get('moderationResults', {}).get('requestModeration', {}).get('toxicityCheck', {})
         toxicity_score = toxicity_check.get('toxicityScore', [{}])
         toxic_scores = toxicity_score[0].get('toxicScore', [{}]) if toxicity_score else [{}]
         
-        toxicity_check_response = data.get('moderationResults', {}).get('responseModeration', {}).get('toxicityCheck', {})
+        toxicity_check_response = data_dict.get('moderationResults', {}).get('responseModeration', {}).get('toxicityCheck', {})
         toxicity_score_response = toxicity_check_response.get('toxicityScore', [{}])
         toxic_scores_response = toxicity_score_response[0].get('toxicScore', [{}]) if toxicity_score_response else [{}]
         
-        restrictedTopic_response = data.get('moderationResults', {}).get('responseModeration', {}).get('restrictedtopic', {})
+        restrictedTopic_response = data_dict.get('moderationResults', {}).get('responseModeration', {}).get('restrictedtopic', {})
         restrictedTopic_score_response = restrictedTopic_response.get('topicScores', [{}])
         restrictedTopic_scores_response = restrictedTopic_score_response[0].get('topicScores', [{}]) if restrictedTopic_score_response else [{}]
         es_doc =  {
-    "uniqueid": data['uniqueid'],
-    "object": data['object'],
-    "userid": data['userid'],
-    "lotNumber": data['lotNumber'],
+    "uniqueid": data_dict['uniqueid'],
+    "object": data_dict['object'],
+    "userid": data_dict['userid'],
+    "lotNumber": data_dict['lotNumber'],
     "created": now,
-    "model": data['model'],
+    "model": data_dict['model'],
     "choices": 
         {
-        "text": data['choices']['text'],
-        "index": data['choices']['index'],
-        "finishReason": data['choices']['finishReason']
+        "text": data_dict['choices']['text'],
+        "index": data_dict['choices']['index'],
+        "finishReason": data_dict['choices']['finishReason']
         }
     ,
     "moderationResults": {
         "requestModeration": {
-        "text": data['moderationResults']['requestModeration']['text'],
+        "text": data_dict['moderationResults']['requestModeration']['text'],
         "promptInjectionCheck": {
-            "injectionConfidenceScore": data['moderationResults']['requestModeration']['promptInjectionCheck']['injectionConfidenceScore'],
-            "injectionThreshold": data['moderationResults']['requestModeration']['promptInjectionCheck']['injectionThreshold'],
-            "result": data['moderationResults']['requestModeration']['promptInjectionCheck']['result']
+            "injectionConfidenceScore": data_dict['moderationResults']['requestModeration']['promptInjectionCheck']['injectionConfidenceScore'],
+            "injectionThreshold": data_dict['moderationResults']['requestModeration']['promptInjectionCheck']['injectionThreshold'],
+            "result": data_dict['moderationResults']['requestModeration']['promptInjectionCheck']['result']
         },
         "jailbreakCheck": {
-            "jailbreakSimilarityScore": data['moderationResults']['requestModeration']['jailbreakCheck']['jailbreakSimilarityScore'],
-            "jailbreakThreshold": data['moderationResults']['requestModeration']['jailbreakCheck']['jailbreakThreshold'],
-            "result": data['moderationResults']['requestModeration']['jailbreakCheck']['result']
+            "jailbreakSimilarityScore": data_dict['moderationResults']['requestModeration']['jailbreakCheck']['jailbreakSimilarityScore'],
+            "jailbreakThreshold": data_dict['moderationResults']['requestModeration']['jailbreakCheck']['jailbreakThreshold'],
+            "result": data_dict['moderationResults']['requestModeration']['jailbreakCheck']['result']
         },
         "privacyCheck": {
-            "entitiesRecognised": data['moderationResults']['requestModeration']['privacyCheck']['entitiesRecognised'],
-            "entitiesConfiguredToBlock": data['moderationResults']['requestModeration']['privacyCheck']['entitiesConfiguredToBlock'],
-            "result": data['moderationResults']['requestModeration']['privacyCheck']['result']
+            "entitiesRecognised": data_dict['moderationResults']['requestModeration']['privacyCheck']['entitiesRecognised'],
+            "entitiesConfiguredToBlock": data_dict['moderationResults']['requestModeration']['privacyCheck']['entitiesConfiguredToBlock'],
+            "result": data_dict['moderationResults']['requestModeration']['privacyCheck']['result']
         },
         "profanityCheck": {
-            "profaneWordsIdentified": data['moderationResults']['requestModeration']['profanityCheck']['profaneWordsIdentified'],
-            "profaneWordsthreshold": data['moderationResults']['requestModeration']['profanityCheck']['profaneWordsthreshold'],
-            "result": data['moderationResults']['requestModeration']['profanityCheck']['result']
+            "profaneWordsIdentified": data_dict['moderationResults']['requestModeration']['profanityCheck']['profaneWordsIdentified'],
+            "profaneWordsthreshold": data_dict['moderationResults']['requestModeration']['profanityCheck']['profaneWordsthreshold'],
+            "result": data_dict['moderationResults']['requestModeration']['profanityCheck']['result']
         },
        "toxicityCheck": {
     "toxicityScore": [
@@ -412,52 +411,52 @@ def coupledModerationElasticDataPush(data):
     "toxicityTypesRecognised": toxicity_check.get('toxicityTypesRecognised'),
 },
         "restrictedtopic": {
-            "topicScores": data['moderationResults']['responseModeration']['restrictedtopic']['topicScores'],
-            "topicThreshold": data['moderationResults']['requestModeration']['restrictedtopic']['topicThreshold'],
-            "result": data['moderationResults']['requestModeration']['restrictedtopic']['result'],
-            "topicTypesConfiguredToBlock": data['moderationResults']['requestModeration']['restrictedtopic']['topicTypesConfiguredToBlock'],
-            "topicTypesRecognised": data['moderationResults']['requestModeration']['restrictedtopic']['topicTypesRecognised'],
+            "topicScores": data_dict['moderationResults']['responseModeration']['restrictedtopic']['topicScores'],
+            "topicThreshold": data_dict['moderationResults']['requestModeration']['restrictedtopic']['topicThreshold'],
+            "result": data_dict['moderationResults']['requestModeration']['restrictedtopic']['result'],
+            "topicTypesConfiguredToBlock": data_dict['moderationResults']['requestModeration']['restrictedtopic']['topicTypesConfiguredToBlock'],
+            "topicTypesRecognised": data_dict['moderationResults']['requestModeration']['restrictedtopic']['topicTypesRecognised'],
         },
         "textQuality": {
-            "readabilityScore": data['moderationResults']['requestModeration']["textQuality"]["readabilityScore"],
-            "textGrade": data['moderationResults']['requestModeration']["textQuality"]["textGrade"]
+            "readabilityScore": data_dict['moderationResults']['requestModeration']["textQuality"]["readabilityScore"],
+            "textGrade": data_dict['moderationResults']['requestModeration']["textQuality"]["textGrade"]
         },
         "refusalCheck": {
-            "refusalSimilarityScore": data['moderationResults']['requestModeration']["refusalCheck"]["refusalSimilarityScore"],
-            "RefusalThreshold": data['moderationResults']['requestModeration']["refusalCheck"]["RefusalThreshold"],
-            "result": data['moderationResults']['requestModeration']['refusalCheck']['result']
+            "refusalSimilarityScore": data_dict['moderationResults']['requestModeration']["refusalCheck"]["refusalSimilarityScore"],
+            "RefusalThreshold": data_dict['moderationResults']['requestModeration']["refusalCheck"]["RefusalThreshold"],
+            "result": data_dict['moderationResults']['requestModeration']['refusalCheck']['result']
         },
         "customThemeCheck": {
-            "customSimilarityScore": data['moderationResults']['requestModeration']["customThemeCheck"]["customSimilarityScore"],
-            "themeThreshold": data['moderationResults']['requestModeration']["customThemeCheck"]["themeThreshold"],
-            "result": data['moderationResults']['requestModeration']['customThemeCheck']['result']
+            "customSimilarityScore": data_dict['moderationResults']['requestModeration']["customThemeCheck"]["customSimilarityScore"],
+            "themeThreshold": data_dict['moderationResults']['requestModeration']["customThemeCheck"]["themeThreshold"],
+            "result": data_dict['moderationResults']['requestModeration']['customThemeCheck']['result']
         },
         "randomNoiseCheck": 
         {
-            "smoothLlmScore": data['moderationResults']['requestModeration']['randomNoiseCheck']['smoothLlmScore'],
-            "smoothLlmThreshold": data['moderationResults']['requestModeration']['randomNoiseCheck']['smoothLlmThreshold'],
-            "result": data['moderationResults']['requestModeration']['randomNoiseCheck']['result']
+            "smoothLlmScore": data_dict['moderationResults']['requestModeration']['randomNoiseCheck']['smoothLlmScore'],
+            "smoothLlmThreshold": data_dict['moderationResults']['requestModeration']['randomNoiseCheck']['smoothLlmThreshold'],
+            "result": data_dict['moderationResults']['requestModeration']['randomNoiseCheck']['result']
         },
         "advancedJailbreakCheck": {
-            "text": data['moderationResults']['requestModeration']['advancedJailbreakCheck']['text'],
-            "result": data['moderationResults']['requestModeration']['advancedJailbreakCheck']['result']
+            "text": data_dict['moderationResults']['requestModeration']['advancedJailbreakCheck']['text'],
+            "result": data_dict['moderationResults']['requestModeration']['advancedJailbreakCheck']['result']
         },
         "summary": {
-            "status": data['moderationResults']['requestModeration']['summary']['status'],
-            "reason": data['moderationResults']['requestModeration']['summary']['reason']
+            "status": data_dict['moderationResults']['requestModeration']['summary']['status'],
+            "reason": data_dict['moderationResults']['requestModeration']['summary']['reason']
         }
         },
         "responseModeration": {
-            "generatedText": data['moderationResults']['responseModeration']['generatedText'],
+            "generatedText": data_dict['moderationResults']['responseModeration']['generatedText'],
             "privacyCheck": {
-                "entitiesRecognised": data['moderationResults']['responseModeration']['privacyCheck']['entitiesRecognised'],
-                "entitiesConfiguredToBlock": data['moderationResults']['responseModeration']['privacyCheck']['entitiesConfiguredToBlock'],
-                "result": data['moderationResults']['responseModeration']['privacyCheck']['result']
+                "entitiesRecognised": data_dict['moderationResults']['responseModeration']['privacyCheck']['entitiesRecognised'],
+                "entitiesConfiguredToBlock": data_dict['moderationResults']['responseModeration']['privacyCheck']['entitiesConfiguredToBlock'],
+                "result": data_dict['moderationResults']['responseModeration']['privacyCheck']['result']
             },
             "profanityCheck": {
-                "profaneWordsIdentified": data['moderationResults']['responseModeration']['profanityCheck']['profaneWordsIdentified'],
-                "profaneWordsthreshold": data['moderationResults']['requestModeration']['profanityCheck']['profaneWordsthreshold'],
-                "result": data['moderationResults']['responseModeration']['profanityCheck']['result']
+                "profaneWordsIdentified": data_dict['moderationResults']['responseModeration']['profanityCheck']['profaneWordsIdentified'],
+                "profaneWordsthreshold": data_dict['moderationResults']['requestModeration']['profanityCheck']['profaneWordsthreshold'],
+                "result": data_dict['moderationResults']['responseModeration']['profanityCheck']['result']
             },
             "toxicityCheck": {
                 "toxicityScore": [
@@ -497,66 +496,45 @@ def coupledModerationElasticDataPush(data):
             },
             "restrictedtopic": {
                 "topicScores": restrictedTopic_scores_response[0].get('topicScores') if restrictedTopic_scores_response else None,
-                "topicThreshold": data['moderationResults']['responseModeration']['restrictedtopic']['topicThreshold'],
-                "result": data['moderationResults']['responseModeration']['restrictedtopic']['result'],
-                "topicTypesConfiguredToBlock": data['moderationResults']['responseModeration']['restrictedtopic']['topicTypesConfiguredToBlock'],
-                "topicTypesRecognised": data['moderationResults']['responseModeration']['restrictedtopic']['topicTypesRecognised'],
+                "topicThreshold": data_dict['moderationResults']['responseModeration']['restrictedtopic']['topicThreshold'],
+                "result": data_dict['moderationResults']['responseModeration']['restrictedtopic']['result'],
+                "topicTypesConfiguredToBlock": data_dict['moderationResults']['responseModeration']['restrictedtopic']['topicTypesConfiguredToBlock'],
+                "topicTypesRecognised": data_dict['moderationResults']['responseModeration']['restrictedtopic']['topicTypesRecognised'],
                 
             },
             "textQuality": {
-            "readabilityScore": data['moderationResults']['responseModeration']["textQuality"]["readabilityScore"],
-            "textGrade": data['moderationResults']['responseModeration']["textQuality"]["textGrade"]
+            "readabilityScore": data_dict['moderationResults']['responseModeration']["textQuality"]["readabilityScore"],
+            "textGrade": data_dict['moderationResults']['responseModeration']["textQuality"]["textGrade"]
         },
         "textRelevanceCheck": {
-            "PromptResponseSimilarityScore": data['moderationResults']['responseModeration']["textRelevanceCheck"]["PromptResponseSimilarityScore"]
+            "PromptResponseSimilarityScore": data_dict['moderationResults']['responseModeration']["textRelevanceCheck"]["PromptResponseSimilarityScore"]
         },
         "refusalCheck": {
-            "refusalSimilarityScore": data['moderationResults']['responseModeration']["refusalCheck"]["refusalSimilarityScore"],
-            "RefusalThreshold": data['moderationResults']['responseModeration']["refusalCheck"]["RefusalThreshold"],
-            "result": data['moderationResults']['responseModeration']['refusalCheck']['result']
+            "refusalSimilarityScore": data_dict['moderationResults']['responseModeration']["refusalCheck"]["refusalSimilarityScore"],
+            "RefusalThreshold": data_dict['moderationResults']['responseModeration']["refusalCheck"]["RefusalThreshold"],
+            "result": data_dict['moderationResults']['responseModeration']['refusalCheck']['result']
         },
         "summary": {
-            "status": data['moderationResults']['responseModeration']["summary"]["status"],
-            "reason": data['moderationResults']['responseModeration']["summary"]["reason"]
+            "status": data_dict['moderationResults']['responseModeration']["summary"]["status"],
+            "reason": data_dict['moderationResults']['responseModeration']["summary"]["reason"]
         }
             }
     },
-    "Moderation_layer_time": data['Moderation_layer_time'],
-    "portfolioName": data['portfolioName'],
-    "accountName": data['accountName']
+    "Moderation_layer_time": data_dict['Moderation_layer_time'],
+    "portfolioName": data_dict['portfolioName'],
+    "accountName": data_dict['accountName'],
+    "anonymize": data_dict['anonymize']
       }
         es_data.append(es_doc)
-        # print(es_data)
 
-        # Upload data to Elasticsearch if it doesn't already exist
-        
-        # for doc in es_data:
-        #     print("!!!!!!!!!!!!!!")
-        #     print(type(doc))
-        #     print(str(doc["uniqueid"]))
-        #     id = str(doc["uniqueid"])
-        #     #del doc["uniqueid"]
-        #     doc["uniqueid"]=str(doc["uniqueid"])
-        #     es.index(index=index_name,id=id,document=doc)
-        #     print("22222222222222222222")
         for doc in es_data:
             try:
                 es.index(index=index_name, body=doc)
-                print("DOC INSERTED IN THE ELASTIC", doc)
+                print("DOC INSERTED IN THE ELASTIC")
             except Exception as e:
                 print("Error occurred while inserting document")    
             
             
-        # print("ELASTIC DATA AFTER INSERTION", es_data)
         es.indices.refresh(index=index_name) 
             
-            
-        # print("ELASTIC DATA AFTER INSERTION", es_data)
-        # es.indices.refresh(index=index_name)
-
-        # es.indices.refresh(index=index_name)
-        # print("333333333333333333333333")
-        # # Display indices
-        # indices = es.indices.get_alias()
-        # for index in indices:
-        #     print(index)
+        return doc

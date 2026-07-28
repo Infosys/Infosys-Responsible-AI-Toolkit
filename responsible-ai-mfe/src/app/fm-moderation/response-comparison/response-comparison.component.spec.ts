@@ -5,6 +5,10 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { ResponseComparisonComponent } from './response-comparison.component';
 
@@ -13,13 +17,23 @@ describe('ResponseComparisonComponent', () => {
   let fixture: ComponentFixture<ResponseComparisonComponent>;
 
   beforeEach(async () => {
+    const mockResult = { result: { Response: [{ text: '' }] } };
+    localStorage.setItem('res', JSON.stringify(mockResult));
     await TestBed.configureTestingModule({
-      declarations: [ ResponseComparisonComponent ]
+      declarations: [ ResponseComparisonComponent ],
+      imports: [ HttpClientTestingModule, MatSnackBarModule, MatDialogModule ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(ResponseComparisonComponent);
     component = fixture.componentInstance;
+    component.fmRes = { text: '' };
+    component.openAIRes = { text: '' };
+    component.hallucinateRetrievalKeplerRes = { response: { text: '' } };
+    component.cotResponse = { text: '' };
+    component.logicOfThoughtsResponse = { text: '' };
+    component.lightRag = { response: { text: '' } };
     fixture.detectChanges();
   });
 

@@ -25,7 +25,6 @@ Please find the link for Responsible AI Explainability repo : [Explainability re
 
 2. **Installation of Python** : Install Python (version 3.11.x) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
 
-
 3. **Installation of pip** :
 
 **Linux:**
@@ -239,7 +238,8 @@ Once we have completed all the aforementioned steps, we can start the service.
     ```sh
     python main.py
      ```
-3. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running:`http://localhost:30080/v1/questionnaire/docs`
+3. Open the following URL in your browser:
+    [http://localhost:30080/v1/questionnaire/docs](http://localhost:30080/v1/questionnaire/docs)
 
     User can also change the port which is mentioned in main.py file
 
@@ -269,9 +269,8 @@ allow_method = "${allow_method}" # [Mandatory]
 VERIFY_SSL="${verify_ssl}" # [Mandatory]
 
 ```
-
 ## License
-The source code for the project is licensed under the MIT license, which you can find in the [LICENSE](License.md) file.
+The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.
 
 ## Contact
 If you have more questions or need further insights please feel free to connect with us at

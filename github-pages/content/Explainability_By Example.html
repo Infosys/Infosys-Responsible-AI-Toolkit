@@ -33,6 +33,8 @@
 <li><a class="not-blank" href="#SearchAugmentation">Search Augmentation</a></li>
 <li><a class="not-blank" href="#LogicofThought">Logic of Thought</a></li>
 <li><a class="not-blank" href="#EvaluationMetrics">Evaluation Metrics</a></li>
+<li><a class="not-blank" href="#BulkProcessing">Bulk Processing</a></li>
+<li><a class="not-blank" href="#LLMIntegration">LLM Integration</a></li>
 </ul>
 </div>
 
@@ -656,6 +658,140 @@
 
 </div>
 </div>
+
+<h2 id="Bulk Processing">Bulk Processing<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="9f6e02d3-7e16-4c92-80c1-7011b62c1369" data-macro-name="expand" id="expander-180087514">
+<div class="expand-control" id="expander-control-180087514" onclick="expandContent('expander-content-180087514', 'expander-control-180087514')">
+<span class="expand-control-text">Problem Statement &amp; Solution </span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-180087514">
+<p><span data-colorid="ik50gderkh">Problem Statement:</span> r "Modern teams rely on Large Language Models (LLMs) for support chatbots, content generation, and decision support. As usage scales, two gaps emerge:
+<ol start="1"></ol>
+<li><p>Quality at Scale: One‑by‑one checks don’t work when you need to validate hundreds or thousands of prompt–response pairs for reliability, coherence, and compliance.</p></li>
+<li><p>Explainability that Matters: Traditional explainability is often per‑instance and shallow. It doesn’t highlight where and how behavior shifts across datasets, nor does it translate findings into actionable improvements.</p></li>
+</ol>
+<p>Without systematic, high‑volume evaluation, organizations risk inconsistencies, bias, and regression creeping into production—affecting user experience, compliance, and trust. </p>
+<p><span data-colorid="uxw5brec2u">Solution: </span>Bulk Processing in the XAI Toolkit streamlines large‑scale evaluation of prompt–response pairs with rich explainability and reasoning metrics. It lets you:
+<li><p>Upload at Scale: Import Excel (.xlsx) or CSV (.csv) files with two columns—InputPrompt and Response.</p></li>
+<li><p>Run Targeted Evaluations: Choose a single metric, multiple metrics, or all to evaluate the dataset in one go.</p></li>
+<li><p>Get Actionable Insights: Receive metric scores, short explanations, and improvement recommendations per pair.</p></li>
+<li><p>Export Easily: Download results as Excel or JSON for reporting, analysis, and governance workflows.</p></li>
+<p><strong>Metrics:</strong></p>
+<p><span data-colorid="uxw5brec2u">When To Use Bulk Processing: </span>
+<li><p>Pre‑deployment regression checks for new model versions or prompts.</p></li>
+<li><p>Post‑deployment monitoring across real conversations or sampled logs.</p></li>
+<li><p>Periodic governance reviews for compliance and quality assurance.</p></li>
+<li><p>Benchmarking different models or prompt templates.</p></li>
+<p><span data-colorid="uxw5brec2u">Input File Specification </span>
+<p>Accepted formats: .xlsx or .csv</p>
+<p>Required columns (case‑sensitive):</p>
+<li><p>InputPrompt — The user query or instruction.</p>
+<li><p>Response — The model‑generated output.</p>
+<p><span data-colorid="uxw5brec2u">Metrics you can run </span>
+<p>Select any combination (or All) when evaluating:</p>
+<li><p>Uncertainty — Confidence proxy of the response with an “uncertainty level”.</p>
+<li><p>Coherence — Logical flow and clarity of the response.</p>
+<li><p>Token Importance — Highlights influential tokens in the prompt.</p>
+<li><p>Thread/Graph of Thought (high‑level) — Structural reasoning signals (reported as summaries, not raw chains).</p>
+<li><p>Chain of Verification — Simple fact‑check questions and answers.</p>
+<li><p>Sentiment — Polarity and target (neutral/positive/negative).</p>
+<p>Each metric returns scores + short explanations and recommendations to improve prompts or outputs.</p>
+<p><span data-colorid="uxw5brec2u">Step-by-Step Workflow </span>
+<ol start="1"></ol>
+<li><p>Navigation</p>
+    <p>Click on the menu bar</p>
+<span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" 
+original-width="710" style="max-width: 760px;" width="710"><img alt="1.png" 
+class="confluence-embedded-image image-center cursor-pointer" data-height="357" 
+data-linked-resource-container-id="939098161" data-linked-resource-container-version="9" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="1.png" 
+data-linked-resource-id="1058439770" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="937fda45-4100-41bd-b182-548cce4057b3" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/939098161/media/QkFmMjZMVjBGU2xxM2lRamd6UmRGSjIxLXQ5WVdsd1lDMk5MVGF0cEY5bz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJeU16Z3pOQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVE01TURrNE1UWXguYVcxaFoyVXRNakF5TkRFd01Ea3RNVEV5TWpBekxuQnVadz09LmRtVnljMmx2YmoweEptMXZaR2xtYVdOaGRHbHZia1JoZEdVOU1UY3lPRFEzTWpreU5qZzNOQ1pqWVdOb1pWWmxjbk5wYjI0OU1TWmhjR2s5ZGpJbWQybGtkR2c5TmpNNUptaGxhV2RvZEQwek1qRT0=/1.png" 
+data-unresolved-comment-count="0" data-width="710" loading="lazy" name="image-attachment" 
+src="github-pages/images/1.png" style="width: 710px" width="710"/></span>
+<li><p>Go to Documents</p></li>
+<span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="1066" 
+style="max-width: 760px;" width="746"><img alt="2.png" class="confluence-embedded-image image-center cursor-pointer" 
+data-height="290" data-linked-resource-container-id="939098161" data-linked-resource-container-version="9" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="2.png" 
+data-linked-resource-id="1230406136" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="0114c8dc-db41-4288-9e2c-94406a4758d2" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/939098161/media/blhOVUI0WkM1bzFTNmJkS3VPdjk1ZHVSbHVoUDZCb2haV2pjTHg3MXlZND0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJeU16Z3pPUT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVE01TURrNE1UWXguYVcxaFoyVXRNakF5TkRFeU1UZ3RNRFUxTURFM0xuQnVadz09LmRtVnljMmx2YmoweEptMXZaR2xtYVdOaGRHbHZia1JoZEdVOU1UY3pORFV3TVRBeU1URXhOaVpqWVdOb1pWWmxjbk5wYjI0OU1TWmhjR2s5ZGpJbWQybGtkR2c5TnpRMkptaGxhV2RvZEQweU1EST0=/2.png" 
+data-unresolved-comment-count="0" data-width="1066" loading="lazy" name="image-attachment" 
+src="github-pages/images/2.png" style="width: 746px;" width="746"/></span>
+<li><p>Select Explainability and upload the desired file (CSV/Excel).</p></li>
+<li><p>Use the Methods dropdown to select one, many, or All metrics.</p></li>
+<span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="1066" 
+style="max-width: 760px;" width="746"><img alt="3&4.png" class="confluence-embedded-image image-center cursor-pointer" 
+data-height="290" data-linked-resource-container-id="939098161" data-linked-resource-container-version="9" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="3&4.png" 
+data-linked-resource-id="1230406136" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="0114c8dc-db41-4288-9e2c-94406a4758d2" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/939098161/media/blhOVUI0WkM1bzFTNmJkS3VPdjk1ZHVSbHVoUDZCb2haV2pjTHg3MXlZND0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJeU16Z3pPUT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVE01TURrNE1UWXguYVcxaFoyVXRNakF5TkRFeU1UZ3RNRFUxTURFM0xuQnVadz09LmRtVnljMmx2YmoweEptMXZaR2xtYVdOaGRHbHZia1JoZEdVOU1UY3pORFV3TVRBeU1URXhOaVpqWVdOb1pWWmxjbk5wYjI0OU1TWmhjR2s5ZGpJbWQybGtkR2c5TnpRMkptaGxhV2RvZEQweU1EST0=/3&4.png" 
+data-unresolved-comment-count="0" data-width="1066" loading="lazy" name="image-attachment" 
+src="github-pages/images/3&4.png" style="width: 746px;" width="746"/></span>
+<li><p>Run Evaluation</p></li>
+<li><p>Click Submit to process the entire file.</p></li>
+<li><p>Processing time depends on dataset size and metrics selected.</p></li>
+<li><p>Choose output format: Excel (.xlsx) or JSON (.json).</p></li>
+<li><p>Results include original inputs, metric scores, brief explanations, and recommendations.</p></li>
+<span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="1066" 
+style="max-width: 760px;" width="746"><img alt="5.png" class="confluence-embedded-image image-center cursor-pointer" 
+data-height="290" data-linked-resource-container-id="939098161" data-linked-resource-container-version="9" 
+data-linked-resource-content-type="image/png" data-linked-resource-default-alias="5.png" 
+data-linked-resource-id="1230406136" data-linked-resource-type="attachment" data-linked-resource-version="1" 
+data-media-id="0114c8dc-db41-4288-9e2c-94406a4758d2" data-media-type="file" 
+data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/939098161/media/blhOVUI0WkM1bzFTNmJkS3VPdjk1ZHVSbHVoUDZCb2haV2pjTHg3MXlZND0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJeU16Z3pPUT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVE01TURrNE1UWXguYVcxaFoyVXRNakF5TkRFeU1UZ3RNRFUxTURFM0xuQnVadz09LmRtVnljMmx2YmoweEptMXZaR2xtYVdOaGRHbHZia1JoZEdVOU1UY3pORFV3TVRBeU1URXhOaVpqWVdOb1pWWmxjbk5wYjI0OU1TWmhjR2s5ZGpJbWQybGtkR2c5TnpRMkptaGxhV2RvZEQweU1EST0=/5.png" 
+data-unresolved-comment-count="0" data-width="1066" loading="lazy" name="image-attachment" 
+src="github-pages/images/5.png" style="width: 746px;" width="746"/></span>
+
+<p><strong>Metrics:</strong></p>
+<p><span data-colorid="uxw5brec2u">Step-by-Step Workflow </span>
+<p>Coherence<br/>  Less Coherent: &gt;=0 and &lt;=30<br/>  Moderately Coherent: &gt;30 and &lt;=70<br/>  Highly Coherent: &gt;70 and &lt;=100</p>
+<p>Certainty<br/>  Highly Certain: &gt;=0 and &lt;=30 (less uncertainty)<br/>  Moderately Certain: &gt;30 and &lt;=70 (moderately uncertain)<br/>  Less Certain: &gt;70 and &lt;=100 (highly uncertain)<br/></p><span class="confluence-embedded-file-wrapper image-center-wrapper confluence-embedded-manual-size" original-width="777" style="max-width: 760px;" width="730"><img alt="image (2).png" class="confluence-embedded-image image-center cursor-pointer" data-height="207" data-linked-resource-container-id="939098161" data-linked-resource-container-version="9" data-linked-resource-content-type="image/png" data-linked-resource-default-alias="image (2).png" data-linked-resource-id="997098341" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="84f70ab6-e4ef-46ae-bd6d-ef0cf3356b7a" data-media-type="file" data-thumbnail-url="/content/58f1bf1b-24d0-4a88-8e47-edf6a46686f0/207815356/228720962/931823751/939098161/media/TTNZY3c5OEdYTkhpRjh2WUtDRUxJM0k1RzdPSVpEclBHTVQzZlFkVjBFYz0=.TlRobU1XSm1NV0l0TWpSa01DMDBZVGc0TFRobE5EY3RaV1JtTm1FME5qWTRObVl3Lk1UY3pPVGswTmpJeU16ZzBNQT09LmJ3PT0uZEdoMWJXSnVZV2xzY3c9PS5PVE01TURrNE1UWXguYVcxaFoyVWxNakFvTWlrdWNHNW4uZG1WeWMybHZiajB4Sm0xdlpHbG1hV05oZEdsdmJrUmhkR1U5TVRjeU5qSXlPREkwTVRNeE9DWmpZV05vWlZabGNuTnBiMjQ5TVNaaGNHazlkakltZDJsa2RHZzlOek13Sm1obGFXZG9kRDB4T1RRPQ==/image__2_.png" data-unresolved-comment-count="0" data-width="777" loading="lazy" name="image-attachment" src="github-pages/images/image__2_.png" style="width: 730px;" width="730"/></span>
+
+</div>
+</div>
+
+<h2 id="LLM Integration">LLM Integration (OpenAI GPT Models)<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
+<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="9f6e02d3-7e16-4c92-80c1-7011b62c1369" data-macro-name="expand" id="expander-180087514">
+<div class="expand-control" id="expander-control-180087514" onclick="expandContent('expander-content-180087514', 'expander-control-180087514')">
+<span class="expand-control-text">Problem Statement &amp; Solution </span>
+</div>
+<div class="expand-content expand-hidden" id="expander-content-180087514">
+<p><span data-colorid="ik50gderkh">Problem Statement:</span> r "Modern businesses increasingly rely on Large Language Models (LLMs) for tasks like summarization, question answering, and content generation. While these models are powerful, integrating them into production workflows introduces challenges:
+<ol start="1"></ol>
+<li><p>Consistency & Control: Outputs must be predictable, aligned with business tone, and structured for downstream systems.</p></li>
+<li><p>Governance & Safety: Sensitive data handling, compliance, and auditability are critical.</p></li>
+<li><p>Performance & Cost: Scaling usage without monitoring can lead to uncontrolled costs and degraded user experience.</p></li>
+<p>Without a robust integration layer, organizations risk inconsistent results, governance gaps, and operational inefficiencies.</p>
+<p><span data-colorid="ik50gderkh">Solution Overview</span>
+<p>The LLM Integration (OpenAI GPT Models) feature enables advanced natural language capabilities within your workflows by providing:</p>
+<li><p>Summarization: Condense lengthy documents or conversations into concise summaries.</p></li>
+<li><p>Question Answering: Deliver accurate, context-aware answers from structured or unstructured data.</p></li>
+<li><p>Content Generation: Create high-quality text for blogs, reports, and customer communications.</p></li>
+<li><p>Classification & Extraction: Identify intents, extract entities, and produce structured outputs.</p></li>
+<li><p>Transformation: Rewrite, normalize, or translate text while preserving meaning.</p></li>
+<p>This integration ensures enterprise-grade controls, including prompt standardization, schema enforcement, and observability.</p>
+<p><span data-colorid="ik50gderkh">Field Descriptions</span>
+<li><p>messages</p></li>
+    <p>Array of role-content pairs representing the conversation history.
+       Roles: system, user, assistant.</p>
+<li><p>model</p></li>
+        <p>Specifies the GPT model variant (e.g., gpt4).</p>
+<li><p>temperature</p></li>
+        <p>Controls randomness:</p>
+        <li><p>0 → deterministic, factual responses</p></li>
+        <li><p>Higher values → more creative outputs</p></li>
+<li><p>max tokens</p></li>
+        <p>Maximum tokens allowed in the response (e.g., 800).</p>
+<li><p>top_p</p></li>
+        <p>Nucleus sampling parameter for diversity control (default 1).</p>
+<li><p>frequency_penalty & presence_penalty</p></li>
+        <p>Adjust repetition and encourage new topics.</p>
+<li><p>stop</p></li>
+        <p>Optional stop sequence to truncate output (e.g., "None" or custom tokens).</p>
 <hr/>
 <p>Note: Few examples, datasets and graphs used in this section are sourced from publicly available information and are attributed to their respective creators.</p>
 </div>

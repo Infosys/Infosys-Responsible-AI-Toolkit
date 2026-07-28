@@ -115,8 +115,9 @@ class AutoEvaluator:
         def process_item(item, el):
             try:
                 if 'eval_res' not in el:
+                    # print('Prompt: {}'.format(item))
                     eval_res = get_res(item)
-                    logging.info('Response: {}'.format(eval_res))
+                    print('Response: {}'.format(eval_res))
                     el['eval_res'] = eval_res
                     logging.info("Evaluated item: %s", item)
                     logging.info("Evaluated result: %s", eval_res)
@@ -150,8 +151,8 @@ class AutoEvaluator:
         assert isinstance(data, list), "Data must be a list."
         assert task is not None, "Task must be specified for evaluation."
 
-        logging.info('Total data number: {}'.format(len(data)))
-        logging.info('Evaluating...')
+        print('Total data number: {}'.format(len(data)))
+        print('Evaluating...')
 
         with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
             futures = [executor.submit(process_item, item, el) for item, el in zip(prompt_data, data)]

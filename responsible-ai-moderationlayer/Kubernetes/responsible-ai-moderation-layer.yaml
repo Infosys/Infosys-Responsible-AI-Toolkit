@@ -1,24 +1,5 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: responsible-ai-moderation-layer
-  namespace: irai-toolkit-test
-    #  annotations:
-    #    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-  labels:
-    app: responsible-ai-moderation-layer
-spec:
-  type: ClusterIP
-  ports:
-  - port: 8000
-  selector:
-    app: responsible-ai-moderation-layer
----
 apiVersion: apps/v1
 kind: Deployment
-seccompProfile:
-type: "RuntimeDefault"
-automountServiceAccountToken: false
 metadata:
   name: responsible-ai-moderation-layer
   namespace: irai-toolkit-test
@@ -37,22 +18,23 @@ spec:
         app: responsible-ai-moderation-layer
         version: v1
     spec:
+      automountServiceAccountToken: false  
       imagePullSecrets:
-         - name: docker-secret
+        - name: docker-secret
       containers:
-      - envFrom:
-        - configMapRef:
-            name: moderation-test-config
+      - name: responsible-ai-moderation-layer
         image: <Image Name>
         imagePullPolicy: Always
-        name: responsible-ai-moderation-layer
+        envFrom:
+          - configMapRef:
+              name: moderation-test-config
         ports:
-        - containerPort: 8000
+          - containerPort: 8000
         securityContext:
-            runAsUser: 0
-            seccompProfile:
-              type: RuntimeDefault
+          runAsUser: 0
+          seccompProfile:
+            type: RuntimeDefault
         resources:
-            limits:
-                cpu: '2'
-                memory: '5Gi'
+          limits:
+            cpu: '2'
+            memory: '5Gi'

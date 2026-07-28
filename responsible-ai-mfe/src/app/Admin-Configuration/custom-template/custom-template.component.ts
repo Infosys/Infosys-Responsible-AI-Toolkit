@@ -5,7 +5,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -15,6 +15,7 @@ import { PagingConfig } from 'src/app/_models/paging-config.model';
 import { SharedService } from '../configuration-parent/shared.service';
 import { NonceService } from 'src/app/nonce.service';
 import { UserValidationService } from 'src/app/services/user-validation.service';
+import { Subject, takeUntil } from 'rxjs';
 // PagingConfig
 
 @Component({
@@ -22,7 +23,8 @@ import { UserValidationService } from 'src/app/services/user-validation.service'
   templateUrl: './custom-template.component.html',
   styleUrls: ['./custom-template.component.css']
 })
-export class CustomTemplateComponent implements OnInit, PagingConfig {
+export class CustomTemplateComponent implements OnInit, OnDestroy, PagingConfig {
+  private destroy$ = new Subject<void>();
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
@@ -265,7 +267,7 @@ else
     console.log("payload1======= template name" ,this.CustomTemplateForm.get('TemplateName')?.value)
 
     if(this.updatecall){
-      this.https.patch(this.customTemplatePatchUrl_updateCustomeTemplate,payload1).subscribe((res)=>{
+      this.https.patch(this.customTemplatePatchUrl_updateCustomeTemplate,payload1).pipe(takeUntil(this.destroy$)).subscribe((res)=>{
         console.log("res=================",res)
         // this.CustomTemplateForm.reset()
         this.showSpinner = false
@@ -294,7 +296,7 @@ else
   
       })
     }else{
-    this.https.post(this.customTemplatePostUrl,payload1).subscribe((res)=>{
+    this.https.post(this.customTemplatePostUrl,payload1).pipe(takeUntil(this.destroy$)).subscribe((res)=>{
       console.log("res=================",res)
       // this.CustomTemplateForm.reset()
       this.showSpinner = false
@@ -348,27 +350,13 @@ else
 
   }
 
-   // Retrieves the logged-in user from local storage
-  getLogedInUser() {
-    let role = localStorage.getItem('role');
-    if(role== '"ROLE_ADMIN"'){
-      this.isRoleAdmin = true
-    }
+ 
 
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-        this.userId = x ;
-      }
-      console.log("userId", this.userId)
-      return this.userId;
-    }
-  }
 
    // Loads template data from the server
   LoadTemplateData(){
     console.log("fd:",this.loadTemplate+this.userId)
-    this.https.get(this.loadTemplate+this.userId).subscribe((res:any)=>{
+    this.https.get(this.loadTemplate+this.userId).pipe(takeUntil(this.destroy$)).subscribe((res:any)=>{
       console.log("res=================",res) 
     }, error => {
       // You can access status:
@@ -391,16 +379,6 @@ else
     })
   }
 
-  // Retrieves API configuration from local storage
-  getLocalStoreApi() {
-    let ip_port
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        return ip_port = JSON.parse(res)
-      }
-    }
-  }
 
    // Sets the API list URLs
   setApilist(ip_port: any) {
@@ -440,7 +418,7 @@ else
     //   "templateName": templateName
     // }
 
-    this.https.delete(this.customTemplateDeleteUrl,options ).subscribe(
+    this.https.delete(this.customTemplateDeleteUrl,options ).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         // this.getBatches();
         
@@ -591,6 +569,7 @@ closeSearch() {
     // let urlx = `${this.customTemplateGetUrl}${this.userId}`
 
     this.https.get(urlx, { params, headers: { 'accept': 'application/json' } })
+      .pipe(takeUntil(this.destroy$))
       .subscribe
       // this.https.get(this.customTemplateGetUrl+this.userId).subscribe
       ((res: any) => {
@@ -709,9 +688,9 @@ closeSearch() {
   ngOnInit(): void {
     let ip_port: any
 
-    let user = this.getLogedInUser()
+    this.userId= this.validationService.getLogedInUser();
 
-    ip_port = this.getLocalStoreApi()
+    ip_port = this.validationService.getLocalStoreApi()
     this.prevSubTemplate = this.CustomTemplateForm.value.template_type
     this.setApilist(ip_port)
     this.getTemplateDetail()
@@ -721,6 +700,12 @@ closeSearch() {
   }
   triggerParentClick() {
     this.sharedService.triggerClick();
+  }
+
+  // Cleanup subscriptions
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

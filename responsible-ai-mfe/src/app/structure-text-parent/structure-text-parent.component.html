@@ -4,33 +4,30 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
+
 <div style="display: flex; flex-direction: column; margin-top: 1.8rem;">
     <div>
         <div class="row">
             <div class="button-container2">
                 <div class="d-flex align-items-center">
-                    <mat-label [ngClass]="{
-                    'toggleLableOn': diffPrivacy,
-                    'toggleLableOff': !diffPrivacy,
-                  }">Differential Privacy</mat-label>
+                    <mat-label [ngClass]="{'toggleLableOn': diffPrivacy,'toggleLableOff': !diffPrivacy,}">
+                        Differential Privacy</mat-label>
                     <span class="switch">
                         <input id="switch-rounded" type="checkbox" [checked]="structureText" (change)="ontoglechange($event.target)"
-                        [disabled]="!roleService.checkActiveTabExists('Workbench','Structured-Text','Differential-Privacy') || !roleService.checkActiveTabExists('Workbench','Structured-Text','Structured-Text')"
-                        />
+                            [disabled]="!roleService.checkActiveTabExists('Workbench','Structured-Text','Differential-Privacy') || !roleService.checkActiveTabExists('Workbench','Structured-Text','Structured-Text')" />
                         <label for="switch-rounded"></label>
                     </span>
-                    <mat-label [ngClass]="{
-                    'toggleLableOn': structureText,
-                    'toggleLableOff': !structureText
-                  }">Structured Text </mat-label>
+                    <mat-label [ngClass]="{'toggleLableOn': structureText,'toggleLableOff': !structureText}">
+                        Structured Text </mat-label>
                 </div>
             </div>
         </div>
-
     </div>
+
     <ng-container *ngIf="diffPrivacy ==true ">
         <app-differential-privacy></app-differential-privacy>
     </ng-container>
+    
     <ng-container *ngIf="structureText ==true ">
         <app-structured-text></app-structured-text>
     </ng-container>

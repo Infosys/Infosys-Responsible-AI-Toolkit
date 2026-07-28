@@ -88,7 +88,7 @@ def audio_rag(payload):
         os.makedirs(temp_dir, exist_ok=True)
 
         # Supported formats
-        supported_formats = ['.mp3', '.wav']
+        supported_formats = ['.mp3', '.wav', '.flac']
         
         combined_audio_text = ""  
         file_identifiers = []  
@@ -99,31 +99,29 @@ def audio_rag(payload):
             extension = os.path.splitext(original_filename)[1].lower()
 
             if extension not in supported_formats:
-                raise ValueError(f"Unsupported file format: {extension}. Please upload a .mp3 or .wav file.")
+                raise ValueError(f"Unsupported file format: {extension}. Please upload a .mp3, .wav, or .flac file.")
 
             # Generate a unique identifier for each file
             file_id = f"File_{idx + 1}_{uuid.uuid4().hex}"  
 
             # Define paths for the temporary files
-            mp3_path = f"{temp_dir}audio{uuid.uuid4()}.mp3"
+            audio_path = f"{temp_dir}audio{uuid.uuid4()}{extension}"
             wav_path = f"{temp_dir}audio.wav"
-
-            # Save the uploaded MP3 file temporarily
-            with open(mp3_path, "wb") as f:
+            
+            # Save the uploaded audio file temporarily
+            with open(audio_path, "wb") as f:
                 f.write(audfile.file.read())
-
-            # Convert MP3 to WAV using librosa
-            if extension == '.mp3':
-                # Load the MP3 file and save it as a WAV file
-                y, sr = librosa.load(mp3_path, sr=None)
+            # Convert audio to WAV using librosa (supports MP3, FLAC, and other formats)
+            if extension in ['.mp3', '.flac']:
+                # Load the audio file and save it as a WAV file
+                y, sr = librosa.load(audio_path, sr=None)
                 sf.write(wav_path, y, sr)
             else:
-                # If it's not an MP3, just rename it to WAV
-                os.rename(mp3_path, wav_path)
+                # If it's already WAV, just rename it
+                os.rename(audio_path, wav_path)
 
             # Now process the WAV file to extract text
             audio_text = audio_to_text(wav_path)
-            print(f"Audio Transcript from {original_filename}: {audio_text}")
 
             # Concatenate the extracted text for all files with identifiers
             combined_audio_text += f"\n[{original_filename}] {audio_text}"
@@ -132,15 +130,12 @@ def audio_rag(payload):
             file_identifiers.append(file_id)
 
             # Clean up temporary files
-            if os.path.isfile(mp3_path):
-                os.remove(mp3_path)
-                print(f"Temporary MP3 file deleted: {mp3_path}")
+            if os.path.isfile(audio_path):
+                os.remove(audio_path)
             if os.path.isfile(wav_path):
                 os.remove(wav_path)
-                print(f"Temporary WAV file deleted: {wav_path}")
 
-        # After processing all audio files, we have combined text from all files with identifiers
-        print(f"Combined Audio Text: {combined_audio_text}")
+
 
         # Initialize LLM
         llm = select_llmtype(llmtype)
@@ -202,7 +197,7 @@ def audio_rag(payload):
         # GEval
         haluscores, halureasons = geval_audio(text, output, geval_messages, llm)
         geval_response = [haluscores, halureasons]
-        avgmetrics = haluscores["AverageScore"]
+        avgmetrics = haluscores["averageScore"]
         avgmetrics = avgmetrics / 5
         if avgmetrics >= 0.75:
             log.info("avgmetrics>=0.75")
@@ -215,13 +210,13 @@ def audio_rag(payload):
         timetaken=time.time()-starttime
 
         queue = []
-        queue.append([{"Response": output}])
-        queue.append({"Hallucination_score": round(haluscore, 2)})
-        queue.append([{"Chain of Thoughts Response": cot_output}])
-        queue.append([{"Thread of Thoughts Response": thot_output}])
-        queue.append([{"Chain of Verification Response": cov_output}])
-        queue.append([{"GEval Metrics": geval_response}])
-        queue.append([{"Time Taken": timetaken}])
+        queue.append([{"response": output}])
+        queue.append({"hallucinationScore": round(haluscore, 2)})
+        queue.append([{"chainOfThoughtsResponse": cot_output}])
+        queue.append([{"threadOfThoughtsResponse": thot_output}])
+        queue.append([{"chainOfVerificationResponse": cov_output}])
+        queue.append([{"gEvalMetrics": geval_response}])
+        queue.append([{"timeTaken": timetaken}])
 
         # Return the aggregated result for all files
         return queue
@@ -229,7 +224,7 @@ def audio_rag(payload):
     except Exception as e:
         log.info("Failed at audio_rag")
         log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
-
+        
 def audio_to_text(audio_file):
     """
     Converts audio to text using speech recognition.
@@ -463,7 +458,7 @@ def geval_audio(text, response, geval_messages, llm):
         curr_corr_prompt = corr_prompt.replace('{{prompt}}', text).replace('{{response}}', str(response))
         
         prompts = [curr_faith_prompt, curr_rel_prompt, curr_adh_prompt, curr_corr_prompt]
-        scoresDict = {'faithfulness': 0, 'relevance': 0, 'adherance': 0, 'correctness': 0, 'AverageScore': 0}
+        scoresDict = {'faithfulness': 0, 'relevance': 0, 'adherance': 0, 'correctness': 0, 'averageScore': 0}
         resDict = {'faithfulness': '', 'relevance': '', 'adherance': '', 'correctness': ''}
         
         scores, reasonings, fin_score,pindx = [],[],0,0
@@ -473,7 +468,6 @@ def geval_audio(text, response, geval_messages, llm):
                 geval_messages[0]["content"].append({"type": "text", "text": prompts[pindx]})
                 gevalres = llm.invoke(geval_messages)
                 res=gevalres.content
-                print(res, "resresresres")
                 res=str(res)
                 geval_messages[0]["content"].pop()
                 last_comma_index = res.rfind(',')
@@ -481,8 +475,7 @@ def geval_audio(text, response, geval_messages, llm):
                 last_index = max(last_comma_index, last_period_index)
                 halres=res[:last_index] 
                 halres = re.sub(r'^[^\w]*(.*)', r'\1', halres)
-                raw_value = res[last_comma_index + 1:]
-                print(f"Raw value: '{raw_value}'") 
+                raw_value = res[last_comma_index + 1:] 
                 cleaned_value = ''.join(filter(str.isdigit, raw_value))
                 halscore=float(cleaned_value)
                 scores.append(halscore)
@@ -492,7 +485,6 @@ def geval_audio(text, response, geval_messages, llm):
             except Exception as e:
                 breakpt+=1
                 if(breakpt>3):
-                    print("Connection Broke... Try Again")
                     log.error(f"Exception: {e,str(traceback.extract_tb(e.__traceback__)[0].lineno)}")
                     return
                 pass

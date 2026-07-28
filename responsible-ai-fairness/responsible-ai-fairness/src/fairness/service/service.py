@@ -1,12 +1,13 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 import pathlib
@@ -18,6 +19,7 @@ import json
 import datetime
 import time
 import os
+from fairness.constants.local_constants import OUTPUT_BASE_PATH
 
 # import pdfkit
 import ast
@@ -151,15 +153,15 @@ class AttributeDict(dict):
 
 
 class FairnessService:
-    MITIGATED_LOCAL_FILE_PATH = "../output/MitigatedData/"
+    MITIGATED_LOCAL_FILE_PATH = os.path.join(OUTPUT_BASE_PATH, 'MitigatedData') + os.sep
     MITIGATED_UPLOAD_PATH = "responsible-ai//responsible-ai-fairness//MitigatedData"
-    DATASET_LOCAL_FILE_PATH = "../output/UItoNutanixStorage/"
+    DATASET_LOCAL_FILE_PATH = os.path.join(OUTPUT_BASE_PATH, 'UItoNutanixStorage') + os.sep
     DATASET_UPLOAD_FILE_PATH = "responsible-ai//responsible-ai-fairness//Fairness_ui"
-    DATASET_WB_LOCAL_FILE_PATH = "../output/"
-    LOCAL_FILE_PATH = "../output/datasets/"
-    MODEL_LOCAL_PATH = "../output/model/"
-    MITIGATED_MODEL_LOCAL_PATH = "../output/mitigated_model/"
-    AWARE_MODEL_LOCAL_PATH = "../output/aware_model/"
+    DATASET_WB_LOCAL_FILE_PATH = OUTPUT_BASE_PATH + os.sep
+    LOCAL_FILE_PATH = os.path.join(OUTPUT_BASE_PATH, 'datasets') + os.sep
+    MODEL_LOCAL_PATH = os.path.join(OUTPUT_BASE_PATH, 'model') + os.sep
+    MITIGATED_MODEL_LOCAL_PATH = os.path.join(OUTPUT_BASE_PATH, 'mitigated_model') + os.sep
+    AWARE_MODEL_LOCAL_PATH = os.path.join(OUTPUT_BASE_PATH, 'aware_model') + os.sep
     MODEL_UPLOAD_PATH = "responsible-ai//responsible-ai-fairness//model"
     MITIGATED_MODEL_UPLOAD_PATH = (
         "responsible-ai//responsible-ai-fairness//mitigated-model"
@@ -240,7 +242,7 @@ class FairnessService:
             ax.set_ylim(-1, 1)
 
             # Save the plot as a PNG file
-            path = "../output/"  # Replace with the desired path
+            path = OUTPUT_BASE_PATH  # Replace with the desired path
             filename = os.path.join(path, f"{metric_name.replace(' ', '_')}.png")
             plt.savefig(filename)
 
@@ -257,7 +259,7 @@ class FairnessService:
             html_content += f"<img src='data:image/png;base64,{encoded_image}' alt='{metric_name} Plot'>"
 
         html_content += "</body>"
-        local_file_path = "../output/fairnessreport.html"
+        local_file_path = os.path.join(OUTPUT_BASE_PATH, 'fairnessreport.html')
 
         return html_content
 
@@ -273,11 +275,11 @@ class FairnessService:
         if extension == "csv":
             return pandas.read_csv(tpath, sep=",", usecols=usecols)
         elif extension == "parquet":
-            return pandas.read_parquet(tpath, sep=",", usecols=usecols)
+            return pandas.read_parquet(tpath, columns=usecols)
         elif extension == "feather":
-            return pandas.read_feather(tpath, sep=",", usecols=usecols)
+            return pandas.read_feather(tpath)
         elif extension == "json":
-            return pandas.read_json(tpath, sep=",", usecols=usecols)
+            return pandas.read_json(tpath)
 
     # def uploadfile_to_db(uploadPath, filePath):
     #     # to upload file in Nutanix
@@ -492,7 +494,7 @@ class FairnessService:
         fileId = payload.fileid
         if fileId is None:
 
-            raise HTTPException("fileId is missing in the payload")
+            raise HTTPException(status_code=400, detail="fileId is missing in the payload")
         # file_type ="text/csv"
         retrivedata = self.fileStore.read_file(fileId)
         df = pandas.read_csv(BytesIO(retrivedata["data"]))
@@ -559,10 +561,10 @@ class FairnessService:
             return objbias_pretrainanalyzeResponse
         else:
 
-            local_file_path = "../output/" + "sample.json"
+            local_file_path = os.path.join(OUTPUT_BASE_PATH, 'sample.json')
             FairnessService.save_as_json_file(local_file_path, list_bias_results)
             html = FairnessService.json_to_html(list_bias_results)
-            local_file_path = "../output/fairness_report.html"
+            local_file_path = os.path.join(OUTPUT_BASE_PATH, 'fairness_report.html')
             FairnessService.save_html_to_file(html, local_file_path)
             # reportId= FileStoreReportDb.save_file(file=html)
             tenet_id = (self.tenet.find(tenet_name="Fairness"),)
@@ -588,7 +590,7 @@ class FairnessService:
 
             url = os.getenv("REPORT_URL")
             payload = {"batchId": batchId}
-            response = requests.request("POST", url, data=payload, verify=False).json()
+            response = requests.request("POST", url, data=payload, verify=True).json()
             log.info(response)
             if response is None:
                 raise HTTPException(
@@ -876,7 +878,7 @@ class FairnessService:
         #
         # NutanixObjectStorage.upload_with_high_threshold(json_name, bucket_, key_, 10)
 
-        return objbias_pretrainanalyzeResponse
+        # return objbias_pretrainanalyzeResponse
 
     def preprocessingmitigate(self, payload: dict) -> BiasPretrainMitigationResponse:
         log.info("************Entering preprocessingMitigation************")
@@ -1078,7 +1080,7 @@ class FairnessUIservice:
             # Create temporary file
             temp_file_name = temp_file.name
             # Write binary data to the temporary file
-            file_content = file_content
+            # file_content = file_content
             temp_file.write(file_content)
             # Reset the file pointer to the beginning for reading
             temp_file.seek(0)
@@ -1196,7 +1198,7 @@ class FairnessUIservice:
         log.info(f"Entering CA Dict:{st_ti}")
         updated_df = read_file.select_dtypes(exclude="number")
         for each in list(updated_df.columns):
-            updated_df.drop(updated_df[(updated_df[each] == "?")].index, inplace=True)
+            updated_df=updated_df.drop(updated_df[(updated_df[each] == "?")].index)
             updated_df[each] = updated_df[each].str.replace(".", "")
             ca_dict[each] = list(updated_df[each].unique())
         log.info(
@@ -1328,7 +1330,7 @@ class FairnessUIservice:
         methodType = payload["methodType"]
         taskType = payload["taskType"]
         FairnessUIservice.request_payload = open(
-            "../output/UIanalyseRequestPayload.txt"
+            os.path.join(OUTPUT_BASE_PATH, 'UIanalyseRequestPayload.txt')
         ).read()
         FairnessUIservice.request_payload = FairnessUIservice.request_payload.replace(
             "{biasType}", biasType
@@ -1375,7 +1377,7 @@ class FairnessUIservice:
         log.info(f"Entering CA Dict:{st_ti}")
         updated_df = dataset.select_dtypes(exclude="number")
         for each in list(updated_df.columns):
-            updated_df.drop(updated_df[(updated_df[each] == "?")].index, inplace=True)
+            updated_df = updated_df.drop(updated_df[(updated_df[each] == "?")].index)
             updated_df[each] = updated_df[each].str.replace(".", "")
             FairnessUIservice.ca_dict[each] = list(updated_df[each].unique())
         log.info(
@@ -1723,7 +1725,7 @@ class FairnessUIservice:
         log.info(f"Entering CA Dict:{st_ti}")
         updated_df = read_file.select_dtypes(exclude="number")
         for each in list(updated_df.columns):
-            updated_df.drop(updated_df[(updated_df[each] == "?")].index, inplace=True)
+            updated_df = updated_df.drop(updated_df[(updated_df[each] == "?")].index)
             updated_df[each] = updated_df[each].str.replace(".", "")
             ca_dict[each] = list(updated_df[each].unique())
 
@@ -1963,9 +1965,7 @@ class FairnessUIservice:
 
         df = pandas.DataFrame.from_dict(transformed_df)
         unique_nm = datetime.datetime.now().strftime("%m%d%Y%H%M%S")
-        mitigated_df_filename = (
-            "../output/transformedDataset/output/mitigateDF" + unique_nm + ".csv"
-        )
+        mitigated_df_filename = os.path.join(OUTPUT_BASE_PATH, 'transformedDataset', 'output', f'mitigateDF{unique_nm}.csv')
         df.to_csv(mitigated_df_filename, index=False)
         return mitigated_df_filename
 
@@ -2417,9 +2417,9 @@ class FairnessUIservice:
         headers = {
             "Content-Type": "application/json"
         }
-        ssl_verify=os.getenv("VERIFY_SSL").strip()
-        verify = False if ssl_verify == "False" else True
-        response = requests.request("GET",url,  headers=headers, verify=verify)
+
+
+        response = requests.request("GET",url,  headers=headers, verify=True)
         if response.status_code == 200:
             token = response.json().get("access_token")
             self.api_token=token #storing the token
@@ -2457,7 +2457,7 @@ class FairnessUIservice:
         'Authorization': f'Bearer {self.api_token}'
         }
         
-        response = requests.request("POST", url, headers=headers, data=payload)
+        response = requests.request("POST", url, headers=headers, data=payload, verify=True)
         # if the token is expired, get a new one
         if response.status_code==401:
             if recur_count>3:
@@ -2511,7 +2511,7 @@ class FairnessUIservice:
             }
 
             response = requests.post(
-                url, data=json_payload, headers=headers, verify=False
+                url, data=json_payload, headers=headers, verify=True
             )
             if response.status_code == 200:
                 predictions = response.json()

@@ -1,0 +1,14 @@
+myenv/
+nermodel/
+*.pyc
+*.zip
+*.png
+dao/
+en_core_web_lg-any-py3-none-any.whl
+
+*.mp4
+*.avi
+
+backend-environment/
+env2/
+

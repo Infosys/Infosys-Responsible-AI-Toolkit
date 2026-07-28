@@ -1,11 +1,14 @@
 '''
-MIT license https://opensource.org/licenses/MIT Copyright 2024-2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 '''
 
 """
@@ -31,14 +34,12 @@ from fastapi import Depends, FastAPI, Request, Response
 from fastapi_csrf_protect import CsrfProtect
 from fastapi_csrf_protect.exceptions import CsrfProtectError
 from fastapi.responses import JSONResponse
-# from aicloudlibs.utils.global_exception import UnSupportedMediaTypeException
-# from aicloudlibs.utils import global_exception_handler
 from app.exception.global_exception import UnSupportedMediaTypeException
 from app.exception import global_exception_handler
 
+
 log=CustomLogger()
-## initialize the app with openapi and docs url
-#app = FastAPI(openapi_url="/api/v1/ai/openapi.json", docs_url="/api/v1/ai/docs")
+
 app = FastAPI(**read_config_yaml('../config/metadata.yaml'))
 """
 
@@ -51,6 +52,9 @@ app = FastAPI(**read_config_yaml('../config/metadata.yaml'))
     allow_headers - A list of HTTP request headers that should be supported for cross-origin requests. 
                     using ['*'] to allow all headers
 """
+
+
+ 
 allow_origins = os.getenv("allow_origin")
 allow_methods = os.getenv("allow_methods")
 
@@ -93,7 +97,6 @@ class ContentTypeMiddleware(BaseHTTPMiddleware):
         response.headers["Content-Type"] = "application/json; charset=utf-8"
         
         return response
-# app.add_middleware(ContentTypeMiddleware)
 
 
 class CustomHeaderMiddleware(BaseHTTPMiddleware):
@@ -113,7 +116,6 @@ class URLPathValidationMiddleware(BaseHTTPMiddleware):
             return Response(status_code=404, content="Invalid URL path")
         return await call_next(request)
 
-#app.add_middleware(URLPathValidationMiddleware),
 
 class CSRFMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):

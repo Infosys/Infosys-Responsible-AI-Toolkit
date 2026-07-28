@@ -4,15 +4,6 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 -->
-<!-- <div class="mb-2">
-    <span class="mainLabel text-capitalize">Anonymized Text: </span><span
-        class="mainLabel fw-normal">{{privacyRes.AnonRes.anonymizedText}}</span>
-</div>
-<div class="outputScn ps-2">
-    <pre>
-        <p class="outputTxt" > {{privacyRes.AnazRes | json}}</p>
-    </pre>
-</div> -->
 
 <div class="row pb-3">
     <div *ngIf="privacyRes.AnonRes">
@@ -21,7 +12,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             <div class="card-body mainLabel mainLabelSM mainLabelLight p-2">{{privacyRes.AnonRes.anonymizedText}}</div>
         </div>
     </div>
-    <div  *ngIf="(privacyOption === 'Privacy-Analyze' && privacyRes.AnazRes) || (privacyOption === 'Choose Options' && privacyRes.AnazRes)">
+    <div *ngIf="(privacyOption === 'Privacy-Analyze' && privacyRes.AnazRes) || (privacyOption === 'Choose Options' && privacyRes.AnazRes)">
         <label class="mainLabel">Analyze</label>
         <div class="card fixed-height-card" hidden>
             <div class="card-body p-2">
@@ -32,12 +23,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         </div>
         <div class="card">
             <!-- privacy response table -->
-            <label class="mainLabel">PIIENTITIES</label>
+            <label class="mainLabel">PII ENTITIES</label>
             <table class="styled-table">
-                
                 <tbody>
-                    <tr *ngFor="let entity of privacyRes.AnazRes.PIIEntities | paginate : pagingConfig; let i = index" style="padding: 10px;">
-                        <!-- <td>{{i + 1}}</td> -->
+                    <tr *ngFor="let entity of privacyRes.AnazRes.PIIEntities | paginate : pagingConfig; let i = index"
+                        style="padding: 10px;">
                         <td class="upper-case">Type&nbsp;&nbsp;&nbsp;{{entity.type}}</td>
                         <td class="upper-case">Beginoffset&nbsp;&nbsp;&nbsp;{{entity.beginOffset}}</td>
                         <td class="upper-case">Endoffset&nbsp;&nbsp;&nbsp;{{entity.endOffset}}</td>
@@ -58,29 +48,29 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <div class="card">
             <div class="card-body p-2">
                 <div class="processed-prompt">
-                    <span *ngFor="let word of getProcessedPrompt()" 
-                          [ngStyle]="{'background-color': word.color ? word.color : 'transparent'}">
-                        {{word.text}} 
+                    <span *ngFor="let word of getProcessedPrompt()"
+                        [ngStyle]="{'background-color': word.color ? word.color : 'transparent'}">
+                        {{word.text}}
                     </span>
                 </div>
             </div>
         </div>
         <!-- new table design for highlight -->
         <div class="card mt-1">
-            <!-- <label class="mainLabel">Encrypted Data</label> -->
             <table class="styled-table">
-                <tr>
-                    <th class="header">S.No</th>
-                    <th class="header">Type</th>
-                    <th class="header">Response Text</th>
-                    <th class="header">Begin Offset</th>
-                    <th class="header">End Offset</th>
-                    <th class="header">Score</th>
-                </tr>
-                
+                <thead>
+                    <tr>
+                        <th class="header">S.No</th>
+                        <th class="header">Type</th>
+                        <th class="header">Response Text</th>
+                        <th class="header">Begin Offset</th>
+                        <th class="header">End Offset</th>
+                        <th class="header">Score</th>
+                    </tr>
+                </thead>
                 <tbody>
-                    <tr *ngFor="let entity of  privacyRes.AnazRes.PIIEntities | paginate : pagingConfig2; let i = index" style="padding: 10px;">
-                        <!-- <td>{{i + 1}}</td> -->
+                    <tr *ngFor="let entity of  privacyRes.AnazRes.PIIEntities | paginate : pagingConfig2; let i = index"
+                        style="padding: 10px;">
                         <td class="upper-case">{{i + 1}}</td>
                         <td class="upper-case">{{entity.type}}</td>
                         <td class="upper-case">{{entity.responseText}}</td>
@@ -102,7 +92,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
         <div class="d-flex justify-content-between">
             <label class="mainLabel custom-paddingx">Encrypt</label>
             <a mat-raised-button type="btn" class="mainBtn DecryptButton" color="DecryptBtnClr" (click)="onClickx()">Decrypt Text</a>
-            <!-- <a (click)="onClickx()">x</a> -->
         </div>
         <div class="card fixed-height-card">
             <div class="card-body p-2">
@@ -114,7 +103,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </div>
     <!-- this decrypt is currently not being used -->
     <div class="col-md-6" *ngIf="privacyRes.decryptedtoggle ==true" hidden>
-    <!-- <div class="col-md-6" *ngIf="decryptedtoggle ==true"> -->
         <label class="mainLabel">Decrypt</label>
         <div class="card fixed-height-card">
             <div class="card-body p-2">
@@ -126,17 +114,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     </div>
     <!-- new encrypt decrypt ui -->
     <div style="width: 100%;" *ngIf="privacyRes.EncryptRes">
-        <div class="card d-flex"><p class="mainLabel2 mainLabelSM">
-            <strong>Encrypted Text :</strong>
-            <span> {{privacyRes.EncryptRes.text}}</span></p>
+        <div class="card d-flex">
+            <p class="mainLabel2 mainLabelSM">
+                <strong>Encrypted Text :</strong>
+                <span> {{privacyRes.EncryptRes.text}}</span>
+            </p>
         </div>
         <div class="card mt-1">
             <label class="mainLabel">Encrypted Data</label>
             <table class="styled-table">
-                
                 <tbody>
-                    <tr *ngFor="let entity of privacyRes.EncryptRes.items | paginate : pagingConfig2; let i = index" style="padding: 10px;">
-                        <!-- <td>{{i + 1}}</td> -->
+                    <tr *ngFor="let entity of privacyRes.EncryptRes.items | paginate : pagingConfig2; let i = index"
+                        style="padding: 10px;">
                         <td class="upper-case">Type&nbsp;&nbsp;&nbsp;{{entity.entity_type}}</td>
                         <td class="upper-case">Beginoffset&nbsp;&nbsp;&nbsp;{{entity.start}}</td>
                         <td class="upper-case">Endoffset&nbsp;&nbsp;&nbsp;{{entity.end}}</td>
@@ -149,12 +138,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
                 </pagination-controls>
             </div>
         </div>
-        
-    </div>
-     
 
-     <!--  -->
+    </div>
 </div>
+
 <div style="height: 20px;">
     <!-- empty div to have space at bottom -->
 </div>

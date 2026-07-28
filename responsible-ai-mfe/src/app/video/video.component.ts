@@ -5,7 +5,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, ViewEncapsulation, OnInit, ViewChild, ElementRef, TemplateRef} from '@angular/core';
+import { Component, ViewEncapsulation, OnInit, OnDestroy, ViewChild, ElementRef, TemplateRef} from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PagingConfig } from '../_models/paging-config.model';
 import { saveAs } from 'file-saver';
@@ -19,7 +20,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./video.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class VideoComponent implements OnInit{
+export class VideoComponent implements OnInit, OnDestroy{
+  private destroy$ = new Subject<void>();
   @ViewChild('videoDialog') videoDialog!: TemplateRef<any>;
   @ViewChild('fileInput') fileInput!: ElementRef;
   // FOR SHIMMER EFFECT
@@ -35,7 +37,7 @@ export class VideoComponent implements OnInit{
   selectedOptions: string[] = [];
   uploadedVideoMode: boolean = true;
   liveStreamMode: boolean = false;
-  
+
   constructor(public _snackBar: MatSnackBar, private https: HttpClient, private dialog: MatDialog, private sanitizer: DomSanitizer) {
     this.form1 = new FormControl(null, this.fileSelectedValidator);
     this.form2 = new FormControl(null, this.optionSelectedValidator.bind(this));
@@ -74,9 +76,20 @@ export class VideoComponent implements OnInit{
     }
   }
 
-   // Opens a dialog to display the video
+   // Opens a dialog to display the video with URL validation
   openDialog(videoUrl: string): void{
     console.log("Opening dialog with URL: ", videoUrl);
+
+    // Validate URL before sanitizing
+    if (!this.isValidVideoUrl(videoUrl)) {
+      console.error('Invalid or unsafe video URL detected');
+      this._snackBar.open('Invalid video URL', '✖', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
+      return;
+    }
 
     const sanitizedUrl = this.sanitizer.bypassSecurityTrustResourceUrl(videoUrl);
 
@@ -88,7 +101,57 @@ export class VideoComponent implements OnInit{
         width: '55%',
         height: '90%'
       });
-      dialogRef.afterOpened().subscribe(()=>{console.log("Dialog data after opened:", dialogRef.componentInstance?.data);});
+      dialogRef.afterOpened().pipe(takeUntil(this.destroy$)).subscribe(()=>{console.log("Dialog data after opened:", dialogRef.componentInstance?.data);});
+  }
+
+  // Validates video URL to ensure it's safe
+  private isValidVideoUrl(url: string): boolean {
+    if (!url || typeof url !== 'string' || url.trim() === '') {
+      return false;
+    }
+
+    try {
+      // Check if it's a blob URL (locally created)
+      if (url.startsWith('blob:')) {
+        return true;
+      }
+
+      const parsedUrl = new URL(url);
+      
+      // Only allow http, https, and blob protocols for video
+      const allowedProtocols = ['http:', 'https:', 'blob:'];
+      if (!allowedProtocols.includes(parsedUrl.protocol)) {
+        console.error('Unsafe protocol detected:', parsedUrl.protocol);
+        return false;
+      }
+
+      // Validate hostname exists for non-blob URLs
+      if (parsedUrl.protocol !== 'blob:' && (!parsedUrl.hostname || parsedUrl.hostname.length === 0)) {
+        console.error('Invalid hostname');
+        return false;
+      }
+
+      // Check for suspicious patterns
+      const suspiciousPatterns = [
+        /javascript:/i,
+        /data:/i,
+        /vbscript:/i,
+        /file:/i,
+        /<script/i,
+        /onerror=/i,
+        /onclick=/i
+      ];
+
+      if (suspiciousPatterns.some(pattern => pattern.test(url))) {
+        console.error('Suspicious pattern detected in video URL');
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Invalid video URL format:', error);
+      return false;
+    }
   }
 
   currentPage: number = 1;
@@ -130,7 +193,7 @@ export class VideoComponent implements OnInit{
     const reader = new FileReader();
     reader.onload = (e: any) => {
       const text = e.target.result;
-      console.log(text);
+     // console.log(text);
     };
     reader.readAsText(event.target.files[0]);
   }
@@ -181,12 +244,11 @@ export class VideoComponent implements OnInit{
     this.uploadFile = ip_port.result.DocProcess + ip_port.result.DocProcess_uploadFile   //+ environment.uploadFile 
 
     this.DocProcessing_getFileContent = ip_port.result.DocProcess + ip_port.result.DocProcessing_getFileContent   //+ environment.uploadFile
-
   }
 
    // Fetches the list of video files for the user
   getVideoFilesList() {
-    this.https.get(this.getFile + "/" + this.userId + "/video").subscribe
+    this.https.get(this.getFile + "/" + this.userId + "/video").pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
 
         this.result = res
@@ -253,7 +315,6 @@ export class VideoComponent implements OnInit{
     console.log("submit")
     this.upload_file()
   }
-
   // Uploads the selected video file
   upload_file() {
     this.showSpinner1 = true;
@@ -284,7 +345,7 @@ export class VideoComponent implements OnInit{
 
   // Makes the API call to upload the video file
   uploadFileApiCall(fileData: any) {
-    this.https.post(this.uploadFile, fileData).subscribe((res: any) => {
+    this.https.post(this.uploadFile, fileData).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       this.result = res
       this.processing = "Complete"
       console.log("res======", res)
@@ -340,10 +401,67 @@ export class VideoComponent implements OnInit{
 
   //     }
 
-  // Navigates to the given document link
+  // Navigates to the given document link with URL validation
   getfileContent(documentLink: string){
     console.log('Navigating to:', documentLink);
+    
+    // Validate and sanitize the URL before navigation
+    if (!this.isValidUrl(documentLink)) {
+      console.error('Invalid or unsafe URL detected');
+      this._snackBar.open('Invalid document link', '✖', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+      });
+      return;
+    }
+    
     window.location.href = documentLink; 
+  }
+
+  // Validates URL to prevent XSS attacks
+  private isValidUrl(url: string): boolean {
+    if (!url || typeof url !== 'string' || url.trim() === '') {
+      return false;
+    }
+
+    try {
+      const parsedUrl = new URL(url);
+      
+      // Only allow http and https protocols
+      const allowedProtocols = ['http:', 'https:'];
+      if (!allowedProtocols.includes(parsedUrl.protocol)) {
+        console.error('Unsafe protocol detected:', parsedUrl.protocol);
+        return false;
+      }
+
+      // Validate hostname exists and is not suspicious
+      if (!parsedUrl.hostname || parsedUrl.hostname.length === 0) {
+        console.error('Invalid hostname');
+        return false;
+      }
+
+      // Additional validation: check for common XSS patterns in the URL
+      const suspiciousPatterns = [
+        /javascript:/i,
+        /data:/i,
+        /vbscript:/i,
+        /file:/i,
+        /<script/i,
+        /onerror=/i,
+        /onclick=/i
+      ];
+
+      if (suspiciousPatterns.some(pattern => pattern.test(url))) {
+        console.error('Suspicious pattern detected in URL');
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Invalid URL format:', error);
+      return false;
+    }
   }
 
    // Handles file selection for upload
@@ -419,5 +537,9 @@ export class VideoComponent implements OnInit{
     this.file = null;
     this.selectedOptions = [];        
     this.fileInput.nativeElement.value = '';
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

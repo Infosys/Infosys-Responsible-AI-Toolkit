@@ -4,6 +4,7 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
+
 .mainLabel {
     color: #7E7E7E;
     padding: 0px;
@@ -11,6 +12,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-size: 13px;
     font-family: 'Segoe UI';
 }
+
 .mainLabel2 {
     color: #212529;
     padding: 0px;
@@ -19,15 +21,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-family: 'Segoe UI';
 }
 
-.mainLabelSM{
+.mainLabelSM {
     font-size: 12px;
 }
 
-.mainLabelLight{
+.mainLabelLight {
     font-weight: 400;
 }
 
-.fixed-height-card{
+.fixed-height-card {
     height: 150px;
     overflow-y: auto;
 }
@@ -41,10 +43,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     padding: 0 8px 0 8px !important;
 }
 
-.DecryptButton {
-    /* width: 100px; */
-}
-
 .mat-DecryptBtnClr {
     color: #8626C3;
     background-color: #ffffff;
@@ -56,29 +54,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 .overflow-unset {
     overflow: unset !important;
-  }
+}
 
-  .entity-box {
-    display: block; /* Ensures each box starts on a new line */
-    margin-top: 10px; /* Adds space between the boxes */
-    padding: 10px; /* Adds some padding inside each box */
-    background-color: #f0f0f0; /* Light grey background */
-    border-radius: 5px; /* Rounded corners for the boxes */
-}
-/* .borderedTable {
-    width: 700px; 
-    border-collapse: collapse; 
-}
-.borderedTable, .borderedTable th, .borderedTable td {
-    margin-top: 20px;
-    border: 1px solid #dcdcdc;
-    border-collapse: collapse;
-    font-size: 12px;
-    font-family: 'Segoe UI';
-}
-.borderedTable th {
-    background-color: #e7e7e7;
-} */
 .processed-prompt span {
     font-size: 12px;
     font-family: 'Segoe UI';
@@ -86,10 +63,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 .upper-case {
     text-transform: uppercase;
-}
-
-.padding-right {
-    padding-right: 10px; /* Adjust the value as needed */
 }
 
 .styled-table td {
@@ -101,12 +74,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     color: #061838;
     opacity: 70%;
 }
+
 .styled-table tr {
     border-bottom: .5px solid rgba(0, 0, 0, 0.2);
 }
 
 .styled-table {
-    /* margin-left: 1rem; */
     width: 95%;
     border-collapse: collapse;
 }
@@ -116,16 +89,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-size: 0.70rem;
     font-family: 'Segoe UI';
     font-weight: 600;
-    /* padding-top: 10px; */
     padding-bottom: 10px;
     padding-right: 10px;
-    /* background-color: #4CAF50; */
     color: #382261;
     opacity: 70%;
     text-transform: uppercase;
-
 }
-
 
 .styled-table th {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -147,13 +116,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 :host ::ng-deep .ngx-pagination .current {
     background: #963596;
-  }
-  :host ::ng-deep .ngx-pagination a{
+}
+
+:host ::ng-deep .ngx-pagination a {
     text-decoration: none;
     font-weight: 500;
-  }
+}
 
-  .card {
+.card {
     padding: 10px;
-  }
-
+}

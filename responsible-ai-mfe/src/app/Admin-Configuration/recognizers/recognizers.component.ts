@@ -5,7 +5,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PagingConfig } from 'src/app/_models/paging-config.model';
@@ -15,6 +15,7 @@ import { methods } from './recognizers-method';
 import { RecognizersService } from './recognizers.service';
 import { NonceService } from 'src/app/nonce.service';
 import { UserValidationService } from 'src/app/services/user-validation.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-recognizers',
@@ -22,7 +23,8 @@ import { UserValidationService } from 'src/app/services/user-validation.service'
   styleUrls: ['./recognizers.component.css'],
   // encapsulation: ViewEncapsulation.None
 })
-export class RecognizersComponent implements OnInit {
+export class RecognizersComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
 
   constructor(public _snackBar: MatSnackBar, private https: HttpClient, public dialog: MatDialog, private _fb: UntypedFormBuilder, public recognizerService: RecognizersService,public nonceService:NonceService,private validationService:UserValidationService) {
     this.pagingConfig = {
@@ -100,36 +102,14 @@ export class RecognizersComponent implements OnInit {
 
     let ip_port: any
 
-    let user = this.getLogedInUser()
+    this.userId = this.validationService.getLogedInUser();
 
-    ip_port = this.getLocalStoreApi()
+      ip_port = this.validationService.getLocalStoreApi()
     this.setApilist(ip_port)
     this.getRecognizerList()
     this.fromCreation()
   }
 
-  // Retrieves the logged-in user from local storage
-  getLogedInUser() {
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-        this.userId = x ;
-        console.log(" userId", this.userId)
-      }
-      return this.userId;
-    }
-  }
-
-  // Retrieves API configuration from local storage
-  getLocalStoreApi() {
-    let ip_port
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        return ip_port = JSON.parse(res)
-      }
-    }
-  }
 
   // Sets the API list URLs
   setApilist(ip_port: any) {
@@ -146,7 +126,7 @@ export class RecognizersComponent implements OnInit {
 
   // Fetches the list of recognizers
   getRecognizerList() {
-    this.https.get(this.admin_list_rec_get_list).subscribe
+    this.https.get(this.admin_list_rec_get_list).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         this.dataSource = []
 
@@ -337,7 +317,7 @@ export class RecognizersComponent implements OnInit {
 
   // Sends the recognizer data to the server
   postDataRecogGroupApi(fileData: FormData) {
-    this.https.post(this.admin_list_rec, fileData).subscribe
+    this.https.post(this.admin_list_rec, fileData).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         //console.log("res", res)
         this.getRecognizerList()
@@ -387,7 +367,7 @@ export class RecognizersComponent implements OnInit {
       // const methodsInstance = new methods(this.http, this._snackBar, this.recognizerService);
       // this.dataSource = methodsInstance.delete(this.admin_list_rec_get_list_Delete_DataRecogGrp, options,this.admin_list_rec_get_list);
       // this.https.delete(this.admin_pattern_rec_delete_list, { headers }).subscribe
-      this.https.delete(this.admin_list_rec_get_list_Delete_DataRecogGrp, options).subscribe
+      this.https.delete(this.admin_list_rec_get_list_Delete_DataRecogGrp, options).pipe(takeUntil(this.destroy$)).subscribe
         ((res: any) => {
           //console.log("delete Resonce" + res.status)
           if (res.status === "True") {
@@ -497,7 +477,7 @@ export class RecognizersComponent implements OnInit {
   }
   // Sends the updated recognizer data to the server
   updateRecognizer(payload:any){
-    this.https.patch(this.admin_list_rec_get_list_Update_DataRecogGrp, payload).subscribe 
+    this.https.patch(this.admin_list_rec_get_list_Update_DataRecogGrp, payload).pipe(takeUntil(this.destroy$)).subscribe 
     ((res: any) => 
       {
         //console.log("res",res)
@@ -548,4 +528,9 @@ export class RecognizersComponent implements OnInit {
     this.pagingConfig.totalItems = this.filteredDataSource.length;
   }
 
+  // Cleanup on component destruction
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

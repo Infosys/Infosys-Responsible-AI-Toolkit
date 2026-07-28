@@ -1,59 +1,18 @@
-// .mainContainerReqMod{
-//   height: 350px;
-//   overflow-y: auto;
-// }
-
-
-.cardContainerModelBased-model {
-  display: grid;
-  gap: 8px;
-}
-
-
-.first-column {
-  width: 45%;
-  text-align: left !important;
-}
-
-.cardA {
-  color: black;
-  padding: 10px;
-  /* border-radius: 8px; */
-  // border-left: 8px solid #8626C3;
-  background-color: #ececec;
-  border-radius: 8px;
-}
-.cardB {
-  // flex: 1 0 23%;
-  flex: 1;
-}
+/* ====================================
+   UTILITY CLASSES
+   ==================================== */
 
 .flex-1 {
   flex: 1;
 }
-.custom-badge{
-  color: rgb(31, 31, 31);
-  font-size: 0.68rem;
-  background-color: rgb(219, 219, 219);
-  display: flex;
-  align-items: center;
-  padding: 0px 7px;
-  border-radius: 4px;
-  height: 20px;
-}
-.custom-badge-passed {
-  color: rgb(20 83 45);
-  background-color: rgb(220 252 231);
-}
-.custom-badge-failed{
-  color: rgb(255 0 78);
-  background-color: rgb(255 228 230);
-}
-.custom-badge-yellow {
-  background-color: #fff3d6;
-  color: #f9a701;
 
+.cursor-pointer {
+  cursor: pointer;
 }
+
+/* ====================================
+   TAB NAVIGATION STYLES
+   ==================================== */
 
 .HeadingLabel {
   color: #7E7E7E;
@@ -77,60 +36,12 @@
   position: absolute;
   bottom: 0;
   left: 0;
-  /* width: 35%; */
   border-bottom: 2px solid #8626C3;
 }
 
-.tableReqMod {
-  width: 100%;
-  color: #7E7E7E;
-  font-size: 12px;
-  font-family: 'Segoe UI';
-  font-weight: 400;
-
-  tr {
-    padding: 5px 0px;
-
-    td {
-      padding-right: 8px;
-      text-align: center;
-    }
-  }
-}
-
-.styled-table {
-  /* margin-left: 1rem; */
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.styled-table th.header {
-  /* Segoe UI, Semibold .75rem */
-  font-size: 0.70rem;
-  font-family: 'Segoe UI';
-  font-weight: 600;
-  /* padding-top: 10px; */
-  padding-bottom: 10px;
-  padding-right: 10px;
-  /* background-color: #4CAF50; */
-  color: #382261;
-  opacity: 70%;
-  text-transform: uppercase;
-
-}
-
-
-.styled-table td {
-  /* Segoe UI, regular */
-  font-size: 0.70rem;
-  font-family: 'Segoe UI';
-  font-weight: 500;
-  color: #061838;
-}
-
-.styled-table th {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-}
+/* ====================================
+   LABEL STYLES
+   ==================================== */
 
 .mainLabel {
   color: #7E7E7E;
@@ -144,55 +55,80 @@
   font-size: 12px;
 }
 
-.mainLabelLight {
-  font-weight: 400;
+/* ====================================
+   BADGE STYLES
+   ==================================== */
+
+.custom-badge {
+  color: rgb(31, 31, 31);
+  font-size: 0.68rem;
+  background-color: rgb(219, 219, 219);
+  display: flex;
+  align-items: center;
+  padding: 0px 7px;
+  border-radius: 4px;
+  height: 20px;
 }
 
-.cursor-pointer {
-  cursor: pointer;
-}
-/* PANEL BACKGOUND */
-.cdk-overlay-backdrop.custom-backdrop {
-  background: rgba(0, 0, 0, 0.6);
-  top: 0px;
-  width: 100%;
-  height: 100%;
+.custom-badge-passed {
+  color: rgb(20 83 45);
+  background-color: rgb(220 252 231);
 }
 
-.popupLink {
-  color: #8626C3;
-  text-decoration: underline;
-  cursor: pointer;
+.custom-badge-failed {
+  color: rgb(255 0 78);
+  background-color: rgb(255 228 230);
 }
 
+/* ====================================
+   CARD STYLES
+   ==================================== */
 
-.outerResultCard{
+.cardA {
+  color: black;
+  padding: 10px;
+  background-color: #ececec;
+  border-radius: 8px;
+}
+
+.outerResultCard {
   box-shadow: 0 2px 4px #00000029 !important;
   border: none;
   margin-left: 1px;
   background: #efefef;
   border-radius: 14px;
-  // .card-header{
-  //   background: none;
-  //   border: none;
-  //   padding-bottom: 0px;
-  //   h5{
-  //     color: #000000;
-  //     font-size: 1rem;
-  //     font-weight: 600;
-  //     font-family: myriad-pro, Arial !important;
-  //   }
-  // }
 }
-.card-header-outerResultCard{
+
+.card-header-outerResultCard {
   background: none;
   border: none;
   padding-bottom: 0px;
 }
 
-.innerResultCard{
+.innerResultCard {
   border-radius: 14px;
   box-shadow: 0 1px 4px #00000016 !important;
   background: #ffffff;
   border: none;
+}
+
+/* ====================================
+   LINK STYLES
+   ==================================== */
+
+.link {
+  color: #8626C3;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ====================================
+   OVERLAY STYLES
+   ==================================== */
+
+.cdk-overlay-backdrop.custom-backdrop {
+  background: rgba(0, 0, 0, 0.6);
+  top: 0px;
+  width: 100%;
+  height: 100%;
 }

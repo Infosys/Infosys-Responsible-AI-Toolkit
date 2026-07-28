@@ -9,7 +9,6 @@ export const urlList = {
   dicomfielpathurl: 'DICOMFILEPATHURL',
   masterurl: 'MASTERURL',
   enableInternetSearch: 'ENABLESEARCH',
-  enableInterpret: 'ENABLEINTERPRET',
   authorityAPI: 'AUTHORITY_API',
   websocketUrl: 'WEBSOCKET_URL',
   authToken: 'AUTH_TOKEN'

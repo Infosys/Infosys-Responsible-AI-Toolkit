@@ -4,7 +4,7 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { SessionStorageService } from 'ngx-webstorage';
@@ -36,7 +36,7 @@ import { UserValidationService } from 'src/app/user-validation.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss'],
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   private readonly _destroying$ = new Subject<void>();
   ip_port: any;
   raiKabanUrl: any;
@@ -129,7 +129,7 @@ goToUrl(){
 
     this.entitiesNavbarItems = EntityNavbarItems;
 
-    this.accountService.getAuthenticationState().subscribe(account => {
+    this.accountService.getAuthenticationState().pipe(takeUntil(this._destroying$)).subscribe(account => {
       this.account = account;
     });
     this.getInitials();
@@ -152,7 +152,7 @@ goToUrl(){
   // This method is used to reload the shell of the application
   // It subscribes to the router events and reloads the page when a NavigationEnd event occurs
   reloadShell(): void {
-    this.router.events.subscribe(event => {
+    this.router.events.pipe(takeUntil(this._destroying$)).subscribe(event => {
       if (event instanceof NavigationEnd) {
         location.reload();
       }
@@ -239,7 +239,7 @@ goToUrl(){
     } else {
       const login = userName;
       const email = userName;
-      this.registerService.save({ login, email, cred, langKey: 'en' }).subscribe(
+      this.registerService.save({ login, email, cred, langKey: 'en' }).pipe(takeUntil(this._destroying$)).subscribe(
        () => (this.success = true),
        response => this.processError(response),// modified backend to make this work
        ()=> this.login()
@@ -286,14 +286,15 @@ goToUrl(){
           this.roles = res.authorities;
           console.log("ROLES FROM LOCAL STORAGE" + this.roles);
 
-          this.loginService.getPages(this.roles).subscribe((pages: any) => {
+          this.loginService.getPages(this.roles).pipe(takeUntil(this._destroying$)).subscribe((pages: any) => {
             this.pages = pages;
             console.log(this.pages);
           });
 
           this.msalBroadcastService.msalSubject$
             .pipe(
-              filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS)
+              filter((msg: EventMessage) => msg.eventType === EventType.LOGIN_SUCCESS),
+              takeUntil(this._destroying$)
             )
             .subscribe((result: EventMessage) => {
               const payload = result.payload as AuthenticationResult;
@@ -323,7 +324,7 @@ goToUrl(){
   // It calls the goToUrl method to get the URL and then makes an HTTP GET request to fetch the account details
   getAllAccountData() {
     this.goToUrl();
-    this.http.get(this.portfolioUrl).subscribe(
+    this.http.get(this.portfolioUrl).pipe(takeUntil(this._destroying$)).subscribe(
       (res: any) => {
         console.log("res=========>>>", res[0].AccountDetails);
 
@@ -400,5 +401,9 @@ goToUrl(){
   clearLocalStorage(): void {
     localStorage.removeItem('selectedPortfolio');
     localStorage.removeItem('selectedAccount');
+  }
+  ngOnDestroy(): void {
+    this._destroying$.next();
+    this._destroying$.complete();
   }
 }

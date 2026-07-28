@@ -100,6 +100,7 @@
 				"test": {
 					"builder": "@angular-devkit/build-angular:karma",
 					"options": {
+						"codeCoverage": true,
 						"main": "src/test.ts",
 						"polyfills": "src/polyfills.ts",
 						"tsConfig": "tsconfig.spec.json",
@@ -121,5 +122,8 @@
 				}
 			}
 		}
-	}
+  },
+  "cli": {
+    "analytics": "8ee15696-1b5b-4c37-abe6-fa112767fbc6"
+  }
 }

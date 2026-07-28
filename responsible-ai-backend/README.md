@@ -9,7 +9,6 @@
 - [Contact](#contact)
 - [Issue](#issueUpdate)
 
-
 ## Introduction
 The backend repository is used for managing Log in, Register and Authentication of the users.
 
@@ -113,11 +112,11 @@ Note: v1/rai/backend/account endpoint is used by frontend module for verifying t
   
 ## License
 
-The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.md](License.md) file.
+The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.md](LICENSE.md) file.
 
 ## Contact
 
-If you have more questions or need further insights, feel free to Connect with us @infosysraitoolkit@infosys.com
+If you have more questions or need further insights, feel free to Connect with us @ infosysraitoolkit@infosys.com
 
 ## Issue Update
 Resolving Cosmos DB Error:

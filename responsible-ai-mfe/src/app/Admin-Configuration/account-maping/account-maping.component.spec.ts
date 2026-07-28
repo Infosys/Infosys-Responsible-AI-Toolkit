@@ -5,6 +5,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AccountMapingComponent } from './account-maping.component';
 
@@ -14,7 +15,8 @@ describe('AccountMapingComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccountMapingComponent ]
+      declarations: [ AccountMapingComponent ],
+      schemas: [ NO_ERRORS_SCHEMA ]
     })
     .compileComponents();
 
@@ -25,5 +27,17 @@ describe('AccountMapingComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should initialize with default tab as "acc"', () => {
+    expect(component.tab).toBe('acc');
+  });
+
+  it('should toggle tabs when toggleTabs is called', () => {
+    component.toggleTabs('newTab');
+    expect(component.tab).toBe('newTab');
+    
+    component.toggleTabs('anotherTab');
+    expect(component.tab).toBe('anotherTab');
   });
 });

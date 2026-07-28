@@ -5,7 +5,8 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
+import { Subject, takeUntil } from 'rxjs';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -14,7 +15,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './terms-and-conditions.component.html',
   styleUrls: ['./terms-and-conditions.component.css']
 })
-export class TermsAndConditionsComponent {
+export class TermsAndConditionsComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   isCloseDisabled: boolean = true; // Set this to true or false as needed
   isChecked = false;
   userId=""
@@ -45,7 +47,7 @@ export class TermsAndConditionsComponent {
     console.log('Fetching user consent for user:', userId);
     
     const url = `${getUserConsent}${userId}`;
-    this.https.get(url, { headers: { 'accept': 'application/json' } }).subscribe(
+    this.https.get(url, { headers: { 'accept': 'application/json' } }).pipe(takeUntil(this.destroy$)).subscribe(
       (response: any) => {
         console.log('User consent:', response);
         if (response.userConsentStatus == true) {
@@ -94,7 +96,7 @@ export class TermsAndConditionsComponent {
         'accept': 'application/json',
         'Content-Type': 'application/json'
       }
-    }).subscribe(
+    }).pipe(takeUntil(this.destroy$)).subscribe(
       (response) => {
         console.log('User consent set successfully:', response);
         this.snackBar.open('User consent Accepted successfully', 'Close', {
@@ -113,6 +115,10 @@ export class TermsAndConditionsComponent {
         });
       }
     );
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   

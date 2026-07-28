@@ -13,8 +13,6 @@ import replicate
 from gradio_client import Client
 import requests
 import json
-import logging
-log = logging.getLogger(__name__)
 # online_model = trustllm.config.model_info['online_model']
 # deepinfra_model = trustllm.config.model_info['deepinfra_model']
 
@@ -44,7 +42,7 @@ def get_access_token():
 
 
 def get_ernie_res(string, temperature):
-    if (temperature == 0.0):
+    if (temperature == 0):
         temperature = 0.00000001
     url = "https://aip.baidubce.com/rpc/2.0/ai_custom/v1/wenxinworkshop/chat/completions?access_token=" + get_access_token()
     payload = json.dumps({
@@ -60,6 +58,7 @@ def get_ernie_res(string, temperature):
         'Content-Type': 'application/json'
     }
     response = requests.request("POST", url, headers=headers, data=payload)
+    print(response.text)
     res_data = json.loads(response.text)
     result_text = res_data.get('result', '')
     return result_text
@@ -97,6 +96,7 @@ def deepinfra_api(string, model, temperature):
     openai.api_key = api_token
     openai.api_base = "https://api.deepinfra.com/v1/openai"
     top_p = 1 if temperature <= 1e-5 else 0.9
+    print(temperature)
     chat_completion = openai.ChatCompletion.create(
         model=rev_model_mapping[model],
         messages=[{"role": "user", "content": string}],
@@ -195,6 +195,7 @@ def zhipu_api(string, model, temperature):
         ],
         temperature=temperature
     )
+    print(response.choices[0].message.content)
     return response.choices[0].message.content
 
 
@@ -205,8 +206,7 @@ def gen_online(model_name, prompt, temperature, replicate=False, deepinfra=False
     elif model_name == model_info['google_model']:
         res = palm_api(prompt, model=model_name, temperature=temperature)
     elif model_name in model_info['openai_model']:
-        res = get_res_chatgpt(prompt, gpt_model=model_name,
-                              temperature=temperature)
+        res = get_res_chatgpt(prompt, model=model_name, temperature=temperature)
     elif model_name in model_info['deepinfra_model']:
         res = deepinfra_api(prompt, model=model_name, temperature=temperature)
     elif model_name in model_info['claude_model']:
@@ -225,24 +225,22 @@ def gen_online(model_name, prompt, temperature, replicate=False, deepinfra=False
 def http_requ(prompt,temp):
     url = trustllm.config.inhouse_url
     payload = {
-        "inputs": prompt,
-        "parameters": {
-            "max_new_tokens": 512,
-            "temperature": 0.1,
-            "num_return_sequences": 1,
-            "do_sample": True
-                    }
-        }
+            "inputs": [prompt],
+    "parameters": {
+        "max_new_tokens": 100,
+            }
+    }
     json_payload = json.dumps(payload)
     if trustllm.config.auth_token is None:
         headers = {'Content-Type': 'application/json'}
     else:
         headers = {'Content-Type': 'application/json',"Authorization": "Bearer "+trustllm.config.auth_token}
-    response = requests.post(url, data=payload, verify=False)
+    response = requests.post(url, data=json_payload,
+                            headers=headers, verify=True)
     if response.status_code == 200:
         predictions = response.json()
     else:
-        log.info('Request failed with status code:', response.status_code)
+        print('Request failed with status code:', response.status_code)
     return predictions
 
 @retry(wait=wait_random_exponential(min=1, max=3), stop=stop_after_attempt(3))
@@ -260,7 +258,7 @@ def gen_inhouse(prompt, temperature):
     #     fn_index=0,
     #     api_name="/predict"
     # )
-        log.info(result)
+        print(result)
         result = result['generated_text']
     except Exception as e:
         raise e

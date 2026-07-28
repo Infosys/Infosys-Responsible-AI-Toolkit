@@ -3,7 +3,7 @@ from privacy.service.Video_service import *
 from privacy.service.csv_service import *
 from privacy.service.json_service import *
 from privacy.service.files_service import *
-from privacy.service.pdf_service import PDFService
+#from privacy.service.pdf_service import PDFService
 from privacy.service.ppt_service import PPTService  
 from privacy.service.docs_service import DOCService
 from fastapi import Response
@@ -15,10 +15,10 @@ class FileService:
             return CSVService.csv_anonymize(payload)
         elif file_extension == 'json':
             return JSONService.anonymize_json(payload)
-        elif file_extension == 'pdf':
+        #elif file_extension == 'pdf':
             # ans=PDFService.mask_pdf(payload)
             # response = Response(content=ans.read(), media_type="application/pdf")
-            return PDFService.mask_pdf(payload)
+           #return PDFService.mask_pdf(payload)
             # return response
         elif file_extension == 'pptx' or file_extension == 'ppt':
             # ans=PPTService.mask_ppt(payload)

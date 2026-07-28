@@ -18,6 +18,8 @@ import { ImageService } from '../image/image.service';
 import { environment } from 'src/environments/environment';
 import * as saveAs from 'file-saver';
 import { NonceService } from 'src/app/nonce.service';
+import { Subject, takeUntil } from 'rxjs';
+import { UserValidationService } from '../services/user-validation.service';
 
 
 @Component({
@@ -26,7 +28,8 @@ import { NonceService } from 'src/app/nonce.service';
   styleUrls: ['./pair-red-teaming.component.css']
 })
 
-export class PairRedTeamingComponent {
+export class PairRedTeamingComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   constructor(
     private imageService: ImageService, 
@@ -39,7 +42,8 @@ export class PairRedTeamingComponent {
     public dialog: MatDialog,
     private fb:FormBuilder,
     public nonceService:NonceService, 
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private validationService:UserValidationService
   ) {
       this.Form = this.fb.group({
         payloadList: this.fb.array([])
@@ -49,7 +53,7 @@ export class PairRedTeamingComponent {
   // Initializes the component and sets up API calls
   ngOnInit(): void {
     let ip_port: any;
-    ip_port = this.getLocalStoreApi()
+    ip_port = this.validationService.getLocalStoreApi()
     this.setApilist(ip_port);
     if (localStorage.getItem('userid') != null) {
       const x = localStorage.getItem('userid');
@@ -261,16 +265,6 @@ export class PairRedTeamingComponent {
   // -----
   promptLoader: any
 
-   // Retrieves API configuration from local storage
-  getLocalStoreApi() {
-  let ip_port
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        return ip_port = JSON.parse(res)
-      }
-    }
-  }
 
   // Sets the API endpoints
   setApilist(ip_port: any) {
@@ -518,7 +512,7 @@ export class PairRedTeamingComponent {
              "n_iterations": 3
            }
           
-          this.https.post(this.redTeamingonllm, payload).subscribe((res: any) => {
+          this.https.post(this.redTeamingonllm, payload).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
             if (this.isEmptyObject(res)) {
               const action = "Close"
               this.snackbarmessage = "The attack LLM didn't generated attack prompt for given objective. Try again"
@@ -588,7 +582,7 @@ export class PairRedTeamingComponent {
             "target_max_n_tokens": 500,
             "n_iterations": this.attackiteration
           }
-          this.https.post(this.redTeamingonllm, payload).subscribe((res: any) => {
+          this.https.post(this.redTeamingonllm, payload).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
             if (this.isEmptyObject(res)) {
               const action = "Close"
               this.snackbarmessage = "The attack LLM didn't generated attack prompt for given objective. Try again"
@@ -647,8 +641,15 @@ export class PairRedTeamingComponent {
           }
           const formData = new FormData();
           formData.append('file', this.demoFile[0]);
-          formData.append('parameters', JSON.stringify(payload));
-          this.https.post(this.pairBatchRedTeaming, formData, { responseType: 'blob' }).subscribe((resp: Blob) => {
+          let payloadString = '';
+    try {
+      payloadString = JSON.stringify(payload);
+    } catch (error) {
+      console.error('Failed to stringify payload', error);
+      payloadString = '';
+    }
+    formData.append('parameters',  payloadString);
+          this.https.post(this.pairBatchRedTeaming, formData, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe((resp: Blob) => {
             const filename = this.genFile();
             saveAs(resp, filename);
             const message = 'Your file has been downloaded. Please check your downloads folder.';
@@ -686,8 +687,15 @@ export class PairRedTeamingComponent {
           }
           const formData = new FormData();
           formData.append('file', this.demoFile[0]);
-          formData.append('parameters', JSON.stringify(payload));
-          this.https.post(this.pairBatchRedTeaming, formData, { responseType: 'blob' }).subscribe((resp: Blob) => {
+          let payloadString = '';
+    try {
+      payloadString = JSON.stringify(payload);
+    } catch (error) {
+      console.error('Failed to stringify payload', error);
+      payloadString = '';
+    }
+    formData.append('parameters',  payloadString);
+          this.https.post(this.pairBatchRedTeaming, formData, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe((resp: Blob) => {
             const filename = this.genFile();
             saveAs(resp, filename);
             const message = 'Your file has been downloaded. Please check your downloads folder.';
@@ -738,7 +746,7 @@ export class PairRedTeamingComponent {
             "target_max_n_tokens": 500,
             "target_temperature": 0.8
           }
-          this.https.post(this.tapredTeamingonllm, payload).subscribe((res: any) => {
+          this.https.post(this.tapredTeamingonllm, payload).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
             if (res.length === 0) {
               const action = "Close"
               this.snackbarmessage = "The attack LLM didn't generated attack prompt for given objective. Try again"
@@ -800,19 +808,28 @@ export class PairRedTeamingComponent {
             "goal": this.attackobjective,
             "target_str": "Sure",
             "technique_type": "TAP",
-            "target_model": this.selectedTargetLlmModel,
+            "target_model": this.selectedTargetLlmModel? this.selectedTargetLlmModel : "gpt-4o",
             "attack_max_n_tokens": 600,
-            "attack_model": this.attackModel,
-            "judge_model": this.judgeModel,
+            "attack_model": this.attackModel ? this.attackModel : "gpt-3",
+            "judge_model": this.judgeModel? this.judgeModel : "gpt-4",
             "judge_max_n_tokens": 500,
             "width": 3,
             "branching_factor": 2,
             "depth": 2,
             "target_max_n_tokens": 500,
-            "target_temperature": 0.8
-          }
+            "target_temperature": 0.8,
+            "user_id": this.loggedINuserId,
+            "attack_temperature": 1,
+            "attack_top_p": 0.9,
+            "max_n_attack_attempts": 3,
+            "target_top_p": 0.8,
+            "n_streams": 1,
+            "keep_last_n": 1,
+            "judge_temperature": 0,
+            "enable_moderation": false
+                    }
           
-          this.https.post(this.tapredTeamingonllm, payload).subscribe((res: any) => {
+          this.https.post(this.tapredTeamingonllm, payload).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
             if (res.length === 0) {
               const action = "Close"
               this.snackbarmessage = "The attack LLM didn't generated attack prompt for given objective. Try again"
@@ -872,8 +889,15 @@ export class PairRedTeamingComponent {
           }
           const formData = new FormData();
           formData.append('file', this.demoFile[0]);
-          formData.append('parameters', JSON.stringify(payload));
-          this.https.post(this.tapBatchRedTeaming, formData, { responseType: 'blob' }).subscribe((resp: Blob) => {
+          let payloadString = '';
+    try {
+      payloadString = JSON.stringify(payload);
+    } catch (error) {
+      console.error('Failed to stringify payload', error);
+      payloadString = '';
+    }
+    formData.append('parameters',  payloadString);
+          this.https.post(this.tapBatchRedTeaming, formData, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe((resp: Blob) => {
             const filename = this.genFile();
             saveAs(resp, filename);
             const message = 'Your file has been downloaded. Please check your downloads folder.';
@@ -913,8 +937,15 @@ export class PairRedTeamingComponent {
           }
           const formData = new FormData();
           formData.append('file', this.demoFile[0]);
-          formData.append('parameters', JSON.stringify(payload));
-          this.https.post(this.tapBatchRedTeaming, formData, { responseType: 'blob' }).subscribe((resp: Blob) => {
+          let payloadString = '';
+    try {
+      payloadString = JSON.stringify(payload);
+    } catch (error) {
+      console.error('Failed to stringify payload', error);
+      payloadString = '';
+    }
+    formData.append('parameters',  payloadString);
+          this.https.post(this.tapBatchRedTeaming, formData, { responseType: 'blob' }).pipe(takeUntil(this.destroy$)).subscribe((resp: Blob) => {
             const filename = this.genFile();
             saveAs(resp, filename);
             const message = 'Your file has been downloaded. Please check your downloads folder.';
@@ -1123,7 +1154,7 @@ export class PairRedTeamingComponent {
     console.log("callFMApi");
     this.promptLoader = true;
     let data = payload ? payload : this.comp_Payload(prompt, tempStringValue, 'yes', 'GoalPriority');
-    this.fmService.getFMService(this.apiEndpoints.fm_api, data, false)?.subscribe(
+    this.fmService.getFMService(this.apiEndpoints.fm_api, data, false)?.pipe(takeUntil(this.destroy$)).subscribe(
       async (res: any) => {
         this.templateBasedPayload['status'] = true;
         this.coupledModerationRes = res;
@@ -1242,7 +1273,7 @@ export class PairRedTeamingComponent {
 
   // Calls the FM API to fetch moderation time
   callFMTimeApi(hallucinationPostCall: boolean = false, prompt: any) {
-    this.https.get(this.apiEndpoints.fm_api_time).subscribe((res: any) => {
+    this.https.get(this.apiEndpoints.fm_api_time).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
         console.log(res);
         if (hallucinationPostCall) {
           console.log("Hallucination Post Call")
@@ -1262,6 +1293,7 @@ export class PairRedTeamingComponent {
   callOpenAiApi(prompt: string, tempStringValue: string) {
     this.promptLoader = true;
     this.https.post(this.apiEndpoints.fm_api_openAi, { Prompt: prompt, temperature: tempStringValue, model_name: this.selectedLlmModel })
+      .pipe(takeUntil(this.destroy$))
       .subscribe((res: any) => {
           console.log(res.text.length);
           if (res.textlength == 0) {
@@ -1291,6 +1323,10 @@ export class PairRedTeamingComponent {
           // this.handleError(error, "OPENAI API FAILED");
         }
       );
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   // Triggers moderation for the selected tab

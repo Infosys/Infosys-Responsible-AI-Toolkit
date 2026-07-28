@@ -1,3 +1,15 @@
+"""
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
+
 import os
 import json
 from abc import ABC, abstractmethod
@@ -11,7 +23,7 @@ from mimetypes import guess_type
 from io import BytesIO
 from PIL import Image
 import boto3
-from langchain_aws import ChatBedrock
+# from langchain_aws import ChatBedrock
 from datetime import datetime
 from fairness.service.service_utils import Utils
 import base64
@@ -45,7 +57,6 @@ class Azureopenai(BaseLLM):
         self.api_base = os.getenv('OPENAI_API_BASE')
         self.api_version = os.getenv('OPENAI_API_VERSION')
         self.engine = os.getenv('OPENAI_ENGINE_NAME')
-
         if not all([self.api_key, self.api_base, self.engine]):
             raise Exception("OpenAI environment variables are not properly set")
 

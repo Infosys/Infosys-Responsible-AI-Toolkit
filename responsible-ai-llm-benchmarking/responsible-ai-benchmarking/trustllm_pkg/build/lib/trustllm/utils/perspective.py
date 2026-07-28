@@ -78,14 +78,14 @@ class PerspectiveEval:
         if remove_chinese:
             data = [item for item in data if not item.get('ch', False)]
 
-        logging.info('Total data number: {}'.format(len(data)))
-        logging.info('Evaluating...')
+        print('Total data number: {}'.format(len(data)))
+        print('Evaluating...')
         for item in data:
             try:
                 text = item.get('res', '')
                 toxicity_score = self.get_toxicity_value(text)
                 time.sleep(1)  # Delay to prevent API rate limit issues
-                logging.info("Toxicity value: {}".format(toxicity_score))
+                print("Toxicity value: {}".format(toxicity_score))
                 item['toxicity'] = toxicity_score
                 logging.info("Evaluated item: %s", item)
             except Exception as e:

@@ -5,7 +5,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnDestroy } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, UntypedFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,13 +14,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { PagingConfig } from 'src/app/_models/paging-config.model';
 import { NonceService } from 'src/app/nonce.service';
 import { UserValidationService } from 'src/app/services/user-validation.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-fm-chat-configuration',
   templateUrl: './fm-chat-configuration.component.html',
   styleUrls: ['./fm-chat-configuration.component.css']
 })
-export class FMChatConfigurationComponent {
+export class FMChatConfigurationComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   form!: FormControl;
   createNewEmbeddingsform!: FormGroup;
@@ -33,6 +35,10 @@ export class FMChatConfigurationComponent {
       totalItems: this.totalItems
     }
   }
+      ngOnDestroy(): void {
+      this.destroy$.next();
+      this.destroy$.complete();
+    }
   selectedEmbeddings: any = []
   listReconList: any = ["hi", "hello"]
 
@@ -218,14 +224,14 @@ export class FMChatConfigurationComponent {
       console.log("list value",name)
       console.log("list value",list)
   
-      let userIdvalue = this.getLogedInUser()
+      let userIdvalue = this.userId
       let body = new URLSearchParams();
       body.set('userId', userIdvalue.toString());
       body.set('embName', name);
       body.set('docid', list);
 
       this.https.post(this.Admin_setCache, body,{
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')}).subscribe(
+      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')}).pipe(takeUntil(this.destroy$)).subscribe(
         (res: any) => {
           this.formBased = false
           //console.log( res)
@@ -248,37 +254,14 @@ export class FMChatConfigurationComponent {
   // Initializes the component and fetches data
   ngOnInit(): void {
     let ip_port: any
+  this.userId = this.validationService.getLogedInUser();
 
-    let user = this.getLogedInUser()
-
-    ip_port = this.getLocalStoreApi()
+    ip_port = this.validationService.getLocalStoreApi()
     this.setApilist(ip_port)
     this.getembeddigns()
     this.getFilestList()
   }
 
-  // Retrieves the logged-in user from local storage
-  getLogedInUser(): any {
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const x = localStorage.getItem("userid") ? JSON.parse(localStorage.getItem("userid")!) : "NA";
-      if (x != null && (this.validationService.isValidEmail(x) || this.validationService.isValidName(x))) {
-        this.userId = x ;
-      }
-      console.log("userId", this.userId)
-      return this.userId;
-    }
-  }
-
-  // Retrieves API configuration from local storage
-  getLocalStoreApi() {
-    let ip_port
-    if (window && window.localStorage && typeof localStorage !== 'undefined') {
-      const res = localStorage.getItem("res") ? localStorage.getItem("res") : "NA";
-      if(res != null){
-        return ip_port = JSON.parse(res)
-      }
-    }
-  }
 
   // Sets the API list URLs
   setApilist(ip_port: any) {
@@ -293,12 +276,12 @@ export class FMChatConfigurationComponent {
 
   // Fetches the list of files
   getFilestList() {
-    let userIdvalue = this.getLogedInUser()
+    let userIdvalue = this.userId
     let body = new URLSearchParams();
     body.set('userId', userIdvalue.toString());
     this.https.post(this.Admin_getFiles, body, {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-    }).subscribe(
+    }).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.dataSource = res
         this.listofDoccuments = res
@@ -316,13 +299,13 @@ export class FMChatConfigurationComponent {
   dataSource1: any = []
   // Fetches the list of embeddings
   getembeddigns() {
-    let userIdvalue = this.getLogedInUser()
+    let userIdvalue = this.userId
     let body = new URLSearchParams();
     body.set('userId', userIdvalue.toString());
 
     this.https.post(this.Admin_getEmbedings, body, {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')
-    }).subscribe(
+    }).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.dataSource1 = res
       }, error => {
@@ -346,7 +329,7 @@ export class FMChatConfigurationComponent {
 
    // Uploads the selected file
   upload_file() {
-    let userId = this.getLogedInUser()
+    let userId = this.userId
     const fileData = new FormData();
     this.selectedFile = this.demoFile[0];
       fileData.append('file', this.selectedFile);
@@ -356,7 +339,7 @@ export class FMChatConfigurationComponent {
 
   // Makes the API call to upload the file
   uploadFileApiCall(fileData: any) {
-    this.https.post(this.Admin_uploadFile, fileData).subscribe((res: any) => {
+    this.https.post(this.Admin_uploadFile, fileData).pipe(takeUntil(this.destroy$)).subscribe((res: any) => {
       this.formBased = false
       this.getFilestList()
     }, error => {
@@ -396,13 +379,13 @@ export class FMChatConfigurationComponent {
   deleteFileFromDB(status:any,fileId:any){
     // this.fileIdtobedeleted=fileId
     console.log("is cache status",status)
-    let userIdvalue = this.getLogedInUser()
+    let userIdvalue = this.userId
     let body = new URLSearchParams();
     body.set('userid', userIdvalue.toString());
     body.set('docid', fileId.toString());
     if(status == "N"){
       // this.http.delete("https://rai-toolkit-rai.az.ad.idemo-ppc.com/api/v1/rai/admin/deleteFile",{body,headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')}).subscribe
-      this.https.delete(this.Admin_LLmExplain_deleteFile,{body,headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')}).subscribe
+      this.https.delete(this.Admin_LLmExplain_deleteFile,{body,headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded')}).pipe(takeUntil(this.destroy$)).subscribe
       ((res: any) => {
         if (res.status == "Document Deleted Successfully") {
           const message = "Document Deleted Successfully"

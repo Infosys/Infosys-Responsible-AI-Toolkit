@@ -16,3 +16,7 @@ fastapi_csrf_protect
 numpy==1.26.4
 starlette==0.40.0
 pydantic==2.9.2 
+pytest
+pytest-cov
+pytest-mock
+httpx

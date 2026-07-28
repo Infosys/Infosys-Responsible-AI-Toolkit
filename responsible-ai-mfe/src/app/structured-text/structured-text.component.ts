@@ -5,7 +5,7 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
 import { PagingConfig } from '../_models/paging-config.model';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatSelect } from '@angular/material/select';
@@ -14,7 +14,7 @@ import { StructuredTextService } from './structured-text.service';
 import { saveAs } from 'file-saver';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { StructuredTextModalComponent } from '../structured-text-modal/structured-text-modal.component';
-import { delay } from 'rxjs';
+import { delay, Subject, takeUntil } from 'rxjs';
 // export interface Payload {
 //   userId: string;
 //   modelId: number;
@@ -36,7 +36,8 @@ import { delay } from 'rxjs';
   styleUrls: ['./structured-text.component.css'],
   encapsulation: ViewEncapsulation.None
 })
-export class StructuredTextComponent implements OnInit {
+export class StructuredTextComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   @ViewChild('addModal') popupview3 !: ElementRef
   @ViewChild('content1') popupview1 !: ElementRef
   @ViewChild('select3') select3!: MatSelect;
@@ -181,7 +182,7 @@ export class StructuredTextComponent implements OnInit {
       backdropClass: 'custom-backdrop'
     });
 
-    dialogRef.afterClosed().subscribe(() => {
+    dialogRef.afterClosed().pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.getAllBatches()
     });
   }
@@ -283,7 +284,7 @@ export class StructuredTextComponent implements OnInit {
     console.log("GET ALL BATCHES CALLED")
     const formData = new FormData();
     formData.append("userId", this.loggedin_userId)
-    this.https.post(this.batchTable, formData).subscribe((data: any) => {
+    this.https.post(this.batchTable, formData).pipe(takeUntil(this.destroy$)).subscribe((data: any) => {
       this.dataSource = data;
       this.onTableDataChange(this.currentPage)
       this.isLoadingTable = false;
@@ -351,7 +352,7 @@ export class StructuredTextComponent implements OnInit {
     
     if (batch.TenetId == 2.2) {
     const payload = {'Batch_id': id}
-      this.https.post(this.FairnessWrapDownload, payload ,{ responseType: 'blob',observe: 'response' }).subscribe(
+      this.https.post(this.FairnessWrapDownload, payload ,{ responseType: 'blob',observe: 'response' }).pipe(takeUntil(this.destroy$)).subscribe(
         (res: any) => {
           let filename = this.genFile();
       //   const contentType = res.type;
@@ -384,7 +385,7 @@ export class StructuredTextComponent implements OnInit {
         })
     } else {
       body.set('batchId', id.toString());
-      this.https.post(this.ReportDownload, body, { responseType: 'blob', headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded') }).subscribe(
+      this.https.post(this.ReportDownload, body, { responseType: 'blob', headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded') }).pipe(takeUntil(this.destroy$)).subscribe(
         (res: Blob) => {
           const filename = this.genFile();
           saveAs(res, filename);
@@ -501,7 +502,7 @@ export class StructuredTextComponent implements OnInit {
   generateReport(batch: any, index: number) {
     this.dataSource[index].Status = "In-progress"
     if (batch.TenetId == 1.1) {
-      this.https.post(this.ExplainReport, { "batchId": batch.BatchId }).subscribe((res1: any) => {
+      this.https.post(this.ExplainReport, { "batchId": batch.BatchId }).pipe(takeUntil(this.destroy$)).subscribe((res1: any) => {
         this.getAllBatches();
         if (res1.status == 'FAILURE') {
           this._snackBar.open(res1.message, "Close", {
@@ -524,7 +525,7 @@ export class StructuredTextComponent implements OnInit {
         });
       })
     } else if (batch.TenetId == 2.2) {
-      this.https.post(this.fairnessReport, { "Batch_id": batch.BatchId }).subscribe((res1: any) => {
+      this.https.post(this.fairnessReport, { "Batch_id": batch.BatchId }).pipe(takeUntil(this.destroy$)).subscribe((res1: any) => {
         this.getAllBatches();
         this._snackBar.open("Report Generated Successfully", "Close", {
           duration: 3000,
@@ -543,7 +544,7 @@ export class StructuredTextComponent implements OnInit {
     } else if (batch.TenetId == 3.3) {
       const formData = new FormData();
       formData.append('batchId', batch.BatchId);
-      this.https.post(this.securityReport, formData).subscribe((res1: any) => {
+      this.https.post(this.securityReport, formData).pipe(takeUntil(this.destroy$)).subscribe((res1: any) => {
         this.getAllBatches();
         this._snackBar.open("Report Generated Successfully", "Close", {
           duration: 3000,
@@ -574,7 +575,7 @@ export class StructuredTextComponent implements OnInit {
       }),
       body: params,
     };
-    this.https.delete(this.deleteBatch, options).subscribe(
+    this.https.delete(this.deleteBatch, options).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         this.getAllBatches();
         const message = 'Record Deleted Successfully';
@@ -904,7 +905,7 @@ export class StructuredTextComponent implements OnInit {
    
     if (batch.TenetId == 2.2) {
     const payload = {'Batch_id': id}
-      this.https.post(this.FairnessWrapDownload, payload ,{ responseType: 'blob',observe: 'response' }).subscribe(
+      this.https.post(this.FairnessWrapDownload, payload ,{ responseType: 'blob',observe: 'response' }).pipe(takeUntil(this.destroy$)).subscribe(
         (res: any) => {
           let filename = this.genFile();
       const contentDisposition = res.headers.get('Content-Disposition');
@@ -919,7 +920,7 @@ export class StructuredTextComponent implements OnInit {
         })
     } else {
       body.set('batchId', id.toString());
-      this.https.post(this.ReportDownload, body, { responseType: 'blob', headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded') }).subscribe(
+      this.https.post(this.ReportDownload, body, { responseType: 'blob', headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded') }).pipe(takeUntil(this.destroy$)).subscribe(
         (res: Blob) => {
           const filename = this.genFile();
           saveAs(res, filename);
@@ -947,5 +948,9 @@ export class StructuredTextComponent implements OnInit {
     a.click();
     window.URL.revokeObjectURL(url);
     document.body.removeChild(a);
+  }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

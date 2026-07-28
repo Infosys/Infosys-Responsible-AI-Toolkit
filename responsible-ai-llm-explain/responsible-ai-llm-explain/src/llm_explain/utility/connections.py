@@ -130,7 +130,7 @@ class AWS:
         """Get chat completion from AWS LLM"""
         try:
             url = self.url
-            response_admin = requests.get(url,verify=False)
+            response_admin = requests.get(url)
             if response_admin.status_code == 200:
                 expiration_time = int(response_admin.json()['expirationTime'].split("hrs")[0])
                 creation_time = datetime.strptime(response_admin.json()['creationTime'], "%Y-%m-%dT%H:%M:%S.%f")
@@ -231,7 +231,7 @@ class Perplexity:
                 "Content-Type": "application/json"
             }
 
-            response = requests.request("POST", self.perplexity_url, json=payload, headers=headers, verify=False).json()
+            response = requests.request("POST", self.perplexity_url, json=payload, headers=headers).json()
             
             # Extracting the content from the response
             content = response['choices'][0]['message']['content']

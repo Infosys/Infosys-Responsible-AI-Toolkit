@@ -5,18 +5,20 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NonceService } from '../nonce.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-add-model',
   templateUrl: './add-model.component.html',
   styleUrls: ['./add-model.component.css']
 })
-export class AddModelComponent {
+export class AddModelComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   user:any;
   addModels:any;
   updateModels:any;
@@ -237,7 +239,14 @@ createNew(){
 }
 const fileData = new FormData();
 fileData.append('userId', this.user);
-fileData.append('Payload', JSON.stringify(payload));
+let payloadString = '';
+    try {
+      payloadString = JSON.stringify(payload);
+    } catch (error) {
+      console.error('Failed to stringify payload', error);
+      payloadString = '';
+    }
+    fileData.append('Payload', payloadString);
 if(this.demoFile.length==1){
   for (let i = 0; i < this.demoFile.length; i++) {
     this.selectedModelFile = this.demoFile[i];
@@ -245,7 +254,7 @@ if(this.demoFile.length==1){
   }
   }
 
-this.https.post(this.addModels,fileData).subscribe((res: any)=>{
+this.https.post(this.addModels,fileData).pipe(takeUntil(this.destroy$)).subscribe((res: any)=>{
   this.spinner = false;
     this.resetForm();
     this._snackBar.open(res, "Close", {
@@ -288,14 +297,21 @@ updateModel(){
 const fileData = new FormData();
 fileData.append('userId', this.user);
 fileData.append('modelId', this.data.modelValue);
-fileData.append('Payload', JSON.stringify(payload));
+let payloadString = '';
+    try {
+      payloadString = JSON.stringify(payload);
+    } catch (error) {
+      console.error('Failed to stringify payload', error);
+      payloadString = '';
+    }
+    fileData.append('Payload', payloadString);
 if(this.demoFile.length==1){
 for (let i = 0; i < this.demoFile.length; i++) {
   this.selectedModelFile = this.demoFile[i];
   fileData.append('ModelFile', this.selectedModelFile);
 }
 }
-this.https.patch(this.updateModels,fileData).subscribe((res:any)=>{
+this.https.patch(this.updateModels,fileData).pipe(takeUntil(this.destroy$)).subscribe((res:any)=>{
   this.spinner = false;
     this.resetForm();
     this._snackBar.open(res, "Close", {
@@ -326,6 +342,12 @@ resetForm(){
     this.demoFile.splice(0, 1);
   }
 }
+
+  // Cleanup subscriptions
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
 // Handles changes in the model endpoint availability
 changeModelEndPointAvailable(event: any) {

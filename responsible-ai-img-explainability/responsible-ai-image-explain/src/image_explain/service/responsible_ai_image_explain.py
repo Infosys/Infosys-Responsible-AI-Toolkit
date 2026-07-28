@@ -23,7 +23,7 @@ from image_explain.config.logger import request_id_var, CustomLogger
 import openai
 
 log=CustomLogger()
-
+Prompt = Prompt()
 class ImageExplain:
     
     def prompt_based_analysis(mime_type: str, image: str, prompt:str, evaluator: str) -> dict:

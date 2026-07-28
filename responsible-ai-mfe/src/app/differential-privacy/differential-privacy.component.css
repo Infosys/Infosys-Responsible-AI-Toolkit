@@ -4,18 +4,18 @@ Copyright 2024 - 2025 Infosys Ltd.
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
+
 .drop-zone {
     border: 2px dashed #dcdcdc;
     border-radius: 5px;
     padding: 40px;
     text-align: center;
     color: #4a4a4a;
-    background-color:#FFFFFF;
+    background-color: #FFFFFF;
     cursor: pointer;
     position: relative;
     overflow: hidden;
     width: 342px;
-    /* height: 240px; */
 }
 
 .drop-zone p {
@@ -71,54 +71,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     font-size: 10px;
 }
 
-.batchTable-container {
-    display: flex;
-    justify-content: space-between;
-}
-
-.styled-table {
-    width: 95%;
-    border-collapse: collapse;
-}
-
-.styled-table th.header {
-    font-size: 0.70rem;
-    font-family: 'Segoe UI';
-    font-weight: 600;
-    color: #382261;
-    opacity: 70%;
-    text-transform: uppercase;
-}
-
 .buttonMain {
     font-family: 'Segoe UI';
     font-weight: semi-bold;
     font-size: .75rem;
     height: 26px !important;
     width: fit-content;
-    /* margin: 1rem 0rem; */
-}
-
-.gereen-text {
-    color: #12A108 !important;
-}
-
-.file-name-preview{
-    color: #333333d0;
-    font-size: 20px;
-    margin-left: 25px;
-    margin-top: 25px;
-}
-
-.file-name-preview button {
-    float: right;
-    margin-right: 35px;
-}
-
-.pagination-label {
-    font-family: 'Segoe UI';
-    font-weight: 500 !important;
-    font-size: .60rem;
 }
 
 .browse-logo {
@@ -153,16 +111,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     text-transform: uppercase;
 }
 
-.mat-black {
-    color: white !important;
-    background-color: #231F20 !important;
-}
-
-.mat-reset {
-    color: white !important;
-    background-color: #BFBFBF !important;
-}
-
 :host .dropdown {
     max-width: 15rem;
     width: 100%;
@@ -171,22 +119,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     padding: 0px 10px;
     font-size: smaller;
     margin-right: .5rem;
-    /* margin-bottom: 1rem; */
 }
-
-/* :host .dropdown {
-    width: 276px;
-    border: 1px solid #dee2e6;
-    border-radius: 3px;
-    padding: 0px 10px;
-    font-size: smaller;
-    max-width: 15rem;
-    width: 100%;
-} */
-
-/* .dropdownSelect {
-    width: 276px;
-} */
 
 .mat-mdc-option.dropdownOptions {
     width: 15rem;
@@ -207,37 +140,32 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     justify-content: center;
     align-items: center;
     z-index: 9999;
-  }
+}
 
 
-  .border-div {
+.border-div {
     position: relative;
     flex: 1;
-  }
-  
-  .border-div::after {
+}
+
+.border-div::after {
     content: "";
     position: absolute;
-    top: 9%; /* Adjust this to move the border up or down */
-    bottom: 16%; /* Adjust this to change the length of the border */
+    top: 9%;
+    /* Adjust this to move the border up or down */
+    bottom: 16%;
+    /* Adjust this to change the length of the border */
     right: 0;
     border-right: 1px solid #ccc;
-  }
+}
 
-.warn{
+.warn {
     font-family: 'Segoe UI';
     font-size: 12px;
 }
 
 .label-container {
     margin-bottom: 10px;
-}
-
-.small-label {
-    font-size: 12px;
-    color: #7E7E7E;
-    font-family: 'Segoe UI';
-    text-align: center;
 }
 
 .imgcardsize {

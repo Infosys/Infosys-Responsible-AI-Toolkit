@@ -5,19 +5,21 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PagingConfig } from 'src/app/_models/paging-config.model';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { NonceService } from 'src/app/nonce.service';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-recognizers-modal-a',
   templateUrl: './recognizers-modal-a.component.html',
   styleUrls: ['./recognizers-modal-a.component.css'],
 })
-export class RecognizersModalAComponent {
+export class RecognizersModalAComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   recognizerForm: FormGroup;
   constructor(
     private fb: FormBuilder,
@@ -60,7 +62,7 @@ export class RecognizersModalAComponent {
   getItemList(RecogGrpIdgg: any, api: any) {
     // this.copydataRecogGrpId = ""
     // this.copydataRecogGrpId = RecogGrpIdgg
-    this.https.post(api, { RecogId: RecogGrpIdgg }).subscribe(
+    this.https.post(api, { RecogId: RecogGrpIdgg }).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         //console.log(res.DataEntities);
         this.dataSource1 = res.DataEntities;
@@ -106,7 +108,7 @@ export class RecognizersModalAComponent {
       },
     };
     // this.https.delete(this.admin_pattern_rec_delete_list, { headers }).subscribe
-    this.https.delete(this.data.api2, options).subscribe(
+    this.https.delete(this.data.api2, options).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         //console.log('delete Resonce' + res.status);
         if (res.status === 'True') {
@@ -187,7 +189,7 @@ export class RecognizersModalAComponent {
       'Content-Type': 'application/json'
     });
   
-    this.https.patch(url, payload, { headers }).subscribe(
+    this.https.patch(url, payload, { headers }).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         //console.log("res", res);
         // this.getItemList(this.data.id, this.data.api);
@@ -255,7 +257,7 @@ export class RecognizersModalAComponent {
       RecogId: this.data.id
     };
   
-    this.https.patch(url, body, { headers }).subscribe(
+    this.https.patch(url, body, { headers }).pipe(takeUntil(this.destroy$)).subscribe(
       (res: any) => {
         //console.log('API call successful', res);
         if (res.status === 'True') {
@@ -285,5 +287,9 @@ export class RecognizersModalAComponent {
     );
   }
 
-
+  // Cleanup subscriptions
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 }

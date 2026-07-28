@@ -113,13 +113,12 @@ Once we have completed all the aforementioned steps, we can start the service.
     ```sh
     python main.py
     ```
-
-3. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running:`http://localhost:80/v1/workbench/docs`
-
+    
+3. Open the following URL in your browser to access the swagger:
+    [http://localhost:80/v1/workbench/docs](http://localhost:80/v1/workbench/docs)
 
 ## License
 The source code for the project is licensed under MIT license, which you can find in the [LICENSE.md](LICENSE.md) file.
 
-
 ## Contact
-If you have more questions or need further insights please feel free to connect with us @ Infosysraitoolkit@infosys.com
+If you have more questions or need further insights please feel free to connect with us @ ResponsibleAI@infosys.com

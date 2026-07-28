@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import datetime
+import logging
 from logging import warning
 from aif360.datasets import BinaryLabelDataset
 from aif360.datasets import StandardDataset
@@ -26,9 +27,10 @@ from sklearn.preprocessing import StandardScaler
 from aif360.algorithms.preprocessing.disparate_impact_remover import DisparateImpactRemover as DIR
 from aif360.algorithms.preprocessing.reweighing import Reweighing as RW
 from aif360.datasets import BinaryLabelDataset
-from fairness.config.logger import CustomLogger
 
-log = CustomLogger()
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+log = logging.getLogger(__name__)
 
 
 privileged_groups = [{}]
@@ -141,7 +143,7 @@ class utils:
         additional_columns=[col for col in original_data.columns if col not in train.columns]
         #preprocess original data
         for col in original_data:
-            original_data.loc[original_data[col] == "?", col] = np.NaN     
+            original_data.loc[original_data[col] == "?", col] = np.nan     
         df_ = original_data.copy()
         #dropping columns where sum of missing values is greater than 1000
         df_clean = df_.iloc[:, [i for i, n in enumerate(df_.isna().sum(axis=0).T.values) if n < 1000]]
@@ -264,7 +266,7 @@ class DataList:
 
         # Convert "?" elements to NaN elements; from dataframe
         for col in df:
-            df.loc[df[col] == "?", col] = np.NaN
+            df.loc[df[col] == "?", col] = np.nan
         # Remove NaN elements from dataframe
         df_ = df.copy()
         df_clean = df_.iloc[:, [i for i, n in enumerate(df_.isna().sum(axis=0).T.values) if n < 1000]]
@@ -676,7 +678,7 @@ class PRETRAIN:
             log.info("Preprocessing Mitigator: ", preprocessing_mitigator)
             X, y, group_a, group_b = train_data
             X_train=pd.DataFrame(X,columns=column_names)
-            model = LogisticRegression(class_weight='balanced', solver='liblinear')
+            model = LogisticRegression(class_weight='balanced', solver='liblinear', random_state=42)
             pipeline = Pipeline(
                 steps=[
                     ('scalar', StandardScaler()),
@@ -724,7 +726,7 @@ class POSTTRAIN:
             pipeline = Pipeline(
                 steps=[
                     ('scalar', StandardScaler()),
-                    ("estimator", LogisticRegression()),
+                    ("estimator", LogisticRegression(random_state=42)),
                     ("bm_posprocessing", postprocessing_model),
                 ]
             )
@@ -1150,11 +1152,11 @@ mitigationTechniqueDict = {
 }
 class EstimatorsList:
     estimators={
-        "randomforestclassifier": RandomForestClassifier(),
-        "logisticregression": LogisticRegression(),
-        "adaBoostclassifier": AdaBoostClassifier(),
-        "gradientboostingclassifier": GradientBoostingClassifier(),
-        "decisiontreeclassifier": DecisionTreeClassifier(),
+        "randomforestclassifier": RandomForestClassifier(random_state=42),
+        "logisticregression": LogisticRegression(random_state=42),
+        "adaBoostclassifier": AdaBoostClassifier(random_state=42),
+        "gradientboostingclassifier": GradientBoostingClassifier(random_state=42),
+        "decisiontreeclassifier": DecisionTreeClassifier(random_state=42),
         "kneighborsclassifier": KNeighborsClassifier(),
     }
 # Statistical Parity Difference: The difference in the rate of favorable outcomes received by unprivileged group to the privileged group. Ideal value for this is 0, which means there is no biasness present. Negative value for this means that the data is biased towards the privileged group and positive values means, it is biased towards the unprivileged group.

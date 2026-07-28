@@ -1,15 +1,17 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 import io
+from fairness.constants.local_constants import OUTPUT_BASE_PATH
 from fairness.dao.bias_model import Bias, TrainingDataset, PredictionDataset
 from fairness.dao.mitigation_model import Mitigation, TrainingDataset
 from infosys_responsible_ai_fairness.responsible_ai_fairness import BiasResult, DataList, MitigationResult, PRETRAIN, utils, StandardDataset
@@ -68,9 +70,9 @@ class AttributeDict(dict):
 
 
 class FairnessServicePreproc:
-    MITIGATED_LOCAL_FILE_PATH="../output/MitigatedData/"
+    MITIGATED_LOCAL_FILE_PATH=os.path.join(OUTPUT_BASE_PATH, 'MitigatedData') + os.sep
     MITIGATED_UPLOAD_PATH="responsible-ai//responsible-ai-fairness//MitigatedData"
-    LOCAL_FILE_PATH="../output/datasets/"
+    LOCAL_FILE_PATH=os.path.join(OUTPUT_BASE_PATH, 'datasets') + os.sep
 
     def __init__(self, db=None):
         if db is not None:
@@ -222,7 +224,7 @@ class FairnessServicePreproc:
         if batchId == None:
             return objbias_pretrainanalyzeResponse
         else:
-            local_file_path = '../output/' + "sample.json"
+            local_file_path = os.path.join(OUTPUT_BASE_PATH, 'sample.json')
             # self.utils.save_as_json_file(
             #     local_file_path, list_bias_results,individual_fairness)
             if biastype == "PRETRAIN" and methods != "CONSISTENCY" and methods == "ALL":
@@ -241,7 +243,7 @@ class FairnessServicePreproc:
                 self.utils.save_as_json_file(
                 local_file_path, list_bias_results,None)
                 html=self.utils.json_to_html(list_bias_results,None,predLabel,dataset_attribute_values,unprivileged)
-            local_file_path = "../output/fairness_report.html"
+            local_file_path = os.path.join(OUTPUT_BASE_PATH, 'fairness_report.html')
             self.utils.save_html_to_file(html, local_file_path)
             # reportId= self.fileStore.save_file(file=html)
             tenet_id = self.tenet.find(tenet_name='Fairness')
@@ -262,7 +264,7 @@ class FairnessServicePreproc:
             url = os.getenv("REPORT_URL")
             payload = {"batchId": batchId}
             response = requests.request(
-                "POST", url, data=payload, verify=False).json()
+                "POST", url, data=payload, verify=True).json()
             return objbias_pretrainanalyzeResponse
 
 
@@ -404,8 +406,7 @@ class FairnessUIservicePreproc:
         udf_columns = list(updated_df.columns)
         categorical_values = {}
         for each in udf_columns:
-            updated_df.drop(
-                updated_df[(updated_df[each] == '?')].index, inplace=True)
+            updated_df = updated_df.drop(updated_df[(updated_df[each] == '?')].index)
             updated_df[each] = updated_df[each].str.replace('.', '')
             categorical_values[each] = list(updated_df[each].unique())
         log.info(f"list of columns remaining in dataset after exclusion :{updated_df.columns}")
@@ -458,8 +459,7 @@ class FairnessUIservicePreproc:
         log.info(f"Entering CA Dict:{st_ti}")
         updated_df = dataset.select_dtypes(exclude='number')
         for each in list(updated_df.columns):
-            updated_df.drop(
-                updated_df[(updated_df[each] == '?')].index, inplace=True)
+            updated_df = updated_df.drop(updated_df[(updated_df[each] == '?')].index)
             updated_df[each] = updated_df[each].str.replace('.', '')
             categorical_values[each] = list(updated_df[each].unique())
 
@@ -496,7 +496,7 @@ class FairnessUIservicePreproc:
 
         request_payload = ""
         request_payload = open(
-            "../output/UIanalyseRequestPayload.txt").read()
+            os.path.join(OUTPUT_BASE_PATH, 'UIanalyseRequestPayload.txt')).read()
         request_payload = request_payload.replace(
             '{name}', name_of_dataset)
         request_payload = request_payload.replace(
@@ -702,8 +702,7 @@ class FairnessUIservicePreproc:
         udf_columns = list(updated_df.columns)
         categorical_values = {}
         for each in udf_columns:
-            updated_df.drop(
-                updated_df[(updated_df[each] == '?')].index, inplace=True)
+            updated_df = updated_df.drop(updated_df[(updated_df[each] == '?')].index)
             updated_df[each] = updated_df[each].str.replace('.', '')
             categorical_values[each] = list(updated_df[each].unique())
 
@@ -790,8 +789,7 @@ class FairnessUIservicePreproc:
         updated_df = read_file.select_dtypes(exclude='number')
         udf_columns = list(updated_df.columns)
         for each in udf_columns:
-            updated_df.drop(
-                updated_df[(updated_df[each] == '?')].index, inplace=True)
+            updated_df = updated_df.drop(updated_df[(updated_df[each] == '?')].index)
             updated_df[each] = updated_df[each].str.replace('.', '')
             categorical_values[each] = list(updated_df[each].unique())
 
@@ -840,7 +838,7 @@ class FairnessUIservicePreproc:
 
         request_payload = ""
         request_payload = open(
-            "../output/UIPretrainMitigationPayload.txt").read()
+            os.path.join(OUTPUT_BASE_PATH, 'UIPretrainMitigationPayload.txt')).read()
         request_payload = request_payload.replace(
             '{name}', name_of_dataset)
         request_payload = request_payload.replace(
@@ -1014,7 +1012,6 @@ class FairnessUIservicePreproc:
 
         df = pandas.DataFrame.from_dict(transformed_df)
         unique_nm = datetime.datetime.now().strftime("%m%d%Y%H%M%S")
-        mitigated_df_filename = "../output/transformedDataset/output/mitigateDF" + \
-            unique_nm + ".csv"
+        mitigated_df_filename = os.path.join(OUTPUT_BASE_PATH, 'transformedDataset', 'output', f'mitigateDF{unique_nm}.csv')
         df.to_csv(mitigated_df_filename, index=False)
         return mitigated_df_filename

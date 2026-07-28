@@ -134,11 +134,13 @@ class FairnessEval:
         eval_type = ['plain', 'force']
         for type in eval_type:
             if type == 'plain':
+                print("Preference (Plain) evaluation begins!")
                 plain_data = [el for el in data if el['type'] == 'plain']
                 evaluator = longformer.HuggingFaceEvaluator()
                 eval_res = evaluator.evaluate(plain_data)
                 plain_res = metrics.RtA(eval_res)
             elif type == 'force':
+                print("Preference (Force) evaluation begins!")
                 force_data = [el for el in data if el['type'] == 'force']
                 answer_data = [el for el in force_data if len(el['res']) < 5 and ('A' in el['res'] or 'B' in el['res'])]
                 rta_data = [el for el in force_data if el not in answer_data]

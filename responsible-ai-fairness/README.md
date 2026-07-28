@@ -10,16 +10,17 @@
       - [Database Configurations](#database-configurations)
       - [Header Configurations](#header-configurations)
       - [Blob Containers and API Configurations](#blob-containers-and-api-configurations)
+      - [LLM Connection Configurations](#llm-connection-configurations)
+  - [Tests](#tests)
   - [Features](#features)
   - [License](#license)
   - [Open Source Tools used](#open-source-tools-used)
   - [Changelog](#changelog)
-    - [Bug Fixes](#bug-fixes)
-    - [Changes:](#changes)
   - [Limitations](#limitations)
   - [Telemetry](#telemetry)
   - [Roadmap](#roadmap)
   - [Building and Distributing the Python Package as a Wheel (WHL) File](#building-and-distributing-the-python-package-as-a-wheel-whl-file)
+  - [Contact](#contact)
 
 ## Introduction
 Responsible-ai-fairness offers solutions for Traditional AI and LLM's fairness and bias evaluations. For traditional classification problems, the training datasets and model's predictions can be analyzed and mitigated for Group Fairness. Individual Fairness analysis is also supported to get a comprehensive analysis. For Large Language Models, given text is evaluated for bias context and highlights the affected groups and bias types using GPT-4.
@@ -30,45 +31,6 @@ Responsible-ai-fairness offers solutions for Traditional AI and LLM's fairness a
 3. Mongo DB
 4. VSCode
 5. infosys_responsible_ai_fairness-1.1.5-py2.py3-none-any.whl file having code to calculate metrics scores for bias analysis using [aif360](https://aif360.readthedocs.io/en/stable/), [Holistic AI](https://github.com/holistic-ai/holisticai), [Fairlearn](https://github.com/fairlearn/fairlearn)
-6. BART-large-mnli is a variant of the BART model specifically fine-tuned for multi-label natural language inference (MNLI) tasks. It features 406 million parameters, a maximum token size of 1024, 24 transformer layers, and a hidden size of 1024.  
-Steps to Download BART-large-mnli:
-   1.	Identify the Model URL: Navigate to the BART model page on the Hugging Face Model Hub. For example, for facebook/bart-large, the URL is:
-      https://huggingface.co/facebook/bart-large-mnli
-   2.	Find the Model Files: On the model page, you can see the available model files and can directly download from the huggingface.
-      
-       •	pytorch_model.bin (the model weights)
-      	
-       •	config.json (model configuration)
- 
-       •	tokenizer.json or other tokenizer file.
-
-       •	tokenizer_config.json .
-
-       •	vocab.json.
-
-       •	merges.txt.
-
-       •	model.safetensors
-
-   3.	or alternatively, you can download the Files using curl or wget to download the files directly from the command line.
-     	
-       curl -L -o pytorch_model.bin https://huggingface.co/facebook/bart-large/resolve/main/pytorch_model.bin
- 
-       curl -L -o config.json https://huggingface.co/facebook/bart-large/resolve/main/config.json
- 
-       curl -L -o tokenizer.json https://huggingface.co/facebook/bart-large/resolve/main/tokenizer.json
-
-       curl -L -o tokenizer_config.json https://huggingface.co/facebook/bart-large/resolve/main/tokenizer_config.json
-
-       curl -L -o merges.txt https://huggingface.co/facebook/bart-large/resolve/main/merges.txt
-
-       curl -L -o model.safetensors https://huggingface.co/facebook/bart-large/resolve/main/model.safetensors
-
-       curl -L -o vocab.json https://huggingface.co/facebook/bart-large/resolve/main/vocab.json
-   
-   4. once all the files are downloaded, move them to **responsible-ai-fairness/responsible-ai-fairness/models**
-
-
 
 ## Installation
 1.	Clone the repository
@@ -95,7 +57,9 @@ and activate it by going to
       ```bash 
          python main_api.py 
       ```
-7. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running: `http://localhost:8000/api/v1/fairness/docs#/`
+7. Once server is running successfully, go to:
+        `http://localhost:<port>/api/v1/fairness/docs`
+8. The output folder for graph needs to be created IF not already created. Please create the following folder: `success_rates` under `.\responsible-ai-fairness\output\graphs\success_rates`
    
 ## Configurations
  1. Add required environment variables.
@@ -120,7 +84,7 @@ and activate it by going to
 |-------------------------|-------------------------|------------------|----------|
 | allow_methods           | "${allow_methods}"      |       '["GET", "POST"]'           | Optional |
 | allow_origin            | "${allow_origin}"       |       ["*"]            | optional |
-| content_security_policy | "${content_security_policy}"|  "default-src 'self'; img-src data: https:; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net"    | optional |
+| content_security_policy | "${content_security_policy}"|  "default-src 'self'; img-src data: https:; style-src 'self' 'unsafe-inline' https[:]//cdn.jsdelivr.net; script-src 'self' 'unsafe-inline' https[:]//cdn.jsdelivr.net"    | optional |
 | cache_control           | "${cache_control}"      |      no-cache; no-store; must-revalidate            | Optional |
 | XSS_header              | "${xss_header}"         |    1; mode=block               | Optional |
 | Vary_header             | "${vary_header}"        |         Origin         | Optional |
@@ -174,10 +138,48 @@ GEMINI_PRO_MODEL_NAME                | "${gemini_pro_model_name}"            |  
 |ACCEPT | "${accept}" | | Yes |
 |CONTENTTYPE | "${contentType}" ||  Yes |
 |ANTHROPIC_VERSION | "${anthropicversion}" | | Yes |
-| VERIFY_SSL | "${verify_ssl}" | Options: True, False | Yes |
+|VERIFY_SSL | "${verify_ssl}" | Options: True, False | Yes |
 
+#### LLM Connection Configurations
+
+> **Note:** If your LLM deployment does not support or enforce a `max_tokens` limit (e.g., certain Azure OpenAI or custom endpoints where token limits are managed server-side), you may need to comment out the `max_tokens` parameter in the LLM connection file to avoid request errors.
+
+**File location:**
+```
+fairness/src/dao/LLMconnection.py
+```
+
+**Lines to comment out:** Line **97** and Line **141**
+
+**The line reads:**
+```python
+"max_tokens": kwargs.get('max_tokens', 800)
+```
+
+**How to comment it out:**
+Open `fairness/src/dao/LLMconnection.py` and prefix the above line with `#` at both line 97 and line 141, as shown below:
+
+```python
+# "max_tokens": kwargs.get('max_tokens', 800)
+```
+
+> **When to do this:** Apply this change if you encounter errors related to `max_tokens` being an unsupported or unexpected parameter for your configured LLM endpoint.
+
+## Tests
+  - When testing, the `env` variables:
+      - `MONGO_PATH` should be set to `mongodb://localhost:27017/`
+      - `DB_TYPE` should be set to `mongo`
+  - When running the unit-tests for fairness - please run from the project root: `.\responsible-ai-fairness\responsible-ai-fairness\`
+  - Once inside the above project root - please run the command `pytest` or `pytest tests`.
+    
+    **OPTIONAL**
+  - To view the coverage of the codebase - please install: `pip install pytest-cov`.
+  - Then, from the same project root, run `pytest --cov=. --cov-report=html`. After the test is successful, a folder named `htmlcov` will be generated. In that folder, you can open the `index.html` file to view the overall coverage of the codebase.
+    
 ## Features
-For more details refer our [API Documentation](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/master/responsible-ai-fairness/responsible-ai-fairness/docs/FAIRNESS_API_DOCUMENTATION.pdf)
+For more details refer to:
+  - [API Documentation](responsible-ai-fairness/docs/FAIRNESS_API_DOCUMENTATION.pdf)
+  - [Fairness Monitoring Documentation](responsible-ai-fairness/docs/Fairness_Monitoring_GenericDecisive_Documentation.pdf)
 
 | Model Type                      | Phase         | Function  | Description                                                                 |
 |---------------------------------|---------------|-----------|-----------------------------------------------------------------------------|
@@ -196,7 +198,6 @@ The source code for the project is licensed under the MIT license, which you can
 | IBM AiF360             | https://github.com/Trusted-AI/AIF360 |
 | Holistic AI            | https://github.com/holistic-ai/holisticai |
 | Microsoft Fairlearn    | https://github.com/fairlearn/fairlearn |
-| Facebook BART model    | https://huggingface.co/facebook/bart-large-mnli |
 
 ## Changelog
 1. Introduced ACTIVE_LLM Environment Variable:
@@ -226,6 +227,7 @@ The source code for the project is licensed under the MIT license, which you can
             GEMINI_2.5_PRO
             AWS_CLAUDE_V3_5
 
+3. Removed the BART functionality of testing the fairness & bias in texts.
 
 ## Limitations
 1. As of now analysing bias for classification models for traditional AI.
@@ -273,3 +275,6 @@ This section outlines the steps to create a distributable Wheel (WHL) file for t
 * Ensure `setup.py` version is correct.
 * `--universal` is optional.
 * Update `requirements.txt` with the `.whl` filename.
+
+## Contact
+If you have more questions or need further insights, feel free to Connect with us @ infosysraitoolkit@infosys.com

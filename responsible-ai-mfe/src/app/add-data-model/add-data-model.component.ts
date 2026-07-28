@@ -5,11 +5,12 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
 */
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, Inject, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Input, ViewChild, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NonceService } from '../nonce.service';
+import { Subject, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -17,7 +18,8 @@ import { NonceService } from '../nonce.service';
   templateUrl: './add-data-model.component.html',
   styleUrls: ['./add-data-model.component.css']
 })
-export class AddDataModelComponent {
+export class AddDataModelComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
   SecurityForm!: FormGroup;
   numberArray2: any[] = [];
   target_Data_Type = [
@@ -221,12 +223,19 @@ export class AddDataModelComponent {
     }
     const fileData = new FormData();
     fileData.append('userId', this.user);
-    fileData.append('Payload', JSON.stringify(payload));
+    let payloadString = '';
+    try {
+      payloadString = JSON.stringify(payload);
+    } catch (error) {
+      console.error('Failed to stringify payload', error);
+      payloadString = '';
+    }
+    fileData.append('Payload', payloadString);
     for (let i = 0; i < this.demoFile.length; i++) {
       this.selectedDataFile = this.demoFile[i];
       fileData.append('DataFile', this.selectedDataFile);
     }
-    this.https.post(this.addData,fileData).subscribe((res: any)=>{
+    this.https.post(this.addData,fileData).pipe(takeUntil(this.destroy$)).subscribe((res: any)=>{
       this.resetForm();
       this.spinner = false;
       this._snackBar.open(res, "Close", {
@@ -270,12 +279,19 @@ export class AddDataModelComponent {
     const fileData = new FormData();
     fileData.append('userId', this.user);
     fileData.append('dataid', this.data.dataValue);
-    fileData.append('Payload', JSON.stringify(payload));
+   let payloadString = '';
+    try {
+      payloadString = JSON.stringify(payload);
+    } catch (error) {
+      console.error('Failed to stringify payload', error);
+      payloadString = '';
+    }
+    fileData.append('Payload', payloadString);
     for (let i = 0; i < this.demoFile.length; i++) {
       this.selectedDataFile = this.demoFile[i];
       fileData.append('DataFile', this.selectedDataFile);
     }
-    this.https.patch(this.updateData,fileData).subscribe((res:any)=>{
+    this.https.patch(this.updateData,fileData).pipe(takeUntil(this.destroy$)).subscribe((res:any)=>{
       this.spinner = false;
       this.resetForm();
       this._snackBar.open("Data Updated", "Close", {
@@ -304,6 +320,12 @@ export class AddDataModelComponent {
       this.files.splice(0, 1);
       this.demoFile.splice(0, 1);
     }
+  }
+
+  // Cleanup subscriptions
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

@@ -42,23 +42,42 @@ class AttributeDict(dict):
 class Multimodal:
     
     def encode_image(self,image):
-        '''Encodes image using Base64 encoding'''
+        '''Encodes image using Base64 encoding and returns base64 string with MIME type'''
         try:
             im = Image.open(image) # for testing image path
             buffered = BytesIO()
-            # im.save(buffered, format="JPEG")
-            if im.format in ["JPEG","jpg","jpeg"]:
-                format="JPEG"
+            
+            # Convert BMP and other unsupported formats to PNG
+            if im.format in ["BMP","bmp"]:
+                # Convert BMP to PNG as BMP is not well supported by APIs
+                if im.mode == 'P':
+                    im = im.convert('RGBA')
+                elif im.mode not in ['RGB', 'RGBA']:
+                    im = im.convert('RGB')
+                format = "PNG"
+                mime_type = "image/png"
+            elif im.format in ["JPEG","jpg","jpeg","JPG"]:
+                format = "JPEG"
+                mime_type = "image/jpeg"
             elif im.format in ["PNG","png"]:
-                format="PNG"
+                format = "PNG"
+                mime_type = "image/png"
             elif im.format in ["GIF","gif"]:
-                format="GIF"
-            elif im.format in ["BMP","bmp"]:
-                format="BMP"
-            im.save(buffered,format=format)
+                format = "GIF"
+                mime_type = "image/gif"
+            else:
+                # Default to PNG for unknown formats
+                if im.mode == 'P':
+                    im = im.convert('RGBA')
+                elif im.mode not in ['RGB', 'RGBA']:
+                    im = im.convert('RGB')
+                format = "PNG"
+                mime_type = "image/png"
+                
+            im.save(buffered, format=format)
             buffered.seek(0) 
             encoded_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
-            return encoded_image
+            return encoded_image, mime_type
         except Exception as e:
             log.info("Failed at encode_image")
             log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
@@ -80,10 +99,8 @@ class Multimodal:
                 log.info("Using gemini model")
                 from langchain_google_genai import ChatGoogleGenerativeAI
                 llm = ChatGoogleGenerativeAI(model=os.getenv("GOOGLE_MODEL"), temperature=0, transport='rest')
-                print("llm",llm)
                 response=llm.invoke(messages)
                 output=[response.content]
-                print(output)
             else:
                 raise ValueError("Invalid llmtype provided. Use 'openai' or 'gemini'.")
             return output
@@ -103,7 +120,6 @@ class Multimodal:
             files = payload.file
             complexity=payload.cov_complexity 
             llmtype= payload.llmtype 
-            
             template_1 = """Utilize the provided source images to address the inquiry. 
             If the question lacks similarity to the given images, generate a creative response from the internet instead. 
             Avoid phrases such as "I do not know," "Sorry," or "As an AI model I am not allowed." 
@@ -145,12 +161,12 @@ class Multimodal:
                 #     log.info(f"File uploaded successfully. Blob name: {blobname_output}, Container name: {containername}")
                 # else:
                 #     log.info(f"Error uploading file': {response.status_code} - {response.text}")
-                base64_image = self.encode_image(file.file)  
-                messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}})
-                cot_messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}})
-                thot_messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}})
-                cov_messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}})
-                geval_messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}})
+                base64_image, mime_type = self.encode_image(file.file)  
+                messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:{mime_type};base64,{base64_image}"}})
+                cot_messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:{mime_type};base64,{base64_image}"}})
+                thot_messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:{mime_type};base64,{base64_image}"}})
+                cov_messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:{mime_type};base64,{base64_image}"}})
+                geval_messages[0]["content"].append({"type": "image_url", "image_url": {"url": f"data:{mime_type};base64,{base64_image}"}})
               
             messages[0]["content"].append({"type": "text", "text": text})  
             cot_messages[0]["content"].append({"type": "text", "text": text})
@@ -165,7 +181,7 @@ class Multimodal:
             cov_response = self.image_cov(text, response, cov_messages, complexity,llmtype)
             haluscores, halureasons = self.geval_image(text, response, geval_messages, llmtype)
             geval_response = [haluscores, halureasons]
-            avgmetrics= haluscores["AverageScore"]
+            avgmetrics= haluscores["averageScore"]
             avgmetrics=avgmetrics/5
             if avgmetrics>=0.75:
                 log.info("avgmetrics>=0.75")
@@ -176,12 +192,12 @@ class Multimodal:
                 haluscore=1-avgmetrics
             
             queue=[]
-            queue.append([{"Response": response}])
-            queue.append({"Hallucination_score":round(haluscore,2)})
-            queue.append([{"Chain of Thoughts Response": cot_response}])
-            queue.append([{"Thread of Thoughts Response": thot_response}])
-            queue.append([{"Chain of Verification Response": cov_response}])
-            queue.append([{"GEval Metrics": geval_response}])
+            queue.append([{"response": response}])
+            queue.append({"hallucinationScore":round(haluscore,2)})
+            queue.append([{"chainOfThoughtsResponse": cot_response}])
+            queue.append([{"threadOfThoughtsResponse": thot_response}])
+            queue.append([{"chainOfVerificationResponse": cov_response}])
+            queue.append([{"gEvalMetrics": geval_response}])
             return queue
         
     
@@ -409,7 +425,7 @@ class Multimodal:
             curr_corr_prompt = corr_prompt.replace('{{prompt}}', text).replace('{{response}}', str(response))
             
             prompts = [curr_faith_prompt, curr_rel_prompt, curr_adh_prompt, curr_corr_prompt]
-            scoresDict = {'faithfulness': 0, 'relevance': 0, 'adherance': 0, 'correctness': 0, 'AverageScore': 0}
+            scoresDict = {'faithfulness': 0, 'relevance': 0, 'adherance': 0, 'correctness': 0, 'averageScore': 0}
             resDict = {'faithfulness': '', 'relevance': '', 'adherance': '', 'correctness': ''}
             
             scores, reasonings, fin_score,pindx = [],[],0,0
@@ -418,7 +434,6 @@ class Multimodal:
                 try:
                     geval_messages[0]["content"].append({"type": "text", "text": prompts[pindx]})
                     res = self.config(geval_messages, llmtype)
-                    print(res, "resresresres")
                     res=str(res)
                     geval_messages[0]["content"].pop()
                     last_comma_index = res.rfind(',')
@@ -427,7 +442,6 @@ class Multimodal:
                     halres=res[:last_index] 
                     halres = re.sub(r'^[^\w]*(.*)', r'\1', halres)
                     raw_value = res[last_comma_index + 1:]
-                    print(f"Raw value: '{raw_value}'") 
                     cleaned_value = ''.join(filter(str.isdigit, raw_value))
                     halscore=float(cleaned_value)
                     scores.append(halscore)
@@ -437,7 +451,6 @@ class Multimodal:
                 except Exception as e:
                     breakpt+=1
                     if(breakpt>3):
-                        print("Connection Broke... Try Again")
                         log.error(f"Exception: {e,str(traceback.extract_tb(e.__traceback__)[0].lineno)}")
                         return
                     pass

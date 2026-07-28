@@ -14,9 +14,8 @@ The following table lists the modules of the Infosys Responsible AI Toolkit.  In
 | 6 | Hallucination API | Detect and quantify Hallucination in LLM responses under RAG scenarios | [responsible-ai-hallucination](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-Hallucination) |
 | 7 | Privacy API | Detect and anonymize or encrypt or highlight PII information in prompts for LLMs or in its responses | [responsible-ai-privacy](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-privacy),<br>[responsible-ai-admin](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-admin).|
 | 8 | Safety API | Detects and anonymize toxic and profane text associated with LLMs | [responsible-ai-safety](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-safety),<br>[responsible-ai-llm](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-llm)|
-| 9 | Security API | For different types of security attacks and defenses on tabular and image data, prompt injection and jailbreak checks | [responsible-ai-security](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-security),<br>[responsible-ai-model-detail](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-model-detail),<br>[responsible-ai-reporting-tool](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-reporting-tool) |
-| 10 | Red Teaming API | To strengthen the security and evaluation of LLM through advanced red teaming techniques like PAIR and TAP. | [responsible-ai-redteaming](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-redteaming). |
-
+| 9 | Security API | For different types of security attacks and defenses on tabular and image data, prompt injection and jailbreak checks (Security Module retired for Release 2.2.1, please refer to IP2.2.0 release for this module) | [responsible-ai-security](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/Release-2.2.0/responsible-ai-security),<br>[responsible-ai-model-detail](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-model-detail),<br>[responsible-ai-reporting-tool](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-reporting-tool) |
+| 10 | Red Teaming API | To strengthen the security and evaluation of LLM through advanced red teaming techniques like PAIR and TAP. (Red-teaming Module retired for Release 2.2.1, please refer to IP2.2.0 release for this module) | [responsible-ai-redteaming](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/Release-2.2.0/responsible-ai-redteaming). |
 
 ** Endpoints for explainability are located in both the explainability and moderation layer repositories. Refer to the README files in these repositories for more details on specific features.
 
@@ -35,7 +34,7 @@ The Responsible AI toolkit provides a user-friendly interface for seamless exper
 | 6 | File Storage | Python module that provides versatile APIs for seamless integration across multiple microservices, enabling efficient file management with Azure Blob Storage. It supports key operations such as file upload, retrieval, and updates, offering a robust solution for handling files in Azure Blob Storage.| [responsible-ai-file-storage](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-file-storage) |
 | 7 | Benchmarking | Displays stats related to benchmarking large language models (LLMs) across various categories such as fairness, privacy, truthfulness and ethics. It helps evaluate and compare LLM performance in these critical areas.| [responsible-ai-llm-benchmarking](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-llm-benchmarking)|
 | 8 | Upload-Doc | module used for processing large files like video and store the processed video with respect to userid 3 subcatogery under video Processing : 1.PIIAnonymization 2.SafetyMasking 3.NudityMasking.| [responsible-ai-upload-doc](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-upload-doc) |
-| 9 | workbench | The workbench repository is used for processing and generating report for Unstructured text.| [responsible-ai-workbench](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-workbench),<br>[responsible-ai-moderationlayer](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-moderationlayer),<br>[responsible-ai-privacy](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-privacy),<br>[responsible-ai-safety](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-safety),<br>[responsible-ai-file-storage](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-file-storage),<br>[responsible-ai-explainability](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-explain). |
+| 9 | workbench | The workbench repository is used for processing and generating report for Unstructured text.| [responsible-ai-workbench](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-workbench),<br>[responsible-ai-moderationlayer](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-moderationlayer),<br>[responsible-ai-privacy](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-privacy),<br>[responsible-ai-safety](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-safety),<br>[responsible-ai-file-storage](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-file-storage),<br>[responsible-ai-explainability](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-explainability). |
 
 ### Documentation
 For technical details and usage instructions on the Infosys Responsible AI toolkit's features, please refer to the [documentation](https://infosys.github.io/Infosys-Responsible-AI-Toolkit/).
@@ -54,15 +53,13 @@ For technical details and usage instructions on the Infosys Responsible AI toolk
 
 ## Upcoming Features
 * Multi-lingual support for FM-Moderation Guardrails
-* Red Teaming using Datasets and Garak based Technique & Libraries
 * Counterfactual explanation for ML model prediction
-
 
 We appreciate your feedback and aim to keep you updated on our plans regularly. This approach ensures we're prioritizing the right tasks and enables you to make informed decisions based on our development roadmap.
 
 [Explore the roadmap »](https://github.com/users/InfosysResponsibleAI/projects/2/views/1) 
 
-[Contribute to our roadmap »](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/Release-2.1.0/CONTRIBUTING.md)
+[Contribute to our roadmap »](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/blob/Release-2.2.1/CONTRIBUTING.md)
 
 Note: These API-based guardrails are optimized for Azure OpenAI. Users employing alternative LLMs should make the necessary client configuration adjustments. For Azure OpenAI api subscription, follow instructions provided in the [Microsoft Azure website](https://azure.microsoft.com/en-us/pricing/purchase-options/azure-account?icid=ai-services&azure-portal=true).
 

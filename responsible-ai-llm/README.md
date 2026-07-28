@@ -90,6 +90,10 @@ After installing all the required packages, configure the variables necessary to
     ```sh
     To allow access to all sites, use the value "*" in "${allowed_origins}". Alternatively, you can specify a list of sites that should have access.
     ```
+     ```sh
+    OPENAI_MODEL_GPT3 = "${openaimodel_gpt3}"
+    The GPT-3.5 model deployment must use gpt-35-turbo-16k. Ensure your Azure OpenAI deployment for OPENAI_MODEL_GPT3 is set to gpt-35-turbo-16k.
+    ```
     ```sh
     AZURE_OPENAI_API_KEY_DALL_E_2 = "${azure_openai_api_key_dall_e_2}"
     AZURE_OPENAI_ENDPOINT_DALL_E_2 = "${azure_openai_endpoint_dall_e_2}"
@@ -115,9 +119,11 @@ Once we have completed all the aforementioned steps, we can start the service.
     python main.py
     ```
 
-3. Use the Port No that is mentioned in main.py file. Open the swagger URL in browser once server is running:`http://localhost:<portnumber?/rai/v1/llm/docs`
+3. Open the following URL in your browser:
 
-For API calls, please refer to the [API Document](responsible-ai-llm/docs/API_Doc.pdf)
+    [http://localhost:8000/rai/v1/llm/docs](http://localhost:8000/rai/v1/llm/docs)
+
+For API calls, please refer to the [API Documnet](responsible-ai-llm/docs/API_Doc.pdf)
 
 ## License
 

@@ -10,25 +10,28 @@ import { SharedDataService } from 'src/app/services/shared-data.service';
 import { RightSidePopupComponent } from '../../right-side-popup/right-side-popup.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
 @Component({
   selector: 'app-template-based-guardrail-response',
   templateUrl: './template-based-guardrail-response.component.html',
   styleUrls: ['./template-based-guardrail-response.component.css']
 })
 export class TemplateBasedGuardrailResponseComponent implements OnChanges {
+
   @Input() llmEvalPayload: any;
-  @Input() responseModerationTemplates:any;
+  @Input() responseModerationTemplates: any;
   @Input() selectedUseCaseName: any;
-  @Input() setLoadTemplateResMod:Boolean = false;
+  @Input() setLoadTemplateResMod: Boolean = false;
   @Input() templateBasedPayload: any;
-  textareaContext = '';
-  naviResponse :any = {};
-  response: any = {}
 
-  status: any = {}
+  naviResponse: any = {};
+  response: any = {};
+  status: any = {};
+  showFullAnalysis: { [key: string]: boolean } = {};
 
-  constructor(public snackBar: MatSnackBar, private dialog: MatDialog,private templateBasedService: TemplateBasedGuardrailService,private sharedDataService: SharedDataService) { 
+  constructor(public snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private templateBasedService: TemplateBasedGuardrailService,
+    private sharedDataService: SharedDataService) {
     this.sharedDataService.naviToneModerationRes.subscribe(response => {
       this.naviResponse = response
     });
@@ -41,9 +44,7 @@ export class TemplateBasedGuardrailResponseComponent implements OnChanges {
 
   // Handles changes to input properties
   ngOnChanges(changes: SimpleChanges) {
-    console.log("Template Based Guardrail Response Component", changes)
     if (changes['setLoadTemplateResMod'] && changes['setLoadTemplateResMod'].currentValue === true) {
-      console.log("Template Based Guardrail Response Component @TEMPLATEBASED");
       this.callBatch();
     }
   }
@@ -54,12 +55,12 @@ export class TemplateBasedGuardrailResponseComponent implements OnChanges {
       this.status[element] = '';
       this.response[element] = {};
     });
-    const batchSize = 3; 
+    const batchSize = 3;
     for (let i = 0; i < this.responseModerationTemplates.length; i += batchSize) {
       const batchPromises = [];
       for (let j = i; j < i + batchSize && j < this.responseModerationTemplates.length; j++) {
         const templatesToIgnore = ['RESPONSE_COMPLETENESS_WRT_CONTEXT'];
-        if (!templatesToIgnore.includes(this.responseModerationTemplates[j])){
+        if (!templatesToIgnore.includes(this.responseModerationTemplates[j])) {
           batchPromises.push(this.callEvalLLM(this.responseModerationTemplates[j]));
         }
       }
@@ -69,15 +70,14 @@ export class TemplateBasedGuardrailResponseComponent implements OnChanges {
         console.error('Error in batch');
       });
     }
-    console.log('All requests processed');
   }
 
   // Checks if an object is empty
   isEmptyObject(obj: any): boolean {
     return obj != null && typeof obj === 'object' && Object.keys(obj).length === 0;
   }
- 
-// Calls the LLM evaluation API for a specific template
+
+  // Calls the LLM evaluation API for a specific template
   callEvalLLM(templateName: any, Context?: any): Promise<any> {
     return new Promise((resolve, reject) => {
       if (this.status[templateName] === 'loading' || this.status[templateName] === 'done') {
@@ -94,41 +94,32 @@ export class TemplateBasedGuardrailResponseComponent implements OnChanges {
         template_name: templateName,
         model_name: this.llmEvalPayload.model_name,
         AccountName: this.templateBasedPayload?.AccountName ? this.templateBasedPayload?.AccountName : "None",
-        "PortfolioName": this.templateBasedPayload?.PortfolioName ? this.templateBasedPayload?.PortfolioName : "None",
-        "userid": this.templateBasedPayload?.userid,
-        "lotNumber": 1,
-        // "Context": Context ? Context : "None",
-        // "Concise_Context": "None",
-        // "Reranked_Context": "None",
-        "temperature": this.llmEvalPayload.temperature,
-        "PromptTemplate": this.llmEvalPayload.PromptTemplate,
+        PortfolioName: this.templateBasedPayload?.PortfolioName ? this.templateBasedPayload?.PortfolioName : "None",
+        userid: this.templateBasedPayload?.userid,
+        lotNumber: 1,
+        temperature: this.llmEvalPayload.temperature,
+        PromptTemplate: this.llmEvalPayload.PromptTemplate,
       };
-      console.log(payload);
-      this.templateBasedService.evalLLM(payload).subscribe(
-        (res: any) => {
-          if(typeof res?.['moderationResults'] != 'object'){
-            this.status[templateName] = 'failed';
-            reject("Error in response from evalLLM");
-            return 
-          }
-          this.response[templateName] = res?.['moderationResults'];
-          this.response[templateName]['description'] = res?.['description'];
-          this.response[templateName]['timetaken'] = res?.['timeTaken'];
-          let data = {
-            'analysis': this.response[templateName].analysis,
-            'result': this.response[templateName].result,
-          };
-          let templateToIgnore = ['Response Conciseness Check','Response Completeness Check','Response Language Critique Grammar Check'];
-          if (data.result === 'FAILED' && !templateToIgnore.includes(templateName)){ 
-            this.sharedDataService.updateResponses(templateName, data);
-          }
-          // if (data.result === 'FAILED'){
-          //   this.sharedDataService.updateResponses(templateName, data);
-          // }
-          this.status[templateName] = 'done';
-          console.log(this.response);
-          resolve(data); // Resolve the promise with the data
-        },
+      this.templateBasedService.evalLLM(payload).subscribe((res: any) => {
+        if (typeof res?.['moderationResults'] != 'object') {
+          this.status[templateName] = 'failed';
+          reject("Error in response from evalLLM");
+          return
+        }
+        this.response[templateName] = res?.['moderationResults'];
+        this.response[templateName]['description'] = res?.['description'];
+        this.response[templateName]['timetaken'] = res?.['timeTaken'];
+        let data = {
+          'analysis': this.response[templateName].analysis,
+          'result': this.response[templateName].result,
+        };
+        let templateToIgnore = ['Response Conciseness Check', 'Response Completeness Check', 'Response Language Critique Grammar Check'];
+        if (data.result === 'FAILED' && !templateToIgnore.includes(templateName)) {
+          this.sharedDataService.updateResponses(templateName, data);
+        }
+        this.status[templateName] = 'done';
+        resolve(data); // Resolve the promise with the data
+      },
         error => {
           this.status[templateName] = 'failed';
           console.log(error);
@@ -151,10 +142,6 @@ export class TemplateBasedGuardrailResponseComponent implements OnChanges {
       backdropClass: 'custom-backdrop'
     });
   }
-
-
-  showFullAnalysis: { [key: string]: boolean } = {
-  };
 
   // Toggles the visibility of the full analysis for a template
   toggleAnalysis(template: string): void {

@@ -1,20 +1,23 @@
 """
-# SPDX-License-Identifier: MIT
-# Copyright 2024 - 2025 Infosys Ltd.
+MIT License
+https://mit-license.org/
+Copyright © 2025 Infosys Ltd.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
- 
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 import json
 import datetime
 import time
 import os
+from pathlib import Path
 #import pdfkit
 import matplotlib.pyplot as plt
+from fairness.constants.local_constants import OUTPUT_BASE_PATH
 from fairness.mappers.mappers import BiasAnalyzeResponse, BiasPretrainMitigationResponse, BiasPretrainMitigationResponseUseCase,BiasResults, IndividualFairnessRequest, \
     metricsEntity
 from aif360.datasets import StandardDataset
@@ -36,15 +39,15 @@ class AttributeDict(dict):
 
 
 class FairnessServiceUpload:
-    MITIGATED_LOCAL_FILE_PATH="../output/MitigatedData/"
+    MITIGATED_LOCAL_FILE_PATH=os.path.join(OUTPUT_BASE_PATH, 'MitigatedData') + os.sep
     MITIGATED_UPLOAD_PATH="responsible-ai//responsible-ai-fairness//MitigatedData"
-    DATASET_LOCAL_FILE_PATH="../output/UItoNutanixStorage/"
+    DATASET_LOCAL_FILE_PATH=os.path.join(OUTPUT_BASE_PATH, 'UItoNutanixStorage') + os.sep
     DATASET_UPLOAD_FILE_PATH="responsible-ai//responsible-ai-fairness//Fairness_ui"
-    DATASET_WB_LOCAL_FILE_PATH="../output/"
-    LOCAL_FILE_PATH="../output/datasets/"
-    MODEL_LOCAL_PATH='../output/model/'
-    MITIGATED_MODEL_LOCAL_PATH='../output/mitigated_model/'
-    AWARE_MODEL_LOCAL_PATH='../output/aware_model/'
+    DATASET_WB_LOCAL_FILE_PATH=OUTPUT_BASE_PATH + os.sep
+    LOCAL_FILE_PATH=os.path.join(OUTPUT_BASE_PATH, 'datasets') + os.sep
+    MODEL_LOCAL_PATH=os.path.join(OUTPUT_BASE_PATH, 'model') + os.sep
+    MITIGATED_MODEL_LOCAL_PATH=os.path.join(OUTPUT_BASE_PATH, 'mitigated_model') + os.sep
+    AWARE_MODEL_LOCAL_PATH=os.path.join(OUTPUT_BASE_PATH, 'aware_model') + os.sep
     MODEL_UPLOAD_PATH='responsible-ai//responsible-ai-fairness//model'
     MITIGATED_MODEL_UPLOAD_PATH='responsible-ai//responsible-ai-fairness//mitigated-model'
     AWARE_MODEL_UPLOAD_PATH='responsible-ai//responsible-ai-fairness//aware-model'
@@ -229,7 +232,7 @@ class FairnessUIserviceUpload:
         ca_dict.clear()
         biasType = payload["biasType"]
         request_payload = ""
-        request_payload = open("../output/UIanalyseRequestPayloadUpload.txt").read()
+        request_payload = open(os.path.join(OUTPUT_BASE_PATH, 'UIanalyseRequestPayloadUpload.txt')).read()
         request_payload = request_payload.replace('{biasType}', biasType)
         methodType = payload["methodType"]
         request_payload = request_payload.replace('{method}', methodType)
@@ -256,15 +259,18 @@ class FairnessUIserviceUpload:
         read_file=pandas.read_csv(os.path.join(FairnessServiceUpload.LOCAL_FILE_PATH,uniqueNm))
         trainingDatasetURL = os.path.join(FairnessServiceUpload.LOCAL_FILE_PATH,uniqueNm)
         predictionDatasetURL = trainingDatasetURL
-        request_payload = request_payload.replace('{trainingDatasetURL}',trainingDatasetURL)
-        request_payload = request_payload.replace('{predictionDatasetURL}',predictionDatasetURL)
+        # Convert to POSIX-style paths (forward slashes) for JSON compatibility across all platforms
+        trainingDatasetURL_json = Path(trainingDatasetURL).as_posix()
+        predictionDatasetURL_json = Path(predictionDatasetURL).as_posix()
+        request_payload = request_payload.replace('{trainingDatasetURL}',trainingDatasetURL_json)
+        request_payload = request_payload.replace('{predictionDatasetURL}',predictionDatasetURL_json)
         feature_list = list(read_file.columns)
         request_payload = request_payload.replace('{features}',','.join(feature_list))
         st_ti = time.time()
         log.info("Entering CA Dict:", st_ti)
         updated_df = read_file.select_dtypes(exclude='number')
         for each in list(updated_df.columns):
-            updated_df.drop(updated_df[(updated_df[each] == '?')].index, inplace=True)
+            updated_df = updated_df.drop(updated_df[(updated_df[each] == '?')].index)
             updated_df[each] = updated_df[each].str.replace('.', '')
             ca_dict[each] = list(updated_df[each].unique())
         log.info("list of columns remaining in dataset after exclusion : ", updated_df.columns)
@@ -334,7 +340,8 @@ class FairnessUIserviceUpload:
         log.info(f"Entering Upload:{enter_time}")
         ca_dict={}
         pretrain_payload = ""
-        pretrain_payload = open("../output/UIPretrainMitigationPayloadUpload.txt").read() 
+        print(f"OUTPUT_BASE_PATH: {OUTPUT_BASE_PATH}")
+        pretrain_payload = open(os.path.join(OUTPUT_BASE_PATH, 'UIPretrainMitigationPayloadUpload.txt')).read() 
         mitigationType= payload["MitigationType"]
         pretrain_payload = pretrain_payload.replace('{mitigationType}', mitigationType)
         mitigationTechnique=payload["MitigationTechnique"]
@@ -360,8 +367,11 @@ class FairnessUIserviceUpload:
         #convert to dataframe   
         trainingDatasetURL = os.path.join(FairnessServiceUpload.LOCAL_FILE_PATH,uniqueNm)
         predictionDatasetURL = trainingDatasetURL
-        pretrain_payload = pretrain_payload.replace('{trainingDatasetURL}',trainingDatasetURL)
-        pretrain_payload = pretrain_payload.replace('{predictionDatasetURL}',predictionDatasetURL)
+        # Convert to POSIX-style paths (forward slashes) for JSON compatibility across all platforms
+        trainingDatasetURL_json = Path(trainingDatasetURL).as_posix()
+        predictionDatasetURL_json = Path(predictionDatasetURL).as_posix()
+        pretrain_payload = pretrain_payload.replace('{trainingDatasetURL}',trainingDatasetURL_json)
+        pretrain_payload = pretrain_payload.replace('{predictionDatasetURL}',predictionDatasetURL_json)
 
         feature_list = list(read_file.columns)
         pretrain_payload = pretrain_payload.replace('{features}',','.join(feature_list))
@@ -371,7 +381,7 @@ class FairnessUIserviceUpload:
         log.info(f"Entering CA Dict:{st_ti}")
         updated_df = read_file.select_dtypes(exclude='number')
         for each in list(updated_df.columns):
-            updated_df.drop(updated_df[(updated_df[each] == '?')].index, inplace=True)
+            updated_df = updated_df.drop(updated_df[(updated_df[each] == '?')].index)
             updated_df[each] = updated_df[each].str.replace('.', '')
             ca_dict[each] = list(updated_df[each].unique())
         

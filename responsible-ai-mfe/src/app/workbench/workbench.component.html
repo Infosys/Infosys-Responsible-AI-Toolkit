@@ -6,50 +6,45 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 -->
 <div class="tab-container">
 
-    <div *ngIf="isLoadingWorkbench">
+  <div *ngIf="isLoadingWorkbench">
+    <ngx-skeleton-loader count="1" [theme]="{ 'border-radius': '0', height: '30px' }" appearance="line"
+      animation="progress"></ngx-skeleton-loader>
+  </div>
+  <div *ngIf="!isLoadingWorkbench">
+    <label class="topHeading">HOME</label>
+  </div>
+
+  <mat-tab-group dynamicHeight dynamicWidth color="primary" class="workbenchContainer">
+    <div *ngIf="isLoadingTabs">
       <ngx-skeleton-loader count="1" [theme]="{ 'border-radius': '0', height: '30px' }" appearance="line"
         animation="progress"></ngx-skeleton-loader>
     </div>
-    <div *ngIf="!isLoadingWorkbench">
-      <div>
-        <label class="topHeading">HOME</label>
-      </div>
-    </div>
-
-
-    <mat-tab-group dynamicHeight dynamicWidth color="primary" class="workbenchContainer">
-      <div *ngIf="isLoadingTabs">
-        <ngx-skeleton-loader count="1" [theme]="{ 'border-radius': '0', height: '30px' }" appearance="line" animation="progress"></ngx-skeleton-loader>
-      </div>
-      <ng-container *ngIf="!isLoadingTabs">
-        <mat-tab label="Unstructured text" *ngIf="roleService.checkSubtabExists('Workbench','Unstructured-Text')">
-            <!-- <ng-template matTabContent> -->
-                <app-unstructured-text></app-unstructured-text>
-            <!-- </ng-template> -->
-        </mat-tab>
-        <mat-tab label="Structured text" *ngIf="roleService.checkSubtabExists('Workbench','Structured-Text')">
-            <ng-template matTabContent>
-                <!-- <app-structured-text></app-structured-text> -->
-                <app-structure-text-parent></app-structure-text-parent>
-            </ng-template>
-        </mat-tab>
-        <mat-tab label="Image" *ngIf="roleService.checkSubtabExists('Workbench','Image')">
-            <!-- <ng-template matTabContent> -->
-                <app-image-parent></app-image-parent>
-            <!-- </ng-template> -->
-        </mat-tab>
-        <mat-tab label="Video" *ngIf="roleService.checkSubtabExists('Workbench','Video')">
-            <!-- Content for Tab 4 -->
-            <ng-template matTabContent>
-                <app-video></app-video>
-            </ng-template>
-        </mat-tab>
-        <mat-tab label="Code" *ngIf="roleService.checkSubtabExists('Workbench','Code')">
-            <!-- Content for Tab 5 -->
-            <ng-template matTabContent>
-              <app-code-privacy></app-code-privacy>
-            </ng-template>
-        </mat-tab>
-      </ng-container>
-    </mat-tab-group>
+    <ng-container *ngIf="!isLoadingTabs">
+      <mat-tab label="Unstructured text" *ngIf="roleService.checkSubtabExists('Workbench','Unstructured-Text')">
+        <ng-template matTabContent>
+          <app-unstructured-text></app-unstructured-text>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Structured text" *ngIf="roleService.checkSubtabExists('Workbench','Structured-Text')">
+        <ng-template matTabContent>
+          <app-structure-text-parent></app-structure-text-parent>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Image" *ngIf="roleService.checkSubtabExists('Workbench','Image')">
+        <ng-template matTabContent>
+          <app-image-parent></app-image-parent>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Video" *ngIf="roleService.checkSubtabExists('Workbench','Video')">
+        <ng-template matTabContent>
+          <app-video></app-video>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Code" *ngIf="roleService.checkSubtabExists('Workbench','Code')">
+        <ng-template matTabContent>
+          <app-code-privacy></app-code-privacy>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+  </mat-tab-group>
 </div>

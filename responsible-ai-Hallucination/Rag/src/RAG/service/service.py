@@ -32,8 +32,12 @@ import uuid
 import pymongo
 import requests
 import io
+import numpy as np
+from typing import List
+from langchain.embeddings.base import Embeddings
 from sentence_transformers import util
 from sentence_transformers import SentenceTransformer
+from langchain.embeddings.sentence_transformer import SentenceTransformerEmbeddings
 from RAG.config.logger import CustomLogger,request_id_var
 import gridfs
 from cachetools import Cache
@@ -48,6 +52,85 @@ log=CustomLogger()
 MAX_CACHE_SIZE = 20
 cache = Cache(maxsize=MAX_CACHE_SIZE)
 request_id_var.set("Startup")
+
+
+class GloVeEmbeddings(Embeddings):
+    """Custom embeddings class using GloVe model."""
+    
+    def __init__(self, glove_file_path: str = "../models/glove.6B.50d.txt"):
+        """
+        Initialize GloVe embeddings.
+        
+        Args:
+            glove_file_path: Path to the GloVe file
+        """
+        self.glove_file_path = glove_file_path
+        self.embeddings_dict = {}
+        self.embedding_dim = None
+        self._load_glove_model(glove_file_path)
+        log.info(f"GloVe model loaded successfully with {len(self.embeddings_dict)} words")
+    
+    def __getstate__(self):
+        """Custom pickle method - exclude the large embeddings_dict"""
+        state = self.__dict__.copy()
+        # Don't pickle the embeddings_dict, only the file path
+        state['embeddings_dict'] = {}
+        return state
+    
+    def __setstate__(self, state):
+        """Custom unpickle method - reload the embeddings_dict from file"""
+        self.__dict__.update(state)
+        # Reload the model when unpickling
+        self._load_glove_model(self.glove_file_path)
+        log.info(f"GloVe model reloaded after unpickling with {len(self.embeddings_dict)} words")
+    
+    def _load_glove_model(self, glove_file_path: str):
+        """Load GloVe model from file."""
+        try:
+            with open(glove_file_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    values = line.split()
+                    word = values[0]
+                    vector = np.asarray(values[1:], dtype='float32')
+                    self.embeddings_dict[word] = vector
+                    if self.embedding_dim is None:
+                        self.embedding_dim = len(vector)
+            log.info(f"GloVe embeddings loaded: {len(self.embeddings_dict)} words, dimension: {self.embedding_dim}")
+        except Exception as e:
+            log.error(f"Error loading GloVe model: {str(e)}")
+            raise
+    
+    def _get_word_vector(self, word: str) -> np.ndarray:
+        """Get vector for a single word."""
+        # Convert to lowercase for matching
+        word = word.lower()
+        if word in self.embeddings_dict:
+            return self.embeddings_dict[word]
+        else:
+            # Return zero vector for unknown words
+            return np.zeros(self.embedding_dim, dtype='float32')
+    
+    def _get_text_embedding(self, text: str) -> List[float]:
+        """Get embedding for a text by averaging word vectors."""
+        words = text.lower().split()
+        word_vectors = [self._get_word_vector(word) for word in words if word]
+        
+        if not word_vectors:
+            # Return zero vector if no words found
+            return np.zeros(self.embedding_dim, dtype='float32').tolist()
+        
+        # Average the word vectors
+        text_embedding = np.mean(word_vectors, axis=0)
+        return text_embedding.tolist()
+    
+    def embed_documents(self, texts: List[str]) -> List[List[float]]:
+        """Embed a list of documents."""
+        return [self._get_text_embedding(text) for text in texts]
+    
+    def embed_query(self, text: str) -> List[float]:
+        """Embed a query string."""
+        return self._get_text_embedding(text)
+
 
 # Base directory for storing vectorstores
 VECTORSTORE_BASE_DIR = "../data/vectorstores/"
@@ -67,30 +150,28 @@ except Exception as e:
     log.info("Failed at openai model loading")
     
 sslverify=os.getenv('SSL_VERIFY').lower() == 'true'
-print("SSL Verification in service is set to:", sslverify)
+log.info("SSL Verification in service is set to: %s", sslverify)
 try:
-    #similarity_model = SentenceTransformer(r"C:\Users\anand.jaipuriyar\chatbotRAG\responsible-ai-Hallucination\Rag\models\all-MiniLM-L6-v2")
-    similarity_model = SentenceTransformer("../models/all-MiniLM-L6-v2")
-    # similarity_model = SentenceTransformer(r"D:\responsible-ai-fm-moderation\Fm_Moderation\models\all-MiniLM-L6-v2")
-    #embedding_function = SentenceTransformerEmbeddings(model_name="../models/all-MiniLM-L6-v2")
+    similarity_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 except Exception as e:
     log.info("Failed at model loading")
     log.error(f"Exception: {str(traceback.extract_tb(e.__traceback__)[0].lineno),e}")
 
-def select_embeddingmodel(llmtype):
+def select_embeddingmodel(embeddingmodel):
     try:
         """
         Function to select the embedding model based on the llmtype.
         """
-        if llmtype == "openai":
-            embedding_function = OpenAIEmbeddings()
+        if embeddingmodel == "openai":
+            #embedding_function = OpenAIEmbeddings()
+            embedding_function = OpenAIEmbeddings(deployment=os.getenv("EMBEDDING_MODEL_NAME"))
             log.info("OpenAI embedding model initialized successfully")
         # elif llmtype == "gemini":
         #     embedding_function = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
         #     log.info("Gemini embedding model initialized successfully")
-        else:
-            # embedding_function = SentenceTransformerEmbeddings(model_name=r"D:\responsible-ai-fm-moderation\Fm_Moderation\models\all-MiniLM-L6-v2")
-            embedding_function = SentenceTransformerEmbeddings(model_name="../models/all-MiniLM-L6-v2")
+        elif embeddingmodel == "local":
+            embedding_function = GloVeEmbeddings(glove_file_path="../models/glove.6B.50d.txt")
+            log.info("GloVe embedding model initialized successfully")
         return embedding_function
     except Exception as e:
         log.info("Failed at select_embeddingmodel")
@@ -243,7 +324,7 @@ def select_llmtype(llmtype):
 # fs=gridfs.GridFS(db)
 # defaultfs=gridfs.GridFS(defaultdb)
 
-def defaultQARetrievalKepler(text,fileupload,llmtype,vectorestoreid=None):
+def defaultQARetrievalKepler(text,fileupload,llmtype,embeddingmodel,vectorstoreid=None):
     """
     Function to generate a RAG response along with hallucination score using the Langchain library and a vector store.
     """
@@ -254,20 +335,20 @@ def defaultQARetrievalKepler(text,fileupload,llmtype,vectorestoreid=None):
         #  vectorstore =pickle.load(file)
         if llmtype=="openai":
             if dbtypename=="mongo":
-                vectorstore = pickle.loads(fs.get_last_version(_id=vectorestoreid+"vectorstore",filename="vectorstore.pkl").read())
+                vectorstore = pickle.loads(fs.get_last_version(_id=vectorstoreid+"vectorstore",filename="vectorstore.pkl").read())
             else:
                 #########################
                 # Define the filter to retrieve the document
-                filter = {"id": vectorestoreid + "vectorstore"}
+                filter = {"id": vectorstoreid + "vectorstore"}
                 document = collection.find_one(filter)
                 if document:
                     vectorstore_binary = document["data"]
                     vectorstore = pickle.loads(vectorstore_binary)
-                    print("Vectorstore retrieved successfully!")
+                    log.info("Vectorstore retrieved successfully!")
                 else:
-                    print("Document not found!")
+                    log.info("Document not found!")
         else:
-            vectorstore_path = f"{VECTORSTORE_BASE_DIR}{vectorestoreid}/"
+            vectorstore_path = f"{VECTORSTORE_BASE_DIR}{vectorstoreid}/"
             embedding_function = select_embeddingmodel(llmtype)
         
             # Load vectorstore using FAISS native method
@@ -277,13 +358,13 @@ def defaultQARetrievalKepler(text,fileupload,llmtype,vectorestoreid=None):
                 allow_dangerous_deserialization=True
             )
             
-            print(f"Vectorstore loaded successfully from: {vectorstore_path}")
+            log.info(f"Vectorstore loaded successfully from: {vectorstore_path}")
             #########################
         log.info("Vectorstore loaded")
         retriever=vectorstore.as_retriever()
         # print("llm",llm)
         llm=select_llmtype(llmtype)
-        print("llm",llm)
+        log.info(f"llm: {llm}")
         qa_chain = RetrievalQA.from_chain_type(llm, retriever=retriever, return_source_documents=True,
                                             chain_type_kwargs={"prompt": QA_CHAIN_PROMPT})
         
@@ -319,7 +400,7 @@ def defaultQARetrievalKepler(text,fileupload,llmtype,vectorestoreid=None):
         log.info(f"Average hallucination score: {avgmetrics}")
         avgmetrics=avgmetrics/5
         maxscore=max(inpoutsim, ressourcescore, inpsourcesim)
-        print("maxmaxmax", maxscore)
+        log.info(f"maxmaxmax: {maxscore}")
         if avgmetrics>=0.75:
             log.info("avgmetrics>=0.75")
             haluscore=1-avgmetrics*0.98
@@ -339,7 +420,7 @@ def defaultQARetrievalKepler(text,fileupload,llmtype,vectorestoreid=None):
         elif avgmetrics<0.5:
             log.info("avgmetrics<0.5")
             haluscore=1-avgmetrics
-        print("avgmetrics",avgmetrics)
+        log.info(f"avgmetrics: {avgmetrics}")
             
         # if haluscore>0.70:
         #     haluscore=random.uniform(0.20,0.40)
@@ -408,9 +489,9 @@ def defaultQARetrievalKepler(text,fileupload,llmtype,vectorestoreid=None):
          #    vectorstore =pickle.load(file)
         # vectorstore = pickle.loads(fs.get_last_version(_id=id+"vectorstore",filename="vectorstore.pkl").read())
         log.info("Vectorstore loaded")
-        if vectorestoreid:
+        if vectorstoreid:
             
-            vect=cache[int(vectorestoreid)]
+            vect=cache[int(vectorstoreid)]
             retriever=vect.as_retriever()
             llm=select_llmtype(llmtype)
             qa_chain = RetrievalQA.from_chain_type(llm, retriever=retriever, return_source_documents=True,
@@ -422,7 +503,7 @@ def defaultQARetrievalKepler(text,fileupload,llmtype,vectorestoreid=None):
         openai_starttime=time.time()
         output = qa_chain({"query": text})
         openai_endtime=time.time()-openai_starttime
-        print("Time for Gpt call",openai_endtime)
+        log.info(f"Time for Gpt call: {openai_endtime}")
         log.info("After llm calling")
         fullText = output["result"]
         srcArr = output["source_documents"]
@@ -456,7 +537,7 @@ def defaultQARetrievalKepler(text,fileupload,llmtype,vectorestoreid=None):
         avgmetrics= haluscores["AverageScore"]
         avgmetrics=avgmetrics/5
         maxscore=max(inpoutsim, ressourcescore, inpsourcesim)
-        print("maxmaxmax", maxscore)
+        log.info(f"maxmaxmax: {maxscore}")
         if avgmetrics>=0.75:
             haluscore=1-avgmetrics*0.98
         elif avgmetrics>=0.5 and avgmetrics<0.75:
@@ -545,7 +626,7 @@ def scoringmetrics(text,fullText,srcArr):
         ressourcescore = 0
         inpsourcesim = 0
         arrForSourceText=[]
-        print(textArr)
+        log.info(textArr)
         for i in textArr:
             simScore = 0
             cit = ""
@@ -554,7 +635,7 @@ def scoringmetrics(text,fullText,srcArr):
                 score = promptResponseSimilarity(j.page_content, i)
                 arrForSourceText.append(j.page_content)
                 ressourcescore = max(ressourcescore,score)
-                print("#",score)
+                log.info(f"# {score}")
                 if flag == 0:
                     flag = 1
                     ressourcescore = max(ressourcescore, promptResponseSimilarity(j.page_content, fullText))
@@ -615,13 +696,13 @@ def get_loader(file_path):
     else:
         raise ValueError(f"Unsupported file format: {file_path}")
 
-def createvector(files, llmtype):
+def createvector(files, embeddingmodel, llmtype):
     """
     Function to create a vector store from the uploaded files and save it to the database.
     """
     try:
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-        print("Chunking")
+        log.info("Chunking")
         st = time.time()
         id = uuid.uuid4().hex
         path = "../data/docs/"+str(id)+"/"
@@ -669,12 +750,13 @@ def createvector(files, llmtype):
                     else:
                         data.extend(loader.load())
                 except ValueError as e:
-                    print(e)
+                    log.info(e)
         
         all_splits = text_splitter.split_documents(data)
         global qa_chain
         vectorstore = None
-        embedding_function= select_embeddingmodel(llmtype)
+        embedding_function= select_embeddingmodel(embeddingmodel)
+
         vectorstore = FAISS.from_documents(documents=all_splits, embedding=embedding_function)
         log.info("AftereVector")
         # unique_id = str(uuid.uuid4())
@@ -692,11 +774,11 @@ def createvector(files, llmtype):
                 os.makedirs(vectorstore_path, exist_ok=True)
             # Save the vectorstore to a file
             vectorstore.save_local(vectorstore_path)
-            print(f"Vectorstore saved locally at: {vectorstore_path}")
+            log.info(f"Vectorstore saved locally at: {vectorstore_path}")
             
         
         if os.path.exists("../data/docs/"+str(id)+"/"):
-            print("Exists")
+            log.info("Exists")
             shutil.rmtree("../data/docs/"+str(id)+"/")
         return {"id": id}
     

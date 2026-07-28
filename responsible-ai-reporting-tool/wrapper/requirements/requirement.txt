@@ -1,6 +1,6 @@
 uvicorn==0.34.0
 pyyaml==6.0.2
-fastapi==0.115.12
+fastapi==0.116.1
 watchfiles==1.0.4
 requests==2.32.4
 python-multipart==0.0.18
@@ -11,8 +11,9 @@ python-dotenv==1.0.1
 pdfkit==1.0.0
 reportlab==4.3.1
 PyPDF2==3.0.1
-adversarial-robustness-toolbox==1.19.1
-starlette==0.40.0
-#lib/adversarial_robustness_toolbox-1.16.0-py3-none-any.whl
-#Un-Comment Below 2 lines and comment above 2 lines to run locally
-#../lib/adversarial_robustness_toolbox-1.16.0-py3-none-any.whl
+starlette==0.47.2
+pytest
+pytest-cov
+pytest-mock
+httpx
+
