@@ -103,7 +103,7 @@ Link provided above will directly download the model version 3.7.1.
   ```
   Note: If you face any issue with the torch library then uninstall the torch `pip uninstall torch` and then reinstall the latest version `pip install torch` .
   
-Download and install the tesseract in your system. After installation, set the tessaract path in environment variables of account or system : [Tessaract](https://digi.bib.uni-   mannheim.de/tesseract/tesseract-ocr-w64-setup-v5.3.0.20221214.exe).
+Download and install the tesseract in your system. After installation, set the tessaract path in environment variables of account or system : [Tessaract](https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-v5.3.0.20221214.exe).
   Different versions of tesseract : [Versions](https://digi.bib.uni-mannheim.de/tesseract/).
   Tesseract Github : [Github](https://github.com/tesseract-ocr/tessdoc).
 
