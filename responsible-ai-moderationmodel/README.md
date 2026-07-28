@@ -6,6 +6,7 @@
 - [Features](#features)
 - [Installation](#installation)
 - [Set Configuration Variables](#set-configuration-variables)
+- [Models Required](#models-required)
 - [Running the Application](#running-the-application)
 - [Docker Image](#Docker-image)
 - [License](#license)
@@ -44,10 +45,13 @@ To run the application, first we need to install Python and the necessary packag
          ```
 
 6. Go to the `requirements` directory where the `requirement.txt` file is present.
-    
-    In the `requirement.txt` file make these changes mentioned in notes according to the OS you are working on.
+    In the `requirement.txt` file comment the 
+    ```sh
+    lib/torch-2.2.0+cu118-cp39-cp39-linux_x86_64.whl  
+    ```
+    **Note:** Download appropriate torch version supporting python version which is installed [i.e if Python version is 3.10 use torch-2.2.0+cu118-**cp310**-**cp310**-**linux**_x86_64.whl, where cp310 denotes python version 3.10 and linux denotes OS which can be linux/win and **_not applicable for Mac_**]
    
-    **Note:** If working in windows as this is for linux, replace 
+    **Note:** If working in windows as this is for linux and replace 
     ```sh
     lib/
     ```
@@ -60,8 +64,8 @@ To run the application, first we need to install Python and the necessary packag
    pip install --pre torch torchvision torchaudio \--extra-index-url https://download.pytorch.org/whl/nightly/cpu
     ```
   
-  Download and place the en_core_web_lg-3.8.0-py3-none-any.whl inside the lib folder.
-    [en_core_web_lg](https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.8.0/en_core_web_lg-3.8.0-py3-none-any.whl) and install the requirements:
+  Download and place the en_core_web_lg-3.5.0-py3-none-any.whl inside the lib folder.
+    [en_core_web_lg](https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.5.0/en_core_web_lg-3.5.0-py3-none-any.whl) and install the requirements:
     
     ```sh
     pip install -r requirement.txt
@@ -69,7 +73,10 @@ To run the application, first we need to install Python and the necessary packag
     
   **Note:** when running requirement.txt, if getting error related to "cuda-python" then comment cuda-python from 
           requirement.txt file and run pip install again
-
+    Install the fastapi library as well, use the following command:
+    ```sh
+    pip install fastapi
+    ```
 ## Set Configuration Variables
 After installing all the required packages, configure the variables necessary to run the APIs.
 
@@ -91,9 +98,43 @@ After installing all the required packages, configure the variables necessary to
   # MONGO_PATH="mongodb://${DB_USERNAME}:${DB_PWD}@${DB_IP}:${DB_PORT}/"
   # MONGO_PATH= "mongodb://localhost:27017/"
   ```
-  Update port number here if you want to run the application on a specific port number, otherwise by default application will run on 8000 port number.
 
 3. Replace the placeholders with your actual values.
+
+## Models Required
+The following models are required to run the application. Download all the model files from the links provided, and place it in the folder name provided.
+
+1. [Prompt Injection](https://huggingface.co/deepset/deberta-v3-base-injection/tree/main)
+Files required to download here are : model.safetensors, config.json, tokenizer_config.json, tokenizer.json, special_tokens_map.json.
+Name the folder as 'dbertaInjection'.
+
+2. [Restricted Topic](https://huggingface.co/MoritzLaurer/deberta-v3-base-zeroshot-v2.0/tree/main)
+Files required to download here are : model.safetensors, added_tokens.json, config.json, special_tokens_map.json, spm.model, tokenizer.json, tokenizer_config.json.
+Name the folder as 'restricted-dberta-base-zeroshot-v2'.
+
+3. [Sentence Transformer Model](https://huggingface.co/sentence-transformers/multi-qa-mpnet-base-dot-v1/tree/main)
+Files required to download here are : 1_Pooling folder, pytorch_model.bin, vocab.txt, tokenizer.json, tokenizer_config.json, special_tokens_map.json, sentence_bert_config.json, modules.json, config.json, config_sentence_transformers.json.
+Name the folder as 'multi-qa-mpnet-base-dot-v1'.
+
+4. [Detoxify](https://huggingface.co/FacebookAI/roberta-base/tree/main)
+Files required to download here are : vocab.json, tokenizer.json, merges.txt, config.json.
+Now download the model checkpoint file from this url and keep it under this folder -
+[toxic_model_ckpt_file](https://github.com/unitaryai/detoxify/releases/download/v0.3-alpha/toxic_debiased-c7548aa0.ckpt)
+Name the folder as 'detoxify'.
+
+5. [Gibberish](https://huggingface.co/madhurjindal/autonlp-Gibberish-Detector-492513457)
+Files required to download here are : vocab.json, tokenizer.json,config.json,pytorch_model.bin, tokenizer_config.json,special_tokens_map.json.
+Name the folder as 'gibberish'.
+
+6. [Bancode](https://huggingface.co/vishnun/codenlbert-tiny)
+Files required to download here are : vocab.txt, tokenizer.json,config.json,pytorch_model.bin, tokenizer_config.json,special_tokens_map.json.
+Name the folder as 'bancode'.
+
+7. [Restricted Topic](https://huggingface.co/cross-encoder/nli-MiniLM2-L6-H768)
+Files required to download here are : vocab.json, tokenizer.json,config.json,merges.txt,pytorch_model.bin, tokenizer_config.json,special_tokens_map.json.
+Name the folder as 'nli-MiniLM2-L6-H768'.
+
+Place the above folders in a folder named 'models' in the following way: 'responsible-ai-moderationmodel/models'.
 
 ## Running the Application
 Once we have completed all the aforementioned steps, we can start the service.
@@ -110,14 +151,14 @@ Once we have completed all the aforementioned steps, we can start the service.
    Open the following URL in your browser:
   `http://localhost:8000/rai/v1/raimoderationmodels/docs`
 
-**Notes:** :
+**Note:** :
 1. To address the issue where the Passport Number is not recognized in Privacy, modify the "piiEntitiesToBeRedacted" field in the privacy() under service.py file (line no: 98) from None to an empty list []. This adjustment ensures that the Passport Number is correctly identified.
 
 2. Do not use this Moderation Model repository as a standalone repository. It serves as the base or dependency for the Moderation Layer repository, which provides the 'Guardrail' functionality, so access this repository APIs through Moderation layer.
 
 ## Docker Image
-The Docker image for the ModerationModel module (IP2.2.0) has been published on Docker Hub. You can access it here: [ModerationModel image](https://hub.docker.com/repository/docker/infosysresponsibleaitoolkit/responsible-ai-moderationmodel)
- 
+The Docker image for the ModerationModel module has been published on Docker Hub. You can access it here: [ModerationModel image](https://hub.docker.com/repository/docker/infosysresponsibleaitoolkit/responsible-ai-moderationmodel)
+  
 ## License
 The source code for the project is licensed under the MIT license, which you can find in the [LICENSE.txt](LICENSE.txt) file.
 
