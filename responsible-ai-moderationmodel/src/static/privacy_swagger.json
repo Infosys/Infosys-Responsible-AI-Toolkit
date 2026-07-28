@@ -1,0 +1,396 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Infosys Responsible AI - LLM Moderation Models - OpenAPI 3.0",
+    "description": "API specs for Infosys Responsible AI LLM Moderation layer Models in OpenAPI 3.0 format",
+    "contact": {
+      "email": "aina@infosys.com"
+    },
+    "license": {
+      "name": "Infosys",
+      "url": "https://www.infosys.com"
+    },
+    "version": "0.0.1"
+  },
+  "security" : [ {
+      "oauth_auth" : [ "write:users", "read:users" ]
+      } 
+  ],
+  "paths": {
+
+    "/rai/v1/raimoderationmodels/privacy": {
+      "post": {
+        "security": [{
+            "my_auth": ["write:users"]
+        }],
+        "tags": [
+          "Infosys Responsible AI - LLM Moderation"
+        ],
+        "summary": "Pii Check",
+        "operationId": "pii_check_rai_v1_models_privacy_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/privacyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401":
+          {
+            "description":"Unauthorized Access Error",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/HTTPUnauthorizedAccessError"
+                }
+              }
+            }
+          },
+          "403":
+          {
+            "description":"Forbidden Access Error",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/HTTPForbiddenAccessError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_img_rai_v1_models_ImageGenerate_post": {
+        "properties": {
+          "prompt": {
+            "type": "string",
+            "title": "Prompt"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prompt"
+        ],
+        "title": "Body_img_rai_v1_models_ImageGenerate_post"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HTTPUnauthorizedAccessError":{
+       "properties":{
+        "detail":{
+          "items":{
+            "$ref":"#/components/schemas/UnauthorizedAccessError"
+          },
+          "type":"array",
+          "title":"Detail"
+        }
+       },
+       "type":"object",
+       "title":"HTTPUnauthorizedAccessError"
+      },
+      "HTTPForbiddenAccessError":{
+       "properties":{
+        "detail":{
+          "items":{
+            "$ref":"#/components/schemas/ForbiddenAccessError"
+          },
+          "type":"array",
+          "title":"Detail"
+        }
+       },
+       "type":"object",
+       "title":"HTTPForbiddenAccessError" 
+      },
+      "JailbreakRequest": {
+        "properties": {
+          "text": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Text"
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "JailbreakRequest"
+      },
+      "RestrictedTopicRequest": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "example": "Russia is the biggest country by area."
+          },
+          "model": {
+            "type": "string",
+            "title": "Model",
+            "example": "distilroberta"
+          },
+          "labels": {
+            "items": {},
+            "type": "array",
+            "title": "Labels",
+            "default": [
+              "Terrorism",
+              "Explosives"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "RestrictedTopicRequest"
+      },
+      "SimilarityRequest": {
+        "properties": {
+          "text1": {
+            "type": "string",
+            "title": "Text1",
+            "example": "Russia is the biggest country by area."
+          },
+          "text2": {
+            "type": "string",
+            "title": "Text2",
+            "example": "Russia is the biggest country by area."
+          },
+          "emb1": {
+            "items": {},
+            "type": "array",
+            "title": "Emb1"
+          },
+          "emb2": {
+            "items": {},
+            "type": "array",
+            "title": "Emb2"
+          }
+        },
+        "type": "object",
+        "title": "SimilarityRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "UnauthorizedAccessError":{
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "UnauthorizedAccessError"
+      },
+      "ForbiddenAccessError":{
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ForbiddenAccessError"
+      },
+      "detoxifyRequest": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "example": "Russia is the biggest country by area."
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "detoxifyRequest"
+      },
+      "detoxifyResponse": {
+        "properties": {
+          "toxicScore": {
+            "items": {
+              "$ref": "#/components/schemas/profanityScore"
+            },
+            "type": "array",
+            "title": "Toxicscore"
+          }
+        },
+        "type": "object",
+        "required": [
+          "toxicScore"
+        ],
+        "title": "detoxifyResponse"
+      },
+      "privacyRequest": {
+        "properties": {
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "example": "Russia is the biggest country by area."
+          }
+        },
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "title": "privacyRequest"
+      },
+      "profanityScore": {
+        "properties": {
+          "metricName": {
+            "type": "string",
+            "title": "Metricname",
+            "example": "toxicity"
+          },
+          "metricScore": {
+            "type": "number",
+            "title": "Metricscore",
+            "example": 0.78326
+          }
+        },
+        "type": "object",
+        "required": [
+          "metricName",
+          "metricScore"
+        ],
+        "title": "profanityScore"
+      }
+    },
+    "securitySchemes": {
+            "type": "oauth2",
+            "flows": {
+                "authorizationCode": {
+                    "authorizationUrl": "http://tes.org/api/oauth/dialog",
+                    "scopes": {
+                        "read:users": "read user profiles"
+                    }
+                }
+            }
+    }
+  },
+  "tags": [
+    {
+      "name": "LLM Moderation",
+      "description": "Operations required for LLM moderation proxy.",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "https://www.infosys.com"
+      }
+    }
+  ]
+}
