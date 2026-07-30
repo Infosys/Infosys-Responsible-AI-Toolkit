@@ -714,11 +714,13 @@ Gemini-Flash for Gemini 2.5 Flash model
 pip install language_data==1.4.0
 ```
 
-4. In the textTemplate_service.py file under the service folder, the score field format needs to be standardized (line 65) to: `"score" :[Assign a decimal score between 0.0-1.0]`. This applies to the NORMAL_OUTPUT template used for template-based evaluations, ensuring consistent decimal score assignments between 0.0 and 1.0 across all API responses.
-
-5. Install the `language_data` package, which is required for the `rai/v1/moderations/translate` endpoint:
+6. In `src/cov.py` and `src/service/textTemplate_service.py`, replace the deprecated import:
 ```sh
-pip install language_data==1.4.0
+# Old (deprecated)
+from langchain_community.chat_models import AzureChatOpenAI
+ 
+# New
+from langchain_openai import AzureChatOpenAI
 ```
 
 ## License
