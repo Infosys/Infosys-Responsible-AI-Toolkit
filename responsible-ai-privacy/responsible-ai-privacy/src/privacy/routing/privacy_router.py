@@ -77,6 +77,7 @@ from fastapi.responses import JSONResponse
 from privacy.util.auth.auth_client_id import get_auth_client_id
 from privacy.util.auth.auth_jwt import get_auth_jwt
 from privacy.util.auth.auth_none import get_auth_none
+from privacy.util.model_integrity import assert_model_files_are_real
 
 
 now = datetime.now()
@@ -90,6 +91,7 @@ privacyerrorteleurl = os.getenv("PRIVACY_ERROR_URL")
  
 # Load the model and tokenizer for CODEFILE API
 local_model_directory = "privacy/util/code_detect/ner/pii_inference/nermodel"
+assert_model_files_are_real(local_model_directory)
 model = AutoModelForTokenClassification.from_pretrained(local_model_directory)
 tokenizer = AutoTokenizer.from_pretrained(local_model_directory, model_max_length=10000)
 

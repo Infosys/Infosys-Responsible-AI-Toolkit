@@ -29,6 +29,10 @@ Privacy is application which detects and masks any PII data present in Unstructu
     
  2. StarPII Model for code moderation: https://huggingface.co/bigcode/starpii
     Download the model files, paste the model creating folder named as nermodel inside, src\privacy\util\code_detect\ner\pii_inference\nermodel
+
+    Note: This HuggingFace repository stores its model weight files (`*.bin`/`*.safetensors`) with Git LFS. If you download it with `git clone` without Git LFS installed, the weight files you get will be small text "pointer" stubs instead of the real binaries, and the API will crash on startup with an `OSError`/`UnpicklingError` when it tries to load the model. To avoid this, either:
+    - Install [Git LFS](https://git-lfs.github.com) first (`git lfs install`) and then `git clone` the model repo, or
+    - Download the files directly without git, e.g. `huggingface-cli download bigcode/starpii --local-dir <path-to-nermodel>`.
     
  3. Roberta multilingual ner model : https://huggingface.co/julian-schelb/roberta-ner-multilingual
     Create a folder named as "multilingual-ner" in responsible-ai-privacy\models directory. Download the files (config.json,special_tokens_map.json,tokenizer.json,tokenizer_config.json,unigram.json,pytorch_model.bin) from the provided link and place them in this folder (responsible-ai-  
