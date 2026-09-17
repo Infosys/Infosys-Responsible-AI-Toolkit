@@ -36,6 +36,7 @@ from telemetry import telemetry
 from bergeron import  Bergeron
 from dao.AdminDb import Results
 from translate import Translate
+from hinglish_detect import looks_like_hinglish
 from openai import AzureOpenAI
 import demoji
 import string 
@@ -1744,7 +1745,14 @@ class moderation:
                 endtime = time.time()
                 rt = endtime - starttime
                 dict_timecheck["translate"]=str(round(rt,3))+"s"
-     
+            elif translate is None and looks_like_hinglish(text):
+                print("Inside Hinglish Normalization")
+                starttime = time.time()
+                text = Translate.normalize_hinglish(text)
+                endtime = time.time()
+                rt = endtime - starttime
+                dict_timecheck["translate"]=str(round(rt,3))+"s"
+
             obj = callModerationModels(text,payload,headers,deployment_name,output_text,llm_BasedChecks)
       
             obj_requestmoderation = RequestModeration(text = text,

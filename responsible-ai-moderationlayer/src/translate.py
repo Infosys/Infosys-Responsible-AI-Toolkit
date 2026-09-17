@@ -60,3 +60,28 @@ class Translate:
         except HttpResponseError as exception:
             log.error(f"Error Code: {exception.error.code}")
             log.error(f"Message: {exception.error.message}")
+
+    def normalize_hinglish(text):
+        try:
+            key = os.getenv("AZURE_TRANSLATE_KEY")
+            endpoint = os.getenv("AZURE_TRANSLATE_ENDPOINT")
+            region = os.getenv("AZURE_TRANSLATE_REGION")
+
+            credential = TranslatorCredential(key, region)
+            text_translator = TextTranslationClient(endpoint=endpoint, credential=credential)
+
+            transliteration_response = text_translator.transliterate(
+                body=[text], language="hi", from_script="Latn", to_script="Deva",
+            )
+            transliterated_text = transliteration_response[0].text
+
+            translation_result = Translate.translate(transliterated_text)
+            if translation_result is None:
+                return text
+            translated_text, _ = translation_result
+            if translated_text is None:
+                return text
+            return translated_text
+        except Exception as e:
+            log.error(f"Exception in normalize_hinglish: {e}")
+            return text

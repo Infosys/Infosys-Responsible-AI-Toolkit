@@ -439,7 +439,7 @@ class TestTranslateAzureTranslate:
         """Test Azure Translate with Chinese text"""
         mock_client = Mock()
         mock_client_class.return_value = mock_client
-        
+
         # Mock the translate response - uses dict access for detectedLanguage, object for translations
         mock_translation = {
             'detectedLanguage': {'language': 'zh-Hans'},
@@ -449,14 +449,97 @@ class TestTranslateAzureTranslate:
         mock_translation_obj.__getitem__ = Mock(side_effect=lambda key: mock_translation[key])
         mock_translation_obj.translations = [Mock(to='en', text='Hello')]
         mock_client.translate.return_value = [mock_translation_obj]
-        
+
         mock_language = Mock()
         mock_language.display_name = Mock(return_value='Chinese')
         mock_language_class.make = Mock(return_value=mock_language)
-        
+
         from src.translate import Translate
-        
+
         translated_text, language = Translate.azure_translate("你好")
-        
+
         assert isinstance(translated_text, str)
         assert len(translated_text) > 0
+
+
+class TestTranslateNormalizeHinglish:
+    """Tests for Translate.normalize_hinglish() - transliterate then translate"""
+
+    @patch.dict(os.environ, {
+        'AZURE_TRANSLATE_KEY': 'test-key',
+        'AZURE_TRANSLATE_ENDPOINT': 'https://api.cognitive.microsofttranslator.com',
+        'AZURE_TRANSLATE_REGION': 'westus'
+    })
+    @patch('src.translate.log')
+    @patch('src.translate.Translate.translate')
+    @patch('src.translate.TextTranslationClient')
+    def test_normalize_hinglish_transliterates_then_translates(
+        self, mock_client_class, mock_translate_method, mock_log
+    ):
+        """Confirms the transliterate call uses hi/Latn/Deva, and its output feeds Translate.translate"""
+        mock_client = Mock()
+        mock_client_class.return_value = mock_client
+
+        mock_transliteration = Mock()
+        mock_transliteration.text = "क्या हाल है"
+        mock_client.transliterate.return_value = [mock_transliteration]
+
+        mock_translate_method.return_value = ("What's up", "Hindi")
+
+        from src.translate import Translate
+
+        result = Translate.normalize_hinglish("kya haal hai")
+
+        mock_client.transliterate.assert_called_once_with(
+            body=["kya haal hai"], language="hi", from_script="Latn", to_script="Deva",
+        )
+        mock_translate_method.assert_called_once_with("क्या हाल है")
+        assert result == "What's up"
+
+    @patch.dict(os.environ, {
+        'AZURE_TRANSLATE_KEY': 'test-key',
+        'AZURE_TRANSLATE_ENDPOINT': 'https://api.cognitive.microsofttranslator.com',
+        'AZURE_TRANSLATE_REGION': 'westus'
+    })
+    @patch('src.translate.log')
+    @patch('src.translate.TextTranslationClient')
+    def test_normalize_hinglish_falls_back_to_original_on_transliterate_failure(
+        self, mock_client_class, mock_log
+    ):
+        """A failure anywhere in the pipeline must not raise — falls back to the original text"""
+        mock_client = Mock()
+        mock_client_class.return_value = mock_client
+        mock_client.transliterate.side_effect = Exception("Azure unreachable")
+
+        from src.translate import Translate
+
+        result = Translate.normalize_hinglish("kya haal hai")
+
+        assert result == "kya haal hai"
+        mock_log.error.assert_called()
+
+    @patch.dict(os.environ, {
+        'AZURE_TRANSLATE_KEY': 'test-key',
+        'AZURE_TRANSLATE_ENDPOINT': 'https://api.cognitive.microsofttranslator.com',
+        'AZURE_TRANSLATE_REGION': 'westus'
+    })
+    @patch('src.translate.log')
+    @patch('src.translate.Translate.translate')
+    @patch('src.translate.TextTranslationClient')
+    def test_normalize_hinglish_falls_back_when_translate_returns_none(
+        self, mock_client_class, mock_translate_method, mock_log
+    ):
+        """Translate.translate already returns None on its own internal failures (see its except block) — must not propagate None"""
+        mock_client = Mock()
+        mock_client_class.return_value = mock_client
+        mock_transliteration = Mock()
+        mock_transliteration.text = "क्या हाल है"
+        mock_client.transliterate.return_value = [mock_transliteration]
+
+        mock_translate_method.return_value = None
+
+        from src.translate import Translate
+
+        result = Translate.normalize_hinglish("kya haal hai")
+
+        assert result == "kya haal hai"
