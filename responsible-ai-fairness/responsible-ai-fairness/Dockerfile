@@ -6,7 +6,7 @@ ENV SECRET_KEY=
 	
 COPY . .
 
-RUN pip install -r requirements/requirement.txt 
+RUN pip install -r requirements/requirements.txt
 WORKDIR src
 
 CMD ["sh", "-c", "python main_api.py"]

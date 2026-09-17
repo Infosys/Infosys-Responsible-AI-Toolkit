@@ -40,6 +40,38 @@ The Responsible AI toolkit provides a user-friendly interface for seamless exper
 For technical details and usage instructions on the Infosys Responsible AI toolkit's features, please refer to the [documentation](https://infosys.github.io/Infosys-Responsible-AI-Toolkit/).
 
 
+## Running the platform locally with Docker Compose
+
+The 14 modules that ship a Dockerfile can be brought up together, along
+with a local MongoDB instance, using the root-level `docker-compose.yml`:
+
+```sh
+docker compose up --build
+```
+
+This builds and starts: `admin`, `backend`, `explain`, `fairness`,
+`file-storage`, `llm-benchmarking`, `llm-explain`, `model-detail`,
+`moderationlayer`, `moderationmodel`, `privacy`, `reporting-tool`,
+`mfe`, and `shell`, plus a `mongo` container they all share.
+
+Notes:
+- This compose setup has not yet been verified against a real Docker daemon
+  (none was available while writing it) — please confirm
+  `docker compose build` and `docker compose up` both succeed and
+  file an issue with any problems found.
+- Several of these services (privacy, fairness, llm-benchmarking) pull
+  in large ML dependencies (torch, transformers) — the first
+  `--build` will take a while and use significant disk space.
+- The shared `mongo` container runs without authentication — this is
+  meant for local development only, not production use.
+- Modules without a Dockerfile yet (`Hallucination`,
+  `img-explainability`, `llm`, `safety`, `telemetry`, `upload-doc`,
+  `workbench`) are not part of this compose setup.
+- Service ports are listed in `docker-compose.yml`; for example
+  `admin` is on `http://localhost:30016` and `shell` (the main UI) is
+  on `http://localhost:30010`.
+
+
 ## Toolkit features at a glance
 ### Generative AI Models
 | Safety, Security & Privacy | Model Transparency  | Text Quality | Linguistic Quality |

@@ -18,5 +18,5 @@ nltk==3.9.1
 starlette==0.47.2
 presidio_analyzer==2.2.355
 lib/privacy-2.4.7-py3-none-any.whl
-lib/en_core_web_lg-3.8.0-py3-none-any.whl
+https://github.com/explosion/spacy-models/releases/download/en_core_web_lg-3.8.0/en_core_web_lg-3.8.0-py3-none-any.whl
 

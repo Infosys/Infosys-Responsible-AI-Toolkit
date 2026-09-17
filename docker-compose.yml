@@ -1,0 +1,260 @@
+name: responsible-ai-toolkit
+
+networks:
+  rai-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+
+services:
+  mongo:
+    image: mongo:${MONGO_IMAGE_TAG:-6.0}
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - rai-network
+
+  admin:
+    build:
+      context: ./responsible-ai-admin/responsible-ai-admin
+      dockerfile: Dockerfile
+    ports:
+      - "30016:30016"
+    environment:
+      MONGO_PATH: mongodb://mongo:27017
+      DB_NAME: rai_admin
+      DB_TYPE: mongo
+      allow_origin: "*"
+      allow_method: "*"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - rai-network
+
+  backend:
+    build:
+      context: ./responsible-ai-backend/backend-rai
+      dockerfile: Dockerfile
+    ports:
+      - "30019:30019"
+    environment:
+      MONGO_PATH: mongodb://mongo:27017
+      DB_NAME: rai_backend
+      DB_TYPE: mongo
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - rai-network
+
+  explain:
+    build:
+      context: ./responsible-ai-explain/responsible-ai-explain
+      dockerfile: Dockerfile
+    ports:
+      - "30020:8002"
+    environment:
+      MONGO_PATH: mongodb://mongo:27017
+      RAI_EXPLAIN_DB: rai_explain
+      DB_NAME: rai_explain_workbench
+      DB_TYPE: mongo
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - rai-network
+
+  fairness:
+    build:
+      context: ./responsible-ai-fairness/responsible-ai-fairness
+      dockerfile: Dockerfile
+    ports:
+      - "30021:8000"
+    environment:
+      MONGO_PATH: mongodb://mongo:27017
+      DB_NAME: rai_fairness
+      DB_TYPE: mongo
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - rai-network
+
+  file-storage:
+    build:
+      context: ./responsible-ai-file-storage
+      dockerfile: Dockerfile
+    ports:
+      - "30022:8000"
+    environment:
+      allow_origin: "*"
+      allow_methods: "*"
+    networks:
+      - rai-network
+
+  llm-benchmarking:
+    build:
+      context: ./responsible-ai-llm-benchmarking/responsible-ai-benchmarking
+      dockerfile: Dockerfile
+    ports:
+      - "30023:8000"
+    environment:
+      MONGO_PATH: mongodb://mongo:27017
+      DB_NAME: rai_llm_benchmarking
+      DB_TYPE: mongo
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - rai-network
+
+  llm-explain:
+    build:
+      context: ./responsible-ai-llm-explain/responsible-ai-llm-explain
+      dockerfile: Dockerfile
+    ports:
+      - "30024:8002"
+    networks:
+      - rai-network
+
+  model-detail:
+    build:
+      context: ./responsible-ai-model-detail/workbench
+      dockerfile: Dockerfile
+    ports:
+      - "30025:80"
+    environment:
+      MONGO_PATH: mongodb://mongo:27017
+      DB_NAME: rai_model_detail
+      DB_TYPE: mongo
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - rai-network
+
+  moderationlayer:
+    build:
+      context: ./responsible-ai-moderationlayer
+      dockerfile: Dockerfile
+    ports:
+      - "30026:8000"
+    environment:
+      PORT: "8000"
+      # APP_MONGO_HOST must be a bare host:port, not a URI (see
+      # AdminDb.py's _sanitize_mongo_host). Even with a valid host,
+      # upstream's credential-gating logic in AdminDb.py treats
+      # placeholder DB_USERNAME/DB_PWD as present-but-invalid and
+      # fails validation, so blanking them instead makes the app skip
+      # DB initialization cleanly (logged, not fatal). This module's
+      # DB stays uninitialized in this compose slice — a known
+      # limitation in the app's own credential-gating logic, out of
+      # scope for this PR to fix in Python code.
+      APP_MONGO_HOST: mongo:27017
+      APP_MONGO_DBNAME: rai_moderationlayer
+      DBTYPE: mongo
+      DB_USERNAME: ""
+      DB_PWD: ""
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - rai-network
+
+  moderationmodel:
+    build:
+      context: ./responsible-ai-moderationmodel
+      dockerfile: Dockerfile
+    ports:
+      - "30027:8000"
+    environment:
+      DB_PORT: "8000"
+    networks:
+      - rai-network
+
+  privacy:
+    build:
+      context: ./responsible-ai-privacy/responsible-ai-privacy
+      dockerfile: Dockerfile
+    ports:
+      - "30002:30002"
+    environment:
+      AUTH_TYPE: none
+      TELE_FLAG: "False"
+      allow_origin: "*"
+      allow_methods: "*"
+    networks:
+      - rai-network
+
+  reporting-tool:
+    build:
+      context: ./responsible-ai-reporting-tool/wrapper
+      dockerfile: Dockerfile
+    ports:
+      - "30028:80"
+    environment:
+      MONGO_PATH: mongodb://mongo:27017
+      DB_NAME: rai_reporting_tool
+      DB_TYPE: mongo
+    depends_on:
+      mongo:
+        condition: service_healthy
+    networks:
+      - rai-network
+
+  mfe:
+    build:
+      context: ./responsible-ai-mfe
+      dockerfile: Dockerfile
+    ports:
+      - "30055:30055"
+    environment:
+      HOMEFILEPATHURL: http://localhost:30055
+      DICOMFILEPATHURL: http://localhost:30055
+      MASTERURL: http://localhost:30016/api/v1/rai/admin/ConfigApi
+      ENABLESEARCH: "admin,user"
+      AUTHORITY_API: http://localhost:30019/v1/rai/backend/pageauthoritynew
+      WEBSOCKET_URL: ""
+      AUTH_TOKEN: ""
+      NG_SERVE_CMD: "ng serve --host 0.0.0.0 --port 30055 --disable-host-check"
+    depends_on:
+      - admin
+      - backend
+    networks:
+      - rai-network
+
+  shell:
+    build:
+      context: ./responsible-ai-shell
+      dockerfile: Dockerfile
+    ports:
+      - "30010:30010"
+    environment:
+      SERVER_API_URL: http://localhost:30019/v1/rai/backend
+      FRONTEND_URL: http://0.0.0.0:30010
+      ADMIN_URL: http://localhost:30016
+      LOGIN_USER_NAME: admin
+      LOGIN_USER_CRED: admin
+      NG_SERVE_CMD: "ng serve --host 0.0.0.0 --port 30010"
+      MFE_URL: http://localhost:30055
+      AZURE_CLIENTID: ""
+      AZURE_AUTHORITY: ""
+      AZURE_REDIRECTURI: ""
+      SSO_BASED_LOGIN: "false"
+      TELEMETRY_DASHBOARD: ""
+    depends_on:
+      - admin
+      - backend
+      - mfe
+    networks:
+      - rai-network

@@ -32,4 +32,4 @@ boto3
 langchain-aws
 google-generativeai
 fkscore
-../lib/better_profanity-2.0.0-py3-none-any.whl
+src/lib/better_profanity-2.0.0-py3-none-any.whl

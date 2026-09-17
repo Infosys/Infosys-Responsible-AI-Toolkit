@@ -8,7 +8,7 @@ Copy . .
 RUN pip3 install -r requirements/requirement.txt
 WORKDIR src
  
-CMD ["sh", "-c", "python3 main.py"]
+CMD ["sh", "-c", "python3 privacy_main.py"]
  
  
 

@@ -1,4 +1,4 @@
-FROM infyartifactory.jfrog.io/responsibleai-mms-kubeflow/node:v20.11.1
+FROM node:20.11.1
 
 RUN apt-get update && apt-get install -y nodejs npm
 
@@ -14,8 +14,7 @@ WORKDIR /app
  
 
 COPY package.json /app
-COPY .npmrc /app
- 
+
 
 RUN npm install --legacy-peer-deps
 
