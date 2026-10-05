@@ -15,7 +15,7 @@ from pathlib import Path
 
 def get_install_requires() -> list[str]:
     """Returns requirements.txt parsed to a list"""
-    fname = Path(__file__).parent / 'requirement/requirements.txt'
+    fname = Path(__file__).parent / 'requirements/requirements.txt'
     targets = []
     if fname.exists():
         with open(fname, 'r') as f:
