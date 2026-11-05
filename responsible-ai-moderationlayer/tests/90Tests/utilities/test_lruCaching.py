@@ -124,15 +124,14 @@ class TestLRUCache:
 
     @patch('src.utilities.lruCaching.time.time')
     def test_lru_cache_response_none_result_raises_error(self, mock_time):
-        """Test that None result raises KeyError (bug in implementation)."""
+        """Test that a None result raises the intended 'invalid response' error, even for a prompt with no existing cache entry."""
         cache = LRUCache()
         mock_time.return_value = 1000
-        
+
         mock_func = MagicMock(return_value=None)
         wrapped_func = cache.lru_cache_response(mock_func, ttl=7200, max_size=750, flag="True")
-        
-        # The implementation has a bug - it tries to delete a non-existent key
-        with pytest.raises(KeyError):
+
+        with pytest.raises(Exception, match="Invalid Response received!!"):
             wrapped_func("test_prompt")
 
     @patch('src.utilities.lruCaching.time.time')

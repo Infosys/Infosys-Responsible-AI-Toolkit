@@ -79,7 +79,7 @@ class LRUCache:
                     log.info(f"cache size : {len(self.cache)}")
                     return self.cache[key][0]
                 
-                if len(self.cache) > max_size:
+                if len(self.cache) >= max_size:
                     log.info("Cache is full, remove oldest prompt and its response")
                     oldest_key = lru_queue.pop(0)
                     del self.cache[oldest_key]
@@ -89,7 +89,7 @@ class LRUCache:
                 if result is None: # Exception handling for None response
                     log.error("Invalid response received, refreshing cache")
                     log.info(f"cache size : {len(self.cache)}")
-                    del self.cache[key]  # Invalidate cache entry
+                    self.cache.pop(key, None)  # Invalidate cache entry, if present
                     raise Exception("Invalid Response received!!")
                 else: 
                     log.info("May be Time exceeded or memory is full or it's a new entry for cache !!")
