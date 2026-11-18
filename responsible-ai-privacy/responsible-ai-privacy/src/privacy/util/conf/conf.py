@@ -13,14 +13,14 @@ import os
 from presidio_analyzer.nlp_engine import NlpEngineProvider
 from presidio_analyzer import Pattern, PatternRecognizer, AnalyzerEngine, RecognizerRegistry,predefined_recognizers
 # 
-class ConfModle:
-    def getAnalyzerEngin(str):
-        modle=json.loads(os.getenv(str))
+class ConfModel:
+    def get_analyzer_engine(self, str):
+        model=json.loads(os.getenv(str))
         configuration = {
     "nlp_engine_name": "spacy",
     "models": [
-        
-            modle
+
+            model
             # print(recog_list)
 ]}
         provider = NlpEngineProvider(nlp_configuration=configuration)

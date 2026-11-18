@@ -1,5 +1,5 @@
 import ipaddress
-import secrets
+import random
 from gibberish_detector import detector
 ## USERNAME IS IN IGNORE BECAUSE MODEL IS DETECTING FALSE POSITIVES
 ## It is given in ignore list, in starCoder repo itself
@@ -43,13 +43,10 @@ POPULAR_DNS_SERVERS = [
 
 def is_key(matched_str):
     """Checks to make sure the PII span is long enough and is gibberish and not word like"""
-    # pip install gibberish-detector
-    # download the training corpora from https://raw.githubusercontent.com/domanchi/gibberish-detector/master/examples/big.txt
-    # run gibberish-detector train big.txt > big.model to generate the model (it takes 3 seconds)
-    Detector = detector.create_from_model(
+    detector_instance = detector.create_from_model(
         "privacy/util/code_detect/ner/pii_redaction/gibberish_data/big.model"
     )
-    is_gibberish = Detector.is_gibberish(matched_str.lower())
+    is_gibberish = detector_instance.is_gibberish(matched_str.lower())
     return is_gibberish and len(matched_str) > 8
 
 
@@ -64,31 +61,16 @@ def is_full_name(matched_str):
 
 
 def get_replacements():
-    ip_addresses = REPLACEMENTS_IP
     return {
         "EMAIL": ["<EMAIL>"],
         "KEY": ["<KEY>"],
         "NAME": ["<NAME>"],
         "IP_ADDRESS": ["<IP_ADDRESS>"],
-        # "USERNAME" : ["<USERNAME>"]
     }
 
 
-# def replace_ip(value, replacements_dict):
-#     """Replace an IP address with a synthetic IP address of the same format"""
-#     try:
-#         ipaddress.IPv4Address(value)
-#         return secrets.choice(replacements_dict["IP_ADDRESS"]["IPv4"])
-#     except ValueError:
-#         try:
-#             ipaddress.IPv6Address(value)
-#             return secrets.choice(replacements_dict["IP_ADDRESS"]["IPv6"])
-#         except ValueError:
-#             # this doesn't happen if we already use ipaddress filter in the detection
-#             print("Invalid IP address")
-#             return value
 
-def replace_ip(value):
+def replace_ip(_):
     """Replace an IP address with a synthetic IP address of the same format"""
     return "<IP_ADDRESS>"
 
@@ -96,11 +78,10 @@ def replace_ip(value):
 def is_secret_ip(ip):
     """Check if an IP address is allocated for private networks (non internet facing), or is not an ip address at all"""
     try:
-        ip = ipaddress.ip_address(ip)
+        ip_address = ipaddress.ip_address(ip)
     except ValueError:
-        # not an ip address
         return True
-    return ip.is_private
+    return ip_address.is_private
 
 
 def redact_pii_text(text, secrets, replacements, add_references=False):
@@ -117,7 +98,7 @@ def redact_pii_text(text, secrets, replacements, add_references=False):
     modified = False
     if secrets:
         secrets = sorted(secrets, key=lambda x: x["start"])
-        # store the secrets that were replaced here with their replacements
+        
         replaced_secrets = {}
         subparts = []
         references = []
@@ -126,12 +107,11 @@ def redact_pii_text(text, secrets, replacements, add_references=False):
         for secret in secrets:
             print(f"Processing secret:")
 
-            # some post-processing 
+          
             if secret["tag"] in IGNORE or not is_secret(secret["value"]):
                 continue
             if secret["tag"] == "IP_ADDRESS":
                 print("IP_ADDRESS detected")
-                # skip if it's not actual ip address, is a popular DNS server or private IP address
                 if is_secret_ip(secret["value"]) or (
                     secret["value"] in POPULAR_DNS_SERVERS
                 ):
@@ -140,8 +120,10 @@ def redact_pii_text(text, secrets, replacements, add_references=False):
                 continue
             if secret["tag"] == "NAME" and not is_full_name(secret["value"]):
                 continue
+            if secret["end"] <= step:
+                continue
             modified = True
-            subtext = text[step : secret["start"]]
+            subtext = text[step : max(step, secret["start"])]  #  Prevent negative slices
             subpart = subtext if subtext else " "
             subparts.append(subpart)
             if secret["value"] in replaced_secrets:
@@ -150,16 +132,15 @@ def redact_pii_text(text, secrets, replacements, add_references=False):
                 if secret["tag"] == "IP_ADDRESS":
                     replacement = replace_ip(secret["value"])
                 else:
-                    replacement = secrets.choice(replacements[secret["tag"]])
+                    replacement = random.choice(replacements[secret["tag"]])
                 replaced_secrets[secret["value"]] = replacement
             subparts.append(replacement)
             replaced_secrets[secret["value"]] = replacement
             if add_references:
                 references.append(subpart)
                 references.append(f"PI:{secret['tag']}:{replacement}END_PI")
-            last_text = text[secret["end"] :]
-            step = secret["end"]
-        # if subparts are not empty join them (it can be empty when all secrets were skipped)
+            step = max(step, secret["end"])  # Never go backwards
+            last_text = text[step:]
         new_text = "".join(subparts) + last_text if subparts else last_text
         if add_references:
             references = "".join(references) + last_text if references else ""

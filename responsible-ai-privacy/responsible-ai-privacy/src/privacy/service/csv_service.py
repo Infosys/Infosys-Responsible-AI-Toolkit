@@ -8,8 +8,10 @@ from privacy.service.imagePrivacy import AttributeDict, ImagePrivacy
 from privacy.service.api_req import ApiCall
 from privacy.config.logger import request_id_var
 
-from privacy.service.__init__ import *
+from privacy.service.__init__ import AttributeDict,registry,admin_par,update_session_dict,roberta_recog,ranha_recog
 from privacy.util.special_recognizers.DataListRecognizer import DataListRecognizer
+from privacy.util.special_recognizers.fakeData import FakeDataGenerate
+from privacy.util.special_recognizers.fakeDataCSV import FakeDataCSVGenerate
 
 
 
@@ -20,7 +22,7 @@ class CSVService:
     def csv_anonymize(payload):
         try:
             payload = AttributeDict(payload)
-            if(payload.portfolio!=None or payload.account!=None):
+            if(payload.portfolio is not None or payload.account is not None):
                 response_value=ApiCall.request(AttributeDict({"portfolio":payload.portfolio,"account":payload.account}))
                 if(response_value==None):
                         return None
@@ -28,24 +30,24 @@ class CSVService:
              
             file = payload["file"]
             keys_to_skip = payload["keys_to_skip"]
-            piiEntitiesToBeRedacted=[]
-            if payload["piiEntitiesToBeRedacted"] is not None:
-               piiEntitiesToBeRedacted=payload["piiEntitiesToBeRedacted"].split(',')
+            pii_entities_to_be_redacted=[]
+            if payload["pii_entities_to_be_redacted"] is not None:
+               pii_entities_to_be_redacted=payload["pii_entities_to_be_redacted"].split(',')
                  
-            accName=None
+            acc_name=None
             if(payload.portfolio!=None):
-                accName=AttributeDict({"portfolio":payload.portfolio,"account":payload.account})
+                acc_name=AttributeDict({"portfolio":payload.portfolio,"account":payload.account})
             nlp=payload["nlp"]
             exclusion=payload.exclusion.split(',') if payload.exclusion != None else []
              
-            spRecog=None
+            sp_recog=None
             if(nlp=="roberta"):
-                spRecog=[roberta_recog]
+                sp_recog=[roberta_recog]
             if(nlp=="ranha"):
                 # registry.add_recognizer(ranha_recog)
-                if(piiEntitiesToBeRedacted==None and  accName==None):
-                    piiEntitiesToBeRedacted=list(set(ranha_recog.supported_entities+registry.get_supported_entities()))
-                spRecog=[ranha_recog]
+                if(pii_entities_to_be_redacted==None and  acc_name==None):
+                    pii_entities_to_be_redacted=list(set(ranha_recog.supported_entities+registry.get_supported_entities()))
+                sp_recog=[ranha_recog]
 
             # Initialize the analyzer and anonymizer engines
             
@@ -67,64 +69,62 @@ class CSVService:
              
             # Analyze the data
             analyzer_results = []
-            if(accName==None):
+            if(acc_name==None):
                 
-                if(piiEntitiesToBeRedacted == None):
-                    analyzer_results = batch_analyzer.analyze_dict(dff, language="en", keys_to_skip=keys_to_skip,allow_list=exclusion,return_decision_process = True,score_threshold=0.5,ad_hoc_recognizers=spRecog)
+                if(pii_entities_to_be_redacted == None):
+                    analyzer_results = batch_analyzer.analyze_dict(dff, language="en", keys_to_skip=keys_to_skip,allow_list=exclusion,return_decision_process = True,score_threshold=payload.score_threshold if payload.score_threshold is not None else 0,ad_hoc_recognizers=sp_recog)
                 else:
                     try:
-                        analyzer_results = batch_analyzer.analyze_dict(dff, language="en", keys_to_skip=keys_to_skip,allow_list=exclusion,entities=piiEntitiesToBeRedacted,return_decision_process = True,score_threshold=0.5,ad_hoc_recognizers=spRecog)
+                        analyzer_results = batch_analyzer.analyze_dict(dff, language="en", keys_to_skip=keys_to_skip,allow_list=exclusion,entities=pii_entities_to_be_redacted,return_decision_process = True,score_threshold=payload.score_threshold if payload.score_threshold is not None else 0,ad_hoc_recognizers=sp_recog)
                     except Exception as e:
                         log.error(str(e))
                         raise e
             else:
-                preEntity=[]
-                dataistEnt = []
-                
-                response_value = ApiCall.request(accName)
+                pre_entity = []
+                dataist_ent = []
+
+                response_value = ApiCall.request(acc_name)
                 if response_value == None:
                         return None
                 if(response_value==404):
                         
                         return response_value
-                entityType,datalist,preEntity=response_value
+                entity_type,datalist,pre_entity=response_value
                 for d in range(len(datalist)):
-                    record=ApiCall.getRecord(entityType[d])
+                    record=ApiCall.getRecord(entity_type[d])
                     record=AttributeDict(record)
                     log.debug("Record====="+str(record))
-
-                        # predefined_recognizers.data_recognizer.DataList.entity.clear()
-                        # predefined_recognizers.data_recognizer.DataList.resetData()
                     if(record.RecogType=="Data"):
-                                
-                            dataRecog=(DataListRecognizer(terms=datalist[d],entitie=[entityType[d]]))
-                            registry.add_recognizer(dataRecog)
-                                # predefined_recognizers.data_recognizer.DataList.entity.append(entityType[d])
-                                # predefined_recognizers.data_recognizer.DataList.setData(datalist[d])
-                                 
-                                
-                            update_session_dict(entityType[d], datalist[d])
-                            data = {entityType[d]: datalist[d]}
-                            dataistEnt.append(data)
+
+                            data_recog=(DataListRecognizer(terms=datalist[d],entitie=[entity_type[d]]))
+                            registry.add_recognizer(data_recog)
+
+
+                            update_session_dict(entity_type[d], datalist[d])
+                            data = {entity_type[d]: datalist[d]}
+                            dataist_ent.append(data)
                     
                     elif(record.RecogType=="Pattern" and record.isPreDefined=="No"):
-                            contextObj=record.Context.split(',')
+                            context_obj=record.Context.split(',')
                             pattern="|".join(datalist[d])
                              
                             log.debug("pattern="+str(pattern))
-                            patternObj = Pattern(name=entityType[d],
+                            pattern_obj = Pattern(name=entity_type[d],
                                                         regex=pattern,
                                                         score=record.Score)
-                            patternRecog = PatternRecognizer(supported_entity=entityType[d],
-                                                                    patterns=[patternObj],context=contextObj)
-                            registry.add_recognizer(patternRecog)  
-                                            
+                            pattern_recog = PatternRecognizer(supported_entity=entity_type[d],
+                                                                    patterns=[pattern_obj],context=context_obj)
+                            registry.add_recognizer(pattern_recog)
 
-                analyzer_results=batch_analyzer.analyze_dict(dff,language="en", keys_to_skip=keys_to_skip,allow_list=exclusion,entities=entityType+preEntity,score_threshold=admin_par[request_id_var.get()]["scoreTreshold"],ad_hoc_recognizers=spRecog)
+                analyzer_results=batch_analyzer.analyze_dict(dff,language="en", keys_to_skip=keys_to_skip,allow_list=exclusion,entities=entity_type+pre_entity,score_threshold=admin_par[request_id_var.get()]["scoreTreshold"],ad_hoc_recognizers=sp_recog)
                 log.debug("Analyzer results: " + str(analyzer_results))
 
              
             dfs=list(analyzer_results)
+            dict_operators = {} 
+            if payload.fakeData == True:
+                fake_dict_operator,dfs = FakeDataCSVGenerate.fakeDataGeneration(dfs,list(dff))
+                dict_operators.update(fake_dict_operator)
             # Anonymize the data
             anonymizer_results = batch_anonymizer.anonymize_dict(dfs)
             log.debug("Anonymizer results: " + str(anonymizer_results))
@@ -141,7 +141,6 @@ class CSVService:
             # Save the CSV to a temporary file
             with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as temp_file:
                 temp_file.write(output.getvalue().encode())
-                temp_file_path = temp_file.name
 
             log.debug("Returning from csv_anonymize function")
             return output

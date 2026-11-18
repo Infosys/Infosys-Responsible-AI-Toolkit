@@ -1,7 +1,0 @@
-models/
-*.whl
-*.pyc
-*39.pyc
-myenv/
-build/
-dist/

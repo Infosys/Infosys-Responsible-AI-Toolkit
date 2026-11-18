@@ -1,5 +1,5 @@
 '''
-License textMIT Licensehttps://mit-license.org/Copyright © 2025 Infosys Ltd.
+License textMIT Licensehttps://mit-license.org/Copyright © 2026 Infosys Ltd.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -34,16 +34,35 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from privacy.exception.exception import UnSupportedMediaTypeException
 from privacy.exception import exception
+from privacy.service.__init__ import AttributeDict,registry
+from privacy.service.loadRecognizer import LoadRecognizer
 
-
+import json
 import os
+
+
+DEFAULT_CONTENT_SECURITY_POLICY = (
+    "default-src 'self'; "
+    "object-src 'none'; "
+    "base-uri 'self'; "
+    "frame-ancestors 'none'"
+)
+
+
+def _get_hardened_csp(csp_value):
+    if not csp_value:
+        return DEFAULT_CONTENT_SECURITY_POLICY
+    normalized = " ".join(csp_value.split())
+    if "*" in normalized:
+        return DEFAULT_CONTENT_SECURITY_POLICY
+    return normalized
 
 log=CustomLogger()
 
 cache_control = os.getenv("cache_control")
 allow_methods = os.getenv("allow_methods")
 allow_origins = os.getenv("allow_origin")
-content_security_policy = os.getenv("content_security_policy")
+content_security_policy = _get_hardened_csp(os.getenv("content_security_policy"))
 XSS_header = os.getenv("XSS_header")
 Vary_header = os.getenv("Vary_header")
 Pragma = os.getenv("Pragma")
@@ -98,6 +117,42 @@ class XSSProtectionMiddleware(BaseHTTPMiddleware):
         return response
  
 app.add_middleware(XSSProtectionMiddleware)
+
+# --- Startup Event Handler ---
+@app.on_event("startup")
+async def startup_event():
+    print("DEBUG: Entering startup_event to load custom recognizers (via print).")
+    log.info("Entering startup_event to load custom recognizers.")
+
+    json_file_path = "recogList.json"
+    print(f"DEBUG: Calculated recognizer JSON file path: {json_file_path} (via print)")
+    log.info(f"Attempting to load initial recognizers from: {json_file_path}")
+
+    try:
+        with open(str(json_file_path), 'r', encoding='utf-8') as f:
+            file_contents = f.read()
+        print(f"DEBUG: Successfully read file contents from: {json_file_path} (via print)")
+        log.info(f"Successfully read file contents from: {json_file_path}")
+
+        initial_payload = AttributeDict({
+            'contents_bytes': file_contents.encode("utf-8")
+        })
+
+        LoadRecognizer.set_recognizer(initial_payload)
+        print("DEBUG: Initial recognizers loaded successfully into registry (via print).")
+        log.info("Initial recognizers loaded successfully into registry.")
+        print(f"DEBUG: Available recognizers after startup: {registry.get_supported_entities()} (via print)")
+        log.info(f"Available recognizers after startup: {registry.get_supported_entities()}")
+
+    except FileNotFoundError:
+        print(f"DEBUG: Initial recognizer config file not found at '{json_file_path}' (via print).")
+        log.warning(f"Initial recognizer config file not found at '{json_file_path}'. No initial recognizers loaded from file.")
+    except json.JSONDecodeError as e:
+        print(f"DEBUG: Error decoding JSON from '{json_file_path}': {e} (via print)")
+        log.error(f"Error decoding JSON from '{json_file_path}': {e}")
+    except Exception as e:
+        print(f"DEBUG: An unexpected error occurred during initial recognizer loading: {e} (via print)")
+        log.error(f"An unexpected error occurred during initial recognizer loading: {e}", exc_info=True)
 
 # app.add_middleware(
 #      CORSMiddleware,

@@ -1,1 +1,0 @@
-# Mapper tests package

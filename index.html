@@ -287,7 +287,7 @@
     function loadContent(url, title) {
         // Reset scroll position first
         window.scrollTo(0, 0);
-        
+
         const contentDiv = document.getElementById("page-content");
         const pageNavigation = document.getElementById("page-navigation");
         const navLinks = document.querySelectorAll('.navbar a');
@@ -308,10 +308,10 @@
                 contentDiv.innerHTML = html;
                 document.body.classList.add("minimized");
                 contentDiv.classList.add("content-with-nav"); // Add class when loading content
-                
+
                 // Move navigation and ensure it's properly positioned
                 moveNavigation();
-                
+
                 // Update active state
                 navLinks.forEach(link => {
                     link.classList.remove('active');
@@ -319,7 +319,7 @@
                         link.classList.add('active');
                     }
                 });
-                
+
                 // Force scroll to top again after content is loaded
                 window.scrollTo(0, 0);
             })

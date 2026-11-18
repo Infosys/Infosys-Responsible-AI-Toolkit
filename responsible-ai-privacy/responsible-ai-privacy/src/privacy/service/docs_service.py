@@ -17,7 +17,7 @@ from PIL import Image
 from privacy.service.imagePrivacy import AttributeDict, ImagePrivacy
 from privacy.service.api_req import ApiCall
 from privacy.service.textPrivacy import TextPrivacy
-from privacy.service.__init__ import *
+from privacy.service.__init__ import AttributeDict
 import numpy as np
 from privacy.config.logger import request_id_var
 from privacy.config.logger import CustomLogger
@@ -30,21 +30,25 @@ import tempfile
 
 log = CustomLogger()
 error_dict = {}
-
+from presidio_anonymizer import AnonymizerEngine
+from presidio_anonymizer.entities import ConflictResolutionStrategy
+anonymizer = AnonymizerEngine()
 from docx.oxml.ns import qn
 from docx.oxml import OxmlElement
+LINE_NO_LABEL = "Line No:"
 
 class DOCService:
-    def processImages(paragraph, run, payload, uid):
+    @staticmethod
+    def process_images(run, payload, uid):
         try:
             request_id_var.set(uid)
             blip = run._element.xpath('.//pic:blipFill/a:blip')[0]
-            rId = blip.get(qn('r:embed'))
-            log.debug(f"Relationship ID: {rId}")
-            
+            r_id = blip.get(qn('r:embed'))
+            log.debug(f"Relationship ID: {r_id}")
+
             # Get the image part using the relationship ID
             document_part = run.part
-            image_part = document_part.related_parts[rId]
+            image_part = document_part.related_parts[r_id]
             img_bytes = image_part.blob
             log.debug(f"Image bytes length: {len(img_bytes)}")
             
@@ -52,13 +56,13 @@ class DOCService:
                 log.debug("Image is too small to process.")
                 return None
             
-            imgd = io.BytesIO(img_bytes)
-            payload["image"] = AttributeDict({"file": imgd})
-            resImage = ImagePrivacy.image_anonymize(AttributeDict(payload))
-            log.debug(f"Anonymized image response: {resImage}")
-            resImg = base64.b64decode(resImage)
-            img_stream = io.BytesIO(resImg)
-            img = Image.open(img_stream)
+            with io.BytesIO(img_bytes) as imgd:
+                payload["image"] = AttributeDict({"file": imgd})
+                res_image = ImagePrivacy.image_anonymize(AttributeDict(payload))
+            log.debug(f"Anonymized image response: {res_image}")
+            res_img = base64.b64decode(res_image)
+            with io.BytesIO(res_img) as img_stream:
+                img = Image.open(img_stream).copy()
             
             # Use tempfile to create a temporary file
             with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_file:
@@ -70,27 +74,27 @@ class DOCService:
             os.remove(img_path)
         except Exception as e:
             log.error(str(e))
-            log.error("Line No:" + str(e.__traceback__.tb_lineno))
+            log.error(LINE_NO_LABEL + str(e.__traceback__.tb_lineno))
             log.error(str(e.__traceback__.tb_frame))
             if request_id_var.get() not in error_dict:
                 error_dict[request_id_var.get()] = []
-            error_dict[request_id_var.get()].append({"UUID": request_id_var.get(), "function": "DOCMASKMainFunction", "msg": str(e.__class__.__name__), "description": str(e) + "Line No:" + str(e.__traceback__.tb_lineno)})
-            raise Exception(e)
+            error_dict[request_id_var.get()].append({"UUID": request_id_var.get(), "function": "DOCMASKMainFunction", "msg": str(e.__class__.__name__), "description": str(e) + LINE_NO_LABEL + str(e.__traceback__.tb_lineno)})
+            raise RuntimeError(e)
 
     def editText(text, i, run):
         request_id_var.set("editText")
         print(text[i.start : i.end])
         run.text = run.text.replace(text[i.start:i.end], f"<{i.entity_type}>")
-
-    def processText(paragraph, payload, uid):
+    @staticmethod
+    def process_text(paragraph, payload, uid):
         try:
             request_id_var.set(uid)
             for run in paragraph.runs:
                 text = run.text
-                accDetails = None
+                acc_details = None
                 if payload.portfolio is not None:
-                    accDetails = AttributeDict({"portfolio": payload.portfolio, "account": payload.account})
-                res = TextPrivacy.textAnalyze(text=text, accName=accDetails, exclusion=payload.exclusion.split(',') if payload.exclusion is not None else [],piiEntitiesToBeRedacted=payload.piiEntitiesToBeRedacted.split(',') if payload.piiEntitiesToBeRedacted != None else [],nlp=payload.nlp)
+                    acc_details = AttributeDict({"portfolio": payload.portfolio, "account": payload.account})
+                res = TextPrivacy.text_analyze(text=text, acc_name=acc_details, exclusion=payload.exclusion.split(',') if payload.exclusion is not None else [],pii_entities_to_be_redacted=payload.pii_entities_to_be_redacted.split(',') if payload.pii_entities_to_be_redacted != None else [],nlp=payload.nlp, score_threshold=payload.score_threshold if payload.score_threshold is not None else 0.0)
                 res = anonymizer._remove_conflicts_and_get_text_manipulation_data(res, (ConflictResolutionStrategy.MERGE_SIMILAR_OR_CONTAINED))
                 res = anonymizer._merge_entities_with_whitespace_between(text, res)
                 resThreads = []
@@ -102,18 +106,18 @@ class DOCService:
                     thread.join()
         except Exception as e:
             log.error(str(e))
-            log.error("Line No:" + str(e.__traceback__.tb_lineno))
+            log.error(LINE_NO_LABEL + str(e.__traceback__.tb_lineno))
             log.error(str(e.__traceback__.tb_frame))
             if request_id_var.get() not in error_dict:
                 error_dict[request_id_var.get()] = []
-            error_dict[request_id_var.get()].append({"UUID": request_id_var.get(), "function": "DOCMASKMainFunction", "msg": str(e.__class__.__name__), "description": str(e) + "Line No:" + str(e.__traceback__.tb_lineno)})
-            raise Exception(e)
-
+            error_dict[request_id_var.get()].append({"UUID": request_id_var.get(), "function": "DOCMASKMainFunction", "msg": str(e.__class__.__name__), "description": str(e) + LINE_NO_LABEL + str(e.__traceback__.tb_lineno)})
+            raise RuntimeError(e)
+    @staticmethod
     def mask_doc(payload):
         try:
             log.debug("payload:-" + str(payload))
-            id = uuid.uuid4().hex
-            request_id_var.set(id)
+            request_id = uuid.uuid4().hex
+            request_id_var.set(request_id)
             payload=AttributeDict(payload)
 
             if payload.portfolio is not None or payload.account is not None:
@@ -125,7 +129,7 @@ class DOCService:
 
             for paragraph in doc_file.paragraphs:
                 threads = []
-                thread = threading.Thread(target=DOCService.processText, args=(paragraph, payload, id))
+                thread = threading.Thread(target=DOCService.process_text, args=(paragraph, payload, id))
                 thread.start()
                 threads.append(thread)
                 for run in paragraph.runs:
@@ -143,10 +147,10 @@ class DOCService:
             return doc_bytes
         except Exception as e:
             log.error(str(e))
-            log.error("Line No:" + str(e.__traceback__.tb_lineno))
+            log.error(LINE_NO_LABEL + str(e.__traceback__.tb_lineno))
             log.error(str(e.__traceback__.tb_frame))
             if request_id_var.get() not in error_dict:
                 error_dict[request_id_var.get()] = []
-            error_dict[request_id_var.get()].append({"UUID": request_id_var.get(), "function": "DOCMASKMainFunction", "msg": str(e.__class__.__name__), "description": str(e) + "Line No:" + str(e.__traceback__.tb_lineno)})
-            raise Exception(e)
+            error_dict[request_id_var.get()].append({"UUID": request_id_var.get(), "function": "DOCMASKMainFunction", "msg": str(e.__class__.__name__), "description": str(e) + LINE_NO_LABEL + str(e.__traceback__.tb_lineno)})
+            raise RuntimeError(e)
         

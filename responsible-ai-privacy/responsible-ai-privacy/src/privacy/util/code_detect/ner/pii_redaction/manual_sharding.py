@@ -29,7 +29,7 @@ def save_manual_shards(
     out_path = remote_dataset_repo if local_dir is None else local_dir
     # if out path doesnt already exist
     if not os.path.exists(out_path):
-        repo = Repository(
+        Repository(
             local_dir=out_path,
             clone_from=user + "/" + remote_dataset_repo,
             repo_type="dataset",

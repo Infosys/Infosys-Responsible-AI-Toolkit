@@ -18,39 +18,42 @@ import secrets
 faker = Faker()
 
 class FakeData:
-
-    def PERSON():
+    @staticmethod
+    def person():
         return faker.name()
     
-    def EMAIL_ADDRESS():
+    @staticmethod
+    def email_address():
         return faker.email()
-    
-    def US_SSN():
+
+    @staticmethod
+    def us_ssn():
         return faker.ssn()
     
-    def ADDRESS():
+    @staticmethod   
+    def address():
         return faker.address()
-    
-    def DATE_TIME():
+    @staticmethod
+    def date_time():
         return faker.date()
-    
-    def LOCATION():
+    @staticmethod
+    def location():
         return faker.city()
     
-
-    def CREDIT_CARD():
+    @staticmethod
+    def credit_card():
         return faker.credit_card_number()
-    
-    def CRYPTO():
+    @staticmethod
+    def crypto():
         return faker.cryptocurrency_name()
-    
-    def DATE():
+    @staticmethod
+    def date():
         return faker.date()
-    
-    def IP_ADDRESS():
+    @staticmethod
+    def ip_address():
         return faker.ipv4()
-    
-    def PHONE_NUMBER():
+    @staticmethod
+    def phone_number():
         return faker.phone_number()
     
     # def AADHAR_NUMBER():
@@ -67,15 +70,16 @@ class FakeData:
     #     print(t)
         
     #     return t
-    
-    def IBAN_CODE():
+    @staticmethod
+    def iban_code():
         return faker.iban()
-    
-    def PASSPORT():
+    @staticmethod
+    def passport():
         # print("faker.passport_number()",faker.passport_number())
         return faker.passport_number()
 
-    def DataList(data,text):
+    @staticmethod
+    def data_list(data,text):
         random_data=secrets.choice([item for item in data if str(item).lower() != text.lower()])
         return random_data
 

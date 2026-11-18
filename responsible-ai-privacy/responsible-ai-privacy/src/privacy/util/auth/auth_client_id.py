@@ -29,7 +29,7 @@ security = HTTPBearer()
 log = logging.getLogger(__name__)
 def get_public_keys():
     jwks_url = os.getenv('AZURE_AD_JWKS_URL')
-    response = requests.get(jwks_url)
+    response = requests.get(jwks_url, verify=True, timeout=10)
     if response.status_code != 200:
         log.error(f"Failed to fetch JWKS: HTTP {response.status_code}")
         raise HTTPException(status_code=500, detail="Failed to fetch JWKS")
@@ -38,26 +38,46 @@ def get_public_keys():
     if 'keys' not in jwks:
         log.error("JWKS response does not contain 'keys'")
         raise HTTPException(status_code=500, detail="JWKS response format is invalid")
-    #print("keys is :",jwks['keys'])
+    
     log.info(f"JWKS response: {jwks}")
     return {key['kid']: key for key in jwks['keys']}
 
 
 def authenticate_client_id(credentials: HTTPAuthorizationCredentials = Depends(security)):
         authorization = credentials.credentials
-        headers = {'Authorization': f"Bearer {authorization}"}
         if authorization:
             try:
-                header = jwt.get_unverified_header(authorization)
-                kid = header['kid']
+                # Get public keys first
                 keys = get_public_keys()
-                key = keys[kid]
-                decoded_token = jwt.decode(authorization, key, algorithms=['HS256'], audience=AZURE_CLIENT_ID, options={"verify_signature": True})
-                #print("decoded token is :",decoded_token)
+                
+                # Try to decode with each key until one works
+                # This avoids using get_unverified_header which could be exploited
+                decoded_token = None
+                last_error = None
+                
+                for kid, key in keys.items():
+                    try:
+                        decoded_token = jwt.decode(
+                            authorization, 
+                            key, 
+                            algorithms=['RS256'],  # Azure AD uses RS256, not HS256
+                            audience=AZURE_CLIENT_ID,
+                            options={"verify_signature": True}
+                        )
+                        break  # Successfully decoded
+                    except JWTError as e:
+                        last_error = e
+                        continue  # Try next key
+                
+                if decoded_token is None:
+                    raise last_error or JWTError("Unable to verify token with any available key")
+                
                 log.info(f"Valid token: {decoded_token}")
                 log.info(f"Issuer: {decoded_token.get('iss')}")
                 log.info(f"Client ID: {decoded_token.get('aud')}")
                 log.info(f"Tenant ID: {decoded_token.get('tid')}")
+                
+                return decoded_token
             
             except ExpiredSignatureError as e:
                 log.error(f"Token has expired: {e}")

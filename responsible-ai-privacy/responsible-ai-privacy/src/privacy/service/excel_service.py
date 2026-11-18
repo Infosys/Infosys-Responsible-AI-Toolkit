@@ -15,8 +15,8 @@ import io, base64
 from PIL import Image
 import requests
 import pandas as pd
-from privacy.mappers.mappers import *
-from privacy.service.textPrivacy import *
+from privacy.mappers.mappers import PIICodeDetectRequest
+from privacy.service.textPrivacy import TextPrivacy
 import os
 import openpyxl
 from openpyxl.reader.excel import load_workbook
@@ -49,7 +49,7 @@ class Excel:
 
         try:
             with open(temp_filepath, "wb") as f:
-                shutil.copyfileobj(payload.excel.file, f)
+                shutil.copyfileobj(payload.file.file, f)
 
             wrkbk = openpyxl.load_workbook(temp_filepath)
             sh = wrkbk.active
@@ -57,20 +57,15 @@ class Excel:
             x = ""
             s = ""
             row = 0
-            col = 0
             path = os.path.join(temp_dir, "ExcelOutput.xlsx")
             workbook = xlsxwriter.Workbook(path)
-            worksheet = workbook.add_worksheet()
-            r = 0
-            list = []
-            i = 0
 
             for row in sh.iter_rows(min_row=1, min_col=1):
                 for cell in row:
                     cell_coor = cell.coordinate
                     print("cell", cell.coordinate)
                     print("cell_value=====", cell.value)
-                    payload1 = {"inputText": str(cell.value), "exclusionList": None, "portfolio": None, "account": None,"fakeData":False}
+                    payload1 = {"input_text": str(cell.value), "exclusion_list": None, "portfolio": None, "account": None,"fakeData":False}
                     payload1 = AttributeDict(payload1)
 
                     temp = TextPrivacy.anonymize(payload1)
@@ -98,13 +93,3 @@ class Excel:
                     os.remove(temp_filepath)
                 except Exception as e:
                     log.error(f"Error removing temporary file: {str(e)}")
-
-
-    @staticmethod
-    def createExcel(s, x, row, col, worksheet):
-        print("row187===", row)
-
-        for x in s.split(';*'):
-            worksheet.write(row, col, x)
-            col += 1
-

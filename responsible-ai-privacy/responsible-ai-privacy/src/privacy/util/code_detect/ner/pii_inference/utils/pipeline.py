@@ -38,7 +38,7 @@ class PiiNERPipeline:
             window_size=512,
             window_overlap=True,
             batch_size=None,
-            num_workers=1,
+            num_workers=0,
             id_to_label=None,
             fp16=False,
             bf16=False,
@@ -186,7 +186,7 @@ class PiiNERPipeline:
         return combined_chunks
 
     @staticmethod
-    def _get_pipeline_dataloader(dataset, tokenizer, batch_size, num_workers=1, window_size=None, window_overlap=True):
+    def _get_pipeline_dataloader(dataset, tokenizer, batch_size, num_workers=0, window_size=None, window_overlap=True):
         iterator = PipelineIterator(dataset, tokenizer, window_size=window_size, window_overlap=window_overlap)
         loader = DataLoader(iterator,
                             batch_size=batch_size,
@@ -289,7 +289,7 @@ class PipelineIterator(IterableDataset):
 
     def __iter__(self):
         iterator = self.dataset.to_iterable_dataset()
-        iterator = iterator.map(lambda x: self.tokenizer.encode_plus(
+        iterator = iterator.map(lambda x: self.tokenizer(
             x[self.text_column], return_offsets_mapping=True, add_special_tokens=False))
 
         for item in iterator:
@@ -319,13 +319,12 @@ def iterator_group_by(iterator: Iterable[Dict[str, Any]], column: str):
     curr_id = None
     grouped_items = []
     for item in iterator:
-        if item[column] != curr_id:
-            if curr_id is not None:
-                yield grouped_items
-                grouped_items = []
+        if item[column] != curr_id and curr_id is not None:
+            yield grouped_items
+            grouped_items = []
 
         curr_id = item[column]
         grouped_items.append(item)
 
-    if len(grouped_items) > 0:
+    if grouped_items:
         yield grouped_items

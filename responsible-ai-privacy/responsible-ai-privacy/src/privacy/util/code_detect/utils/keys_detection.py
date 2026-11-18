@@ -49,21 +49,20 @@ def is_gibberish(matched_str):
     # download the training corpora from https://raw.githubusercontent.com/domanchi/gibberish-detector/master/examples/big.txt
     # run gibberish-detector train big.txt > big.model to generate the model (it takes 3 seconds)
     # Detector = detector.create_from_model('gibberish_data/big.model')
-    Detector = detector.create_from_model('privacy/util/code_detect/gibberish_data/big.model')
-    return Detector.is_gibberish(matched_str.lower())
+    detector_instance= detector.create_from_model('privacy/util/code_detect/gibberish_data/big.model')
+    return detector_instance.is_gibberish(matched_str.lower())
 
 
 def is_hash(content, value):
     """Second check if the value is a hash (after gibberish detector)"""
     # get the line where value occurred
     try:
-        res = content.index(value)
+        idx = content.index(value)
     except ValueError:
-        # TODO: fix this issue happened one for JS in the stack-smol, file did contain value
         print("Value not found in content, why this happened?")
         return False
-    lines = content[:content.index(value)].splitlines()
-    target_line = lines[-1]
+    lines = content[:idx].splitlines()
+    target_line = lines[-1] if lines else ""
     if len(value) in [32, 40, 64]:
         # if "sha" or "md5" are in content:
         keywords = ["sha", "md5", "hash", "byte"]
@@ -116,7 +115,7 @@ def detect_keys(content, suffix=".txt"):
     secrets = SecretsCollection()
     with transient_settings(
         {"plugins_used": plugins, "filters_used": filters}
-    ) as settings:
+    ):
         secrets.scan_file(fp.name)
     os.unlink(fp.name)
     secrets_set = list(secrets.data.values())

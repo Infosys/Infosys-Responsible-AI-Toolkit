@@ -32,7 +32,7 @@ error_dict={}
 
 class VideoService:
         @staticmethod
-        def frameAnonymization(payload,frame,indx,results_dict_for_this_chunk, main_request_id,video_request_temp_root_path):
+        def frame_anonymization(payload,frame,indx,results_dict_for_this_chunk, main_request_id,video_request_temp_root_path):
                 try:
                     frame_op_log_id = f"frame_{indx}_{uuid.uuid4().hex[:8]}"
                     current_thread_token = None
@@ -69,7 +69,7 @@ class VideoService:
                             log.warning(f"[{main_request_id}|{frame_op_log_id}] Could not delete temp frame image {ipath}: {e_del}")
                     if current_thread_token:
                         request_id_var.reset(current_thread_token)
-        async def videoPrivacy(self,payload:dict) -> str:
+        async def video_privacy(self,payload:dict) -> str:
             main_req_id=uuid.uuid4().hex
             main_req_token=request_id_var.set(main_req_id)
             log.info(f"[{main_req_id}] Starting videoPrivacy process.")
@@ -84,9 +84,7 @@ class VideoService:
             try:     
                 payload=AttributeDict(payload)
                 upload_file = payload.video
-                filename=upload_file.filename
                 video_data = await upload_file.read()
-                s=time.time()
                 with open(temp_input_video_path, "wb") as f_in:
                     f_in.write(video_data)
                 del video_data
@@ -94,19 +92,18 @@ class VideoService:
 
                 cap = cv2.VideoCapture(temp_input_video_path)
                 if not cap.isOpened():
-                    raise Exception(f"[{main_req_id}] OpenCV could not open video file: {temp_input_video_path}")
+                    raise IOError(f"[{main_req_id}] OpenCV could not open video file: {temp_input_video_path}")
                 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
                 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
                 fps = cap.get(cv2.CAP_PROP_FPS)
                 total_frames_approx = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
                 if fps <= 0: fps = 30.0 # Sensible default
                 log.info(f"[{main_req_id}] Video properties: {width}x{height} @ {fps:.2f} FPS, ~{total_frames_approx} frames.")
-                sampling_rate=int(fps*0.3)
                   # Define the codec and create a VideoWriter object
                 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
                 out_writer = cv2.VideoWriter(output_video_path, fourcc, fps, (width, height))
                 if not out_writer.isOpened():
-                    raise Exception(f"[{main_req_id}] OpenCV could not open VideoWriter for: {output_video_path}")
+                     raise IOError(f"[{main_req_id}] OpenCV could not open VideoWriter for: {output_video_path}")  
                 log.info(f"[{main_req_id}] Output video writer initialized for {output_video_path}")
                 sampling_interval_seconds = 0.3 
                 sample_every_n_frames = max(1, int(fps * sampling_interval_seconds)) 
@@ -124,7 +121,6 @@ class VideoService:
                     while True:
                     # Holds (original_index, frame_data) for the current chunk
                         current_chunk_raw_frames_info: List[Dict] = [] 
-                        start_frame_idx_of_chunk = current_original_frame_idx
                     
                         for _ in range(FRAMES_PER_PROCESSING_CHUNK):
                             ret, frame = cap.read()
@@ -156,7 +152,7 @@ class VideoService:
                         futures = []
                         if frames_to_submit_for_anonymization:
                             for frame_info_to_anon in frames_to_submit_for_anonymization:
-                                future = executor.submit(VideoService.frameAnonymization,
+                                future = executor.submit(VideoService.frame_anonymization,
                                                      payload, # The main AttributeDict payload
                                                      frame_info_to_anon['data'], 
                                                      frame_info_to_anon['idx'],

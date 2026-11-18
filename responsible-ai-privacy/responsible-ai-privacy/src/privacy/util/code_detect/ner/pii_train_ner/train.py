@@ -196,7 +196,7 @@ def main(args):
 
     from datasets import concatenate_datasets
     train_data = concatenate_datasets([train_data, test_data])
-    print(f"Concatenated train and test data, new train size: {len(train_data)}")
+    print("Concatenated train and test data, new train size: {len(train_data)}")
 
 
     if args.dataset_name == "bigcode/pii-full-ds":
@@ -212,7 +212,7 @@ def main(args):
     test_data = prepare_dataset(test_data, tokenizer, args)
     valid_data = prepare_dataset(valid_data, tokenizer, args)
     print(
-        f"After tokenization:\nTrain size {len(train_data)}\nValid size {len(valid_data)}\nTest size {len(test_data)}"
+        "After tokenization:\nTrain size {len(train_data)}\nValid size {len(valid_data)}\nTest size {len(test_data)}"
     )
 
     if args.debug:
