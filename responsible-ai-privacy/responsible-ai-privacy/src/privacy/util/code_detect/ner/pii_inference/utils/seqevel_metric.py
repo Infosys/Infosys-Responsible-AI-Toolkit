@@ -19,6 +19,8 @@ from typing import List, Optional, Union
 from seqeval.metrics import accuracy_score, classification_report
 
 import datasets
+import evaluate
+SEQEVAL_URL = "https://github.com/chakki-works/seqeval"
 
 
 _CITATION = """\
@@ -98,13 +100,12 @@ Examples:
 """
 
 
-@datasets.utils.file_utils.add_start_docstrings(_DESCRIPTION, _KWARGS_DESCRIPTION)
-class Seqeval(datasets.Metric):
+class Seqeval(evaluate.Metric):
     def _info(self):
-        return datasets.MetricInfo(
+        return evaluate.MetricInfo(
             description=_DESCRIPTION,
             citation=_CITATION,
-            homepage="https://github.com/chakki-works/seqeval",
+            homepage=SEQEVAL_URL,
             inputs_description=_KWARGS_DESCRIPTION,
             features=datasets.Features(
                 {
@@ -112,8 +113,8 @@ class Seqeval(datasets.Metric):
                     "references": datasets.Sequence(datasets.Value("string", id="label"), id="sequence"),
                 }
             ),
-            codebase_urls=["https://github.com/chakki-works/seqeval"],
-            reference_urls=["https://github.com/chakki-works/seqeval"],
+            codebase_urls=[SEQEVAL_URL],
+            reference_urls=[SEQEVAL_URL],
         )
 
     def _compute(

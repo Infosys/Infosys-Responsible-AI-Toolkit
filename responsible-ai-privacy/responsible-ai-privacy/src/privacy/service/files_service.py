@@ -1,8 +1,7 @@
 from typing import Dict, Callable
-from privacy.service.Video_service import *
-from privacy.service.csv_service import *
-from privacy.service.json_service import *
-from privacy.service.files_service import *
+from privacy.service.Video_service import VideoService
+from privacy.service.csv_service import CSVService
+from privacy.service.json_service import JSONService
 #from privacy.service.pdf_service import PDFService
 from privacy.service.ppt_service import PPTService  
 from privacy.service.docs_service import DOCService
@@ -16,13 +15,8 @@ class FileService:
         elif file_extension == 'json':
             return JSONService.anonymize_json(payload)
         #elif file_extension == 'pdf':
-            # ans=PDFService.mask_pdf(payload)
-            # response = Response(content=ans.read(), media_type="application/pdf")
            #return PDFService.mask_pdf(payload)
-            # return response
         elif file_extension == 'pptx' or file_extension == 'ppt':
-            # ans=PPTService.mask_ppt(payload)
-            # response = Response(content=response.read(), media_type="application/pdf")
             return PPTService.mask_ppt(payload)
         elif file_extension == 'docx':
             return DOCService.mask_doc(payload)

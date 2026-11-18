@@ -9,7 +9,7 @@
 - [Set Configuration Variables](#set-configuration-variables)
 - [Running the Application](#running-the-application)
 - [Features](#features)
-- [Docker Image](#Docker-image)
+- [Changelog](#changelog)
 - [License](#license)
 - [Contact](#contact)
 
@@ -20,6 +20,7 @@ Privacy is application which detects and masks any PII data present in Unstructu
 1. Python 3.11
 2. VSCode
 3. Mongo DB
+4. pip==24.2
 
 # Models
  1. En_core_wb_lg and en_core_web_trf Model Download and place it lib folder:
@@ -41,10 +42,11 @@ Privacy is application which detects and masks any PII data present in Unstructu
  5. PIIRanha NER Model: https://huggingface.co/iiiorg/piiranha-v1-detect-personal-information
    Create a folder named as "PIIRanha" in responsible-ai-privacy\models directory. Download the files (added_tokens.json,config.json,model.safetensors,special_tokens_map.json,spm.model,tokenizer.json,tokenizer_config.json,training_args.bin) from the provided link and place them in this folder (responsible-ai-  
    privacy\models\PIIRanha).
-   
 
 
 ## Installation
+#### Note: Before installing, please make sure to update the pip to the specific version using the command: `python -m pip install pip==24.2`
+
 To run the application, first we need to install Python and the necessary packages:
  
 1. Install Python (version 3.11.x) from the [official website](https://www.python.org/downloads/) and ensure it is added to your system PATH.
@@ -85,28 +87,18 @@ Link provided above will directly download the model version 3.7.1.
 *If you download and use the other version of en_core_web_lg then make sure to change the name in the requirement.txt too. To download other version, visit [spaCy](https://spacy.io/models/en/#en_core_web_lg)
 
 9. Now go back to `responsible-ai-privacy\responsible-ai-privacy` to install the requirements by running the following command : 
-  Update the pip :
-  ```sh
-  python -m pip install pip==24.2
-  ```
   Dowload the requirements : 
   ```sh
      pip install -r .\requirements\requirement.txt
   ```
-  Special installations : 
-  ```sh
-      pip install fastapi==0.100.1
-      pip install pydantic==1.10.11
-      pip install datasets==2.15.0
-      pip install numpy==1.26.2
-      pip install torch==2.3.1
+  
   ```
   Note: If you face any issue with the torch library then uninstall the torch `pip uninstall torch` and then reinstall the latest version `pip install torch` .
   
-Download and install the tesseract in your system. After installation, set the tessaract path in environment variables of account or system : [Tessaract](https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-v5.3.0.20221214.exe).
+Download and install the tesseract in your system. After installation, set the tessaract path in environment variables of account or system : [Tessaract](https://digi.bib.uni-   mannheim.de/tesseract/tesseract-ocr-w64-setup-v5.3.0.20221214.exe).
   Different versions of tesseract : [Versions](https://digi.bib.uni-mannheim.de/tesseract/).
   Tesseract Github : [Github](https://github.com/tesseract-ocr/tessdoc).
-
+  ```
 
 
 ## Set Configuration Variables
@@ -117,7 +109,7 @@ After installing all the required packages, configure the variables necessary to
     cd src/privacy
     ```
 
-2. Locate the `.env` file, which contains keys like the following:
+2. Locate the `.env` file, in the "cd src/privacy/.env" path which contains keys like the following:
 
    ```sh
    TELE_FLAG="${tele_flag}"  # [Mandatory]* False if do not want to connect with telemetry
@@ -138,7 +130,7 @@ After installing all the required packages, configure the variables necessary to
    ```
     
     *TELE_FLAG is made true only if user wants to request the response in telemetry. Otherwise for the normal flow it can be set as False.
-    For Telemetry setup, refer this link [responsible-ai-telemetry](https://github.com/Infosys/Infosys-Responsible-AI-Toolkit/tree/master/responsible-ai-telemetry)
+    For Telemetry setup, refer this link [responsible-ai-telemetry](https://github.com/Infosys-AI-Cloud-MMS/responsible-ai-telemetry)
     set the below env variables for connecting with telemetry alongside Telemetry flag.
    
    ```sh
@@ -149,17 +141,17 @@ After installing all the required packages, configure the variables necessary to
 
   ### HTTP Security Headers Configuration
 
-    ```sh
+   ```sh
     allow_methods = "${allow_methods_example}" #[Mandatory] e.g., "*" or "GET, POST, OPTIONS"
-   allow_origin = "${allow_origin_example}"    # [Mandatory]e.g., '["http://localhost:8000/", "https://yourdomain.com"]'
-   content_security_policy = "${csp_example}"  # [Mandatory]e.g., "default-src 'self'; script-src 'self' https://trusted.cdn.com"
-   cache_control = "${cache_control_example}"  # [Mandatory]e.g., "no-cache, no-store, must-revalidate"
-   XSS_header = "${xss_header_example}"  # [Mandatory]e.g., "1; mode=block"
-   Vary_header = "${vary_header_example}"  # [Mandatory]e.g., "Origin"
-   X-Frame-Options = "${x_frame_options_example}" # [Mandatory]e.g., "SAMEORIGIN" or "DENY"
-   X-Content-Type-Options = "${x_content_type_options_example}" #[Mandatory] e.g., "nosniff"
-   Pragma = "${pragma_example}" # [Mandatory]e.g., "no-cache"
-    ```
+    allow_origin = "${allow_origin_example}"    # [Mandatory] e.g., "*" or "GET, POST, OPTIONS"
+    content_security_policy = "${csp_example}"  # [Mandatory] e.g., "default-src 'self'; script-src 'self' https://trusted.cdn.com"
+    cache_control = "${cache_control_example}"  # [Mandatory] e.g., "no-cache, no-store, must-revalidate"
+    XSS_header = "${xss_header_example}"  # [Mandatory]e.g., "1; mode=block"
+    Vary_header = "${vary_header_example}"  # [Mandatory]e.g., "Origin"
+    X-Frame-Options = "${x_frame_options_example}" # [Mandatory]e.g., "SAMEORIGIN" or "DENY"
+    X-Content-Type-Options = "${x_content_type_options_example}" #[Mandatory] e.g., "nosniff"
+    Pragma = "${pragma_example}" # [Mandatory]e.g., "no-cache"
+   ```
 
     
     **Admin Module is the supporting module which is used for configuring the main module. User can create recognizer,custome templates, configure Thresholds and map it to created account and portfolio.
@@ -191,11 +183,11 @@ Once we have completed all the aforementioned steps, we can start the service.
 
 3. Open the following URL in your browser:
     For privacy_main :
-    `http://localhost:<portno>/v1/privacy/docs`
+    [http://localhost:30002/v1/privacy/docs#/]
         User can also change the port which is mentioned in privacy_main.py file
 
     For privacyfiles_main :
-    [http://localhost:30003/rai/v1/privacy-files/docs#/](http://localhost:30003/rai/v1/privacy-files/docs#/)
+    [http://localhost:30003/rai/v1/privacy-files/docs#/]
         User can also change the port which is mentioned in privacyfiles_main.py file
     
     Note: For the video anonymize endpoint (rai/v1/privacy-files/video/anonymize) use ocr as "Tesseract".
@@ -235,10 +227,6 @@ Once we have completed all the aforementioned steps, we can start the service.
     <td>Anonymize detected PII entities in an Image.</td>
   </tr>
   <tr>
-    <td>Image Mask</td>
-    <td>Replace the PII with a given character in an Image.</td>
-  </tr>
-  <tr>
     <td>Image Hashify</td>
     <td>Hashes the PII text present in an Image.</td>
   </tr>
@@ -262,6 +250,10 @@ Once we have completed all the aforementioned steps, we can start the service.
     <td>Diff Privacy Anonymize</td>
     <td>Using the column name, user can apply differential privacy.</td>
   </tr>
+ <tr>
+    <td>Add or Update(custom Entities)</td>
+    <td>It is used to update the entities without modifying the core code.</td>
+  </tr>
 </table>
 
 **Privacy Files :**
@@ -272,17 +264,72 @@ Once we have completed all the aforementioned steps, we can start the service.
     <th>DESCRIPTION</th>
   </tr>
   <tr>
-    <td>Excel Anonymize</td>
-    <td>Anonymize PII entities in excel file.</td>
-  </tr>
-  <tr>
     <td>Video Anonymize</td>
     <td>Anonymize PII entities in video.</td>
   </tr>
+  <tr>
+    <td>Docx Anonymize</td>
+    <td>Anonymize PII entities in a Word document (.docx) file.</td>
+  </tr>
+  <tr>
+    <td>CSV Anonymize</td>
+    <td>Anonymize PII entities in a CSV file.</td>
+  </tr>
+  <tr>
+    <td>PPT Anonymize</td>
+    <td>Anonymize PII entities in a PowerPoint (.ppt/.pptx) file.</td>
+  </tr>
+  <tr>
+    <td>JSON Anonymize</td>
+    <td>Anonymize PII entities in a JSON file.</td>
+  </tr>
 </table>
 
-## Docker Image
-The Docker image for the Privacy module has been published on Docker Hub. You can access it here: [Privacy image](https://hub.docker.com/repository/docker/infosysresponsibleaitoolkit/responsible-ai-privacy)
+## Changelog
+
+### v3.0
+
+#### Bug Fixes & Code Quality
+- Fixed library vulnerabilities
+- Fixed clearwing, soasecAI and harness vulnerabilities
+- Improved SonarQube code quality metrics:
+  - **Maintainability** — Reduced code complexity and improved readability
+  - **Security** — Resolved security hotspots and vulnerabilities flagged by SonarQube
+  - **Reliability** — Fixed bugs and eliminated unreliable code patterns
+  - **Code Coverage** — Increased unit test coverage across modules
+  - **Code Duplication** — Eliminated duplicate code blocks to improve maintainability
+
+#### Custom Recognizers
+- Users can now add or update custom PII entities without modifying core code
+- To add or update a custom entity, edit the file at:
+  `responsible-ai-privacy\responsible-ai-privacy\src\recogList.json`
+- The following custom entities are currently available:
+
+| Entity | Entity | Entity | Entity |
+|--------|--------|--------|--------|
+| IN_PINCODE | VACCINATION_STATUS | MARITAL_STATUS | BLOOD_GROUP |
+| GENDER | LANGUAGES_KNOWN | RELIGIOUS_BELIEFS | RACIAL_GROUP |
+| JOB_LEVEL | DESIGNATION | AGE | ETHNIC_ORIGIN |
+| DISABILITY | ORGANIZATION | DATE | EDUCATIONAL_QUALIFICATION |
+| SALARY | PF_ACCOUNT_NUMBER | PERMANENT_RETIREMENT_ACCOUNT_NUMBER | IMEI_NUMBER |
+| UDID | US_ZIP_CODE | POSTAL_CODE | BANK_ACCOUNT_NUMBER |
+| CALL_DURATION | IN_BANK_NAME | US_BANK_NAME | UK_BANK_NAME |
+| GEO_COORDINATES | CARD_NUMBER | MOBILE_NUMBER | HEALTH_INSURANCE_NUMBER |
+| IFSC_CODE | USA_SSN | UK_NINO | INDIA_AADHAR |
+| INDIA_PAN | INDIAN_PASSPORT | USA_PASSPORT | GERMANY_SSN |
+| SWEDEN_PERSONNUMMER | FCI_EMAIL | FCI_PHONE_NUMBER | FCI_IP_ADDRESS |
+| CUI_EMAIL | CUI_PHONE_NUMBER | CUI_IP_ADDRESS | BANK_TRANSACTION_AMOUNT |
+| US_TRAVEL_VISA_NUMBER | INDIA_TRAVEL_VISA_NUMBER | SCHENGEN_TRAVEL_VISA_NUMBER | UK_TRAVEL_VISA_VIGNETTE_NUMBER |
+| IP_ADDRESS | UAN_NUMBER | PF_WITHDRAWAL_REASON | TYPE_OF_BIRTH |
+| TYPE_OF_MARRIAGE | MARRIAGE_CERTIFICATION_NUMBER | HOSPITAL_NAME | NL_BSN |
+| CIN | EDUCATION_INSTITUTION_IN | HEALTHCARE_DEPARTMENT | SMOKING_STATUS |
+| ALCOHOL_CONSUMPTION | DIETARY_HABITS | EXERCISE_LEVELS | HEART_RATE_DATA |
+| ACTIVITY_LEVELS | SLEEP_PATTERNS | BLOOD_GLUCOSE_READINGS | BLOOD_PRESSURE_READINGS |
+| ECG_EKG_DATA | GENOMIC_SEQUENCES | HEIGHT | WEIGHT |
+| PHYSICAL_TRAITS | GENETIC_DISORDERS | BEHAVIORAL_TENDENCIES | BILL_DETAILS |
+| DRUG_ALCOHOL_SCREENING | CRIMINAL_HISTORY | WORK_PERMITS_VISA_STATUS | LICENSE_STATUS |
+| CREDIT_SCORE | DRIVING_LICENSE_IN | EMPLOYEE_ID | INDIA_GST_NUMBER |
+| CANADA_HST_GST_NUMBER | REASON_FOR_LEAVE | PASSWORD | POLITICAL_PARTY_MEMBERSHIP |
 
 ## License
 

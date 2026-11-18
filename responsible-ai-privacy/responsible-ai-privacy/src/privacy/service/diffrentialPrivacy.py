@@ -16,17 +16,13 @@ import random
 from privacy.config.logger import request_id_var
 import pandas as pd
 from privacy.service.easy import EasyOCR
-# from privacy.dao.TelemetryFlagDb import TelemetryFlag
-from privacy.mappers.mappers import *
-# from privacy.util.nltk_recog import CustomNltkNlpEngine
+from privacy.mappers.mappers import PIICodeDetectRequest
 from diffprivlib.mechanisms import binary
 from privacy.util.encrypt import EncryptImage
 
 from typing import List
 from privacy.constants.local_constants import (DELTED_SUCCESS_MESSAGE)
 from privacy.config.logger import CustomLogger
-import base64
-import io
 from dotenv import load_dotenv
 from privacy.service.__init__ import error_dict
 from diffprivlib.mechanisms import snapping
@@ -36,6 +32,7 @@ load_dotenv()
 import numpy as np
 import math
 log = CustomLogger()
+LINE_NO_LABEL = "Line No:"
 
 class AttributeDict(dict):
     __getattr__ = dict.__getitem__
@@ -47,41 +44,32 @@ class DiffPrivacy:
     headder=["a","b"]
     df=pd.DataFrame()
 
-    
-    def noiseAdd(df,col):
-        log.info("noiseAdd Function called........")
-        epsilon = 1.0  # Privacy parameter for differential privacy
-        sensitivity = 1  # Sensitivity of the age values
+    @staticmethod
+    def noise_add(df,col):
+        log.info("noise_add Function called........")
+        epsilon = 1.0  
+        sensitivity = 1  
         scale = sensitivity / epsilon
-        laplace_noise = np.random.laplace(loc=0, scale=scale, size=len(df))
-        # print(laplace_noise)
-        # keyList=[]
+        rng = np.random.default_rng(seed=42)
+        laplace_noise = rng.laplace(loc=0, scale=scale, size=len(df))
         if(df[col].dtypes=='int64'):
             df[col] += laplace_noise
             df[col]=df[col].astype(int)
-            # keyList.append(math.ceil(laplace_noise))
         else:
-            # keyList.append(laplace_noise)
             df[col] += laplace_noise
-        # DiffPrivacy.key[col]={"value":False,"key":keyList}
-            
-    def binaryCheck(df,col):
+    @staticmethod        
+    def binary_check(df,col):
         log.info("BinaryCheck Function")
         data=list(df[col].unique())
-        # print(data)
-        # keyList=[]
         mechanism = binary.Binary(epsilon=1.0,value0=data[0],value1=data[1])
         for d in range(len(df[col])):
             temp=df.loc[d,col]
-            # print("==/",temp)
             res=mechanism.randomise(temp)
-            # keyList.append(int(temp==res))
             df.loc[d,col]=res
-        # DiffPrivacy.key[col]={"value":data,"key":keyList}
         
         
-            
-    def rangeAdd(df,col):
+    @staticmethod        
+    def range_add(df,col):
         log.info("range Adding Function")
         import math
         minv=df[col].min()
@@ -92,11 +80,8 @@ class DiffPrivacy:
         minrange=round(minv/base)*base
         
         range_magnitude = abs(maxrange - minrange)
-        # print(range_magnitude)
-        # Determine the number of ranges based on the magnitude``
-        num_ranges = max(range_magnitude // 10, 1)  # Assuming a minimum range size of 10
+        num_ranges = max(range_magnitude // 10, 1)  
 
-        # Calculate the interval
         interval = range_magnitude / num_ranges
         binlist=set()
         lablelist=[]
@@ -105,159 +90,125 @@ class DiffPrivacy:
             start = minrange + i * interval
             end = minrange + (i + 1) * interval
             if(i==num_ranges-1):
-                # print(i)
                 end=maxrange
             binlist.add(start)
             binlist.add(end)
             lablelist.append(f"{start}-{end}")
-            # ranges.append((start, end))
         binlist=sorted(list(binlist))
         df[col]=pd.cut(df[col], bins=binlist, labels=lablelist)
 
-
-    def gaussianFunc(df,col):
+    @staticmethod
+    def gaussian_func(df,col):
         log.info("gaussian Function......")
-        gaussianVal=gaussian.GaussianAnalytic(epsilon=1,delta=1,sensitivity=2)
-        # keyList=[]
+        gaussian_val=gaussian.GaussianAnalytic(epsilon=1,delta=1,sensitivity=2)
         for d in range(len(df[col])):
             temp=df.loc[d,col]
-            # print("==/",temp)
-            res=gaussianVal.randomise(temp)
+            res=gaussian_val.randomise(temp)
             if(df[col].dtypes=='int64'):
-                # keyList.append(math.ceil((temp-res)))
                 df.loc[d,col]=int(res)
             else:    
-                # keyList.append((temp-res))
                 df.loc[d,col]=res
-        # DiffPrivacy.key[col]={"value":False,"key":keyList}
         
-        
-    def laplaceFunc(df,col):
+    @staticmethod   
+    def laplace_func(df,col):
         log.info("Laplace Function......")
         minv=df[col].min()-5
         maxv=df[col].max()+5
-        # keyList=[]
-        laplaceVar=laplace.LaplaceTruncated(epsilon=1,delta=0,sensitivity=1,lower=minv,upper=maxv)
+        laplace_var=laplace.LaplaceTruncated(epsilon=1,delta=0,sensitivity=1,lower=minv,upper=maxv)
         for d in range(len(df[col])):
             temp=df.loc[d,col]
-            # print("==/",temp)
-            res=laplaceVar.randomise(temp)
+            res=laplace_var.randomise(temp)
             if(df[col].dtypes=='int64'):
-                # keyList.append(math.ceil((temp-res)))
                 df.loc[d,col]=int(res)
             else:    
-                # keyList.append((temp-res))
                 df.loc[d,col]=res
-        # DiffPrivacy.key[col]={"value":False,"key":keyList}
-    
-    def snappingFunc(df,col):
+    @staticmethod
+    def snapping_func(df,col):
         log.info("Snapping Function......")
-        # print(df)
-        # print(col)
-        # print(df[col])
-        # print(df[col].min())
-        
         minv=df[col].min()-5
         maxv=df[col].max()+5
-        # keyList=[]
-        snappingVar=snapping.Snapping(epsilon=1,sensitivity=1,lower=minv,upper=maxv)
+        snapping_var=snapping.Snapping(epsilon=1,sensitivity=1,lower=minv,upper=maxv)
         for d in range(len(df[col])):
             temp=df.loc[d,col]
-            # print("==/",temp)
-            res=snappingVar.randomise(temp)
+            res=snapping_var.randomise(temp)
             if(df[col].dtypes=='int64'):
-                # keyList.append(math.ceil((temp-res)))
                 df.loc[d,col]=int(res)
             else:    
-                # keyList.append((temp-res))
                 df.loc[d,col]=res
-        # DiffPrivacy.key[col]={"value":False,"key":keyList}
-        
-        
-            
-    
-        
-    def uploadFIle(file):
+
+    @staticmethod
+    def upload_file(file):
         error_dict[request_id_var.get()]=[]
-        log.info("Entering in uploadFIle function")
-        # print(file.file.read())
+        log.info("Entering in upload_file function")
         try:
             df=pd.read_csv(file.file)
-            # df=pd.read_csv(file)
             DiffPrivacy.df=df
             headders=df.columns
             print(headders)
-            numaricHeadder=df.select_dtypes(include = ['int64',"float64"])
-            print(numaricHeadder)
+            numaric_headder=df.select_dtypes(include = ['int64',"float64"])
+            print(numaric_headder)
             DiffPrivacy.headder.extend(headders)
-            binaryList=[]
+            binary_list=[]
             for c in df.columns:
-    # pr    int(s)
                if(len(df[c].unique())==2):
-                    binaryList.append(c)
-            log.info("Returning from uploadFIle function")
+                    binary_list.append(c)
+            log.info("Returning from upload_file function")
 
-            return {"allHeadders":list(headders),"numaricHeadder":list(numaricHeadder.columns),"binaryHeadder":list(binaryList)}
+            return {"allHeadders":list(headders),"numaricHeadder":list(numaric_headder.columns),"binaryHeadder":list(binary_list)}
         except Exception as e:
             log.error(str(e))
-            log.error("Line No:"+str(e.__traceback__.tb_lineno))
+            log.error(LINE_NO_LABEL + str(e.__traceback__.tb_lineno))
             log.error(str(e.__traceback__.tb_frame))
-            error_dict[request_id_var.get()].append({"UUID":request_id_var.get(),"function":"textAnalyzeMainFunction","msg":str(e.__class__.__name__),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-            # ExceptionDb.create({"UUID":request_id_var.get(),"function":"textAnalyzeMainFunction","msg":str(e.__class__.__name__),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-            raise Exception(e)
-    def listParser(listdata):
-        if(listdata[0]==""):
+            error_dict[request_id_var.get()].append({"UUID":request_id_var.get(),"function":"textAnalyzeMainFunction","msg":str(e.__class__.__name__),"description":str(e)+LINE_NO_LABEL+str(e.__traceback__.tb_lineno)})
+            raise RuntimeError(e)
+    @staticmethod
+    def list_parser(list_data):
+        if(list_data[0]==""):
             
             return []
-        return listdata
-    def diffPrivacy(payload):
+        return list_data
+    @staticmethod
+    def diff_privacy(payload):
         error_dict[request_id_var.get()]=[]
-        log.info("Entering in diffPrivacy function")
+        log.info("Entering in diff_privacy function")
         try:
             log.debug(payload)
             log.debug(payload["suppression"])
             df=DiffPrivacy.df
 
-            suppressHedder=DiffPrivacy.listParser(payload["suppression"].split(","))
-            # if(suppressHedder[0]==""):
-            #     suppressHedder=[]
+            suppress_header=DiffPrivacy.list_parser(payload["suppression"].split(","))
 
-            noiseHeadder=DiffPrivacy.listParser(payload["noiselist"].split(","))
-            binaryHeadder=DiffPrivacy.listParser(payload["binarylist"].split(","))
-            rangeHeadder=DiffPrivacy.listParser(payload["rangelist"].split(","))
+            noise_header=DiffPrivacy.list_parser(payload["noiselist"].split(","))
+            binary_header=DiffPrivacy.list_parser(payload["binarylist"].split(","))
+            range_header=DiffPrivacy.list_parser(payload["range_list"].split(","))
             log.debug(df)
-            log.debug(suppressHedder)
-            # print(h)
-            noiseList=["laplaceFunc","noiseAdd","gaussianFunc","snappingFunc"]
+            log.debug(suppress_header)
+            noise_list=["laplace_func","noise_add","gaussian_func","snapping_func"]
 
-            noiseVar = getattr(DiffPrivacy, secrets.choice(noiseList))
-            if(suppressHedder is not []):
-                df = df.drop(suppressHedder, axis=1)
-            for noise in noiseHeadder:
-                # DiffPrivacy.noiseAdd(df,noise)
-                noiseVar(df,noise)
+            noise_var = getattr(DiffPrivacy, secrets.choice(noise_list))
+            if(suppress_header != []):
+                df = df.drop(suppress_header, axis=1)
+            for noise in noise_header:
+                noise_var(df,noise)
 
-            for bcol in binaryHeadder:
-                DiffPrivacy.binaryCheck(df,bcol)
+            for bcol in binary_header:
+                DiffPrivacy.binary_check(df,bcol)
 
-            for rcol in rangeHeadder:
-                DiffPrivacy.rangeAdd(df,rcol)
+            for rcol in range_header:
+                DiffPrivacy.range_add(df,rcol)
             log.debug(df)
 
 
             buffer = io.BytesIO()
 
             df.to_csv(buffer,index=False)
-            # csv=csvData.encode()
             buffer.seek(0)
 
             log.info("Returning from diffPrivacy function")
-            # return [df,DiffPrivacy.key]
             return buffer
         except Exception as e:
             log.error(str(e))
-            log.error("Line No:"+str(e.__traceback__.tb_lineno))
+            log.error(LINE_NO_LABEL+str(e.__traceback__.tb_lineno))
             log.error(str(e.__traceback__.tb_frame))
-            error_dict[request_id_var.get()].append({"UUID":request_id_var.get(),"function":"textAnalyzeMainFunction","msg":str(e.__class__.__name__),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-            # ExceptionDb.create({"UUID":request_id_var.get(),"function":"textAnalyzeMainFunction","msg":str(e.__class__.__name__),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-            raise Exception(e)
+            error_dict[request_id_var.get()].append({"UUID":request_id_var.get(),"function":"textAnalyzeMainFunction","msg":str(e.__class__.__name__),"description":str(e)+LINE_NO_LABEL+str(e.__traceback__.tb_lineno)})
+            raise RuntimeError(e)

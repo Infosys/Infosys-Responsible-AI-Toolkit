@@ -15,12 +15,11 @@ import io, base64
 from PIL import Image
 import requests
 import pandas as pd
-from privacy.mappers.mappers import *
+from privacy.mappers.mappers import PIICodeDetectRequest
 import os
 
 from privacy.config.logger import CustomLogger
-from privacy.util.code_detect import *
-from privacy.util.code_detect.regexdetection import *
+from privacy.util.code_detect.regexdetection import code_detect
 import json
 from privacy.util.code_detect.ner.pii_inference.netcustom import code_detect_ner
 log = CustomLogger()
@@ -32,20 +31,16 @@ class AttributeDict(dict):
 
 
 class CodeDetect:
-    def codeDetectRegex(payload)->PIICodeDetectRequest:
+    def code_detect_regex(self,payload)->PIICodeDetectRequest:
         payload=AttributeDict(payload)
         print("Text===",payload)
-        #finalpayload=str(payload)
-        #ouputjson=json.loads(payload)
-        output_code=code_detect.codeDetectRegex(payload.inputText)
+        output_code=code_detect.codeDetectRegex(payload.input_text)
         print("output_code===",output_code)
         return output_code
-    
-    def codeDetectNerText(payload)->PIICodeDetectRequest:
+
+    def code_detect_ner_text(self,payload)->PIICodeDetectRequest:
         payload=AttributeDict(payload)
         print("Text===",payload)
-        #finalpayload=str(payload)
-        #ouputjson=json.loads(payload)
-        output_code=code_detect_ner.textner(payload.inputText)
+        output_code=code_detect_ner.textner(payload.input_text)
         print("output_code===",output_code)
         return output_code  

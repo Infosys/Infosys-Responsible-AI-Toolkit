@@ -129,9 +129,8 @@ def filter_versions(matched_str, context):
     # count occurrence of dots 
     dot_count = matched_str.count('.')
     exclude = (dot_count == 3 and len(matched_str) == 7) 
-    if exclude:
-        if "dns" in context.lower() or "server" in context.lower():
-            return False
+    if exclude and ("dns" in context.lower() or "server" in context.lower()):
+        return False
     return exclude
 
 
@@ -151,8 +150,8 @@ def is_gibberish(matched_str):
     # pip install gibberish-detector
     # download the training corpora from https://raw.githubusercontent.com/domanchi/gibberish-detector/master/examples/big.txt
     # run gibberish-detector train big.txt > big.model to generate the model (it takes 3 seconds)
-    Detector = detector.create_from_model(GIBBERISH_MODEL_PATH)
-    return Detector.is_gibberish(matched_str.lower())
+    detector_instance= detector.create_from_model(GIBBERISH_MODEL_PATH)
+    return detector_instance.is_gibberish(matched_str.lower())
 
 
 def detect_email_addresses(content, tag_types={"EMAIL", "IP_ADDRESS"}):

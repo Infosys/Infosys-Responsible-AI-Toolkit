@@ -29,8 +29,6 @@ class Class_Name(PatternRecognizer):
 
     CONTEXT = [
         "bank"
-        # Task #603: Support keyphrases: change to "checking account"
-        # as part of keyphrase change
         "check",
         "account",
         "account#",

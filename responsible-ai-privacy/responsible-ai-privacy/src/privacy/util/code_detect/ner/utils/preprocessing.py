@@ -6,27 +6,27 @@ from datasets import Dataset
 def is_overlap(span, reference_span):
     l1, r1 = min(*span), max(*span)
     l2, r2 = min(*reference_span), max(*reference_span)
-    return l1 <= l2 < r1 or l1 < r2 <= r1 or l2 <= l1 < r2 or l2 < r1 <= r2
+    return l1 < r2 and l2 < r1
 
 
 def label_tokenized(
-    entry, target_text="text", pii_column="fragments", LABEL2ID=None, IGNORE_CLASS=None
+    entry, target_text="text", pii_column="fragments", label2id=None, ignore_class=None
 ):
     content, pii = entry[target_text], entry[pii_column]
 
     if entry["offset_mapping"][-1] == (0, 0):
         entry["offset_mapping"][-1] = (len(content), len(content))
 
-    entry["labels"] = [LABEL2ID["O"]] * len(entry["offset_mapping"])
+    entry["labels"] = [label2id["O"]] * len(entry["offset_mapping"])
     for entity in pii:
-        if entity["category"] in IGNORE_CLASS:
+        if entity["category"] in ignore_class:
             continue
         prefix = "B-"
         entity_span = tuple(entity["position"])
         for i, span in enumerate(entry["offset_mapping"]):
             if is_overlap(entity_span, span):
                 label = prefix + entity["category"]
-                entry["labels"][i] = LABEL2ID[label]
+                entry["labels"][i] = label2id[label]
                 prefix = "I-"
 
     return entry
@@ -50,8 +50,8 @@ def tokenize_and_label_batch(
     tokenizer,
     target_text="text",
     pii_column="fragments",
-    LABEL2ID=None,
-    IGNORE_CLASS=None,
+    label2id=None,
+    ignore_class=None,
 ):
     """Tokenize and label a batch of entries"""
     list_inputs = {
@@ -67,8 +67,8 @@ def tokenize_and_label_batch(
             entry,
             target_text=target_text,
             pii_column=pii_column,
-            LABEL2ID=LABEL2ID,
-            IGNORE_CLASS=IGNORE_CLASS,
+            label2id=label2id,
+            ignore_class=ignore_class,
         )
         entry = add_special_toks(entry, target_text=target_text, tokenizer=tokenizer)
         for k in list_inputs.keys():
@@ -76,8 +76,7 @@ def tokenize_and_label_batch(
     return list_inputs
 
 
-# Chunking
-# we do all chunking with overlap_freq = 0
+
 
 
 def _get_chunking_step(length, overlap_freq):

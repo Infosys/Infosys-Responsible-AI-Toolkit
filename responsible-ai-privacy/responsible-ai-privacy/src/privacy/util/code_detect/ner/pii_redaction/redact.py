@@ -17,7 +17,7 @@ from utils import get_replacements, redact_pii_batch
 REPONAME_TOKEN = "<reponame>"
 FILENAME_TOKEN = "<filename>"
 STARS_TOKEN = "<gh_stars>"
-
+rng = None
 
 def get_num_stars_bucket(num_stars: int) -> str:
     if num_stars is None or num_stars == 0:
@@ -33,22 +33,23 @@ def get_num_stars_bucket(num_stars: int) -> str:
 
 
 def content_with_meta(example):
+    if rng is None:
+        rng = np.random.default_rng(seed=42)
     res = ""
-    if np.random.binomial(n=1, p=0.2):
+    if rng.binomial(n=1, p=0.2):
         res += f"{REPONAME_TOKEN}{example['max_stars_repo_name']}"
-    if np.random.binomial(n=1, p=0.2):
+    if rng.binomial(n=1, p=0.2):
         res += f"{FILENAME_TOKEN}{example['max_stars_repo_path']}"
-    if np.random.binomial(n=1, p=0.2):
+    if rng.binomial(n=1, p=0.2):
         num_stars = get_num_stars_bucket(example["max_stars_count"])
         res += f"{STARS_TOKEN}{num_stars}"
     if len(res) > 0:
         res += "\n"
     res += example["content"]
-
     return {"content_with_meta": res}
 
 
-def parseArgs():
+def parse_args():
     parser = argparse.ArgumentParser(description="PII detection and redaction")
     parser.add_argument(
         "--dataset_name",
@@ -201,7 +202,7 @@ def main():
         f"** The job is running with the following arguments: **\n{args}\n **** "
     )
 
-    logger.info(f" ===== Loading {args.dataset_name} =====")
+    logger.info(" ===== Loading {args.dataset_name} =====")
     ds = load_dataset(
         args.dataset_name,
         split=args.split,
@@ -212,13 +213,13 @@ def main():
         ds = ds.rename_column(args.text_column, "content")
 
     # redact PII in the dataset
-    logger.info(f" ===== Applying PII redaction =====")
+    logger.info(" ===== Applying PII redaction =====")
     random.seed(args.seed)
 
     replacements = get_replacements()
     with open("replacements.json", "w") as f:
         json.dump(replacements, f)
-    logging.info(f"Using the following replacements:\n{pformat(replacements)}")
+    logging.info("Using the following replacements:\n{pformat(replacements)}")
     ds = ds.map(
         partial(
             redact_pii_batch,
@@ -229,11 +230,11 @@ def main():
         batch_size=args.batch_size,
         num_proc=args.num_proc,
     )
-    logging.info(f"Dataset info after PII redaction:\n{ds}")
+    logging.info("Dataset info after PII redaction:\n{ds}")
 
     # check the dataset
     logger.info(
-        f" ===== Checking {args.check_sampling_size} samples from those modified in the dataset ====="
+        " ===== Checking {args.check_sampling_size} samples from those modified in the dataset ====="
     )
     ds_checks = get_check_ds(ds, args)
 
@@ -241,19 +242,19 @@ def main():
     if len(ds_checks) == 0:
         logger.info("Dataset was empty. Not saving anything.")
     else:
-        logger.info(f"Checks dataset info {ds_checks}")
+        logger.info("Checks dataset info {ds_checks}")
         if args.save_mode_checks == "hub":
             logger.info(
-                f"Pushing the checks dataset to the Hub as {args.target_dataset}_checks"
+                "Pushing the checks dataset to the Hub as {args.target_dataset}_checks"
             )
             ds_checks.push_to_hub(args.target_dataset + "_checks", private=True)
 
         elif args.save_mode_checks == "local":
-            logger.info(f"Saving the checks dataset to disk")
+            logger.info("Saving the checks dataset to disk")
             ds_checks.save_to_disk(args.save_path_disk + "_checks")
 
         elif args.save_mode_checks == "manual_shards":
-            logger.info(f"Saving the checks dataset in manual shards")
+            logger.info("Saving the checks dataset in manual shards")
             save_manual_shards(
                 ds_checks,
                 user=args.hub_username,
@@ -267,10 +268,10 @@ def main():
         columns.append("references")
     ds = ds.remove_columns(columns)
     ds = ds.rename_column("new_content", "content")
-    logger.info(f"Dataset info after removing columns:\n{ds}")
+    logger.info("Dataset info after removing columns:\n{ds}")
 
     if args.add_metadata:
-        logger.info(f" ===== Adding metadata =====")
+        logger.info(" ===== Adding metadata =====")
         ds = ds.map(
             content_with_meta, remove_columns=["content"], num_proc=args.num_proc
         )
@@ -279,17 +280,17 @@ def main():
     # save the final dataset
     if args.save_mode == "hub":
         logger.info(
-            f" ===== Pushing the dataset to the Hub as: {args.target_dataset} ====="
+            " ===== Pushing the dataset to the Hub as: {args.target_dataset} ====="
         )
         ds.push_to_hub(args.target_dataset, private=True)
 
     elif args.save_mode == "local":
-        logger.info(f" ===== Saving the dataset to disk =====")
+        logger.info(" ===== Saving the dataset to disk =====")
         ds.save_to_disk(args.save_path_disk)
 
     elif args.save_mode == "manual_shards":
         logger.info(
-            f" ===== Saving the dataset in manual shards to {args.save_path_disk} ====="
+            " ===== Saving the dataset in manual shards to {args.save_path_disk} ====="
         )
         save_manual_shards(
             ds,
@@ -298,7 +299,7 @@ def main():
             local_dir=args.save_path_disk,
         )
 
-    logger.info(f" ===== Dataset saved successfully =====")
+    logger.info(" ===== Dataset saved successfully =====")
 
 
 if __name__ == "__main__":
