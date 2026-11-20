@@ -21,6 +21,7 @@ Privacy is application which detects and masks any PII data present in Unstructu
 2. VSCode
 3. Mongo DB
 4. pip==24.2
+5. pyarrow==25.0.1
 
 # Models
  1. En_core_wb_lg and en_core_web_trf Model Download and place it lib folder:
