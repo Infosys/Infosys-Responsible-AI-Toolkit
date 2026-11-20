@@ -18,9 +18,6 @@ from scipy.special import softmax
 from tqdm.notebook import tqdm
 from transformers import PreTrainedTokenizer
 from transformers.trainer_utils import PredictionOutput
-
-# from utils.misc import LABEL2ID
-# from pii_inference.utils.misc import LABEL2ID
 from privacy.util.code_detect.ner.pii_inference.utils.misc import LABEL2ID
 
 
@@ -145,7 +142,6 @@ def compose_chunk_predictions_with_samples(ref_dataset: Dataset, pred: Predictio
                                             tokenizer.max_len_single_sentence, overlap_freq=overlap_freq)
                        for i in sorted(set(entry_ids))]
 
-    # Remove ignored index
     mask = np.array(raw_true_labels) != -100
     pred_labels = np.array(raw_pred_probas)[mask]
     true_labels = np.array(raw_true_labels)[mask]
@@ -161,10 +157,7 @@ def collate_pred_chunks(pred_chunks: np.ndarray, max_length: int, overlap_freq: 
     It normalizes the probabilities using softmax along the example axis.
     """
     step = _get_chunking_step(max_length, overlap_freq)
-    # drop special tokens
     pred_chunks = pred_chunks[:, 1:-1]
-
-    # logit normalization
     pred_chunks = softmax(pred_chunks, axis=-1)
 
     chunk_len = pred_chunks.shape[1]
@@ -174,8 +167,6 @@ def collate_pred_chunks(pred_chunks: np.ndarray, max_length: int, overlap_freq: 
 
     for i, chunk in enumerate(pred_chunks):
         pred_proba[i * step:i * step + len(chunk)] += (step / chunk_len) * chunk
-
-    # normalization after aggregation
     pred_proba = pred_proba / pred_proba.sum(-1, keepdims=True)
 
     return pred_proba
@@ -186,7 +177,6 @@ def collate_label_chunks(label_id_chunks: np.ndarray, max_length: int, overlap_f
     Takes in a tensor of true labels from the model and aggregates them across chunks.
     """
     step = _get_chunking_step(max_length, overlap_freq)
-    # drop special tokens
     label_id_chunks = label_id_chunks[:, 1:-1]
 
     chunk_len = label_id_chunks.shape[1]

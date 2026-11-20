@@ -27,7 +27,7 @@ import uuid
 #         extra['user_id'] = self.user_id
 #         return super().makeRecord(name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)
 request_ids=[]
-request_id_var = contextvars.ContextVar("request_id_var")
+request_id_var = contextvars.ContextVar("request_id_var", default="N/A")
 
 class CustomLogger(logging.getLoggerClass()):
     # UserLogger(__)
@@ -189,6 +189,7 @@ class CustomLogger(logging.getLoggerClass()):
         func(msg, *args, **kwargs)
         self.enable_console_output()
 
+    @staticmethod
     def getSeesionId():
         # print("request_ids186=========",request_ids)
         request_id = request_id_var.get()

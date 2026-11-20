@@ -1,6 +1,7 @@
 import os
 import argparse
 import subprocess
+import shlex
 
 SCRIPT_DIR = "/fsx/loubna/code/bigcode-dataset/pii/ner/pii_redaction/jobs/scripts"
 def get_args():
@@ -15,14 +16,13 @@ def get_args():
 def submit_job(job, job_name="job"):
     with open(f"{SCRIPT_DIR}/{job_name}.sbatch", "w") as fp:
         fp.write(job)
-    #os.system(f"{SCRIPT_DIR}/{job_name}.sbatch")
     subprocess.run(["sbatch", f"{SCRIPT_DIR}/{job_name}.sbatch"])
 
 
-def makejob(JOB_NAME="pii-redaction", LANG=None, TEXT_COLUMN="content"):
+def makejob(job_name="pii-redaction", lang=None, text_column="content"):
     return f"""#!/bin/bash
 
-#SBATCH --job-name={JOB_NAME}
+#SBATCH --job-name={job_name}
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=1          # crucial - only 1 task per dist per node!
 #SBATCH --cpus-per-task=96
@@ -39,7 +39,7 @@ conda activate eval-harness
 echo "START TIME: $(date)"
 
 # Experiment parameters
-LANG={LANG}
+lang={lang}
 
 # Training Setup
 GPUS_PER_NODE=8
@@ -55,10 +55,10 @@ WORLD_SIZE=$(($GPUS_PER_NODE*$NNODES))
 CMD=" \
     /fsx/loubna/code/bigcode-dataset/pii/ner/pii_redaction/main_redact.py \
     --add_metadata \
-    --text_column {TEXT_COLUMN} \
-    --dataset_name  /fsx/leandro/data/pii_result/{LANG} \
-    --target_dataset the-stack-no-pii-{LANG} \
-    --save_path_disk /fsx/loubna/data/the-stack-march-no-pii-test/{LANG}
+    --text_column {shlex.quote(text_column)} \
+    --dataset_name  /fsx/leandro/data/pii_result/{lang} \
+    --target_dataset the-stack-no-pii-{lang} \
+    --save_path_disk /fsx/loubna/data/the-stack-march-no-pii-test/{lang}
     "
 
 export LAUNCHER="python \
@@ -197,9 +197,9 @@ if __name__ == "__main__":
         print(f"Submitting jobs for experiment on language {language}")
         job_name = f"{language}-pii-redaction-idx_{i}"
         job = makejob(
-            JOB_NAME=job_name,
-            LANG=language,
-            TEXT_COLUMN=args.text_column,
+            job_name=job_name,
+            lang=language,
+            text_column=args.text_column,
         )
         # submit the job
         print(f"Job for lang {language} ready and saved at jobs/{job_name}.sbatch")

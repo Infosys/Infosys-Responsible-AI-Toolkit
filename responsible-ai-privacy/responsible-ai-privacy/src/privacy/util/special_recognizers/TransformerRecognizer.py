@@ -11,7 +11,6 @@ THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR I
 
 
 
-# from privacy.util.special_recognizers.RobertaNER.config import BERT_DEID_CONFIGURATION
 
 
 
@@ -93,6 +92,8 @@ class TransformersRecognizer(EntityRecognizer):
     """
 
     def load(self) -> None:
+         # This method is intentionally left empty because loading is handled by `load_transformer`.
+        # The `load` method is required by the EntityRecognizer interface but is not used here.
         pass
 
     def __init__(
@@ -149,12 +150,11 @@ class TransformersRecognizer(EntityRecognizer):
         self.id_entity_name = kwargs.get("ID_ENTITY_NAME", "ID")
         self.id_score_reduction = kwargs.get("ID_SCORE_REDUCTION", 0.5)
 
-        if not self.pipeline:
-            if not self.model_path:
-                self.model_path = "obi/deid_roberta_i2b2"
-                logger.warning(
-                    f"Both 'model' and 'model_path' arguments are None. Using default model_path={self.model_path}"
-                )
+        if not self.pipeline and not self.model_path:
+            self.model_path = "obi/deid_roberta_i2b2"
+            logger.warning(
+                f"Both 'model' and 'model_path' arguments are None. Using default model_path={self.model_path}"
+            )
 
         self._load_pipeline()
 
@@ -170,7 +170,6 @@ class TransformersRecognizer(EntityRecognizer):
             # Will attempt to group sub-entities to word level
             aggregation_strategy=self.aggregation_mechanism,
             device=device,
-            framework="pt",
             ignore_labels=self.ignore_labels,
         )
 
@@ -257,9 +256,7 @@ class TransformersRecognizer(EntityRecognizer):
         :rtype: List[dict]
         """
         model_max_length = self.pipeline.tokenizer.model_max_length
-        # calculate inputs based on the text
         text_length = len(text)
-        # split text into chunks
         if text_length <= model_max_length:
             predictions = self.pipeline(text)
         else:
@@ -270,13 +267,11 @@ class TransformersRecognizer(EntityRecognizer):
             chunk_indexes = TransformersRecognizer.split_text_to_word_chunks(
                 text_length, self.chunk_length, self.text_overlap_length
                 )
-
-            # iterate over text chunks and run inference
             for chunk_start, chunk_end in chunk_indexes:
                 chunk_text = text[chunk_start:chunk_end]
                 chunk_preds = self.pipeline(chunk_text)
 
-                # align indexes to match the original text - add to each position the value of chunk_start
+               
                 aligned_predictions = list()
                 for prediction in chunk_preds:
                     prediction_tmp = copy.deepcopy(prediction)
@@ -286,7 +281,7 @@ class TransformersRecognizer(EntityRecognizer):
 
                 predictions.extend(aligned_predictions)
 
-        # remove duplicates
+      
         predictions = [dict(t) for t in {tuple(d.items()) for d in predictions}]
         return predictions
 
@@ -343,7 +338,6 @@ class TransformersRecognizer(EntityRecognizer):
         :return: Returns the adjusted entity name
         """
 
-        # convert model label to presidio label
         entity = self.model_to_presidio_mapping.get(label, None)
 
         if entity in self.ignore_labels:

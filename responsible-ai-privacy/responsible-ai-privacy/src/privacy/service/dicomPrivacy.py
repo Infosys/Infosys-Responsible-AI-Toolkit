@@ -13,14 +13,17 @@ import io
 import matplotlib.pyplot as plt
 import pydicom
 from PIL import Image
-from privacy.service.__init__ import *
+from privacy.service.__init__ import AttributeDict,admin_par,error_dict
+from presidio_image_redactor import DicomImageRedactorEngine
 from privacy.service.api_req import ApiCall
 from privacy.config.logger import request_id_var
+from privacy.config.logger import CustomLogger
 
-
+log = CustomLogger()
 
 class DICOMPrivacy:
-    def dcmToPng(dcmObj):
+    @staticmethod
+    def dcm_to_png(dcmObj):
         plt.clf()
         plt.imshow(dcmObj.pixel_array,cmap=plt.cm.bone)
         plt.axis('off')
@@ -31,22 +34,16 @@ class DICOMPrivacy:
         
     
    
-    
-    def readDicom(payload):
+    @staticmethod
+    def read_dicom(payload):
         error_dict[request_id_var.get()]=[]
         log.debug("Entering in readDicom function")
         try:
-            # print(type(payload))
-            # print(payload.file)
-          
-            # predefined_recognizers.data_recognizer.DataList.entity.clear()
-            # predefined_recognizers.data_recognizer.DataList.resetData()
-            DicomEngine = DicomImageRedactorEngine()
+            dicom_engine = DicomImageRedactorEngine()
             dicom_instance = pydicom.dcmread(payload.file)
-            # print(type(dicom_instance))
-            redacted_dicom_instance = DicomEngine.redact(dicom_instance, fill="contrast") 
-            original=DICOMPrivacy.dcmToPng(dicom_instance)
-            redacted=DICOMPrivacy.dcmToPng(redacted_dicom_instance)
+            redacted_dicom_instance = dicom_engine.redact(dicom_instance, fill="contrast") 
+            original=DICOMPrivacy.dcm_to_png(dicom_instance)
+            redacted=DICOMPrivacy.dcm_to_png(redacted_dicom_instance)
 
             obj={"original":original,"anonymize":redacted}
             log.debug("Returning from readDicom function")
@@ -54,16 +51,22 @@ class DICOMPrivacy:
   
         except Exception as e:
             log.error(str(e))
-            log.error("Line No:"+str(e.__traceback__.tb_lineno))
+            log.error("Line No:" + str(e.__traceback__.tb_lineno))
             log.error(str(e.__traceback__.tb_frame))
-            error_dict[request_id_var.get()].append({"UUID":request_id_var.get(),"function":"readDICOMFunction","msg":str(e.__class__.__name__),"description":str(e)+"Line No:"+str(e.__traceback__.tb_lineno)})
-            raise Exception(e)
+            error_dict[request_id_var.get()].append({
+                "UUID": request_id_var.get(),
+                "function": "read_dicom",
+                "msg": str(e.__class__.__name__),
+                "description": str(e) + "Line No:" + str(e.__traceback__.tb_lineno)
+            })
+            raise RuntimeError(e)
   
 
 
 
 class saveImage:
-    def saveImg(img_data):
+    @staticmethod
+    def save_img(img_data):
         
         
         with open("file.png", "wb") as fh:

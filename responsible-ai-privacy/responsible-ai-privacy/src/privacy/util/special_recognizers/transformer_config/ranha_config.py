@@ -60,7 +60,6 @@ RANHA_DEID_CONFIGURATION = {
         "SURNAME":"PERSON",	
         "SOCIALNUM":"SOCIALNUM",
         "PASSWORD":"PASSWORD",
-        "GIVENNAME":"PERSON",
         "EMAIL":"EMAIL",
         "DATEOFBIRTH":"DATE_TIME",
         

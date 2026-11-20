@@ -1,4 +1,0 @@
-datasets
-transformers
-evaluate
-seqeval

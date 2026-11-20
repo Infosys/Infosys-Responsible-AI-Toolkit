@@ -7,7 +7,6 @@ from presidio_anonymizer.entities import (RecognizerResult,
 from privacy.config.logger import CustomLogger
 from presidio_image_redactor import ImageRedactorEngine,ImageAnalyzerEngine,ImagePiiVerifyEngine       
 from presidio_image_redactor import DicomImageRedactorEngine
-# from privacy.util.special_recognizers.roberta import RobertaRecognizer
 from privacy.util.encrypt import EncryptImage
 from privacy.config.logger import CustomLogger
 log = CustomLogger()
@@ -16,13 +15,13 @@ log = CustomLogger()
 
 
 from presidio_analyzer.nlp_engine import SpacyNlpEngine
-# from privacy.util.special_recognizers.spcy import spc_nlp_engine
 import spacy
 
-# from privacy.util.special_recognizers.RobertaNER.robertaRecognizer import roberta_nlp_engine
 
 
 from privacy.util.special_recognizers.TransformerRecognizer import TransformersRecognizer
+from privacy.util.lemma_context_aware_enhancer1 import LemmaContextAwareEnhancer
+from privacy.util.context_aware_enhancer1 import ContextAwareEnhancer
 
 
 print("===========init==========")
@@ -43,25 +42,13 @@ class AttributeDict(dict):
     __delattr__ = dict.__delitem__
     
 registry = RecognizerRegistry()
-# log.info("============2a")
-# analyzer = AnalyzerEngine(registry=registry)
-# log.debug("============2b")
-# from privacy.util.special_recognizers.RobertaNER.robertaRec import RobertaRecognizer
-anonymizer = AnonymizerEngine()
-# Create NLP engine based on configuration
-# flair_recognizer = (
-#     RobertaRecognizer()
-# ) 
-# # registry.add_recognizer(flair_recognizer)
-# provider = NlpEngineProvider(nlp_configuration=configuration)
-# analyzer = AnalyzerEngine(registry=registry,nlp_engine=roberta_nlp_engine)
-# analyzer = AnalyzerEngine(registry=registry,nlp_engine=loaded_nlp_engine)
-# engine_provider = MyCustomNlpEngineProvider()
 
-# analyzer = AnalyzerEngine(registry=registry,nlp_engine=loaded_nlp_engine)
+anonymizer = AnonymizerEngine()
+# Create an instance of LemmaContextAwareEnhancer
+lemma_context_aware_enhancer = LemmaContextAwareEnhancer()
 
 """Deafult NLP , Less Accuracy less latency"""
-analyzer_l = AnalyzerEngine(registry=registry)
+analyzer_l = AnalyzerEngine(registry=registry,context_aware_enhancer=lemma_context_aware_enhancer)
 imageAnalyzerEngine_l = ImageAnalyzerEngine(analyzer_engine=analyzer_l)
 imageRedactorEngine_l = ImageRedactorEngine(image_analyzer_engine=imageAnalyzerEngine_l)
 imagePiiVerifyEngine_l = ImagePiiVerifyEngine(image_analyzer_engine=imageAnalyzerEngine_l) 
@@ -78,23 +65,15 @@ trf_nlp = spacy.load("en_core_web_trf")
 
 # Pass the loaded model to the new LoadedSpacyNlpEngine
 trf_engine = LoadedSpacyNlpEngine(loaded_spacy_model = trf_nlp)
-# if not trf_engine.is_loaded():
-#             print("----------------------------------------------")
-#             trf_engine.load()
-analyzer_m = AnalyzerEngine(registry=registry,nlp_engine=trf_engine)
+context_aware_enhancer= ContextAwareEnhancer(context_similarity_factor=0.3, 
+                                            min_score_with_context_similarity=0.5,
+                                           context_prefix_count=5,
+                                            context_suffix_count=0)
+analyzer_m = AnalyzerEngine(registry=registry,nlp_engine=trf_engine,context_aware_enhancer=context_aware_enhancer)
 imageAnalyzerEngine_m = ImageAnalyzerEngine(analyzer_engine=analyzer_m)
 imageRedactorEngine_m = ImageRedactorEngine(image_analyzer_engine=imageAnalyzerEngine_m)
 imagePiiVerifyEngine_m = ImagePiiVerifyEngine(image_analyzer_engine=imageAnalyzerEngine_m) 
 encryptImageEngin_m=EncryptImage(image_analyzer_engine=imageAnalyzerEngine_m)
-
-
-# """Roberta NLP , better Accuracy High latency"""
-# analyzer_h = AnalyzerEngine(registry=registry,nlp_engine=roberta_nlp_engine)
-# imageAnalyzerEngine_h = ImageAnalyzerEngine(analyzer_engine=analyzer_h)
-# imageRedactorEngine_h = ImageRedactorEngine(image_analyzer_engine=imageAnalyzerEngine_h)
-# imagePiiVerifyEngine_h = ImagePiiVerifyEngine(image_analyzer_engine=imageAnalyzerEngine_h) 
-# encryptImageEngin_h=EncryptImage(image_analyzer_engine=imageAnalyzerEngine_h)
-
 
 
 
@@ -130,20 +109,14 @@ roberta_multilingual_recog.load_transformer(**ROBERTA_MULTILINGUAL_CONFIGURATION
 deanonymizer = DeanonymizeEngine()
 DicomEngine = DicomImageRedactorEngine()
 registry.load_predefined_recognizers()
-# print("========B===========",registry.get_supported_entities())
 registry.add_recognizer(roberta_multilingual_recog)
 
 
-
-
-# print("=========A==========",registry.get_supported_entities())
-# print("===================",registry.get_recognizers(language='en'))
-# print("===================",registry.get_recognizers(language='en',all_fields=True))
-def selectNlp(nlpName):     
-    if nlpName == "basic":
+def select_nlp(nlp_name):     
+    if nlp_name == "basic":
         print("basic")
         return analyzer_l,imageAnalyzerEngine_l,imageRedactorEngine_l,imagePiiVerifyEngine_l,encryptImageEngin_l
-    elif nlpName == "good":
+    elif nlp_name == "good":
         print("good")
         return analyzer_m,imageAnalyzerEngine_m,imageRedactorEngine_m,imagePiiVerifyEngine_m,encryptImageEngin_m
     else:

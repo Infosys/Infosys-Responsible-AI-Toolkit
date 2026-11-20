@@ -22,53 +22,46 @@ import re
 import secrets
 import random
 class FakeDataGenerate:
-    def fakeDataGeneration(results,inputText):
-        fakeData_Dict = {}
+    def fake_data_generation(self,results,input_text):
+        fake_data_dict = {}
         for i in results:
             if hasattr(FakeData, i.entity_type):
                 ent = getattr(FakeData, i.entity_type)
-                fakeData_Dict.update({i.entity_type: OperatorConfig("replace", {"new_value": ent()})})
+                fake_data_dict.update({i.entity_type: OperatorConfig("replace", {"new_value": ent()})})
             elif i.entity_type in get_session_dict():
-                entValue =get_session_dict()[i.entity_type]
-                        #  log.debug("result="
-                # log.debug("Value of entValue 342========"+str(entValue))
-                text = str(inputText[i.start:i.end])
+                ent_value =get_session_dict()[i.entity_type]
+
+                text = str(input_text[i.start:i.end])
                 print("text===",text)
                 random_data=""
                 while True:
-                    if text in entValue:
-                        #random_data = random.choice(entValue)
-                        random_data = secrets.choice(entValue)
+                    if text in ent_value:
+                        random_data = secrets.choice(ent_value)
                         print("RNDAOM dATA 348===",random_data)
-                        if random_data.lower() != str(inputText[i.start:i.end]).lower()  :
-                            fakeData_Dict.update({i.entity_type: OperatorConfig("replace", {"new_value": random_data})})
-                            entValue.remove(random_data)
+                        if random_data.lower() != str(input_text[i.start:i.end]).lower()  :
+                            fake_data_dict.update({i.entity_type: OperatorConfig("replace", {"new_value": random_data})})
+                            ent_value.remove(random_data)
                             break
                     else:
+                        print("Value of ent_value 344========",text)
                         break
-                        print("Value of entValue 344========",text)
-                        # random_data = DataList
-                # random_data = random.choice([item for item in entValue if str(item).lower() != text.lower()])   
-                        # random_dataList.append(random_data)
-                        # entValue.remove(random_data)
-                fakeData_Dict.update({i.entity_type: OperatorConfig("replace", {"new_value": random_data})})
-                        #print("ent_value after removing====",dict_operators)    
-                    # Rest of your code
+                fake_data_dict.update({i.entity_type: OperatorConfig("replace", {"new_value": random_data})})
+                      
             else:
-                # Handle the case when ent does not exist
+                
                 decision_process = i.analysis_explanation
-                # log.debug("decision process======"+str(decision_process))
+             
                 if(decision_process==None):        
                     continue
                 pattern = decision_process.pattern        
-                # Add function to generate fakeData using regex pattern
+               
                 t=x.xeger(pattern)
                 p=r'[\x00-\x1F\x7F-\xFF]'  
-                        # p= r"^\ [^]"
+                 
                 t1=re.sub(p, ' ', t)
-                        # print("t1====",t1)
-                fakeData_Dict.update({i.entity_type: OperatorConfig("replace", {"new_value": t1})})
+                     
+                fake_data_dict.update({i.entity_type: OperatorConfig("replace", {"new_value": t1})})
                        
                 
                 
-        return fakeData_Dict
+        return fake_data_dict

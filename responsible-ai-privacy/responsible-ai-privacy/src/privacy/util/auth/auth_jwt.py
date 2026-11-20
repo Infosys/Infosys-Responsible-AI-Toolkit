@@ -29,7 +29,7 @@ secret_key = os.environ.get("SECRET_KEY")
 def authenticate_jwt(credentials: HTTPAuthorizationCredentials = Depends(security)):
     token = credentials.credentials
     try:
-        payload = jwt.decode(token, secret_key, algorithms=["HS256"],options={"verify_signature": False, "verify_aud": False})
+        payload = jwt.decode(token, secret_key, algorithms=["HS256"],options={"verify_signature": True, "verify_aud": False})
     except jwt.ExpiredSignatureError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

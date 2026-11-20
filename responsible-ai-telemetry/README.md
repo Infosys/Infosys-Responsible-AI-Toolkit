@@ -212,5 +212,5 @@ The source code for the project is licensed under the MIT license, which you can
 
 
 ## Contact
-If you have more questions or need further insights please feel free to connect with us @ Infosysraitoolkit@infosys.com
+If you have more questions or need further insights please feel free to connect with us @ infosysraitoolkit@infosys.com
 

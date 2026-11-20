@@ -57,7 +57,6 @@ class RobertaRecognizer(EntityRecognizer):
         "LOCATION",
         "PERSON",
         "ORGANIZATION",
-        # "MISCELLANEOUS"   # - There are no direct correlation with Presidio entities.
     ]
 
     DEFAULT_EXPLANATION = "Identified as {} by Flair's Named Entity Recognition"
@@ -66,21 +65,13 @@ class RobertaRecognizer(EntityRecognizer):
         ({"LOCATION"}, {"LOC", "LOCATION"}),
         ({"PERSON"}, {"PER", "PERSON"}),
         ({"ORGANIZATION"}, {"ORG"}),
-        # ({"MISCELLANEOUS"}, {"MISC"}), # Probably not PII
+  
     ]
-
-    # MODEL_LANGUAGES = {
-    #     "en": "flair/ner-english-large",
-    #     "es": "flair/ner-spanish-large",
-    #     "de": "flair/ner-german-large",
-    #     "nl": "flair/ner-dutch-large",
-    # }
 
     PRESIDIO_EQUIVALENCES = {
         "I-PER": "PERSON",
         "I-LOC": "LOCATION",
-        # "I-ORG": "ORGANIZATION",
-        # 'MISC': 'MISCELLANEOUS'   # - Probably not PII
+       
     }
 
     def __init__(
@@ -97,8 +88,7 @@ class RobertaRecognizer(EntityRecognizer):
         supported_entities = supported_entities if supported_entities else self.ENTITIES
         self.model = (
             model
-            # if model
-            # else SequenceTagger.load(self.MODEL_LANGUAGES.get(supported_language))
+         
         )
 
         super().__init__(
@@ -119,7 +109,7 @@ class RobertaRecognizer(EntityRecognizer):
         """
         return self.supported_entities
 
-    # Class to use Flair with Presidio as an external recognizer.
+    
     def analyze(
         self, text: str, entities: List[str], nlp_artifacts: NlpArtifacts = None
     ) -> List[RecognizerResult]:
@@ -144,19 +134,17 @@ class RobertaRecognizer(EntityRecognizer):
 
         for entity in res:
             if current_entity and entity['start'] <= current_entity['end']:
-                # Overlapping entity, update existing entity
+               
                 current_entity['end'] = max(current_entity['end'], entity['end'])
                 current_entity['word'] += entity['word']
             else:
-                # New entity, start a new one
+              
                 current_entity = entity
                 merged_entities.append(current_entity)
 
-        # Handle partial entities at the end
         if current_entity and len(current_entity['word']) < 2:
             merged_entities.pop()
-        # print("=======",merged_entities)
-        # If there are no specific list of entities, we will look for all of it.
+       
         if not entities:
             entities = self.supported_entities
 
@@ -165,15 +153,7 @@ class RobertaRecognizer(EntityRecognizer):
                 continue
 
             for ent in merged_entities:
-                    # flair_results = RecognizerResult(
-                    #              entity_type=ent['entity'],
-                    #              start=ent['start'],
-                    #              end=ent['end'],
-                    #              score=ent["score"],
-                    #              analysis_explanation=None,
-                    #          )
-                # print("---------")
-                # print(entity, ent.labels[0].value, self.check_label_groups)
+                   
                 entity_type = self.PRESIDIO_EQUIVALENCES.get(ent['entity'], ent['entity'])
                 roberta_score = round(float(ent["score"]), 2)
                 if(entity_type not in entities):
@@ -185,7 +165,7 @@ class RobertaRecognizer(EntityRecognizer):
                 explanation = self.build_flair_explanation(
                     roberta_score, textual_explanation
                 )
-                # print(ent)
+
                 flair_result = RecognizerResult(
                                  entity_type=entity_type,
                                  start=ent['start'],
@@ -195,8 +175,7 @@ class RobertaRecognizer(EntityRecognizer):
                              )
 
                 results.append(flair_result)
-                # results.append(flair_result)
-        # print(results)
+
         print("time====",time.time()-t)
         return results
 
@@ -232,10 +211,4 @@ class RobertaRecognizer(EntityRecognizer):
         )
         return explanation
 
-    @staticmethod
-    def __check_label(
-        entity: str, label: str, check_label_groups: Tuple[Set, Set]
-    ) -> bool:
-        return any(
-            [entity in egrp and label in lgrp for egrp, lgrp in check_label_groups]
-        )
+ 

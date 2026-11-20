@@ -20,7 +20,7 @@ from utils import get_replacements, redact_pii_batch
 REPONAME_TOKEN = "<reponame>"
 FILENAME_TOKEN = "<filename>"
 STARS_TOKEN = "<gh_stars>"
-
+rng = None 
 
 def get_num_stars_bucket(num_stars: int) -> str:
     if num_stars is None or num_stars == 0:
@@ -36,16 +36,18 @@ def get_num_stars_bucket(num_stars: int) -> str:
 
 
 def content_with_meta(example):
-    # TODO
+    if rng is None:
+        rng = np.random.default_rng(seed=42)  
+
     res = ""
     # repo-name
-    if np.random.binomial(n=1, p=0.2):
+    if rng.binomial(n=1, p=0.2):
         res += f"{REPONAME_TOKEN}{example['max_stars_repo_name']}"
     # file-name
-    if np.random.binomial(n=1, p=0.2):
+    if rng.binomial(n=1, p=0.2):
         res += f"{FILENAME_TOKEN}{example['max_stars_repo_path']}"
     # number of stars
-    if np.random.binomial(n=1, p=0.2):
+    if rng.binomial(n=1, p=0.2):
         num_stars = get_num_stars_bucket(example["max_stars_count"])
         res += f"{STARS_TOKEN}{num_stars}"
     if len(res) > 0:
@@ -55,7 +57,7 @@ def content_with_meta(example):
     return {"content_with_meta": res}
 
 
-def parseArgs():
+def parse_args():
     parser = argparse.ArgumentParser(description="PII detection and redaction")
     parser.add_argument(
         "--dataset_name",
@@ -209,15 +211,15 @@ def main():
         datefmt="%m/%d/%Y %H:%M:%S",
         level=logging.INFO,
         handlers=[
-            logging.FileHandler(f"logs/pii-{args.dataset_name.split('/')[-1]}.log"),
+            logging.FileHandler("logs/pii-{args.dataset_name.split('/')[-1]}.log"),
             logging.StreamHandler(),
         ],
     )
     logger.info(
-        f"** The job is running with the following arguments: **\n{args}\n **** "
+        "** The job is running with the following arguments: **\n{args}\n **** "
     )
 
-    logger.info(f" ===== Loading {args.dataset_name} =====")
+    logger.info(" ===== Loading {args.dataset_name} =====")
     ds = load_dataset(
         args.dataset_name,
         split=args.split,
@@ -227,33 +229,33 @@ def main():
     if args.text_column != "content":
         ds = ds.rename_column(args.text_column, "content")
 
-    logger.info(f" ===== Deduplicating dataset =====")
+    logger.info(" ===== Deduplicating dataset =====")
     # Deduplication based on ids
     uniques = set(ds["id"])
     frac = len(uniques) / len(ds)
-    logger.info(f"Fraction of duplicates: {1-frac:.2%}")
-    logger.info(f"Dataset:\n{ds}")
+    logger.info("Fraction of duplicates: {1-frac:.2%}")
+    logger.info("Dataset:\n{ds}")
     # Deduplicate data and apply heuristics
     t_start = time.time()
     ds_pii = ds.filter(check_uniques, fn_kwargs={"uniques": uniques})
-    logger.info(f"Time to filter dataset: {time.time()-t_start:.2f}")
-    logger.info(f"Dataset after dedup:\n{ds_pii}")
+    logger.info("Time to filter dataset: {time.time()-t_start:.2f}")
+    logger.info("Dataset after dedup:\n{ds_pii}")
 
     logger.info(
-        f"Number of samples that contained PII: {sum([1 if x['entities'] else 0 for x in ds_pii])}"
+        "Number of samples that contained PII: {sum([1 if x['entities'] else 0 for x in ds_pii])}"
     )
     # logger.info(
     #    f"Total number of secrets found: {sum([len(x['entities']) for x in ds_pii])}"
     # )
 
     # redact PII in the dataset
-    logger.info(f" ===== Applying PII redaction =====")
+    logger.info(" ===== Applying PII redaction =====")
     random.seed(args.seed)
 
     replacements = get_replacements()
     with open("replacements.json", "w") as f:
         json.dump(replacements, f)
-    logging.info(f"Using the following replacements:\n{pformat(replacements)}")
+    logging.info("Using the following replacements:\n{pformat(replacements)}")
     ds_pii = ds_pii.map(
         partial(
             redact_pii_batch,
@@ -264,11 +266,11 @@ def main():
         batch_size=args.batch_size,
         num_proc=args.num_proc,
     )
-    logging.info(f"Dataset info after PII redaction:\n{ds_pii}")
+    logging.info("Dataset info after PII redaction:\n{ds_pii}")
 
     # check the dataset
     logger.info(
-        f" ===== Checking {args.check_sampling_size} samples from those modified in the dataset ====="
+        " ===== Checking {args.check_sampling_size} samples from those modified in the dataset ====="
     )
     ds_checks = get_check_ds(ds_pii, args)
 
@@ -276,19 +278,19 @@ def main():
     if len(ds_checks) == 0:
         logger.info("Dataset was empty. Not saving anything.")
     else:
-        logger.info(f"Checks dataset info {ds_checks}")
+        logger.info("Checks dataset info {ds_checks}")
         if args.save_mode_checks == "hub":
             logger.info(
-                f"Pushing the checks dataset to the Hub as {args.target_dataset}_checks"
+                "Pushing the checks dataset to the Hub as {args.target_dataset}_checks"
             )
             ds_checks.push_to_hub(args.target_dataset + "_checks", private=True)
 
         elif args.save_mode_checks == "local":
-            logger.info(f"Saving the checks dataset to disk")
+            logger.info("Saving the checks dataset to disk")
             ds_checks.save_to_disk(args.save_path_disk + "_checks")
 
         elif args.save_mode_checks == "manual_shards":
-            logger.info(f"Saving the checks dataset in manual shards")
+            logger.info("Saving the checks dataset in manual shards")
             save_manual_shards(
                 ds_checks,
                 user=args.hub_username,
@@ -302,10 +304,10 @@ def main():
         columns.append("references")
     ds_pii = ds_pii.remove_columns(columns)
     ds_pii = ds_pii.rename_column("new_content", "content")
-    logger.info(f"Dataset info after removing columns:\n{ds_pii}")
+    logger.info("Dataset info after removing columns:\n{ds_pii}")
 
     if args.add_metadata:
-        logger.info(f" ===== Adding metadata =====")
+        logger.info(" ===== Adding metadata =====")
         ds_pii = ds_pii.map(
             content_with_meta, remove_columns=["content"], num_proc=args.num_proc
         )
@@ -314,17 +316,17 @@ def main():
     # save the final dataset
     if args.save_mode == "hub":
         logger.info(
-            f" ===== Pushing the dataset to the Hub as: {args.target_dataset} ====="
+            " ===== Pushing the dataset to the Hub as: {args.target_dataset} ====="
         )
         ds_pii.push_to_hub(args.target_dataset, private=True)
 
     elif args.save_mode == "local":
-        logger.info(f" ===== Saving the dataset to disk =====")
+        logger.info(" ===== Saving the dataset to disk =====")
         ds_pii.save_to_disk(args.save_path_disk)
 
     elif args.save_mode == "manual_shards":
         logger.info(
-            f" ===== Saving the dataset in manual shards to {args.save_path_disk} ====="
+            " ===== Saving the dataset in manual shards to {args.save_path_disk} ====="
         )
         save_manual_shards(
             ds_pii,
@@ -333,7 +335,7 @@ def main():
             local_dir=args.save_path_disk,
         )
 
-    logger.info(f" ===== Dataset saved successfully =====")
+    logger.info(" ===== Dataset saved successfully =====")
 
 
 if __name__ == "__main__":

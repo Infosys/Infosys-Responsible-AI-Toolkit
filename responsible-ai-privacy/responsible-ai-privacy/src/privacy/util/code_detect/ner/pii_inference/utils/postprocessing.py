@@ -10,16 +10,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 from nltk import RegexpTokenizer
 import re
-
-# from utils.span_ops import remap_logits
-# from pii_inference.utils.span_ops import remap_logits
 from privacy.util.code_detect.ner.pii_inference.utils.span_ops import remap_logits
 
 def postprocess(pii_entry):
-    start, end, old_value = pii_entry['start'], pii_entry['end'], pii_entry['value']
+    start,_, old_value = pii_entry['start'], pii_entry['end'], pii_entry['value']
     new_value = old_value.lstrip('!"\'()*+,-./:;<=>?[\\]^_`{|}~')
     if pii_entry.get('tag') != 'KEY':
-        new_value = re.sub(r'[\s\W]+$', '', new_value)
+        new_value = re.sub(r'[\W]+$', '', new_value)
     new_value = new_value.strip()
 
     offset = old_value.find(new_value)
@@ -29,7 +26,7 @@ def postprocess(pii_entry):
     return pii_entry
 
 
-def retokenize_with_logits(content, offset_mapping, pred, tokenizer_pattern=r'[\w+\.\-]+|[\S+]', **kwargs):
+def retokenize_with_logits(content, offset_mapping, pred, tokenizer_pattern=r'[\w+\.\-]+|[\S+]'):
     """
     Re-tokenizes the `content` by RegexpTokenizer and aggregates `pred` logits for tokens which had been merged.
 

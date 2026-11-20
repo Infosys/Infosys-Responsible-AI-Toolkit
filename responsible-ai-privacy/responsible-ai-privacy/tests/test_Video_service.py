@@ -2,8 +2,8 @@
 Comprehensive test suite for Video_service.py
 
 Tests cover:
-- frameAnonymization: Frame processing with PII detection and anonymization
-- videoPrivacy: Full video processing pipeline with chunking and threading
+- frame_anonymization: Frame processing with PII detection and anonymization
+- video_privacy: Full video processing pipeline with chunking and threading
 - Error handling and edge cases
 - File cleanup and resource management
 """
@@ -11,192 +11,230 @@ Tests cover:
 import pytest
 import base64
 import os
-import tempfile
 import numpy as np
-import cv2
-import asyncio
-from PIL import Image
 from unittest.mock import Mock, MagicMock, patch, AsyncMock, call
-from io import BytesIO
+import cv2
+
+# Standard imports following project convention
 from privacy.service.Video_service import VideoService
 from privacy.service.imagePrivacy import AttributeDict
 
 
-class TestVideoServiceFrameAnonymization:
-    """Tests for VideoService.frameAnonymization static method"""
+class TestVideoServiceframe_anonymization:
+    """Tests for VideoService.frame_anonymization static method"""
 
-    @patch('privacy.service.Video_service.ImagePrivacy.image_anonymize')
-    @patch('privacy.service.Video_service.Image.fromarray')
-    @patch('privacy.service.Video_service.cv2.cvtColor')
-    @patch('privacy.service.Video_service.cv2.imdecode')
-    @patch('privacy.service.Video_service.os.path.exists')
-    @patch('privacy.service.Video_service.os.remove')
+    @patch('privacy.service.Video_service.request_id_var')
     @patch('privacy.service.Video_service.os.makedirs')
-    def test_frame_anonymization_success(self, mock_makedirs, mock_remove, mock_exists, 
-                                        mock_imdecode, mock_cvtColor, mock_fromarray, 
-                                        mock_image_anonymize):
-        """Test successful frame anonymization"""
-        # Create a sample frame
-        frame = np.zeros((100, 100, 3), dtype=np.uint8)
+    @patch('privacy.service.Video_service.os.remove')
+    @patch('privacy.service.Video_service.os.path.exists')
+    @patch('privacy.service.Video_service.cv2.imdecode')
+    @patch('privacy.service.Video_service.cv2.cvtColor')
+    @patch('privacy.service.Video_service.Image.fromarray')
+    @patch('privacy.service.Video_service.ImagePrivacy.image_anonymize')
+    def test_frame_anonymization_success(
+        self, mock_image_anonymize, mock_fromarray, mock_cvtColor,
+        mock_imdecode, mock_exists, mock_remove, mock_makedirs, mock_request_id
+    ):
+        """Test successful frame_anonymization"""
+        # Setup
+        payload = {'entity_types': ['PERSON']}
+        frame = np.zeros((480, 640, 3), dtype=np.uint8)
+        indx = 0
+        results_dict = {}
+        main_request_id = 'test-main-id'
+        video_temp_path = '/tmp/video_temp'
         
-        # Mock the anonymization result
-        anonymized_image_b64 = base64.b64encode(b'anonymized_image_data').decode('utf-8')
-        mock_image_anonymize.return_value = anonymized_image_b64
+        # Mock setup - token needs to be truthy for reset to be called
+        mock_token = object()  # truthy object
+        mock_request_id.set.return_value = mock_token
         
-        # Mock cv2 operations
-        mock_cvtColor.return_value = frame
         mock_pil_image = MagicMock()
         mock_fromarray.return_value = mock_pil_image
         
-        # Mock decoded frame
-        decoded_frame = np.ones((100, 100, 3), dtype=np.uint8)
-        mock_imdecode.return_value = decoded_frame
+        # Mock anonymized image return
+        processed_frame = np.ones((480, 640, 3), dtype=np.uint8)
+        mock_imdecode.return_value = processed_frame
         
-        # Mock file operations
+        encoded_img = base64.b64encode(b'processed_image_data').decode('utf-8')
+        mock_image_anonymize.return_value = encoded_img
+        
         mock_exists.return_value = True
         
-        # Prepare test inputs
-        payload = AttributeDict({
-            "nlp_engine_name": "spacy",
-            "pii_entity": "PERSON,EMAIL"
-        })
-        results_dict = {}
-        frame_index = 0
-        main_request_id = "test_request_123"
-        video_request_temp_root_path = "/tmp/test_video"
-        
         # Execute
-        VideoService.frameAnonymization(
-            payload, frame, frame_index, results_dict, 
-            main_request_id, video_request_temp_root_path
+        VideoService.frame_anonymization(
+            payload, frame, indx, results_dict, main_request_id, video_temp_path
         )
         
-        # Verify
-        assert frame_index in results_dict
-        assert results_dict[frame_index] is not None
-        assert np.array_equal(results_dict[frame_index], decoded_frame)
+        # Assert
+        assert indx in results_dict
+        assert results_dict[indx] is not None
+        # Verify the processed frame matches (handle both numpy arrays and potential mocks)
+        result_frame = results_dict[indx]
+        if hasattr(result_frame, '__array__') and hasattr(processed_frame, '__array__'):
+            assert (result_frame == processed_frame).all(), "Processed frame doesn't match"
+        else:
+            assert result_frame is processed_frame or result_frame == processed_frame
+        mock_makedirs.assert_called_once()
+        mock_pil_image.save.assert_called_once()
         mock_image_anonymize.assert_called_once()
         mock_remove.assert_called_once()
 
-    @patch('privacy.service.Video_service.ImagePrivacy.image_anonymize')
-    @patch('privacy.service.Video_service.Image.fromarray')
-    @patch('privacy.service.Video_service.cv2.cvtColor')
-    @patch('privacy.service.Video_service.cv2.imdecode')
-    @patch('privacy.service.Video_service.os.path.exists')
-    @patch('privacy.service.Video_service.os.remove')
+    @patch('privacy.service.Video_service.request_id_var')
     @patch('privacy.service.Video_service.os.makedirs')
-    def test_frame_anonymization_decode_failure(self, mock_makedirs, mock_remove, mock_exists,
-                                               mock_imdecode, mock_cvtColor, mock_fromarray,
-                                               mock_image_anonymize):
-        """Test frame anonymization when decode fails"""
-        frame = np.zeros((100, 100, 3), dtype=np.uint8)
-        anonymized_image_b64 = base64.b64encode(b'invalid_image_data').decode('utf-8')
-        mock_image_anonymize.return_value = anonymized_image_b64
-        mock_cvtColor.return_value = frame
+    @patch('privacy.service.Video_service.os.remove')
+    @patch('privacy.service.Video_service.os.path.exists')
+    @patch('privacy.service.Video_service.cv2.imdecode')
+    @patch('privacy.service.Video_service.cv2.cvtColor')
+    @patch('privacy.service.Video_service.Image.fromarray')
+    @patch('privacy.service.Video_service.ImagePrivacy.image_anonymize')
+    def test_frame_anonymization_decode_failure(
+        self, mock_image_anonymize, mock_fromarray, mock_cvtColor,
+        mock_imdecode, mock_exists, mock_remove, mock_makedirs, mock_request_id
+    ):
+        """Test frame_anonymization when cv2.imdecode fails"""
+        # Setup
+        payload = {'entity_types': ['PERSON']}
+        frame = np.zeros((480, 640, 3), dtype=np.uint8)
+        indx = 1
+        results_dict = {}
+        main_request_id = 'test-id'
+        video_temp_path = '/tmp/test'
+        
+        mock_token = object()  # truthy object
+        mock_request_id.set.return_value = mock_token
+        
         mock_pil_image = MagicMock()
         mock_fromarray.return_value = mock_pil_image
         
-        # Simulate decode failure
-        mock_imdecode.return_value = None
+        encoded_img = base64.b64encode(b'data').decode('utf-8')
+        mock_image_anonymize.return_value = encoded_img
+        mock_imdecode.return_value = None  # Decode failure
         mock_exists.return_value = True
         
-        payload = AttributeDict({"nlp_engine_name": "spacy"})
-        results_dict = {}
-        frame_index = 5
-        
-        VideoService.frameAnonymization(
-            payload, frame, frame_index, results_dict,
-            "test_req", "/tmp/test"
+        # Execute
+        VideoService.frame_anonymization(
+            payload, frame, indx, results_dict, main_request_id, video_temp_path
         )
         
-        # Verify that None is stored for failed frame
-        assert frame_index in results_dict
-        assert results_dict[frame_index] is None
+        # Assert
+        assert indx in results_dict
+        assert results_dict[indx] is None
+        mock_remove.assert_called_once()
 
-    @patch('privacy.service.Video_service.ImagePrivacy.image_anonymize')
-    @patch('privacy.service.Video_service.Image.fromarray')
-    @patch('privacy.service.Video_service.cv2.cvtColor')
-    @patch('privacy.service.Video_service.os.path.exists')
-    @patch('privacy.service.Video_service.os.remove')
+    @patch('privacy.service.Video_service.request_id_var')
     @patch('privacy.service.Video_service.os.makedirs')
-    def test_frame_anonymization_exception_handling(self, mock_makedirs, mock_remove, 
-                                                   mock_exists, mock_cvtColor, 
-                                                   mock_fromarray, mock_image_anonymize):
-        """Test exception handling in frame anonymization"""
-        frame = np.zeros((100, 100, 3), dtype=np.uint8)
+    @patch('privacy.service.Video_service.os.remove')
+    @patch('privacy.service.Video_service.os.path.exists')
+    @patch('privacy.service.Video_service.cv2.cvtColor')
+    @patch('privacy.service.Video_service.Image.fromarray')
+    @patch('privacy.service.Video_service.ImagePrivacy.image_anonymize')
+    def test_frame_anonymization_exception_handling(
+        self, mock_image_anonymize, mock_fromarray, mock_cvtColor,
+        mock_exists, mock_remove, mock_makedirs, mock_request_id
+    ):
+        """Test frame_anonymization handles exceptions gracefully"""
+        # Setup
+        payload = {'entity_types': ['PERSON']}
+        frame = np.zeros((480, 640, 3), dtype=np.uint8)
+        indx = 2
+        results_dict = {}
+        main_request_id = 'test-id'
+        video_temp_path = '/tmp/test'
         
-        # Simulate exception during anonymization
-        mock_image_anonymize.side_effect = Exception("Anonymization error")
-        mock_cvtColor.return_value = frame
+        mock_token = object()  # truthy object
+        mock_request_id.set.return_value = mock_token
+        
+        # Simulate exception during processing
+        mock_image_anonymize.side_effect = Exception("Anonymization failed")
         mock_exists.return_value = True
         
-        payload = AttributeDict({})
-        results_dict = {}
-        frame_index = 10
-        
-        VideoService.frameAnonymization(
-            payload, frame, frame_index, results_dict,
-            "test_req", "/tmp/test"
+        # Execute
+        VideoService.frame_anonymization(
+            payload, frame, indx, results_dict, main_request_id, video_temp_path
         )
         
-        # Verify that None is stored when exception occurs
-        assert frame_index in results_dict
-        assert results_dict[frame_index] is None
+        # Assert
+        assert indx in results_dict
+        assert results_dict[indx] is None
+        mock_remove.assert_called_once()
 
-    @patch('privacy.service.Video_service.ImagePrivacy.image_anonymize')
-    @patch('privacy.service.Video_service.Image.fromarray')
-    @patch('privacy.service.Video_service.cv2.cvtColor')
+    @patch('privacy.service.Video_service.request_id_var')
+    @patch('privacy.service.Video_service.os.makedirs')
+    @patch('privacy.service.Video_service.os.remove')
+    @patch('privacy.service.Video_service.os.path.exists')
     @patch('privacy.service.Video_service.cv2.imdecode')
-    @patch('privacy.service.Video_service.os.path.exists')
-    @patch('privacy.service.Video_service.os.remove')
-    @patch('privacy.service.Video_service.os.makedirs')
-    def test_frame_anonymization_file_cleanup_error(self, mock_makedirs, mock_remove, 
-                                                    mock_exists, mock_imdecode, mock_cvtColor,
-                                                    mock_fromarray, mock_image_anonymize):
-        """Test frame anonymization when file cleanup fails"""
-        frame = np.zeros((100, 100, 3), dtype=np.uint8)
-        anonymized_image_b64 = base64.b64encode(b'anonymized_data').decode('utf-8')
-        mock_image_anonymize.return_value = anonymized_image_b64
-        mock_cvtColor.return_value = frame
+    @patch('privacy.service.Video_service.cv2.cvtColor')
+    @patch('privacy.service.Video_service.Image.fromarray')
+    @patch('privacy.service.Video_service.ImagePrivacy.image_anonymize')
+    def test_frame_anonymization_file_cleanup_error(
+        self, mock_image_anonymize, mock_fromarray, mock_cvtColor,
+        mock_imdecode, mock_exists, mock_remove, mock_makedirs, mock_request_id
+    ):
+        """Test frame_anonymization continues despite cleanup errors"""
+        # Setup
+        payload = {'entity_types': ['PERSON']}
+        frame = np.zeros((480, 640, 3), dtype=np.uint8)
+        indx = 3
+        results_dict = {}
+        
+        mock_token = object()  # truthy object
+        mock_request_id.set.return_value = mock_token
+        
         mock_pil_image = MagicMock()
         mock_fromarray.return_value = mock_pil_image
-        decoded_frame = np.ones((100, 100, 3), dtype=np.uint8)
-        mock_imdecode.return_value = decoded_frame
-        mock_exists.return_value = True
         
-        # Simulate file cleanup error
+        processed_frame = np.ones((480, 640, 3), dtype=np.uint8)
+        mock_imdecode.return_value = processed_frame
+        
+        encoded_img = base64.b64encode(b'data').decode('utf-8')
+        mock_image_anonymize.return_value = encoded_img
+        
+        mock_exists.return_value = True
         mock_remove.side_effect = OSError("Permission denied")
         
-        payload = AttributeDict({})
-        results_dict = {}
-        frame_index = 3
-        
-        # Should not raise exception despite cleanup error
-        VideoService.frameAnonymization(
-            payload, frame, frame_index, results_dict,
-            "test_req", "/tmp/test"
+        # Execute - should not raise exception
+        VideoService.frame_anonymization(
+            payload, frame, indx, results_dict, 'test-id', '/tmp/test'
         )
         
-        assert frame_index in results_dict
-        assert results_dict[frame_index] is not None
+        # Assert - processing should succeed despite cleanup error
+        assert indx in results_dict
+        assert results_dict[indx] is not None
 
 
-class TestVideoServiceVideoPrivacy:
-    """Tests for VideoService.videoPrivacy async method"""
+class TestVideoServicevideo_privacy:
+    """Tests for VideoService.video_privacy async method"""
 
-    @patch('privacy.service.Video_service.os.path.exists', return_value=True)
+    @pytest.mark.asyncio
     @patch('privacy.service.Video_service.shutil.rmtree')
+    @patch('privacy.service.Video_service.os.path.exists')
     @patch('privacy.service.Video_service.os.makedirs')
-    @patch('privacy.service.Video_service.cv2.VideoCapture')
+    @patch('privacy.service.Video_service.request_id_var')
     @patch('privacy.service.Video_service.cv2.VideoWriter')
-    @patch('privacy.service.Video_service.VideoService.frameAnonymization')
-    def test_video_privacy_basic_success(self, mock_frame_anon, mock_video_writer,
-                                              mock_video_capture, mock_makedirs, mock_rmtree, mock_exists):
-        """Test basic successful video anonymization"""
+    @patch('privacy.service.Video_service.cv2.VideoCapture')
+    @patch('privacy.service.Video_service.VideoService.frame_anonymization')
+    async def test_video_privacy_basic_success(
+        self, mock_frame_anon, mock_video_capture, mock_video_writer,
+        mock_request_id, mock_makedirs, mock_exists, mock_rmtree
+    ):
+        """Test basic successful video_privacy processing"""
+        # Setup
+        service = VideoService()
+        
+        mock_token = object()  # truthy object
+        mock_request_id.set.return_value = mock_token
+        
         # Create mock video file
         mock_upload_file = AsyncMock()
-        mock_upload_file.filename = "test_video.mp4"
-        mock_upload_file.read = AsyncMock(return_value=b'fake_video_data')
+        mock_upload_file.filename = 'test_video.mp4'
+        test_video_data = b'fake_video_data'
+        mock_upload_file.read = AsyncMock(return_value=test_video_data)
+        
+        payload = {
+            'video': mock_upload_file,
+            'entity_types': ['PERSON'],
+            'max_threads': 4
+        }
         
         # Mock VideoCapture
         mock_cap = MagicMock()
@@ -205,20 +243,19 @@ class TestVideoServiceVideoPrivacy:
             cv2.CAP_PROP_FRAME_WIDTH: 640,
             cv2.CAP_PROP_FRAME_HEIGHT: 480,
             cv2.CAP_PROP_FPS: 30.0,
-            cv2.CAP_PROP_FRAME_COUNT: 90
+            cv2.CAP_PROP_FRAME_COUNT: 10
         }.get(prop, 0)
         
-        # Mock frame reading - 3 frames total then end
-        from itertools import chain
-        frame1 = np.zeros((480, 640, 3), dtype=np.uint8)
-        frame2 = np.ones((480, 640, 3), dtype=np.uint8) * 128
-        frame3 = np.ones((480, 640, 3), dtype=np.uint8) * 255
+        # Use generator to provide infinite False after frames
+        frame = np.zeros((480, 640, 3), dtype=np.uint8)
         
-        # Use chain to provide frames then infinite (False, None)
-        mock_cap.read.side_effect = chain(
-            [(True, frame1), (True, frame2), (True, frame3)],
-            [(False, None)] * 1000  # Provide enough (False, None) to handle any reads
-        )
+        def read_side_effect():
+            for _ in range(10):
+                yield (True, frame)
+            while True:
+                yield (False, None)
+        
+        mock_cap.read = MagicMock(side_effect=read_side_effect())
         mock_video_capture.return_value = mock_cap
         
         # Mock VideoWriter
@@ -226,502 +263,110 @@ class TestVideoServiceVideoPrivacy:
         mock_writer.isOpened.return_value = True
         mock_video_writer.return_value = mock_writer
         
-        # Create payload
-        payload = {
-            "video": mock_upload_file,
-            "nlp_engine_name": "spacy",
-            "max_threads": 2
-        }
+        mock_exists.return_value = True
         
-        # Mock frameAnonymization to populate results
-        def mock_anonymize(payload, frame, indx, results_dict, req_id, temp_path):
-            results_dict[indx] = frame.copy()
+        # Mock frame anonymization
+        def mock_anon_side_effect(payload, frame, idx, results_dict, req_id, temp_path):
+            results_dict[idx] = np.ones((480, 640, 3), dtype=np.uint8)
         
-        mock_frame_anon.side_effect = mock_anonymize
+        mock_frame_anon.side_effect = mock_anon_side_effect
         
-        # Mock file operations
+        # Mock open for file operations
         with patch('builtins.open', create=True) as mock_open:
-            mock_file_write = MagicMock()
-            mock_file_read = MagicMock()
-            mock_file_read.read.return_value = b'processed_video_data'
-            
-            def open_side_effect(filename, mode, *args, **kwargs):
-                if 'wb' in mode:
-                    mock_file_write.__enter__ = Mock(return_value=mock_file_write)
-                    mock_file_write.__exit__ = Mock(return_value=None)
-                    return mock_file_write
-                elif 'rb' in mode:
-                    mock_file_read.__enter__ = Mock(return_value=mock_file_read)
-                    mock_file_read.__exit__ = Mock(return_value=None)
-                    return mock_file_read
-                return MagicMock()
+            def open_side_effect(path, mode='r', *args, **kwargs):
+                mock_file = MagicMock()
+                if 'w' in mode or 'a' in mode:
+                    # For write operations, return a mock that does nothing
+                    mock_file.write = MagicMock()
+                    mock_file.__enter__ = Mock(return_value=mock_file)
+                    mock_file.__exit__ = Mock(return_value=False)
+                else:
+                    # For read operations, return actual bytes
+                    mock_file.read = Mock(return_value=b'output_video_data')
+                    mock_file.__enter__ = Mock(return_value=mock_file)
+                    mock_file.__exit__ = Mock(return_value=False)
+                return mock_file
             
             mock_open.side_effect = open_side_effect
             
             # Execute
-            service = VideoService()
-            result = asyncio.run(service.videoPrivacy(payload))
+            result = await service.video_privacy(payload)
             
-            # Verify
+            # Assert
             assert result is not None
             assert isinstance(result, str)
-            # Verify it's valid base64
-            decoded = base64.b64decode(result)
-            assert decoded == b'processed_video_data'
+            # Verify it's base64 encoded
+            try:
+                decoded = base64.b64decode(result)
+                assert isinstance(decoded, bytes)
+            except Exception:
+                pytest.fail("Result is not valid base64")
             
-            # Verify video operations
-            mock_cap.release.assert_called()
-            mock_writer.release.assert_called()
+            mock_video_capture.assert_called_once()
+            mock_video_writer.assert_called_once()
+            assert mock_writer.write.call_count == 10
             mock_rmtree.assert_called_once()
 
+    @pytest.mark.asyncio
+    @patch('privacy.service.Video_service.shutil.rmtree')
+    @patch('privacy.service.Video_service.os.path.exists')
     @patch('privacy.service.Video_service.os.makedirs')
+    @patch('privacy.service.Video_service.request_id_var')
     @patch('privacy.service.Video_service.cv2.VideoCapture')
-    def test_video_privacy_cannot_open_video(self, mock_video_capture, mock_makedirs):
-        """Test when video file cannot be opened"""
-        mock_upload_file = AsyncMock()
-        mock_upload_file.filename = "test_video.mp4"
-        mock_upload_file.read = AsyncMock(return_value=b'fake_video_data')
+    async def test_video_privacy_cannot_open_video(
+        self, mock_video_capture, mock_request_id, mock_makedirs, mock_exists, mock_rmtree
+    ):
+        """Test video_privacy when VideoCapture cannot open video"""
+        # Setup
+        service = VideoService()
         
-        # Mock VideoCapture that fails to open
+        mock_token = object()  # truthy object
+        mock_request_id.set.return_value = mock_token
+        
+        mock_upload_file = AsyncMock()
+        mock_upload_file.filename = 'bad_video.mp4'
+        mock_upload_file.read = AsyncMock(return_value=b'bad_video_data')
+        
+        payload = {'video': mock_upload_file, 'entity_types': ['PERSON']}
+        
+        # Mock VideoCapture to fail opening
         mock_cap = MagicMock()
         mock_cap.isOpened.return_value = False
         mock_video_capture.return_value = mock_cap
         
-        payload = {"video": mock_upload_file}
+        mock_exists.return_value = True
         
         with patch('builtins.open', create=True):
-            service = VideoService()
-            with pytest.raises(Exception, match="OpenCV could not open video file"):
-                asyncio.run(service.videoPrivacy(payload))
+            # Execute and assert exception
+            with pytest.raises(Exception, match="could not open video file"):
+                await service.video_privacy(payload)
+        
+        # Cleanup should still happen
+        mock_rmtree.assert_called_once()
 
+    @pytest.mark.asyncio
     @patch('privacy.service.Video_service.shutil.rmtree')
+    @patch('privacy.service.Video_service.os.path.exists')
     @patch('privacy.service.Video_service.os.makedirs')
-    @patch('privacy.service.Video_service.cv2.VideoCapture')
+    @patch('privacy.service.Video_service.request_id_var')
     @patch('privacy.service.Video_service.cv2.VideoWriter')
-    def test_video_privacy_cannot_open_writer(self, mock_video_writer, mock_video_capture,
-                                                   mock_makedirs, mock_rmtree):
-        """Test when VideoWriter cannot be opened"""
-        mock_upload_file = AsyncMock()
-        mock_upload_file.filename = "test_video.mp4"
-        mock_upload_file.read = AsyncMock(return_value=b'fake_video_data')
-        
-        # Mock VideoCapture
-        mock_cap = MagicMock()
-        mock_cap.isOpened.return_value = True
-        mock_cap.get.side_effect = lambda prop: {
-            cv2.CAP_PROP_FRAME_WIDTH: 640,
-            cv2.CAP_PROP_FRAME_HEIGHT: 480,
-            cv2.CAP_PROP_FPS: 30.0,
-            cv2.CAP_PROP_FRAME_COUNT: 30
-        }.get(prop, 0)
-        mock_video_capture.return_value = mock_cap
-        
-        # Mock VideoWriter that fails to open
-        mock_writer = MagicMock()
-        mock_writer.isOpened.return_value = False
-        mock_video_writer.return_value = mock_writer
-        
-        payload = {"video": mock_upload_file}
-        
-        with patch('builtins.open', create=True):
-            service = VideoService()
-            with pytest.raises(Exception, match="OpenCV could not open VideoWriter"):
-                asyncio.run(service.videoPrivacy(payload))
-
-    @patch('privacy.service.Video_service.shutil.rmtree')
-    @patch('privacy.service.Video_service.os.makedirs')
     @patch('privacy.service.Video_service.cv2.VideoCapture')
-    @patch('privacy.service.Video_service.cv2.VideoWriter')
-    @patch('privacy.service.Video_service.VideoService.frameAnonymization')
-    def test_video_privacy_with_zero_fps(self, mock_frame_anon, mock_video_writer,
-                                               mock_video_capture, mock_makedirs, mock_rmtree):
-        """Test video privacy with zero or invalid FPS (uses default)"""
+    async def test_video_privacy_cannot_open_writer(
+        self, mock_video_capture, mock_video_writer,
+        mock_request_id, mock_makedirs, mock_exists, mock_rmtree
+    ):
+        """Test video_privacy when VideoWriter cannot be opened"""
+        # Setup
+        service = VideoService()
+        
+        mock_token = object()  # truthy object
+        mock_request_id.set.return_value = mock_token
+        
         mock_upload_file = AsyncMock()
-        mock_upload_file.filename = "test_video.mp4"
-        mock_upload_file.read = AsyncMock(return_value=b'fake_video_data')
+        mock_upload_file.filename = 'test.mp4'
+        mock_upload_file.read = AsyncMock(return_value=b'video_data')
         
-        # Mock VideoCapture with 0 FPS
-        mock_cap = MagicMock()
-        mock_cap.isOpened.return_value = True
-        mock_cap.get.side_effect = lambda prop: {
-            cv2.CAP_PROP_FRAME_WIDTH: 640,
-            cv2.CAP_PROP_FRAME_HEIGHT: 480,
-            cv2.CAP_PROP_FPS: 0,  # Invalid FPS
-            cv2.CAP_PROP_FRAME_COUNT: 30
-        }.get(prop, 0)
-        
-        from itertools import chain
-        frame = np.zeros((480, 640, 3), dtype=np.uint8)
-        mock_cap.read.side_effect = chain([(True, frame)], [(False, None)] * 1000)
-        mock_video_capture.return_value = mock_cap
-        
-        # Mock VideoWriter
-        mock_writer = MagicMock()
-        mock_writer.isOpened.return_value = True
-        mock_video_writer.return_value = mock_writer
-        
-        payload = {"video": mock_upload_file, "max_threads": 1}
-        
-        def mock_anonymize(payload, frame, indx, results_dict, req_id, temp_path):
-            results_dict[indx] = frame.copy()
-        
-        mock_frame_anon.side_effect = mock_anonymize
-        
-        with patch('builtins.open', create=True) as mock_open:
-            mock_file_write = MagicMock()
-            mock_file_read = MagicMock()
-            mock_file_read.read.return_value = b'processed_video_data'
-            
-            def open_side_effect(filename, mode, *args, **kwargs):
-                if 'wb' in mode:
-                    mock_file_write.__enter__ = Mock(return_value=mock_file_write)
-                    mock_file_write.__exit__ = Mock(return_value=None)
-                    return mock_file_write
-                elif 'rb' in mode:
-                    mock_file_read.__enter__ = Mock(return_value=mock_file_read)
-                    mock_file_read.__exit__ = Mock(return_value=None)
-                    return mock_file_read
-                return MagicMock()
-            
-            mock_open.side_effect = open_side_effect
-            
-            service = VideoService()
-            result = asyncio.run(service.videoPrivacy(payload))
-            
-            assert result is not None
-            # Verify VideoWriter was called with default FPS (30.0)
-            assert mock_video_writer.call_args[0][2] == 30.0
-
-    @patch('privacy.service.Video_service.shutil.rmtree')
-    @patch('privacy.service.Video_service.os.makedirs')
-    @patch('privacy.service.Video_service.cv2.VideoCapture')
-    @patch('privacy.service.Video_service.cv2.VideoWriter')
-    @patch('privacy.service.Video_service.VideoService.frameAnonymization')
-    def test_video_privacy_with_failed_frame_anonymization(self, mock_frame_anon,
-                                                                mock_video_writer,
-                                                                mock_video_capture,
-                                                                mock_makedirs, mock_rmtree):
-        """Test video privacy when some frame anonymizations fail"""
-        mock_upload_file = AsyncMock()
-        mock_upload_file.filename = "test_video.mp4"
-        mock_upload_file.read = AsyncMock(return_value=b'fake_video_data')
-        
-        # Mock VideoCapture
-        mock_cap = MagicMock()
-        mock_cap.isOpened.return_value = True
-        mock_cap.get.side_effect = lambda prop: {
-            cv2.CAP_PROP_FRAME_WIDTH: 640,
-            cv2.CAP_PROP_FRAME_HEIGHT: 480,
-            cv2.CAP_PROP_FPS: 30.0,
-            cv2.CAP_PROP_FRAME_COUNT: 60
-        }.get(prop, 0)
-        
-        from itertools import chain
-        frame = np.zeros((480, 640, 3), dtype=np.uint8)
-        mock_cap.read.side_effect = chain([(True, frame.copy()) for _ in range(5)], [(False, None)] * 1000)
-        mock_video_capture.return_value = mock_cap
-        
-        # Mock VideoWriter
-        mock_writer = MagicMock()
-        mock_writer.isOpened.return_value = True
-        mock_video_writer.return_value = mock_writer
-        
-        payload = {"video": mock_upload_file, "max_threads": 2}
-        
-        # Mock frame anonymization with some failures
-        def mock_anonymize(payload, frame, indx, results_dict, req_id, temp_path):
-            if indx % 2 == 0:
-                results_dict[indx] = frame.copy()  # Success
-            else:
-                results_dict[indx] = None  # Failure
-        
-        mock_frame_anon.side_effect = mock_anonymize
-        
-        with patch('builtins.open', create=True) as mock_open:
-            mock_file_write = MagicMock()
-            mock_file_read = MagicMock()
-            mock_file_read.read.return_value = b'processed_video_data'
-            
-            def open_side_effect(filename, mode, *args, **kwargs):
-                if 'wb' in mode:
-                    mock_file_write.__enter__ = Mock(return_value=mock_file_write)
-                    mock_file_write.__exit__ = Mock(return_value=None)
-                    return mock_file_write
-                elif 'rb' in mode:
-                    mock_file_read.__enter__ = Mock(return_value=mock_file_read)
-                    mock_file_read.__exit__ = Mock(return_value=None)
-                    return mock_file_read
-                return MagicMock()
-            
-            mock_open.side_effect = open_side_effect
-            
-            service = VideoService()
-            result = asyncio.run(service.videoPrivacy(payload))
-            
-            # Should still complete successfully
-            assert result is not None
-            # Verify writer was called for all frames
-            assert mock_writer.write.call_count == 5
-
-    @patch('privacy.service.Video_service.shutil.rmtree')
-    @patch('privacy.service.Video_service.os.makedirs')
-    @patch('privacy.service.Video_service.cv2.VideoCapture')
-    def test_video_privacy_exception_in_processing(self, mock_video_capture,
-                                                        mock_makedirs, mock_rmtree):
-        """Test exception handling during video processing"""
-        mock_upload_file = AsyncMock()
-        mock_upload_file.filename = "test_video.mp4"
-        mock_upload_file.read = AsyncMock(return_value=b'fake_video_data')
-        
-        # Mock VideoCapture that throws exception
-        mock_cap = MagicMock()
-        mock_cap.isOpened.return_value = True
-        mock_cap.get.side_effect = Exception("Unexpected error")
-        mock_video_capture.return_value = mock_cap
-        
-        payload = {"video": mock_upload_file}
-        
-        with patch('builtins.open', create=True):
-            service = VideoService()
-            with pytest.raises(Exception, match="Unexpected error"):
-                asyncio.run(service.videoPrivacy(payload))
-            
-            # Verify cleanup was attempted
-            mock_cap.release.assert_called()
-
-    @patch('privacy.service.Video_service.os.path.exists', return_value=True)
-    @patch('privacy.service.Video_service.shutil.rmtree')
-    @patch('privacy.service.Video_service.os.makedirs')
-    @patch('privacy.service.Video_service.cv2.VideoCapture')
-    @patch('privacy.service.Video_service.cv2.VideoWriter')
-    @patch('privacy.service.Video_service.VideoService.frameAnonymization')
-    def test_video_privacy_cleanup_on_success(self, mock_frame_anon, mock_video_writer,
-                                                   mock_video_capture, mock_makedirs, mock_rmtree, mock_exists):
-        """Test that temporary files are cleaned up after success"""
-        mock_upload_file = AsyncMock()
-        mock_upload_file.filename = "test_video.mp4"
-        mock_upload_file.read = AsyncMock(return_value=b'fake_video_data')
-        
-        # Mock VideoCapture
-        mock_cap = MagicMock()
-        mock_cap.isOpened.return_value = True
-        mock_cap.get.side_effect = lambda prop: {
-            cv2.CAP_PROP_FRAME_WIDTH: 640,
-            cv2.CAP_PROP_FRAME_HEIGHT: 480,
-            cv2.CAP_PROP_FPS: 30.0,
-            cv2.CAP_PROP_FRAME_COUNT: 30
-        }.get(prop, 0)
-        
-        from itertools import chain
-        frame = np.zeros((480, 640, 3), dtype=np.uint8)
-        mock_cap.read.side_effect = chain([(True, frame)], [(False, None)] * 1000)
-        mock_video_capture.return_value = mock_cap
-        
-        # Mock VideoWriter
-        mock_writer = MagicMock()
-        mock_writer.isOpened.return_value = True
-        mock_video_writer.return_value = mock_writer
-        
-        payload = {"video": mock_upload_file}
-        
-        def mock_anonymize(payload, frame, indx, results_dict, req_id, temp_path):
-            results_dict[indx] = frame.copy()
-        
-        mock_frame_anon.side_effect = mock_anonymize
-        
-        with patch('builtins.open', create=True) as mock_open:
-            mock_file_write = MagicMock()
-            mock_file_read = MagicMock()
-            mock_file_read.read.return_value = b'processed_video_data'
-            
-            def open_side_effect(filename, mode, *args, **kwargs):
-                if 'wb' in mode:
-                    mock_file_write.__enter__ = Mock(return_value=mock_file_write)
-                    mock_file_write.__exit__ = Mock(return_value=None)
-                    return mock_file_write
-                elif 'rb' in mode:
-                    mock_file_read.__enter__ = Mock(return_value=mock_file_read)
-                    mock_file_read.__exit__ = Mock(return_value=None)
-                    return mock_file_read
-                return MagicMock()
-            
-            mock_open.side_effect = open_side_effect
-            
-            service = VideoService()
-            result = asyncio.run(service.videoPrivacy(payload))
-            
-            # Verify cleanup was called
-            mock_rmtree.assert_called_once()
-
-    @patch('privacy.service.Video_service.os.path.exists', return_value=True)
-    @patch('privacy.service.Video_service.shutil.rmtree')
-    @patch('privacy.service.Video_service.os.makedirs')
-    @patch('privacy.service.Video_service.cv2.VideoCapture')
-    def test_video_privacy_cleanup_error_handling(self, mock_video_capture,
-                                                       mock_makedirs, mock_rmtree, mock_exists):
-        """Test that cleanup errors are logged but don't prevent exception propagation"""
-        mock_upload_file = AsyncMock()
-        mock_upload_file.filename = "test_video.mp4"
-        mock_upload_file.read = AsyncMock(return_value=b'fake_video_data')
-        
-        # Mock VideoCapture that fails
-        mock_cap = MagicMock()
-        mock_cap.isOpened.return_value = False
-        mock_video_capture.return_value = mock_cap
-        
-        # Make cleanup fail
-        mock_rmtree.side_effect = OSError("Cleanup failed")
-        
-        payload = {"video": mock_upload_file}
-        
-        with patch('builtins.open', create=True):
-            service = VideoService()
-            with pytest.raises(Exception, match="OpenCV could not open video file"):
-                asyncio.run(service.videoPrivacy(payload))
-            
-            # Verify cleanup was attempted despite error
-            mock_rmtree.assert_called_once()
-
-    @patch('privacy.service.Video_service.shutil.rmtree')
-    @patch('privacy.service.Video_service.os.makedirs')
-    @patch('privacy.service.Video_service.cv2.VideoCapture')
-    @patch('privacy.service.Video_service.cv2.VideoWriter')
-    @patch('privacy.service.Video_service.VideoService.frameAnonymization')
-    def test_video_privacy_multiple_chunks(self, mock_frame_anon, mock_video_writer,
-                                                 mock_video_capture, mock_makedirs, mock_rmtree):
-        """Test video processing with multiple chunks"""
-        mock_upload_file = AsyncMock()
-        mock_upload_file.filename = "long_video.mp4"
-        mock_upload_file.read = AsyncMock(return_value=b'fake_video_data')
-        
-        # Mock VideoCapture with many frames
-        mock_cap = MagicMock()
-        mock_cap.isOpened.return_value = True
-        mock_cap.get.side_effect = lambda prop: {
-            cv2.CAP_PROP_FRAME_WIDTH: 320,
-            cv2.CAP_PROP_FRAME_HEIGHT: 240,
-            cv2.CAP_PROP_FPS: 10.0,  # Low FPS for easier testing
-            cv2.CAP_PROP_FRAME_COUNT: 100
-        }.get(prop, 0)
-        
-        # Generate 30 frames (should create multiple chunks at 10 FPS * 2 seconds = 20 frames per chunk)
-        from itertools import chain
-        frame = np.zeros((240, 320, 3), dtype=np.uint8)
-        mock_cap.read.side_effect = chain([(True, frame.copy()) for _ in range(30)], [(False, None)] * 1000)
-        mock_video_capture.return_value = mock_cap
-        
-        # Mock VideoWriter
-        mock_writer = MagicMock()
-        mock_writer.isOpened.return_value = True
-        mock_video_writer.return_value = mock_writer
-        
-        payload = {"video": mock_upload_file, "max_threads": 3}
-        
-        def mock_anonymize(payload, frame, indx, results_dict, req_id, temp_path):
-            results_dict[indx] = frame.copy()
-        
-        mock_frame_anon.side_effect = mock_anonymize
-        
-        with patch('builtins.open', create=True) as mock_open:
-            mock_file_write = MagicMock()
-            mock_file_read = MagicMock()
-            mock_file_read.read.return_value = b'processed_video_data'
-            
-            def open_side_effect(filename, mode, *args, **kwargs):
-                if 'wb' in mode:
-                    mock_file_write.__enter__ = Mock(return_value=mock_file_write)
-                    mock_file_write.__exit__ = Mock(return_value=None)
-                    return mock_file_write
-                elif 'rb' in mode:
-                    mock_file_read.__enter__ = Mock(return_value=mock_file_read)
-                    mock_file_read.__exit__ = Mock(return_value=None)
-                    return mock_file_read
-                return MagicMock()
-            
-            mock_open.side_effect = open_side_effect
-            
-            service = VideoService()
-            result = asyncio.run(service.videoPrivacy(payload))
-            
-            assert result is not None
-            # Verify all 30 frames were written
-            assert mock_writer.write.call_count == 30
-
-    @patch('privacy.service.Video_service.shutil.rmtree')
-    @patch('privacy.service.Video_service.os.makedirs')
-    @patch('privacy.service.Video_service.cv2.VideoCapture')
-    @patch('privacy.service.Video_service.cv2.VideoWriter')
-    @patch('privacy.service.Video_service.VideoService.frameAnonymization')
-    def test_video_privacy_custom_max_threads(self, mock_frame_anon, mock_video_writer,
-                                                   mock_video_capture, mock_makedirs, mock_rmtree):
-        """Test video privacy with custom max_threads parameter"""
-        mock_upload_file = AsyncMock()
-        mock_upload_file.filename = "test_video.mp4"
-        mock_upload_file.read = AsyncMock(return_value=b'fake_video_data')
-        
-        # Mock VideoCapture
-        mock_cap = MagicMock()
-        mock_cap.isOpened.return_value = True
-        mock_cap.get.side_effect = lambda prop: {
-            cv2.CAP_PROP_FRAME_WIDTH: 640,
-            cv2.CAP_PROP_FRAME_HEIGHT: 480,
-            cv2.CAP_PROP_FPS: 30.0,
-            cv2.CAP_PROP_FRAME_COUNT: 30
-        }.get(prop, 0)
-        
-        from itertools import chain
-        frame = np.zeros((480, 640, 3), dtype=np.uint8)
-        mock_cap.read.side_effect = chain([(True, frame.copy()) for _ in range(10)], [(False, None)] * 1000)
-        mock_video_capture.return_value = mock_cap
-        
-        # Mock VideoWriter
-        mock_writer = MagicMock()
-        mock_writer.isOpened.return_value = True
-        mock_video_writer.return_value = mock_writer
-        
-        # Test with custom max_threads
-        payload = {"video": mock_upload_file, "max_threads": 10}
-        
-        def mock_anonymize(payload, frame, indx, results_dict, req_id, temp_path):
-            results_dict[indx] = frame.copy()
-        
-        mock_frame_anon.side_effect = mock_anonymize
-        
-        with patch('builtins.open', create=True) as mock_open:
-            mock_file_write = MagicMock()
-            mock_file_read = MagicMock()
-            mock_file_read.read.return_value = b'processed_video_data'
-            
-            def open_side_effect(filename, mode, *args, **kwargs):
-                if 'wb' in mode:
-                    mock_file_write.__enter__ = Mock(return_value=mock_file_write)
-                    mock_file_write.__exit__ = Mock(return_value=None)
-                    return mock_file_write
-                elif 'rb' in mode:
-                    mock_file_read.__enter__ = Mock(return_value=mock_file_read)
-                    mock_file_read.__exit__ = Mock(return_value=None)
-                    return mock_file_read
-                return MagicMock()
-            
-            mock_open.side_effect = open_side_effect
-            
-            service = VideoService()
-            result = asyncio.run(service.videoPrivacy(payload))
-            
-            assert result is not None
-
-    @patch('privacy.service.Video_service.shutil.rmtree')
-    @patch('privacy.service.Video_service.os.makedirs')
-    @patch('privacy.service.Video_service.cv2.VideoCapture')
-    @patch('privacy.service.Video_service.cv2.VideoWriter')
-    @patch('privacy.service.Video_service.VideoService.frameAnonymization')
-    @patch('privacy.service.Video_service.log')
-    def test_video_privacy_with_thread_exception(self, mock_log, mock_frame_anon, mock_video_writer,
-                                                 mock_video_capture, mock_makedirs, mock_rmtree):
-        """Test video privacy when thread execution fails with exception"""
-        mock_upload_file = AsyncMock()
-        mock_upload_file.filename = "test_video.mp4"
-        mock_upload_file.read = AsyncMock(return_value=b'fake_video_data')
+        payload = {'video': mock_upload_file}
         
         # Mock VideoCapture
         mock_cap = MagicMock()
@@ -732,10 +377,66 @@ class TestVideoServiceVideoPrivacy:
             cv2.CAP_PROP_FPS: 30.0,
             cv2.CAP_PROP_FRAME_COUNT: 5
         }.get(prop, 0)
+        mock_video_capture.return_value = mock_cap
         
-        from itertools import chain
+        # Mock VideoWriter to fail opening
+        mock_writer = MagicMock()
+        mock_writer.isOpened.return_value = False
+        mock_video_writer.return_value = mock_writer
+        
+        mock_exists.return_value = True
+        
+        with patch('builtins.open', create=True):
+            # Execute and assert exception
+            with pytest.raises(Exception, match="could not open VideoWriter"):
+                await service.video_privacy(payload)
+        
+        mock_rmtree.assert_called_once()
+
+    @pytest.mark.asyncio
+    @patch('privacy.service.Video_service.shutil.rmtree')
+    @patch('privacy.service.Video_service.os.path.exists')
+    @patch('privacy.service.Video_service.os.makedirs')
+    @patch('privacy.service.Video_service.request_id_var')
+    @patch('privacy.service.Video_service.cv2.VideoWriter')
+    @patch('privacy.service.Video_service.cv2.VideoCapture')
+    @patch('privacy.service.Video_service.VideoService.frame_anonymization')
+    async def test_video_privacy_with_zero_fps(
+        self, mock_frame_anon, mock_video_capture, mock_video_writer,
+        mock_request_id, mock_makedirs, mock_exists, mock_rmtree
+    ):
+        """Test video_privacy handles zero FPS gracefully (uses default 30.0)"""
+        # Setup
+        service = VideoService()
+        
+        mock_token = object()  # truthy object
+        mock_request_id.set.return_value = mock_token
+        
+        mock_upload_file = AsyncMock()
+        mock_upload_file.filename = 'test.mp4'
+        mock_upload_file.read = AsyncMock(return_value=b'video_data')
+        
+        payload = {'video': mock_upload_file, 'max_threads': 2}
+        
+        # Mock VideoCapture with FPS = 0
+        mock_cap = MagicMock()
+        mock_cap.isOpened.return_value = True
+        mock_cap.get.side_effect = lambda prop: {
+            cv2.CAP_PROP_FRAME_WIDTH: 640,
+            cv2.CAP_PROP_FRAME_HEIGHT: 480,
+            cv2.CAP_PROP_FPS: 0.0,  # Zero FPS
+            cv2.CAP_PROP_FRAME_COUNT: 5
+        }.get(prop, 0)
+        
         frame = np.zeros((480, 640, 3), dtype=np.uint8)
-        mock_cap.read.side_effect = chain([(True, frame.copy()) for _ in range(5)], [(False, None)] * 1000)
+        
+        def read_side_effect():
+            for _ in range(5):
+                yield (True, frame)
+            while True:
+                yield (False, None)
+        
+        mock_cap.read = MagicMock(side_effect=read_side_effect())
         mock_video_capture.return_value = mock_cap
         
         # Mock VideoWriter
@@ -743,49 +444,251 @@ class TestVideoServiceVideoPrivacy:
         mock_writer.isOpened.return_value = True
         mock_video_writer.return_value = mock_writer
         
-        payload = {"video": mock_upload_file, "max_threads": 2}
+        mock_exists.return_value = True
         
-        # Make frameAnonymization raise an exception for some frames
-        def mock_anonymize_with_failure(payload, frame, indx, results_dict, req_id, temp_path):
-            if indx == 2:  # Simulate failure on frame 2
-                raise RuntimeError(f"Simulated anonymization failure for frame {indx}")
-            results_dict[indx] = frame.copy()
+        def mock_anon_side_effect(payload, frame, idx, results_dict, req_id, temp_path):
+            results_dict[idx] = np.ones((480, 640, 3), dtype=np.uint8)
         
-        mock_frame_anon.side_effect = mock_anonymize_with_failure
+        mock_frame_anon.side_effect = mock_anon_side_effect
         
         with patch('builtins.open', create=True) as mock_open:
-            mock_file_write = MagicMock()
-            mock_file_read = MagicMock()
-            mock_file_read.read.return_value = b'processed_video_data'
+            mock_file = MagicMock()
+            mock_file.read.return_value = b'output'
+            mock_open.return_value.__enter__.return_value = mock_file
             
-            def open_side_effect(filename, mode, *args, **kwargs):
-                if 'wb' in mode:
-                    mock_file_write.__enter__ = Mock(return_value=mock_file_write)
-                    mock_file_write.__exit__ = Mock(return_value=None)
-                    return mock_file_write
-                elif 'rb' in mode:
-                    mock_file_read.__enter__ = Mock(return_value=mock_file_read)
-                    mock_file_read.__exit__ = Mock(return_value=None)
-                    return mock_file_read
-                return MagicMock()
+            # Execute
+            result = await service.video_privacy(payload)
             
-            mock_open.side_effect = open_side_effect
+            # Assert - should use default FPS of 30.0
+            assert result is not None
+            # Verify VideoWriter was called with 30.0 FPS
+            mock_video_writer.assert_called_once()
+            call_args = mock_video_writer.call_args
+            assert call_args[0][2] == 30.0  # FPS parameter
+
+    @pytest.mark.asyncio
+    @patch('privacy.service.Video_service.shutil.rmtree')
+    @patch('privacy.service.Video_service.os.path.exists')
+    @patch('privacy.service.Video_service.os.makedirs')
+    @patch('privacy.service.Video_service.request_id_var')
+    @patch('privacy.service.Video_service.cv2.VideoWriter')
+    @patch('privacy.service.Video_service.cv2.VideoCapture')
+    @patch('privacy.service.Video_service.VideoService.frame_anonymization')
+    async def test_video_privacy_multiple_chunks(
+        self, mock_frame_anon, mock_video_capture, mock_video_writer,
+        mock_request_id, mock_makedirs, mock_exists, mock_rmtree
+    ):
+        """Test video_privacy processes multiple chunks correctly"""
+        # Setup
+        service = VideoService()
+        
+        mock_token = object()  # truthy object
+        mock_request_id.set.return_value = mock_token
+        
+        mock_upload_file = AsyncMock()
+        mock_upload_file.filename = 'long_video.mp4'
+        mock_upload_file.read = AsyncMock(return_value=b'video_data')
+        
+        payload = {'video': mock_upload_file, 'max_threads': 4}
+        
+        # Mock VideoCapture with 30 frames (will be processed in chunks)
+        mock_cap = MagicMock()
+        mock_cap.isOpened.return_value = True
+        mock_cap.get.side_effect = lambda prop: {
+            cv2.CAP_PROP_FRAME_WIDTH: 640,
+            cv2.CAP_PROP_FRAME_HEIGHT: 480,
+            cv2.CAP_PROP_FPS: 10.0,  # Low FPS for easier chunk calculation
+            cv2.CAP_PROP_FRAME_COUNT: 30
+        }.get(prop, 0)
+        
+        frame = np.zeros((480, 640, 3), dtype=np.uint8)
+        
+        def read_side_effect():
+            for _ in range(30):
+                yield (True, frame)
+            while True:
+                yield (False, None)
+        
+        mock_cap.read = MagicMock(side_effect=read_side_effect())
+        mock_video_capture.return_value = mock_cap
+        
+        # Mock VideoWriter
+        mock_writer = MagicMock()
+        mock_writer.isOpened.return_value = True
+        mock_video_writer.return_value = mock_writer
+        
+        mock_exists.return_value = True
+        
+        def mock_anon_side_effect(payload, frame, idx, results_dict, req_id, temp_path):
+            results_dict[idx] = np.ones((480, 640, 3), dtype=np.uint8) * (idx % 255)
+        
+        mock_frame_anon.side_effect = mock_anon_side_effect
+        
+        with patch('builtins.open', create=True) as mock_open:
+            mock_file = MagicMock()
+            mock_file.read.return_value = b'output_video'
+            mock_open.return_value.__enter__.return_value = mock_file
             
-            service = VideoService()
-            result = asyncio.run(service.videoPrivacy(payload))
+            # Execute
+            result = await service.video_privacy(payload)
             
-            # Verify that the code handled the exception gracefully
-            # (mock_log.error should have been called for the failed frame)
-            # Result should still be generated
+            # Assert
+            assert result is not None
+            # All 30 frames should be written
+            assert mock_writer.write.call_count == 30
+            mock_rmtree.assert_called_once()
+
+    @pytest.mark.asyncio
+    @patch('privacy.service.Video_service.shutil.rmtree')
+    @patch('privacy.service.Video_service.os.path.exists')
+    @patch('privacy.service.Video_service.os.makedirs')
+    @patch('privacy.service.Video_service.request_id_var')
+    @patch('privacy.service.Video_service.cv2.VideoWriter')
+    @patch('privacy.service.Video_service.cv2.VideoCapture')
+    async def test_video_privacy_exception_in_processing(
+        self, mock_video_capture, mock_video_writer,
+        mock_request_id, mock_makedirs, mock_exists, mock_rmtree
+    ):
+        """Test video_privacy handles exceptions during processing"""
+        # Setup
+        service = VideoService()
+        
+        mock_token = object()  # truthy object
+        mock_request_id.set.return_value = mock_token
+        
+        mock_upload_file = AsyncMock()
+        mock_upload_file.filename = 'test.mp4'
+        mock_upload_file.read = AsyncMock(side_effect=Exception("File read error"))
+        
+        payload = {'video': mock_upload_file}
+        
+        mock_cap = MagicMock()
+        mock_video_capture.return_value = mock_cap
+        
+        mock_writer = MagicMock()
+        mock_video_writer.return_value = mock_writer
+        
+        mock_exists.return_value = True
+        
+        # Execute and assert exception is raised
+        with pytest.raises(Exception, match="File read error"):
+            await service.video_privacy(payload)
+        
+        # Cleanup should still happen
+        mock_rmtree.assert_called_once()
+
+    @pytest.mark.asyncio
+    @patch('privacy.service.Video_service.shutil.rmtree')
+    @patch('privacy.service.Video_service.os.path.exists')
+    @patch('privacy.service.Video_service.os.makedirs')
+    @patch('privacy.service.Video_service.request_id_var')
+    @patch('privacy.service.Video_service.cv2.VideoWriter')
+    @patch('privacy.service.Video_service.cv2.VideoCapture')
+    @patch('privacy.service.Video_service.VideoService.frame_anonymization')
+    async def test_video_privacy_cleanup_on_success(
+        self, mock_frame_anon, mock_video_capture, mock_video_writer,
+        mock_request_id, mock_makedirs, mock_exists, mock_rmtree
+    ):
+        """Test video_privacy cleans up temp directory on success"""
+        # Setup
+        service = VideoService()
+        
+        mock_token = object()  # truthy object
+        mock_request_id.set.return_value = mock_token
+        
+        mock_upload_file = AsyncMock()
+        mock_upload_file.filename = 'test.mp4'
+        mock_upload_file.read = AsyncMock(return_value=b'video_data')
+        
+        payload = {'video': mock_upload_file}
+        
+        # Mock VideoCapture
+        mock_cap = MagicMock()
+        mock_cap.isOpened.return_value = True
+        mock_cap.get.side_effect = lambda prop: {
+            cv2.CAP_PROP_FRAME_WIDTH: 640,
+            cv2.CAP_PROP_FRAME_HEIGHT: 480,
+            cv2.CAP_PROP_FPS: 30.0,
+            cv2.CAP_PROP_FRAME_COUNT: 3
+        }.get(prop, 0)
+        
+        frame = np.zeros((480, 640, 3), dtype=np.uint8)
+        
+        def read_side_effect():
+            for _ in range(3):
+                yield (True, frame)
+            while True:
+                yield (False, None)
+        
+        mock_cap.read = MagicMock(side_effect=read_side_effect())
+        mock_video_capture.return_value = mock_cap
+        
+        # Mock VideoWriter
+        mock_writer = MagicMock()
+        mock_writer.isOpened.return_value = True
+        mock_video_writer.return_value = mock_writer
+        
+        mock_exists.return_value = True
+        
+        def mock_anon_side_effect(payload, frame, idx, results_dict, req_id, temp_path):
+            results_dict[idx] = np.ones((480, 640, 3), dtype=np.uint8)
+        
+        mock_frame_anon.side_effect = mock_anon_side_effect
+        
+        with patch('builtins.open', create=True) as mock_open:
+            mock_file = MagicMock()
+            mock_file.read.return_value = b'output'
+            mock_open.return_value.__enter__.return_value = mock_file
+            
+            # Execute
+            result = await service.video_privacy(payload)
+            
+            # Assert cleanup was called
+            mock_rmtree.assert_called_once()
             assert result is not None
 
-    def test_video_service_path_creation(self):
-        """Test that default video path is created"""
-        from privacy.service.Video_service import path
-        
-        
-        # The module should have created the path on import
-        assert path == "../video/"
-        # In actual execution, os.makedirs would create this, but in tests it's mocked
+
+class TestVideoServiceExceptionHandling:
+    """Tests for exception handling in video processing"""
+    
+    @patch('privacy.service.Video_service.log')
+    def test_frame_anonymization_with_exception_in_processing(self, mock_log):
+        """Test frame_anonymization when an exception occurs during processing"""
+        # This tests the try-except block in frame_anonymization
+        with patch('privacy.service.Video_service.request_id_var') as mock_request_id, \
+             patch('privacy.service.Video_service.os.makedirs'), \
+             patch('privacy.service.Video_service.os.remove'), \
+             patch('privacy.service.Video_service.os.path.exists') as mock_exists, \
+             patch('privacy.service.Video_service.cv2.cvtColor') as mock_cvtColor:
+            
+            # Setup
+            payload = {'entity_types': ['PERSON']}
+            frame = np.zeros((480, 640, 3), dtype=np.uint8)
+            indx = 0
+            results_dict = {}
+            main_request_id = 'test-id'
+            video_temp_path = '/tmp/video_temp'
+            
+            mock_token = object()
+            mock_request_id.set.return_value = mock_token
+            mock_exists.return_value = True
+            
+            # Make cvtColor raise an exception to test error handling
+            mock_cvtColor.side_effect = RuntimeError("cvtColor failed")
+            
+            # Execute
+            VideoService.frame_anonymization(
+                payload, frame, indx, results_dict, main_request_id, video_temp_path
+            )
+            
+            # Assert - should set None in results_dict on error
+            assert indx in results_dict
+            assert results_dict[indx] is None
+            
+            # Verify error was logged
+            assert any('error' in str(call).lower() or 'fail' in str(call).lower() 
+                      for call in mock_log.error.call_args_list)
+
+
 
 

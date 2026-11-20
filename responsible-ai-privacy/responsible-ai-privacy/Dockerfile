@@ -1,14 +1,16 @@
+FROM python:3.11-slim
 
-FROM python:3.9.13
- 
+RUN groupadd -g 10001 appgroup && \
+    useradd -u 10001 -g appgroup appuser
+
 ENV DEBIAN_FRONTEND=noninteractive
- 
-Copy . .
- 
-RUN pip3 install -r requirements/requirement.txt
-WORKDIR src
- 
-CMD ["sh", "-c", "python3 main.py"]
- 
- 
 
+COPY . .
+
+RUN pip3 install -r requirements/requirement.txt
+
+WORKDIR /src
+
+USER 10001:10001
+
+CMD ["python3","main.py"]

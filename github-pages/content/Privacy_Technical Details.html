@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html><head></head><body><div class="main-panel wiki-content">
 <div class="description">
 <div class="header-wrapper" style="max-width: initial">
@@ -65,10 +65,6 @@
 </ul></li>
 <li><a class="not-blank" href="#ListofMethodsforDocumentMasking"><span data-colorid="b4odcwomqg">List of Methods for Document Masking</span></a>
 <ul>
-<li><a class="not-blank" href="#PDFMasking">PDF Masking</a>
-<ul>
-<li><a class="not-blank" href="#PDFAnonymize">PDF Anonymize</a></li>
-</ul></li>
 <li><a class="not-blank" href="#PPTMasking">PPT Masking</a>
 <ul>
 <li><a class="not-blank" href="#PPTAnonymize">PPT Anonymize</a></li>
@@ -76,10 +72,6 @@
 <li><a class="not-blank" href="#DOCXMasking"><span data-colorid="wixxudhtg0">DOCX Masking</span></a>
 <ul>
 <li><a class="not-blank" href="#DocxAnonymize">Docx Anonymize</a></li>
-</ul></li>
-<li><a class="not-blank" href="#ExcelMasking"><span data-colorid="wf9vs2x5ce">Excel Masking</span></a>
-<ul>
-<li><a class="not-blank" href="#ExcelAnonymize">Excel Anonymize</a></li>
 </ul></li>
 <li><a class="not-blank" href="#CSVMasking"><span data-colorid="ew2x56tuq4">CSV Masking</span></a>
 <ul>
@@ -89,6 +81,10 @@
 <ul>
 <li><a class="not-blank" href="#JsonAnonymize">Json Anonymize</a></li>
 </ul></li>
+</ul></li>
+<li><a class="not-blank" href="#ListofMethodsforCustomRecognizers"><span>Custom Recognizers</span></a>
+<ul>
+<li><a class="not-blank" href="#AddOrUpdateRecognizer">Add or Update Recognizer</a></li>
 </ul></li>
 </ul></li>
 </ul>
@@ -311,17 +307,13 @@
 </div>
 <div class="expand-content expand-hidden" id="expander-content-1479027804">
 <h3 id="ListofMethodsforVideo"><span data-colorid="hy91d4o0vu">List of Methods for Video</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
-<p>Working:</p>
+<p><strong>Working</strong> :</p>
 <ol start="1">
-<li><p>Preprocessing :</p></li>
+<li><p>Preprocessing : Convert the video into frames and sample 30% of the frames from each second (FPS).</p></li>
+<li><p>Process : Detect and anonymize PII entities in the sampled frames in parallel using threading (multiple frames are passed to the Anonymizer with index-ids), then concatenate the processed frames back into the anonymized video.</p></li>
 </ol>
-<p> a.  extracting the frames from the video.</p>
-<p> b.  extracting the text from the frame.</p>
-<ol start="2">
-<li><p>Processing: process the frames using sampling and threading method for detection of PII data.</p></li>
-</ol>
-<div class="table-wrap dt1226337387" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
-<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="1d877986-eef7-451c-9c0a-717e4d1e49ab" style="border-collapse: collapse; width: 100%;">
+<div class="table-wrap dt1479027804" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
+<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="7f4b2e4c-3a1d-4e2f-9c3a-1b2c3d4e5f6a" style="border-collapse: collapse; width: 100%;">
 <tbody>
 <tr>
 <td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
@@ -331,53 +323,15 @@
 </tr>
 <tr>
 <td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="VideoAnonymize">Video Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detect and anonymize PII entities in video frames by drawing the bounding boxes.</p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Image, Ocr method, Magnification, Rotation flag.</p><p>Optional Fields:  portfolio, account, piiEntitiesToBeRedacted, exclusionList</p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Processed base64 video.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detect and anonymize PII entities in video frames by drawing bounding boxes.</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Video, Ocr method, Magnification, Rotation flag.</p><p>Optional Fields:  portfolio, account, piiEntitiesToBeRedacted, exclusionList</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Anonymized video file</p></td>
 </tr>
 </tbody>
 </table></div>
-<style>html .dt1226337387 table {min-width:0px;}</style>
+<style>html .dt1479027804 table {min-width:0px;}</style>
 </div>
-<p> </p>
-</div>
-</div>
-<div class="expand-container conf-macro output-block" data-hasbody="true" data-macro-id="544eb54c-ba3b-4d5d-b897-c31b8b0879af" data-macro-name="expand" id="expander-1229481313">
-<div class="expand-control" id="expander-control-1229481313" onclick="expandContent('expander-content-1229481313', 'expander-control-1229481313')">
-<span class="expand-control-icon icon"> </span><span class="expand-control-text">Document</span>
-</div>
-<div class="expand-content expand-hidden" id="expander-content-1229481313">
 <h3 id="ListofMethodsforDocumentMasking"><span data-colorid="b4odcwomqg">List of Methods for Document Masking</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h3>
-<h4 id="PDFMasking">PDF Masking<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
-<p>      Working:</p>
-<ol start="1">
-<li><p>Preprocessing: Using PyMuPDF</p></li>
-</ol>
-<p> a.  Extract text and image from the pages.</p>
-<p> b.  Extract text from the image.</p>
-<ol start="2">
-<li><p>Processing: detect and anonymize PII data from the image and text using parallel processing (threading).</p></li>
-</ol>
-<div class="table-wrap dt1631714898" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
-<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="f6345790-c2d4-4327-8851-8054d31bc0fa" style="border-collapse: collapse; width: 100%;">
-<tbody>
-<tr>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
-</tr>
-<tr>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="PDFAnonymize">PDF Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detect and anonymize PII entities in pdf pages in text or image format.</p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Mandatory Fields: Image, Ocr method.</p><p>Optional Fields:  portfolio, account, exclusionList</p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Processed pdf file.</p></td>
-</tr>
-</tbody>
-</table></div>
-<style>html .dt1631714898 table {min-width:0px;}</style>
-</div>
-<p> </p>
 <h4 id="PPTMasking">PPT Masking<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
 <p>      Working:</p>
 <ol start="1">
@@ -436,31 +390,6 @@
 </tbody>
 </table></div>
 <style>html .dt447118809 table {min-width:0px;}</style>
-</div>
-<h4 id="ExcelMasking"><span data-colorid="wf9vs2x5ce">Excel Masking</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
-<p>  Working:</p>
-<ol start="1">
-<li><p>Preprocessing: extracting the text from cell and replace in the cell</p></li>
-<li><p>Processing: detect and anonymize PII data from the text and replace in the cell</p></li>
-</ol>
-<div class="table-wrap dt1883898312" style="width: 100%; margin: 10px auto 0px; max-width: 760px;">
-<div style="overflow-x: auto;"><table border="1" class="confluenceTable" data-layout="default" data-local-id="2739c742-ba10-48e5-ae6f-4146dbf2dccd" style="border-collapse: collapse; width: 100%;">
-<tbody>
-<tr>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Method</strong></p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p><strong>Description</strong></p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request</p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Response</p></td>
-</tr>
-<tr>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><h6 id="ExcelAnonymize">Excel Anonymize<a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h6></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Detect and anonymize PII entities in excel.</p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Excel file as a payload</p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Processed excel file.</p></td>
-</tr>
-</tbody>
-</table></div>
-<style>html .dt1883898312 table {min-width:0px;}</style>
 </div>
 <h4 id="CSVMasking"><span data-colorid="ew2x56tuq4">CSV Masking</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h4>
 <p> Working:</p>

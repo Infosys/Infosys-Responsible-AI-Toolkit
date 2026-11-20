@@ -145,14 +145,14 @@
 <li><p>Analyse</p></li>
 <li><p>Anonymize</p></li>
 <li><p>Encrypt</p></li>
-<li><p>Highlight</p></li>
+<li><p>Decrypt</p></li>
 </ol></td>
 <td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;">
 <ol start="1">
 <li><p>Labels PII entity</p></li>
 <li><p>Masks the PII entity</p></li>
 <li><p>Shows text with PII entities encrypted.</p></li>
-<li><p>Shows text with highlighting PII entities</p></li>
+<li><p>Shows the original text by decrypting the encrypted PII entities.</p></li>
 </ol></td>
 <td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> </p></td>
 <td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> </p></td>
@@ -237,20 +237,40 @@
 </tr>
 <tr>
 <td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Document</p></td>
-<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>PymuPDF</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Presidio &amp; Batch Anonymizer</p><p>(CSV, JSON, DOCX, PPT)</p></td>
 <td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;">
 <ol start="1">
-<li><p>Detect and anonymize PII data from the image and text using parallel processing (threading).</p></li>
+<li><p>CSV Anonymize</p></li>
+<li><p>JSON Anonymize</p></li>
+<li><p>DOCX Anonymize</p></li>
+<li><p>PPT Anonymize</p></li>
 </ol></td>
 <td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;">
 <ol start="1">
-<li><p>Detect and anonymize PII entities in pdf pages in text or image format.</p></li>
+<li><p>Detect and anonymize PII entities in CSV files.</p></li>
+<li><p>Detect and anonymize PII entities in JSON files.</p></li>
+<li><p>Detect and anonymize PII entities in DOCX files (text and image).</p></li>
+<li><p>Detect and anonymize PII entities in PPT slides (text, image and tabular data).</p></li>
 </ol></td>
 <td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> </p></td>
 <td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Request:</p>
 <ol start="1">
-<li><p>Mandatory Fields: Image, Ocr method.</p></li>
-</ol><p> Optional Fields:  portfolio, account, exclusion List</p><p>Response: Processed pdf file.</p></td>
+<li><p>Mandatory Fields: File.</p></li>
+</ol><p> Optional Fields:  portfolio, account, exclusion List</p><p>Response: Processed file (CSV / JSON / DOCX / PPT).</p></td>
+</tr>
+<tr>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Custom Recognizers</p><p>(All data types)</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Presidio Pattern &amp; Deny-list (Data) Recognizers</p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+<ol start="1">
+<li><p>Add or Update Recognizer</p></li>
+</ol></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;">
+<ol start="1">
+<li><p>Add or update custom PII recognizers (Pattern or Data based) without modifying the manual code.</p></li>
+</ol></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p> </p></td>
+<td class="confluenceTd" style="border: 1px solid #ddd; padding: 8px; text-align: left;"><p>Endpoint: /privacy/recognizer/add_or_update</p></td>
 </tr>
 </tbody>
 </table></div>
@@ -274,6 +294,7 @@
 <h2 id="ListofPIIRecognizers"><span data-colorid="ec4zpbpl10">List of PII Recognizers:</span><a aria-label-top="Copy link to heading" class="anchor-copy-link anchor-tooltip" target="_blank"></a></h2>
 <p>The current PII Recognizers which work with Privacy APIs are documented below.</p>
 <p>For any Custom Recognizers, they can be built using custom list or identified Pattern recognizers</p>
+<p>Custom recognizers can be added or updated dynamically (without modifying the manual code) using the <strong>/privacy/recognizer/add_or_update</strong> endpoint. It accepts both <strong>Pattern</strong> (regex based) and <strong>Data</strong> (deny-list / word based) recognizers, and registers them immediately for use with the Privacy APIs.</p>
 <p> </p>
 <p class="media-group"><span class="confluence-embedded-file-wrapper conf-macro output-inline" data-hasbody="false" data-macro-id="73d32c32-8ae9-4bd9-85f1-5543ce9a98d6" data-macro-name="view-file"><a class="confluence-embedded-file" data-file-src="/wiki/download/attachments/232490177/PIIRecognizers.xlsx?version=1&amp;modificationDate=1687172347120&amp;cacheVersion=1&amp;api=v2" data-has-thumbnail="true" data-linked-resource-container-id="232490177" data-linked-resource-default-alias="PIIRecognizers.xlsx" data-linked-resource-id="301859273" data-linked-resource-type="attachment" data-linked-resource-version="1" data-media-id="3049bdc4-69c9-45aa-be68-e96976544500" data-media-type="file" data-mime-type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" data-nice-type="Microsoft Excel Spreadsheet" download="" href="github-pages/images/PIIRecognizers.xlsx" target="_blank"> [Excel]</a></span></p>
 <p> </p>

@@ -11,8 +11,7 @@ info:
   version: v$version
 security:
   - oauth_auth:
-    - write:users
-    - read:users
+    - read:privacy
 paths:
   /api/v1/privacy/pii/analyze:
     post:
@@ -22,12 +21,7 @@ paths:
       operationId: analyze_api_v1_privacy_pii_analyze_post
       security:
         - oauth_auth:
-          - write:users
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PIIAnalyzeRequest'
+          - read:privacy
         required: true
       responses:
         '200':
@@ -62,7 +56,7 @@ paths:
       operationId: anonymize_api_v1_privacy_pii_anonymize_post
       security:
         - oauth_auth:
-          - write:users
+          - write:privacy
       requestBody:
         content:
           application/json:
@@ -102,7 +96,7 @@ paths:
       operationId: image_analyze_api_v1_privacy_pii_image_analyze_post
       security:
         - oauth_auth:
-          - write:users
+          - read:privacy
       requestBody:
         content:
           multipart/form-data:
@@ -142,7 +136,7 @@ paths:
       operationId: image_anonymize_api_v1_privacy_pii_image_anonymize_post
       security:
         - oauth_auth:
-          - write:users
+          - write:privacy
       requestBody:
         content:
           multipart/form-data:
@@ -181,7 +175,7 @@ paths:
       operationId: image_verify_api_v1_privacy_pii_image_verify_post
       security:
         - oauth_auth:
-          - write:users
+          - read:privacy
       requestBody:
         content:
           multipart/form-data:
@@ -379,8 +373,9 @@ components:
           authorizationUrl: https://example.com/oauth/authorize
           tokenUrl: https://example.com/oauth/token
           scopes:
-            write:users: modify user profile
-            
+            read:privacy: analyze PII entities in documents
+            write:privacy: anonymize and redact PII entities
+
 tags:
   - name: PII Privacy
     description: Operations required for a PII entity (e.g. IN_ADHAAR, IN_PAN, US_SSN etc)

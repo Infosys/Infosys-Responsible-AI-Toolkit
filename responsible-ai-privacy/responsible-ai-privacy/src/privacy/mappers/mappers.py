@@ -17,6 +17,10 @@ description: A Pydantic model object for usecase entity model
 from pydantic import BaseModel, Field
 from datetime import datetime
 from typing import Optional,Union, List
+# Constants for commonly used example strings
+EXAMPLE_SSN_TEXT = "Ray William's SSN is 012884567"
+EXAMPLE_NLP_OPTIONS = "basic/good/roberta/ranha"
+EXAMPLE_NLP_DESCRIPTION = "basic,good,better"
 
 """
 description: piiEntity
@@ -25,10 +29,10 @@ params:
 
 
 class PIIEntity(BaseModel):
-    type: Optional[str] = Field(example="US_SSN")
+    type: Optional[str] = Field(example="USA_SSN")
     beginOffset: Optional[int] = Field(example=19)
     endOffset: Optional[int] = Field(example=28)
-    score:Optional[float]=Field(example=1.1)  
+    score:Optional[float]=Field(example=1)  
     responseText:Optional[str]=Field(example="012884567")
 
     class Config:
@@ -37,45 +41,47 @@ class PIIEntity(BaseModel):
 class PIIItems(BaseModel):
     start: Optional[int] = Field(example=19)
     end: Optional[int] = Field(example=28)
-    entity_type: Optional[str] = Field(example="US_SSN") 
-    text:Optional[str]=Field(example="John Smith's SSN is 012884567")
+    entity_type: Optional[str] = Field(example="USA_SSN") 
+    text:Optional[str]=Field(example=EXAMPLE_SSN_TEXT)
     operator:Optional[str]= Field(example="encrypt") 
+
+    class Config:
+        orm_mode = True
+class PIIEntityImages(BaseModel):
+    type: Optional[str] = Field(example="USA_SSN")
+    beginOffset: Optional[int] = Field(example=19)
+    endOffset: Optional[int] = Field(example=28)
+    score:Optional[float]=Field(example=1)  
 
     class Config:
         orm_mode = True
 
 class PIIImageEntity(BaseModel):
-    type: str = Field(example="US_SSN")
+    type: str = Field(example="USA_SSN")
 
     class Config:
         orm_mode = True
 
 class PIIAnalyzeRequest(BaseModel):
-    inputText: str = Field(example="John Smith's SSN is 012884567")
-    nlp: Optional[str] = Field(default=None,example="basic/good/roberta/ranha",description="basic,good,better")
-    # entity_type: Optional[str] = Field(example="COMPANY_NAME")
-    # portfolio:Optional[str] = Field(example="string")
-    # account:Optional[str] = Field(example="string")
-    # piiEntitiesToBeRedacted: Optional[list] = Field(example=["US_SSN"])
-    # exclusionList:Optional[str] = Field(example="Karan,Infosys")
-    # user: Optional[str] = Field(None)
-    # lotNumber:Optional[str] = Field(None)
+    input_text: str = Field(example=EXAMPLE_SSN_TEXT)
+    nlp: Optional[str] = Field(default=None,example=EXAMPLE_NLP_OPTIONS,description=EXAMPLE_NLP_DESCRIPTION)
     portfolio:Optional[str] = Field(default=None)
     account:Optional[str] = Field(default=None)
-    piiEntitiesToBeRedacted: Optional[list] = Field(default=None)
-    exclusionList:Optional[str] = Field(default=None)
+    pii_entities_to_be_redacted: Optional[list] = Field(default=None)
+    exclusion_list:Optional[str] = Field(default=None)
     user: Optional[str] = Field(default=None)
     lotNumber:Optional[str] =Field(default=None)
+    score_threshold:Optional[float] = Field(default=float(0.7))
     
 class PIIEncryptResponse(BaseModel):
-    text: str = Field(example="John Smith's SSN is 012884567")
+    text: str = Field(example=EXAMPLE_SSN_TEXT)
     items: List[PIIItems]
 
     class Config:
         orm_mode = True
 
 class PIIDecryptRequest(BaseModel):
-    text: str = Field(example="John Smith's SSN is 012884567")
+    text: str = Field(example=EXAMPLE_SSN_TEXT)
     items: List[PIIItems]
 
 class PIIAnalyzeResponse(BaseModel):
@@ -86,27 +92,28 @@ class PIIAnalyzeResponse(BaseModel):
 
 
 class PIIAnonymizeRequest(BaseModel):
-    inputText: str = Field(example="John Smith's SSN is 012884567")
-    nlp: Optional[str] = Field(default=None,example="basic/good/roberta/ranha",description="basic,good,better")
+    input_text: str = Field(example=EXAMPLE_SSN_TEXT)
+    nlp: Optional[str] = Field(default=None,example=EXAMPLE_NLP_OPTIONS,description=EXAMPLE_NLP_DESCRIPTION)
     portfolio:Optional[str] =Field(default=None)
     account:Optional[str] =Field(default=None)
-    exclusionList:Optional[str] = Field(default=None)
-    piiEntitiesToBeRedacted: Optional[list] = Field(default=None)
+    exclusion_list:Optional[str] = Field(default=None)
+    pii_entities_to_be_redacted: Optional[list] = Field(default=None)
     redactionType: Optional[str] = Field(default=None)
     user: Optional[str] = Field(default=None)
     lotNumber:Optional[str] = Field(default=None)
-    fakeData: Optional[bool] = Field(example = False)
+    fakeData: Optional[bool] = Field(default= False)
+    score_threshold:Optional[float] = Field(default=float(0.7))
 
 
 
 class PIIAnonymizeResponse(BaseModel):
-    anonymizedText: str = Field(example="John Smith's SSN is <US_SSN>")
+    anonymizedText: str = Field(example="Ray William's SSN is <USA_SSN>")
 
     class Config:
         orm_mode = True
         
 class PIIDecryptResponse(BaseModel):
-    decryptedText: str = Field(example="John Smith's SSN is <US_SSN>")
+    decryptedText: str = Field(example="Ray William's SSN is <USA_SSN>")
 
     class Config:
         orm_mode = True   
@@ -123,10 +130,10 @@ class PIIImageAnonymizeResponse(BaseModel):
         orm_mode = True
 
 class PIIImageAnalyze(BaseModel):
-    type: str = Field(example="US_SSN")
+    type: str = Field(example="USA_SSN")
     start:int = Field(example=19)
     end: int = Field(example=28)
-    score: float=Field(example=1.1)
+    score: float=Field(example=1)
 
     class Config:
         orm_mode = True
@@ -146,7 +153,7 @@ class PIIMultipleImageAnalyzeResponse(BaseModel):
 
 
 class PIIPrivacyShieldRequest(BaseModel):
-    inputText: str = Field(example="John Smith's SSN is 012884567")
+    input_text: str = Field(example=EXAMPLE_SSN_TEXT)
     # entity_type: Optional[str] = Field(example="COMPANY_NAME")
     portfolio:Optional[str] =Field(default=None)
     account:Optional[str] =Field(default=None)
@@ -156,8 +163,8 @@ class PIIPrivacyShieldRequest(BaseModel):
 
 
 class PrivacyShield(BaseModel):
-    entitiesRecognised:list = Field(example=["US_SSN"])
-    entitiesConfigured :list = Field(example=["US_SSN"])
+    entitiesRecognised:list = Field(example=["USA_SSN"])
+    entitiesConfigured :list = Field(example=["USA_SSN"])
     result:str =""
 
 class PIIPrivacyShieldResponse(BaseModel):
@@ -186,4 +193,4 @@ class TelemetryResponse(BaseModel):
         orm_mode = True
     
 class PIICodeDetectRequest(BaseModel):
-    inputText: str = Field(example="John Smith's SSN is 012884567")
+    input_text: str = Field(example=EXAMPLE_SSN_TEXT)
